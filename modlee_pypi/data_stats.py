@@ -77,8 +77,12 @@ def bench_k_means(kmeans, name, data, labels):
 
 def bench_kmeans_unsupervised(x):
 
-    x = x.astype(np.float)
-
+    x = x.numpy(force=True).astype(float)
+    
+    # breakpoint()
+    print(x.shape)
+    print(type(x[0,0]))
+    
     k_values = [1, 2, 3, 5, 10, 15]  # Range of cluster numbers to evaluate
 
     inertias = []
@@ -216,6 +220,7 @@ class DataStats:
 
                 (n_samples, n_features), n_digits = data.shape, np.unique(labels).size
 
+                # TODO - check that this is correct
                 pca = PCA(n_components=n_digits).fit(data)
                 kmeans = KMeans(init=pca.components_,
                                 n_clusters=n_digits, n_init=1)

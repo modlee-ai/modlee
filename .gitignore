@@ -2,6 +2,8 @@
 ./examples/data/
 ./examples/mlruns/
 ./examples/lightning_logs/
+.vscode/
+data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

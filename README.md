@@ -1,6 +1,20 @@
 # modlee_pypi
 
-## Logs
-### 230803
-- Set up [PyTorch Lightning example](./examples/simple_torch.py)
-- Running MLFlow
+## Usage
+### Installation
+```
+pip3 install -r requirements.txt
+```
+
+### Ideal usage
+
+#### Documenting new experiments
+
+#### Accessing old experiments
+
+#### Sharing experiments
+
+## TODO
+- [ ] Save enough to reproduce entire experiment
+    - [ ] Pytorch Training
+- [ ] Access prior models - (re)load given an experiment / run ID, 

@@ -1,4 +1,9 @@
+
 #%%
+from importlib import reload
+import os
+# TODO - get rid of this hardcoding
+os.chdir('/Users/psychomugs/Developer/modlee/modlee_pypi/')
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -7,17 +12,20 @@ from torchvision import datasets
 from torchvision.transforms import ToTensor
 import lightning.pytorch as pl
 
-import os 
+import mlflow
+
+import modlee_pypi
+from modlee_pypi.modlee_model import ModleeModel
+from modlee_pypi.dev_data import get_fashion_mnist
+reload(modlee_pypi)
+
 os.environ['PYTORCH_ENABLE_MPS_FALLBACK']='1'
 mps = torch.device('mps')
-# torch.set_default_device(mps)
+
 #%%
-import mlflow
-mlflow.get_tracking_uri()
-#%%
-class GarmentClassifier(nn.Module):
+class Classifier(nn.Module):
     def __init__(self):
-        super(GarmentClassifier, self).__init__()
+        super(Classifier, self).__init__()
         self.conv1 = nn.Conv2d(1, 6, 5)
         self.pool = nn.MaxPool2d(2, 2)
         self.conv2 = nn.Conv2d(6, 16, 5)
@@ -34,75 +42,94 @@ class GarmentClassifier(nn.Module):
         x = self.fc3(x)
         return x
     
-class LitClf(pl.LightningModule):
-    def __init__(self, classifier):
+class LightningClassifier(ModleeModel):
+    def __init__(self, classifier=None):
         super().__init__()
-        self.classifier = classifier
-
+        if not classifier:
+            self.classifier = Classifier()
+        else:
+            self.classifier = classifier
+        
+    '''
+    def training_step(self, batch, batch_idx)
+    
+    @training_step
+    def classification_training_step(self, batch, batch_idx):
+        x,y = batch
+        y_out = self.forward(x)
+    '''
+    
     def training_step(self, batch, batch_idx):
         # training_step defines the train loop.
         x, y = batch
-        # x = x.view(x.size(0), -1)
-        # z = self.encoder(x)
         y_out = self.classifier(x)
-        # x_hat = self.decoder(z)
-        # loss = F.mse_loss(x_hat, x)
-        # loss = torch.nn.CrossEntropyLoss(y_out,y)
+        loss = F.cross_entropy(y_out,y)
+        return {'loss':loss}
+    
+    def validation_step(self, val_batch, batch_idx):
+        x,y=val_batch
+        y_out = self.classifier(x)
         loss = F.cross_entropy(y_out,y)
         return loss
-
+    
     def configure_optimizers(self):
         optimizer = torch.optim.SGD(
-            model.parameters(),
+            self.parameters(),
             lr=0.001,
             momentum=0.9
         )
         return optimizer
     
-model = GarmentClassifier()
-lit_model = LitClf(model)
-# model.to(mps)
-   
-#%% 
-# input_size, hidden_size, output_size = 10,20,5
-# model = SimpleModel(input_size, hidden_size, output_size)
-
-training_data = datasets.FashionMNIST(
-    root='data',
-    train=True,
-    download=True,
-    transform=ToTensor(),
-)
-test_data = datasets.FashionMNIST(
-    root='data',
-    train=False,
-    download=True,
-    transform=ToTensor(),
-)
-#%%
-bs = 4
-training_loader = DataLoader(
-    training_data, batch_size=bs,shuffle=True,
-)
-test_loader = DataLoader(
-    test_data, batch_size=bs,shuffle=True,
-)
+model = LightningClassifier()
 
 #%%
-mlflow.set_tracking_uri(
-    'http://127.0.0.1:5000'
-)
-mlflow.get_tracking_uri()
+training_loader,test_loader = get_fashion_mnist()
 
 #%%
-mlflow.pytorch.autolog()
-trainer = pl.Trainer()
-trainer.fit(model=lit_model,
-    train_dataloaders=training_loader,
-    val_dataloaders=test_loader)
-# breakpoint()
+# Run training loop
+with mlflow.start_run() as run:
+    trainer = pl.Trainer(max_epochs=2,)
+    trainer.fit(
+        model=model,
+        train_dataloaders=training_loader,
+        val_dataloaders=test_loader)
 
+#%%
+exp = mlflow.search_experiments()[0]
+runs = mlflow.search_runs(output_format='list')
+runs_pd = mlflow.search_runs()
+run = runs[0]
 
+#%%
+# reload(modlee_pypi.rep
+
+from modlee_pypi.rep import Rep
+model = None
+rep = Rep.from_run(run)
+print(rep.info.run_id)
+model = rep.model
+rep_loaded_model = rep.model
+print(model)
+
+# lit_model = modlee_model.ModleeModel()
+#%%
+print(run.info.artifact_uri)
+mlflow_loaded_model = mlflow.pytorch.load_model(
+    f"{run.info.artifact_uri}/model/"
+)
+#%%
+print('mlflow-loaded model\n'.upper(),mlflow_loaded_model)
+print('rep-loaded model:\n'.upper(),rep_loaded_model)
+print('String representations same? ',str(mlflow_loaded_model)==str(rep_loaded_model))
+
+#%%
+print(rep.data)
+print(rep.info.run_id)
+run_id = rep.info.run_id
+# print(rep.data_stats['dataset_dims'])
+# type(rep.data_stats)
+
+#%%
 # # %%
 # loss_fn = torch.nn.CrossEntropyLoss()
 # optimizer = torch.optim.SGD(
