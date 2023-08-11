@@ -1,9 +1,11 @@
 # Custom
-./examples/data/
-./examples/mlruns/
-./examples/lightning_logs/
+./notebooks/data/
+./notebooks/mlruns/
+./notebooks/lightning_logs/
 .vscode/
 data/
+lightning_logs/
+mlruns/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

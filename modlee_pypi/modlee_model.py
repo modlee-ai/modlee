@@ -14,7 +14,7 @@ import mlflow
 class ModleeModel(LightningModule):
     def __init__(self, *args, **kwargs) -> None:
         LightningModule.__init__(self, *args, **kwargs)
-        mlflow.pytorch.autolog()
+        # mlflow.pytorch.autolog()
 
     def configure_callbacks(self):
         return [ModleeCallback()]
@@ -34,7 +34,7 @@ class ModleeCallback(Callback):
             for output_idx, output_value in outputs:
                 pl_module.log(
                     f"{phase}_step_output_{output_idx}", output_value)
-        else:
+        elif outputs is not None:
             pl_module.log(f"{phase}_loss", outputs)
         return super().on_train_batch_end(trainer, pl_module, outputs, batch, batch_idx)
 

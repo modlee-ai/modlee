@@ -77,7 +77,9 @@ def bench_k_means(kmeans, name, data, labels):
 
 def bench_kmeans_unsupervised(x):
 
-    x = x.numpy(force=True).astype(float)
+    if isinstance(x,torch.Tensor):
+        x = x.numpy(force=True)
+    x = x.astype(float)
     
     # breakpoint()
     print(x.shape)
