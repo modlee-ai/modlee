@@ -96,7 +96,7 @@ training_loader,test_loader = get_fashion_mnist()
 training_loader.__dict__.keys()
 training_loader.dataset.__dict__.keys()
 import glob
-print(glob.glob(f"./{training_loader.dataset.root}/*/*"))
+print(glob.glob(f"./{training_loader.dataset.root}/*/*/*"))
 images,labels = next(iter(training_loader))
 #%%
 # type(images)
