@@ -1,5 +1,7 @@
 from importlib.machinery import SourceFileLoader
 import json
+import pickle
+import numpy as np
 
 from mlflow.client import MlflowClient
 from mlflow.entities import Run
@@ -29,6 +31,18 @@ class Rep(Run,):
         data_stats_path = self._get_artifact('data_stats')
         with open(data_stats_path,'r') as data_stats_file:
             self._data_stats = json.load(data_stats_file)
+            
+    def _init_data_loader(self):
+        data_loader_path = self._get_artifact('data_loader')
+        with open(data_loader_path,'r') as data_loader_file:
+            self.data_stats = pickle.loads(data_loader_file)
+            
+    def _init_snapshot(self,snapshot_type='data'):
+        snapshot_path = self._get_artifact(f'{snapshot_type}_snapshot.npy')
+        # with open(data_snapshot_path,'r') as data_snapshot_file:
+        setattr(self,f"_{snapshot_type}_snapshot",
+            np.load(snapshot_path))
+        self._data_snapshot = np.load(snapshot_path)
         
     @property
     def model(self):
@@ -40,7 +54,25 @@ class Rep(Run,):
     def data_stats(self):
         if not hasattr(self, '_data_stats'):
             self._init_data_stats()
-        return self._data_stats        
+        return self._data_stats     
+    
+    @property
+    def data_loader(self):
+        if not hasattr(self, '_data_stats'):
+            self._init_data_loader()
+        return self._data_stats     
+    
+    @property
+    def data_snapshot(self):
+        if not hasattr(self, '_data_snapshot'):
+            self._init_snapshot('data')
+        return self._data_snapshot    
+    @property
+    def targets_snapshot(self):
+        if not hasattr(self, '_targets_snapshot'):
+            self._init_snapshot('targets')
+        return self._targets_snapshot     
+    
     
     def _get_artifact(self, artifact):
         if not getattr(self, 'info', True): 

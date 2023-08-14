@@ -26,6 +26,9 @@ mps = torch.device('mps')
 #%%
 print(os.getcwd())
 
+BATCH_SIZE = 64
+LEARNING_RATE = 0.001
+
 #%%
 class Classifier(nn.Module):
     def __init__(self):
@@ -45,6 +48,14 @@ class Classifier(nn.Module):
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
         return x
+    
+def build_classifier():
+    return Classifier()
+
+class ModleeClassifier(ModleeModel):
+    def __init__(self,):
+        # build_classifier is not saved
+        self.classifier = build_classifier()
     
 class LightningClassifier(ModleeModel):
     def __init__(self, classifier=None):
@@ -82,32 +93,22 @@ class LightningClassifier(ModleeModel):
     def configure_optimizers(self):
         optimizer = torch.optim.SGD(
             self.parameters(),
-            lr=0.001,
+            lr=LEARNING_RATE,
             momentum=0.9
         )
         return optimizer
     
 model = LightningClassifier()
 
+
 #%%
 training_loader,test_loader = get_fashion_mnist()
-
 #%%
-training_loader.__dict__.keys()
-training_loader.dataset.__dict__.keys()
-import glob
-print(glob.glob(f"./{training_loader.dataset.root}/*/*/*"))
-images,labels = next(iter(training_loader))
-#%%
-# type(images)
-labels
-# ds = mlflow.data.Dataset(training_oader)
-# ds.load(training_loader)
-#%%
-ds.name
-# print(ds.profile)
-# ds.profile = {'test':5}
-
+td = training_loader.dataset
+td_data = td.train_data
+print(td.train_data.shape, td.data.shape)
+print(td.classes, td.train_labels)
+# dir(td)
 #%%
 # Run training loop
 with mlflow.start_run() as run:
@@ -118,6 +119,26 @@ with mlflow.start_run() as run:
         val_dataloaders=test_loader)
 
 #%%
+'''
+Dataset loading tests
+'''
+# trying to get filenames from dataloader
+import inspect
+import copy
+print(inspect.getfile(training_loader.dataset.__getitem__))
+tdc = training_loader.dataset
+
+#%%
+np_dataset = mlflow.data.from_numpy(training_loader.dataset.data.numpy())
+#%%
+# np_dataset.get_source()
+np_source = mlflow.data.get_source(np_dataset)
+np_source.to_json()
+np_source_load = np_source.load()
+
+'''
+Experiment reloading tests
+'''
 exp = mlflow.search_experiments()[0]
 runs = mlflow.search_runs(output_format='list')
 runs_pd = mlflow.search_runs()

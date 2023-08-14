@@ -37,18 +37,12 @@ def bench_k_means(kmeans, name, data, labels):
     # Define the metrics which require only the true labels and estimator
     # labels
     clustering_metrics = [
-        metrics.homogeneity_score,
-        metrics.completeness_score,
-        metrics.v_measure_score,
-        metrics.adjusted_rand_score,
-        metrics.adjusted_mutual_info_score,
+        metrics.homogeneity_score, # homogeneity: each cluster contains only members of a single class.
+        metrics.completeness_score, # completeness: all members of a given class are assigned to the same cluster.
+        metrics.v_measure_score, # The V-measure is the harmonic mean between homogeneity and completeness:
+        metrics.adjusted_rand_score, # The Rand Index computes a similarity measure between two clusterings by considering all pairs of samples and counting pairs that are assigned in the same or different clusters in the predicted and true clusterings.
+        metrics.adjusted_mutual_info_score, # Adjusted Mutual Information (AMI) is an adjustment of the Mutual Information (MI) score to account for chance. It accounts for the fact that the MI is generally higher for two clusterings with a larger number of clusters, regardless of whether there is actually more information shared.
     ]
-
-    # homogeneity: each cluster contains only members of a single class.
-    # completeness: all members of a given class are assigned to the same cluster.
-    # The V-measure is the harmonic mean between homogeneity and completeness:
-    # The Rand Index computes a similarity measure between two clusterings by considering all pairs of samples and counting pairs that are assigned in the same or different clusters in the predicted and true clusterings.
-    # Adjusted Mutual Information (AMI) is an adjustment of the Mutual Information (MI) score to account for chance. It accounts for the fact that the MI is generally higher for two clusterings with a larger number of clusters, regardless of whether there is actually more information shared.
 
     results += [m(labels, estimator[-1].labels_) for m in clustering_metrics]
 
@@ -65,8 +59,9 @@ def bench_k_means(kmeans, name, data, labels):
 
     results_labels = ['inertia', 'homo', 'compl', 'v', 'ars', 'ami', 'sil']
 
-    results_dict = {results_labels[i]: results[i+2]
-                    for i in range(len(results_labels))}
+    # results_dict = {results_labels[i]: results[i+2]
+    #                 for i in range(len(results_labels))}
+    results_dict = {label:result for label,result in zip(results_labels,results[2:])}
 
     # Show the results
     formatter_result = (
@@ -174,17 +169,26 @@ class DataStats:
         self.y = y
 
         # subsample x and y
-        inds = [i for i in range(x.shape[0])]
-        np.random.shuffle(inds)
-        num_sample = min([num_sample, len(inds)])
-        self.x = x[inds[:num_sample]]
-        if len(y) != 0:
-            self.y = y[inds[:num_sample]]
+        # inds = [i for i in range(x.shape[0])]
+        # np.random.shuffle(inds)
+        inds = np.random.choice(
+            np.arange(len(x)),
+            size=min([num_sample,len(x)]),
+            replace=False
+        )
+        # num_sample = min([num_sample, len(inds)])
+        # self.x = x[inds[:num_sample]]
+        # if len(y) != 0:
+        #     self.y = y[inds[:num_sample]]
+            
+        self.x = x[inds]
+        if len(y)!=0:
+            self.y = y[inds]
 
         self.tokenizer = tokenizer
 
         # set input and output dims of dataset
-        self.dataset_dims = self.x.shape
+        self.dataset_dims = list(self.x.shape)
         if len(y) == 0:
             self.output_dim = self.dataset_dims[1:]
         else:
@@ -199,6 +203,7 @@ class DataStats:
             self.x = {'orig': self.x}
 
         self.data_stats = self.get_difficulty_metrics()
+        
 
     def get_difficulty_metrics(self, num_sample=1000):
 

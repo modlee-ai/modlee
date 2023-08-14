@@ -14,6 +14,7 @@ from transformers import AutoTokenizer
 
 from datasets import Dataset
 
+from modlee_pypi import modlee_model
 
 # ---------------------------------------
 #
@@ -199,3 +200,14 @@ def get_fashion_mnist(batch_size=64):
         ), batch_size=batch_size, shuffle=True,
     )
     return training_loader, test_loader
+
+# class MNISTDataModule(pl.LightningDataModule):
+#     def __init__(self,*args,**kwargs):
+#         pl.LightningDataModule.__init__(self,*args,**kwargs)
+        
+#         self.__dict__.update(kwargs)
+        
+#     def setup(self,stage:str="train"):
+#         pass
+    
+    

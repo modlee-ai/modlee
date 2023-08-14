@@ -13,7 +13,7 @@ from modlee_pypi.dev_data import get_fashion_mnist
 import lightning.pytorch as pl
 
 import torch
-from torchinfo import summary
+# from torchinfo import summary
 import numpy as np
 
 
@@ -26,6 +26,18 @@ run = runs[0]
 # %%
 rep = Rep.from_run(run)
 model = rep.model
+#%%
+data_snapshot = rep.data_snapshot
+targets_snapshot = rep.targets_snapshot
+print(len(targets_snapshot), len(data_snapshot))
+#%%
+from modlee_pypi.data_stats import DataStats
+snapshot_stats = DataStats(data_snapshot)
+mlflow_stats = rep.data_stats
+#%%
+# snapshots are tuples, mlflow are lists
+for (ss_k,ss_v),(mf_k,mf_v) in zip(snapshot_stats.data_stats.items(), mlflow_stats.items()):
+    print(ss_k,mf_k,ss_v,mf_v)
 
 #%%
 training_loader,test_loader = get_fashion_mnist()
