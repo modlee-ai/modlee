@@ -97,7 +97,16 @@ class ExampleModel(modlee_pypi.modlee_model.ModleeModel):
         model = build_model()
 ```
 
+## Troubleshooting
+
+### GPU issues on Apple Silicon
+Install PyTorch nightly:
+```
+pip3 install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu
+```
+
 ## TODO
 - [ ] Access prior models - (re)load given an experiment / run ID, 
   - [ ] Maybe we could use a compilation check (e.g. try to call ModleeModel()) to make sure that the model builds. If it fails, show an error or warning to the user to indicate that this model is not properly documented.
     - [ ] Any way to check what variables are defined?
+

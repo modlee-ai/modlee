@@ -6,12 +6,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import lightning.pytorch as pl
-# for enable GPU
-os.environ['PYTORCH_ENABLE_MPS_FALLBACK']='1'
-if torch.cuda.is_available():
-    torch.set_default_device('cuda')
-elif torch.backends.mps.is_available():
-    torch.set_default_device('mps')
 
 import modlee_pypi
 from modlee_pypi.modlee_model import ModleeModel
