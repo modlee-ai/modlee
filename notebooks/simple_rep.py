@@ -80,3 +80,60 @@ print(f"abs(max(y_modlee-y_mlflow): {torch.abs(torch.max(y_rep - y_mlflow))}")
 # %%
 # mlflow_model.
 # %%
+
+
+#%%
+'''
+Dataset loading tests
+'''
+# trying to get filenames from dataloader
+import inspect
+import copy
+print(inspect.getfile(training_loader.dataset.__getitem__))
+tdc = training_loader.dataset
+
+#%%
+np_dataset = mlflow.data.from_numpy(training_loader.dataset.data.numpy())
+#%%
+# np_dataset.get_source()
+np_source = mlflow.data.get_source(np_dataset)
+np_source.to_json()
+np_source_load = np_source.load()
+
+'''
+Experiment reloading tests
+'''
+exp = mlflow.search_experiments()[0]
+runs = mlflow.search_runs(output_format='list')
+runs_pd = mlflow.search_runs()
+run = runs[0]
+
+#%%
+# reload(modlee_pypi.rep
+
+from modlee_pypi.rep import Rep
+model = None
+rep = Rep.from_run(run)
+print(rep.info.run_id)
+model = rep.model
+rep_loaded_model = rep.model
+print(model)
+
+# lit_model = modlee_model.ModleeModel()
+#%%
+print(run.info.artifact_uri)
+mlflow_loaded_model = mlflow.pytorch.load_model(
+    f"{run.info.artifact_uri}/model/"
+)
+#%%
+print('mlflow-loaded model\n'.upper(),mlflow_loaded_model)
+print('rep-loaded model:\n'.upper(),rep_loaded_model)
+print('String representations same? ',str(mlflow_loaded_model)==str(rep_loaded_model))
+
+#%%
+print(rep.data)
+print(rep.info.run_id)
+run_id = rep.info.run_id
+# print(rep.data_stats['dataset_dims'])
+# type(rep.data_stats)
+

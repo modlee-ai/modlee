@@ -5,7 +5,9 @@
 .vscode/
 data/
 lightning_logs/
+*lightning_logs*
 mlruns/
+*mlruns*
 tmp/*
 
 # Byte-compiled / optimized / DLL files
