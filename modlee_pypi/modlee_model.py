@@ -17,11 +17,17 @@ from lightning.pytorch.utilities.types import STEP_OUTPUT
 import modlee_pypi
 from modlee_pypi.data_stats import DataStats
 from modlee_pypi.config import TMP_DIR
+from modlee_pypi import utils as modlee_utils
 import mlflow
 
-
 class ModleeModel(LightningModule):
-    def __init__(self, data_snapshot_size=1e7, *args, **kwargs) -> None:
+    def __init__(self, data_snapshot_size=10e6, *args, **kwargs) -> None:
+        """
+        data_snapshot_size is the size limit of the chunk of data saved in each experiment
+        We save this chunk in case we modify the calculation of data statistics (e.g. complexity)
+        in future releases. Recalculating these measures enables backwards compatibility of 
+        prior experiments
+        """
         LightningModule.__init__(self, *args, **kwargs)
         mlflow.pytorch.autolog(
             log_datasets=True,
@@ -60,13 +66,17 @@ class ModleeCallback(Callback):
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
         
+        _dataset = trainer.train_dataloader.dataset
+        if isinstance(_dataset, torch.utils.data.Subset):
+            _dataset = _dataset.dataset
+
         labels = []
-        data = trainer.train_dataloader.dataset.data.numpy()
+        data = _dataset.data.numpy()
         self.save_snapshot(data,'data')
         mlflow_data = mlflow.data.from_numpy(data)
         mlflow.log_input(mlflow_data, 'training_snapshot')
-        if hasattr(trainer.train_dataloader.dataset, 'targets'):
-            targets = trainer.train_dataloader.dataset.targets
+        if hasattr(_dataset, 'targets'):
+            targets = _dataset.targets
             self.save_snapshot(targets,'targets',max_len=len(data))
         
         # log the data statistics
@@ -89,7 +99,10 @@ class ModleeCallback(Callback):
                 ]))
 
         data = data[:max_len]
+        modlee_utils.safe_mkdir(TMP_DIR)
+        print(f"Making directory {TMP_DIR}")
         data_filename = f"{TMP_DIR}/{snapshot_name}_snapshot.npy"
+        # data_filename = f"{mlflow.get_artifact_uri()}/{snapshot_name}_snapshot.npy"
         np.save(data_filename, data)
         mlflow.log_artifact(data_filename) 
 

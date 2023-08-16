@@ -3,7 +3,7 @@
 from importlib import reload
 import pathlib
 import os
-os.chdir(f"{pathlib.Path(__file__).parent.resolve()}/..")
+# os.chdir(f"{pathlib.Path(__file__).parent.resolve()}/..")
 
 import torch
 import torch.nn as nn
@@ -21,7 +21,8 @@ from modlee_pypi.dev_data import get_fashion_mnist
 reload(modlee_pypi)
 
 os.environ['PYTORCH_ENABLE_MPS_FALLBACK']='1'
-mps = torch.device('mps')
+if torch.backends.mps.is_available():
+    mps = torch.device('mps')
 
 #%%
 print(os.getcwd())

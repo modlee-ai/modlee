@@ -1,7 +1,12 @@
 # modlee_pypi
 
+modlee helps you document your machine learning experiments.
+Built over the widely adopted mlflow platform, modlee logs parameters and performance in a format for training modlee's
+For now, we support Pytorch Lightning models.
+
 ## Usage
 ### Installation
+Needs Python3.10
 ```
 pip3 install -r requirements.txt
 ```

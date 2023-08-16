@@ -3,8 +3,8 @@ import glob
 from os.path import basename
 from modlee_pypi.config import PYPI_DIR
 from modlee_pypi import data_stats, modlee_model
-from modlee_pypi.model_summary import convert_model_to_text, \
-    convert_text_to_model
+# from modlee_pypi.model_summary import convert_model_to_text, \
+#     convert_text_to_model
 from modlee_pypi.model_text_converter import *
 from modlee_pypi.model_text_converter import get_code_text, \
     get_code_text_for_model

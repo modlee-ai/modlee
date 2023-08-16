@@ -1,20 +1,28 @@
 from importlib.machinery import SourceFileLoader
 import json
+import os
 import pickle
 import numpy as np
 
+import mlflow
 from mlflow.client import MlflowClient
 from mlflow.entities import Run
 
-client = MlflowClient()
 
 class Rep(Run,):
     artifacts = ['modlee_model.py','data_stats']
     
     def __init__(self,run=None,**kwargs):
         self.__dict__.update(**kwargs)
+        self.client = MlflowClient()
+        
         if 'run_kwargs' in kwargs:
             Run.__init__(self, **kwargs['run_kwargs'])
+            mlflow.set_tracking_uri(
+                os.path.split(
+                    self.info.artifact_uri
+                )[0]
+            )
         
     @classmethod
     def from_run(cls,run,**kwargs):
@@ -77,5 +85,5 @@ class Rep(Run,):
     def _get_artifact(self, artifact):
         if not getattr(self, 'info', True): 
             raise Exception('Rep not initialized with a run object')
-        return client.download_artifacts(self.info.run_id,
+        return self.client.download_artifacts(self.info.run_id,
             artifact)

@@ -18,8 +18,14 @@ import numpy as np
 
 
 #%%
+mlruns_dir = "/Users/modlee/projects/scratch/mnist_hello_world/mlruns"
+mlflow.set_tracking_uri(f"file://{mlruns_dir}")
 client = MlflowClient()
+# print(client.get_tracking_uri())
+print(mlflow.get_tracking_uri())
+#%%
 experiments = client.search_experiments()
+print(experiments)
 runs = client.search_runs(experiments[0].experiment_id)
 run = runs[0]
 
