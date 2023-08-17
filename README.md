@@ -16,8 +16,8 @@ Currently working on python3.10.
 ### Installation
 First, clone and enter this repository:
 ```
-https://github.com/modlee-ai/modlee.git
-cd modlee
+git clone https://github.com/modlee-ai/modlee_pypi.git
+cd modlee_pypi
 ```
 
 Make a virtual environment and install this repository as a package:
