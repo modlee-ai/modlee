@@ -20,13 +20,13 @@ git clone https://github.com/modlee-ai/modlee_pypi.git
 cd modlee_pypi
 ```
 
-Make a virtual environment and install this repository as a package:
+Make a virtual environment using python >= 3.10 and install this repository as a package:
 ```
 python3.10 -m venv venv
 source venv/bin/activate
 python3 -m pip install .
 ```
-
+Download a specific version of python >= 3.10 [here](https://www.python.org/downloads/)
 
 ## Implementing 
 
