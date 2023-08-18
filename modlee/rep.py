@@ -18,11 +18,6 @@ class Rep(Run,):
         
         if 'run_kwargs' in kwargs:
             Run.__init__(self, **kwargs['run_kwargs'])
-            mlflow.set_tracking_uri(
-                os.path.split(
-                    self.info.artifact_uri
-                )[0]
-            )
         
     @classmethod
     def from_run(cls,run,**kwargs):
