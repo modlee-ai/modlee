@@ -16,9 +16,10 @@ from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import modlee
 from modlee.data_stats import DataStats
-from modlee.config import TMP_DIR
+from modlee.config import TMP_DIR, MLRUNS_DIR
 from modlee import utils as modlee_utils
 import mlflow
+mlflow.set_tracking_uri(f"file://{MLRUNS_DIR}")
 
 class ModleeModel(LightningModule):
     def __init__(self, data_snapshot_size=10e6, *args, **kwargs) -> None:

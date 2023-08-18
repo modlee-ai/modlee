@@ -1,7 +1,7 @@
+#%%
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
-#%%
 import os
 
 import torch
@@ -12,7 +12,7 @@ import lightning.pytorch as pl
 import modlee
 from modlee.modlee_model import ModleeModel
 from modlee.dev_data import get_fashion_mnist
-
+modlee.set_run_dir(os.path.abspath('../'))
 
 #%% Build models
 class Classifier(nn.Module):
