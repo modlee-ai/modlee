@@ -105,8 +105,19 @@ Install PyTorch nightly:
 pip3 install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu
 ```
 
+### pytorch vision pretrained model weight download SSL issue
+```
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+```
+
 ## TODO
 - [ ] Access prior models - (re)load given an experiment / run ID, 
   - [ ] Maybe we could use a compilation check (e.g. try to call ModleeModel()) to make sure that the model builds. If it fails, show an error or warning to the user to indicate that this model is not properly documented.
     - [ ] Any way to check what variables are defined?
 
+
+## Brainstorming TODO
+- [ ] make notebooks toggle-able for local files and package (toggle where we import mlflow from)
+- [ ] can we incorporate the model code_to_text within a testing notebook?
+- [ ] Right now it seems like we are just saving mlruns in the same folder as the python script right? Eventually, we may want to have modlee automatically keep track of where these are if we plan 
