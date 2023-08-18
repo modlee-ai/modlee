@@ -13,9 +13,9 @@ if torch.cuda.is_available():
 elif torch.backends.mps.is_available():
     torch.set_default_device('mps')
 
-import modlee_pypi
-from modlee_pypi.modlee_model import ModleeModel
-from modlee_pypi.dev_data import get_fashion_mnist
+import modlee
+from modlee.modlee_model import ModleeModel
+from modlee.dev_data import get_fashion_mnist
 
 
 #%% Build models
@@ -75,7 +75,7 @@ model = LightningClassifier()
 training_loader,test_loader = get_fashion_mnist()
 
 #%% Run training loop
-with modlee_pypi.start_run() as run:
+with modlee.start_run() as run:
     trainer = pl.Trainer(max_epochs=2,)
     trainer.fit(
         model=model,

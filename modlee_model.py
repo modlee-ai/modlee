@@ -43,10 +43,10 @@ import torchvision
 # from torchvision.models.convnext import CNBlockConfig
 
 # Modlee imports
-import modlee_pypi
+import modlee
 
 
-class ModleeModel(modlee_pypi.modlee_model.ModleeModel):
+class ModleeModel(modlee.modlee_model.ModleeModel):
 
     def __init__(self, classifier=None):
         super().__init__()

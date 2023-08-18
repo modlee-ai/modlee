@@ -6,11 +6,11 @@ with open('requirements.txt') as f:
 print('\n'.join(f'"{req}",' for req in requirements))
     
 setup(
-    name="modlee_pypi",
+    name="modlee",
     version="0.1",
     description="beta",
     packages=find_packages(),
-    # packages=["modlee_pypi"],
+    # packages=["modlee"],
     python_requires=">=3.8",
     install_requires=[],
     # install_requires=requirements,
@@ -34,5 +34,5 @@ setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    url="https://github.com/modlee-ai/modlee_pypi/"
+    url="https://github.com/modlee-ai/modlee/"
 )

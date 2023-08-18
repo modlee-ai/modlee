@@ -6,10 +6,10 @@ os.chdir(f"{pathlib.Path(__file__).parent.resolve()}/..")
 
 import mlflow
 from mlflow.client import MlflowClient
-import modlee_pypi
+import modlee
 
-from modlee_pypi.rep import Rep
-from modlee_pypi.dev_data import get_fashion_mnist
+from modlee.rep import Rep
+from modlee.dev_data import get_fashion_mnist
 import lightning.pytorch as pl
 
 import torch
@@ -37,7 +37,7 @@ data_snapshot = rep.data_snapshot
 targets_snapshot = rep.targets_snapshot
 print(len(targets_snapshot), len(data_snapshot))
 #%%
-from modlee_pypi.data_stats import DataStats
+from modlee.data_stats import DataStats
 snapshot_stats = DataStats(data_snapshot)
 mlflow_stats = rep.data_stats
 #%%
@@ -109,9 +109,9 @@ runs_pd = mlflow.search_runs()
 run = runs[0]
 
 #%%
-# reload(modlee_pypi.rep
+# reload(modlee.rep
 
-from modlee_pypi.rep import Rep
+from modlee.rep import Rep
 model = None
 rep = Rep.from_run(run)
 print(rep.info.run_id)

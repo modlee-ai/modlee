@@ -1,4 +1,4 @@
-# modlee_pypi
+# modlee
 
 modlee helps you document your machine learning experiments.
 Built over the widely adopted [`mlflow` platform](https://mlflow.org), modlee logs parameters and performance in the correct format for training the community- suggestion model.
@@ -16,8 +16,8 @@ Currently working on python3.10.
 ### Installation
 First, clone and enter this repository:
 ```
-https://github.com/modlee-ai/modlee_pypi.git
-cd modlee_pypi
+https://github.com/modlee-ai/modlee.git
+cd modlee
 ```
 
 Make a virtual environment and install this repository as a package:
@@ -39,18 +39,18 @@ class ExampleModel(lightning.pytorch.LightningModule):
 ...
 ```
 
-Change the subclass to `modlee_pypi.modlee_model.ModleeModel`:
+Change the subclass to `modlee.modlee_model.ModleeModel`:
 ```
-import modlee_pypi
+import modlee
 
-class ExampleModel(modlee_pypi.modlee_model.ModleeModel):
+class ExampleModel(modlee.modlee_model.ModleeModel):
 ...
 ```
 ### Documenting
-Before training, wrap the call to the `lightning.pytorch.Trainer` with a call to `modlee_pypi.start_run()`.
+Before training, wrap the call to the `lightning.pytorch.Trainer` with a call to `modlee.start_run()`.
 This will begin logging:
 ```
-with modlee_pypi.start_run() as run:
+with modlee.start_run() as run:
     trainer = lightning.pytorch.Trainer()
     trainer.fit(
         model=model,
@@ -78,7 +78,7 @@ def build_model():
     # model building goes here
     return model
 
-class ExampleModel(modlee_pypi.modlee_model.ModleeModel):
+class ExampleModel(modlee.modlee_model.ModleeModel):
     def __init__(self, *args, **kwargs):
         self.batch_size = batch_size
         model = build_model()
@@ -91,7 +91,7 @@ class build_model(torch.nn.Module):
         # model building goes here
         
 
-class ExampleModel(modlee_pypi.modlee_model.ModleeModel):
+class ExampleModel(modlee.modlee_model.ModleeModel):
     def __init__(self, *args, **kwargs):
         self.batch_size = 64
         model = build_model()
