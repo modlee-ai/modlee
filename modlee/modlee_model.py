@@ -62,19 +62,18 @@ class ModleeCallback(Callback):
 
     def setup(self, trainer: Trainer, pl_module: LightningModule, stage: str) -> None:
         # log the code text as a python file
-        # self._log_code_text(pl_module=pl_module)
+        self._log_code_text(pl_module=pl_module)
         return super().setup(trainer, pl_module, stage)
     
-    def _log_code_text(self,pl_module: LightningModule):
+    def _log_code_text(self, pl_module: LightningModule):
         _get_code_text_for_model = getattr(modlee, 'get_code_text_for_model')
         if _get_code_text_for_model is not None:
             code_text = modlee.get_code_text_for_model(
                 pl_module, include_header=True)
             mlflow.log_text(code_text, 'model.py')
         else: 
-            logging.warning("Could not access model-text converter from server, not logging but continuing experiment")
+            logging.warning("Could not access model-text converter, not logging but continuing experiment")
             
-
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
         
         data,targets = self._get_data_targets(trainer)
@@ -87,6 +86,9 @@ class ModleeCallback(Callback):
     def _log_data_stats(self,data,targets=[]):
         DataStats = getattr(modlee.data_stats, 'DataStats')
         if DataStats is not None:
+            if isinstance(data, torch.Tensor):
+                data,targets = data.numpy(), targets.numpy()
+
             data_stats = DataStats(x=data,y=targets)
             mlflow.log_dict(data_stats.data_stats, 'data_stats')
         else:

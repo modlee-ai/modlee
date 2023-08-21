@@ -43,4 +43,15 @@ class ModleeAPIClient(object):
             ret = pickle.loads(ret.content)
         return ret
         
+    def get_script(self,route=""):
+        return self.get(f"modleescript/{route}")
+    
+    def get_module(self,route=""):
+        ret = self.get_script(route)
+        if ret is not None:
+            ret = ret.content
+            # _locals = {}
+            # exec(ret, {}, _locals)
+            # ret = _locals
+        return ret
         

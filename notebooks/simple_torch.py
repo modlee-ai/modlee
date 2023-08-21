@@ -52,7 +52,7 @@ class LightningClassifier(ModleeModel):
         return {'loss':loss}
     
     def validation_step(self, val_batch, batch_idx):
-        x,y=val_batch
+        x, y = val_batch
         y_out = self(x)
         loss = F.cross_entropy(y_out,y)
         return loss
