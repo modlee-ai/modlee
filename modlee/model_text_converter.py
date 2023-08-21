@@ -4,6 +4,10 @@ import torch.nn as nn
 import torch
 import lightning.pytorch as pl
 
+from modlee.api_client import ModleeAPIClient
+client = ModleeAPIClient()
+# DataStats = client.get_object('data_stats.DataStats')
+get_code_text_for_model = client.get_object('get_code_text_for_model')
 
 modlee_required_packages = '''
 import torch
@@ -170,7 +174,7 @@ def get_code_text(code_text, module, custom_history):
     return code_text, custom_child_module_list, custom_history
 
 
-def get_code_text_for_model(model: nn.modules.module.Module | pl.core.module.LightningModule, include_header=False):
+def _get_code_text_for_model(model: nn.modules.module.Module | pl.core.module.LightningModule, include_header=False):
     """
     get_code_text_for_model _summary_
 

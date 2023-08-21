@@ -15,11 +15,13 @@ from lightning.pytorch.callbacks import Callback
 from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import modlee
-from modlee.data_stats import DataStats
+from modlee import logging
+from modlee.api_client import ModleeAPIClient
+
 from modlee.config import TMP_DIR, MLRUNS_DIR
 from modlee import utils as modlee_utils
 import mlflow
-mlflow.set_tracking_uri(f"file://{MLRUNS_DIR}")
+
 
 class ModleeModel(LightningModule):
     def __init__(self, data_snapshot_size=10e6, *args, **kwargs) -> None:
@@ -46,13 +48,6 @@ class ModleeCallback(Callback):
         self.on_train_batch_end = partial(self._on_batch_end, phase='train')
         self.on_validation_batch_end = partial(self._on_batch_end, phase='val')
 
-    '''
-        return loss
-        
-        return {'acc':acc, 'loss':loss}
-        
-        return [acc,loss]
-    '''
     def _on_batch_end(self, trainer: Trainer, pl_module: LightningModule, outputs: STEP_OUTPUT, batch: Any, batch_idx: int, phase='train') -> None:
         if isinstance(outputs, dict):
             for output_key, output_value in outputs.items():
@@ -67,37 +62,62 @@ class ModleeCallback(Callback):
 
     def setup(self, trainer: Trainer, pl_module: LightningModule, stage: str) -> None:
         # log the code text as a python file
-        code_text = modlee.get_code_text_for_model(
-            pl_module, include_header=True)
-        mlflow.log_text(code_text, 'model.py')
+        # self._log_code_text(pl_module=pl_module)
         return super().setup(trainer, pl_module, stage)
+    
+    def _log_code_text(self,pl_module: LightningModule):
+        _get_code_text_for_model = getattr(modlee, 'get_code_text_for_model')
+        if _get_code_text_for_model is not None:
+            code_text = modlee.get_code_text_for_model(
+                pl_module, include_header=True)
+            mlflow.log_text(code_text, 'model.py')
+        else: 
+            logging.warning("Could not access model-text converter from server, not logging but continuing experiment")
+            
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
         
-        _dataset = trainer.train_dataloader.dataset
-        if isinstance(_dataset, torch.utils.data.Subset):
-            _dataset = _dataset.dataset
-
-        labels = []
-        data = _dataset.data.numpy()
-        self.save_snapshot(data,'data')
-        mlflow_data = mlflow.data.from_numpy(data)
-        mlflow.log_input(mlflow_data, 'training_snapshot')
-        if hasattr(_dataset, 'targets'):
-            targets = _dataset.targets
-            self.save_snapshot(targets,'targets',max_len=len(data))
-        
+        data,targets = self._get_data_targets(trainer)
         # log the data statistics
-        data_stats = DataStats(x=data,y=labels)
-        mlflow.log_dict(data_stats.data_stats, 'data_stats')
+        self._log_data_stats(data,targets)
         
         mlflow.log_param('batch_size', trainer.train_dataloader.batch_size)
         return super().on_train_start(trainer, pl_module)
     
-    def save_snapshot(self, data, snapshot_name='data', max_len=None):
+    def _log_data_stats(self,data,targets=[]):
+        DataStats = getattr(modlee.data_stats, 'DataStats')
+        if DataStats is not None:
+            data_stats = DataStats(x=data,y=targets)
+            mlflow.log_dict(data_stats.data_stats, 'data_stats')
+        else:
+            logging.warning("Could not access data statistics calculation from server, not logging but continuing experiment")
+        
+    def _get_data_targets(self,trainer:Trainer):    
+        _dataset = trainer.train_dataloader.dataset
+        if isinstance(_dataset, torch.utils.data.Subset):
+            _dataset = _dataset.dataset
+
+        data = _dataset.data.numpy()
+        self._save_snapshot(data,'data')
+
+        targets = []
+        if hasattr(_dataset, 'targets'):
+            targets = _dataset.targets
+            self._save_snapshot(targets,'targets',max_len=len(data))
+        return data,targets
+        
+    def _save_snapshot(self, data, snapshot_name='data', max_len=None):
+        data = self._get_snapshot(data=data,max_len=max_len)
+        modlee_utils.safe_mkdir(TMP_DIR)
+        print(f"Making directory {TMP_DIR}")
+        data_filename = f"{TMP_DIR}/{snapshot_name}_snapshot.npy"
+        # data_filename = f"{mlflow.get_artifact_uri()}/{snapshot_name}_snapshot.npy"
+        np.save(data_filename, data)
+        mlflow.log_artifact(data_filename) 
+        
+    def _get_snapshot(self,data,max_len=None):
         if isinstance(data, torch.Tensor):
             data = data.numpy()
-        
         if max_len is None:
             data_size = data.nbytes
             # take a slice that should be no larger than 10MB
@@ -105,15 +125,8 @@ class ModleeCallback(Callback):
                 (len(data)*self.data_snapshot_size)//data_size,
                 len(data),
                 ]))
-
-        data = data[:max_len]
-        modlee_utils.safe_mkdir(TMP_DIR)
-        print(f"Making directory {TMP_DIR}")
-        data_filename = f"{TMP_DIR}/{snapshot_name}_snapshot.npy"
-        # data_filename = f"{mlflow.get_artifact_uri()}/{snapshot_name}_snapshot.npy"
-        np.save(data_filename, data)
-        mlflow.log_artifact(data_filename) 
-
+        return data[:max_len]
+        
 class ModleeDatasetWrapper():
     def __init__(self,dataset):
         self.dataset = dataset

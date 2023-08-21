@@ -2,10 +2,12 @@ import importlib
 import glob
 import os
 import pathlib
+from pathlib import Path
 from os.path import dirname, basename, isfile, join
 from modlee.config import MODLEE_DIR, MLRUNS_DIR
 from modlee.model_text_converter import get_code_text, \
     get_code_text_for_model
+from . import data_stats
 
 import logging
 logging.basicConfig(
@@ -17,10 +19,12 @@ logging.basicConfig(
 modules = glob.glob(join(dirname(__file__), "*.py"))
 __all__ = [ basename(f)[:-3] for f in modules if isfile(f) and not f.endswith('__init__.py')]
 
+print(__all__)
+
 import mlflow
 from mlflow import start_run, \
     get_tracking_uri, set_tracking_uri
-set_tracking_uri(f"file://{MLRUNS_DIR}")
+# set_tracking_uri(Path(MLRUNS_DIR).as_uri())
 
 def set_run_dir(run_dir):
     if not os.path.isabs(run_dir):

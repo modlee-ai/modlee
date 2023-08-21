@@ -12,7 +12,7 @@ import lightning.pytorch as pl
 import modlee
 from modlee.modlee_model import ModleeModel
 from modlee.dev_data import get_fashion_mnist
-modlee.set_run_dir(os.path.abspath('../'))
+modlee.set_run_dir(f"{os.path.dirname(__file__)}/../")
 
 #%% Build models
 class Classifier(nn.Module):
