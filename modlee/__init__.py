@@ -1,50 +1,61 @@
+import traceback
+from mlflow import start_run, \
+    get_tracking_uri, set_tracking_uri
+import mlflow
 import importlib
 import glob
 import os
 import pathlib
 from pathlib import Path
-from os.path import dirname, basename, isfile, join
-from modlee.config import MODLEE_DIR, MLRUNS_DIR
-from modlee.model_text_converter import get_code_text, \
-    get_code_text_for_model
-from . import data_stats
+from urllib.parse import urlparse
+
 
 import logging
 logging.basicConfig(
     encoding='utf-8',
     # level=logging.DEBUG,
     level=logging.WARNING,
-    )
+)
+
+from os.path import dirname, basename, isfile, join
+from modlee.config import MODLEE_DIR, MLRUNS_DIR
+from modlee.model_text_converter import get_code_text, \
+    get_code_text_for_model
+from modlee.retriever import *
+from . import data_stats, modlee_model
+
 
 modules = glob.glob(join(dirname(__file__), "*.py"))
-__all__ = [ basename(f)[:-3] for f in modules if isfile(f) and not f.endswith('__init__.py')]
+__all__ = [basename(f)[:-3] for f in modules if isfile(f)
+           and not f.endswith('__init__.py')]
 
-print(__all__)
 
-import mlflow
-from mlflow import start_run, \
-    get_tracking_uri, set_tracking_uri
-# set_tracking_uri(Path(MLRUNS_DIR).as_uri())
+def init(run_dir=None):
+    if run_dir is None:
+        calling_file = traceback.extract_stack()[-2].filename
+        run_dir = os.path.dirname(calling_file)
+    set_run_dir(run_dir)
+
 
 def set_run_dir(run_dir):
     if not os.path.isabs(run_dir):
-        logging.warning(f"Cannot set run logs to relative path {run_dir}; path must be absolute (os.path.abspath)")
-        return 
+        run_dir = os.path.abspath(run_dir)
+        logging.warning(f"Setting run logs to abspath {run_dir}")
     if 'mlruns' not in run_dir.split('/')[-1]:
         run_dir = f"{run_dir}/mlruns/"
+
+    if not os.path.exists('/'.join(run_dir.split('/'))):
+        raise FileNotFoundError(
+            f"No base directory {'/'.join(run_dir.split('/'))}, cannot set tracking URI")
+
     mlflow.set_tracking_uri(
         pathlib.Path(run_dir).as_uri()
     )
-        
+
+
+def get_run_dir():
+    return urlparse(mlflow.get_tracking_uri()).path
+
+
 def hello_world():
     print(f'from modlee')
-
-# modlee_files = sorted(glob.glob(str(MODLEE_DIR / '*.py')))
-# for file in modlee_files:
-#     if '__init__' in file: continue
-#     mod_name = basename(file).split('.')[0]
-#     mod = importlib.import_module(f'modlee.{mod_name}')
-#     globals().update({mod_name:mod})
-#     globals().update({v:getattr(mod,v) for v in dir(mod) if '__' not in v})
-
-

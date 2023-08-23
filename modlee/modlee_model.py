@@ -83,12 +83,11 @@ class ModleeCallback(Callback):
         mlflow.log_param('batch_size', trainer.train_dataloader.batch_size)
         return super().on_train_start(trainer, pl_module)
     
-    def _log_data_stats(self,data,targets=[]):
+    def _log_data_stats(self,data,targets=[]) -> None:
         DataStats = getattr(modlee.data_stats, 'DataStats')
         if DataStats is not None:
             if isinstance(data, torch.Tensor):
                 data,targets = data.numpy(), targets.numpy()
-
             data_stats = DataStats(x=data,y=targets)
             mlflow.log_dict(data_stats.data_stats, 'data_stats')
         else:
@@ -96,10 +95,19 @@ class ModleeCallback(Callback):
         
     def _get_data_targets(self,trainer:Trainer):    
         _dataset = trainer.train_dataloader.dataset
-        if isinstance(_dataset, torch.utils.data.Subset):
-            _dataset = _dataset.dataset
-
-        data = _dataset.data.numpy()
+        if isinstance(_dataset,list):
+            data = np.array(_dataset)
+        elif isinstance(_dataset, torch.utils.data.dataset.IterableDataset):
+            data = list(_dataset)
+            # data = np.array(list(_dataset))
+        else:
+            if isinstance(_dataset, torch.utils.data.Subset):
+                _dataset = _dataset.dataset
+            data = _dataset.data
+            if isinstance(data, torch.Tensor):
+                data = data.numpy()
+            # data = _dataset.data.numpy()
+            
         self._save_snapshot(data,'data')
 
         targets = []
@@ -113,7 +121,6 @@ class ModleeCallback(Callback):
         modlee_utils.safe_mkdir(TMP_DIR)
         print(f"Making directory {TMP_DIR}")
         data_filename = f"{TMP_DIR}/{snapshot_name}_snapshot.npy"
-        # data_filename = f"{mlflow.get_artifact_uri()}/{snapshot_name}_snapshot.npy"
         np.save(data_filename, data)
         mlflow.log_artifact(data_filename) 
         
