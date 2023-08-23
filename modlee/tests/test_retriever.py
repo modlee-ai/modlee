@@ -2,6 +2,7 @@ import os
 import unittest
 import pathlib
 
+
 import numpy as np
 import torch
 
@@ -13,11 +14,18 @@ client = MlflowClient()
 
 class RepTest(unittest.TestCase):
 
+    mlruns_dirs = [
+        '/Users/modlee/projects/modlee_pypi/modlee/tests/mlruns',
+        '/Users/modlee/projects/modlee_pypi/notebooks/mlruns',
+    ]
     run_dirs = [
-        # '/Users/modlee/projects/modlee_pypi/modlee/tests/mlruns',
-        # '/Users/modlee/projects/modlee_pypi/notebooks/mlruns',
-        # '/Users/modlee/projects/modlee_pypi/notebooks/mlruns/0/c071dfc3a9d24a0cb148241af9af4e84',
-        '/Users/modlee/projects/modlee_pypi/notebooks/mlruns/0/b65da0553bac46c1aa9b8b0d51e941d2',
+        # '/Users/modlee/projects/modlee_pypi/notebooks/mlruns/0/b65da0553bac46c1aa9b8b0d51e941d2',
+        '/Users/modlee/projects/modlee_pypi/mlruns/0/603a2d573d3d4e95bd6a2f070a864b8d',
+        # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/barlow-twins/mlruns/0/9792d5b6d83f44a2a2c45a4162353280',
+        # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/basic-gan/mlruns/0/4b6593f253e4419594f1daf2903952ef',
+        # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/mnist-hello-world/mlruns/0/ba6f693c464d42a8b083bcb53236c0ac',
+        # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/cifar10-baseline/mlruns/0/8b711c778e4f48acb91bb2bb9d25ed17',
+        '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/text-transformers/mlruns/0/1c1dc202b24c493fad5a60052dbac253',
     ]
 
     def setUp(self) -> None:
@@ -30,15 +38,10 @@ class RepTest(unittest.TestCase):
         '''
         Retrieve runs from prior mlruns directories
         '''
-        mlruns_dirs = [
-            '/Users/modlee/projects/modlee_pypi/modlee/tests/mlruns',
-            '/Users/modlee/projects/modlee_pypi/notebooks/mlruns',
-        ]
-        for run_dir in mlruns_dirs:
+        for run_dir in self.mlruns_dirs:
             runs = modlee.get_runs(run_dir)
             assert len(runs) > 0, \
                 f"No runs found in {run_dir}"
-            run = runs[0]
 
     def test_cant_get_runs(self):
         '''
@@ -61,7 +64,6 @@ class RepTest(unittest.TestCase):
             mlflow_model = mlflow.pytorch.load_model(
                 f"{run_dir}/artifacts/model"
             )
-            param_thresh = 0.001
 
             data_snapshot = modlee.get_data_snapshot(run_dir)
 
@@ -69,8 +71,8 @@ class RepTest(unittest.TestCase):
             modlee_model.load_state_dict(mlflow_model.state_dict())
 
             # test that inference outputs are within a difference threshold
-            modlee_model.eval()
-            mlflow_model.eval()
+            modlee_model.eval(), mlflow_model.eval()
+            param_thresh = 0.001
             with torch.no_grad():
                 for x in data_snapshot:
                     y_modlee = modlee_model(torch.Tensor(x).unsqueeze(0))
