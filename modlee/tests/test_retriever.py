@@ -25,7 +25,9 @@ class RepTest(unittest.TestCase):
         # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/basic-gan/mlruns/0/4b6593f253e4419594f1daf2903952ef',
         # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/mnist-hello-world/mlruns/0/ba6f693c464d42a8b083bcb53236c0ac',
         # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/cifar10-baseline/mlruns/0/8b711c778e4f48acb91bb2bb9d25ed17',
-        '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/text-transformers/mlruns/0/1c1dc202b24c493fad5a60052dbac253',
+        # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/text-transformers/mlruns/0/1c1dc202b24c493fad5a60052dbac253',
+        # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/augmentation_kornia/mlruns/0/fde2320f3c6b4fb395156034b58931ef',
+        '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/datamodules/mlruns/0/013153e156ea41eda40ea39b0a19f7b2',
     ]
 
     def setUp(self) -> None:

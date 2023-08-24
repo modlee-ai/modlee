@@ -9,7 +9,11 @@ Lightning wraps over PyTorch modules and simplifies the development cycle by org
 `lightning.pytorch.LightningModules` handle the boilerplate while preserving the experimentation underneath at the `torch.nn.Module` level.
 Some guides for migrating PyTorch code into Lightning are [here](https://lightning.ai/docs/pytorch/stable/starter/converting.html) and [here](https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09).
 
-*Note: the `lightning` packaged evolved from the similarly named `pytorch-lightning` package, which is now deprecated. If there are any compatibility issues, remove/uninstall with `python3 -m pip uninstall pytorch-lightning`.*
+**Note:** the `lightning` packaged evolved from the similarly named `pytorch-lightning` package, which is now deprecated but still used in some backend mechanisms of `mlflow`. To avoid compatibility issues, ensure that you are using objects from `lightning.torch` instead of `pytorch_lightning`:
+```
+import pytorch_lightning as pl # DO NOT USE THIS
+import lightning.pytorch as pl # use this instead
+```
 
 ## Usage
 Currently working on python3.10.
@@ -29,25 +33,32 @@ python3 -m pip install .
 
 ## Implementing 
 
+### Import and initialize
+At the head of the script that runs the training loop (i.e. wherever you call `lightning.pytorch.Trainer.fit`), import the `modlee` package and initialize:
+```
+import lightning
+import lightning.pytorch as pl
+
+import modlee
+modlee.init()
+```
+By default, `modlee.init()` will log experiments to the same directory as the script that is importing it.
+You can define a different directory with `modlee.init('path/to/save/experiments')`
+
 ### Model definition
 Given a `lightning.pytorch.LightningModule`:
 ```
-import lightning
-
 class ExampleModel(lightning.pytorch.LightningModule):
 ...
 ```
 
 Change the subclass to `modlee.modlee_model.ModleeModel`:
 ```
-import modlee
-
 class ExampleModel(modlee.modlee_model.ModleeModel):
 ...
 ```
 ### Documenting
-Before training, wrap the call to the `lightning.pytorch.Trainer` with a call to `modlee.start_run()`.
-This will begin logging:
+To log during training, wrap the call to the `lightning.pytorch.Trainer` with a call to `modlee.start_run()`.
 ```
 with modlee.start_run() as run:
     trainer = lightning.pytorch.Trainer()
@@ -109,6 +120,42 @@ pip3 install --pre torch torchvision torchaudio --index-url https://download.pyt
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 ```
+
+### Multiprocessing error
+The call to `trainer.fit()` may throw an error related to multiprocessing:
+```
+RuntimeError: 
+        An attempt has been made to start a new process before the
+        current process has finished its bootstrapping phase.
+
+        This probably means that you are not using fork to start your
+        child processes and you have forgotten to use the proper idiom
+        in the main module:
+
+            if __name__ == '__main__':
+                freeze_support()
+                ...
+```
+
+The currently working solution is to run the training loop directly as a script and wrap the training call in `if __name__=="__main__"`:
+```
+if __name__=="__main__":
+    trainer.fit(...)
+```
+
+### Loop
+Sometimes the call to start training will loop repeatedly, with a warning:
+```
+[W ParallelNative.cpp:230] Warning: Cannot set number of intraop threads after parallel work has started or after set_num_threads call when using native parallel backend (function set_num_threads)
+```
+This may just be an issue with macOS.
+I suspect it's related to parallelizing data across different CPUs.
+In some of the `lightning_tutorial` examples:
+```
+NUM_WORKERS = int(os.cpu_count() / 2) # this equals 4 on the MacBook Air M2
+train_dataloader = DataLoader(dataset_train, batch_size=BATCH_SIZE, shuffle=True, num_workers=NUM_WORKERS)
+```
+Either wait it out or try setting `NUM_WORKERS=1`.
 
 ## TODO
 - [ ] Access prior models - (re)load given an experiment / run ID, 
