@@ -79,7 +79,7 @@ Refer to [`./notebooks`](./notebooks) for examples, executable as either plain P
 
 ## Implementation notes
 modlee saves a snapshot of the model source.
-To ensure that this snapshot is valid, any necessary functions or variables should be defined as attributes of your model or subclasses of `torch.nn.Module`.
+To ensure that this snapshot is valid, any necessary functions or variables should be defined as either 1) internal attributes of your model or 2) subclasses of `torch.nn.Module`.
 
 For example, instead of defining `batch_size` and `build_model` outside of `ExampleModel`:
 ```

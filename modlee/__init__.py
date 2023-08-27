@@ -19,8 +19,12 @@ logging.basicConfig(
 
 from os.path import dirname, basename, isfile, join
 from modlee.config import MODLEE_DIR, MLRUNS_DIR
-from modlee.model_text_converter import get_code_text, \
-    get_code_text_for_model
+from modlee import model_text_converter
+if model_text_converter.module_available:
+    from modlee.model_text_converter import get_code_text, \
+        get_code_text_for_model
+else:
+    get_code_text, get_code_text_for_model = None, None
 from modlee.retriever import *
 from . import data_stats, modlee_model
 

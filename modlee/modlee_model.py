@@ -66,7 +66,7 @@ class ModleeCallback(Callback):
         return super().setup(trainer, pl_module, stage)
     
     def _log_code_text(self, pl_module: LightningModule):
-        _get_code_text_for_model = getattr(modlee, 'get_code_text_for_model')
+        _get_code_text_for_model = getattr(modlee, 'get_code_text_for_model', None)
         if _get_code_text_for_model is not None:
             code_text = modlee.get_code_text_for_model(
                 pl_module, include_header=True)
@@ -84,7 +84,7 @@ class ModleeCallback(Callback):
         return super().on_train_start(trainer, pl_module)
     
     def _log_data_stats(self,data,targets=[]) -> None:
-        DataStats = getattr(modlee.data_stats, 'DataStats')
+        DataStats = getattr(modlee.data_stats, 'DataStats', None)
         if DataStats is not None:
             if isinstance(data, torch.Tensor):
                 data,targets = data.numpy(), targets.numpy()
