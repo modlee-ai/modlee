@@ -10,6 +10,7 @@ mlruns/
 *mlruns*
 tmp/*
 *tmp*
+examples/tmp
 *.DS_Store
 
 # Byte-compiled / optimized / DLL files

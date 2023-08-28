@@ -10,8 +10,6 @@ from lightning.pytorch.callbacks import Callback
 
 import torchmetrics
 from torchmetrics import Accuracy
-# calculate_accuracy = Accuracy(task='multiclass')
-
 
 class ModleeImageModel(ModleeModel):
     def __init__(self, num_classes=None, *args, **kwargs):
