@@ -18,3 +18,23 @@ def safe_mkdir(target_dir):
         
 # def load_response(response):
 #     return pickle.loads(response.content)
+
+
+def get_fashion_mnist(batch_size=64):
+    training_loader = DataLoader(
+        tv_datasets.FashionMNIST(
+            root='data',
+            train=True,
+            download=True,
+            transform=ToTensor(),
+        ), batch_size=batch_size, shuffle=True,
+    )
+    test_loader = DataLoader(
+        tv_datasets.FashionMNIST(
+            root='data',
+            train=False,
+            download=True,
+            transform=ToTensor(),
+        ), batch_size=batch_size, shuffle=True,
+    )
+    return training_loader, test_loader

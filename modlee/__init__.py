@@ -27,6 +27,7 @@ else:
     get_code_text, get_code_text_for_model = None, None
 from modlee.retriever import *
 from . import data_stats, modlee_model
+from . import *
 
 
 modules = glob.glob(join(dirname(__file__), "*.py"))

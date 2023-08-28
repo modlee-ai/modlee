@@ -1,20 +1,21 @@
-#%%
+# %%
+from modlee.dev_data import get_fashion_mnist
+from modlee.modlee_image_model import ModleeImageModel
+from modlee.modlee_model import ModleeModel
+import modlee
+import lightning.pytorch as pl
+import torch.nn.functional as F
+import torch.nn as nn
+import torch
+import os
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
-import os
 
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import lightning.pytorch as pl
-
-import modlee
-from modlee.modlee_model import ModleeModel
-from modlee.dev_data import get_fashion_mnist
 modlee.set_run_dir(f"{os.path.dirname(__file__)}/../")
+# %% Build models
 
-#%% Build models
+
 class Classifier(nn.Module):
     def __init__(self):
         super(Classifier, self).__init__()
@@ -34,29 +35,30 @@ class Classifier(nn.Module):
         x = self.fc3(x)
         return x
 
-class LightningClassifier(ModleeModel):
-    def __init__(self, classifier=None):
-        super().__init__()
+# class LightningClassifier(ModleeModel):
+class LightningClassifier(ModleeImageModel):
+    def __init__(self, classifier=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         if not classifier:
             self.classifier = Classifier()
         else:
             self.classifier = classifier
 
-    def forward(self,x):
+    def forward(self, x):
         return self.classifier(x)
-    
+
     def training_step(self, batch, batch_idx):
         x, y = batch
         y_out = self(x)
-        loss = F.cross_entropy(y_out,y)
-        return {'loss':loss}
-    
+        loss = F.cross_entropy(y_out, y)
+        return {'loss': loss}
+
     def validation_step(self, val_batch, batch_idx):
         x, y = val_batch
         y_out = self(x)
-        loss = F.cross_entropy(y_out,y)
+        loss = F.cross_entropy(y_out, y)
         return loss
-    
+
     def configure_optimizers(self):
         optimizer = torch.optim.SGD(
             self.parameters(),
@@ -64,13 +66,14 @@ class LightningClassifier(ModleeModel):
             momentum=0.9
         )
         return optimizer
-    
-model = LightningClassifier()
 
-#%% Load data
-training_loader,test_loader = get_fashion_mnist()
 
-#%% Run training loop
+# %% Load data
+training_loader, test_loader = get_fashion_mnist()
+num_classes = len(training_loader.dataset.classes)
+model = LightningClassifier(num_classes=num_classes)
+
+# %% Run training loop
 with modlee.start_run() as run:
     trainer = pl.Trainer(max_epochs=2,)
     trainer.fit(

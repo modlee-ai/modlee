@@ -64,38 +64,43 @@ class ModleeCallback(Callback):
         # log the code text as a python file
         self._log_code_text(pl_module=pl_module)
         return super().setup(trainer, pl_module, stage)
-    
+
     def _log_code_text(self, pl_module: LightningModule):
-        _get_code_text_for_model = getattr(modlee, 'get_code_text_for_model', None)
+        _get_code_text_for_model = getattr(
+            modlee, 'get_code_text_for_model', None)
         if _get_code_text_for_model is not None:
             code_text = modlee.get_code_text_for_model(
                 pl_module, include_header=True)
             mlflow.log_text(code_text, 'model.py')
-        else: 
-            logging.warning("Could not access model-text converter, not logging but continuing experiment")
-            
+        else:
+            logging.warning(
+                "Could not access model-text converter, \
+                    not logging but continuing experiment")
+
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
-        
-        data,targets = self._get_data_targets(trainer)
+
+        data, targets = self._get_data_targets(trainer)
         # log the data statistics
-        self._log_data_stats(data,targets)
-        
+        self._log_data_stats(data, targets)
+
         mlflow.log_param('batch_size', trainer.train_dataloader.batch_size)
         return super().on_train_start(trainer, pl_module)
-    
-    def _log_data_stats(self,data,targets=[]) -> None:
+
+    def _log_data_stats(self, data, targets=[]) -> None:
         DataStats = getattr(modlee.data_stats, 'DataStats', None)
         if DataStats is not None:
             if isinstance(data, torch.Tensor):
-                data,targets = data.numpy(), targets.numpy()
-            data_stats = DataStats(x=data,y=targets)
+                data, targets = data.numpy(), targets.numpy()
+            data_stats = DataStats(x=data, y=targets)
             mlflow.log_dict(data_stats.data_stats, 'data_stats')
         else:
-            logging.warning("Could not access data statistics calculation from server, not logging but continuing experiment")
-        
-    def _get_data_targets(self,trainer:Trainer):    
+            logging.warning(
+                "Could not access data statistics calculation from server, \
+                    not logging but continuing experiment")
+
+    def _get_data_targets(self, trainer: Trainer):
         _dataset = trainer.train_dataloader.dataset
-        if isinstance(_dataset,list):
+        if isinstance(_dataset, list):
             data = np.array(_dataset)
         elif isinstance(_dataset, torch.utils.data.dataset.IterableDataset):
             data = list(_dataset)
@@ -107,24 +112,23 @@ class ModleeCallback(Callback):
             if isinstance(data, torch.Tensor):
                 data = data.numpy()
             # data = _dataset.data.numpy()
-            
-        self._save_snapshot(data,'data')
+
+        self._save_snapshot(data, 'data')
 
         targets = []
         if hasattr(_dataset, 'targets'):
             targets = _dataset.targets
-            self._save_snapshot(targets,'targets',max_len=len(data))
-        return data,targets
-        
+            self._save_snapshot(targets, 'targets', max_len=len(data))
+        return data, targets
+
     def _save_snapshot(self, data, snapshot_name='data', max_len=None):
-        data = self._get_snapshot(data=data,max_len=max_len)
+        data = self._get_snapshot(data=data, max_len=max_len)
         modlee_utils.safe_mkdir(TMP_DIR)
-        print(f"Making directory {TMP_DIR}")
         data_filename = f"{TMP_DIR}/{snapshot_name}_snapshot.npy"
         np.save(data_filename, data)
-        mlflow.log_artifact(data_filename) 
-        
-    def _get_snapshot(self,data,max_len=None):
+        mlflow.log_artifact(data_filename)
+
+    def _get_snapshot(self, data, max_len=None):
         if isinstance(data, torch.Tensor):
             data = data.numpy()
         if max_len is None:
@@ -133,22 +137,21 @@ class ModleeCallback(Callback):
             max_len = int(np.min([
                 (len(data)*self.data_snapshot_size)//data_size,
                 len(data),
-                ]))
+            ]))
         return data[:max_len]
-        
+
+
 class ModleeDatasetWrapper():
-    def __init__(self,dataset):
+    def __init__(self, dataset):
         self.dataset = dataset
-        
+
     def __getitem__(self):
         pass
-    
+
 # class ModleeDataset(Dataset):
 #     def __init__(self,**kwargs):
 #         self.__dict__.update(**kwargs)
 #         pass
-    
+
 #     @classmethod
 #     def from_dataset(cls, dataset, **kwargs):
-        
-    
