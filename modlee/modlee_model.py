@@ -33,32 +33,32 @@ class ModleeModel(LightningModule):
         """
         LightningModule.__init__(self, *args, **kwargs)
         mlflow.pytorch.autolog(
-            log_datasets=True,
+            log_datasets=False,
         )
         self.data_snapshot_size = data_snapshot_size
 
     def configure_callbacks(self):
-        return [ModleeCallback(self.data_snapshot_size)]
+        return [
+            DataStatsCallback(self.data_snapshot_size),
+            LogCodeTextCallback(),
+            LogOutputCallback(),
+            LogParamsCallback()
+        ]
 
 
-class ModleeCallback(Callback):
-    def __init__(self, data_snapshot_size=1e7, *args, **kwargs):
+class LogParamsCallback(Callback):
+    def __init__(self, *args, **kwargs):
         Callback.__init__(self, *args, **kwargs)
-        self.data_snapshot_size = data_snapshot_size
-        self.on_train_batch_end = partial(self._on_batch_end, phase='train')
-        self.on_validation_batch_end = partial(self._on_batch_end, phase='val')
 
-    def _on_batch_end(self, trainer: Trainer, pl_module: LightningModule, outputs: STEP_OUTPUT, batch: Any, batch_idx: int, phase='train') -> None:
-        if isinstance(outputs, dict):
-            for output_key, output_value in outputs.items():
-                pl_module.log(output_key, output_value)
-        elif isinstance(outputs, list):
-            for output_idx, output_value in outputs:
-                pl_module.log(
-                    f"{phase}_step_output_{output_idx}", output_value)
-        elif outputs is not None:
-            pl_module.log(f"{phase}_loss", outputs)
-        return super().on_train_batch_end(trainer, pl_module, outputs, batch, batch_idx)
+    def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
+        print(f"Loggin params to {mlflow.get_tracking_uri()}")
+        mlflow.log_param('batch_size', trainer.train_dataloader.batch_size)
+        return super().on_train_start(trainer, pl_module)
+
+
+class LogCodeTextCallback(Callback):
+    def __init__(self, *args, **kwargs):
+        Callback.__init__(self, *args, **kwargs)
 
     def setup(self, trainer: Trainer, pl_module: LightningModule, stage: str) -> None:
         # log the code text as a python file
@@ -77,22 +77,49 @@ class ModleeCallback(Callback):
                 "Could not access model-text converter, \
                     not logging but continuing experiment")
 
+
+class LogOutputCallback(Callback):
+    def __init__(self, *args, **kwargs):
+        Callback.__init__(self, *args, **kwargs)
+        self.on_train_batch_end = partial(self._on_batch_end, phase='train')
+        self.on_validation_batch_end = partial(self._on_batch_end, phase='val')
+
+    def _on_batch_end(self, trainer: Trainer, pl_module: LightningModule, outputs: STEP_OUTPUT, batch: Any, batch_idx: int, phase='train') -> None:
+        if isinstance(outputs, dict):
+            for output_key, output_value in outputs.items():
+                pl_module.log(output_key, output_value)
+        elif isinstance(outputs, list):
+            for output_idx, output_value in outputs:
+                pl_module.log(
+                    f"{phase}_step_output_{output_idx}", output_value)
+        elif outputs is not None:
+            pl_module.log(f"{phase}_loss", outputs)
+        return super().on_train_batch_end(trainer, pl_module, outputs, batch, batch_idx)
+
+
+class DataStatsCallback(Callback):
+    def __init__(self, data_snapshot_size=1e7, DataStats=None, *args, **kwargs):
+        Callback.__init__(self, *args, **kwargs)
+        self.data_snapshot_size = data_snapshot_size
+        if not DataStats:
+            DataStats = getattr(modlee.data_stats, 'DataStats', None)
+        self.DataStats = DataStats
+
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
 
         data, targets = self._get_data_targets(trainer)
         # log the data statistics
         self._log_data_stats(data, targets)
 
-        mlflow.log_param('batch_size', trainer.train_dataloader.batch_size)
         return super().on_train_start(trainer, pl_module)
 
     def _log_data_stats(self, data, targets=[]) -> None:
-        DataStats = getattr(modlee.data_stats, 'DataStats', None)
-        if DataStats is not None:
+        if self.DataStats:
             if isinstance(data, torch.Tensor):
                 data, targets = data.numpy(), targets.numpy()
-            data_stats = DataStats(x=data, y=targets)
+            data_stats = self.DataStats(x=data, y=targets)
             mlflow.log_dict(data_stats.data_stats, 'data_stats')
+            print(f'logging {data_stats.data_stats} to {mlflow.get_tracking_uri()}')
         else:
             logging.warning(
                 "Could not access data statistics calculation from server, \
@@ -139,19 +166,3 @@ class ModleeCallback(Callback):
                 len(data),
             ]))
         return data[:max_len]
-
-
-class ModleeDatasetWrapper():
-    def __init__(self, dataset):
-        self.dataset = dataset
-
-    def __getitem__(self):
-        pass
-
-# class ModleeDataset(Dataset):
-#     def __init__(self,**kwargs):
-#         self.__dict__.update(**kwargs)
-#         pass
-
-#     @classmethod
-#     def from_dataset(cls, dataset, **kwargs):

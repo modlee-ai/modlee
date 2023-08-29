@@ -5,7 +5,7 @@ from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import mlflow
 import modlee
-from modlee.modlee_model import ModleeModel
+from modlee.modlee_model import ModleeModel, DataStatsCallback
 from lightning.pytorch.callbacks import Callback
 
 import torchmetrics
@@ -21,8 +21,10 @@ class ModleeImageModel(ModleeModel):
 
     def configure_callbacks(self):
         base_callbacks = ModleeModel.configure_callbacks(self)
-        image_callbacks = ImageCallback(self.num_classes)
-        return [*base_callbacks, image_callbacks]
+        image_callback = ImageCallback(self.num_classes)
+        image_datastats_callback = DataStatsCallback(
+            DataStats=getattr(modlee.data_stats, 'ImageDataStats', None))
+        return [*base_callbacks, image_callback, image_datastats_callback]
 
 
 class ImageCallback(Callback):
