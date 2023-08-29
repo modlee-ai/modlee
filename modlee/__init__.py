@@ -49,9 +49,10 @@ def set_run_dir(run_dir):
     if 'mlruns' not in run_dir.split('/')[-1]:
         run_dir = f"{run_dir}/mlruns/"
 
-    if not os.path.exists('/'.join(run_dir.split('/'))):
+    run_dir_base = '/'.join(run_dir.split('/')[:-1])
+    if not os.path.exists(run_dir_base):
         raise FileNotFoundError(
-            f"No base directory {'/'.join(run_dir.split('/'))}, cannot set tracking URI")
+            f"No base directory {run_dir_base}, cannot set tracking URI")
 
     mlflow.set_tracking_uri(
         pathlib.Path(run_dir).as_uri()
