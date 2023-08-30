@@ -11,29 +11,44 @@ from lightning.pytorch.callbacks import Callback
 import torchmetrics
 from torchmetrics import Accuracy
 
+
 class ModleeImageModel(ModleeModel):
+    """
+    Subclass of ModleeModel with image-specific convenience wrappers
+    - Logs classification accuracy
+    - Calculates data-specific data statistics
+    """
+
     def __init__(self, num_classes=None, *args, **kwargs):
-        ModleeModel.__init__(self, *args, **kwargs)
         if not num_classes:
-            raise AttributeError("Must provide argument for n_classes")
+            raise AttributeError("Must provide argument for num_classes")
         else:
             self.num_classes = num_classes
+        vars_cache = {
+            'num_classes':num_classes
+        }
+        ModleeModel.__init__(self, vars_cache=vars_cache, *args, **kwargs)
 
     def configure_callbacks(self):
         base_callbacks = ModleeModel.configure_callbacks(self)
+        # save accuracy
         image_callback = ImageCallback(self.num_classes)
+        # save image-specific datastats
         image_datastats_callback = DataStatsCallback(
             DataStats=getattr(modlee.data_stats, 'ImageDataStats', None))
         return [*base_callbacks, image_callback, image_datastats_callback]
 
 
 class ImageCallback(Callback):
+    """
+    Saves accuracy
+    """
     def __init__(self, num_classes=None, *args, **kwargs):
+        Callback.__init__(self, *args, **kwargs)
         self.calculate_accuracy = Accuracy(
             task='binary' if num_classes == 1 else 'multiclass',
             num_classes=num_classes,
         )
-        Callback.__init__(self, *args, **kwargs)
 
     def on_validation_batch_end(self, trainer: Trainer, pl_module: LightningModule, outputs: STEP_OUTPUT | None, batch: Any, batch_idx: int, dataloader_idx: int = 0) -> None:
         if batch_idx == 0:

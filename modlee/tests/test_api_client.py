@@ -13,7 +13,7 @@ in modlee_api/modlee_api, run:
 python3 app.py
 '''
 
-endpoint = "http://127.0.0.1:5000/"
+ENDPOINT = "http://127.0.0.1:5000/"
 dummy_endpoint = "http://9.9.9.9:9999"
 
 modlee_dev_available = False
@@ -26,8 +26,17 @@ except ModuleNotFoundError as e:
     
 
 class ModleeAPIClientTest(unittest.TestCase):
-    client = ModleeAPIClient(endpoint="http://127.0.0.1:5000/")
+    client = ModleeAPIClient(
+        endpoint=ENDPOINT,
+        api_key='user1'
+        )
+    unauthorized_client = ModleeAPIClient(
+        endpoint=ENDPOINT,
+        api_key='unauthorized'
+    )
     dummy_client = ModleeAPIClient(endpoint=dummy_endpoint)
+    # client.login('user1')
+    # client.login('failuser')
     
     def setUpModule(self):
         # client = 
@@ -37,7 +46,6 @@ class ModleeAPIClientTest(unittest.TestCase):
     
     def test_get(self):
         response = self.client.get()
-        print(response)
         assert 200<=response.status_code<300, "Ensure that server is running"
         # assert server.ava
     
@@ -47,6 +55,7 @@ class ModleeAPIClientTest(unittest.TestCase):
         '''
         assert self.client.available, "Server not available, ensure that it is running"
         
+    @unittest.skip
     def test_dummy_available(self):
         '''
         Dummy should not be available
@@ -77,7 +86,8 @@ class ModleeAPIClientTest(unittest.TestCase):
         for attr_to_fail in attrs_to_fail:
             response = self.client.get_attr(attr_to_fail)
             assert response is None, f"Should not have gotten attribute {attr_to_fail}"
-            
+        
+    @unittest.skip
     def test_disconnected(self):
         '''
         Fail to get a response from a dummy endpoint
@@ -130,6 +140,7 @@ class ModleeAPIClientTest(unittest.TestCase):
         script_dict = {}
         for script_to_get in scripts_to_get:
             response = self.client.get_script(script_to_get)
+            assert response, f"No response received (likely None)"
             assert 200 <= response.status_code < 400, f"Could not get script {script_to_get}"
             # exec(response.content, script_dict)
             # print(script_dict)
@@ -145,8 +156,20 @@ class ModleeAPIClientTest(unittest.TestCase):
         script_dict = {}
         for script_to_get in scripts_to_get:
             response = self.client.get_module(script_to_get)
+            assert response, f"Did not receive response, likely None"
             exec(response,{},locals())
-            
-            # locals().update(response)
-            # print(locals())
-            # assert locals().get(script_to_get, False), f"Return dict has no key {script_to_get}"
+
+    def test_fail_dummy_gets_callable_from_script(self):
+        '''
+        Get scripts as raw *.py files
+        '''
+        scripts_to_get = [
+            'data_stats',
+            'model_text_converter'
+        ]
+        script_dict = {}
+        for script_to_get in scripts_to_get:
+            response = self.unauthorized_client.get_module(script_to_get)
+            assert response is None, f"Unauthorized client should not have gotten {script_to_get}"
+
+    

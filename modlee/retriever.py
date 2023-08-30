@@ -1,5 +1,6 @@
 from importlib.machinery import SourceFileLoader
 import os
+import ast
 
 import numpy as np
 import modlee
@@ -43,12 +44,21 @@ def get_runs(run_dir, experiment_id=None, run_id=None, **kwargs):
 def get_model(run_dir):
     if not run_dir_exists(run_dir):
         return None
-    model_path = f"{run_dir}/artifacts/model.py"
     model = SourceFileLoader(
         'modlee_mod',
-        model_path
-    ).load_module().ModleeModel()
+        f"{run_dir}/artifacts/model.py"
+    ).load_module()
+    cached_vars = get_cached_vars(run_dir)
+    model = model.ModleeModel(
+        **cached_vars
+        )
     return model
+
+def get_cached_vars(run_dir):
+    if not run_dir_exists(run_dir):
+        return {}
+    with open(f"{run_dir}/artifacts/cached_vars",'r') as vars_file:
+        return ast.literal_eval(vars_file.read())
 
 
 def get_data_snapshot(run_dir):

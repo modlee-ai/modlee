@@ -3,7 +3,7 @@
 modlee helps you document your machine learning experiments.
 Built over the widely adopted [`mlflow` platform](https://mlflow.org), modlee logs parameters and performance in the correct format for training the community- suggestion model.
 
-## Structure
+# Structure
 We currently support [Lightning](https://github.com/Lightning-AI/lightning) PyTorch models.
 Lightning wraps over PyTorch modules and simplifies the development cycle by organizing models, (hyper)parameters, datasets, and training loops in a single class.
 `lightning.pytorch.LightningModules` handle the boilerplate while preserving the experimentation underneath at the `torch.nn.Module` level.
@@ -15,9 +15,9 @@ import pytorch_lightning as pl # DO NOT USE THIS
 import lightning.pytorch as pl # use this instead
 ```
 
-## Usage
+# Usage
 Currently working on python3.10.
-### Installation
+## Installation
 First, clone and enter this repository:
 ```
 git clone https://github.com/modlee-ai/modlee_pypi.git
@@ -32,27 +32,30 @@ python3 -m pip install .
 ```
 
 ## Implementing 
+This section details the steps to use `modlee` to log experiments.
+A minimal working example is at `examples/simple_torch.py`.
 
 ### Import and initialize
-At the head of the script that runs the training loop (i.e. wherever you call `lightning.pytorch.Trainer.fit`), import the `modlee` package and initialize:
+At the head of the script that runs the training loop (i.e. wherever you call `lightning.pytorch.Trainer.fit()`), import the `modlee` package and initialize with your API key.
 ```
 import lightning
 import lightning.pytorch as pl
 
 import modlee
-modlee.init()
+modlee.init(api_key='my_api_key')
 ```
-By default, `modlee.init()` will log experiments to the same directory as the script that is importing it.
-You can define a different directory with `modlee.init('path/to/save/experiments')`
+By default, `modlee.init()` will log experiments to a `./mlruns/` folder in the same directory as the script.
+You can define a different directory with `modlee.init(run_dir='path/to/save/experiments',api_key='my_api_key')`, which will be interpreted relative to the current script.
 
 ### Model definition
+Converting a base Lightning model to a Modlee model with built-in logging requires simply changing its parent class.
 Given a `lightning.pytorch.LightningModule`:
 ```
 class ExampleModel(lightning.pytorch.LightningModule):
 ...
 ```
 
-Change the subclass to `modlee.modlee_model.ModleeModel`:
+Change the parent class to inherit from `modlee.modlee_model.ModleeModel`:
 ```
 class ExampleModel(modlee.modlee_model.ModleeModel):
 ...
@@ -68,9 +71,12 @@ with modlee.start_run() as run:
         val_dataloaders=test_loader)
 ```
 
-The logs (artifacts, parameters, metrics, etc) will be saved by default to `./mlruns`.
+<!-- The logs (artifacts, parameters, metrics, etc) wi. -->
+Modlee will save the logs (artifacts (models as `model.py` code representations))
 
-### Accessing old experiments
+### Retrieving old experiments
+Functions for retrieving assets from old experiments are in `modlee/retriver.py`.
+You can retrieve the model and data snapshots
 
 ### Sharing experiments
 
@@ -107,7 +113,16 @@ class ExampleModel(modlee.modlee_model.ModleeModel):
         model = build_model()
 ```
 
-## Troubleshooting
+# Troubleshooting
+
+## Unit Tests
+We have tests in `modlee/tests/`.
+To run:
+```
+cd modlee/tests/
+python3 -m unittest discover .
+```
+To run a specific test, e.g. for the 
 
 ### GPU issues on Apple Silicon
 Install PyTorch nightly:

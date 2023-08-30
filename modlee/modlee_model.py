@@ -21,10 +21,10 @@ from modlee.api_client import ModleeAPIClient
 from modlee.config import TMP_DIR, MLRUNS_DIR
 from modlee import utils as modlee_utils
 import mlflow
-
+import json
 
 class ModleeModel(LightningModule):
-    def __init__(self, data_snapshot_size=10e6, *args, **kwargs) -> None:
+    def __init__(self, data_snapshot_size=10e6, vars_cache={}, *args, **kwargs) -> None:
         """
         data_snapshot_size is the size limit of the chunk of data saved in each experiment
         We save this chunk in case we modify the calculation of data statistics (e.g. complexity)
@@ -36,11 +36,20 @@ class ModleeModel(LightningModule):
             log_datasets=False,
         )
         self.data_snapshot_size = data_snapshot_size
+        self.vars_cache = vars_cache
+        self.vars_cache.update(kwargs)
+        
+        # for k,v in self.__dict__.items():
+        #     try:
+        #         json.dumps(v)
+        #         self.vars_cache.update({k:v})
+        #     except TypeError as e:
+        #         pass
 
     def configure_callbacks(self):
         return [
             DataStatsCallback(self.data_snapshot_size),
-            LogCodeTextCallback(),
+            LogCodeTextCallback(self.vars_cache),
             LogOutputCallback(),
             LogParamsCallback()
         ]
@@ -51,14 +60,14 @@ class LogParamsCallback(Callback):
         Callback.__init__(self, *args, **kwargs)
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
-        print(f"Loggin params to {mlflow.get_tracking_uri()}")
         mlflow.log_param('batch_size', trainer.train_dataloader.batch_size)
         return super().on_train_start(trainer, pl_module)
 
 
 class LogCodeTextCallback(Callback):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, vars_to_save={}, *args, **kwargs):
         Callback.__init__(self, *args, **kwargs)
+        self.vars_cache = vars_to_save
 
     def setup(self, trainer: Trainer, pl_module: LightningModule, stage: str) -> None:
         # log the code text as a python file
@@ -69,9 +78,14 @@ class LogCodeTextCallback(Callback):
         _get_code_text_for_model = getattr(
             modlee, 'get_code_text_for_model', None)
         if _get_code_text_for_model is not None:
+            # code_text = ''
+            # for var_key,var_value in self.vars_to_save.items():
+            #     code_text += f"{var_key} = {var_value}"
+            #     code_text += '\n'
             code_text = modlee.get_code_text_for_model(
                 pl_module, include_header=True)
             mlflow.log_text(code_text, 'model.py')
+            mlflow.log_dict(self.vars_cache, 'cached_vars')
         else:
             logging.warning(
                 "Could not access model-text converter, \
@@ -119,7 +133,6 @@ class DataStatsCallback(Callback):
                 data, targets = data.numpy(), targets.numpy()
             data_stats = self.DataStats(x=data, y=targets)
             mlflow.log_dict(data_stats.data_stats, 'data_stats')
-            print(f'logging {data_stats.data_stats} to {mlflow.get_tracking_uri()}')
         else:
             logging.warning(
                 "Could not access data statistics calculation from server, \

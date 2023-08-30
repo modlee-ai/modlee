@@ -18,6 +18,10 @@ logging.basicConfig(
 )
 
 from os.path import dirname, basename, isfile, join
+from modlee.api_client import ModleeAPIClient
+modlee_client = ModleeAPIClient(
+    # user_id='user1'
+    )
 from modlee.config import MODLEE_DIR, MLRUNS_DIR
 from modlee import model_text_converter
 if model_text_converter.module_available:
@@ -26,7 +30,7 @@ if model_text_converter.module_available:
 else:
     get_code_text, get_code_text_for_model = None, None
 from modlee.retriever import *
-from . import data_stats, modlee_model
+from . import data_stats, modlee_model, modlee_image_model
 from . import *
 
 
@@ -35,11 +39,20 @@ __all__ = [basename(f)[:-3] for f in modules if isfile(f)
            and not f.endswith('__init__.py')]
 
 
-def init(run_dir=None):
+def init(run_dir=None,api_key=None):
     if run_dir is None:
         calling_file = traceback.extract_stack()[-2].filename
         run_dir = os.path.dirname(calling_file)
     set_run_dir(run_dir)
+    if api_key:
+        global modlee_client, get_code_text, get_code_text_for_model
+        modlee_client = ModleeAPIClient(api_key=api_key)
+        for _module in [data_stats, model_text_converter]:
+            importlib.reload(_module)
+        if model_text_converter.module_available:
+            from modlee.model_text_converter import get_code_text, \
+                get_code_text_for_model
+        
 
 
 def set_run_dir(run_dir):

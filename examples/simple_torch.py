@@ -2,7 +2,7 @@
 import lightning.pytorch as pl
 import torch.nn.functional as F
 import torch.nn as nn
-import torch
+import torch 
 import os
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -11,8 +11,9 @@ import modlee
 from modlee.dev_data import get_fashion_mnist
 from modlee.modlee_image_model import ModleeImageModel
 from modlee.modlee_model import ModleeModel
-modlee.init()
-# modlee.set_run_dir(f"{os.path.dirname(__file__)}/../")
+modlee.init(
+    api_key='user1'
+    )
 
 # %% Build models
 
@@ -37,8 +38,6 @@ class Classifier(nn.Module):
         return x
 
 # class LightningClassifier(ModleeModel):
-
-
 class LightningClassifier(ModleeImageModel):
     def __init__(self, classifier=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -75,7 +74,10 @@ class LightningClassifier(ModleeImageModel):
 # %% Load data
 training_loader, test_loader = get_fashion_mnist()
 num_classes = len(training_loader.dataset.classes)
-model = LightningClassifier(num_classes=num_classes)
+model = LightningClassifier(
+    num_classes=num_classes,
+    # var_to_cache={'num_classes':num_classes}
+    )
 # model = LightningClassifier()
 
 # %% Run training loop
