@@ -23,11 +23,12 @@ class RepTest(unittest.TestCase):
         # '/Users/modlee/projects/modlee_pypi/mlruns/0/603a2d573d3d4e95bd6a2f070a864b8d',
         # '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/f2757107910e454489949d0c8e1da599',
         # '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/12d92596d3a942c4868f9f6c18116692',
-        '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/455cbd83c4fc44dab396a15be43fe9d4',
+        # '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/455cbd83c4fc44dab396a15be43fe9d4',
+        '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/635782e7b3114dbea4f66d7c81befb20',
         
         # this one will fail because the cached_vars was not logged
         # '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/1942a15973c943a485e04738de628628',
-        '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/8e5844784c8448b585b6ccc047eac271',
+        # '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/8e5844784c8448b585b6ccc047eac271',
         
         # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/barlow-twins/mlruns/0/9792d5b6d83f44a2a2c45a4162353280',
         # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/basic-gan/mlruns/0/4b6593f253e4419594f1daf2903952ef',

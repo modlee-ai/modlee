@@ -37,6 +37,7 @@ class Classifier(nn.Module):
         return x
 
 class LightningClassifier(ModleeModel):
+# class LightningClassifier(ModleeImageModel):
     def __init__(self, classifier=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not classifier:
@@ -67,6 +68,8 @@ class LightningClassifier(ModleeModel):
         )
         return optimizer
 
+
+
 # %% Load data
 training_loader, test_loader = get_fashion_mnist()
 num_classes = len(training_loader.dataset.classes)
@@ -79,3 +82,5 @@ with modlee.start_run() as run:
         model=model,
         train_dataloaders=training_loader,
         val_dataloaders=test_loader)
+
+# %%

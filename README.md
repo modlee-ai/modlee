@@ -1,7 +1,7 @@
 # modlee
 
-modlee helps you document your machine learning experiments.
-Built over the widely adopted [`mlflow` platform](https://mlflow.org), modlee logs parameters and performance in the correct format for training the community- suggestion model.
+modlee documents machine learning experiments.
+modlee logs assets (e.g. parameters, performance metrics, data complexity) in a proper format for training the community-built suggestion model.
 
 # Structure
 We currently support [Lightning](https://github.com/Lightning-AI/lightning) PyTorch models.
@@ -35,6 +35,7 @@ python3 -m pip install .
 This section details the steps to use `modlee` to log experiments.
 A minimal working example is at `examples/simple_torch.py`.
 
+
 ### Import and initialize
 At the head of the script that runs the training loop (i.e. wherever you call `lightning.pytorch.Trainer.fit()`), import the `modlee` package and initialize with your API key.
 ```
@@ -45,7 +46,11 @@ import modlee
 modlee.init(api_key='my_api_key')
 ```
 By default, `modlee.init()` will log experiments to a `./mlruns/` folder in the same directory as the script.
-You can define a different directory with `modlee.init(run_dir='path/to/save/experiments',api_key='my_api_key')`, which will be interpreted relative to the current script.
+You can define a different directory with `modlee.init(run_dir='path/to/save/experiments',api_key='my_api_key')`.
+The `run_dir` path will be interpreted relative to the current script.
+
+By default, the package will make requests to the remote server endpoint at `http://modlee.pythonanywhere.com`.
+If you have the local `modlee_api` server running, set `api_key='local'` to route requests to the local endpoint at `http://127.0.0.1:7070`.
 
 ### Model definition
 Converting a base Lightning model to a Modlee model with built-in logging requires simply changing its parent class.
@@ -71,17 +76,17 @@ with modlee.start_run() as run:
         val_dataloaders=test_loader)
 ```
 
-<!-- The logs (artifacts, parameters, metrics, etc) wi. -->
-Modlee will save the logs (artifacts (models as `model.py` code representations))
+Modlee will save the assets (e.g. data statistics, model text representation) to a new run directory for each experiment.
 
 ### Retrieving old experiments
 Functions for retrieving assets from old experiments are in `modlee/retriver.py`.
-You can retrieve the model and data snapshots
+You can retrieve the model and data snapshots.
 
 ### Sharing experiments
 
+
 ## Examples
-Refer to [`./notebooks`](./notebooks) for examples, executable as either plain Python scripts or as Jupyter-*like* notebooks in VS code.
+Refer to [`./examples`](./examples) for examples, executable as either plain Python scripts or as Jupyter-*like* notebooks in VS code.
 
 ## Implementation notes
 modlee saves a snapshot of the model source.
@@ -113,16 +118,23 @@ class ExampleModel(modlee.modlee_model.ModleeModel):
         model = build_model()
 ```
 
+*Note: we are currently experimenting with how automatically logging custom parameters as assets, e.g. how `model = ExampleModel(custom_parameter=custom_value)` could log `custom_parameter:custom_value` as any other asset.*
+
 # Troubleshooting
 
 ## Unit Tests
-We have tests in `modlee/tests/`.
+We have tests in `tests/`.
 To run:
 ```
-cd modlee/tests/
+cd tests/
 python3 -m unittest discover .
 ```
-To run a specific test, e.g. for the 
+To run a specific test, replace `discover .` with the script name, e.g. for the API client:
+```
+python3 -m unittest test_api_client
+```
+
+*Note: `test_retriever.py` expects local paths to completed experiments and `mlruns` folders. Modify `mlruns_dirs`, `run_dirs`, and `fail_run_dirs` accordingly.*
 
 ### GPU issues on Apple Silicon
 Install PyTorch nightly:
@@ -171,12 +183,6 @@ NUM_WORKERS = int(os.cpu_count() / 2) # this equals 4 on the MacBook Air M2
 train_dataloader = DataLoader(dataset_train, batch_size=BATCH_SIZE, shuffle=True, num_workers=NUM_WORKERS)
 ```
 Either wait it out or try setting `NUM_WORKERS=1`.
-
-## TODO
-- [ ] Access prior models - (re)load given an experiment / run ID, 
-  - [ ] Maybe we could use a compilation check (e.g. try to call ModleeModel()) to make sure that the model builds. If it fails, show an error or warning to the user to indicate that this model is not properly documented.
-    - [ ] Any way to check what variables are defined?
-
 
 ## Brainstorming TODO
 - [ ] make notebooks toggle-able for local files and package (toggle where we import mlflow from)

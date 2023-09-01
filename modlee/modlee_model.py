@@ -15,13 +15,13 @@ from lightning.pytorch.callbacks import Callback
 from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import modlee
-from modlee import logging
-from modlee.api_client import ModleeAPIClient
-
+from modlee import logging, \
+    utils as modlee_utils
 from modlee.config import TMP_DIR, MLRUNS_DIR
-from modlee import utils as modlee_utils
+
 import mlflow
 import json
+
 
 class ModleeModel(LightningModule):
     def __init__(self, data_snapshot_size=10e6, vars_cache={}, *args, **kwargs) -> None:
@@ -38,21 +38,31 @@ class ModleeModel(LightningModule):
         self.data_snapshot_size = data_snapshot_size
         self.vars_cache = vars_cache
         self.vars_cache.update(kwargs)
-        
-        # for k,v in self.__dict__.items():
-        #     try:
-        #         json.dumps(v)
-        #         self.vars_cache.update({k:v})
-        #     except TypeError as e:
-        #         pass
+
+    @property
+    def run_dir(self):
+        """Get the current run directory
+
+        Returns:
+            _type_: the directory to the mlruns/{experiment_id}/{run_id}
+        """
+        return os.path.dirname(
+            modlee_utils.uri_to_path(mlflow.get_artifact_uri()))
 
     def configure_callbacks(self):
         return [
             DataStatsCallback(self.data_snapshot_size),
             LogCodeTextCallback(self.vars_cache),
             LogOutputCallback(),
-            LogParamsCallback()
+            LogParamsCallback(),
+            PushAPICallback(),
         ]
+
+
+class PushAPICallback(Callback):
+    def on_fit_end(self, trainer: Trainer, pl_module: LightningModule) -> None:
+        modlee.save_run(pl_module.run_dir)
+        return super().on_fit_end(trainer, pl_module)
 
 
 class LogParamsCallback(Callback):

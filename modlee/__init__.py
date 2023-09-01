@@ -1,28 +1,23 @@
 import traceback
-from mlflow import start_run, \
-    get_tracking_uri, set_tracking_uri
-import mlflow
 import importlib
 import glob
 import os
+from os.path import dirname, basename, isfile, join
 import pathlib
 from pathlib import Path
 from urllib.parse import urlparse
 
-
 import logging
 logging.basicConfig(
     encoding='utf-8',
-    # level=logging.DEBUG,
     level=logging.WARNING,
 )
 
-from os.path import dirname, basename, isfile, join
+import mlflow
+from mlflow import start_run, \
+    get_tracking_uri, set_tracking_uri
 from modlee.api_client import ModleeAPIClient
-modlee_client = ModleeAPIClient(
-    # user_id='user1'
-    )
-from modlee.config import MODLEE_DIR, MLRUNS_DIR
+modlee_client = ModleeAPIClient()
 from modlee import model_text_converter
 if model_text_converter.module_available:
     from modlee.model_text_converter import get_code_text, \
@@ -40,19 +35,29 @@ __all__ = [basename(f)[:-3] for f in modules if isfile(f)
 
 
 def init(run_dir=None,api_key=None):
+    """
+    Initialize modlee
+    - Set the run directory to save experiments
+    - Set the API key
+    """
+    
+    # if run_dir not provided, set to the same directory as the calling file
     if run_dir is None:
         calling_file = traceback.extract_stack()[-2].filename
         run_dir = os.path.dirname(calling_file)
     set_run_dir(run_dir)
+    
+    # if api_key provided, reset modlee_client and reload API-locked modules
     if api_key:
-        global modlee_client, get_code_text, get_code_text_for_model
-        modlee_client = ModleeAPIClient(api_key=api_key)
+        global modlee_client, get_code_text, get_code_text_for_model, data_stats, model_text_converter
+        modlee_client = ModleeAPIClient(
+            api_key=api_key
+            )
         for _module in [data_stats, model_text_converter]:
             importlib.reload(_module)
         if model_text_converter.module_available:
             from modlee.model_text_converter import get_code_text, \
                 get_code_text_for_model
-        
 
 
 def set_run_dir(run_dir):
@@ -75,6 +80,5 @@ def set_run_dir(run_dir):
 def get_run_dir():
     return urlparse(mlflow.get_tracking_uri()).path
 
-
-def hello_world():
-    print(f'from modlee')
+def save_run(*args, **kwargs):
+    modlee_client.save_run(*args,**kwargs)

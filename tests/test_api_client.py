@@ -1,6 +1,7 @@
 #
 import unittest
 
+import os
 import modlee
 from modlee.api_client import ModleeAPIClient
 import importlib
@@ -13,7 +14,10 @@ in modlee_api/modlee_api, run:
 python3 app.py
 '''
 
-ENDPOINT = "http://127.0.0.1:5000/"
+# locale endpoing
+ENDPOINT = "http://127.0.0.1:7070/"
+# remote endpoint
+# ENDPOINT = "http://modlee.pythonanywhere.com"
 dummy_endpoint = "http://9.9.9.9:9999"
 
 modlee_dev_available = False
@@ -23,23 +27,18 @@ try:
 except ModuleNotFoundError as e:
     modlee_dev_available = False
     
-    
-
 class ModleeAPIClientTest(unittest.TestCase):
     client = ModleeAPIClient(
         endpoint=ENDPOINT,
-        api_key='user1'
+        api_key='modleemichael'
         )
     unauthorized_client = ModleeAPIClient(
         endpoint=ENDPOINT,
         api_key='unauthorized'
     )
     dummy_client = ModleeAPIClient(endpoint=dummy_endpoint)
-    # client.login('user1')
-    # client.login('failuser')
     
     def setUpModule(self):
-        # client = 
         pass
     def tearDownModule(self):
         pass
@@ -47,7 +46,6 @@ class ModleeAPIClientTest(unittest.TestCase):
     def test_get(self):
         response = self.client.get()
         assert 200<=response.status_code<300, "Ensure that server is running"
-        # assert server.ava
     
     def test_available(self):
         '''
@@ -68,7 +66,6 @@ class ModleeAPIClientTest(unittest.TestCase):
         Test getting functions
         '''
         attrs_to_get = [
-            'hello_world',
             'get_code_text',
             'rep.Rep',
             'data_stats.DataStats',
@@ -103,7 +100,6 @@ class ModleeAPIClientTest(unittest.TestCase):
         Get callable objects (functions or classes)
         '''
         callables_to_get = [
-            'hello_world',
             'data_stats.DataStats',
             'get_code_text',
             'get_code_text_for_model'
@@ -111,8 +107,6 @@ class ModleeAPIClientTest(unittest.TestCase):
         for callable_to_get in callables_to_get:
             response = self.client.get_callable(callable_to_get)
             assert callable(response), f"Could not retrieve callable object {callable_to_get}"
-            # function = 
-            # response()
         
     @unittest.skipIf(modlee_dev_available==False, "modlee_dev not installed to test pypi-only env, skipping")
     def test_fail_to_get_modules(self):
@@ -126,7 +120,6 @@ class ModleeAPIClientTest(unittest.TestCase):
         ]
         for module_to_get in modules_to_get:
             response = self.client.get_attr(module_to_get)
-            # assert response.status_code >= 400, f"Should not have gotten module {module_to_get}"
             assert response is None, f"Should not have gotten module {module_to_get}"
         
 
@@ -142,8 +135,6 @@ class ModleeAPIClientTest(unittest.TestCase):
             response = self.client.get_script(script_to_get)
             assert response, f"No response received (likely None)"
             assert 200 <= response.status_code < 400, f"Could not get script {script_to_get}"
-            # exec(response.content, script_dict)
-            # print(script_dict)
             
     def test_get_callable_from_script(self):
         '''
@@ -172,4 +163,31 @@ class ModleeAPIClientTest(unittest.TestCase):
             response = self.unauthorized_client.get_module(script_to_get)
             assert response is None, f"Unauthorized client should not have gotten {script_to_get}"
 
-    
+    def test_send_file(self):
+        files_paths = [
+            ["./test_file.txt", "./test_file.txt"]
+        ]
+
+        for file_path in files_paths:
+            [file_to_send, path_to_save] = file_path
+            response = self.client.post_file(os.path.abspath(file_to_send), path_to_save)
+            assert response, f"Could not post {file_path}"
+            
+    def test_save_run(self):
+        run_dirs = [
+            '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/635782e7b3114dbea4f66d7c81befb20',
+            '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/6c681bdb118a4f0fb39674fe505479fc',
+        ]
+        
+        for run_dir in run_dirs:
+            response = self.client.save_run(run_dir)
+            assert response, f"Client {self.client.api_key} could not save {run_dir}"
+
+    def test_unauth_save_run(self):
+        run_dirs = [
+            '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/635782e7b3114dbea4f66d7c81befb20',
+        ]
+        
+        for run_dir in run_dirs:
+            response = self.unauthorized_client.save_run(run_dir)
+            assert response is False, f"Unauthorized client should not have saved {run_dir}"
