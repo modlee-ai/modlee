@@ -65,6 +65,9 @@ Change the parent class to inherit from `modlee.modlee_model.ModleeModel`:
 class ExampleModel(modlee.modlee_model.ModleeModel):
 ...
 ```
+
+Requirements for structuring the model to ensure reproducibility are [below](#implementation-notes).
+
 ### Documenting
 To log during training, wrap the call to the `lightning.pytorch.Trainer` with a call to `modlee.start_run()`.
 ```
@@ -118,7 +121,16 @@ class ExampleModel(modlee.modlee_model.ModleeModel):
         model = build_model()
 ```
 
-*Note: we are currently experimenting with how automatically logging custom parameters as assets, e.g. how `model = ExampleModel(custom_parameter=custom_value)` could log `custom_parameter:custom_value` as any other asset.*
+We are currently experimenting with how automatically logging custom parameters as assets, e.g. how `model = ExampleModel(custom_parameter=custom_value)` could log `custom_parameter:custom_value` as any other asset.
+This is partially working by setting parameters as object attributes.
+For example:
+```
+class ExampleModel(modlee.modlee_model.ModleeModel):
+    def __init__(self, batch_size, *args, **kwargs):
+        self.batch_size = batch_size
+```
+This will log the variable as an artifact at the beginning of training and enable reconstructing the object later.
+The variable must be JSON serializable, i.e. a simple type like `int` or `str`; functions cannot be serialized.
 
 # Troubleshooting
 

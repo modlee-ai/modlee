@@ -10,7 +10,16 @@ REMOTE_ENDPOINT = "http://modlee.pythonanywhere.com"
 
 
 class ModleeAPIClient(object):
+    """
+    A client for making requests to the API
+    """
     def __init__(self, endpoint=LOCAL_ENDPOINT, api_key=None, *args, **kwargs):
+        """
+        Args:
+            endpoint (_type_, optional): The server endpoint. Defaults to LOCAL_ENDPOINT.
+            api_key (_type_, optional): The user's API key. Defaults to None.
+        """
+        
         if api_key=='local':
             endpoint = LOCAL_ENDPOINT
         elif api_key is not None:
@@ -23,6 +32,12 @@ class ModleeAPIClient(object):
 
     @property
     def available(self):
+        """
+        Ping the server
+
+        Returns:
+            _type_: _description_
+        """
         ret = self.get()
         if ret is not None:
             return 200 <= ret.status_code < 400
@@ -36,6 +51,16 @@ class ModleeAPIClient(object):
         return self._request(route=route, method="get", *args, **kwargs)
 
     def _request(self, route="", method="get", *args, **kwargs):
+        """
+        Send request to the endpoint
+
+        Args:
+            route (str, optional): The route to send request. Defaults to "".
+            method (str, optional): The request method in lowercase (e.g. get, post). Defaults to "get".
+
+        Returns:
+            _type_: response from the server or None if an error (response.status_code>=400)
+        """
         req_url = f"{self.endpoint}/{route}"
         # if method=="get":
         kwargs.update(dict(timeout=self.timeout))
@@ -66,6 +91,9 @@ class ModleeAPIClient(object):
         return ret
 
     def login(self, user_id=''):
+        """
+        Log the user in
+        """
         return self.post(route=f"login",data={'user_id':user_id})
 
     def get_attr(self, route=""):
@@ -88,6 +116,16 @@ class ModleeAPIClient(object):
         return ret
 
     def post_file(self, file, filepath):
+        """
+        Save a file (as text) to save on the server
+
+        Args:
+            file (_type_): The local file
+            filepath (_type_): The relative path on the server at which to save the file
+
+        Returns:
+            _type_: Server request response
+        """
         try:
             with open(file,'r') as _file:
                 file_text = _file.read()
@@ -132,7 +170,6 @@ class ModleeAPIClient(object):
                     return True
             return False
                 
-        
         run_id = os.path.basename(run_dir)
         for dirs_files in os.walk(run_dir):
             base_dir,_,files = dirs_files
@@ -154,5 +191,3 @@ class ModleeAPIClient(object):
         if len(error_files)>0:
             return False
         return True
-                # self.post_file()
-            

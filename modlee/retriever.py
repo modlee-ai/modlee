@@ -1,4 +1,6 @@
 from importlib.machinery import SourceFileLoader
+import inspect
+import json
 import os
 import ast
 
@@ -48,18 +50,35 @@ def get_model(run_dir):
         'modlee_mod',
         f"{run_dir}/artifacts/model.py"
     ).load_module()
+
+    # retrieve the variables for the object signature
+    model_kwargs = dict(inspect.signature(model.ModleeModel).parameters)
+    model_kwargs.pop('args'), model_kwargs.pop('kwargs')
     cached_vars = get_cached_vars(run_dir)
-    model = model.ModleeModel(
-        **cached_vars
-        )
-    return model
+    keys_to_pop = []
+    for model_key, model_val in model_kwargs.items():
+        cached_val = cached_vars.get(model_key, None)
+        if cached_val:
+            model_kwargs.update({model_key: cached_val})
+        elif model_val.default != inspect._empty:
+            model_kwargs.update({model_key: model_val.default})
+        else:
+            keys_to_pop.append(model_key)
+    for key_to_pop in keys_to_pop:
+        model_kwargs.pop(key_to_pop)
+
+    # recreate the model
+    return model.ModleeModel(
+        **model_kwargs
+    )
+
 
 def get_cached_vars(run_dir):
     if not run_dir_exists(run_dir):
         return {}
-    with open(f"{run_dir}/artifacts/cached_vars",'r') as vars_file:
-        return ast.literal_eval(vars_file.read())
-
+    with open(f"{run_dir}/artifacts/cached_vars", 'r') as vars_file:
+        return json.loads(vars_file.read())
+    
 
 def get_data_snapshot(run_dir):
     if not run_dir_exists(run_dir):

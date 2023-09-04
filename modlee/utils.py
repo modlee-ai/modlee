@@ -1,3 +1,4 @@
+import json
 from urllib.parse import urlparse, unquote
 import os
 import pathlib
@@ -17,9 +18,6 @@ def safe_mkdir(target_dir):
     if not os.path.exists(target_dir):
         os.mkdir(target_dir)
 
-
-# def load_response(response):
-#     return pickle.loads(response.content)
 
 
 def get_fashion_mnist(batch_size=64):
@@ -46,3 +44,11 @@ def uri_to_path(uri):
     parsed_uri = urlparse(uri)
     path = unquote(parsed_uri.path)
     return path
+
+
+def is_cacheable(x):
+    try:
+        json.dumps(x)
+        return True
+    except:
+        return False

@@ -5,42 +5,32 @@ import pathlib
 
 import numpy as np
 import torch
+import yaml
 
 import modlee
 import mlflow
 from mlflow.client import MlflowClient
 client = MlflowClient()
 
+with open('./test_retriever.yaml','r') as test_retriever_file:
+    ret_dict = yaml.safe_load(test_retriever_file)
+globals().update(dict(
+    mlruns_dirs=ret_dict['mlruns_dirs'],
+    run_dirs=ret_dict['run_dirs']
+))
+
 
 class RepTest(unittest.TestCase):
+    locals().update(ret_dict)
 
-    mlruns_dirs = [
-        '/Users/modlee/projects/modlee_pypi/modlee/tests/mlruns',
-        '/Users/modlee/projects/modlee_pypi/notebooks/mlruns',
-    ]
-    run_dirs = [
-        # '/Users/modlee/projects/modlee_pypi/notebooks/mlruns/0/b65da0553bac46c1aa9b8b0d51e941d2',
-        # '/Users/modlee/projects/modlee_pypi/mlruns/0/603a2d573d3d4e95bd6a2f070a864b8d',
-        # '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/f2757107910e454489949d0c8e1da599',
-        # '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/12d92596d3a942c4868f9f6c18116692',
-        # '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/455cbd83c4fc44dab396a15be43fe9d4',
-        '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/635782e7b3114dbea4f66d7c81befb20',
-        
-        # this one will fail because the cached_vars was not logged
-        # '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/1942a15973c943a485e04738de628628',
-        # '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/8e5844784c8448b585b6ccc047eac271',
-        
-        # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/barlow-twins/mlruns/0/9792d5b6d83f44a2a2c45a4162353280',
-        # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/basic-gan/mlruns/0/4b6593f253e4419594f1daf2903952ef',
-        # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/mnist-hello-world/mlruns/0/ba6f693c464d42a8b083bcb53236c0ac',
-        # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/cifar10-baseline/mlruns/0/8b711c778e4f48acb91bb2bb9d25ed17',
-        # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/text-transformers/mlruns/0/1c1dc202b24c493fad5a60052dbac253',
-        # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/augmentation_kornia/mlruns/0/fde2320f3c6b4fb395156034b58931ef',
-        # '/Users/modlee/projects/scratch/lightning_tutorials/lightning_examples/datamodules/mlruns/0/013153e156ea41eda40ea39b0a19f7b2',
-    ]
-    fail_run_dirs = [
-        '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/1942a15973c943a485e04738de628628',
-    ]
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args, **kwargs)
+        print(ret_dict)
+        self.__dict__.update(ret_dict)
+    #     with open('./test_retriever.yaml','r') as test_retriever_file:
+    #         ret_dict = yaml.safe_load(test_retriever_file)
+    #         print(ret_dict)
+    #         self.__dict__.update(ret_dict)
 
     def setUp(self) -> None:
         return super().setUp()
@@ -52,7 +42,7 @@ class RepTest(unittest.TestCase):
         '''
         Retrieve runs from prior mlruns directories
         '''
-        for run_dir in self.mlruns_dirs:
+        for run_dir in mlruns_dirs:
             runs = modlee.get_runs(run_dir)
             assert len(runs) > 0, \
                 f"No runs found in {run_dir}"
@@ -73,7 +63,7 @@ class RepTest(unittest.TestCase):
         '''
         Retrieve models from prior runs
         '''
-        for run_dir in self.run_dirs:
+        for run_dir in run_dirs:
             modlee_model = modlee.get_model(run_dir)
             mlflow_model = mlflow.pytorch.load_model(
                 f"{run_dir}/artifacts/model"
@@ -96,7 +86,7 @@ class RepTest(unittest.TestCase):
                         f"Difference between modlee- and mlflow-loaded model outputs is greater than threshold. Prediction difference: {diff_y}"
 
     def test_get_data_snapshot(self):
-        for run_dir in self.run_dirs:
+        for run_dir in run_dirs:
             data_snapshot = modlee.get_data_snapshot(run_dir)
             assert data_snapshot is not None, \
                 f"Could not retrieve data_snapshot.npy from {run_dir}"

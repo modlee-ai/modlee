@@ -22,6 +22,8 @@ from modlee.config import TMP_DIR, MLRUNS_DIR
 import mlflow
 import json
 
+base_lightning_module = LightningModule()
+base_lm_keys = list(LightningModule.__dict__.keys())
 
 class ModleeModel(LightningModule):
     def __init__(self, data_snapshot_size=10e6, vars_cache={}, *args, **kwargs) -> None:
@@ -38,6 +40,22 @@ class ModleeModel(LightningModule):
         self.data_snapshot_size = data_snapshot_size
         self.vars_cache = vars_cache
         self.vars_cache.update(kwargs)
+        
+        self_keys = list(self.__dict__.keys())
+        # self_dict = self.__dict__.
+        # for self_key in self_keys:
+        
+    def _update_vars_cached(self):
+        for self_key,self_val in self.__dict__.items():
+            if self_key=='vars_cache':
+                continue
+            if self_key[0]=='_':
+                continue
+            if self_key not in base_lm_keys:
+                if modlee_utils.is_cacheable(self_val):
+                    self.vars_cache.update({
+                        self_key:self.__dict__[self_key]
+                    })
 
     @property
     def run_dir(self):
