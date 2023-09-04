@@ -12,6 +12,7 @@ logging.basicConfig(
     encoding='utf-8',
     level=logging.WARNING,
 )
+import warnings
 
 import mlflow
 from mlflow import start_run, \
@@ -32,6 +33,15 @@ from . import *
 modules = glob.glob(join(dirname(__file__), "*.py"))
 __all__ = [basename(f)[:-3] for f in modules if isfile(f)
            and not f.endswith('__init__.py')]
+
+for _logger in ['pytorch_lightning','lightning.pytorch.core','mlflow','torchvision']:
+    pl_logger = logging.getLogger(_logger)
+    pl_logger.propagate = False
+    pl_logger.setLevel(logging.ERROR)
+warnings.filterwarnings("ignore", ".*does not have many workers.*")
+warnings.filterwarnings("ignore", ".*turn shuffling off.*")
+warnings.filterwarnings("ignore", ".*Arguments other than a weight enum or.*")
+warnings.filterwarnings("ignore", ".*The parameter 'pretrained' is deprecated since.*")
 
 
 def init(run_dir=None,api_key=None):
@@ -63,7 +73,7 @@ def init(run_dir=None,api_key=None):
 def set_run_dir(run_dir):
     if not os.path.isabs(run_dir):
         run_dir = os.path.abspath(run_dir)
-        logging.warning(f"Setting run logs to abspath {run_dir}")
+        logging.debug(f"Setting run logs to abspath {run_dir}")
     if 'mlruns' not in run_dir.split('/')[-1]:
         run_dir = f"{run_dir}/mlruns/"
 

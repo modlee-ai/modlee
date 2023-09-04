@@ -11,8 +11,7 @@ import modlee
 modlee.init(
     api_key="local"
 )
-from modlee.dev_data import get_fashion_mnist
-from modlee.modlee_image_model import ModleeImageModel
+from modlee.utils import get_fashion_mnist
 from modlee.modlee_model import ModleeModel
 
 # %% Build models
@@ -79,3 +78,5 @@ with modlee.start_run() as run:
         model=model,
         train_dataloaders=training_loader,
         val_dataloaders=test_loader)
+
+# %%
