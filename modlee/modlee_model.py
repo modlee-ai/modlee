@@ -147,7 +147,8 @@ class DataStatsCallback(Callback):
 
         data, targets = self._get_data_targets(trainer)
         # log the data statistics
-        self._log_data_stats(data, targets)
+        # self._log_data_stats(data, targets)
+        self._log_data_stats_dataloader(trainer.train_dataloader)
 
         return super().on_train_start(trainer, pl_module)
 
@@ -157,6 +158,18 @@ class DataStatsCallback(Callback):
                 data, targets = data.numpy(), targets.numpy()
             data_stats = self.DataStats(x=data, y=targets)
             mlflow.log_dict(data_stats.data_stats, 'data_stats')
+        else:
+            logging.warning(
+                "Could not access data statistics calculation from server, \
+                    not logging but continuing experiment")
+
+    def _log_data_stats_dataloader(self, dataloader) -> None:
+        if self.DataStats:
+            # TODO - use data batch and model to get output size
+            data_stats = self.DataStats(dataloader)
+            mlflow.log_dict(
+                data_stats._serializable_stats_rep,
+                'stats_rep')
         else:
             logging.warning(
                 "Could not access data statistics calculation from server, \

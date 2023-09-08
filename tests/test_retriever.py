@@ -6,7 +6,6 @@ import pathlib
 import numpy as np
 import torch
 import yaml
-import yaml
 
 import modlee
 import mlflow

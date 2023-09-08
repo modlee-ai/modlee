@@ -1,5 +1,6 @@
 #
 import unittest
+import yaml
 
 import os
 import modlee
@@ -26,6 +27,16 @@ try:
     modlee_dev_available = True
 except ModuleNotFoundError as e:
     modlee_dev_available = False
+    
+    
+with open('./test_retriever.yaml','r') as test_retriever_file:
+    ret_dict = yaml.safe_load(test_retriever_file)
+globals().update(dict(
+    mlruns_dirs=ret_dict['mlruns_dirs'],
+    run_dirs=ret_dict['run_dirs']
+))
+assert len(run_dirs)>0, f"No run_dirs defined in ./test_retriever.yaml"
+    
     
 class ModleeAPIClientTest(unittest.TestCase):
     client = ModleeAPIClient(
@@ -174,20 +185,12 @@ class ModleeAPIClientTest(unittest.TestCase):
             assert response, f"Could not post {file_path}"
             
     def test_save_run(self):
-        run_dirs = [
-            '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/635782e7b3114dbea4f66d7c81befb20',
-            '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/6c681bdb118a4f0fb39674fe505479fc',
-        ]
         
         for run_dir in run_dirs:
             response = self.client.save_run(run_dir)
             assert response, f"Client {self.client.api_key} could not save {run_dir}"
 
     def test_unauth_save_run(self):
-        run_dirs = [
-            '/Users/modlee/projects/modlee_pypi/examples/mlruns/0/635782e7b3114dbea4f66d7c81befb20',
-        ]
-        
         for run_dir in run_dirs:
             response = self.unauthorized_client.save_run(run_dir)
             assert response is False, f"Unauthorized client should not have saved {run_dir}"
