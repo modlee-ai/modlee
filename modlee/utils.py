@@ -5,6 +5,10 @@ import pathlib
 import pickle
 import requests
 
+from torchvision import datasets as tv_datasets
+from torchvision.transforms import ToTensor
+from torch.utils.data import DataLoader
+
 
 def safe_mkdir(target_dir):
     root, ext = os.path.splitext(target_dir)

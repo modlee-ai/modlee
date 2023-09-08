@@ -39,17 +39,16 @@ class Classifier(nn.Module):
 
 class LightningClassifier(ModleeModel):
     def __init__(self, num_classes, classifier=None, *args, **kwargs):
+        self.num_classes = num_classes
         super().__init__(*args, **kwargs)
         if not classifier:
             self.classifier = Classifier()
         else:
             self.classifier = classifier
-        self.num_classes = num_classes
         self.accuracy = torchmetrics.classification.Accuracy(
             task="multiclass",
             num_classes=self.num_classes
         )
-        self._update_vars_cached()
 
     def forward(self, x):
         return self.classifier(x)

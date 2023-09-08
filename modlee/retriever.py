@@ -8,6 +8,7 @@ import numpy as np
 import modlee
 from modlee import logging
 
+import mlflow
 from mlflow.client import MlflowClient
 client = MlflowClient()
 
@@ -25,6 +26,7 @@ def get_runs(run_dir, experiment_id=None, run_id=None, **kwargs):
 
     modlee.set_run_dir(run_dir)
 
+    client = MlflowClient()
     experiments = client.search_experiments()
     if len(experiments) == 0:
         logging.warning(f"No experiments found in {run_dir}")

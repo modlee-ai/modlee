@@ -9,10 +9,11 @@ from sklearn.datasets import load_iris
 
 import numpy as np
 
-from datasets import load_dataset
-from transformers import AutoTokenizer
-
-from datasets import Dataset
+try:
+    from datasets import Dataset, load_dataset
+    from transformers import AutoTokenizer
+except:
+    pass
 
 from modlee import modlee_model
 

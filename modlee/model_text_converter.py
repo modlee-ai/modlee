@@ -1,6 +1,4 @@
-import torchvision
 import inspect
-import torch.nn as nn
 import torch
 import lightning.pytorch as pl
 from modlee import modlee_client

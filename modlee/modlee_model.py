@@ -7,7 +7,6 @@ import os
 import pandas as pd
 import torch
 from torch.utils.data import Dataset
-from torchvision.io import read_image
 
 import lightning.pytorch as pl
 from lightning.pytorch import LightningModule, Trainer
@@ -106,13 +105,10 @@ class LogCodeTextCallback(Callback):
         _get_code_text_for_model = getattr(
             modlee, 'get_code_text_for_model', None)
         if _get_code_text_for_model is not None:
-            # code_text = ''
-            # for var_key,var_value in self.vars_to_save.items():
-            #     code_text += f"{var_key} = {var_value}"
-            #     code_text += '\n'
             code_text = modlee.get_code_text_for_model(
                 pl_module, include_header=True)
             mlflow.log_text(code_text, 'model.py')
+            pl_module._update_vars_cached()
             mlflow.log_dict(self.vars_cache, 'cached_vars')
         else:
             logging.warning(

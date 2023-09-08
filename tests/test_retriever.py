@@ -6,6 +6,7 @@ import pathlib
 import numpy as np
 import torch
 import yaml
+import yaml
 
 import modlee
 import mlflow
@@ -19,18 +20,12 @@ globals().update(dict(
     run_dirs=ret_dict['run_dirs']
 ))
 
-
 class RepTest(unittest.TestCase):
     locals().update(ret_dict)
 
     def __init__(self,*args,**kwargs):
         super().__init__(*args, **kwargs)
-        print(ret_dict)
         self.__dict__.update(ret_dict)
-    #     with open('./test_retriever.yaml','r') as test_retriever_file:
-    #         ret_dict = yaml.safe_load(test_retriever_file)
-    #         print(ret_dict)
-    #         self.__dict__.update(ret_dict)
 
     def setUp(self) -> None:
         return super().setUp()
@@ -42,6 +37,7 @@ class RepTest(unittest.TestCase):
         '''
         Retrieve runs from prior mlruns directories
         '''
+        for run_dir in mlruns_dirs:
         for run_dir in mlruns_dirs:
             runs = modlee.get_runs(run_dir)
             assert len(runs) > 0, \
@@ -63,6 +59,7 @@ class RepTest(unittest.TestCase):
         '''
         Retrieve models from prior runs
         '''
+        for run_dir in run_dirs:
         for run_dir in run_dirs:
             modlee_model = modlee.get_model(run_dir)
             mlflow_model = mlflow.pytorch.load_model(
@@ -86,6 +83,7 @@ class RepTest(unittest.TestCase):
                         f"Difference between modlee- and mlflow-loaded model outputs is greater than threshold. Prediction difference: {diff_y}"
 
     def test_get_data_snapshot(self):
+        for run_dir in run_dirs:
         for run_dir in run_dirs:
             data_snapshot = modlee.get_data_snapshot(run_dir)
             assert data_snapshot is not None, \
