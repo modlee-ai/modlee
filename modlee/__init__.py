@@ -71,17 +71,22 @@ def init(run_dir=None,api_key=None):
 
 
 def set_run_dir(run_dir):
+    # Checking if path is absolute
     if not os.path.isabs(run_dir):
         run_dir = os.path.abspath(run_dir)
         logging.debug(f"Setting run logs to abspath {run_dir}")
+    
+    # Checking if path contains mlruns
     if 'mlruns' not in run_dir.split('/')[-1]:
-        run_dir = f"{run_dir}/mlruns/"
+        run_dir = os.path.join(run_dir, 'mlruns')
 
-    run_dir_base = '/'.join(run_dir.split('/')[:-1])
+    # Setting base directory and checking for existence
+    run_dir_base = os.path.dirname(run_dir) 
     if not os.path.exists(run_dir_base):
         raise FileNotFoundError(
             f"No base directory {run_dir_base}, cannot set tracking URI")
 
+    # Setting tracking URI for mlflow
     mlflow.set_tracking_uri(
         pathlib.Path(run_dir).as_uri()
     )
