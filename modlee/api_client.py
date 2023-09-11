@@ -165,6 +165,9 @@ class ModleeAPIClient(object):
         error_files = []
         
         def skip_file(rel_filepath):
+            """
+            Skip file if ignore_files in filepath
+            """
             for ignore_file in ignore_files:
                 if ignore_file in rel_filepath:
                     return True
