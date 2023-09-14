@@ -21,6 +21,7 @@ from modlee.config import TMP_DIR, MLRUNS_DIR
 import mlflow
 import json
 
+
 base_lightning_module = LightningModule()
 base_lm_keys = list(LightningModule.__dict__.keys())
 
@@ -145,7 +146,9 @@ class DataStatsCallback(Callback):
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
 
-        data, targets = self._get_data_targets(trainer)
+        # data, targets = self._get_data_targets(trainer)
+        data_snapshots = self._get_snapshots_batched(trainer.train_dataloader)
+        self._save_snapshots_batched(data_snapshots)
         # log the data statistics
         # self._log_data_stats(data, targets)
         self._log_data_stats_dataloader(trainer.train_dataloader)
@@ -197,6 +200,11 @@ class DataStatsCallback(Callback):
             targets = _dataset.targets
             self._save_snapshot(targets, 'targets', max_len=len(data))
         return data, targets
+    
+    def _get_data_targets_batch(self, trainer: Trainer):
+        _dataloader = trainer.train_dataloader
+        data_snapshot = np.array()
+        
 
     def _save_snapshot(self, data, snapshot_name='data', max_len=None):
         data = self._get_snapshot(data=data, max_len=max_len)
@@ -208,6 +216,8 @@ class DataStatsCallback(Callback):
     def _get_snapshot(self, data, max_len=None):
         if isinstance(data, torch.Tensor):
             data = data.numpy()
+        elif not isinstance(data, np.ndarray):
+            data = np.array(data)
         if max_len is None:
             data_size = data.nbytes
             # take a slice that should be no larger than 10MB
@@ -216,3 +226,39 @@ class DataStatsCallback(Callback):
                 len(data),
             ]))
         return data[:max_len]
+    
+    def _save_snapshots_batched(self, data_snapshots):
+        modlee_utils.safe_mkdir(TMP_DIR)
+        for snapshot_idx, data_snapshot in enumerate(data_snapshots):
+            
+            data_filename = f"{TMP_DIR}/snapshot_{snapshot_idx}.npy"
+            np.save(data_filename, data_snapshot)
+            mlflow.log_artifact(data_filename)
+
+    def _get_snapshots_batched(self, dataloader, max_len=None):
+        # Use batch to determine how many "sub"batches to create
+        _batch = next(iter(dataloader))
+        if type(_batch) in [list,tuple]:
+            n_snapshots = len(_batch)
+        else:
+            n_snapshots = 1
+        data_snapshots = [np.array([])]*n_snapshots
+
+        # Keep appending to batches until the combined size reaches the limit
+        batch_ctr = 0
+        while np.sum([ds.nbytes for ds in data_snapshots])<self.data_snapshot_size:
+            _batch = next(iter(dataloader))
+            
+            # If there are multiple elements in the batch, 
+            # append to respective subbranches
+            if type(_batch) in [list,tuple]:            
+                for batch_idx, _subbatch in enumerate(_batch):
+                    data_snapshots[batch_idx] = np.append(
+                        data_snapshots[batch_idx],
+                        (_subbatch.numpy()))
+            else:
+                data_snapshots[0] = np.append(
+                    data_snapshots[0],
+                    _batch.numpy())
+            batch_ctr += 1
+        return data_snapshots            
