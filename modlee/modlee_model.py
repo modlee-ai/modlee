@@ -234,10 +234,12 @@ class DataStatsCallback(Callback):
             data_filename = f"{TMP_DIR}/snapshot_{snapshot_idx}.npy"
             np.save(data_filename, data_snapshot)
             mlflow.log_artifact(data_filename)
-
+    
     def _get_snapshots_batched(self, dataloader, max_len=None):
         # Use batch to determine how many "sub"batches to create
         _batch = next(iter(dataloader))
+
+        data_snapshot_size = self.data_snapshot_size
         if type(_batch) in [list,tuple]:
             n_snapshots = len(_batch)
         else:
@@ -246,19 +248,25 @@ class DataStatsCallback(Callback):
 
         # Keep appending to batches until the combined size reaches the limit
         batch_ctr = 0
-        while np.sum([ds.nbytes for ds in data_snapshots])<self.data_snapshot_size:
+        while np.sum([ds.nbytes for ds in data_snapshots])<data_snapshot_size:
             _batch = next(iter(dataloader))
             
             # If there are multiple elements in the batch, 
             # append to respective subbranches
             if type(_batch) in [list,tuple]:            
                 for batch_idx, _subbatch in enumerate(_batch):
-                    data_snapshots[batch_idx] = np.append(
-                        data_snapshots[batch_idx],
-                        (_subbatch.numpy()))
+                    if data_snapshots[batch_idx].size==0:
+                        data_snapshots[batch_idx] = _subbatch.numpy()
+                    else:
+                        data_snapshots[batch_idx] = np.vstack([
+                            data_snapshots[batch_idx],
+                            (_subbatch.numpy())])
             else:
-                data_snapshots[0] = np.append(
-                    data_snapshots[0],
-                    _batch.numpy())
+                if data_snapshots[0].size==0:
+                        data_snapshots[0] = _batch.numpy()
+                else:
+                        data_snapshots[0] = np.vstack([
+                            data_snapshots[0],
+                            (_batch.numpy())])
             batch_ctr += 1
-        return data_snapshots            
+        return data_snapshots          
