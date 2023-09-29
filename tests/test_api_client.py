@@ -28,7 +28,7 @@ try:
 except ModuleNotFoundError as e:
     modlee_dev_available = False
     
-    
+ 
 with open('./test_retriever.yaml','r') as test_retriever_file:
     ret_dict = yaml.safe_load(test_retriever_file)
 globals().update(dict(
@@ -41,7 +41,7 @@ assert len(run_dirs)>0, f"No run_dirs defined in ./test_retriever.yaml"
 class ModleeAPIClientTest(unittest.TestCase):
     client = ModleeAPIClient(
         endpoint=ENDPOINT,
-        api_key='modleemichael'
+        api_key='local'
         )
     unauthorized_client = ModleeAPIClient(
         endpoint=ENDPOINT,
@@ -153,13 +153,19 @@ class ModleeAPIClientTest(unittest.TestCase):
         '''
         scripts_to_get = [
             'data_stats',
-            'model_text_converter'
+            'model_text_converter',
+            'exp_loss_logger'
         ]
         script_dict = {}
         for script_to_get in scripts_to_get:
             response = self.client.get_module(script_to_get)
-            assert response, f"Did not receive response, likely None"
+            assert response is not None, f"Did not receive response, get_module({script_to_get}) returned None"
+            # if modlee_dev_available:
+                # try:
             exec(response,{},locals())
+                # except:
+                    # assert False, "Could not execute callable even though modlee_dev package available"
+                
 
     def test_fail_dummy_gets_callable_from_script(self):
         '''

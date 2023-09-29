@@ -1,6 +1,6 @@
 from functools import partial
 import pickle
-from typing import Any
+from typing import Any, Optional
 import numpy as np
 
 import os
@@ -15,7 +15,9 @@ from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import modlee
 from modlee import logging, \
-    utils as modlee_utils
+    utils as modlee_utils, \
+    exp_loss_logger
+
 from modlee.config import TMP_DIR, MLRUNS_DIR
 
 import mlflow
@@ -105,9 +107,11 @@ class LogCodeTextCallback(Callback):
     def _log_code_text(self, pl_module: LightningModule):
         _get_code_text_for_model = getattr(
             modlee, 'get_code_text_for_model', None)
+        code_text = ''
         if _get_code_text_for_model is not None:
             code_text = modlee.get_code_text_for_model(
                 pl_module, include_header=True)
+            #logging.warning(loss_calls)
             mlflow.log_text(code_text, 'model.py')
             pl_module._update_vars_cached()
             mlflow.log_dict(self.vars_cache, 'cached_vars')
@@ -116,6 +120,30 @@ class LogCodeTextCallback(Callback):
                 "Could not access model-text converter, \
                     not logging but continuing experiment")
 
+        if exp_loss_logger.module_available:
+            _extract_loss_functions = getattr(
+                exp_loss_logger, 'extract_loss_functions', None)
+            
+            if _extract_loss_functions is not None:
+                loss_calls = exp_loss_logger.extract_loss_functions(
+                    code_text)
+                #logging.warning(loss_calls)
+                #mlflow.log_text(code_text, 'model.py')
+                if len(loss_calls) > 0:
+
+                    loss_calls_str = str.join('\n', loss_calls)
+                    mlflow.log_text(loss_calls_str, 'loss_calls.txt')
+                else:
+                    logging.warning("Could not record loss functions explicitly, \
+                                    check for usage of custom loss definitions")
+            else:
+                logging.warning(
+                "exp_loss_logger has no attribute extract_loss_functions")
+
+        else:
+            logging.warning(
+                "Could not access exp_loss_logger, \
+                    not logging but continuing experiment")
 
 class LogOutputCallback(Callback):
     def __init__(self, *args, **kwargs):
@@ -152,6 +180,8 @@ class DataStatsCallback(Callback):
         # log the data statistics
         # self._log_data_stats(data, targets)
         self._log_data_stats_dataloader(trainer.train_dataloader)
+        
+        self._log_output_size(trainer, pl_module)
 
         return super().on_train_start(trainer, pl_module)
 
@@ -175,8 +205,35 @@ class DataStatsCallback(Callback):
                 'stats_rep')
         else:
             logging.warning(
-                "Could not access data statistics calculation from server, \
-                    not logging but continuing experiment")
+                "Cannot log data statistics, could not access from server"
+            )
+
+    def _log_output_size(self, trainer: Trainer, pl_module: LightningModule) -> None:
+        _dataloader = trainer.train_dataloader
+        _batch = next(iter(_dataloader))
+        # NOTE - how can we generalize to different input schemes?
+        # e.g. siamese network with multiple inputs
+        # Right now, this makes the assumption that that only the network 
+        # uses only the first element
+        # NOTE - maybe using inspect.signature(pl_module.forward)
+        # could help generalize to different forward() calls
+        if type(_batch) in [list,tuple]:
+            _batch = _batch[0]
+            # print(_batch[0].shape)
+            # _batch = torch.Tensor(_batch[0])
+        try:
+            _batch = _batch.to(pl_module.device)
+        except:
+            pass
+        
+        try:
+            _output = pl_module.forward(_batch)
+            output_shape = list(_output.shape[1:])
+            mlflow.log_param("output_shape",output_shape)
+        except:
+            logging.warning(
+                "Cannot log output shape, could not pass batch through network"
+            )  
 
     def _get_data_targets(self, trainer: Trainer):
         _dataset = trainer.train_dataloader.dataset
@@ -269,4 +326,5 @@ class DataStatsCallback(Callback):
                             data_snapshots[0],
                             (_batch.numpy())])
             batch_ctr += 1
-        return data_snapshots          
+        return data_snapshots
+

@@ -17,9 +17,23 @@ import warnings
 import mlflow
 from mlflow import start_run, \
     get_tracking_uri, set_tracking_uri
+import modlee
 from modlee.api_client import ModleeAPIClient
 modlee_client = ModleeAPIClient()
-from modlee import model_text_converter
+
+api_modules = [
+    'model_text_converter',
+    'exp_loss_logger'
+]
+# importlib.import_module
+# for api_module in api_modules:
+#     globals().update({
+#         api_module:importlib.import_module('.', api_module)
+#     })
+# from modlee import \
+from . import \
+    model_text_converter, \
+    exp_loss_logger
 if model_text_converter.module_available:
     from modlee.model_text_converter import get_code_text, \
         get_code_text_for_model
@@ -34,7 +48,7 @@ modules = glob.glob(join(dirname(__file__), "*.py"))
 __all__ = [basename(f)[:-3] for f in modules if isfile(f)
            and not f.endswith('__init__.py')]
 
-for _logger in ['pytorch_lightning','lightning.pytorch.core','mlflow','torchvision']:
+for _logger in ['pytorch_lightning','lightning.pytorch.core','mlflow','torchvision','torch.nn']:
     pl_logger = logging.getLogger(_logger)
     pl_logger.propagate = False
     pl_logger.setLevel(logging.ERROR)
@@ -42,6 +56,11 @@ warnings.filterwarnings("ignore", ".*does not have many workers.*")
 warnings.filterwarnings("ignore", ".*turn shuffling off.*")
 warnings.filterwarnings("ignore", ".*Arguments other than a weight enum or.*")
 warnings.filterwarnings("ignore", ".*The parameter 'pretrained' is deprecated since.*")
+warnings.filterwarnings("ignore", ".*Using a target size.*")
+warnings.filterwarnings("ignore", ".*Implicit dimension choice.*")
+warnings.filterwarnings("ignore", ".*divides the total loss by both.*")
+warnings.filterwarnings("ignore", ".*To copy construct from a tensor, it is recommended.*")
+
 
 
 def init(run_dir=None,api_key=None):
@@ -59,11 +78,11 @@ def init(run_dir=None,api_key=None):
     
     # if api_key provided, reset modlee_client and reload API-locked modules
     if api_key:
-        global modlee_client, get_code_text, get_code_text_for_model, data_stats, model_text_converter
+        global modlee_client, get_code_text, get_code_text_for_model, data_stats, model_text_converter, exp_loss_logger
         modlee_client = ModleeAPIClient(
             api_key=api_key
             )
-        for _module in [data_stats, model_text_converter]:
+        for _module in [data_stats, model_text_converter, exp_loss_logger]:
             importlib.reload(_module)
         if model_text_converter.module_available:
             from modlee.model_text_converter import get_code_text, \

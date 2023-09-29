@@ -26,6 +26,7 @@ print(mlflow.get_tracking_uri())
 experiments = client.search_experiments()
 print(experiments)
 runs = client.search_runs(experiments[0].experiment_id)
+# runs = client.search_runs()
 run = runs[0]
 
 # %%

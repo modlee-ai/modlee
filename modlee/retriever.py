@@ -84,7 +84,12 @@ def get_cached_vars(run_dir):
 def get_data_snapshot(run_dir):
     if not run_dir_exists(run_dir):
         return None
-    data_snapshot_path = f"{run_dir}/artifacts/data_snapshot.npy"
+    
+    #data_snapshot_path = f"{run_dir}/artifacts/data_snapshot.npy"
+    
+    # Adding new snapshot name to the path following batched processing changes
+    data_snapshot_path = f"{run_dir}/artifacts/snapshot_0.npy"
+    
     if not os.path.exists(data_snapshot_path):
         return None
     return np.load(data_snapshot_path)
