@@ -60,6 +60,7 @@ warnings.filterwarnings("ignore", ".*Using a target size.*")
 warnings.filterwarnings("ignore", ".*Implicit dimension choice.*")
 warnings.filterwarnings("ignore", ".*divides the total loss by both.*")
 warnings.filterwarnings("ignore", ".*To copy construct from a tensor, it is recommended.*")
+warnings.filterwarnings("ignore", ".*NLLLoss2d has been deprecated.*")
 
 
 

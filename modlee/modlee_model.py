@@ -76,9 +76,35 @@ class ModleeModel(LightningModule):
             LogOutputCallback(),
             LogParamsCallback(),
             PushAPICallback(),
+            LogLossesCallback(),
+            LogONNXCallback(),
         ]
 
 
+
+class ModleeCallback(Callback):
+    def __init__(self) -> None:
+        super().__init__()
+        
+    def get_input_from_trainer(self, trainer, pl_module):
+        _dataloader = trainer.train_dataloader
+        _batch = next(iter(_dataloader))
+        # NOTE - how can we generalize to different input schemes?
+        # e.g. siamese network with multiple inputs
+        # Right now, this makes the assumption that that only the network 
+        # uses only the first element
+        # NOTE - maybe using inspect.signature(pl_module.forward)
+        # could help generalize to different forward() calls
+        if type(_batch) in [list,tuple]:
+            _input = _batch[0]
+            # print(_batch[0].shape)
+            # _batch = torch.Tensor(_batch[0])
+        try:
+            _input = _input.to(pl_module.device)
+        except:
+            pass
+        return _input
+        
 class PushAPICallback(Callback):
     def on_fit_end(self, trainer: Trainer, pl_module: LightningModule) -> None:
         modlee.save_run(pl_module.run_dir)
@@ -144,6 +170,40 @@ class LogCodeTextCallback(Callback):
             logging.warning(
                 "Could not access exp_loss_logger, \
                     not logging but continuing experiment")
+class LogONNXCallback(ModleeCallback):
+    def __init__(self) -> None:
+        super().__init__()
+        
+    def setup(self, trainer: Trainer, pl_module: LightningModule, stage: str) -> None:
+        # self._log_onnx(trainer, pl_module)
+        return super().setup(trainer, pl_module, stage)
+    
+    def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
+        self._log_onnx(trainer, pl_module)
+        return super().on_fit_start(trainer, pl_module)
+    
+    def _log_onnx(self, trainer, pl_module, ):
+        
+        # train_input,_ = next(iter(trainer.train_dataloader))
+        # print(train_input)
+        # NOTE assumes that model input is the first output of a batch
+        modlee_utils.safe_mkdir(TMP_DIR)
+        data_filename = f"{TMP_DIR}/model.onnx"
+        
+        _input = self.get_input_from_trainer(trainer, pl_module)
+        
+        model_output = pl_module.forward(_input)
+        torch.onnx.export(
+            pl_module,
+            # train_input,
+            _input,
+            data_filename,
+            export_params=False
+        )
+        mlflow.log_artifact(data_filename)
+
+        pass
+        
 
 class LogOutputCallback(Callback):
     def __init__(self, *args, **kwargs):
@@ -164,9 +224,34 @@ class LogOutputCallback(Callback):
         return super().on_train_batch_end(trainer, pl_module, outputs, batch, batch_idx)
 
 
-class DataStatsCallback(Callback):
+class LogLossesCallback(Callback):
+    def __init__(self) -> None:
+        super().__init__()
+        
+    def on_validation_batch_end(self, trainer: Trainer, pl_module: LightningModule, outputs: STEP_OUTPUT | None, batch: Any, batch_idx: int, dataloader_idx: int = 0) -> None:
+        if loss_sweeper.module_available:
+            _get_losses = getattr(
+                loss_sweeper, 'get_losses', None)
+            if _get_losses is not None:                        
+                losses = _get_losses(pl_module, batch)
+                for loss_key,loss_value in losses.items():
+                    pl_module.log(loss_key, loss_value)
+            else:
+                logging.warning(
+                    f"Loss sweeper has no attribute get_losses"
+                )
+        else:
+            logging.warning(
+                "Could not access loss sweeper, \
+                    not logging but continuing experiment")
+
+
+        return super().on_validation_batch_end(trainer, pl_module, outputs, batch, batch_idx, dataloader_idx)
+
+class DataStatsCallback(ModleeCallback):
     def __init__(self, data_snapshot_size=1e7, DataStats=None, *args, **kwargs):
         Callback.__init__(self, *args, **kwargs)
+        super().__init__()
         self.data_snapshot_size = data_snapshot_size
         if not DataStats:
             DataStats = getattr(modlee.data_stats, 'DataStats', None)
@@ -209,25 +294,27 @@ class DataStatsCallback(Callback):
             )
 
     def _log_output_size(self, trainer: Trainer, pl_module: LightningModule) -> None:
-        _dataloader = trainer.train_dataloader
-        _batch = next(iter(_dataloader))
-        # NOTE - how can we generalize to different input schemes?
-        # e.g. siamese network with multiple inputs
-        # Right now, this makes the assumption that that only the network 
-        # uses only the first element
-        # NOTE - maybe using inspect.signature(pl_module.forward)
-        # could help generalize to different forward() calls
-        if type(_batch) in [list,tuple]:
-            _batch = _batch[0]
-            # print(_batch[0].shape)
-            # _batch = torch.Tensor(_batch[0])
-        try:
-            _batch = _batch.to(pl_module.device)
-        except:
-            pass
+        # _dataloader = trainer.train_dataloader
+        # _batch = next(iter(_dataloader))
+        # # NOTE - how can we generalize to different input schemes?
+        # # e.g. siamese network with multiple inputs
+        # # Right now, this makes the assumption that that only the network 
+        # # uses only the first element
+        # # NOTE - maybe using inspect.signature(pl_module.forward)
+        # # could help generalize to different forward() calls
+        # if type(_batch) in [list,tuple]:
+        #     _batch = _batch[0]
+        #     # print(_batch[0].shape)
+        #     # _batch = torch.Tensor(_batch[0])
+        # try:
+        #     _batch = _batch.to(pl_module.device)
+        # except:
+        #     pass
+        
+        _input = self.get_input_from_trainer(trainer, pl_module)
         
         try:
-            _output = pl_module.forward(_batch)
+            _output = pl_module.forward(_input)
             output_shape = list(_output.shape[1:])
             mlflow.log_param("output_shape",output_shape)
         except:

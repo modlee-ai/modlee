@@ -127,17 +127,32 @@ class ModleeAPIClient(object):
             _type_: Server request response
         """
         try:
-            with open(file,'r') as _file:
-                file_text = _file.read()
+            with open(file,'rb') as _file:
+                # file_text = _file.read()
+                res = self.post(
+                    route="postfile",
+                    data={
+                        # 'file_text':file_text,
+                        'filepath':filepath
+                        },
+                    files={
+                        'file':_file
+                        # filepath:file
+                    }
+                    )
+                return res
+        
+            with open(file,'rb') as _file:
+                res = self.post(
+                    route="postfile",
+                    data={
+                        
+                        'filepath':filepath,
+                    }
+                )
         except:
-            print(f"No file {file}")
-        res = self.post(
-            route="postfile",
-            data={
-                'file_text':file_text,
-                'filepath':filepath
-                },
-            )
+            print(f"Could not access file {file}")
+            return None
         return res
         
     def save_run(self,run_dir):

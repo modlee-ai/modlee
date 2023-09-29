@@ -74,7 +74,7 @@ model = LightningClassifier()
 
 # %% Run training loop
 with modlee.start_run() as run:
-    trainer = pl.Trainer(max_epochs=2,)
+    trainer = pl.Trainer(max_epochs=1,)
     trainer.fit(
         model=model,
         train_dataloaders=training_loader,
