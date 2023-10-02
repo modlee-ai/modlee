@@ -1,3 +1,4 @@
+from importlib.machinery import SourceFileLoader
 import inspect
 
 import torch
@@ -36,8 +37,14 @@ class Converter(object):
             torch_model)))
         
     def code2torch(self,torch_code):
-        exec(torch_code,locals())
-        return Model()
+        # exec(torch_code,locals())
+        tmp_model_path = './tmp_model.py'
+        self.save_code(torch_code, tmp_model_path)
+        model_module = SourceFileLoader(
+            'model_module',
+            tmp_model_path).load_module()
+        return model_module.Model()
+        # return locals().get('Model')()
         
     def torch2torch(self,torch_model):
         return self.code2torch(
@@ -45,8 +52,11 @@ class Converter(object):
             torch_model))
         
     def save_torch(self,torch_model,filepath):
+        self.save_code(self.torch2code(torch_model))
+            
+    def save_code(self,torch_code,filepath):
         with open(filepath,'w') as _file:
-            _file.write(self.torch2code(torch_model))
+            _file.write(torch_code)
         
     def get_inner_string(self,s,_start,_end):
         s = s[s.find(_start)+len(_start):]

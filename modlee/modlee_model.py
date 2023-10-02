@@ -76,7 +76,6 @@ class ModleeModel(LightningModule):
             LogOutputCallback(),
             LogParamsCallback(),
             PushAPICallback(),
-            LogLossesCallback(),
             LogONNXCallback(),
         ]
 
@@ -222,31 +221,6 @@ class LogOutputCallback(Callback):
         elif outputs is not None:
             pl_module.log(f"{phase}_loss", outputs)
         return super().on_train_batch_end(trainer, pl_module, outputs, batch, batch_idx)
-
-
-class LogLossesCallback(Callback):
-    def __init__(self) -> None:
-        super().__init__()
-        
-    def on_validation_batch_end(self, trainer: Trainer, pl_module: LightningModule, outputs: STEP_OUTPUT | None, batch: Any, batch_idx: int, dataloader_idx: int = 0) -> None:
-        if loss_sweeper.module_available:
-            _get_losses = getattr(
-                loss_sweeper, 'get_losses', None)
-            if _get_losses is not None:                        
-                losses = _get_losses(pl_module, batch)
-                for loss_key,loss_value in losses.items():
-                    pl_module.log(loss_key, loss_value)
-            else:
-                logging.warning(
-                    f"Loss sweeper has no attribute get_losses"
-                )
-        else:
-            logging.warning(
-                "Could not access loss sweeper, \
-                    not logging but continuing experiment")
-
-
-        return super().on_validation_batch_end(trainer, pl_module, outputs, batch, batch_idx, dataloader_idx)
 
 class DataStatsCallback(ModleeCallback):
     def __init__(self, data_snapshot_size=1e7, DataStats=None, *args, **kwargs):
