@@ -7,6 +7,7 @@ logging.basicConfig(level=logging.INFO)
 
 import torch
 from torch import nn
+from torch.nn import functional as F
 import torchvision
 from torchvision.models import \
     resnet34, ResNet34_Weights, \
@@ -88,6 +89,35 @@ class ImageClassificationRecommender(ImageRecommender):
         # model = modlee_converter.torch2torch(model)
         self.model_code = modlee_converter.torch2code(model)
         # print(f"model code: {self.model_code}")
-        self.model = modlee_converter.code2torch(self.model_code)
+        self.model = RecommendedModel(
+            modlee_converter.code2torch(self.model_code))
         
         
+class RecommendedModel(modlee.modlee_model.ModleeModel):
+    def __init__(self, model, loss_fn=F.cross_entropy, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.model = model
+        self.loss_fn = loss_fn
+
+    def forward(self, x):
+        return self.model(x)
+
+    def training_step(self, batch, batch_idx):
+        x, y = batch
+        y_out = self(x)
+        loss = self.loss_fn(y_out, y)
+        return {'loss': loss}
+
+    def validation_step(self, val_batch, batch_idx):
+        x, y = val_batch
+        y_out = self(x)
+        loss = self.loss_fn(y_out, y)
+        return loss
+
+    def configure_optimizers(self):
+        optimizer = torch.optim.SGD(
+            self.parameters(),
+            lr=0.001,
+            momentum=0.9
+        )
+        return optimizer
