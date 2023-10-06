@@ -13,6 +13,7 @@ tmp/*
 examples/tmp
 *.DS_Store
 *.onnx
+*.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
