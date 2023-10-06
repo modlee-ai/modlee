@@ -1,7 +1,10 @@
 import traceback
 import importlib
 import glob
+from contextlib import contextmanager,redirect_stderr,redirect_stdout
+
 import os
+from os import devnull
 from os.path import dirname, basename, isfile, join
 import pathlib
 from pathlib import Path
@@ -60,8 +63,15 @@ warnings.filterwarnings("ignore", ".*Using a target size.*")
 warnings.filterwarnings("ignore", ".*Implicit dimension choice.*")
 warnings.filterwarnings("ignore", ".*divides the total loss by both.*")
 warnings.filterwarnings("ignore", ".*To copy construct from a tensor, it is recommended.*")
+warnings.filterwarnings("ignore", ".*NLLLoss2d has been deprecated.*")
 
 
+@contextmanager
+def suppress_stdout_stderr():
+    """A context manager that redirects stdout and stderr to devnull"""
+    with open(devnull, 'w') as fnull:
+        with redirect_stderr(fnull) as err, redirect_stdout(fnull) as out:
+            yield (err, out)
 
 def init(run_dir=None,api_key=None):
     """

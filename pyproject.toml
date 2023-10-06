@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "modlee"
-version = "0.0.1-5"
+version = "0.0.1-6"
 authors = [{ name = "modlee", email = "michael@modlee.ai" }]
 description = "modlee package"
 # readme = "README.md"
@@ -23,16 +23,10 @@ dependencies = [
     "torch>=2.0.1",
     "torchmetrics>=1.0.0",
     "torchvision>=0.15.2",
+    "onnx==1.14.1",
+    # "onnx_graphsurgeon==0.3.27",
+    "pymfe==0.4.2",
 ]
 
 [tool.setuptools]
 packages = ["modlee"]
-# py-modules=["modlee"]
-# package-dir={""="modlee"}
-
-# [testpypi]
-# username = "__token__"
-# password = "pypi-AgENdGVzdC5weXBpLm9yZwIkMzhiMDgwM2YtODQxZS00MmZlLTkxNzAtN2YxNjFmODJhYzk4AAIqWzMsIjdlNWUxZjYyLTk0ZDctNDk3OC05MGYzLWRkMDRhNmU5YzE2OCJdAAAGICHTmlxgaGnIIlKB4PTsuPCoyYdGl8ePncuhsAA5Q0yK"
-# [pypi]
-# username = "__token__"
-# password = "pypi-AgEIcHlwaS5vcmcCJGMxMDZmNTBlLWFkZWEtNGJmMS1iMDRkLTUxZDkxNWIzOTFkZAACKlszLCIzZWY5NTdlNy0xZGEyLTQ2NGQtOGE4OS04YjdiYzAxYTFjYTUiXQAABiBug-MvoBIm0q3YNd-b_HRtJqwbOlFmkhe4JtNiWosaBg"

@@ -132,6 +132,20 @@ class ExampleModel(modlee.modlee_model.ModleeModel):
 This will log the variable as an artifact at the beginning of training and enable reconstructing the object later.
 The variable must be JSON serializable, i.e. a simple type like `int` or `str`; functions cannot be serialized.
 
+# Creating package
+## Build
+```
+python3 -m build
+```
+## Upload 
+```
+# For the testpypi repository
+python3 -m twine upload --repository testpypi dist/*
+
+# For the actual repository
+python3 -m twine upload dist/*
+```
+
 # Troubleshooting
 
 ## Unit Tests
