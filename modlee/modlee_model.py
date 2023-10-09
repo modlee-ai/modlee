@@ -17,6 +17,8 @@ import modlee
 from modlee import logging, \
     utils as modlee_utils, \
     exp_loss_logger
+from modlee.converter import Converter
+modlee_converter = Converter()
 
 from modlee.config import TMP_DIR, MLRUNS_DIR
 
@@ -85,7 +87,17 @@ class ModleeCallback(Callback):
     def __init__(self) -> None:
         super().__init__()
         
-    def get_input_from_trainer(self, trainer, pl_module):
+    def get_input(self, trainer, pl_module):
+        """
+        Retrieve an input from a trainer 
+
+        Args:
+            trainer (_type_): _description_
+            pl_module (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         _dataloader = trainer.train_dataloader
         _batch = next(iter(_dataloader))
         # NOTE - how can we generalize to different input schemes?
@@ -119,27 +131,41 @@ class LogParamsCallback(Callback):
         return super().on_train_start(trainer, pl_module)
 
 
-class LogCodeTextCallback(Callback):
+class LogCodeTextCallback(ModleeCallback):
     def __init__(self, vars_to_save={}, *args, **kwargs):
         Callback.__init__(self, *args, **kwargs)
         self.vars_cache = vars_to_save
 
     def setup(self, trainer: Trainer, pl_module: LightningModule, stage: str) -> None:
         # log the code text as a python file
-        self._log_code_text(pl_module=pl_module)
+        # self._log_code_text(trainer=trainer, pl_module=pl_module)
         return super().setup(trainer, pl_module, stage)
+    def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
+        self._log_code_text(trainer=trainer, pl_module=pl_module)
+        
+        return super().on_train_start(trainer, pl_module)
 
-    def _log_code_text(self, pl_module: LightningModule):
+    def _log_code_text(self, trainer: Trainer, pl_module: LightningModule):
         _get_code_text_for_model = getattr(
             modlee, 'get_code_text_for_model', None)
         code_text = ''
         if _get_code_text_for_model is not None:
+            # ==== METHOD 1 ====
+            # Save model as code using parsing
             code_text = modlee.get_code_text_for_model(
                 pl_module, include_header=True)
-            #logging.warning(loss_calls)
             mlflow.log_text(code_text, 'model.py')
+            # Save variables required to rebuild the model
             pl_module._update_vars_cached()
             mlflow.log_dict(self.vars_cache, 'cached_vars')
+            
+            # ==== METHOD 2 ====
+            # Save model as code by converting to a graph through ONNX
+            input_dummy = self.get_input(trainer, pl_module)
+            torch_graph_code = modlee_converter.torch2code(
+                pl_module, input_dummy=input_dummy)
+            mlflow.log_text(torch_graph_code, 'model_graph.py')
+            
         else:
             logging.warning(
                 "Could not access model-text converter, \
@@ -189,7 +215,7 @@ class LogONNXCallback(ModleeCallback):
         modlee_utils.safe_mkdir(TMP_DIR)
         data_filename = f"{TMP_DIR}/model.onnx"
         
-        _input = self.get_input_from_trainer(trainer, pl_module)
+        _input = self.get_input(trainer, pl_module)
         
         model_output = pl_module.forward(_input)
         torch.onnx.export(
@@ -285,7 +311,7 @@ class DataStatsCallback(ModleeCallback):
         # except:
         #     pass
         
-        _input = self.get_input_from_trainer(trainer, pl_module)
+        _input = self.get_input(trainer, pl_module)
         
         try:
             _output = pl_module.forward(_input)
@@ -373,6 +399,8 @@ class DataStatsCallback(ModleeCallback):
             # append to respective subbranches
             if type(_batch) in [list,tuple]:            
                 for batch_idx, _subbatch in enumerate(_batch):
+                    if str(_subbatch.device)!='cpu':
+                        _subbatch = _subbatch.cpu()
                     if data_snapshots[batch_idx].size==0:
                         data_snapshots[batch_idx] = _subbatch.numpy()
                     else:

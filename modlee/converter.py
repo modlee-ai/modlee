@@ -1,5 +1,6 @@
 from importlib.machinery import SourceFileLoader
 import inspect
+import numpy as np
 
 import torch
 import torchsummary
@@ -10,12 +11,16 @@ import onnx
 # TODO - cache models for "longer" pipelines
 # e.g. torch2code do not need to convert to onnx every time
 
+MODEL_CODE_HEADER = """
+import torch, onnx2torch
+from torch import tensor
+"""
 
 class Converter(object):
     def __init__(self):
         pass
 
-    def torch2onnx(self, torch_model, tmp_onnx_path="./tmp_model.onnx"):
+    def torch2onnx(self, torch_model, input_dummy, tmp_onnx_path="./tmp_model.onnx"):
         """
         Convert a PyTorch model to onnx.
 
@@ -29,14 +34,14 @@ class Converter(object):
         # TODO - generalize this input_dummy
         # This is a placeholder for ResNet-based models,
         # and probably other models that take 3-channel images as inputs
-        input_dummy = torch.randn([10, 3, 300, 300])
+        # input_dummy = torch.randn([10, 3, 300, 300])
         torch.onnx.export(
             torch_model,
             input_dummy,
             tmp_onnx_path)
         return onnx.load(tmp_onnx_path)
 
-    def onnx_path2torch(self, onnx_path):
+    def onnx_path2torch(self, onnx_path, *args, **kwargs):
         """
         Retrieve an ONNX model as a PyTorch model
 
@@ -46,9 +51,9 @@ class Converter(object):
         Returns:
             _type_: The PyTorch model
         """
-        return onnx2torch.convert(onnx_path)
+        return onnx2torch.convert(onnx_path, *args, **kwargs)
 
-    def onnx2torch(self, onnx_model):
+    def onnx2torch(self, onnx_model, *args, **kwargs):
         """
         Convert an ONNX model to a PyTorch model
 
@@ -58,9 +63,9 @@ class Converter(object):
         Returns:
             _type_: The PyTorch model
         """
-        return onnx2torch.convert(onnx_model)
+        return onnx2torch.convert(onnx_model, *args, **kwargs)
 
-    def torch2code(self, torch_model):
+    def torch2code(self, torch_model, *args, **kwargs):
         """
         Convert a PyTorch model to a code representation
 
@@ -73,9 +78,9 @@ class Converter(object):
         return self.get_model_code(
             self.onnx2torch(
                 self.torch2onnx(
-                    torch_model)))
+                    torch_model, *args, **kwargs)))
 
-    def code2torch(self, torch_code, tmp_model_path="./tmp_model.py"):
+    def code2torch(self, torch_code, tmp_model_path="./tmp_model.py", *args, **kwargs):
         """
         Convert a code representation to a PyTorch model
 
@@ -92,7 +97,7 @@ class Converter(object):
             tmp_model_path).load_module()
         return model_module.Model()
 
-    def torch2torch(self, torch_model):
+    def torch2torch(self, torch_model, *args, **kwargs):
         """
         Convert a PyTorch model into an equivalent PyTorch model,
         but represented as a graph of layers and operations
@@ -106,7 +111,7 @@ class Converter(object):
         """
         return self.code2torch(
             self.torch2code(
-                torch_model))
+                torch_model, *args, **kwargs))
     # This function name may be more informative
     torch2torch_graph = torch2torch
 
@@ -323,6 +328,7 @@ class Converter(object):
         spacer = "    "
         model_code = f"""
 import torch, onnx2torch
+from torch import tensor
 
 class Model(torch.nn.Module):
 {spacer}{model_init_code}
@@ -330,3 +336,46 @@ class Model(torch.nn.Module):
 {spacer}{model_fwd_code}
 """
         return model_code
+    
+    """
+    Below are helper functions for importing from torch
+    """
+    
+    def init_graph_tensors(self, graph, tensor_init_fn=np.random.uniform):
+        """
+        Initialize the graph's tensors, in place (you do not need to use the return value)
+        The input should be an ONNX graph exported from torch without parameters, i.e.
+        torch.onnx.export(..., export_params=False)
+        This enables exporting to torch
+        
+        Example usage:
+        import onnx_graphsurgeon as gs
+        graph = gs.import_onnx(path/to/uninitialized/model.onnx)
+        Converter().init_graph_tensors(graph)
+
+        Args:
+            graph (_type_): _description_
+        """
+        graph_tensors = graph.tensors()
+        for tensor_key,tensor_value in graph_tensors.items():
+            if isinstance(tensor_value, (int,float,)):
+                value_shape = (1,)
+            else:
+                value_shape = tensor_value.shape
+            if value_shape is None: continue
+            tensor_value.to_constant(
+                values=tensor_init_fn(size=value_shape))
+        return graph
+
+    def onnx_parameterless2onnx(self, onnx_path):
+        graph = gs.import_onnx(
+            onnx.load(onnx_path))
+        graph = self.init_graph_tensors(graph)
+        return gs.export_onnx(graph)
+        
+    def onnx_uninit2torch(self, onnx_path):
+        return self.onnx2torch(
+            self.onnx_parameterless2onnx(onnx_path))
+        
+    
+                
