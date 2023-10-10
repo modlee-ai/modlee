@@ -98,8 +98,8 @@ class ImageClassificationRecommender(ImageRecommender):
         })
         rec_model = self._get_model(self.meta_features)
         self.model_code = modlee_converter.torch2code(rec_model)
-        self.model = RecommendedModel(
-            modlee_converter.code2torch(self.model_code))
+        self.raw_model = modlee_converter.code2torch(self.model_code)
+        self.model = RecommendedModel(self.raw_model)
 
     def _get_model(self, meta_features):
         """
