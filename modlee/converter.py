@@ -20,7 +20,7 @@ class Converter(object):
     def __init__(self):
         pass
 
-    def torch2onnx(self, torch_model, input_dummy, tmp_onnx_path="./tmp_model.onnx"):
+    def torch2onnx(self, torch_model, input_dummy=torch.randn([10, 3, 300, 300]), tmp_onnx_path="./tmp_model.onnx"):
         """
         Convert a PyTorch model to onnx.
 
