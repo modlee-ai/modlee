@@ -140,7 +140,7 @@ class Converter(object):
     Below are helper functions for creating code representations from a model
     """
 
-    def get_inner_string(self, s, _start, _end):
+    def get_inner_string(self, s, _start, _end, return_only_single_value=True):
         """
         Retrieve an inner string between a start and end sequence
         If there are multiple potential inner strings (e.g. if there are multiple instances
@@ -158,10 +158,13 @@ class Converter(object):
         s = s[s.find(_start)+len(_start):]
         s = s[:s.rfind(_end)]
         # valid attributes should just be one string
-        if len(s.split()) == 1:
-            return s
+        if return_only_single_value:
+            if len(s.split()) == 1:
+                return s
+            else:
+                return None
         else:
-            return None
+            return s
 
     def get_attr_name(self, s):
         """
@@ -377,5 +380,43 @@ class Model(torch.nn.Module):
         return self.onnx2torch(
             self.onnx_parameterless2onnx(onnx_path))
         
-    
-                
+    """
+    ONNX text representations
+    """
+    def onnx2onnx_text(self, onnx_model):
+        
+        def get_inner_string(s, _start, _end):
+            """
+            TODO rewrite the Converter().get_inner_string() to be this simple,
+            and handle the string splitting in a wrapper or the methods that use it
+            """
+            s = s[s.find(_start)+len(_start):]
+            s = s[:s.rfind(_end)]
+            return s
+        
+        onnx_str = onnx.printer.to_text(onnx_model)
+        onnx_str = onnx_str.split('\n')
+        
+        output_var = "None"
+        for line_ctr,onnx_uninit_line in enumerate(onnx_str):
+            # Skip header
+            if line_ctr<6: continue
+            
+            # Replace characters that cannot be parsed by onnx.parser.parse_model
+            onnx_uninit_line = onnx_uninit_line.replace('.','_').replace(':','_').replace('/','_')
+            
+            # Found line with output variable, which must be a non-number
+            # e.g. "191" is not valid, so we override it with "output_var"
+            if "=>" in onnx_uninit_line:
+                output_var = get_inner_string(onnx_uninit_line, '=>', '{').strip()
+                output_var = get_inner_string(output_var, ']', ')').strip()
+                onnx_uninit_line = onnx_uninit_line.replace(f"] {output_var}) {{", f"] output_var) {{")    
+            
+            onnx_str[line_ctr] = onnx_uninit_line
+        onnx_str = '\n'.join(onnx_str)
+        onnx_str = onnx_str.replace(f"{output_var} =", f"output_var =")
+        return onnx_str
+            
+    def onnx_text2onnx(self, onnx_text_path):
+        with open(onnx_text_path,'r') as _file:
+            return onnx.parser.parse_model(_file.read())

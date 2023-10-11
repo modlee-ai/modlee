@@ -166,6 +166,10 @@ class LogCodeTextCallback(ModleeCallback):
                 pl_module, input_dummy=input_dummy)
             mlflow.log_text(torch_graph_code, 'model_graph.py')
             
+            # Save model size
+            model_size = modlee_utils.get_model_size(pl_module, as_MB=False)
+            mlflow.log_text(str(model_size), 'model_size')
+            
         else:
             logging.warning(
                 "Could not access model-text converter, \
