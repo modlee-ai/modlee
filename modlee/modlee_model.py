@@ -162,8 +162,11 @@ class LogCodeTextCallback(ModleeCallback):
             # ==== METHOD 2 ====
             # Save model as code by converting to a graph through ONNX
             input_dummy = self.get_input(trainer, pl_module)
-            torch_graph_code = modlee_converter.torch2code(
-                pl_module, input_dummy=input_dummy)
+            onnx_model = modlee_converter.torch2onnx(pl_module, input_dummy=input_dummy)
+            onnx_model = modlee_converter.onnx_parameterless2onnx(onnx_model)
+            onnx_text = modlee_converter.onnx2onnx_text(onnx_model)
+            mlflow.log_text(onnx_text, 'model_graph.txt')
+            torch_graph_code = modlee_converter.onnx_text2code(onnx_text)
             mlflow.log_text(torch_graph_code, 'model_graph.py')
             
             # Save model size

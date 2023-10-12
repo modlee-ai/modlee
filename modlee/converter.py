@@ -38,7 +38,9 @@ class Converter(object):
         torch.onnx.export(
             torch_model,
             input_dummy,
-            tmp_onnx_path)
+            tmp_onnx_path,
+            export_params=False,
+            )
         return onnx.load(tmp_onnx_path)
 
     def onnx_path2torch(self, onnx_path, *args, **kwargs):
@@ -79,6 +81,15 @@ class Converter(object):
             self.onnx2torch(
                 self.torch2onnx(
                     torch_model, *args, **kwargs)))
+        
+    # def torch_graph2code(self, torch_graph, *args, **kwargs):
+    #     """
+    #     Convert a graph-defined PyTorch model to a code representation
+
+    #     Args:
+    #         torch_graph (_type_): _description_
+    #     """
+    #     return self.get_model_code(torch_graph,*args,**kwargs)
 
     def code2torch(self, torch_code, tmp_model_path="./tmp_model.py", *args, **kwargs):
         """
@@ -155,6 +166,10 @@ class Converter(object):
         Returns:
             _type_: The inner string 
         """
+        # If cannot find either substring limiters, return None
+        if any([idx==-1 for idx in [s.find(_start),s.find(_end)]]):
+            return None
+        
         s = s[s.find(_start)+len(_start):]
         s = s[:s.rfind(_end)]
         # valid attributes should just be one string
@@ -233,6 +248,7 @@ class Converter(object):
             if model_attr:
                 # model_attrs.append(model_attr)
                 model_attrs.update(model_attr)
+        print(model_attrs)
         return model_attrs
 
     def get_params_for_attr(self, model_attr):
@@ -285,7 +301,12 @@ class Converter(object):
             str: An executable __init__ string
         """
         model_attrs = self.get_model_attrs_in_forward(model)
-
+        model_attrs.update({onnx_attr:getattr(model,onnx_attr) for onnx_attr in dir(model) if 'onnx' in onnx_attr})
+        if hasattr(model, 'initializers'):
+            model_attrs.update(
+                {'initializers':getattr(model,'initializers')}
+            )
+        
         init_attrs = []
 
         for model_attr_name, model_attr in model_attrs.items():
@@ -339,12 +360,13 @@ class Model(torch.nn.Module):
 {spacer}{model_fwd_code}
 """
         return model_code
+    torch_graph2code = get_model_code
     
     """
     Below are helper functions for importing from torch
     """
     
-    def init_graph_tensors(self, graph, tensor_init_fn=np.random.uniform):
+    def init_graph_tensors(self, graph, tensor_init_fn=np.random.normal):
         """
         Initialize the graph's tensors, in place (you do not need to use the return value)
         The input should be an ONNX graph exported from torch without parameters, i.e.
@@ -361,18 +383,56 @@ class Model(torch.nn.Module):
         """
         graph_tensors = graph.tensors()
         for tensor_key,tensor_value in graph_tensors.items():
+            if 'constant' in str(type(tensor_value)):
+                # print(f"Not reinitializing {tensor_value}")
+                continue
+            if any([_substr in tensor_key for _substr in ['input','output']]):
+                if 'constant' not in tensor_key.lower():
+                    continue
+
             if isinstance(tensor_value, (int,float,)):
                 value_shape = (1,)
             else:
                 value_shape = tensor_value.shape
             if value_shape is None: continue
+            
+            # print(f"Initializing tensor {tensor_value}")
             tensor_value.to_constant(
-                values=tensor_init_fn(size=value_shape))
+                values=tensor_init_fn(size=value_shape,
+                    # dtype=torch.float
+                    ).astype(np.float32))
+        return graph
+    
+    
+    def init_constant_tensors(graph, constant_tensor_keys: list):
+        """
+        Given a graph and a list of tensors keys that should be turned constant,
+        initialize the tensors with the constant values
+
+        Args:
+            graph (_type_): _description_
+            constant_tensors (list): _description_
+        """
+        graph_tensors = graph.tensors()
+        for tensor_key in constant_tensor_keys:
+            tensor_value = graph_tensors.get(tensor_key, None)
+            if tensor_value is None:
+                continue
+            if isinstance(tensor_value, (int, float,)):
+                value_shape = (1,)
+            else:
+                value_shape = tensor_value.shape
+            if value_shape is None:
+                continue
+            graph_tensors[tensor_key].to_constant(
+                values=np.random.uniform(size=value_shape))
         return graph
 
-    def onnx_parameterless2onnx(self, onnx_path):
+    # def onnx_parameterless2onnx(self, onnx_path):
+    def onnx_parameterless2onnx(self, onnx_model):
         graph = gs.import_onnx(
-            onnx.load(onnx_path))
+            onnx_model)
+            # onnx.load(onnx_path))
         graph = self.init_graph_tensors(graph)
         return gs.export_onnx(graph)
         
@@ -416,7 +476,24 @@ class Model(torch.nn.Module):
         onnx_str = '\n'.join(onnx_str)
         onnx_str = onnx_str.replace(f"{output_var} =", f"output_var =")
         return onnx_str
+    def torch2onnx_text(self, torch_model, *args, **kwargs):
+        return self.onnx2onnx_text(self.torch2onnx(torch_model, *args, **kwargs))
             
-    def onnx_text2onnx(self, onnx_text_path):
+    def onnx_text_file2onnx(self, onnx_text_path):
         with open(onnx_text_path,'r') as _file:
-            return onnx.parser.parse_model(_file.read())
+            return self.onnx_text2onnx(_file.read())
+        
+    def onnx_text2onnx(self, onnx_text):
+        return onnx.parser.parse_model(onnx_text)
+        
+    def onnx_text2torch(self, onnx_text):
+        onnx_model = self.onnx_text2onnx(onnx_text)
+        onnx_graph = gs.import_onnx(onnx_model)
+        onnx_graph = self.init_graph_tensors(onnx_graph)
+        torch_model = self.onnx2torch(gs.export_onnx(onnx_graph))
+        return torch_model
+    
+    def onnx_text2code(self, onnx_text_path):
+        torch_model = self.onnx_text2torch(onnx_text_path)
+        torch_code = self.torch_graph2code(torch_model)
+        return torch_code
