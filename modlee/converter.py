@@ -228,7 +228,7 @@ class Converter(object):
         """
         attr_name = self.get_attr_name(line)
         if attr_name:
-            print(f"Caught attr {attr_name} on line {line}")
+            # print(f"Caught attr {attr_name} on line {line}")
             try:
                 return {attr_name: getattr(model, attr_name)}
             except:
@@ -253,7 +253,7 @@ class Converter(object):
             if model_attr:
                 # model_attrs.append(model_attr)
                 model_attrs.update(model_attr)
-        print(model_attrs)
+        # print(model_attrs)
         return model_attrs
 
     def get_params_for_attr(self, model_attr):
