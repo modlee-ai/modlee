@@ -468,12 +468,19 @@ class Model(torch.nn.Module):
         onnx_str = onnx_str.split('\n')
         
         output_var = "None"
+        n_lines = len(onnx_str)
+        layer_name_type_dict = {}
         for line_ctr,onnx_uninit_line in enumerate(onnx_str):
             # Skip header
             if line_ctr<6: continue
             
             # Replace characters that cannot be parsed by onnx.parser.parse_model
-            onnx_uninit_line = onnx_uninit_line.replace('.','_').replace(':','_').replace('/','_')
+            unparseable_chars = ['.',':','/']
+            for unparseable_char in unparseable_chars:
+                # onnx_uninit_line = onnx_uninit_line.replace('.','_').replace(':','_').replace('/','_')
+                onnx_uninit_line = onnx_uninit_line.replace(unparseable_char,'_')
+                
+            
             
             # Found line with output variable, which must be a non-number
             # e.g. "191" is not valid, so we override it with "output_var"
@@ -481,10 +488,29 @@ class Model(torch.nn.Module):
                 output_var = get_inner_string(onnx_uninit_line, '=>', '{').strip()
                 output_var = get_inner_string(output_var, ']', ')').strip()
                 onnx_uninit_line = onnx_uninit_line.replace(f"] {output_var}) {{", f"] output_var) {{")    
-            
+            elif line_ctr<(n_lines-1):
+                # Add the layer name to the respective layer type in the "counter" dictionary
+                layer_name, _, layer_type = onnx_uninit_line.split()[:3]
+                if layer_type not in layer_name_type_dict:
+                    layer_name_type_dict.update({layer_type:[layer_name]})
+                else:
+                    layer_name_type_dict[layer_type].append(layer_name)
+                                
             onnx_str[line_ctr] = onnx_uninit_line
+            
+                
         onnx_str = '\n'.join(onnx_str)
         onnx_str = onnx_str.replace(f"{output_var} =", f"output_var =")
+        
+        for layer_type, layer_names in layer_name_type_dict.items():
+            for layer_idx,layer_name in enumerate(layer_names):
+                if layer_name.isdigit(): continue
+                # NOTE - may break if layer names are substrings of other
+                # layer names, so pad layer_idx with 0's
+                onnx_str = onnx_str.replace(
+                    layer_name,
+                    f"{layer_type.lower()}_output_{layer_idx:04d}")
+                
         return onnx_str
     def torch2onnx_text(self, torch_model, *args, **kwargs):
         return self.onnx2onnx_text(self.torch2onnx(torch_model, *args, **kwargs))
