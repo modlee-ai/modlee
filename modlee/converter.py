@@ -41,7 +41,11 @@ class Converter(object):
             tmp_onnx_path,
             export_params=False,
             )
-        return onnx.load(tmp_onnx_path)
+        # The model we load will have no parameters initialized
+        onnx_parameterless_model = onnx.load(tmp_onnx_path)
+        # Initialize the parameterless model
+        onnx_model = self.onnx_parameterless2onnx(onnx_parameterless_model)
+        return onnx_model
 
     def onnx_path2torch(self, onnx_path, *args, **kwargs):
         """
@@ -78,7 +82,6 @@ class Converter(object):
             str: The string representation of the code
         """
         onnx_model = self.torch2onnx(torch_model, *args, **kwargs)
-        onnx_model = self.onnx_parameterless2onnx(onnx_model)
         onnx_text = self.onnx2onnx_text(onnx_model)
         model_code = self.onnx_text2code(onnx_text)        
         return model_code
