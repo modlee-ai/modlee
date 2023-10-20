@@ -29,7 +29,7 @@ class Converter(object):
             tmp_onnx_path: The filename to cache the ONNX model to
 
         Returns:
-            ModelProto: The ONNX model
+            ModelProto: The ONNX model, parameterless with no weights to initialize
         """
         # TODO - generalize this input_dummy
         # This is a placeholder for ResNet-based models,
@@ -41,7 +41,11 @@ class Converter(object):
             tmp_onnx_path,
             export_params=False,
             )
-        return onnx.load(tmp_onnx_path)
+        # The model we load will have no parameters initialized
+        onnx_parameterless_model = onnx.load(tmp_onnx_path)
+        # Initialize the parameterless model
+        onnx_model = self.onnx_parameterless2onnx(onnx_parameterless_model)
+        return onnx_model
 
     def onnx_path2torch(self, onnx_path, *args, **kwargs):
         """
@@ -77,10 +81,11 @@ class Converter(object):
         Returns:
             str: The string representation of the code
         """
-        return self.get_model_code(
-            self.onnx2torch(
-                self.torch2onnx(
-                    torch_model, *args, **kwargs)))
+        onnx_model = self.torch2onnx(torch_model, *args, **kwargs)
+        onnx_text = self.onnx2onnx_text(onnx_model)
+        model_code = self.onnx_text2code(onnx_text)        
+        return model_code
+
         
     # def torch_graph2code(self, torch_graph, *args, **kwargs):
     #     """
@@ -383,9 +388,14 @@ class Model(torch.nn.Module):
         """
         graph_tensors = graph.tensors()
         for tensor_key,tensor_value in graph_tensors.items():
-            if 'constant' in str(type(tensor_value)):
+            
+            # Skip initializing any tensors that are already Constants
+            if 'constant' in str(type(tensor_value)).lower():
                 # print(f"Not reinitializing {tensor_value}")
                 continue
+            # Skip tensors that are inputs/outputs and should be kept as Variables
+            # Converting these to constants would essentially "freeze" the network
+            # into deterministic outputs
             if any([_substr in tensor_key for _substr in ['input','output']]):
                 if 'constant' not in tensor_key.lower():
                     continue
