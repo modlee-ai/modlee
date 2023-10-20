@@ -116,9 +116,12 @@ def set_run_dir(run_dir):
             f"No base directory {run_dir_base}, cannot set tracking URI")
 
     # Setting tracking URI for mlflow
+    tracking_uri = pathlib.Path(run_dir).as_uri()
     mlflow.set_tracking_uri(
-        pathlib.Path(run_dir).as_uri()
+        tracking_uri
     )
+    return tracking_uri
+    
 
 
 def get_run_dir():
