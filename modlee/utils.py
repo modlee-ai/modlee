@@ -56,3 +56,16 @@ def is_cacheable(x):
         return True
     except:
         return False
+    
+def get_model_size(model, as_MB=True):
+    param_size = 0
+    for param in model.parameters():
+        param_size += param.nelement() * param.element_size()
+    buffer_size = 0
+    for buffer in model.buffers():
+        buffer_size += buffer.nelement() * buffer.element_size()
+    model_size = param_size+buffer_size
+    if as_MB:
+        model_size /= (1024**2)
+    return model_size
+        
