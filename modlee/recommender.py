@@ -43,12 +43,12 @@ class Recommender(object):
 
     def calculate_meta_features(self, dataloader):
         if modlee.data_stats.module_available:
-            analyze_message = "\n[Modlee] -> Just a moment, analyzing your dataset ...\n"
+            analyze_message = "[Modlee] -> Just a moment, analyzing your dataset ...\n"
 
             typewriter_print(analyze_message,sleep_time=0.01)        
 
             #??? Add in type writer print
-            return modlee.data_stats.DataStats(dataloader, testing=True).stats_rep
+            return modlee.data_stats.ImageDataStats(dataloader, testing=True).stats_rep
             #??? Convert to ImageDataStats
         else:
             print("Could not analyze data (check access to server)")
@@ -112,14 +112,14 @@ class ImageClassificationRecommender(ImageRecommender):
 
         sleep(0.5)
 
-        print('---Contacting Modlee for a recommended Image Classification Model--->\n')
+        print('---Contacting Modlee for a Recommended Image Classification Model--->\n')
         
         sleep(0.5)
 
         self.meta_features = self.calculate_meta_features(dataloader)
 
         #??? type writer effect
-        generation_message = '\n[Modlee] -> From this analysis, I generated the following pytorch/onnx architecture that I think would be close to your target solution:\n'
+        generation_message = '[Modlee] -> From this analysis, I generated the following pytorch/onnx architecture that I think would be close to your target solution:\n'
         typewriter_print(generation_message,sleep_time=0.01)        
 
 
@@ -184,9 +184,14 @@ class ImageClassificationRecommender(ImageRecommender):
         
         print('--- Modlee Recommended Model Details --->')
 
-        generation_message = '\n[Modlee] -> In case you want to take a deeper look I saved:\n'
-        typewriter_print(generation_message,sleep_time=0.01)        
+        indent = '        '
+        text_indent = '\n            '
 
+        summary_message = '\n[Modlee] -> In case you want to take a deeper look, I saved the summary of my current model recommendation here:{}file: {}'.format(text_indent+indent,self.model_onnx_text_file)
+        typewriter_print(summary_message,sleep_time=0.01)        
+
+        code_message = '\n[Modlee] -> I also saved the model as a python editable version:{}file: {}{}This is a great place to start your own model exploration!'.format(text_indent+indent,self.model_code_file,text_indent)
+        typewriter_print(code_message,sleep_time=0.01)        
 
 
     def get_input_torch(self):
