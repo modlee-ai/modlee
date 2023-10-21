@@ -14,6 +14,7 @@ import modlee
 from modlee.converter import Converter
 from modlee.utils import get_model_size
 import requests
+from modlee.utils import get_model_size
 modlee_converter = Converter()
 logging.basicConfig(level=logging.INFO)
 
@@ -81,7 +82,7 @@ class Recommender(object):
             return modlee.data_stats.ImageDataStats(dataloader, testing=True).stats_rep
             #??? Convert to ImageDataStats
         else:
-            print("Could not fingerprint data (check access to server)")
+            print("Could not analyze data (check access to server)")
             return {}
 
     @property
@@ -389,6 +390,31 @@ def typewriter_print(text,sleep_time=0.001,max_line_length=150,max_lines=20):
             print(c, end='')
             sys.stdout.flush()
             sleep(sleep_time)
+        
+# typewriter_print(text,sleep_time=0.005)
+
+
+
+def typewriter_print(text,sleep_time=0.001,max_line_length=150,max_lines=50):
+
+   text_lines = text.split('\n')
+
+   if len(text_lines)>max_lines:
+      text_lines = text_lines[:max_lines]+['...\n']
+
+   def shorten_if_needed(line,max_line_length):
+      if len(line)>max_line_length:
+         return line[:max_line_length]+' ...\n'
+      else:
+         return line+'\n'
+
+   text_lines = [shorten_if_needed(l,max_line_length) for l in text_lines]
+
+   for line in text_lines:
+      for c in line:
+         print(c, end='')
+         sys.stdout.flush()
+         sleep(sleep_time)
         
 # typewriter_print(text,sleep_time=0.005)
 
