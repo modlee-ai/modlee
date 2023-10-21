@@ -253,8 +253,10 @@ class Converter(object):
             if model_attr:
                 # model_attrs.append(model_attr)
                 model_attrs.update(model_attr)
-        print(model_attrs)
+        # print(model_attrs)
         return model_attrs
+    
+
 
     def get_params_for_attr(self, model_attr):
         """
