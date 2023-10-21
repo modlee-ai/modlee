@@ -45,6 +45,8 @@ else:
 from modlee.retriever import *
 from . import data_stats, modlee_model, modlee_image_model
 from . import *
+from . import demo
+from . import recommender
 
 
 modules = glob.glob(join(dirname(__file__), "*.py"))
@@ -84,6 +86,10 @@ def init(run_dir=None,api_key=None):
     if run_dir is None:
         calling_file = traceback.extract_stack()[-2].filename
         run_dir = os.path.dirname(calling_file)
+
+    if os.path.exists(run_dir)==False:
+        run_dir = os.getcwd()
+
     set_run_dir(run_dir)
     
     # if api_key provided, reset modlee_client and reload API-locked modules
