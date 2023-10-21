@@ -142,7 +142,8 @@ class ImageRecommender(Recommender):
         super().analyze(dataloader, *args, **kwargs)
         num_classes = len(dataloader.dataset.classes)
         self.meta_features.update({
-            'num_classes': num_classes
+            'num_classes': num_classes,
+            'input_sizes':self.input_sizes,
         })
         try:
             onnx_text = self._get_onnx_text(self.meta_features)
@@ -178,10 +179,31 @@ class ImageRecommender(Recommender):
                 self.model_clf_layer = nn.Linear(1000, num_classes)
 
             def forward(self, x):
-                x = self.model(x)
-                x = self.model_clf_layer(x)
+                x = self.features(x)
+                x = x.view(x.size(0), -1)
+                x = self.relu(self.fc1(x))
+                x = self.fc2(x)
                 return x
-        return Model()
+
+        num_layers=1
+        num_channels=8
+
+        ret_model = VariableConvNet(num_layers,num_channels,self.input_sizes,self.num_classes)
+
+        for i in range(10):
+
+            model = VariableConvNet(int(num_layers),int(num_channels),self.input_sizes,self.num_classes)
+
+            if get_model_size(model)<self.max_model_size_MB:
+                ret_model = model
+                num_layers += 1
+                num_channels = num_channels*2
+            else:
+                break
+
+        return ret_model
+
+
 
 class ImageRecommender(Recommender):
     def __init__(self):
