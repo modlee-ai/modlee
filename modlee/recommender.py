@@ -142,7 +142,8 @@ class ImageRecommender(Recommender):
         super().analyze(dataloader, *args, **kwargs)
         num_classes = len(dataloader.dataset.classes)
         self.meta_features.update({
-            'num_classes': num_classes
+            'num_classes': num_classes,
+            'input_sizes':self.input_sizes,
         })
         try:
             onnx_text = self._get_onnx_text(self.meta_features)
