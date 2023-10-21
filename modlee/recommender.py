@@ -15,6 +15,8 @@ import requests
 modlee_converter = Converter()
 logging.basicConfig(level=logging.INFO)
 
+from datetime import datetime
+
 import torch
 from torch.utils.data import DataLoader
 import lightning.pytorch as pl
@@ -29,6 +31,7 @@ import numpy as np
 from time import sleep
 import sys
 
+import os
 
 class Recommender(object):
     """
@@ -158,7 +161,7 @@ def typewriter_print(text,sleep_time=0.001,max_line_length=150,max_lines=50):
 
 
 class ImageClassificationRecommender(ImageRecommender):
-    def __init__(self,dataloader,max_model_size_MB=10,num_classes=10,dataloader_input_inds=[0]):
+    def __init__(self,dataloader,max_model_size_MB=10,num_classes=10,dataloader_input_inds=[0],min_accuracy=None,max_loss=None):
         super().__init__()
 
         sleep(0.5)
@@ -216,8 +219,9 @@ class ImageClassificationRecommender(ImageRecommender):
 
 
     def train(self,max_epochs=1,val_dataloaders=None):
+
         with modlee.start_run() as run:
-            trainer = pl.Trainer(max_epochs=1,)
+            trainer = pl.Trainer(max_epochs=max_epochs)
             if val_dataloaders == None:
                 trainer.fit(
                     model=self.model,
@@ -227,6 +231,13 @@ class ImageClassificationRecommender(ImageRecommender):
                     model=self.model,
                     train_dataloaders=self.dataloader,
                     val_dataloaders=val_dataloaders)
+                
+            self.run_artifact_uri = run.info.artifact_uri
+            self.run_id = run.info.artifact_uri.split('/')[-2]
+            self.exp_id = run.info.artifact_uri.split('/')[-3]
+            self.run_folder = self.run_artifact_uri.split('///')[-1].split('artifacts')[0]
+            # <RunInfo: artifact_uri='file:///Users/brad/Github_Modlee/modlee_survey/notebooks/mlruns/0/e2d08510ac28438681203a930bb713ed/artifacts', end_time=None, experiment_id='0', lifecycle_stage='active', run_id='e2d08510ac28438681203a930bb713ed', run_name='skittish-trout-521', run_uuid='e2d08510ac28438681203a930bb713ed', start_time=1697907858055, status='RUNNING', user_id='brad'>
+
 
 
     def get_model_details(self):
@@ -271,44 +282,6 @@ class ImageClassificationRecommender(ImageRecommender):
             torch.nn.Module: The recommended model
         """
 
-        class VariableConvNet(nn.Module):
-            def __init__(self, num_layers, num_channels, input_sizes_orig, num_classes):
-                super(VariableConvNet, self).__init__()
-
-                layers = []  # List to hold convolutional layers
-                
-                input_sizes = input_sizes_orig[1:]#this is a dummy batch index
-
-                min_index = np.argmin(input_sizes)
-
-                in_channels = int(input_sizes[min_index])  # Assuming RGB images as input
-                img_shape = [int(ins) for i,ins in enumerate(input_sizes) if i != min_index]
-                
-                # Create convolutional layers based on num_layers
-                for _ in range(num_layers):
-                    layers.append(nn.Conv2d(in_channels, num_channels, kernel_size=3, padding=1))
-                    layers.append(nn.ReLU())
-                    in_channels = num_channels  # Update in_channels for the next layer
-                
-                # Convert the list of layers to a Sequential container
-                self.features = nn.Sequential(*layers)
-                
-                # Calculate the size of the input to the fully connected layers
-                # Assuming the input image size is 32x32
-                input_size = num_channels * int(np.prod(img_shape))
-                
-                # Fully connected layers
-                self.fc1 = nn.Linear(input_size, 128)
-                self.relu = nn.ReLU()
-                self.fc2 = nn.Linear(128, num_classes)  # Assuming 10 output classes
-
-            def forward(self, x):
-                x = self.features(x)
-                x = x.view(x.size(0), -1)
-                x = self.relu(self.fc1(x))
-                x = self.fc2(x)
-                return x
-
         num_layers=1
         num_channels=8
 
@@ -328,6 +301,43 @@ class ImageClassificationRecommender(ImageRecommender):
         return ret_model
 
 
+class VariableConvNet(nn.Module):
+    def __init__(self, num_layers, num_channels, input_sizes_orig, num_classes):
+        super(VariableConvNet, self).__init__()
+
+        layers = []  # List to hold convolutional layers
+        
+        input_sizes = input_sizes_orig[1:]#this is a dummy batch index
+
+        min_index = np.argmin(input_sizes)
+
+        in_channels = int(input_sizes[min_index])  # Assuming RGB images as input
+        img_shape = [int(ins) for i,ins in enumerate(input_sizes) if i != min_index]
+        
+        # Create convolutional layers based on num_layers
+        for _ in range(num_layers):
+            layers.append(nn.Conv2d(in_channels, num_channels, kernel_size=3, padding=1))
+            layers.append(nn.ReLU())
+            in_channels = num_channels  # Update in_channels for the next layer
+        
+        # Convert the list of layers to a Sequential container
+        self.features = nn.Sequential(*layers)
+        
+        # Calculate the size of the input to the fully connected layers
+        # Assuming the input image size is 32x32
+        input_size = num_channels * int(np.prod(img_shape))
+        
+        # Fully connected layers
+        self.fc1 = nn.Linear(input_size, 128)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(128, num_classes)  # Assuming 10 output classes
+
+    def forward(self, x):
+        x = self.features(x)
+        x = x.view(x.size(0), -1)
+        x = self.relu(self.fc1(x))
+        x = self.fc2(x)
+        return x
 
 
 class ImageClassificationModleeModel(modlee.modlee_model.ModleeModel):
