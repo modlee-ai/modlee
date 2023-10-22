@@ -32,6 +32,8 @@ from time import sleep
 import sys
 
 import os
+from urllib.parse import urlparse
+
 
 class Recommender(object):
     """
@@ -232,12 +234,62 @@ class ImageClassificationRecommender(ImageRecommender):
                     train_dataloaders=self.dataloader,
                     val_dataloaders=val_dataloaders)
                 
-            self.run_artifact_uri = run.info.artifact_uri
+            self.run_artifact_uri = urlparse(run.info.artifact_uri).path
             self.run_id = run.info.artifact_uri.split('/')[-2]
             self.exp_id = run.info.artifact_uri.split('/')[-3]
             self.run_folder = self.run_artifact_uri.split('///')[-1].split('artifacts')[0]
             # <RunInfo: artifact_uri='file:///Users/brad/Github_Modlee/modlee_survey/notebooks/mlruns/0/e2d08510ac28438681203a930bb713ed/artifacts', end_time=None, experiment_id='0', lifecycle_stage='active', run_id='e2d08510ac28438681203a930bb713ed', run_name='skittish-trout-521', run_uuid='e2d08510ac28438681203a930bb713ed', start_time=1697907858055, status='RUNNING', user_id='brad'>
 
+    def train_documentation_locations(self):
+
+        vertical_sep = "\n-----------------------------------------------------------------------------------------------\n"
+        path_indent = "        Path: "
+        indent = "        "
+        doc_indent = "                     "
+
+        print(vertical_sep)
+
+        print('Modlee documented all the details about your trained model and experiment here: \n\n{}{}'.format(path_indent,self.run_folder))
+        print('{}Experiment_id: automatically assigned to | {}'.format(indent,self.exp_id))
+        print('{}Run_id: automatically assigned to | {}'.format(indent,self.run_id))
+
+        print(vertical_sep)
+
+    def train_documentation_shared(self):
+
+        vertical_sep = "\n-----------------------------------------------------------------------------------------------\n"
+        path_indent = "        Path: "
+        indent = "        "
+        doc_indent = "                     "
+
+        print(vertical_sep)
+
+
+        print("Modlee's ML Experiment Documentation Overview: Modlee automatically saves details from modlee_model.train() locally and shares some elements with itself to improve recommendations for the community, including you!\n")
+        print("[ Local ] [ Shared ] Documented Element Description ...")
+        print(vertical_sep[2:-2])
+
+        print("[       ] [        ] Data Loader\n")
+
+        print("[   X   ] [        ] Sampling of Data Loader: for your benefit, and in case we have improvements to our data analysis process")
+        print("{}{}{}".format(doc_indent,path_indent,self.run_artifact_uri+'/model/snapshot*'))
+
+
+        print("[   X   ] [        ] Model Weights")
+        print("{}{}{}".format(doc_indent,path_indent,self.run_artifact_uri+'/model/data/model.pth'))
+
+
+        print("[   X   ] [   X    ] Dataloader Complexity Analysis: Applying standard statistics (dims, mean, std, var, etc ...) & ML methods (clustering, etc ...) to your dataset")
+        print("{}{}{}".format(doc_indent,path_indent,self.run_artifact_uri+'/stats_rep'))
+
+
+        print("[   X   ] [   X    ] Modlee Model Code (model def, training step, validation step, optimizers)")
+        print("{}{}{}".format(doc_indent,path_indent,self.run_artifact_uri+'/model.py'))
+
+        print("[   X   ] [   X    ] Experiment Metrics: (loss, accuracy, etc ...)")
+        print("{}{}{}".format(doc_indent,path_indent,self.run_folder+'/metrics/'))
+
+        print(vertical_sep)
 
 
     def get_model_details(self):
