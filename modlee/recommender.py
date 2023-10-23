@@ -218,9 +218,9 @@ class ImageClassificationRecommender(ImageRecommender):
         print("[ Local ] [ Shared ] Documented Element Description ...")
         print(vertical_sep[2:-2])
 
-        print("[       ] [        ] Data Loader\n")
+        print("[       ] [        ] Dataloader\n")
 
-        print("[   X   ] [        ] Sampling of Data Loader: for your benefit, and in case we have improvements to our data analysis process")
+        print("[   X   ] [        ] Sampling of Dataloader: for your benefit, and in case we have improvements to our data analysis process")
         print("{}{}{}".format(doc_indent,path_indent,self.run_artifact_uri+'/model/snapshot*'))
 
 
