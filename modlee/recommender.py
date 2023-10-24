@@ -280,9 +280,9 @@ class ImageClassificationRecommender(ImageRecommender):
 
         print(vertical_sep)
 
-        print('Modlee auto-documents your experiment locally and learns from non-sensitive details:\n -> Sharing helps to enhance ML model recommendations across the entire community of modlee users.\n')
+        print('Modlee auto-documents your experiment locally and learns from non-sensitive details:\n -> Sharing helps to enhance ML model recommendations across the entire community of modlee users, including you!\n')
 
-        print("Modlee's ML Experiment Documentation Overview: Modlee automatically saves details from modlee_model.train() locally and shares some elements with itself to improve recommendations for the community, including you!\n")
+        print("Modlee's ML Experiment Documentation Overview: \n")
         print("[ Local ] [ Shared ] Documented Element Description ...")
         print(vertical_sep[2:-2])
 
