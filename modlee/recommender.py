@@ -164,7 +164,7 @@ class ImageClassificationRecommender(ImageRecommender):
         else:
             self.model_code = modlee_converter.onnx_text2code(self.model_onnx_text)
 
-        self.model_code = self.model_code.replace('= model',self.model_str)
+        self.model_code = self.model_code.replace('= model','= '+self.model_str)
         self.model_code = self.model_code.replace('self, model,','self,')
 
         clean_model_onnx_text = '>'.join(self.model_onnx_text.split('>')[1:])
