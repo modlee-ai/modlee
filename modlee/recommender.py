@@ -354,6 +354,7 @@ class ImageRecommender(Recommender):
         num_channels=8
 
         ret_model = VariableConvNet(num_layers,num_channels,self.input_sizes,self.num_classes)
+        model_str = 'VariableConvNet({},{},{},{})'.format(num_layers,num_channels,self.input_sizes,self.num_classes)
 
         for i in range(10):
 
@@ -366,7 +367,7 @@ class ImageRecommender(Recommender):
             else:
                 break
 
-        return ret_model
+        return ret_model,model_str
 
 
 def typewriter_print(text,sleep_time=0.001,max_line_length=150,max_lines=20):
