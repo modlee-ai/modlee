@@ -182,9 +182,9 @@ class ImageClassificationRecommender(ImageRecommender):
     def train(self,max_epochs=1,val_dataloaders=None):
 
         print('----------------------------------------------------------------')
-        print('Training your recommended modlee model!')
-        print('     Running this model: {}'.format(self.model_code_file))
-        print('     On the dataloader analyzed in ImageClassificationRecommender(dataloader)')
+        print('Training your recommended modlee model:')
+        print('     - Running this model: {}'.format(self.model_code_file))
+        print('     - On the dataloader previously analyzed by ImageClassificationRecommender')
         print('----------------------------------------------------------------')
 
         with modlee.start_run() as run:
