@@ -222,6 +222,9 @@ class ImageClassificationRecommender(ImageRecommender):
 
     def train_documentation_shared(self):
 
+
+        print('Modlee auto-documents your experiment locally and learns from non-sensitive details: sharing helps to enhance ML model recommendations across the entire community of modlee users.')
+
         vertical_sep = "\n-----------------------------------------------------------------------------------------------\n"
         path_indent = "        Path: "
         indent = "        "
