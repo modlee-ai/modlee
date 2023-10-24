@@ -9,6 +9,7 @@ from torch.nn import functional as F
 from torch import nn
 import torch
 import logging
+
 import modlee
 from modlee.converter import Converter
 import requests
@@ -175,7 +176,7 @@ class ImageClassificationRecommender(ImageRecommender):
         self.meta_features = self.calculate_meta_features(dataloader)
 
         #??? type writer effect
-        generation_message = '[Modlee] -> From this analysis, I generated the following pytorch/onnx architecture that I think would be close to your target solution:\n'
+        generation_message = '[Modlee] -> From analyzing your dataset, I recommend the following neural network model:\n'
         typewriter_print(generation_message,sleep_time=0.01)        
 
 
@@ -200,17 +201,26 @@ class ImageClassificationRecommender(ImageRecommender):
             'input_sizes':self.input_sizes,
         })
 
-        self.model_torch = self.recommend_model(self.meta_features)
+        self.model_torch,self.model_str = self.recommend_model(self.meta_features)
         self.model_onnx = modlee_converter.torch2onnx(self.model_torch, input_dummy=self.input_torches)
         self.model_onnx_text = modlee_converter.onnx2onnx_text(self.model_onnx)
-        self.model_code = modlee_converter.onnx_text2code(self.model_onnx_text)
-
         self.model = ImageClassificationModleeModel(self.model_torch)
 
+        _get_code_text_for_model = getattr(modlee, 'get_code_text_for_model', None)
+
+        if _get_code_text_for_model is not None:
+            # ==== METHOD 1 ====
+            # Save model as code using parsing
+            self.model_code = modlee.get_code_text_for_model(self.model, include_header=True)
+        else:
+            self.model_code = modlee_converter.onnx_text2code(self.model_onnx_text)
+
+        self.model_code = self.model_code.replace('= model',self.model_str)
+        self.model_code = self.model_code.replace('self, model,','self,')
 
         clean_model_onnx_text = '>'.join(self.model_onnx_text.split('>')[1:])
-        typewriter_print(clean_model_onnx_text,sleep_time=0.005)        
 
+        typewriter_print(clean_model_onnx_text,sleep_time=0.005)        
 
         self.model_onnx_text_file = './modlee_model_summary.txt'
         self.model_code_file = './modlee_model_code.py'
@@ -221,6 +231,12 @@ class ImageClassificationRecommender(ImageRecommender):
 
 
     def train(self,max_epochs=1,val_dataloaders=None):
+
+        print('----------------------------------------------------------------')
+        print('Training your recommended modlee model!')
+        print('     Running this model: {}'.format(self.model_code_file))
+        print('     On the dataloader analyzed in ImageClassificationRecommender(dataloader)')
+        print('----------------------------------------------------------------')
 
         with modlee.start_run() as run:
             trainer = pl.Trainer(max_epochs=max_epochs)
@@ -304,7 +320,7 @@ class ImageClassificationRecommender(ImageRecommender):
         summary_message = '\n[Modlee] -> In case you want to take a deeper look, I saved the summary of my current model recommendation here:{}file: {}'.format(text_indent+indent,self.model_onnx_text_file)
         typewriter_print(summary_message,sleep_time=0.01)        
 
-        code_message = '\n[Modlee] -> I also saved the model as a python editable version:{}file: {}{}This is a great place to start your own model exploration!'.format(text_indent+indent,self.model_code_file,text_indent)
+        code_message = '\n[Modlee] -> I also saved the model as a python editable version (model def, train, val, optimizer):{}file: {}{}This is a great place to start your own model exploration!'.format(text_indent+indent,self.model_code_file,text_indent)
         typewriter_print(code_message,sleep_time=0.01)        
 
 
@@ -338,6 +354,7 @@ class ImageClassificationRecommender(ImageRecommender):
         num_channels=8
 
         ret_model = VariableConvNet(num_layers,num_channels,self.input_sizes,self.num_classes)
+        model_str = 'VariableConvNet({},{},{},{})'.format(num_layers,num_channels,self.input_sizes,self.num_classes)
 
         for i in range(10):
 
@@ -350,7 +367,7 @@ class ImageClassificationRecommender(ImageRecommender):
             else:
                 break
 
-        return ret_model
+        return ret_model,model_str
 
 
 class VariableConvNet(nn.Module):
