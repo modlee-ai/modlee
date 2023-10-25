@@ -480,7 +480,13 @@ class Model(torch.nn.Module):
                 # onnx_uninit_line = onnx_uninit_line.replace('.','_').replace(':','_').replace('/','_')
                 onnx_uninit_line = onnx_uninit_line.replace(unparseable_char,'_')
                 
-            
+            # Case: the line is defining a Constant float value that should keep the '.' within brackets {}
+            # e.x. const_output_0 = Constant <value = float {0_08}>
+            # '0_08' should be reverted back to '0.08'
+            if 'float' in onnx_uninit_line: 
+                value_underscore = get_inner_string(onnx_uninit_line, '{', '}')
+                value_decimal = value_underscore.replace('_','.')
+                onnx_uninit_line = onnx_uninit_line.replace(value_underscore,value_decimal)
             
             # Found line with output variable, which must be a non-number
             # e.g. "191" is not valid, so we override it with "output_var"
