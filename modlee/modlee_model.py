@@ -25,7 +25,6 @@ from modlee.config import TMP_DIR, MLRUNS_DIR
 import mlflow
 import json
 
-
 base_lightning_module = LightningModule()
 base_lm_keys = list(LightningModule.__dict__.keys())
 
@@ -82,7 +81,6 @@ class ModleeModel(LightningModule):
         ]
 
 
-
 class ModleeCallback(Callback):
     def __init__(self) -> None:
         super().__init__()
@@ -108,6 +106,8 @@ class ModleeCallback(Callback):
         # could help generalize to different forward() calls
         if type(_batch) in [list,tuple]:
             _input = _batch[0]
+        else:
+            _input = _batch
             # print(_batch[0].shape)
             # _batch = torch.Tensor(_batch[0])
         try:
