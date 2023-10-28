@@ -1,13 +1,12 @@
 from importlib.machinery import SourceFileLoader
 import inspect
 import numpy as np
-
-import torch
 import torchsummary
+import torch
 import onnx2torch
 import onnx_graphsurgeon as gs
 import onnx
-
+import re
 # TODO - cache models for "longer" pipelines
 # e.g. torch2code do not need to convert to onnx every time
 
@@ -467,7 +466,7 @@ class Model(torch.nn.Module):
     ONNX text representations
     """
     def onnx2onnx_text(self, onnx_model):
-        
+
         def get_inner_string(s, _start, _end):
             """
             TODO rewrite the Converter().get_inner_string() to be this simple,
@@ -479,27 +478,40 @@ class Model(torch.nn.Module):
         
         onnx_str = onnx.printer.to_text(onnx_model)
         onnx_str = onnx_str.split('\n')
-        
         output_var = "None"
         n_lines = len(onnx_str)
         layer_name_type_dict = {}
+
+        # Regex expression to track floating point number calls" 
+        permitted_onxx_float_pattern = r'^(\{)?-?\d*(_\d*)*(e-?\d*)?(\})?[-\d>](,)?$'
+
         for line_ctr,onnx_uninit_line in enumerate(onnx_str):
             # Skip header
             if line_ctr<6: continue
             
             # Replace characters that cannot be parsed by onnx.parser.parse_model
             unparseable_chars = ['.',':','/']
+
+            # Creating a lsit of string elements to parse
             for unparseable_char in unparseable_chars:
-                # onnx_uninit_line = onnx_uninit_line.replace('.','_').replace(':','_').replace('/','_')
+                # Tracking decmimal point separately to enable parsing of floating point numbers                
+                # Simply converting other characters to '_' to facilitate parsing.
                 onnx_uninit_line = onnx_uninit_line.replace(unparseable_char,'_')
-                
+
+                        
             # Case: the line is defining a Constant float value that should keep the '.' within brackets {}
             # e.x. const_output_0 = Constant <value = float {0_08}>
             # '0_08' should be reverted back to '0.08'
-            if 'float' in onnx_uninit_line: 
-                value_underscore = get_inner_string(onnx_uninit_line, '{', '}')
-                value_decimal = value_underscore.replace('_','.')
-                onnx_uninit_line = onnx_uninit_line.replace(value_underscore,value_decimal)
+                
+            onnx_uninit_line_as_list = onnx_uninit_line.split(' ')
+            for idx,onnx_str_item in enumerate(onnx_uninit_line_as_list):
+                # Only replacing decimal point with string if pattern matches, allows capture of floating point values as parameters
+                if re.match(permitted_onxx_float_pattern, onnx_str_item):
+                    onnx_uninit_line_as_list[idx] = onnx_str_item.replace('_', '.')
+                else:
+                    continue
+
+            onnx_uninit_line = " ".join(onnx_uninit_line_as_list)
             
             # Found line with output variable, which must be a non-number
             # e.g. "191" is not valid, so we override it with "output_var"
@@ -516,7 +528,7 @@ class Model(torch.nn.Module):
                     layer_name_type_dict[layer_type].append(layer_name)
                                 
             onnx_str[line_ctr] = onnx_uninit_line
-            
+        
                 
         onnx_str = '\n'.join(onnx_str)
         onnx_str = onnx_str.replace(f"{output_var} =", f"output_var =")
@@ -530,7 +542,8 @@ class Model(torch.nn.Module):
                     layer_name,
                     f"{layer_type.lower()}_output_{layer_idx:04d}")
                 
-        return onnx_str
+        return onnx_str        
+    
     def torch2onnx_text(self, torch_model, *args, **kwargs):
         return self.onnx2onnx_text(self.torch2onnx(torch_model, *args, **kwargs))
             
