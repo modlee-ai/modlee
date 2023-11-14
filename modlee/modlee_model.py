@@ -243,15 +243,16 @@ class LogOutputCallback(Callback):
         self.on_validation_batch_end = partial(self._on_batch_end, phase='val')
 
     def _on_batch_end(self, trainer: Trainer, pl_module: LightningModule, outputs: STEP_OUTPUT, batch: Any, batch_idx: int, phase='train') -> None:
-        if isinstance(outputs, dict):
-            for output_key, output_value in outputs.items():
-                pl_module.log(output_key, output_value)
-        elif isinstance(outputs, list):
-            for output_idx, output_value in outputs:
-                pl_module.log(
-                    f"{phase}_step_output_{output_idx}", output_value)
-        elif outputs is not None:
-            pl_module.log(f"{phase}_loss", outputs)
+        if trainer.is_last_batch:
+            if isinstance(outputs, dict):
+                for output_key, output_value in outputs.items():
+                    pl_module.log(output_key, output_value)
+            elif isinstance(outputs, list):
+                for output_idx, output_value in outputs:
+                    pl_module.log(
+                        f"{phase}_step_output_{output_idx}", output_value)
+            elif outputs is not None:
+                pl_module.log(f"{phase}_loss", outputs)
         return super().on_train_batch_end(trainer, pl_module, outputs, batch, batch_idx)
 
 class DataStatsCallback(ModleeCallback):
@@ -264,7 +265,6 @@ class DataStatsCallback(ModleeCallback):
         self.DataStats = DataStats
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
-
         # data, targets = self._get_data_targets(trainer)
         data_snapshots = self._get_snapshots_batched(trainer.train_dataloader)
         self._save_snapshots_batched(data_snapshots)

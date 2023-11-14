@@ -441,11 +441,21 @@ class Model(torch.nn.Module):
 
     # def onnx_parameterless2onnx(self, onnx_path):
     def onnx_parameterless2onnx(self, onnx_model):
+        # graph = gs.import_onnx(
+        #     onnx_model)
+        #     # onnx.load(onnx_path))
+        # graph = self.init_graph_tensors(graph)
+        graph = self.onnx2onnx_gs(onnx_model)
+        return gs.export_onnx(graph)
+    
+    def onnx2onnx_gs(self, onnx_model):
+        """
+        TODO - refactor above method with this one
+        """
         graph = gs.import_onnx(
             onnx_model)
-            # onnx.load(onnx_path))
-        graph = self.init_graph_tensors(graph)
-        return gs.export_onnx(graph)
+        return self.init_graph_tensors(graph)
+        
         
     def onnx_uninit2torch(self, onnx_path):
         return self.onnx2torch(
@@ -481,8 +491,6 @@ class Model(torch.nn.Module):
                 # onnx_uninit_line = onnx_uninit_line.replace('.','_').replace(':','_').replace('/','_')
                 onnx_uninit_line = onnx_uninit_line.replace(unparseable_char,'_')
                 
-            
-            
             # Found line with output variable, which must be a non-number
             # e.g. "191" is not valid, so we override it with "output_var"
             if "=>" in onnx_uninit_line:
