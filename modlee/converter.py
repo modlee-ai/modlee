@@ -229,7 +229,7 @@ class Converter(object):
         """
         attr_name = self.get_attr_name(line)
         if attr_name:
-            print(f"Caught attr {attr_name} on line {line}")
+            # print(f"Caught attr {attr_name} on line {line}")
             try:
                 return {attr_name: getattr(model, attr_name)}
             except:
@@ -254,7 +254,7 @@ class Converter(object):
             if model_attr:
                 # model_attrs.append(model_attr)
                 model_attrs.update(model_attr)
-        print(model_attrs)
+        # print(model_attrs)
         return model_attrs
 
     def get_params_for_attr(self, model_attr):
@@ -491,6 +491,11 @@ class Model(torch.nn.Module):
                 # onnx_uninit_line = onnx_uninit_line.replace('.','_').replace(':','_').replace('/','_')
                 onnx_uninit_line = onnx_uninit_line.replace(unparseable_char,'_')
                 
+<<<<<<< HEAD
+=======
+            
+            
+>>>>>>> 9b35515... Rename ONNX graph's layer names to generic version (e.g. conv_output_11)
             # Found line with output variable, which must be a non-number
             # e.g. "191" is not valid, so we override it with "output_var"
             if "=>" in onnx_uninit_line:
