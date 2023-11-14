@@ -1,4 +1,5 @@
 
+import json
 from torchvision.models import \
     resnet34, ResNet34_Weights, \
     resnet18, ResNet18_Weights, \
@@ -12,6 +13,7 @@ import logging
 import modlee
 from modlee.converter import Converter
 from modlee.utils import get_model_size
+import requests
 modlee_converter = Converter()
 logging.basicConfig(level=logging.INFO)
 
@@ -81,6 +83,56 @@ class ActualRecommender(Recommender):
     def __init__(self) -> None:
         super().__init__()
 
+
+class ModelSummaryRecommender(Recommender):
+    def __init__(self):
+        super().__init__()
+        self.server_endpoint = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
+        
+    def analyze(self, dataloader, *args, **kwargs):
+        super().analyze(dataloader, *args, **kwargs)
+        num_classes = len(dataloader.dataset.classes)
+        self.meta_features.update({
+            'num_classes': num_classes
+        })
+        try:
+            onnx_text = self._get_onnx_text(self.meta_features)
+            model = modlee_converter.onnx_text2torch(onnx_text)
+            for param in model.parameters():
+                # torch.nn.init.constant_(param,0.001)
+                try:
+                    torch.nn.init.xavier_normal_(param,1.0)
+                except:
+                    torch.nn.init.normal_(param)
+            model = self._append_classifier_to_model(model, num_classes)
+            self.model = RecommendedModel(model)
+        except:
+            print("Could not retrieve model, data features may be malformed ")
+            self.model = None
+        
+    def _get_onnx_text(self, meta_features):
+        meta_features = json.loads(json.dumps(meta_features))
+        print(meta_features)
+        res = requests.post(
+            f'{self.server_endpoint}/infer',
+            data={'data_stats':str(meta_features)}
+        )
+        onnx_text = res.content
+        print(onnx_text)
+        return onnx_text
+    
+    def _append_classifier_to_model(self,model,num_classes):
+        class Model(nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.model = model
+                self.model_clf_layer = nn.Linear(1000, num_classes)
+
+            def forward(self, x):
+                x = self.model(x)
+                x = self.model_clf_layer(x)
+                return x
+        return Model()
 
 class ImageRecommender(Recommender):
     def __init__(self):
