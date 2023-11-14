@@ -12,6 +12,7 @@ import logging
 
 import modlee
 from modlee.converter import Converter
+from modlee.utils import get_model_size
 import requests
 modlee_converter = Converter()
 logging.basicConfig(level=logging.INFO)
