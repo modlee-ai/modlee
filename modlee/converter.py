@@ -228,7 +228,7 @@ class Converter(object):
         """
         attr_name = self.get_attr_name(line)
         if attr_name:
-            print(f"Caught attr {attr_name} on line {line}")
+            # print(f"Caught attr {attr_name} on line {line}")
             try:
                 return {attr_name: getattr(model, attr_name)}
             except:
