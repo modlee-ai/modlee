@@ -511,7 +511,6 @@ class Model(torch.nn.Module):
 
             onnx_uninit_line = " ".join(onnx_uninit_line_as_list)
             
-
             # Found line with output variable, which must be a non-number
             # e.g. "191" is not valid, so we override it with "output_var"
             if "=>" in onnx_uninit_line:
