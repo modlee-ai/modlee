@@ -228,6 +228,7 @@ class Converter(object):
         """
         attr_name = self.get_attr_name(line)
         if attr_name:
+            print(f"Caught attr {attr_name} on line {line}")
             try:
                 return {attr_name: getattr(model, attr_name)}
             except:
@@ -439,11 +440,21 @@ class Model(torch.nn.Module):
 
     # def onnx_parameterless2onnx(self, onnx_path):
     def onnx_parameterless2onnx(self, onnx_model):
+        # graph = gs.import_onnx(
+        #     onnx_model)
+        #     # onnx.load(onnx_path))
+        # graph = self.init_graph_tensors(graph)
+        graph = self.onnx2onnx_gs(onnx_model)
+        return gs.export_onnx(graph)
+    
+    def onnx2onnx_gs(self, onnx_model):
+        """
+        TODO - refactor above method with this one
+        """
         graph = gs.import_onnx(
             onnx_model)
-            # onnx.load(onnx_path))
-        graph = self.init_graph_tensors(graph)
-        return gs.export_onnx(graph)
+        return self.init_graph_tensors(graph)
+        
         
     def onnx_uninit2torch(self, onnx_path):
         return self.onnx2torch(
@@ -500,6 +511,7 @@ class Model(torch.nn.Module):
 
             onnx_uninit_line = " ".join(onnx_uninit_line_as_list)
             
+
             # Found line with output variable, which must be a non-number
             # e.g. "191" is not valid, so we override it with "output_var"
             if "=>" in onnx_uninit_line:
