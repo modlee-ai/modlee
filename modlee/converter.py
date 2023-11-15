@@ -491,11 +491,6 @@ class Model(torch.nn.Module):
                 # onnx_uninit_line = onnx_uninit_line.replace('.','_').replace(':','_').replace('/','_')
                 onnx_uninit_line = onnx_uninit_line.replace(unparseable_char,'_')
                 
-<<<<<<< HEAD
-=======
-            
-            
->>>>>>> 9b35515... Rename ONNX graph's layer names to generic version (e.g. conv_output_11)
             # Found line with output variable, which must be a non-number
             # e.g. "191" is not valid, so we override it with "output_var"
             if "=>" in onnx_uninit_line:
