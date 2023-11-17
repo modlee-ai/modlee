@@ -554,7 +554,10 @@ class Model(torch.nn.Module):
     def onnx_text2onnx(self, onnx_text):
         return onnx.parser.parse_model(onnx_text)
         
-    def onnx_text2torch(self, onnx_text):
+    def onnx_text2torch(self, onnx_text: bytes):
+        """
+        Seems that inputs should be 
+        """
         onnx_model = self.onnx_text2onnx(onnx_text)
         onnx_graph = gs.import_onnx(onnx_model)
         onnx_graph = self.init_graph_tensors(onnx_graph)
