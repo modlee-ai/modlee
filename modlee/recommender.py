@@ -12,6 +12,7 @@ import logging
 
 import modlee
 from modlee.converter import Converter
+from modlee.utils import get_model_size
 import requests
 modlee_converter = Converter()
 logging.basicConfig(level=logging.INFO)
@@ -44,9 +45,28 @@ class Recommender(object):
         object (_type_): _description_
     """
 
-    def __init__(self) -> None:
+    def __init__(self, dataloader=None) -> None:
         self._model = None
         self.meta_features = None
+        if dataloader is not None:
+            self.analyze(dataloader)
+        
+    def __call__(self, *args, **kwargs):
+        """
+        Wrapper to analyze
+        """
+        self.analyze(*args, **kwargs)
+
+        
+    def analyze(self, dataloader, *args, **kwargs):
+        """
+        Set dataloader and calculate meta features
+
+        Args:
+            dataloader (torch.utils.data.DataLoader): The dataloader
+        """
+        self.dataloader = dataloader
+        self.meta_features = self.calculate_meta_features(dataloader)
 
     def calculate_meta_features(self, dataloader):
         if modlee.data_stats.module_available:
@@ -58,7 +78,7 @@ class Recommender(object):
             return modlee.data_stats.ImageDataStats(dataloader, testing=True).stats_rep
             #??? Convert to ImageDataStats
         else:
-            print("Could not analyze data (check access to server)")
+            print("Could not fingerprint data (check access to server)")
             return {}
 
     @property
@@ -82,11 +102,11 @@ class ActualRecommender(Recommender):
     def __init__(self) -> None:
         super().__init__()
 
+SERVER_ENDPOINT = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
 
 class ModelSummaryRecommender(Recommender):
-    def __init__(self):
-        super().__init__()
-        self.server_endpoint = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
+    def __init__(self, *args, **kwargs):        
+        super().__init__(*args, **kwargs)
         
     def analyze(self, dataloader, *args, **kwargs):
         super().analyze(dataloader, *args, **kwargs)
@@ -95,8 +115,9 @@ class ModelSummaryRecommender(Recommender):
             'num_classes': num_classes
         })
         try:
-            onnx_text = self._get_onnx_text(self.meta_features)
-            model = modlee_converter.onnx_text2torch(onnx_text)
+        # if 1:
+            self.onnx_text = self._get_onnx_text(self.meta_features)
+            model = modlee_converter.onnx_text2torch(self.onnx_text)
             for param in model.parameters():
                 # torch.nn.init.constant_(param,0.001)
                 try:
@@ -104,8 +125,9 @@ class ModelSummaryRecommender(Recommender):
                 except:
                     torch.nn.init.normal_(param)
             model = self._append_classifier_to_model(model, num_classes)
-            self.model = RecommendedModel(model)
+            self.model = ImageClassificationModleeModel(model)
         except:
+        # else:
             print("Could not retrieve model, data features may be malformed ")
             self.model = None
         
@@ -113,9 +135,10 @@ class ModelSummaryRecommender(Recommender):
         meta_features = json.loads(json.dumps(meta_features))
         print(meta_features)
         res = requests.post(
-            f'{self.server_endpoint}/infer',
+            f'{SERVER_ENDPOINT}/infer',
             data={'data_stats':str(meta_features)}
         )
+        print(res)
         onnx_text = res.content
         print(onnx_text)
         return onnx_text
@@ -156,57 +179,8 @@ class ImageRecommender(Recommender):
                     torch.nn.init.normal_(param)
             model = self._append_classifier_to_model(model, num_classes)
             self.model = RecommendedModel(model)
-        except:
-            print("Could not retrieve model, data features may be malformed ")
-            self.model = None
-        
-    def _get_onnx_text(self, meta_features):
-        meta_features = json.loads(json.dumps(meta_features))
-        print(meta_features)
-        res = requests.post(
-            f'{self.server_endpoint}/infer',
-            data={'data_stats':str(meta_features)}
-        )
-        onnx_text = res.content
-        print(onnx_text)
-        return onnx_text
-    
-    def _append_classifier_to_model(self,model,num_classes):
-        class Model(nn.Module):
-            def __init__(self):
-                super().__init__()
-                self.model = model
-                self.model_clf_layer = nn.Linear(1000, num_classes)
-
-            def forward(self, x):
-                x = self.model(x)
-                x = self.model_clf_layer(x)
-                return x
-        return Model()
-
-class ImageRecommender(Recommender):
-    def __init__(self):
-        super().__init__()
-        self.server_endpoint = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
-        
-    def analyze(self, dataloader, *args, **kwargs):
-        super().analyze(dataloader, *args, **kwargs)
-        num_classes = len(dataloader.dataset.classes)
-        self.meta_features.update({
-            'num_classes': num_classes,
-            'input_sizes':self.input_sizes,
-        })
-        try:
-            onnx_text = self._get_onnx_text(self.meta_features)
-            model = modlee_converter.onnx_text2torch(onnx_text)
-            for param in model.parameters():
-                # torch.nn.init.constant_(param,0.001)
-                try:
-                    torch.nn.init.xavier_normal_(param,1.0)
-                except:
-                    torch.nn.init.normal_(param)
-            model = self._append_classifier_to_model(model, num_classes)
-            self.model = RecommendedModel(model)
+            typewriter_print(onnx_text,sleep_time=0.005)        
+            
         except:
             print("Could not retrieve model, data features may be malformed ")
             self.model = None
@@ -263,25 +237,26 @@ class ImageRecommender(Recommender):
 
 
 def typewriter_print(text,sleep_time=0.001,max_line_length=150,max_lines=50):
+    if not isinstance(text, str):
+        text = str(text)
+    text_lines = text.split('\n')
 
-   text_lines = text.split('\n')
+    if len(text_lines)>max_lines:
+        text_lines = text_lines[:max_lines]+['...\n']
 
-   if len(text_lines)>max_lines:
-      text_lines = text_lines[:max_lines]+['...\n']
+    def shorten_if_needed(line,max_line_length):
+        if len(line)>max_line_length:
+            return line[:max_line_length]+' ...\n'
+        else:
+            return line+'\n'
 
-   def shorten_if_needed(line,max_line_length):
-      if len(line)>max_line_length:
-         return line[:max_line_length]+' ...\n'
-      else:
-         return line+'\n'
+    text_lines = [shorten_if_needed(l,max_line_length) for l in text_lines]
 
-   text_lines = [shorten_if_needed(l,max_line_length) for l in text_lines]
-
-   for line in text_lines:
-      for c in line:
-         print(c, end='')
-         sys.stdout.flush()
-         sleep(sleep_time)
+    for line in text_lines:
+        for c in line:
+            print(c, end='')
+            sys.stdout.flush()
+            sleep(sleep_time)
         
 # typewriter_print(text,sleep_time=0.005)
 
