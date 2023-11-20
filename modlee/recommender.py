@@ -36,6 +36,8 @@ import sys
 import os
 from urllib.parse import urlparse
 
+SERVER_ENDPOINT = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
+
 
 class Recommender(object):
     """
@@ -45,7 +47,7 @@ class Recommender(object):
         object (_type_): _description_
     """
 
-    def __init__(self, dataloader=None) -> None:
+    def __init__(self, dataloader=None, *args, **kwargs) -> None:
         self._model = None
         self.meta_features = None
         if dataloader is not None:
@@ -67,6 +69,7 @@ class Recommender(object):
         """
         self.dataloader = dataloader
         self.meta_features = self.calculate_meta_features(dataloader)
+        # self.write_files()
 
     def calculate_meta_features(self, dataloader):
         if modlee.data_stats.module_available:
@@ -91,241 +94,33 @@ class Recommender(object):
     @model.setter
     def model(self, model):
         self._model = model
-
-
-class DumbRecommender(Recommender):
-    def __init__(self) -> None:
-        super().__init__()
-
-
-class ActualRecommender(Recommender):
-    def __init__(self) -> None:
-        super().__init__()
-
-SERVER_ENDPOINT = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
-
-class ModelSummaryRecommender(Recommender):
-    def __init__(self, *args, **kwargs):        
-        super().__init__(*args, **kwargs)
         
-    def analyze(self, dataloader, *args, **kwargs):
-        super().analyze(dataloader, *args, **kwargs)
-        num_classes = len(dataloader.dataset.classes)
-        self.meta_features.update({
-            'num_classes': num_classes
-        })
-        try:
-        # if 1:
-            self.onnx_text = self._get_onnx_text(self.meta_features)
-            model = modlee_converter.onnx_text2torch(self.onnx_text)
-            for param in model.parameters():
-                # torch.nn.init.constant_(param,0.001)
-                try:
-                    torch.nn.init.xavier_normal_(param,1.0)
-                except:
-                    torch.nn.init.normal_(param)
-            model = self._append_classifier_to_model(model, num_classes)
-            self.model = ImageClassificationModleeModel(model)
-        except:
-        # else:
-            print("Could not retrieve model, data features may be malformed ")
-            self.model = None
         
-    def _get_onnx_text(self, meta_features):
-        meta_features = json.loads(json.dumps(meta_features))
-        print(meta_features)
-        res = requests.post(
-            f'{SERVER_ENDPOINT}/infer',
-            data={'data_stats':str(meta_features)}
-        )
-        print(res)
-        onnx_text = res.content
-        print(onnx_text)
-        return onnx_text
-    
-    def _append_classifier_to_model(self,model,num_classes):
-        class Model(nn.Module):
-            def __init__(self):
-                super().__init__()
-                self.model = model
-                self.model_clf_layer = nn.Linear(1000, num_classes)
-
-            def forward(self, x):
-                x = self.model(x)
-                x = self.model_clf_layer(x)
-                return x
-        return Model()
-
-class ImageRecommender(Recommender):
-    def __init__(self):
-        super().__init__()
-        self.server_endpoint = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
+    def get_model_details(self):
+        #??? save self.model_onnx_text and self.model_code to local place, point use to them here
+        # In case you wanted to take a deeper look I saved the onnx graph summary here:, I also saved and python editable version of the model with train, val, and optimzers. This is a great place to start your own model exploration!
         
-    def analyze(self, dataloader, *args, **kwargs):
-        super().analyze(dataloader, *args, **kwargs)
-        num_classes = len(dataloader.dataset.classes)
-        self.meta_features.update({
-            'num_classes': num_classes,
-            'input_sizes':self.input_sizes,
-        })
-        try:
-            onnx_text = self._get_onnx_text(self.meta_features)
-            model = modlee_converter.onnx_text2torch(onnx_text)
-            for param in model.parameters():
-                # torch.nn.init.constant_(param,0.001)
-                try:
-                    torch.nn.init.xavier_normal_(param,1.0)
-                except:
-                    torch.nn.init.normal_(param)
-            model = self._append_classifier_to_model(model, num_classes)
-            self.model = RecommendedModel(model)
-            typewriter_print(onnx_text,sleep_time=0.005)        
-            
-        except:
-            print("Could not retrieve model, data features may be malformed ")
-            self.model = None
-        
-    def _get_onnx_text(self, meta_features):
-        meta_features = json.loads(json.dumps(meta_features))
-        print(meta_features)
-        res = requests.post(
-            f'{self.server_endpoint}/infer',
-            data={'data_stats':str(meta_features)}
-        )
-        onnx_text = res.content
-        print(onnx_text)
-        return onnx_text
-    
-    def _append_classifier_to_model(self,model,num_classes):
-        class Model(nn.Module):
-            def __init__(self):
-                super().__init__()
-                self.model = model
-                self.model_clf_layer = nn.Linear(1000, num_classes)
+        print('--- Modlee Recommended Model Details --->')
 
-            def forward(self, x):
-                x = self.features(x)
-                x = x.view(x.size(0), -1)
-                x = self.relu(self.fc1(x))
-                x = self.fc2(x)
-                return x
+        indent = '        '
+        text_indent = '\n            '
 
-        num_layers=1
-        num_channels=8
+        summary_message = '\n[Modlee] -> In case you want to take a deeper look, I saved the summary of my current model recommendation here:{}file: {}'.format(text_indent+indent,self.model_onnx_text_file)
+        typewriter_print(summary_message,sleep_time=0.01)        
 
-        ret_model = VariableConvNet(num_layers,num_channels,self.input_sizes,self.num_classes)
+        code_message = '\n[Modlee] -> I also saved the model as a python editable version (model def, train, val, optimizer):{}file: {}{}This is a great place to start your own model exploration!'.format(text_indent+indent,self.model_code_file,text_indent)
+        typewriter_print(code_message,sleep_time=0.01)        
 
-        for i in range(10):
-
-            model = VariableConvNet(int(num_layers),int(num_channels),self.input_sizes,self.num_classes)
-
-            if get_model_size(model)<self.max_model_size_MB:
-                ret_model = model
-                num_layers += 1
-                num_channels = num_channels*2
-            else:
-                break
-
-        return ret_model
-
-
-
-class ImageRecommender(Recommender):
-    def __init__(self):
-        super().__init__()
-
-
-
-def typewriter_print(text,sleep_time=0.001,max_line_length=150,max_lines=50):
-    if not isinstance(text, str):
-        text = str(text)
-    text_lines = text.split('\n')
-
-    if len(text_lines)>max_lines:
-        text_lines = text_lines[:max_lines]+['...\n']
-
-    def shorten_if_needed(line,max_line_length):
-        if len(line)>max_line_length:
-            return line[:max_line_length]+' ...\n'
-        else:
-            return line+'\n'
-
-    text_lines = [shorten_if_needed(l,max_line_length) for l in text_lines]
-
-    for line in text_lines:
-        for c in line:
-            print(c, end='')
-            sys.stdout.flush()
-            sleep(sleep_time)
-        
-# typewriter_print(text,sleep_time=0.005)
-
-
-class ImageClassificationRecommender(ImageRecommender):
-    def __init__(self,dataloader,max_model_size_MB=10,num_classes=10,dataloader_input_inds=[0],min_accuracy=None,max_loss=None):
-        super().__init__()
-
-        sleep(0.5)
-
-        print('---Contacting Modlee for a Recommended Image Classification Model--->\n')
-        
-        sleep(0.5)
-
-        self.meta_features = self.calculate_meta_features(dataloader)
-
-        #??? type writer effect
-        generation_message = '[Modlee] -> From analyzing your dataset, I recommend the following neural network model:\n'
-        typewriter_print(generation_message,sleep_time=0.01)        
-
-
-        self.dataloader = dataloader
-        self.max_model_size_MB = max_model_size_MB
-        self.num_classes = num_classes
-        self.dataloader_input_inds = dataloader_input_inds
-
-        self.input_torches,self.input_sizes = self.get_input_torch()
-
-        #sloppy for now
-        self.input_torches = self.input_torches[0]
-        # print(self.input_torches)
-        self.input_sizes = self.input_sizes[0]
-        # print(self.input_sizes)
-
-        self.num_classes = num_classes
-
-
-        self.meta_features.update({
-            'num_classes': num_classes,
-            'input_sizes':self.input_sizes,
-        })
-
-        self.model_torch,self.model_str = self.recommend_model(self.meta_features)
-        self.model_onnx = modlee_converter.torch2onnx(self.model_torch, input_dummy=self.input_torches)
-        self.model_onnx_text = modlee_converter.onnx2onnx_text(self.model_onnx)
-        self.model = ImageClassificationModleeModel(self.model_torch)
-
-        _get_code_text_for_model = getattr(modlee, 'get_code_text_for_model', None)
-
-        if _get_code_text_for_model is not None:
-            # ==== METHOD 1 ====
-            # Save model as code using parsing
-            self.model_code = modlee.get_code_text_for_model(self.model, include_header=True)
-        else:
-            self.model_code = modlee_converter.onnx_text2code(self.model_onnx_text)
-
-        self.model_code = self.model_code.replace('= model','= '+self.model_str)
-        self.model_code = self.model_code.replace('self, model,','self,')
-
-        clean_model_onnx_text = '>'.join(self.model_onnx_text.split('>')[1:])
-
-        typewriter_print(clean_model_onnx_text,sleep_time=0.005)        
+    def write_files(self):
 
         self.model_onnx_text_file = './modlee_model_summary.txt'
         self.model_code_file = './modlee_model_code.py'
 
-        with open(self.model_onnx_text_file, 'w') as file: file.write(self.model_onnx_text)
-        with open(self.model_code_file, 'w') as file: file.write(self.model_code)
-
+        with open(self.model_onnx_text_file, 'w') as file:
+            file.write(self.model_onnx_text)
+        if hasattr(self,'model_code'):
+            with open(self.model_code_file, 'w') as file:
+                file.write(self.model_code)
 
 
     def train(self,max_epochs=1,val_dataloaders=None):
@@ -406,23 +201,6 @@ class ImageClassificationRecommender(ImageRecommender):
 
         print(vertical_sep)
 
-
-    def get_model_details(self):
-        #??? save self.model_onnx_text and self.model_code to local place, point use to them here
-        # In case you wanted to take a deeper look I saved the onnx graph summary here:, I also saved and python editable version of the model with train, val, and optimzers. This is a great place to start your own model exploration!
-        
-        print('--- Modlee Recommended Model Details --->')
-
-        indent = '        '
-        text_indent = '\n            '
-
-        summary_message = '\n[Modlee] -> In case you want to take a deeper look, I saved the summary of my current model recommendation here:{}file: {}'.format(text_indent+indent,self.model_onnx_text_file)
-        typewriter_print(summary_message,sleep_time=0.01)        
-
-        code_message = '\n[Modlee] -> I also saved the model as a python editable version (model def, train, val, optimizer):{}file: {}{}This is a great place to start your own model exploration!'.format(text_indent+indent,self.model_code_file,text_indent)
-        typewriter_print(code_message,sleep_time=0.01)        
-
-
     def get_input_torch(self):
 
         # Assuming you have a DataLoader called dataloader
@@ -436,7 +214,234 @@ class ImageClassificationRecommender(ImageRecommender):
 
         return input_torches,input_sizes
 
+    def get_code_text(self):
+        _get_code_text_for_model = getattr(modlee, 'get_code_text_for_model', None)
 
+        if _get_code_text_for_model is not None:
+            # ==== METHOD 1 ====
+            # Save model as code using parsing
+            self.model_code = modlee.get_code_text_for_model(self.model, include_header=True)
+        else:
+            self.model_code = modlee_converter.onnx_text2code(self.model_onnx_text)
+
+        try:
+            self.model_code = self.model_code.replace('= model','= '+self.model_str)
+        except:
+            pass
+        self.model_code = self.model_code.replace('self, model,','self,')
+
+        return self.model_code
+
+class DumbRecommender(Recommender):
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class ActualRecommender(Recommender):
+    def __init__(self) -> None:
+        super().__init__()
+
+class ModelSummaryRecommender(Recommender):
+    def __init__(self, *args, **kwargs):        
+        super().__init__(*args, **kwargs)
+        
+    def analyze(self, dataloader, *args, **kwargs):
+        super().analyze(dataloader, *args, **kwargs)
+        num_classes = len(dataloader.dataset.classes)
+        self.meta_features.update({
+            'num_classes': num_classes
+        })
+        # try:
+        if 1:
+            self.model_onnx_text = self._get_onnx_text(self.meta_features)
+            model = modlee_converter.onnx_text2torch(self.model_onnx_text)
+            for param in model.parameters():
+                # torch.nn.init.constant_(param,0.001)
+                try:
+                    torch.nn.init.xavier_normal_(param,1.0)
+                except:
+                    torch.nn.init.normal_(param)
+            model = self._append_classifier_to_model(model, num_classes)
+            self.model = ImageClassificationModleeModel(model)
+
+            self.get_code_text()
+            self.model_onnx_text = self.model_onnx_text.decode('utf-8')
+            clean_model_onnx_text = '>'.join(self.model_onnx_text.split('>')[1:])
+            typewriter_print(clean_model_onnx_text,sleep_time=0.005)
+            self.write_files()
+            
+        # except:
+        else:
+            print("Could not retrieve model, data features may be malformed ")
+            self.model = None
+        
+    def _get_onnx_text(self, meta_features):
+        meta_features = json.loads(json.dumps(meta_features))
+        res = requests.post(
+            f'{SERVER_ENDPOINT}/infer',
+            data={'data_stats':str(meta_features)}
+        )
+        onnx_text = res.content
+        return onnx_text
+    
+    def _append_classifier_to_model(self,model,num_classes):
+        class Model(nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.model = model
+                self.model_clf_layer = nn.Linear(1000, num_classes)
+
+            def forward(self, x):
+                x = self.model(x)
+                x = self.model_clf_layer(x)
+                return x
+        return Model()
+
+class ImageRecommender(Recommender):
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        self.server_endpoint = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
+        
+    # def analyze(self, dataloader, *args, **kwargs):
+    #     super().analyze(dataloader, *args, **kwargs)
+    #     num_classes = len(dataloader.dataset.classes)
+    #     self.meta_features.update({
+    #         'num_classes': num_classes,
+    #         'input_sizes':self.input_sizes,
+    #     })
+    #     try:
+    #         onnx_text = self._get_onnx_text(self.meta_features)
+    #         model = modlee_converter.onnx_text2torch(onnx_text)
+    #         for param in model.parameters():
+    #             # torch.nn.init.constant_(param,0.001)
+    #             try:
+    #                 torch.nn.init.xavier_normal_(param,1.0)
+    #             except:
+    #                 torch.nn.init.normal_(param)
+    #         model = self._append_classifier_to_model(model, num_classes)
+    #         self.model = RecommendedModel(model)
+    #         typewriter_print(onnx_text,sleep_time=0.005)        
+            
+    #     except:
+    #         print("Could not retrieve model, data features may be malformed ")
+    #         self.model = None
+        
+    def _get_onnx_text(self, meta_features):
+        meta_features = json.loads(json.dumps(meta_features))
+        res = requests.post(
+            f'{self.server_endpoint}/infer',
+            data={'data_stats':str(meta_features)}
+        )
+        onnx_text = res.content
+        return onnx_text
+    
+    def _append_classifier_to_model(self,model,num_classes):
+        class Model(nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.model = model
+                self.model_clf_layer = nn.Linear(1000, num_classes)
+
+            def forward(self, x):
+                x = self.features(x)
+                x = x.view(x.size(0), -1)
+                x = self.relu(self.fc1(x))
+                x = self.fc2(x)
+                return x
+
+        num_layers=1
+        num_channels=8
+
+        ret_model = VariableConvNet(num_layers,num_channels,self.input_sizes,self.num_classes)
+
+        for i in range(10):
+
+            model = VariableConvNet(int(num_layers),int(num_channels),self.input_sizes,self.num_classes)
+
+            if get_model_size(model)<self.max_model_size_MB:
+                ret_model = model
+                num_layers += 1
+                num_channels = num_channels*2
+            else:
+                break
+
+        return ret_model
+
+
+def typewriter_print(text,sleep_time=0.001,max_line_length=150,max_lines=20):
+    if not isinstance(text, str):
+        text = str(text)
+    text_lines = text.split('\n')
+
+    if len(text_lines)>max_lines:
+        text_lines = text_lines[:max_lines]+['...\n']
+
+    def shorten_if_needed(line,max_line_length):
+        if len(line)>max_line_length:
+            return line[:max_line_length]+' ...\n'
+        else:
+            return line+'\n'
+
+    text_lines = [shorten_if_needed(l,max_line_length) for l in text_lines]
+
+    for line in text_lines:
+        for c in line:
+            print(c, end='')
+            sys.stdout.flush()
+            sleep(sleep_time)
+        
+# typewriter_print(text,sleep_time=0.005)
+
+
+class ImageClassificationRecommender(ImageRecommender):
+    def __init__(self,dataloader,max_model_size_MB=10,num_classes=10,dataloader_input_inds=[0],min_accuracy=None,max_loss=None):
+
+        sleep(0.5)
+
+        print('---Contacting Modlee for a Recommended Image Classification Model--->\n')
+        
+        sleep(0.5)
+        self.dataloader = dataloader
+        self.max_model_size_MB = max_model_size_MB
+        self.num_classes = num_classes
+        self.dataloader_input_inds = dataloader_input_inds
+        self.num_classes = num_classes
+        
+        super().__init__(dataloader)
+        
+        
+    def analyze(self, dataloader, *args, **kwargs):
+        super().analyze(dataloader)
+        
+        # self.meta_features = self.calculate_meta_features(dataloader)
+        # self.analyze(dataloader)
+
+        #??? type writer effect
+        generation_message = '[Modlee] -> From analyzing your dataset, I recommend the following neural network model:\n'
+        typewriter_print(generation_message,sleep_time=0.01)        
+
+        self.input_torches,self.input_sizes = self.get_input_torch()
+
+        #sloppy for now
+        self.input_torches = self.input_torches[0]
+        # print(self.input_torches)
+        self.input_sizes = self.input_sizes[0]
+        # print(self.input_sizes)
+
+        self.meta_features.update({
+            'num_classes': self.num_classes,
+            'input_sizes': self.input_sizes,
+        })
+
+        self.model_torch,self.model_str = self.recommend_model(self.meta_features)
+        self.model_onnx = modlee_converter.torch2onnx(self.model_torch, input_dummy=self.input_torches)
+        self.model_onnx_text = modlee_converter.onnx2onnx_text(self.model_onnx)
+        self.model = ImageClassificationModleeModel(self.model_torch)
+
+        self.get_code_text()
+        clean_model_onnx_text = '>'.join(self.model_onnx_text.split('>')[1:])
+        typewriter_print(clean_model_onnx_text,sleep_time=0.005)
+        self.write_files()
 
     def recommend_model(self, meta_features):
         """
