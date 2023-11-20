@@ -228,7 +228,7 @@ class Converter(object):
         """
         attr_name = self.get_attr_name(line)
         if attr_name:
-            print(f"Caught attr {attr_name} on line {line}")
+            # print(f"Caught attr {attr_name} on line {line}")
             try:
                 return {attr_name: getattr(model, attr_name)}
             except:
@@ -253,8 +253,10 @@ class Converter(object):
             if model_attr:
                 # model_attrs.append(model_attr)
                 model_attrs.update(model_attr)
-        print(model_attrs)
+        # print(model_attrs)
         return model_attrs
+    
+
 
     def get_params_for_attr(self, model_attr):
         """
@@ -511,7 +513,6 @@ class Model(torch.nn.Module):
 
             onnx_uninit_line = " ".join(onnx_uninit_line_as_list)
             
-
             # Found line with output variable, which must be a non-number
             # e.g. "191" is not valid, so we override it with "output_var"
             if "=>" in onnx_uninit_line:
@@ -553,7 +554,10 @@ class Model(torch.nn.Module):
     def onnx_text2onnx(self, onnx_text):
         return onnx.parser.parse_model(onnx_text)
         
-    def onnx_text2torch(self, onnx_text):
+    def onnx_text2torch(self, onnx_text: bytes):
+        """
+        Seems that inputs should be 
+        """
         onnx_model = self.onnx_text2onnx(onnx_text)
         onnx_graph = gs.import_onnx(onnx_model)
         onnx_graph = self.init_graph_tensors(onnx_graph)
@@ -564,3 +568,8 @@ class Model(torch.nn.Module):
         torch_model = self.onnx_text2torch(onnx_text_path)
         torch_code = self.torch_graph2code(torch_model)
         return torch_code
+    
+    # def code2modlee_model(self, code):
+    #     torch_model = self.onnx_text2torch(onnx_text_path)
+    #     torch_code = self.torch_graph2code(torch_model)
+    #     return torch_code
