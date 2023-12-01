@@ -81,7 +81,7 @@ class Recommender(object):
             return modlee.data_stats.ImageDataStats(dataloader, testing=True).stats_rep
             #??? Convert to ImageDataStats
         else:
-            print("Could not fingerprint data (check access to server)")
+            print("Could not analyze data (check access to server)")
             return {}
 
     @property
