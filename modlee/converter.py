@@ -34,12 +34,14 @@ class Converter(object):
         # This is a placeholder for ResNet-based models,
         # and probably other models that take 3-channel images as inputs
         # input_dummy = torch.randn([10, 3, 300, 300])
-        torch.onnx.export(
-            torch_model,
-            input_dummy,
-            tmp_onnx_path,
-            export_params=False,
-            )
+        with torch.no_grad():
+            torch.onnx.export(
+                torch_model,
+                input_dummy,
+                tmp_onnx_path,
+                export_params=False,
+                opset_version=17,
+                )
         # The model we load will have no parameters initialized
         onnx_parameterless_model = onnx.load(tmp_onnx_path)
         # Initialize the parameterless model
@@ -497,6 +499,8 @@ class Model(torch.nn.Module):
                 # Tracking decmimal point separately to enable parsing of floating point numbers                
                 # Simply converting other characters to '_' to facilitate parsing.
                 onnx_uninit_line = onnx_uninit_line.replace(unparseable_char,'_')
+                
+            onnx_uninit_line = re.sub('makrograph-edge\((\d*),(\d*)\)_','makrograph_edge_\\1_\\2_',onnx_uninit_line)
 
                         
             # Case: the line is defining a Constant float value that should keep the '.' within brackets {}
