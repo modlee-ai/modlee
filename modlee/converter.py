@@ -464,10 +464,34 @@ class Model(torch.nn.Module):
         return self.onnx2torch(
             self.onnx_parameterless2onnx(onnx_path))
         
+        
+        
+    def remove_identity(self, onnx_str):
+        
+        # Patterns to find 'identity_output_xxxx' assignments and their usage
+        #pattern_assignment = re.compile(r'identity_output_(\d{4})\s*=\s*Identity\s*\((onnx__Conv_\d+)\)')
+        pattern_assignment = re.compile(r'identity_output_(\d{4})\s*=\s*Identity\s*\(([^)]+)\)')
+
+        assignments = {match[0]: match[1] for match in pattern_assignment.findall(onnx_str)}
+
+        # Remove the assignment lines for 'identity_output_xxxx'
+        onnx_str = re.sub(pattern_assignment, '', onnx_str)
+
+        # Replace each instance of 'identity_output_xxxx' with its assigned value
+        for identity_number, actual_value in assignments.items():
+            onnx_str = onnx_str.replace(f'identity_output_{identity_number}', actual_value)
+
+        # Remove multiple spaces and replace them with a single space
+        onnx_str = re.sub(r' +', ' ', onnx_str)
+        # Remove chunks of blank space (multiple newlines)
+        onnx_str = re.sub(r'\n\s*\n', '\n', onnx_str)
+
+        return onnx_str
+    
     """
     ONNX text representations
     """
-    def onnx2onnx_text(self, onnx_model):
+    def onnx2onnx_text(self, onnx_model, remove_identity=False):
 
         def get_inner_string(s, _start, _end):
             """
@@ -500,8 +524,9 @@ class Model(torch.nn.Module):
                 # Simply converting other characters to '_' to facilitate parsing.
                 onnx_uninit_line = onnx_uninit_line.replace(unparseable_char,'_')
                 
+            # For NASLib models, handle unparseable characters in e.g. makrograph-edge(7,8)_...
+            # Handles the dash, comma, and parentheses
             onnx_uninit_line = re.sub('makrograph-edge\((\d*),(\d*)\)_','makrograph_edge_\\1_\\2_',onnx_uninit_line)
-
                         
             # Case: the line is defining a Constant float value that should keep the '.' within brackets {}
             # e.x. const_output_0 = Constant <value = float {0_08}>
@@ -546,6 +571,8 @@ class Model(torch.nn.Module):
                     layer_name,
                     f"{layer_type.lower()}_output_{layer_idx:04d}")
                 
+        if remove_identity:
+            onnx_str = self.remove_identity(onnx_str)
         return onnx_str        
     
     def torch2onnx_text(self, torch_model, *args, **kwargs):
