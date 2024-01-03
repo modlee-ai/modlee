@@ -34,7 +34,11 @@ class Converter(object):
         # This is a placeholder for ResNet-based models,
         # and probably other models that take 3-channel images as inputs
         # input_dummy = torch.randn([10, 3, 300, 300])
+        torch_model.eval()
+        input_dummy.requires_grad = False
         with torch.no_grad():
+            for param in torch_model.parameters():
+                param.requires_grad = False
             torch.onnx.export(
                 torch_model,
                 input_dummy,
