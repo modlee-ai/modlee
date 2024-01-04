@@ -386,6 +386,9 @@ class Model(torch.nn.Module):
         torch.onnx.export(..., export_params=False)
         This enables exporting to torch
         
+        Identity layers get special treatment; they must be initialized for onnx2torch,
+        but their target shape is nested within its inputs
+        
         Example usage:
         import onnx_graphsurgeon as gs
         graph = gs.import_onnx(path/to/uninitialized/model.onnx)
@@ -396,29 +399,39 @@ class Model(torch.nn.Module):
         """
         graph_tensors = graph.tensors()
         for tensor_key,tensor_value in graph_tensors.items():
-            
+            if 'identity' in tensor_key: print(tensor_key)
+            # print(tensor_key)            
             # Skip initializing any tensors that are already Constants
             if 'constant' in str(type(tensor_value)).lower():
+                if 'identity' not in tensor_key.lower():
                 # print(f"Not reinitializing {tensor_value}")
-                continue
+                    continue
+            if 'identity' in tensor_key: print(tensor_key)
             # Skip tensors that are inputs/outputs and should be kept as Variables
             # Converting these to constants would essentially "freeze" the network
             # into deterministic outputs
             if any([_substr in tensor_key for _substr in ['input','output']]):
-                if 'constant' not in tensor_key.lower():
-                    continue
+                if 'identity' not in tensor_key.lower():
+                    if 'constant' not in tensor_key.lower():
+                        continue
+            if 'identity' in tensor_key: print(tensor_key)
+            if 'identity' in tensor_key: print(type(tensor_value), tensor_value)
 
             if isinstance(tensor_value, (int,float,)):
                 value_shape = (1,)
+            elif 'identity' in tensor_key:
+                value_shape =  tensor_value.inputs[0].inputs[0].shape
             else:
                 value_shape = tensor_value.shape
             if value_shape is None: continue
+            if 'identity' in tensor_key: print(tensor_key)
             
             # print(f"Initializing tensor {tensor_value}")
             tensor_value.to_constant(
                 values=tensor_init_fn(size=value_shape,
                     # dtype=torch.float
                     ).astype(np.float32))
+            if 'identity' in tensor_key: print(tensor_key)
         return graph
     
     
@@ -564,7 +577,11 @@ class Model(torch.nn.Module):
         
                 
         onnx_str = '\n'.join(onnx_str)
+        # Replace the output variable with the generic 'output_var'
         onnx_str = onnx_str.replace(f"{output_var} =", f"output_var =")
+        
+        # Refactor any variables with leading numbers
+        onnx_str = self.refactor_leading_number(onnx_str)
         
         for layer_type, layer_names in layer_name_type_dict.items():
             for layer_idx,layer_name in enumerate(layer_names):
@@ -578,6 +595,12 @@ class Model(torch.nn.Module):
         if remove_identity:
             onnx_str = self.remove_identity(onnx_str)
         return onnx_str        
+    
+    def refactor_leading_number(self, input_str):
+        """Refactor variables with leading numbers which are not parseable,
+        0_model_fc_weight -> model_0_fc_weight
+        """
+        return re.sub('([\s(,]+)(\d+)_*([a-zA-Z0-9]*)[\s_=]','\\1\\3_\\2_',input_str)
     
     def torch2onnx_text(self, torch_model, *args, **kwargs):
         return self.onnx2onnx_text(self.torch2onnx(torch_model, *args, **kwargs))
@@ -596,7 +619,8 @@ class Model(torch.nn.Module):
         onnx_model = self.onnx_text2onnx(onnx_text)
         onnx_graph = gs.import_onnx(onnx_model)
         onnx_graph = self.init_graph_tensors(onnx_graph)
-        torch_model = self.onnx2torch(gs.export_onnx(onnx_graph))
+        onnx_graph = gs.export_onnx(onnx_graph)
+        torch_model = self.onnx2torch(onnx_graph)
         return torch_model
     
     def onnx_text2code(self, onnx_text_path):
