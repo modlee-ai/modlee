@@ -113,9 +113,12 @@ class Converter(object):
             nn.Module: The PyTorch model
         """
         self.save_code(torch_code, tmp_model_path)
+        return self.code_path2torch(tmp_model_path)
+        
+    def code_path2torch(self, model_path):
         model_module = SourceFileLoader(
             'model_module',
-            tmp_model_path).load_module()
+            model_path).load_module()
         return model_module.Model()
 
     def torch2torch(self, torch_model, *args, **kwargs):
@@ -313,6 +316,7 @@ class Converter(object):
         Returns:
             str: An executable __init__ string
         """
+        assert model is not None
         model_attrs = self.get_model_attrs_in_forward(model)
         model_attrs.update({onnx_attr:getattr(model,onnx_attr) for onnx_attr in dir(model) if 'onnx' in onnx_attr})
         if hasattr(model, 'initializers'):
@@ -335,6 +339,7 @@ class Converter(object):
             f'{spacer*2}super().__init__()',
         ]
         for init_attr in init_attrs:
+            torch.set_printoptions(threshold=np.inf)
             init_line = f"{spacer*2}setattr(self,'{init_attr[0]}', {init_attr[1]}(**{init_attr[2]}))"
             init_lines.append(init_line)
         init_code = '\n'.join(init_lines)
@@ -399,14 +404,10 @@ class Model(torch.nn.Module):
         """
         graph_tensors = graph.tensors()
         for tensor_key,tensor_value in graph_tensors.items():
-            if 'identity' in tensor_key: print(tensor_key)
-            # print(tensor_key)            
             # Skip initializing any tensors that are already Constants
             if 'constant' in str(type(tensor_value)).lower():
                 if 'identity' not in tensor_key.lower():
-                # print(f"Not reinitializing {tensor_value}")
                     continue
-            if 'identity' in tensor_key: print(tensor_key)
             # Skip tensors that are inputs/outputs and should be kept as Variables
             # Converting these to constants would essentially "freeze" the network
             # into deterministic outputs
@@ -414,8 +415,6 @@ class Model(torch.nn.Module):
                 if 'identity' not in tensor_key.lower():
                     if 'constant' not in tensor_key.lower():
                         continue
-            if 'identity' in tensor_key: print(tensor_key)
-            if 'identity' in tensor_key: print(type(tensor_value), tensor_value)
 
             if isinstance(tensor_value, (int,float,)):
                 value_shape = (1,)
@@ -423,10 +422,11 @@ class Model(torch.nn.Module):
                 value_shape =  tensor_value.inputs[0].inputs[0].shape
             else:
                 value_shape = tensor_value.shape
-            if value_shape is None: continue
-            if 'identity' in tensor_key: print(tensor_key)
-            
-            # print(f"Initializing tensor {tensor_value}")
+            if value_shape is None:
+                # print(f'{tensor_key} has no value_shape')
+                continue
+            # print(value_shape)
+
             tensor_value.to_constant(
                 values=tensor_init_fn(size=value_shape,
                     # dtype=torch.float
@@ -520,6 +520,7 @@ class Model(torch.nn.Module):
             return s
         
         onnx_str = onnx.printer.to_text(onnx_model)
+        # breakpoint()
         onnx_str = onnx_str.split('\n')
         output_var = "None"
         n_lines = len(onnx_str)
@@ -543,8 +544,16 @@ class Model(torch.nn.Module):
                 
             # For NASLib models, handle unparseable characters in e.g. makrograph-edge(7,8)_...
             # Handles the dash, comma, and parentheses
+            # TODO -refactor this out into a function
             onnx_uninit_line = re.sub('makrograph-edge\((\d*),(\d*)\)_','makrograph_edge_\\1_\\2_',onnx_uninit_line)
                         
+            # Refactor malformed boolean layers
+            if 'bool' in onnx_uninit_line:
+                onnx_uninit_line = self.refactor_bool_layer(onnx_uninit_line)
+                
+            # Refactor inf to large value:
+            if 'inf' in onnx_uninit_line:
+                onnx_uninit_line = self.refactor_inf(onnx_uninit_line)
             # Case: the line is defining a Constant float value that should keep the '.' within brackets {}
             # e.x. const_output_0 = Constant <value = float {0_08}>
             # '0_08' should be reverted back to '0.08'
@@ -583,6 +592,7 @@ class Model(torch.nn.Module):
         # Refactor any variables with leading numbers
         onnx_str = self.refactor_leading_number(onnx_str)
         
+        
         for layer_type, layer_names in layer_name_type_dict.items():
             for layer_idx,layer_name in enumerate(layer_names):
                 if layer_name.isdigit(): continue
@@ -595,6 +605,48 @@ class Model(torch.nn.Module):
         if remove_identity:
             onnx_str = self.remove_identity(onnx_str)
         return onnx_str        
+    
+    def refactor_bool_layer(self, input_str):
+        """Refactor boolean layers to the correct number of input elements
+        The onnx.printer.to_text() function seems to remove any inputs that the parser would use.
+        For example, an int layer is defined like:
+        constant_output_0006 = Constant <value = int64[4] {3,12,-1,-1}> ()
+          
+        From:
+        constant_output_0005 = Constant <value = bool[1,1,3,3]___> ()
+        To:
+        constant_output_0005 = Constant <value = bool[1,1,3,3] {0,0,0,0,0,0,0,0,0}> ()
+        
+        
+        :param input_str: _description_
+        """
+        if 'bool' not in input_str: return input_str
+        bool_dim = re.search('bool\[(?P<bool_dim>.*)\]', input_str)
+        if bool_dim:
+            bool_dim = bool_dim['bool_dim']
+            n_elements = np.prod([int(_b) for _b in bool_dim.split(',')])
+            bool_ending = r']'
+        else:
+            # Handle case where there is no bool dim - should just be one value
+            bool_dim = ''
+            n_elements = 1
+            bool_ending = 'bool'
+        input_arg_list = f'{{{",".join("0"*n_elements)}}}'
+        # input_str = re.sub('([(bool)\]])(.*)>', f'\\1 {input_arg_list}>', input_str)
+        input_str = re.sub(f'{bool_ending}(.*)>', f'{bool_ending} {input_arg_list}>', input_str)
+        input_str = re.sub(r'/s{2,}',' ',input_str)
+        return input_str
+        
+    def refactor_inf(self, input_str, large_value='99999999'):
+        """Replace 'inf' with a large value because the parser cannot handle infs
+
+        :param input_str: _description_
+        
+        """
+        if 'inf' not in input_str: return input_str
+        # return re.sub('float {(-*)inf}',
+        #     f'float {{\\1{str(large_value)}}}',input_str)
+        return re.sub('inf', str(large_value),input_str)
     
     def refactor_leading_number(self, input_str):
         """Refactor variables with leading numbers which are not parseable,
@@ -614,12 +666,13 @@ class Model(torch.nn.Module):
         
     def onnx_text2torch(self, onnx_text: bytes):
         """
-        Seems that inputs should be 
+        Convert ONNX text to Torch model
         """
         onnx_model = self.onnx_text2onnx(onnx_text)
         onnx_graph = gs.import_onnx(onnx_model)
         onnx_graph = self.init_graph_tensors(onnx_graph)
         onnx_graph = gs.export_onnx(onnx_graph)
+        # breakpoint()
         torch_model = self.onnx2torch(onnx_graph)
         return torch_model
     
