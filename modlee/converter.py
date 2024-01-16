@@ -280,19 +280,41 @@ class Converter(object):
         """
         attrs_to_skip = ['bias']
         attr_kwargs = dict(inspect.signature(model_attr.__init__).parameters)
+        # breakpoint()
         attr_params = {}
+
+        # if 'initializer' in model_attr: breakpoint()
         for attr_key, attr_val in attr_kwargs.items():
             if attr_key in attrs_to_skip:
                 continue
             # if attr_val.default==inspect._empty:
             # if True:
             if hasattr(model_attr, attr_key):
-                attr_params.update({attr_key: getattr(model_attr, attr_key)})
+                model_attr_value = getattr(model_attr, attr_key)
+                # Convert potentially large tensors to constructors to reduce size
+                # if isinstance(model_attr_value, torch.Tensor) or 'tensor' in str(type(model_attr_value)).lower():
+                if isinstance(model_attr_value, torch.Tensor):
+                    model_attr_value = self.tensor2init(
+                        model_attr_value,
+                        tensor_type='randn' if 'initial' in attr_key else None)
+                attr_params.update({attr_key: model_attr_value})
+        if hasattr(model_attr, 'state_dict'):
+            # print(f'adding state dict for {model_attr}')
+            # breakpoint()
+            model_state_dict = model_attr.state_dict()
+            # Do this only for initializers because the output file could get large
+            model_state_dict = {k:self.tensor2init(v, tensor_type='randn') for k,v in model_state_dict.items() if 'initial' in k}
+            # if len(model_state_dict) > 10: breakpoint()
+            if len(model_state_dict) > 0:
+                attr_params.update(model_state_dict)
+                # attr_params.update({'state_dict':model_state_dict})
+        # If the model_attr is a torch module that has a state_dict, add it
         return attr_params
 
     def get_type_string(self, obj) -> str | None:
         """
         Retrieve the type of an object as a string
+        TODO - refactor this as a regex
 
         Args:
             obj (_type_): The object
@@ -308,7 +330,7 @@ class Converter(object):
 
     def get_init(self, model) -> str:
         """
-        Retrieve the code for a model's __init__() function
+        Retrieve the code for a model's __init__() constructor function
 
         Args:
             model (_type_): The model
@@ -323,11 +345,11 @@ class Converter(object):
             model_attrs.update(
                 {'initializers':getattr(model,'initializers')}
             )
-        
         init_attrs = []
 
         for model_attr_name, model_attr in model_attrs.items():
             attr_params = self.get_params_for_attr(model_attr)
+            # if 'initializer' in model_attr_name: breakpoint()
             init_attrs.append((model_attr_name,
                                self.get_type_string(model_attr), attr_params))
         # init_code = 'def __init__(self):\n'
@@ -340,10 +362,100 @@ class Converter(object):
         ]
         for init_attr in init_attrs:
             torch.set_printoptions(threshold=np.inf)
-            init_line = f"{spacer*2}setattr(self,'{init_attr[0]}', {init_attr[1]}(**{init_attr[2]}))"
+            # Convert potentially large tensors to constructors to reduce size
+            # kwarg_strs = []
+            # for attr_key,attr_value in init_attr[2].items():
+            #     if isinstance(attr_value,str):
+            #         if 'tensor.' in attr_value.lower():
+            kwarg_str = self.kwargs2str(init_attr[2])
+        
+            # init_line = f"{spacer*2}setattr(self,'{init_attr[0]}', {init_attr[1]}(**{init_attr[2]}))"
+            init_line = f"{spacer*2}setattr(self,'{init_attr[0]}', {init_attr[1]}(**{kwarg_str}))"
             init_lines.append(init_line)
+            
+            # If the attribute is the ONNX initializer,
+            # 1) remove the kwargs to the module constructor call
+            # 2) append the code to register the initializer states
+            if 'initial' in init_attr[0]:
+                # remove the just-appended line
+                init_line = init_lines.pop().replace('**'+kwarg_str,'')
+                init_lines.append(init_line)
+                initializer_init_str = self.get_init_module_state_dict_str(f'self.{init_attr[0]}', kwarg_str)
+                init_lines.append(initializer_init_str)
         init_code = '\n'.join(init_lines)
         return init_code
+    
+    def get_init_module_state_dict_str(self, module_name_str:str, state_dict_str:str):
+        """Return a string that, when called with exec(), will initialize the torch module's state dictionary.
+        The module will likely be a freshly initialized module with an empty state dict.
+        This uses register_buffer to add unexpected keys to the state dict.
+
+        :param module_name: The variable name of the module to be initialized, as a string. Must have already been initialized.
+        :param state_dict: A string representation of the state_dict
+        """
+        spacer = "    "
+        ret_str = ""
+        ret_str += f'init_state_dict = {state_dict_str}\n'
+        ret_str += f'for k,v in init_state_dict.items():\n'
+        ret_str += f'{spacer}{module_name_str}.register_buffer(k,v)\n'
+        return ret_str
+        # return f'{module_nam'
+    
+    def kwargs2str(self, kwarg_dict):
+        """Converts a dictionary of keyword arguments into a properly formatted string
+        that can be formatted into an attribute initialization in python code
+        """
+        # ret_str = ''
+        kwarg_list = []
+        for kwarg_key,kwarg_value in kwarg_dict.items():
+            formatted_kwarg_value = kwarg_value
+            if isinstance(formatted_kwarg_value,str):
+                try:
+                    exec(formatted_kwarg_value)
+                except:
+                    formatted_kwarg_value = f"\'{formatted_kwarg_value}\'"
+            
+            kwarg_list.append(f"\'{kwarg_key}\':{formatted_kwarg_value}")
+            import os
+            with open(os.path.expanduser('~/kwargs.txt'),'a') as _file:
+                _file.write(kwarg_list[-1])
+                _file.write('\n')
+        return f"{{{','.join(kwarg_list)}}}"
+        return 
+    
+    def tensor2init(self, input_tensor, tensor_type:str=None):
+        """Converts a monovalue tensor (len(set(tensor))==1) to a string representation of its initialization.
+        Converts potentially large from their explicit definition to simply 'tensor.ones((x,y))*values'.
+        If `tensor_type` is provided, this function will force-convert a non-uniform tensor to an 
+        initialization string for a tensor of that type (e.g. 'randn','ones','zeros').
+
+        :param input_tensor: The tensor to convert
+        :param tensor_type: The tensor type to convert to ['randn','zeros','ones']
+        """
+        if not isinstance(input_tensor, torch.Tensor):
+            return input_tensor
+        tensor_set = set(input_tensor.flatten().tolist())
+        if len(tensor_set) > 1:
+            
+            torch.set_printoptions(threshold=torch.inf)
+            if tensor_type is None:
+                # If no type override is defined, get the full class of the tensor
+                # to rebuild the tensor into one of the same class
+                full_tensor_class = re.search("\'(?P<tensor_class>.*)\'",str(type(input_tensor)))['tensor_class']
+                return f'{full_tensor_class}({input_tensor.numpy().tolist()})'
+            else:
+                # If type override is defined, create a tensor in the shape
+                # of the input
+                full_tensor_class = f'torch.{tensor_type}'
+                return f'{full_tensor_class}({input_tensor.shape})'
+        else:
+            tensor_value = tensor_set.pop()
+            tensor_shape = tuple(input_tensor.shape)
+            if abs(tensor_value)<0.00000001:
+                output_str = f'torch.zeros({tensor_shape})'
+            else:
+                output_str = f'torch.ones({tensor_shape})*{tensor_value}'
+            return output_str.replace(' ','')
 
     def get_forward(self, model) -> str:
         """

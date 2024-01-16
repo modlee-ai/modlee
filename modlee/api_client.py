@@ -6,7 +6,7 @@ import cloudpickle as pickle
 import functools
 
 LOCAL_ENDPOINT = "http://127.0.0.1:7070"
-REMOTE_ENDPOINT = "http://modlee.pythonanywhere.com"
+# REMOTE_ENDPOINT = "http://modlee.pythonanywhere.com"
 REMOTE_ENDPOINT = "http://ec2-3-84-155-233.compute-1.amazonaws.com:7070"
 
 class ModleeAPIClient(object):
