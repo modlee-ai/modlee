@@ -31,20 +31,30 @@ def get_dataloader(batch_size=64):
         ), batch_size=batch_size, shuffle=True,
     )
     return training_loader, test_loader
+dataloader,_ = get_dataloader()
 
+@pytest.mark.parametrize('modality',['image'])
+@pytest.mark.parametrize('task',['classification','segmentation'])
+# @pytest.mark.parametrize('task',['segmentation'])
+def test_image_recommenders(modality, task):
 
-def test_image_classification_recommender():
-    dataloader, _ = get_dataloader()
-    
-    recommender = modlee.recommender.ImageClassificationRecommender(
-        endpoint = SERVER_ENDPOINT
-    )
+    # recommender = modlee.recommender.ImageClassificationRecommender(
+    #     endpoint = SERVER_ENDPOINT
+    # )
     # alternatively,
-    # recommender = Recommender.from_modality_task('image','classification')
+    recommender = modlee.recommender.from_modality_task(
+        modality, task,
+        endpoint=SERVER_ENDPOINT)
     
     recommender.fit(dataloader)
-    # make sure that the dataloader yields data that matches the recommender's expected format
     
-    model = recommender.model
+    # Get the model and pass an input through it
+    model = recommender.model    
+    x = next(iter(dataloader))[0]
+    # breakpoint()
+    # import torchvision
     
-    model.forward(next(iter(dataloader))[0])
+    # x = torchvision.transforms.Resize((300,300))(x)
+    # breakpoint()
+    y = model.forward(x)
+    # breakpoint()

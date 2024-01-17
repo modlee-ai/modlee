@@ -1,4 +1,4 @@
-from .recommender import Recommender
+from .recommender import Recommender, RecommendedModel
 
 import torch
 import torch.nn as nn
@@ -52,6 +52,40 @@ class ImageRecommender(Recommender):
 
         return ret_model,model_str
     
+                
+    def fit(self, dataloader, *args, **kwargs):
+        super().fit(dataloader, *args, **kwargs)
+        assert self.meta_features is not None
+        num_classes = len(dataloader.dataset.classes)
+        self.meta_features.update({
+            'num_classes': num_classes
+        })
+        # try:
+        if 1:
+            self.model_text = self._get_model_text(self.meta_features)
+            # breakpoint()
+            model = modlee_converter.onnx_text2torch(self.model_text)
+            for param in model.parameters():
+                # torch.nn.init.constant_(param,0.001)
+                try:
+                    torch.nn.init.xavier_normal_(param,1.0)
+                except:
+                    torch.nn.init.normal_(param)
+            self.model = ImageRecommendedModel(model)
+
+            code_text = self.get_code_text()
+            self.model_text = self.model_text.decode('utf-8')
+            # breakpoint()
+            clean_model_text = '>'.join(self.model_text.split('>')[1:])
+            # typewriter_print(clean_model_onnx_text,sleep_time=0.005)
+            # self.write_files()
+            self.write_file(self.model_text, './modlee_model.txt')
+            self.write_file(clean_model_text, './modlee_model.py')
+            
+        # except:
+        else:
+            print("Could not retrieve model, could not access server or data features may be malformed.")
+            self.model = None
     
     
 class ImageClassificationRecommender(ImageRecommender):
@@ -73,43 +107,8 @@ class ImageClassificationRecommender(ImageRecommender):
         
         super().__init__(*args, **kwargs)
         self.task = 'classification'
+        self.loss_fn = F.cross_entropy
         
-                
-    def fit(self, dataloader, *args, **kwargs):
-        super().fit(dataloader, *args, **kwargs)
-        assert self.meta_features is not None
-        num_classes = len(dataloader.dataset.classes)
-        self.meta_features.update({
-            'num_classes': num_classes
-        })
-        # try:
-        if 1:
-            self.model_text = self._get_model_text(self.meta_features)
-            # breakpoint()
-            model = modlee_converter.onnx_text2torch(self.model_text)
-            for param in model.parameters():
-                # torch.nn.init.constant_(param,0.001)
-                try:
-                    torch.nn.init.xavier_normal_(param,1.0)
-                except:
-                    torch.nn.init.normal_(param)
-            self.model = ImageClassificationModleeModel(model)
-
-            code_text = self.get_code_text()
-            self.model_text = self.model_text.decode('utf-8')
-            # breakpoint()
-            clean_model_text = '>'.join(self.model_text.split('>')[1:])
-            # typewriter_print(clean_model_onnx_text,sleep_time=0.005)
-            # self.write_files()
-            self.write_file(self.model_text, './modlee_model.txt')
-            self.write_file(clean_model_text, './modlee_model.py')
-            
-        # except:
-        else:
-            print("Could not retrieve model, could not access server or data features may be malformed.")
-            self.model = None
-
-
     # def recommend_model(self, meta_features):
     #     """
     #     Recommend a model based on meta-features
@@ -179,39 +178,25 @@ class ImageClassificationRecommender(ImageRecommender):
 #         x = self.fc2(x)
 #         return x
 
+class ImageSegmentationRecommender(ImageRecommender):
+    def __init__(self, *args, **kwargs):
 
-class ImageClassificationModleeModel(modlee.modlee_model.ModleeModel):
-    """
-    A ready-to-train ModleeModel that wraps around a recommended model
-    Defines a basic training pipeline
+        # sleep(0.5)
 
-    Args:
-        modlee (_type_): _description_
-    """
-    def __init__(self, model, loss_fn=F.cross_entropy, *args, **kwargs):
+        # print('---Contacting Modlee for a Recommended Image Classification Model--->\n')
+        
+        # sleep(0.5)
+        # self.dataloader = dataloader
+        # self.max_model_size_MB = max_model_size_MB
+        # self.num_classes = num_classes
+        # self.dataloader_input_inds = dataloader_input_inds
+        # self.num_classes = num_classes
+        
         super().__init__(*args, **kwargs)
-        self.model = model
-        self.loss_fn = loss_fn
-
+        self.task = 'segmentation'
+        self.loss_fn = F.cross_entropy
+        
+class ImageRecommendedModel(RecommendedModel):
     def forward(self, x):
+        x = torchvision.transforms.Resize((300,300))(x)
         return self.model(x)
-
-    def training_step(self, batch, batch_idx):
-        x, y = batch
-        y_out = self(x)
-        loss = self.loss_fn(y_out, y)
-        return {'loss': loss}
-
-    # def validation_step(self, val_batch, batch_idx):
-    #     x, y = val_batch
-    #     y_out = self(x)
-    #     loss = self.loss_fn(y_out, y)
-    #     return loss
-
-    def configure_optimizers(self):
-        optimizer = torch.optim.SGD(
-            self.parameters(),
-            lr=0.001,
-            momentum=0.9
-        )
-        return optimizer

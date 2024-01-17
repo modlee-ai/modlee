@@ -336,3 +336,38 @@ def typewriter_print(text,sleep_time=0.001,max_line_length=150,max_lines=20):
             sys.stdout.flush()
             sleep(sleep_time)
         
+class RecommendedModel(modlee.modlee_model.ModleeModel):
+    """
+    A ready-to-train ModleeModel that wraps around a recommended model
+    Defines a basic training pipeline
+
+    Args:
+        modlee (_type_): _description_
+    """
+    def __init__(self, model, loss_fn=F.cross_entropy, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.model = model
+        self.loss_fn = loss_fn
+
+    def forward(self, x):
+        return self.model(x)
+
+    def training_step(self, batch, batch_idx):
+        x, y = batch
+        y_out = self(x)
+        loss = self.loss_fn(y_out, y)
+        return {'loss': loss}
+
+    # def validation_step(self, val_batch, batch_idx):
+    #     x, y = val_batch
+    #     y_out = self(x)
+    #     loss = self.loss_fn(y_out, y)
+    #     return loss
+
+    def configure_optimizers(self):
+        optimizer = torch.optim.SGD(
+            self.parameters(),
+            lr=0.001,
+            momentum=0.9
+        )
+        return optimizer
