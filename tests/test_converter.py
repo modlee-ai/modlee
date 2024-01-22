@@ -133,3 +133,57 @@ def test_init_initializer():
     for k,v in locals()['actual_state_dict'].items():
         assert hasattr(init_tensor, k)
         assert v.shape == getattr(init_tensor,k).shape
+        
+import glob, os, random
+ONNX_GRAPHS = glob.glob(os.path.expanduser('~/efs/mlruns/*/*/artifacts/model_graph.txt'))
+random.shuffle(ONNX_GRAPHS)
+@pytest.mark.parametrize('onnx_file_path',ONNX_GRAPHS[:2])
+def test_converted_onnx_model(onnx_file_path:str, dataloaders):
+    # load onnx model from a text file
+    from modlee.converter import Converter; converter = Converter()
+    model = converter.onnx_file2torch(onnx_file_path)
+    # onnx_text = converter.onnx_text_file2onnx(onnx_file_path)
+    # model = converter.onnx_text2torch(onnx_text)
+    # model = converter.onnx_path2torch(onnx_file_path)
+    
+    # wrap into a lightning module
+    from modlee.recommender import RecommendedModel
+    model = RecommendedModel(model)
+    
+    # create dataloader
+    train_loader, val_loader = dataloaders
+    # breakpoint()
+    # from .conftest import dataloaders
+    # train_loader, val_loader = dataloaders()
+    # train_loader, val_loader = get_dataloaders()
+    # breakpoint()
+    
+    # train for some epochs
+    import lightning
+    with modlee.start_run() as run:
+        trainer = lightning.pytorch.Trainer(max_epochs=3)
+        trainer.fit(model=model,
+            train_dataloaders=train_loader,
+            # val_dataloaders=val_loader
+            )
+        output_callback = list(filter(lambda c : type(c)==modlee.modlee_model.LogOutputCallback, trainer.callbacks))[0]
+        outputs = output_callback.outputs
+        train_outputs, val_outputs = outputs['train'], outputs['val']
+        train_losses = [o['loss'] for o in train_outputs]
+
+    # assert that the weights have updated
+    # assert that the loss has changed
+    assert len(set(train_losses)) > 1
+    # assert train_outputs[-1] < 
+    
+    # assert that the loss decreased
+    from sklearn.linear_model import LinearRegression as LinReg
+    train_losses_np = [t.cpu().numpy() for t in train_losses]
+    lin_reg = LinReg().fit(        
+        np.array(range(len(train_losses_np))).reshape(-1,1),       
+        np.array(train_losses_np).reshape(-1,1)
+        )
+    assert lin_reg.coef_[0][0] < 1
+    breakpoint()
+    
+    pass

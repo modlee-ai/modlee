@@ -7,6 +7,7 @@ import onnx2torch
 import onnx_graphsurgeon as gs
 import onnx
 import re
+from functools import partial
 # TODO - cache models for "longer" pipelines
 # e.g. torch2code do not need to convert to onnx every time
 
@@ -46,6 +47,11 @@ class Converter(object):
                 export_params=False,
                 opset_version=17,
                 )
+            
+            for param in torch_model.parameters():
+                param.requires_grad = True
+        torch_model.train()
+        # input_dummy.requires_grad = True
         # The model we load will have no parameters initialized
         onnx_parameterless_model = onnx.load(tmp_onnx_path)
         # Initialize the parameterless model
@@ -496,7 +502,7 @@ class Model(torch.nn.Module):
     Below are helper functions for importing from torch
     """
     
-    def init_graph_tensors(self, graph, tensor_init_fn=np.random.normal):
+    def init_graph_tensors(self, graph, tensor_init_fn=partial(np.random.normal,scale=0.01)):
         """
         Initialize the graph's tensors, in place (you do not need to use the return value)
         The input should be an ONNX graph exported from torch without parameters, i.e.
@@ -787,6 +793,14 @@ class Model(torch.nn.Module):
         # breakpoint()
         torch_model = self.onnx2torch(onnx_graph)
         return torch_model
+    
+    def onnx_file2torch(self, onnx_file_path):
+        # onnx_model = self.onnx_text_file2onnx(onnx_file_path)
+        with open(onnx_file_path,'r') as _file:
+            onnx_text = _file.read()
+            
+        return self.onnx_text2torch(onnx_text)
+        
     
     def onnx_text2code(self, onnx_text_path):
         torch_model = self.onnx_text2torch(onnx_text_path)

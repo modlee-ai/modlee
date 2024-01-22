@@ -5,7 +5,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 import modlee
-from modlee.utils import get_model_size
+from modlee.utils import get_model_size, typewriter_print
 from modlee.converter import Converter
 modlee_converter = Converter()
 
@@ -25,8 +25,8 @@ import sys
 import os
 from urllib.parse import urlparse
 
-# SERVER_ENDPOINT = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
-SERVER_ENDPOINT = 'http://127.0.0.1:6060'
+SERVER_ENDPOINT = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
+# SERVER_ENDPOINT = 'http://127.0.0.1:6060'
 
 
 class Recommender(object):
@@ -312,31 +312,9 @@ class ModelSummaryRecommender(Recommender):
                 return x
         return Model()
 
-
-
-def typewriter_print(text,sleep_time=0.001,max_line_length=150,max_lines=20):
-    if not isinstance(text, str):
-        text = str(text)
-    text_lines = text.split('\n')
-
-    if len(text_lines)>max_lines:
-        text_lines = text_lines[:max_lines]+['...\n']
-
-    def shorten_if_needed(line,max_line_length):
-        if len(line)>max_line_length:
-            return line[:max_line_length]+' ...\n'
-        else:
-            return line+'\n'
-
-    text_lines = [shorten_if_needed(l,max_line_length) for l in text_lines]
-
-    for line in text_lines:
-        for c in line:
-            print(c, end='')
-            sys.stdout.flush()
-            sleep(sleep_time)
         
 class RecommendedModel(modlee.modlee_model.ModleeModel):
+# class RecommendedModel(pl.LightningModule):
     """
     A ready-to-train ModleeModel that wraps around a recommended model
     Defines a basic training pipeline
@@ -352,17 +330,18 @@ class RecommendedModel(modlee.modlee_model.ModleeModel):
     def forward(self, x):
         return self.model(x)
 
-    def training_step(self, batch, batch_idx):
+    def training_step(self, batch, batch_idx, *args, **kwargs):
         x, y = batch
         y_out = self(x)
         loss = self.loss_fn(y_out, y)
         return {'loss': loss}
 
-    # def validation_step(self, val_batch, batch_idx):
-    #     x, y = val_batch
-    #     y_out = self(x)
-    #     loss = self.loss_fn(y_out, y)
-    #     return loss
+    def _validation_step(self, val_batch, batch_idx, *args, **kwargs):
+        x, y = val_batch
+        y_out = self(x)
+        loss = self.loss_fn(y_out, y)
+        # return {'loss':loss}
+        return loss
 
     def configure_optimizers(self):
         optimizer = torch.optim.SGD(

@@ -7,7 +7,7 @@ SERVER_ENDPOINT = "http://127.0.0.1:6060"
 
 import pytest
 import modlee
-modlee.init(api_key='modleemichael')
+# modlee.init(api_key='modleemichael')
 from modlee.recommender import Recommender
 from torchvision import datasets as tv_datasets
 from torchvision.transforms import ToTensor
@@ -58,3 +58,35 @@ def test_image_recommenders(modality, task):
     # breakpoint()
     y = model.forward(x)
     # breakpoint()
+    
+def test_recommended_model():
+    # modlee.init(api_key='modleemichael')
+    # load a pretrained model
+    import torchvision
+    model = torchvision.models.resnet18(weights='IMAGENET1K_V1')
+    model.train()
+    # breakpoint()
+    
+    # wrap into recommended model
+    from modlee.recommender import RecommendedModel
+    model = RecommendedModel(model)
+    
+    # load data
+    train_loader, val_loader = get_dataloader()
+    
+    # breakpoint()
+    # train
+    model.train()
+    import lightning
+    with modlee.start_run() as run:
+        trainer = lightning.pytorch.Trainer(max_epochs=3)
+        trainer.fit(model=model,
+            train_dataloaders=train_loader,
+            # val_dataloaders=val_loader
+            )
+        breakpoint()
+    
+    # assert that the model has updated
+    # assert that the loss has decreased
+    breakpoint()
+    pass

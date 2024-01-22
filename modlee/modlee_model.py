@@ -149,6 +149,7 @@ class LogCodeTextCallback(ModleeCallback):
         _get_code_text_for_model = getattr(
             modlee, 'get_code_text_for_model', None)
         code_text = ''
+        # return
         if _get_code_text_for_model is not None:
             # ==== METHOD 1 ====
             # Save model as code using parsing
@@ -201,6 +202,8 @@ class LogCodeTextCallback(ModleeCallback):
             logging.warning(
                 "Could not access exp_loss_logger, \
                     not logging but continuing experiment")
+            
+            
 class LogONNXCallback(ModleeCallback):
     def __init__(self) -> None:
         super().__init__()
@@ -241,8 +244,13 @@ class LogOutputCallback(Callback):
         Callback.__init__(self, *args, **kwargs)
         self.on_train_batch_end = partial(self._on_batch_end, phase='train')
         self.on_validation_batch_end = partial(self._on_batch_end, phase='val')
+        # self.train_outputs = self.val_outputs = []
+        self.outputs = {'train':[], 'val':[]}
 
     def _on_batch_end(self, trainer: Trainer, pl_module: LightningModule, outputs: STEP_OUTPUT, batch: Any, batch_idx: int, phase='train') -> None:
+        """
+        TODO - refactor to epoch end
+        """
         if trainer.is_last_batch:
             if isinstance(outputs, dict):
                 for output_key, output_value in outputs.items():
@@ -253,6 +261,7 @@ class LogOutputCallback(Callback):
                         f"{phase}_step_output_{output_idx}", output_value)
             elif outputs is not None:
                 pl_module.log(f"{phase}_loss", outputs)
+            self.outputs[phase].append(outputs)
         return super().on_train_batch_end(trainer, pl_module, outputs, batch, batch_idx)
 
 class DataStatsCallback(ModleeCallback):

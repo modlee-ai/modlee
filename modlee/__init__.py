@@ -22,7 +22,8 @@ from mlflow import start_run, \
     get_tracking_uri, set_tracking_uri
 import modlee
 from modlee.api_client import ModleeAPIClient
-modlee_client = ModleeAPIClient()
+api_key = os.environ.get('MODLEE_API_KEY',None)
+modlee_client = ModleeAPIClient(api_key=api_key)
 
 api_modules = [
     'model_text_converter',
@@ -75,7 +76,8 @@ def suppress_stdout_stderr():
         with redirect_stderr(fnull) as err, redirect_stdout(fnull) as out:
             yield (err, out)
 
-def init(run_dir=None,api_key=None):
+# Try to get an API key
+def init(run_dir=None,api_key=api_key):
     """
     Initialize modlee
     - Set the run directory to save experiments
