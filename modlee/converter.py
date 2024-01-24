@@ -7,6 +7,7 @@ import onnx2torch
 import onnx_graphsurgeon as gs
 import onnx
 import re
+from functools import partial
 # TODO - cache models for "longer" pipelines
 # e.g. torch2code do not need to convert to onnx every time
 
@@ -34,12 +35,23 @@ class Converter(object):
         # This is a placeholder for ResNet-based models,
         # and probably other models that take 3-channel images as inputs
         # input_dummy = torch.randn([10, 3, 300, 300])
-        torch.onnx.export(
-            torch_model,
-            input_dummy,
-            tmp_onnx_path,
-            export_params=False,
-            )
+        torch_model.eval()
+        input_dummy.requires_grad = False
+        with torch.no_grad():
+            for param in torch_model.parameters():
+                param.requires_grad = False
+            torch.onnx.export(
+                torch_model,
+                input_dummy,
+                tmp_onnx_path,
+                export_params=False,
+                opset_version=17,
+                )
+            
+            for param in torch_model.parameters():
+                param.requires_grad = True
+        torch_model.train()
+        # input_dummy.requires_grad = True
         # The model we load will have no parameters initialized
         onnx_parameterless_model = onnx.load(tmp_onnx_path)
         # Initialize the parameterless model
@@ -107,9 +119,12 @@ class Converter(object):
             nn.Module: The PyTorch model
         """
         self.save_code(torch_code, tmp_model_path)
+        return self.code_path2torch(tmp_model_path)
+        
+    def code_path2torch(self, model_path):
         model_module = SourceFileLoader(
             'model_module',
-            tmp_model_path).load_module()
+            model_path).load_module()
         return model_module.Model()
 
     def torch2torch(self, torch_model, *args, **kwargs):
@@ -271,19 +286,41 @@ class Converter(object):
         """
         attrs_to_skip = ['bias']
         attr_kwargs = dict(inspect.signature(model_attr.__init__).parameters)
+        # breakpoint()
         attr_params = {}
+
+        # if 'initializer' in model_attr: breakpoint()
         for attr_key, attr_val in attr_kwargs.items():
             if attr_key in attrs_to_skip:
                 continue
             # if attr_val.default==inspect._empty:
             # if True:
             if hasattr(model_attr, attr_key):
-                attr_params.update({attr_key: getattr(model_attr, attr_key)})
+                model_attr_value = getattr(model_attr, attr_key)
+                # Convert potentially large tensors to constructors to reduce size
+                # if isinstance(model_attr_value, torch.Tensor) or 'tensor' in str(type(model_attr_value)).lower():
+                if isinstance(model_attr_value, torch.Tensor):
+                    model_attr_value = self.tensor2init(
+                        model_attr_value,
+                        tensor_type='randn' if 'initial' in attr_key else None)
+                attr_params.update({attr_key: model_attr_value})
+        if hasattr(model_attr, 'state_dict'):
+            # print(f'adding state dict for {model_attr}')
+            # breakpoint()
+            model_state_dict = model_attr.state_dict()
+            # Do this only for initializers because the output file could get large
+            model_state_dict = {k:self.tensor2init(v, tensor_type='randn') for k,v in model_state_dict.items() if 'initial' in k}
+            # if len(model_state_dict) > 10: breakpoint()
+            if len(model_state_dict) > 0:
+                attr_params.update(model_state_dict)
+                # attr_params.update({'state_dict':model_state_dict})
+        # If the model_attr is a torch module that has a state_dict, add it
         return attr_params
 
     def get_type_string(self, obj) -> str | None:
         """
         Retrieve the type of an object as a string
+        TODO - refactor this as a regex
 
         Args:
             obj (_type_): The object
@@ -299,7 +336,7 @@ class Converter(object):
 
     def get_init(self, model) -> str:
         """
-        Retrieve the code for a model's __init__() function
+        Retrieve the code for a model's __init__() constructor function
 
         Args:
             model (_type_): The model
@@ -307,17 +344,18 @@ class Converter(object):
         Returns:
             str: An executable __init__ string
         """
+        assert model is not None
         model_attrs = self.get_model_attrs_in_forward(model)
         model_attrs.update({onnx_attr:getattr(model,onnx_attr) for onnx_attr in dir(model) if 'onnx' in onnx_attr})
         if hasattr(model, 'initializers'):
             model_attrs.update(
                 {'initializers':getattr(model,'initializers')}
             )
-        
         init_attrs = []
 
         for model_attr_name, model_attr in model_attrs.items():
             attr_params = self.get_params_for_attr(model_attr)
+            # if 'initializer' in model_attr_name: breakpoint()
             init_attrs.append((model_attr_name,
                                self.get_type_string(model_attr), attr_params))
         # init_code = 'def __init__(self):\n'
@@ -329,10 +367,101 @@ class Converter(object):
             f'{spacer*2}super().__init__()',
         ]
         for init_attr in init_attrs:
-            init_line = f"{spacer*2}setattr(self,'{init_attr[0]}', {init_attr[1]}(**{init_attr[2]}))"
+            torch.set_printoptions(threshold=np.inf)
+            # Convert potentially large tensors to constructors to reduce size
+            # kwarg_strs = []
+            # for attr_key,attr_value in init_attr[2].items():
+            #     if isinstance(attr_value,str):
+            #         if 'tensor.' in attr_value.lower():
+            kwarg_str = self.kwargs2str(init_attr[2])
+        
+            # init_line = f"{spacer*2}setattr(self,'{init_attr[0]}', {init_attr[1]}(**{init_attr[2]}))"
+            init_line = f"{spacer*2}setattr(self,'{init_attr[0]}', {init_attr[1]}(**{kwarg_str}))"
             init_lines.append(init_line)
+            
+            # If the attribute is the ONNX initializer,
+            # 1) remove the kwargs to the module constructor call
+            # 2) append the code to register the initializer states
+            if 'initial' in init_attr[0]:
+                # remove the just-appended line
+                init_line = init_lines.pop().replace('**'+kwarg_str,'')
+                init_lines.append(init_line)
+                initializer_init_str = self.get_init_module_state_dict_str(f'self.{init_attr[0]}', kwarg_str)
+                init_lines.append(initializer_init_str)
         init_code = '\n'.join(init_lines)
         return init_code
+    
+    def get_init_module_state_dict_str(self, module_name_str:str, state_dict_str:str):
+        """Return a string that, when called with exec(), will initialize the torch module's state dictionary.
+        The module will likely be a freshly initialized module with an empty state dict.
+        This uses register_buffer to add unexpected keys to the state dict.
+
+        :param module_name: The variable name of the module to be initialized, as a string. Must have already been initialized.
+        :param state_dict: A string representation of the state_dict
+        """
+        spacer = "    "
+        ret_str = ""
+        ret_str += f'init_state_dict = {state_dict_str}\n'
+        ret_str += f'for k,v in init_state_dict.items():\n'
+        ret_str += f'{spacer}{module_name_str}.register_buffer(k,v)\n'
+        return ret_str
+        # return f'{module_nam'
+    
+    def kwargs2str(self, kwarg_dict):
+        """Converts a dictionary of keyword arguments into a properly formatted string
+        that can be formatted into an attribute initialization in python code
+        """
+        # ret_str = ''
+        kwarg_list = []
+        for kwarg_key,kwarg_value in kwarg_dict.items():
+            formatted_kwarg_value = kwarg_value
+            if isinstance(formatted_kwarg_value,str):
+                try:
+                    exec(formatted_kwarg_value)
+                except:
+                    formatted_kwarg_value = f"\'{formatted_kwarg_value}\'"
+            
+            kwarg_list.append(f"\'{kwarg_key}\':{formatted_kwarg_value}")
+            import os
+            with open(os.path.expanduser('~/kwargs.txt'),'a') as _file:
+                _file.write(kwarg_list[-1])
+                _file.write('\n')
+        return f"{{{','.join(kwarg_list)}}}"
+        return 
+    
+    def tensor2init(self, input_tensor, tensor_type:str=None):
+        """Converts a monovalue tensor (len(set(tensor))==1) to a string representation of its initialization.
+        Converts potentially large from their explicit definition to simply 'tensor.ones((x,y))*values'.
+        If `tensor_type` is provided, this function will force-convert a non-uniform tensor to an 
+        initialization string for a tensor of that type (e.g. 'randn','ones','zeros').
+
+        :param input_tensor: The tensor to convert
+        :param tensor_type: The tensor type to convert to ['randn','zeros','ones']
+        """
+        if not isinstance(input_tensor, torch.Tensor):
+            return input_tensor
+        tensor_set = set(input_tensor.flatten().tolist())
+        if len(tensor_set) > 1:
+            
+            torch.set_printoptions(threshold=torch.inf)
+            if tensor_type is None:
+                # If no type override is defined, get the full class of the tensor
+                # to rebuild the tensor into one of the same class
+                full_tensor_class = re.search("\'(?P<tensor_class>.*)\'",str(type(input_tensor)))['tensor_class']
+                return f'{full_tensor_class}({input_tensor.numpy().tolist()})'
+            else:
+                # If type override is defined, create a tensor in the shape
+                # of the input
+                full_tensor_class = f'torch.{tensor_type}'
+                return f'{full_tensor_class}({input_tensor.shape})'
+        else:
+            tensor_value = tensor_set.pop()
+            tensor_shape = tuple(input_tensor.shape)
+            if abs(tensor_value)<0.00000001:
+                output_str = f'torch.zeros({tensor_shape})'
+            else:
+                output_str = f'torch.ones({tensor_shape})*{tensor_value}'
+            return output_str.replace(' ','')
 
     def get_forward(self, model) -> str:
         """
@@ -373,12 +502,15 @@ class Model(torch.nn.Module):
     Below are helper functions for importing from torch
     """
     
-    def init_graph_tensors(self, graph, tensor_init_fn=np.random.normal):
+    def init_graph_tensors(self, graph, tensor_init_fn=partial(np.random.normal,scale=0.01)):
         """
         Initialize the graph's tensors, in place (you do not need to use the return value)
         The input should be an ONNX graph exported from torch without parameters, i.e.
         torch.onnx.export(..., export_params=False)
         This enables exporting to torch
+        
+        Identity layers get special treatment; they must be initialized for onnx2torch,
+        but their target shape is nested within its inputs
         
         Example usage:
         import onnx_graphsurgeon as gs
@@ -390,29 +522,34 @@ class Model(torch.nn.Module):
         """
         graph_tensors = graph.tensors()
         for tensor_key,tensor_value in graph_tensors.items():
-            
             # Skip initializing any tensors that are already Constants
             if 'constant' in str(type(tensor_value)).lower():
-                # print(f"Not reinitializing {tensor_value}")
-                continue
+                if 'identity' not in tensor_key.lower():
+                    continue
             # Skip tensors that are inputs/outputs and should be kept as Variables
             # Converting these to constants would essentially "freeze" the network
             # into deterministic outputs
             if any([_substr in tensor_key for _substr in ['input','output']]):
-                if 'constant' not in tensor_key.lower():
-                    continue
+                if 'identity' not in tensor_key.lower():
+                    if 'constant' not in tensor_key.lower():
+                        continue
 
             if isinstance(tensor_value, (int,float,)):
                 value_shape = (1,)
+            elif 'identity' in tensor_key:
+                value_shape =  tensor_value.inputs[0].inputs[0].shape
             else:
                 value_shape = tensor_value.shape
-            if value_shape is None: continue
-            
-            # print(f"Initializing tensor {tensor_value}")
+            if value_shape is None:
+                # print(f'{tensor_key} has no value_shape')
+                continue
+            # print(value_shape)
+
             tensor_value.to_constant(
                 values=tensor_init_fn(size=value_shape,
                     # dtype=torch.float
                     ).astype(np.float32))
+            if 'identity' in tensor_key: print(tensor_key)
         return graph
     
     
@@ -462,10 +599,34 @@ class Model(torch.nn.Module):
         return self.onnx2torch(
             self.onnx_parameterless2onnx(onnx_path))
         
+        
+        
+    def remove_identity(self, onnx_str):
+        
+        # Patterns to find 'identity_output_xxxx' assignments and their usage
+        #pattern_assignment = re.compile(r'identity_output_(\d{4})\s*=\s*Identity\s*\((onnx__Conv_\d+)\)')
+        pattern_assignment = re.compile(r'identity_output_(\d{4})\s*=\s*Identity\s*\(([^)]+)\)')
+
+        assignments = {match[0]: match[1] for match in pattern_assignment.findall(onnx_str)}
+
+        # Remove the assignment lines for 'identity_output_xxxx'
+        onnx_str = re.sub(pattern_assignment, '', onnx_str)
+
+        # Replace each instance of 'identity_output_xxxx' with its assigned value
+        for identity_number, actual_value in assignments.items():
+            onnx_str = onnx_str.replace(f'identity_output_{identity_number}', actual_value)
+
+        # Remove multiple spaces and replace them with a single space
+        onnx_str = re.sub(r' +', ' ', onnx_str)
+        # Remove chunks of blank space (multiple newlines)
+        onnx_str = re.sub(r'\n\s*\n', '\n', onnx_str)
+
+        return onnx_str
+    
     """
     ONNX text representations
     """
-    def onnx2onnx_text(self, onnx_model):
+    def onnx2onnx_text(self, onnx_model, remove_identity=False):
 
         def get_inner_string(s, _start, _end):
             """
@@ -477,6 +638,7 @@ class Model(torch.nn.Module):
             return s
         
         onnx_str = onnx.printer.to_text(onnx_model)
+        # breakpoint()
         onnx_str = onnx_str.split('\n')
         output_var = "None"
         n_lines = len(onnx_str)
@@ -497,8 +659,19 @@ class Model(torch.nn.Module):
                 # Tracking decmimal point separately to enable parsing of floating point numbers                
                 # Simply converting other characters to '_' to facilitate parsing.
                 onnx_uninit_line = onnx_uninit_line.replace(unparseable_char,'_')
-
+                
+            # For NASLib models, handle unparseable characters in e.g. makrograph-edge(7,8)_...
+            # Handles the dash, comma, and parentheses
+            # TODO -refactor this out into a function
+            onnx_uninit_line = re.sub('makrograph-edge\((\d*),(\d*)\)_','makrograph_edge_\\1_\\2_',onnx_uninit_line)
                         
+            # Refactor malformed boolean layers
+            if 'bool' in onnx_uninit_line:
+                onnx_uninit_line = self.refactor_bool_layer(onnx_uninit_line)
+                
+            # Refactor inf to large value:
+            if 'inf' in onnx_uninit_line:
+                onnx_uninit_line = self.refactor_inf(onnx_uninit_line)
             # Case: the line is defining a Constant float value that should keep the '.' within brackets {}
             # e.x. const_output_0 = Constant <value = float {0_08}>
             # '0_08' should be reverted back to '0.08'
@@ -531,7 +704,12 @@ class Model(torch.nn.Module):
         
                 
         onnx_str = '\n'.join(onnx_str)
+        # Replace the output variable with the generic 'output_var'
         onnx_str = onnx_str.replace(f"{output_var} =", f"output_var =")
+        
+        # Refactor any variables with leading numbers
+        onnx_str = self.refactor_leading_number(onnx_str)
+        
         
         for layer_type, layer_names in layer_name_type_dict.items():
             for layer_idx,layer_name in enumerate(layer_names):
@@ -542,7 +720,57 @@ class Model(torch.nn.Module):
                     layer_name,
                     f"{layer_type.lower()}_output_{layer_idx:04d}")
                 
+        if remove_identity:
+            onnx_str = self.remove_identity(onnx_str)
         return onnx_str        
+    
+    def refactor_bool_layer(self, input_str):
+        """Refactor boolean layers to the correct number of input elements
+        The onnx.printer.to_text() function seems to remove any inputs that the parser would use.
+        For example, an int layer is defined like:
+        constant_output_0006 = Constant <value = int64[4] {3,12,-1,-1}> ()
+          
+        From:
+        constant_output_0005 = Constant <value = bool[1,1,3,3]___> ()
+        To:
+        constant_output_0005 = Constant <value = bool[1,1,3,3] {0,0,0,0,0,0,0,0,0}> ()
+        
+        
+        :param input_str: _description_
+        """
+        if 'bool' not in input_str: return input_str
+        bool_dim = re.search('bool\[(?P<bool_dim>.*)\]', input_str)
+        if bool_dim:
+            bool_dim = bool_dim['bool_dim']
+            n_elements = np.prod([int(_b) for _b in bool_dim.split(',')])
+            bool_ending = r']'
+        else:
+            # Handle case where there is no bool dim - should just be one value
+            bool_dim = ''
+            n_elements = 1
+            bool_ending = 'bool'
+        input_arg_list = f'{{{",".join("0"*n_elements)}}}'
+        # input_str = re.sub('([(bool)\]])(.*)>', f'\\1 {input_arg_list}>', input_str)
+        input_str = re.sub(f'{bool_ending}(.*)>', f'{bool_ending} {input_arg_list}>', input_str)
+        input_str = re.sub(r'/s{2,}',' ',input_str)
+        return input_str
+        
+    def refactor_inf(self, input_str, large_value='99999999'):
+        """Replace 'inf' with a large value because the parser cannot handle infs
+
+        :param input_str: _description_
+        
+        """
+        if 'inf' not in input_str: return input_str
+        # return re.sub('float {(-*)inf}',
+        #     f'float {{\\1{str(large_value)}}}',input_str)
+        return re.sub('inf', str(large_value),input_str)
+    
+    def refactor_leading_number(self, input_str):
+        """Refactor variables with leading numbers which are not parseable,
+        0_model_fc_weight -> model_0_fc_weight
+        """
+        return re.sub('([\s(,]+)(\d+)_*([a-zA-Z0-9]*)[\s_=]','\\1\\3_\\2_',input_str)
     
     def torch2onnx_text(self, torch_model, *args, **kwargs):
         return self.onnx2onnx_text(self.torch2onnx(torch_model, *args, **kwargs))
@@ -556,13 +784,23 @@ class Model(torch.nn.Module):
         
     def onnx_text2torch(self, onnx_text: bytes):
         """
-        Seems that inputs should be 
+        Convert ONNX text to Torch model
         """
         onnx_model = self.onnx_text2onnx(onnx_text)
         onnx_graph = gs.import_onnx(onnx_model)
         onnx_graph = self.init_graph_tensors(onnx_graph)
-        torch_model = self.onnx2torch(gs.export_onnx(onnx_graph))
+        onnx_graph = gs.export_onnx(onnx_graph)
+        # breakpoint()
+        torch_model = self.onnx2torch(onnx_graph)
         return torch_model
+    
+    def onnx_file2torch(self, onnx_file_path):
+        # onnx_model = self.onnx_text_file2onnx(onnx_file_path)
+        with open(onnx_file_path,'r') as _file:
+            onnx_text = _file.read()
+            
+        return self.onnx_text2torch(onnx_text)
+        
     
     def onnx_text2code(self, onnx_text_path):
         torch_model = self.onnx_text2torch(onnx_text_path)

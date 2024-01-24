@@ -135,3 +135,26 @@ def quantize_dict(base_dict, quantize_fn=quantize):
         # elif isinstance(v,np.int64):
         #     base_dict.update({k:int(v)})
     return base_dict
+
+
+def typewriter_print(text,sleep_time=0.001,max_line_length=150,max_lines=20):
+    if not isinstance(text, str):
+        text = str(text)
+    text_lines = text.split('\n')
+
+    if len(text_lines)>max_lines:
+        text_lines = text_lines[:max_lines]+['...\n']
+
+    def shorten_if_needed(line,max_line_length):
+        if len(line)>max_line_length:
+            return line[:max_line_length]+' ...\n'
+        else:
+            return line+'\n'
+
+    text_lines = [shorten_if_needed(l,max_line_length) for l in text_lines]
+
+    for line in text_lines:
+        for c in line:
+            print(c, end='')
+            sys.stdout.flush()
+            sleep(sleep_time)
