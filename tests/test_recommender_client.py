@@ -82,7 +82,7 @@ def test_recommended_model():
         trainer = lightning.pytorch.Trainer(max_epochs=3)
         trainer.fit(model=model,
             train_dataloaders=train_loader,
-            # val_dataloaders=val_loader
+            val_dataloaders=val_loader
             )
         breakpoint()
     

@@ -16,6 +16,7 @@ import lightning.pytorch as pl
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.optim import lr_scheduler
 
 import numpy as np
 
@@ -336,17 +337,40 @@ class RecommendedModel(modlee.modlee_model.ModleeModel):
         loss = self.loss_fn(y_out, y)
         return {'loss': loss}
 
-    def _validation_step(self, val_batch, batch_idx, *args, **kwargs):
+    def validation_step(self, val_batch, batch_idx, *args, **kwargs):
         x, y = val_batch
         y_out = self(x)
         loss = self.loss_fn(y_out, y)
-        # return {'loss':loss}
-        return loss
-
-    def configure_optimizers(self):
-        optimizer = torch.optim.SGD(
+        return {'val_loss':loss}
+    
+    def configure_optimizers(self,):
+        optimizer = torch.optim.AdamW(
             self.parameters(),
             lr=0.001,
-            momentum=0.9
+        )
+        self.scheduler = lr_scheduler.ReduceLROnPlateau(
+            optimizer,
+            factor=0.8,
+            patience=10,
         )
         return optimizer
+    
+    def on_train_epoch_end(self) -> None:
+        """
+        Update the learning rate scheduler
+        """
+        sch = self.scheduler
+        if isinstance(sch, torch.optim.lr_scheduler.ReduceLROnPlateau):
+            sch.step(self.trainer.callback_metrics["loss"])
+            self.log('scheduler_last_lr',sch._last_lr[0])
+        return super().on_train_epoch_end()
+    
+    def configure_callbacks(self):
+        base_callbacks = super().configure_callbacks()
+        base_callbacks.append(
+            pl.callbacks.EarlyStopping(
+                'val_loss',
+                patience=10,
+                verbose=True,)
+        )
+        return base_callbacks
