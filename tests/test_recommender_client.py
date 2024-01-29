@@ -79,7 +79,7 @@ def test_recommended_model():
     model.train()
     import lightning
     with modlee.start_run() as run:
-        trainer = lightning.pytorch.Trainer(max_epochs=3)
+        trainer = lightning.pytorch.Trainer(max_epochs=20)
         trainer.fit(model=model,
             train_dataloaders=train_loader,
             val_dataloaders=val_loader

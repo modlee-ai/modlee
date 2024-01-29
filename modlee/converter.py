@@ -36,6 +36,7 @@ class Converter(object):
         # and probably other models that take 3-channel images as inputs
         # input_dummy = torch.randn([10, 3, 300, 300])
         torch_model.eval()
+        # breakpoint()
         input_dummy.requires_grad = False
         with torch.no_grad():
             for param in torch_model.parameters():
@@ -46,6 +47,14 @@ class Converter(object):
                 tmp_onnx_path,
                 export_params=False,
                 opset_version=17,
+                input_names=["input_1"],
+                output_names=["gemm_1"],
+                dynamic_axes={
+                    # "input_1": {0: "batch_size"},
+                    "input_1": [0],
+                    # "gemm_1": {0: "batch_size"}
+                    "gemm_1": [0],
+                }
                 )
             
             for param in torch_model.parameters():
@@ -401,9 +410,9 @@ class Converter(object):
         """
         spacer = "    "
         ret_str = ""
-        ret_str += f'init_state_dict = {state_dict_str}\n'
-        ret_str += f'for k,v in init_state_dict.items():\n'
-        ret_str += f'{spacer}{module_name_str}.register_buffer(k,v)\n'
+        ret_str += f'{spacer*2}init_state_dict = {state_dict_str}\n'
+        ret_str += f'{spacer*2}for k,v in init_state_dict.items():\n'
+        ret_str += f'{spacer*3}{module_name_str}.register_buffer(k,v)\n'
         return ret_str
         # return f'{module_nam'
     
@@ -543,7 +552,11 @@ class Model(torch.nn.Module):
             if value_shape is None:
                 # print(f'{tensor_key} has no value_shape')
                 continue
-            # print(value_shape)
+            if isinstance(value_shape[0], str):
+                if 'dynamic_axes' in value_shape[0]:
+                    print(f'Skipping {value_shape}')
+                    continue
+            # print(value_shape, type(value_shape))
 
             tensor_value.to_constant(
                 values=tensor_init_fn(size=value_shape,

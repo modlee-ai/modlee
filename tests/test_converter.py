@@ -135,10 +135,17 @@ def test_init_initializer():
         assert v.shape == getattr(init_tensor,k).shape
         
 import glob, os, random
+# These graphs are randomly generated ResNets
 ONNX_GRAPHS = glob.glob(os.path.expanduser('~/efs/mlruns/*/*/artifacts/model_graph.txt'))
 random.shuffle(ONNX_GRAPHS)
-@pytest.mark.parametrize('onnx_file_path',ONNX_GRAPHS[:2])
+@pytest.mark.parametrize('onnx_file_path',ONNX_GRAPHS[:3])
 def test_converted_onnx_model(onnx_file_path:str, dataloaders):
+    """
+    Test random ONNX text models as saved by a modlee training loop
+
+    :param onnx_file_path: _description_
+    :param dataloaders: _description_
+    """
     # load onnx model from a text file
     from modlee.converter import Converter; converter = Converter()
     model = converter.onnx_file2torch(onnx_file_path)
