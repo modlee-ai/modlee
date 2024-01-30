@@ -485,7 +485,12 @@ class Converter(object):
         spacer = "    "
         fwd_lines = inspect.getsource(model.forward).split('\n')
         for i, fwd_line in enumerate(fwd_lines[1:]):
+            if 'self.Tile' in fwd_line:
+                fwd_line = self.convert_tile_layer(fwd_line)
+            elif 'self.Gather' in fwd_line:
+                fwd_line = self.convert_gather_layer(fwd_line)
             fwd_lines[i+1] = f"{spacer}{fwd_line}"
+
         return '\n'.join(fwd_lines)
 
     def get_model_code(self, model) -> str:
@@ -507,6 +512,12 @@ class Model(torch.nn.Module):
         return model_code
     torch_graph2code = get_model_code
     
+    def convert_tile_layer(self, input_str):
+        return re.sub("(Tile.*), (.*)\)", "\\1, list(\\2.type(torch.int64).cpu().numpy()))", input_str)
+
+    def convert_gather_layer(self, input_str):
+        return re.sub("(Gather.*), (.*)\)", "\\1, \\2.type(torch.int64))", input_str)
+        
     """
     Below are helper functions for importing from torch
     """
