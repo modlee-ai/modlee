@@ -192,8 +192,9 @@ class LogCodeTextCallback(ModleeCallback):
                     loss_calls_str = str.join('\n', loss_calls)
                     mlflow.log_text(loss_calls_str, 'loss_calls.txt')
                 else:
-                    logging.warning("Could not record loss functions explicitly, \
-                                    check for usage of custom loss definitions")
+                    pass
+                    # logging.warning("Could not record loss functions explicitly, \
+                    #                 check for usage of custom loss definitions")
             else:
                 logging.warning(
                 "exp_loss_logger has no attribute extract_loss_functions")

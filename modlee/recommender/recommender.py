@@ -145,8 +145,8 @@ class Recommender(object):
 
         print('----------------------------------------------------------------')
         print('Training your recommended modlee model:')
-        print('     - Running this model: {}'.format(self.model_code))
-        print('     - On the dataloader previously analyzed by ImageClassificationRecommender')
+        print('     - Running this model: {}'.format('./modlee_model.py'))
+        print('     - On the dataloader previously analyzed by the recommender')
         print('----------------------------------------------------------------')
 
         callbacks = self.model.configure_callbacks()
@@ -157,11 +157,16 @@ class Recommender(object):
                 verbose=True,
             ))
         with modlee.start_run() as run:
-            trainer = pl.Trainer(max_epochs=max_epochs, callbacks=callbacks)
+            trainer = pl.Trainer(
+                max_epochs=max_epochs,
+                callbacks=callbacks,
+                enable_model_summary = False
+                )
             trainer.fit(
                 model=self.model,
                 train_dataloaders=self.dataloader,
-                val_dataloaders=val_dataloaders)
+                val_dataloaders=val_dataloaders,
+                )
             # if val_dataloaders == None:
             #     trainer.fit(
             #         model=self.model,

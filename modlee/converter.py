@@ -573,7 +573,7 @@ class Model(torch.nn.Module):
                 values=tensor_init_fn(size=value_shape,
                     # dtype=torch.float
                     ).astype(np.float32))
-            if 'identity' in tensor_key: print(tensor_key)
+            # if 'identity' in tensor_key: print(tensor_key)
         return graph
     
     

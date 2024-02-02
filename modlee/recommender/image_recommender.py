@@ -4,10 +4,10 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision
-from torchvision.models import \
-    resnet34, ResNet34_Weights, \
-    resnet18, ResNet18_Weights, \
-    resnet152, ResNet152_Weights
+# from torchvision.models import \
+#     resnet34, ResNet34_Weights, \
+#     resnet18, ResNet18_Weights, \
+#     resnet152, ResNet152_Weights
 
 
 import modlee

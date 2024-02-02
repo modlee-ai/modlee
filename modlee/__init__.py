@@ -67,7 +67,9 @@ warnings.filterwarnings("ignore", ".*Implicit dimension choice.*")
 warnings.filterwarnings("ignore", ".*divides the total loss by both.*")
 warnings.filterwarnings("ignore", ".*To copy construct from a tensor, it is recommended.*")
 warnings.filterwarnings("ignore", ".*NLLLoss2d has been deprecated.*")
-
+warnings.filterwarnings("ignore", ".*The default value of the antialias parameter.*")
+warnings.filterwarnings("ignore", ".*No names were found for specified dynamic axes.*")
+warnings.filterwarnings("ignore", ".*Starting from v1.9.0.*")
 
 @contextmanager
 def suppress_stdout_stderr():

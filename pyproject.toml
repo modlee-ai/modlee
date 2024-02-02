@@ -29,4 +29,5 @@ dependencies = [
 ]
 
 [tool.setuptools]
-packages = ["modlee"]
+packages = ["modlee", "modlee.recommender"]
+
