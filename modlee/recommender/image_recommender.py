@@ -73,14 +73,15 @@ class ImageRecommender(Recommender):
                     torch.nn.init.normal_(param)
             self.model = ImageRecommendedModel(model)
 
-            code_text = self.get_code_text()
+            self.code_text = self.get_code_text()
+            self.model_code = modlee_converter.onnx_text2code(self.model_text)
             self.model_text = self.model_text.decode('utf-8')
             # breakpoint()
             clean_model_text = '>'.join(self.model_text.split('>')[1:])
             # typewriter_print(clean_model_onnx_text,sleep_time=0.005)
             # self.write_files()
             self.write_file(self.model_text, './modlee_model.txt')
-            self.write_file(clean_model_text, './modlee_model.py')
+            self.write_file(self.model_code, './modlee_model.py')
             
         # except:
         else:

@@ -77,7 +77,7 @@ class ModleeModel(LightningModule):
             LogOutputCallback(),
             LogParamsCallback(),
             PushAPICallback(),
-            LogONNXCallback(),
+            # LogONNXCallback(),
         ]
 
 

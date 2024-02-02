@@ -565,7 +565,7 @@ class Model(torch.nn.Module):
                 continue
             if isinstance(value_shape[0], str):
                 if 'dynamic_axes' in value_shape[0]:
-                    print(f'Skipping {value_shape}')
+                    # print(f'Skipping {value_shape}')
                     continue
             # print(value_shape, type(value_shape))
 

@@ -1,6 +1,6 @@
 import json
 from urllib.parse import urlparse, unquote
-import os
+import os, sys, time
 import pathlib
 import pickle
 import requests
@@ -157,4 +157,4 @@ def typewriter_print(text,sleep_time=0.001,max_line_length=150,max_lines=20):
         for c in line:
             print(c, end='')
             sys.stdout.flush()
-            sleep(sleep_time)
+            time.sleep(sleep_time)

@@ -26,7 +26,7 @@ import sys
 import os
 from urllib.parse import urlparse
 
-SERVER_ENDPOINT = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
+SERVER_ENDPOINT = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:6060'
 # SERVER_ENDPOINT = 'http://127.0.0.1:6060'
 
 
@@ -117,10 +117,12 @@ class Recommender(object):
         indent = '        '
         text_indent = '\n            '
 
-        summary_message = '\n[Modlee] -> In case you want to take a deeper look, I saved the summary of my current model recommendation here:{}file: {}'.format(text_indent+indent,self.model_onnx_text_file)
+        # summary_message = '\n[Modlee] -> In case you want to take a deeper look, I saved the summary of my current model recommendation here:{}file: {}'.format(text_indent+indent,self.model_onnx_text_file)
+        summary_message = '\n[Modlee] -> In case you want to take a deeper look, I saved the summary of my current model recommendation here:{}file: {}'.format(text_indent+indent, './modlee_model.txt')
         typewriter_print(summary_message,sleep_time=0.01)        
 
-        code_message = '\n[Modlee] -> I also saved the model as a python editable version (model def, train, val, optimizer):{}file: {}{}This is a great place to start your own model exploration!'.format(text_indent+indent,self.model_code_file,text_indent)
+        # code_message = '\n[Modlee] -> I also saved the model as a python editable version (model def, train, val, optimizer):{}file: {}{}This is a great place to start your own model exploration!'.format(text_indent+indent,self.model_code_file,text_indent)
+        code_message = '\n[Modlee] -> I also saved the model as a python editable version (model def, train, val, optimizer):{}file: {}{}This is a great place to start your own model exploration!'.format(text_indent+indent,'./modlee_model.py',text_indent)
         typewriter_print(code_message,sleep_time=0.01)        
 
     def _write_files(self):
@@ -143,21 +145,32 @@ class Recommender(object):
 
         print('----------------------------------------------------------------')
         print('Training your recommended modlee model:')
-        print('     - Running this model: {}'.format(self.model_code_file))
+        print('     - Running this model: {}'.format(self.model_code))
         print('     - On the dataloader previously analyzed by ImageClassificationRecommender')
         print('----------------------------------------------------------------')
 
+        callbacks = self.model.configure_callbacks()
+        if val_dataloaders is not None:
+            callbacks.append(pl.callbacks.EarlyStopping(
+                monitor='val_loss',
+                patience=10,
+                verbose=True,
+            ))
         with modlee.start_run() as run:
-            trainer = pl.Trainer(max_epochs=max_epochs)
-            if val_dataloaders == None:
-                trainer.fit(
-                    model=self.model,
-                    train_dataloaders=self.dataloader)
-            else:
-                trainer.fit(
-                    model=self.model,
-                    train_dataloaders=self.dataloader,
-                    val_dataloaders=val_dataloaders)
+            trainer = pl.Trainer(max_epochs=max_epochs, callbacks=callbacks)
+            trainer.fit(
+                model=self.model,
+                train_dataloaders=self.dataloader,
+                val_dataloaders=val_dataloaders)
+            # if val_dataloaders == None:
+            #     trainer.fit(
+            #         model=self.model,
+            #         train_dataloaders=self.dataloader)
+            # else:
+            #     trainer.fit(
+            #         model=self.model,
+            #         train_dataloaders=self.dataloader,
+            #         val_dataloaders=val_dataloaders)
                 
             self.run_artifact_uri = urlparse(run.info.artifact_uri).path
             self.run_id = run.info.artifact_uri.split('/')[-2]
@@ -367,10 +380,13 @@ class RecommendedModel(modlee.modlee_model.ModleeModel):
     
     def configure_callbacks(self):
         base_callbacks = super().configure_callbacks()
-        base_callbacks.append(
-            pl.callbacks.EarlyStopping(
-                'val_loss',
-                patience=10,
-                verbose=True,)
-        )
+        # base_callbacks.append(
+        #     pl.callbacks.EarlyStopping(
+        #         'val_loss',
+        #         patience=10,
+        #         verbose=True,)
+        # )
         return base_callbacks
+
+    # def configure_early_stopping_callback(self, **kwargs):
+    #     return pl.callbacks.EarlyStopping(**kwargs)
