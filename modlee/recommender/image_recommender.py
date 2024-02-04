@@ -56,7 +56,24 @@ class ImageRecommender(Recommender):
     def fit(self, dataloader, *args, **kwargs):
         super().fit(dataloader, *args, **kwargs)
         assert self.meta_features is not None
-        num_classes = len(dataloader.dataset.classes)
+        # num_classes = len(dataloader.dataset.classes)
+        if hasattr(dataloader.dataset, 'classes'):  
+            num_classes = len(dataloader.dataset.classes)
+        else:
+            # try to get all unique values
+            # assumes all classes will be represented in several batches
+            unique_labels = set()
+            n_samples = 0
+            # while n_samples < 200:
+            for d in dataloader.dataset:
+                tgt = d[-1]
+                # img,tgt = next(iter(dataloader))
+                unique_labels.update(list(tgt.unique().cpu().numpy()))
+                n_samples += len(tgt)
+                # num_classes = len(tgt.unique())
+            num_classes = len(unique_labels)
+            # num_classes = 21
+            # print(f'{unique_labels = }')
         self.meta_features.update({
             'num_classes': num_classes
         })
@@ -71,7 +88,7 @@ class ImageRecommender(Recommender):
                     torch.nn.init.xavier_normal_(param,1.0)
                 except:
                     torch.nn.init.normal_(param)
-            self.model = ImageRecommendedModel(model)
+            self.model = ImageRecommendedModel(model,loss_fn=self.loss_fn)
 
             self.code_text = self.get_code_text()
             self.model_code = modlee_converter.onnx_text2code(self.model_text)
@@ -195,9 +212,13 @@ class ImageSegmentationRecommender(ImageRecommender):
         
         super().__init__(*args, **kwargs)
         self.task = 'segmentation'
-        self.loss_fn = F.cross_entropy
-        
+        # self.loss_fn = F.cross_entropy
+        self.loss_fn = torch.nn.CrossEntropyLoss() 
+        def squeeze_entropy_loss(x, *args, **kwargs):
+            return torch.nn.CrossEntropyLoss()(x.squeeze)
+
 class ImageRecommendedModel(RecommendedModel):
     def forward(self, x):
-        x = torchvision.transforms.Resize((300,300))(x)
+        # print(type(x))
+        # x = torchvision.transforms.Resize((300,300))(x)
         return self.model(x)

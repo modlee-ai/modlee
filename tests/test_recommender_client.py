@@ -9,6 +9,7 @@ import pytest
 import modlee
 # modlee.init(api_key='modleemichael')
 from modlee.recommender import Recommender
+import torch
 from torchvision import datasets as tv_datasets
 from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader
@@ -44,19 +45,21 @@ def test_image_recommenders(modality, task):
     # alternatively,
     recommender = modlee.recommender.from_modality_task(
         modality, task,
-        endpoint=SERVER_ENDPOINT)
+        # endpoint=SERVER_ENDPOINT
+        )
     
     recommender.fit(dataloader)
     
     # Get the model and pass an input through it
     model = recommender.model    
-    x = next(iter(dataloader))[0]
+    x,y_tgt = next(iter(dataloader))
     # breakpoint()
     # import torchvision
     
     # x = torchvision.transforms.Resize((300,300))(x)
     # breakpoint()
     y = model.forward(x)
+    loss = torch.nn.CrossEntropyLoss()(y_tgt, y)
     # breakpoint()
     
 def test_recommended_model():
