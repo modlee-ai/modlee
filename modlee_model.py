@@ -6,12 +6,6 @@ class Model(torch.nn.Module):
     
     def __init__(self):
         super().__init__()
-        setattr(self,'Identity', onnx2torch.node_converters.identity.OnnxCopyIdentity(**{}))
-        setattr(self,'Identity_1', onnx2torch.node_converters.identity.OnnxCopyIdentity(**{}))
-        setattr(self,'Identity_2', onnx2torch.node_converters.identity.OnnxCopyIdentity(**{}))
-        setattr(self,'Identity_3', onnx2torch.node_converters.identity.OnnxCopyIdentity(**{}))
-        setattr(self,'Identity_4', onnx2torch.node_converters.identity.OnnxCopyIdentity(**{}))
-        setattr(self,'Identity_5', onnx2torch.node_converters.identity.OnnxCopyIdentity(**{}))
         setattr(self,'Shape', onnx2torch.node_converters.shape.OnnxShape(**{'start':0,'end':None}))
         setattr(self,'Constant', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.ones(())*2}))
         setattr(self,'Gather', onnx2torch.node_converters.gather.OnnxGather(**{'axis':0}))
@@ -137,74 +131,24 @@ class Model(torch.nn.Module):
         setattr(self,'Conv_52', torch.nn.modules.conv.Conv2d(**{'in_channels':512,'out_channels':2048,'kernel_size':(1, 1),'stride':(1, 1),'padding':(0, 0),'dilation':(1, 1),'groups':1,'padding_mode':'zeros'}))
         setattr(self,'Add_15', onnx2torch.node_converters.binary_math_operations.OnnxBinaryMathOperation(**{'operation_type':'Add','broadcast':None,'axis':None}))
         setattr(self,'Relu_48', torch.nn.modules.activation.ReLU(**{'inplace':False}))
-        setattr(self,'Conv_53', torch.nn.modules.conv.Conv2d(**{'in_channels':2048,'out_channels':256,'kernel_size':(1, 1),'stride':(1, 1),'padding':(0, 0),'dilation':(1, 1),'groups':1,'padding_mode':'zeros'}))
+        setattr(self,'Conv_53', torch.nn.modules.conv.Conv2d(**{'in_channels':2048,'out_channels':512,'kernel_size':(3, 3),'stride':(1, 1),'padding':(1, 1),'dilation':(1, 1),'groups':1,'padding_mode':'zeros'}))
         setattr(self,'Relu_49', torch.nn.modules.activation.ReLU(**{'inplace':False}))
-        setattr(self,'Conv_54', torch.nn.modules.conv.Conv2d(**{'in_channels':2048,'out_channels':256,'kernel_size':(3, 3),'stride':(1, 1),'padding':(12, 12),'dilation':(12, 12),'groups':1,'padding_mode':'zeros'}))
-        setattr(self,'Relu_50', torch.nn.modules.activation.ReLU(**{'inplace':False}))
-        setattr(self,'Conv_55', torch.nn.modules.conv.Conv2d(**{'in_channels':2048,'out_channels':256,'kernel_size':(3, 3),'stride':(1, 1),'padding':(24, 24),'dilation':(24, 24),'groups':1,'padding_mode':'zeros'}))
-        setattr(self,'Relu_51', torch.nn.modules.activation.ReLU(**{'inplace':False}))
-        setattr(self,'Conv_56', torch.nn.modules.conv.Conv2d(**{'in_channels':2048,'out_channels':256,'kernel_size':(3, 3),'stride':(1, 1),'padding':(36, 36),'dilation':(36, 36),'groups':1,'padding_mode':'zeros'}))
-        setattr(self,'Relu_52', torch.nn.modules.activation.ReLU(**{'inplace':False}))
-        setattr(self,'Shape_2', onnx2torch.node_converters.shape.OnnxShape(**{'start':0,'end':None}))
-        setattr(self,'Constant_2', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.ones(())*2}))
-        setattr(self,'Gather_2', onnx2torch.node_converters.gather.OnnxGather(**{'axis':0}))
-        setattr(self,'Shape_3', onnx2torch.node_converters.shape.OnnxShape(**{'start':0,'end':None}))
-        setattr(self,'Constant_3', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.ones(())*3}))
-        setattr(self,'Gather_3', onnx2torch.node_converters.gather.OnnxGather(**{'axis':0}))
-        setattr(self,'GlobalAveragePool', onnx2torch.node_converters.global_average_pool.OnnxGlobalAveragePoolWithKnownInputShape(**{'input_shape':[0, 2048, 38, 38]}))
-        setattr(self,'Conv_57', torch.nn.modules.conv.Conv2d(**{'in_channels':2048,'out_channels':256,'kernel_size':(1, 1),'stride':(1, 1),'padding':(0, 0),'dilation':(1, 1),'groups':1,'padding_mode':'zeros'}))
-        setattr(self,'Relu_53', torch.nn.modules.activation.ReLU(**{'inplace':False}))
-        setattr(self,'Constant_4', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.zeros((1,))}))
+        setattr(self,'Conv_54', torch.nn.modules.conv.Conv2d(**{'in_channels':512,'out_channels':10,'kernel_size':(1, 1),'stride':(1, 1),'padding':(0, 0),'dilation':(1, 1),'groups':1,'padding_mode':'zeros'}))
+        setattr(self,'Constant_2', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.zeros((1,))}))
         setattr(self,'Unsqueeze', onnx2torch.node_converters.unsqueeze.OnnxUnsqueezeStaticAxes(**{'axes':[0]}))
-        setattr(self,'Constant_5', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.zeros((1,))}))
+        setattr(self,'Constant_3', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.zeros((1,))}))
         setattr(self,'Unsqueeze_1', onnx2torch.node_converters.unsqueeze.OnnxUnsqueezeStaticAxes(**{'axes':[0]}))
         setattr(self,'Concat', onnx2torch.node_converters.concat.OnnxConcat(**{'axis':0}))
-        setattr(self,'Shape_4', onnx2torch.node_converters.shape.OnnxShape(**{'start':0,'end':None}))
-        setattr(self,'Constant_6', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.zeros((1,))}))
-        setattr(self,'Constant_7', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.zeros((1,))}))
-        setattr(self,'Constant_8', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.ones((1,))*2}))
+        setattr(self,'Shape_2', onnx2torch.node_converters.shape.OnnxShape(**{'start':0,'end':None}))
+        setattr(self,'Constant_4', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.zeros((1,))}))
+        setattr(self,'Constant_5', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.zeros((1,))}))
+        setattr(self,'Constant_6', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.ones((1,))*2}))
         setattr(self,'Slice', onnx2torch.node_converters.slice.OnnxSlice(**{}))
         setattr(self,'Cast', onnx2torch.node_converters.cast.OnnxCast(**{'onnx_dtype':7}))
         setattr(self,'Concat_1', onnx2torch.node_converters.concat.OnnxConcat(**{'axis':0}))
         setattr(self,'Resize', onnx2torch.node_converters.resize.OnnxResize(**{'mode':'linear','align_corners':False,'ignore_roi':True,'ignore_bs_ch_size':False}))
-        setattr(self,'Concat_2', onnx2torch.node_converters.concat.OnnxConcat(**{'axis':1}))
-        setattr(self,'Conv_58', torch.nn.modules.conv.Conv2d(**{'in_channels':1280,'out_channels':256,'kernel_size':(1, 1),'stride':(1, 1),'padding':(0, 0),'dilation':(1, 1),'groups':1,'padding_mode':'zeros'}))
-        setattr(self,'Relu_54', torch.nn.modules.activation.ReLU(**{'inplace':False}))
-        setattr(self,'Conv_59', torch.nn.modules.conv.Conv2d(**{'in_channels':256,'out_channels':256,'kernel_size':(3, 3),'stride':(1, 1),'padding':(1, 1),'dilation':(1, 1),'groups':1,'padding_mode':'zeros'}))
-        setattr(self,'Relu_55', torch.nn.modules.activation.ReLU(**{'inplace':False}))
-        setattr(self,'Conv_60', torch.nn.modules.conv.Conv2d(**{'in_channels':256,'out_channels':10,'kernel_size':(1, 1),'stride':(1, 1),'padding':(0, 0),'dilation':(1, 1),'groups':1,'padding_mode':'zeros'}))
-        setattr(self,'Constant_9', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.zeros((1,))}))
-        setattr(self,'Unsqueeze_2', onnx2torch.node_converters.unsqueeze.OnnxUnsqueezeStaticAxes(**{'axes':[0]}))
-        setattr(self,'Constant_10', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.zeros((1,))}))
-        setattr(self,'Unsqueeze_3', onnx2torch.node_converters.unsqueeze.OnnxUnsqueezeStaticAxes(**{'axes':[0]}))
-        setattr(self,'Concat_3', onnx2torch.node_converters.concat.OnnxConcat(**{'axis':0}))
-        setattr(self,'Shape_5', onnx2torch.node_converters.shape.OnnxShape(**{'start':0,'end':None}))
-        setattr(self,'Constant_11', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.zeros((1,))}))
-        setattr(self,'Constant_12', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.zeros((1,))}))
-        setattr(self,'Constant_13', onnx2torch.node_converters.constant.OnnxConstant(**{'value':torch.ones((1,))*2}))
-        setattr(self,'Slice_1', onnx2torch.node_converters.slice.OnnxSlice(**{}))
-        setattr(self,'Cast_1', onnx2torch.node_converters.cast.OnnxCast(**{'onnx_dtype':7}))
-        setattr(self,'Concat_4', onnx2torch.node_converters.concat.OnnxConcat(**{'axis':0}))
-        setattr(self,'Resize_1', onnx2torch.node_converters.resize.OnnxResize(**{'mode':'linear','align_corners':False,'ignore_roi':True,'ignore_bs_ch_size':False}))
-        setattr(self,'initializers', torch.nn.modules.module.Module())
-        init_state_dict = {'onnx_initializer_0':torch.randn(torch.Size([256])),'onnx_initializer_1':torch.randn(torch.Size([256])),'onnx_initializer_2':torch.randn(torch.Size([256])),'onnx_initializer_3':torch.randn(torch.Size([256])),'onnx_initializer_4':torch.randn(torch.Size([256])),'onnx_initializer_5':torch.randn(torch.Size([256]))}
-        for k,v in init_state_dict.items():
-            self.initializers.register_buffer(k,v)
-
 
     def forward(self, input_1):
-        initializers_onnx_initializer_0 = self.initializers.onnx_initializer_0
-        identity = self.Identity(initializers_onnx_initializer_0);  initializers_onnx_initializer_0 = None
-        initializers_onnx_initializer_1 = self.initializers.onnx_initializer_1
-        identity_1 = self.Identity_1(initializers_onnx_initializer_1);  initializers_onnx_initializer_1 = None
-        initializers_onnx_initializer_2 = self.initializers.onnx_initializer_2
-        identity_2 = self.Identity_2(initializers_onnx_initializer_2);  initializers_onnx_initializer_2 = None
-        initializers_onnx_initializer_3 = self.initializers.onnx_initializer_3
-        identity_3 = self.Identity_3(initializers_onnx_initializer_3);  initializers_onnx_initializer_3 = None
-        initializers_onnx_initializer_4 = self.initializers.onnx_initializer_4
-        identity_4 = self.Identity_4(initializers_onnx_initializer_4);  initializers_onnx_initializer_4 = None
-        initializers_onnx_initializer_5 = self.initializers.onnx_initializer_5
-        identity_5 = self.Identity_5(initializers_onnx_initializer_5);  initializers_onnx_initializer_5 = None
         shape = self.Shape(input_1)
         constant = self.Constant()
         gather = self.Gather(shape, constant.type(torch.int64));  shape = constant = None
@@ -330,54 +274,21 @@ class Model(torch.nn.Module):
         conv_52 = self.Conv_52(relu_47);  relu_47 = None
         add_15 = self.Add_15(conv_52, relu_45);  conv_52 = relu_45 = None
         relu_48 = self.Relu_48(add_15);  add_15 = None
-        conv_53 = self.Conv_53(relu_48)
+        conv_53 = self.Conv_53(relu_48);  relu_48 = None
         relu_49 = self.Relu_49(conv_53);  conv_53 = None
-        conv_54 = self.Conv_54(relu_48)
-        relu_50 = self.Relu_50(conv_54);  conv_54 = None
-        conv_55 = self.Conv_55(relu_48)
-        relu_51 = self.Relu_51(conv_55);  conv_55 = None
-        conv_56 = self.Conv_56(relu_48)
-        relu_52 = self.Relu_52(conv_56);  conv_56 = None
-        shape_2 = self.Shape_2(relu_48)
+        conv_54 = self.Conv_54(relu_49);  relu_49 = None
         constant_2 = self.Constant_2()
-        gather_2 = self.Gather_2(shape_2, constant_2.type(torch.int64));  shape_2 = constant_2 = None
-        shape_3 = self.Shape_3(relu_48)
+        unsqueeze = self.Unsqueeze(gather);  gather = None
         constant_3 = self.Constant_3()
-        gather_3 = self.Gather_3(shape_3, constant_3.type(torch.int64));  shape_3 = constant_3 = None
-        global_average_pool = self.GlobalAveragePool(relu_48);  relu_48 = None
-        conv_57 = self.Conv_57(global_average_pool);  global_average_pool = None
-        relu_53 = self.Relu_53(conv_57);  conv_57 = None
-        constant_4 = self.Constant_4()
-        unsqueeze = self.Unsqueeze(gather_2);  gather_2 = None
-        constant_5 = self.Constant_5()
-        unsqueeze_1 = self.Unsqueeze_1(gather_3);  gather_3 = None
+        unsqueeze_1 = self.Unsqueeze_1(gather_1);  gather_1 = None
         concat = self.Concat(unsqueeze, unsqueeze_1);  unsqueeze = unsqueeze_1 = None
-        shape_4 = self.Shape_4(relu_53)
+        shape_2 = self.Shape_2(conv_54)
+        constant_4 = self.Constant_4()
+        constant_5 = self.Constant_5()
         constant_6 = self.Constant_6()
-        constant_7 = self.Constant_7()
-        constant_8 = self.Constant_8()
-        slice_1 = self.Slice(shape_4, constant_7, constant_8, constant_6);  shape_4 = constant_7 = constant_8 = constant_6 = None
+        slice_1 = self.Slice(shape_2, constant_5, constant_6, constant_4);  shape_2 = constant_5 = constant_6 = constant_4 = None
         cast = self.Cast(concat);  concat = None
         concat_1 = self.Concat_1(slice_1, cast);  slice_1 = cast = None
-        resize = self.Resize(relu_53, sizes = concat_1);  relu_53 = concat_1 = None
-        concat_2 = self.Concat_2(relu_49, relu_50, relu_51, relu_52, resize);  relu_49 = relu_50 = relu_51 = relu_52 = resize = None
-        conv_58 = self.Conv_58(concat_2);  concat_2 = None
-        relu_54 = self.Relu_54(conv_58);  conv_58 = None
-        conv_59 = self.Conv_59(relu_54);  relu_54 = None
-        relu_55 = self.Relu_55(conv_59);  conv_59 = None
-        conv_60 = self.Conv_60(relu_55);  relu_55 = None
-        constant_9 = self.Constant_9()
-        unsqueeze_2 = self.Unsqueeze_2(gather);  gather = None
-        constant_10 = self.Constant_10()
-        unsqueeze_3 = self.Unsqueeze_3(gather_1);  gather_1 = None
-        concat_3 = self.Concat_3(unsqueeze_2, unsqueeze_3);  unsqueeze_2 = unsqueeze_3 = None
-        shape_5 = self.Shape_5(conv_60)
-        constant_11 = self.Constant_11()
-        constant_12 = self.Constant_12()
-        constant_13 = self.Constant_13()
-        slice_2 = self.Slice_1(shape_5, constant_12, constant_13, constant_11);  shape_5 = constant_12 = constant_13 = constant_11 = None
-        cast_1 = self.Cast_1(concat_3);  concat_3 = None
-        concat_4 = self.Concat_4(slice_2, cast_1);  slice_2 = cast_1 = None
-        resize_1 = self.Resize_1(conv_60, sizes = concat_4);  conv_60 = concat_4 = None
-        return resize_1
+        resize = self.Resize(conv_54, sizes = concat_1);  conv_54 = concat_1 = None
+        return resize
     

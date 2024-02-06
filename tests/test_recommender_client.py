@@ -59,7 +59,7 @@ def test_image_recommenders(modality, task):
     # x = torchvision.transforms.Resize((300,300))(x)
     # breakpoint()
     y = model.forward(x)
-    loss = torch.nn.CrossEntropyLoss()(y_tgt, y)
+    loss = torch.nn.CrossEntropyLoss()(y, y_tgt)
     # breakpoint()
     
 def test_recommended_model():
