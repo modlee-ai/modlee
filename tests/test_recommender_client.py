@@ -48,10 +48,12 @@ def test_image_recommenders(modality, task):
         # endpoint=SERVER_ENDPOINT
         )
     
+    
     recommender.fit(dataloader)
     
     # Get the model and pass an input through it
     model = recommender.model    
+    
     x,y_tgt = next(iter(dataloader))
     # breakpoint()
     # import torchvision
@@ -59,8 +61,8 @@ def test_image_recommenders(modality, task):
     # x = torchvision.transforms.Resize((300,300))(x)
     # breakpoint()
     y = model.forward(x)
-    loss = torch.nn.CrossEntropyLoss()(y, y_tgt)
-    # breakpoint()
+    # loss = torch.nn.CrossEntropyLoss()(y, y_tgt)
+    breakpoint()
     
 def test_recommended_model():
     # modlee.init(api_key='modleemichael')

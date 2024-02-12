@@ -369,7 +369,7 @@ class RecommendedModel(modlee.modlee_model.ModleeModel):
         self.scheduler = lr_scheduler.ReduceLROnPlateau(
             optimizer,
             factor=0.8,
-            patience=10,
+            patience=5,
         )
         return optimizer
     
