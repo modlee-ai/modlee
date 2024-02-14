@@ -6,7 +6,7 @@ from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import mlflow
 import modlee
-from modlee.modlee_model import ModleeModel, DataStatsCallback
+from modlee.model import ModleeModel, DataStatsCallback
 from lightning.pytorch.callbacks import Callback
 
 import torchmetrics

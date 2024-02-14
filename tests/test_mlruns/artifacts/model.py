@@ -47,7 +47,7 @@ import torchmetrics
 import modlee
 
 
-class ModleeModel(modlee.modlee_model.ModleeModel):
+class ModleeModel(modlee.model.ModleeModel):
 
     def __init__(self, model=None, loss_fn=F.cross_entropy, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -10,7 +10,7 @@ from mlflow.entities import Run
 
 
 class Rep(Run,):
-    artifacts = ['modlee_model.py', 'data_stats']
+    artifacts = ['model.py', 'data_stats']
 
     def __init__(self, run=None, **kwargs):
         self.__dict__.update(**kwargs)
@@ -26,9 +26,9 @@ class Rep(Run,):
 
     def _init_model(self):
         model_path = self._get_artifact('model.py')
-        self._modlee_model_module = SourceFileLoader(
+        self._model_module = SourceFileLoader(
             'modlee_mod', model_path,).load_module()
-        self._model = self._modlee_model_module.ModleeModel()
+        self._model = self._model_module.ModleeModel()
 
     def _init_data_stats(self):
         data_stats_path = self._get_artifact('data_stats')

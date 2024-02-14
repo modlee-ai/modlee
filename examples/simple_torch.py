@@ -12,7 +12,7 @@ modlee.init(
     api_key="local"
 )
 from modlee.utils import get_fashion_mnist
-from modlee.modlee_model import ModleeModel
+from modlee.model import ModleeModel
 
 # %% Build models
 

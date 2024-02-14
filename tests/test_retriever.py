@@ -57,7 +57,7 @@ class RepTest(unittest.TestCase):
         Retrieve models from prior runs
         '''
         for run_dir in run_dirs:
-            modlee_model = modlee.get_model(run_dir)
+            model = modlee.get_model(run_dir)
             mlflow_model = mlflow.pytorch.load_model(
                 f"{run_dir}/artifacts/model"
             )
@@ -65,14 +65,14 @@ class RepTest(unittest.TestCase):
             data_snapshot = modlee.get_data_snapshot(run_dir)
 
             # set the modlee-loaded weights equal to the mlflow-loaded weights
-            modlee_model.load_state_dict(mlflow_model.state_dict())
+            model.load_state_dict(mlflow_model.state_dict())
 
             # test that inference outputs are within a difference threshold
-            modlee_model.eval(), mlflow_model.eval()
+            model.eval(), mlflow_model.eval()
             param_thresh = 0.001
             with torch.no_grad():
                 for x in data_snapshot:
-                    y_modlee = modlee_model(torch.Tensor(x).unsqueeze(0))
+                    y_modlee = model(torch.Tensor(x).unsqueeze(0))
                     y_mlflow = mlflow_model(torch.Tensor(x).unsqueeze(0))
                     diff_y = np.abs(y_modlee.numpy()-y_mlflow.numpy())
                     assert np.max(diff_y) < param_thresh, \

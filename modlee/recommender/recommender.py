@@ -118,17 +118,17 @@ class Recommender(object):
         text_indent = '\n            '
 
         # summary_message = '\n[Modlee] -> In case you want to take a deeper look, I saved the summary of my current model recommendation here:{}file: {}'.format(text_indent+indent,self.model_onnx_text_file)
-        summary_message = '\n[Modlee] -> In case you want to take a deeper look, I saved the summary of my current model recommendation here:{}file: {}'.format(text_indent+indent, './modlee_model.txt')
+        summary_message = '\n[Modlee] -> In case you want to take a deeper look, I saved the summary of my current model recommendation here:{}file: {}'.format(text_indent+indent, './model.txt')
         typewriter_print(summary_message,sleep_time=0.01)        
 
         # code_message = '\n[Modlee] -> I also saved the model as a python editable version (model def, train, val, optimizer):{}file: {}{}This is a great place to start your own model exploration!'.format(text_indent+indent,self.model_code_file,text_indent)
-        code_message = '\n[Modlee] -> I also saved the model as a python editable version (model def, train, val, optimizer):{}file: {}{}This is a great place to start your own model exploration!'.format(text_indent+indent,'./modlee_model.py',text_indent)
+        code_message = '\n[Modlee] -> I also saved the model as a python editable version (model def, train, val, optimizer):{}file: {}{}This is a great place to start your own model exploration!'.format(text_indent+indent,'./model.py',text_indent)
         typewriter_print(code_message,sleep_time=0.01)        
 
     def _write_files(self):
 
-        self.model_onnx_text_file = './modlee_model_summary.txt'
-        self.model_code_file = './modlee_model_code.py'
+        self.model_onnx_text_file = './model_summary.txt'
+        self.model_code_file = './model_code.py'
 
         with open(self.model_onnx_text_file, 'w') as file:
             file.write(self.model_text)
@@ -145,7 +145,7 @@ class Recommender(object):
 
         print('----------------------------------------------------------------')
         print('Training your recommended modlee model:')
-        print('     - Running this model: {}'.format('./modlee_model.py'))
+        print('     - Running this model: {}'.format('./model.py'))
         print('     - On the dataloader previously analyzed by the recommender')
         print('----------------------------------------------------------------')
 
@@ -332,7 +332,7 @@ class ModelSummaryRecommender(Recommender):
         return Model()
 
         
-class RecommendedModel(modlee.modlee_model.ModleeModel):
+class RecommendedModel(modlee.model.ModleeModel):
 # class RecommendedModel(pl.LightningModule):
     """
     A ready-to-train ModleeModel that wraps around a recommended model

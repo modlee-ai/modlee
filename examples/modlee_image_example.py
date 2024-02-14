@@ -13,7 +13,7 @@ modlee.init(
 )
 from modlee.dev_data import get_fashion_mnist
 from modlee.modlee_image_model import ModleeImageModel
-from modlee.modlee_model import ModleeModel
+from modlee.model import ModleeModel
 
 # %% Build models
 

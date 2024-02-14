@@ -219,7 +219,7 @@ class Converter(object):
         torch_code = self.torch_graph2code(torch_model)
         return torch_code
     onnx_text2code = onnx_text2torch_code 
-    # def code2modlee_model(self, code):
+    # def code2model(self, code):
     #     torch_model = self.onnx_text2torch(onnx_text_path)
     #     torch_code = self.torch_graph2code(torch_model)
     #     return torch_code        

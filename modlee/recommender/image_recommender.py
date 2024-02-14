@@ -97,8 +97,8 @@ class ImageRecommender(Recommender):
             clean_model_text = '>'.join(self.model_text.split('>')[1:])
             # typewriter_print(clean_model_onnx_text,sleep_time=0.005)
             # self.write_files()
-            self.write_file(self.model_text, './modlee_model.txt')
-            self.write_file(self.model_code, './modlee_model.py')
+            self.write_file(self.model_text, './model.txt')
+            self.write_file(self.model_code, './model.py')
             
         # except:
         else:

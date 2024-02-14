@@ -4,19 +4,20 @@ import yaml
 
 import os
 import modlee
-from modlee.api_client import ModleeClient
+from modlee.client import ModleeClient
+from modlee.config import LOCAL_ENDPOINT
 import importlib
 # 
 import inspect
 
 '''
-To properly run these tests, the modlee_api server must be running
-in modlee_api/modlee_api, run:
+To properly run these tests, the modlee_server must be running
+in modlee_server/modlee_api, run:
 python3 app.py
 '''
 
 # local endpoint
-ENDPOINT = "http://127.0.0.1:7070/"
+ENDPOINT = LOCAL_ENDPOINT
 # remote endpoint
 # ENDPOINT = "http://modlee.pythonanywhere.com"
 dummy_endpoint = "http://9.9.9.9:9999"
@@ -29,16 +30,10 @@ except ModuleNotFoundError as e:
     modlee_dev_available = False
     
  
-with open(os.path.join(os.path.dirname(__file__), 'test_retriever.yaml'),'r') as test_retriever_file:
-    ret_dict = yaml.safe_load(test_retriever_file)
-globals().update(dict(
-    mlruns_dirs=ret_dict['mlruns_dirs'],
-    run_dirs=ret_dict['run_dirs']
-))
-assert len(run_dirs)>0, f"No run_dirs defined in ./test_retriever.yaml"
+run_dirs = [os.path.join(os.path.dirname(__file__), 'test_mlruns')]
     
-    
-class ModleeClientTest(unittest.TestCase):
+# class ModleeClientTest(unittest.TestCase):
+class TestModleeClient:
     client = ModleeClient(
         endpoint=ENDPOINT,
         api_key='local'
@@ -198,8 +193,8 @@ class ModleeClientTest(unittest.TestCase):
             assert response, f"Client {self.client.api_key} could not save {run_dir}"
 
     def test_unauth_save_run(self):
+        """ Unauthorized clien should not be able to save runs 
+        """
         for run_dir in run_dirs:
             response = self.unauthorized_client.save_run(run_dir)
-            # import pudb; pudb.set_trace();
-            breakpoint()
             assert response is False, f"Unauthorized client should not have saved {run_dir}"

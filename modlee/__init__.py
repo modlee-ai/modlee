@@ -20,7 +20,7 @@ import warnings
 import mlflow
 from mlflow import start_run
 
-from .api_client import ModleeClient
+from .client import ModleeClient
 api_key = os.environ.get('MODLEE_API_KEY',None)
 modlee_client = ModleeClient(api_key=api_key)
 
@@ -43,7 +43,7 @@ if model_text_converter.module_available:
 else:
     get_code_text, get_code_text_for_model = None, None
 # from modlee.retriever import *
-from . import data_stats, modlee_model, modlee_image_model
+from . import data_stats, model, modlee_image_model
 from . import *
 # from . import demo
 from . import recommender
