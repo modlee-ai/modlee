@@ -18,12 +18,11 @@ logging.basicConfig(
 import warnings
 
 import mlflow
-from mlflow import start_run, \
-    get_tracking_uri, set_tracking_uri
-import modlee
-from modlee.api_client import ModleeAPIClient
+from mlflow import start_run
+
+from .api_client import ModleeClient
 api_key = os.environ.get('MODLEE_API_KEY',None)
-modlee_client = ModleeAPIClient(api_key=api_key)
+modlee_client = ModleeClient(api_key=api_key)
 
 api_modules = [
     'model_text_converter',
@@ -43,10 +42,10 @@ if model_text_converter.module_available:
         get_code_text_for_model
 else:
     get_code_text, get_code_text_for_model = None, None
-from modlee.retriever import *
+# from modlee.retriever import *
 from . import data_stats, modlee_model, modlee_image_model
 from . import *
-from . import demo
+# from . import demo
 from . import recommender
 
 
@@ -79,7 +78,7 @@ def suppress_stdout_stderr():
             yield (err, out)
 
 # Try to get an API key
-def init(run_dir=None,api_key=api_key):
+def init(run_dir=None, api_key=api_key):
     """
     Initialize modlee
     - Set the run directory to save experiments
@@ -87,11 +86,12 @@ def init(run_dir=None,api_key=api_key):
     """
     
     # if run_dir not provided, set to the same directory as the calling file
-    if run_dir is None:
-        calling_file = traceback.extract_stack()[-2].filename
-        run_dir = os.path.dirname(calling_file)
+    # if run_dir is None:
+    #     run_dir = os.getcwd()
+        # calling_file = traceback.extract_stack()[-2].filename
+        # run_dir = os.path.dirname(calling_file)
 
-    if os.path.exists(run_dir)==False:
+    if run_dir is None or os.path.exists(run_dir)==False:
         run_dir = os.getcwd()
 
     set_run_dir(run_dir)
@@ -99,7 +99,7 @@ def init(run_dir=None,api_key=api_key):
     # if api_key provided, reset modlee_client and reload API-locked modules
     if api_key:
         global modlee_client, get_code_text, get_code_text_for_model, data_stats, model_text_converter, exp_loss_logger
-        modlee_client = ModleeAPIClient(
+        modlee_client = ModleeClient(
             api_key=api_key
             )
         for _module in [data_stats, model_text_converter, exp_loss_logger]:

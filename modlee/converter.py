@@ -809,19 +809,20 @@ class Converter(object):
         init_code = '\n'.join(init_lines)
         return init_code
     
-    def get_init_module_state_dict_str(self, module_name_str:str, state_dict_str:str):
+    def get_init_module_state_dict_str(self, module_name_str:str, state_dict_str:str, indent_level=2):
         """Return a string that, when called with exec(), will initialize the torch module's state dictionary.
         The module will likely be a freshly initialized module with an empty state dict.
         This uses register_buffer to add unexpected keys to the state dict.
 
         :param module_name: The variable name of the module to be initialized, as a string. Must have already been initialized.
         :param state_dict: A string representation of the state_dict
+        :param indent_level: The amount of indents (4 whitespaces) to prepend to each line, defaults to 2 for use in a class function
         """
         spacer = "    "
         ret_str = ""
-        ret_str += f'{spacer*2}init_state_dict = {state_dict_str}\n'
-        ret_str += f'{spacer*2}for k,v in init_state_dict.items():\n'
-        ret_str += f'{spacer*3}{module_name_str}.register_buffer(k,v)\n'
+        ret_str += f'{spacer*indent_level}init_state_dict = {state_dict_str}\n'
+        ret_str += f'{spacer*indent_level}for k,v in init_state_dict.items():\n'
+        ret_str += f'{spacer*(indent_level+1)}{module_name_str}.register_buffer(k,v)\n'
         return ret_str
         # return f'{module_nam'
     

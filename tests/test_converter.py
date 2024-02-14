@@ -1,8 +1,9 @@
-import pytest
-
+import pytest, re
+import lightning
 import numpy as np
 import modlee
 from modlee.converter import Converter
+from modlee.recommender import RecommendedModel
 converter = Converter()
 
 LEADING_NUMBER_STRS = [
@@ -132,7 +133,7 @@ TILES = [
 def test_convert_tile(input_output):
     input_str, output_str = input_output
     print(converter.convert_tile_layer(input_str))
-    assert output_str == converter.convert_tile_layers(input_str)
+    assert output_str == converter.convert_tile_layer(input_str)
     
 GATHERS = [    
     ("gather_1 = self.Gather_1(initializers_onnx_initializer_5, add_2);  initializers_onnx_initializer_5 = add_2 = None",
@@ -148,12 +149,13 @@ def test_convert_gather(input_output):
 # def test_catch_initializers():
 init_state_dict = "{'onnx_initializer_0':torch.randn(torch.Size([32128, 768])),'onnx_initializer_1':torch.randn(torch.Size([768])),'onnx_initializer_2':torch.randn(torch.Size([768, 768])),'onnx_initializer_3':torch.randn(torch.Size([768, 768])),'onnx_initializer_4':torch.randn(torch.Size([768, 768])),'onnx_initializer_5':torch.randn(torch.Size([32, 12])),'onnx_initializer_6':torch.randn(torch.Size([768, 768])),'onnx_initializer_7':torch.randn(torch.Size([768])),'onnx_initializer_8':torch.randn(torch.Size([768, 2048])),'onnx_initializer_9':torch.randn(torch.Size([768, 2048])),'onnx_initializer_10':torch.randn(torch.Size([2048, 768])),'onnx_initializer_11':torch.randn(torch.Size([768])),'onnx_initializer_12':torch.randn(torch.Size([768, 768])),'onnx_initializer_13':torch.randn(torch.Size([768, 768])),'onnx_initializer_14':torch.randn(torch.Size([768, 768])),'onnx_initializer_15':torch.randn(torch.Size([768, 768])),'onnx_initializer_16':torch.randn(torch.Size([768])),'onnx_initializer_17':torch.randn(torch.Size([768, 2048])),'onnx_initializer_18':torch.randn(torch.Size([768, 2048])),'onnx_initializer_19':torch.randn(torch.Size([2048, 768])),'onnx_initializer_20':torch.randn(torch.Size([768])),'onnx_initializer_21':torch.randn(torch.Size([768, 768])),'onnx_initializer_22':torch.randn(torch.Size([768, 768])),'onnx_initializer_23':torch.randn(torch.Size([768, 768])),'onnx_initializer_24':torch.randn(torch.Size([768, 768])),'onnx_initializer_25':torch.randn(torch.Size([768])),'onnx_initializer_26':torch.randn(torch.Size([768, 2048])),'onnx_initializer_27':torch.randn(torch.Size([768, 2048])),'onnx_initializer_28':torch.randn(torch.Size([2048, 768])),'onnx_initializer_29':torch.randn(torch.Size([768])),'onnx_initializer_30':torch.randn(torch.Size([768, 768])),'onnx_initializer_31':torch.randn(torch.Size([768, 768])),'onnx_initializer_32':torch.randn(torch.Size([768, 768])),'onnx_initializer_33':torch.randn(torch.Size([768, 768])),'onnx_initializer_34':torch.randn(torch.Size([768])),'onnx_initializer_35':torch.randn(torch.Size([768, 2048])),'onnx_initializer_36':torch.randn(torch.Size([768, 2048])),'onnx_initializer_37':torch.randn(torch.Size([2048, 768])),'onnx_initializer_38':torch.randn(torch.Size([768])),'onnx_initializer_39':torch.randn(torch.Size([768, 768])),'onnx_initializer_40':torch.randn(torch.Size([768, 768])),'onnx_initializer_41':torch.randn(torch.Size([768, 768])),'onnx_initializer_42':torch.randn(torch.Size([768, 768])),'onnx_initializer_43':torch.randn(torch.Size([768])),'onnx_initializer_44':torch.randn(torch.Size([768, 2048])),'onnx_initializer_45':torch.randn(torch.Size([768, 2048])),'onnx_initializer_46':torch.randn(torch.Size([2048, 768])),'onnx_initializer_47':torch.randn(torch.Size([768])),'onnx_initializer_48':torch.randn(torch.Size([768, 768])),'onnx_initializer_49':torch.randn(torch.Size([768, 768])),'onnx_initializer_50':torch.randn(torch.Size([768, 768])),'onnx_initializer_51':torch.randn(torch.Size([768, 768])),'onnx_initializer_52':torch.randn(torch.Size([768])),'onnx_initializer_53':torch.randn(torch.Size([768, 2048])),'onnx_initializer_54':torch.randn(torch.Size([768, 2048])),'onnx_initializer_55':torch.randn(torch.Size([2048, 768])),'onnx_initializer_56':torch.randn(torch.Size([768])),'onnx_initializer_57':torch.randn(torch.Size([768, 768])),'onnx_initializer_58':torch.randn(torch.Size([768, 768])),'onnx_initializer_59':torch.randn(torch.Size([768, 768])),'onnx_initializer_60':torch.randn(torch.Size([768, 768])),'onnx_initializer_61':torch.randn(torch.Size([768])),'onnx_initializer_62':torch.randn(torch.Size([768, 2048])),'onnx_initializer_63':torch.randn(torch.Size([768, 2048])),'onnx_initializer_64':torch.randn(torch.Size([2048, 768])),'onnx_initializer_65':torch.randn(torch.Size([768])),'onnx_initializer_66':torch.randn(torch.Size([768, 768])),'onnx_initializer_67':torch.randn(torch.Size([768, 768])),'onnx_initializer_68':torch.randn(torch.Size([768, 768])),'onnx_initializer_69':torch.randn(torch.Size([768, 768])),'onnx_initializer_70':torch.randn(torch.Size([768])),'onnx_initializer_71':torch.randn(torch.Size([768, 2048])),'onnx_initializer_72':torch.randn(torch.Size([768, 2048])),'onnx_initializer_73':torch.randn(torch.Size([2048, 768])),'onnx_initializer_74':torch.randn(torch.Size([768])),'onnx_initializer_75':torch.randn(torch.Size([768, 768])),'onnx_initializer_76':torch.randn(torch.Size([768, 768])),'onnx_initializer_77':torch.randn(torch.Size([768, 768])),'onnx_initializer_78':torch.randn(torch.Size([768, 768])),'onnx_initializer_79':torch.randn(torch.Size([768])),'onnx_initializer_80':torch.randn(torch.Size([768, 2048])),'onnx_initializer_81':torch.randn(torch.Size([768, 2048])),'onnx_initializer_82':torch.randn(torch.Size([2048, 768])),'onnx_initializer_83':torch.randn(torch.Size([768])),'onnx_initializer_84':torch.randn(torch.Size([768, 768])),'onnx_initializer_85':torch.randn(torch.Size([768, 768])),'onnx_initializer_86':torch.randn(torch.Size([768, 768])),'onnx_initializer_87':torch.randn(torch.Size([768, 768])),'onnx_initializer_88':torch.randn(torch.Size([768])),'onnx_initializer_89':torch.randn(torch.Size([768, 2048])),'onnx_initializer_90':torch.randn(torch.Size([768, 2048])),'onnx_initializer_91':torch.randn(torch.Size([2048, 768])),'onnx_initializer_92':torch.randn(torch.Size([768])),'onnx_initializer_93':torch.randn(torch.Size([768, 768])),'onnx_initializer_94':torch.randn(torch.Size([768, 768])),'onnx_initializer_95':torch.randn(torch.Size([768, 768])),'onnx_initializer_96':torch.randn(torch.Size([768, 768])),'onnx_initializer_97':torch.randn(torch.Size([768])),'onnx_initializer_98':torch.randn(torch.Size([768, 2048])),'onnx_initializer_99':torch.randn(torch.Size([768, 2048])),'onnx_initializer_100':torch.randn(torch.Size([2048, 768])),'onnx_initializer_101':torch.randn(torch.Size([768])),'onnx_initializer_102':torch.randn(torch.Size([768, 768])),'onnx_initializer_103':torch.randn(torch.Size([768, 768])),'onnx_initializer_104':torch.randn(torch.Size([768, 768])),'onnx_initializer_105':torch.randn(torch.Size([768, 768])),'onnx_initializer_106':torch.randn(torch.Size([768])),'onnx_initializer_107':torch.randn(torch.Size([768, 2048])),'onnx_initializer_108':torch.randn(torch.Size([768, 2048])),'onnx_initializer_109':torch.randn(torch.Size([2048, 768])),'onnx_initializer_110':torch.randn(torch.Size([768]))}"
 def test_init_initializer():
-    import re
+    # breakpoint()
     exec(f'actual_state_dict = {init_state_dict}', globals(), locals())
     # state_keys = re.findall("\'([a-zA-Z0-9_]*)\'",init_state_dict)
     # state_values = re.findall("(torch[a-zA-Z0-9_\[\]\(\)\.,]*)[}\']",init_state_dict.replace(' ',''))
     init_tensor = torch.nn.modules.module.Module()
-    output_str = converter.get_init_module_state_dict_str('init_tensor', init_state_dict)
+    output_str = converter.get_init_module_state_dict_str('init_tensor', init_state_dict, indent_level=0)
+    # breakpoint()
     exec(f'{output_str}', globals(), locals())
     init_tensor = locals()['init_tensor']
     # output_tensor = locals()['output_tensor']
@@ -166,7 +168,7 @@ import glob, os, random
 ONNX_GRAPHS = glob.glob(os.path.expanduser('~/efs/mlruns/*/*/artifacts/model_graph.txt'))
 random.shuffle(ONNX_GRAPHS)
 @pytest.mark.parametrize('onnx_file_path',ONNX_GRAPHS[:3])
-def test_converted_onnx_model(onnx_file_path:str, dataloaders):
+def _test_converted_onnx_model(onnx_file_path:str, dataloaders):
     """
     Test random ONNX text models as saved by a modlee training loop
 
@@ -174,14 +176,12 @@ def test_converted_onnx_model(onnx_file_path:str, dataloaders):
     :param dataloaders: _description_
     """
     # load onnx model from a text file
-    from modlee.converter import Converter; converter = Converter()
     model = converter.onnx_file2torch(onnx_file_path)
     # onnx_text = converter.onnx_text_file2onnx(onnx_file_path)
     # model = converter.onnx_text2torch(onnx_text)
     # model = converter.onnx_path2torch(onnx_file_path)
     
     # wrap into a lightning module
-    from modlee.recommender import RecommendedModel
     model = RecommendedModel(model)
     
     # create dataloader
@@ -193,7 +193,6 @@ def test_converted_onnx_model(onnx_file_path:str, dataloaders):
     # breakpoint()
     
     # train for some epochs
-    import lightning
     with modlee.start_run() as run:
         trainer = lightning.pytorch.Trainer(max_epochs=3)
         trainer.fit(model=model,

@@ -53,5 +53,6 @@ class ModleeTest(unittest.TestCase):
             modlee.init(init_arg)
             run_dir = modlee.get_run_dir()
             if init_arg==None: init_arg = '.'
-            assert run_dir==os.path.abspath(f'{init_arg}/mlruns'), \
-                f"Initialized directory {run_dir} does not match expected {os.path.abspath('./mlruns')}"
+            relative_mlruns_path = os.path.abspath(f'{os.path.join(os.getcwd(), init_arg)}/mlruns')
+            assert run_dir==relative_mlruns_path, \
+                f"Initialized directory {run_dir} does not match expected {relative_mlruns_path}"

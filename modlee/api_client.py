@@ -9,7 +9,7 @@ LOCAL_ENDPOINT = "http://127.0.0.1:7070"
 # REMOTE_ENDPOINT = "http://modlee.pythonanywhere.com"
 REMOTE_ENDPOINT = "http://ec2-3-84-155-233.compute-1.amazonaws.com:7070"
 
-class ModleeAPIClient(object):
+class ModleeClient(object):
     """
     A client for making requests to the API
     """
@@ -189,6 +189,10 @@ class ModleeAPIClient(object):
             return False
                 
         run_id = os.path.basename(run_dir)
+        # Check that there are items in the directory
+        if not os.path.exists(run_dir) or len(os.listdir(run_dir)) < 1:
+            return False
+        
         for dirs_files in os.walk(run_dir):
             base_dir,_,files = dirs_files
             for file in files:

@@ -8,6 +8,7 @@ lightning_logs/
 *lightning_logs*
 mlruns/
 *mlruns*
+!tests/test_mlruns
 tmp/*
 *tmp*
 examples/tmp
