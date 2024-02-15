@@ -24,10 +24,26 @@ dependencies = [
     "torchmetrics>=1.0.0",
     "torchvision>=0.15.2",
     "onnx==1.14.1",
-    # "onnx_graphsurgeon==0.3.27",
+    "torchsummary",
+    "onnx2torch @ git+ssh://git@github.com/modlee-ai/onnx2torch.git",
+    "onnx_graphsurgeon @ git+ssh://git@github.com/modlee-ai/onnx-graphsurgeon.git",
     "pymfe==0.4.2",
+    "pytest"
 ]
 
-[tool.setuptools]
-packages = ["modlee", "modlee.recommender"]
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["*"]
+namespaces = true
+# packages = ["modlee", "modlee.recommender"]
 
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "fail",
+]
+console_output_style="progress"
+verbose = true
+
+# [tool.coverage.run]

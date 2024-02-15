@@ -11,7 +11,7 @@ import modlee
 import mlflow
 from mlflow.client import MlflowClient
 
-with open('./test_retriever.yaml','r') as test_retriever_file:
+with open(os.path.join(os.path.dirname(__file__), 'test_retriever.yaml'),'r') as test_retriever_file:
     ret_dict = yaml.safe_load(test_retriever_file)
 globals().update(dict(
     mlruns_dirs=ret_dict['mlruns_dirs'],
