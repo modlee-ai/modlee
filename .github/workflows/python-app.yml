@@ -25,11 +25,11 @@ jobs:
         python-version: "3.10"
     - name: Install dependencies
       run: |
-        eval `ssh-agent -s`
-        ssh-add <<< '${{ secrets.ONNX2TORCH }}'
-        ssh-add <<< '${{ secrets.ONNXGS }}'
         python -m pip install --upgrade pip
         pip install pylint pytest
+        eval `ssh-agent -s`
+        ssh-add - <<< '${{ secrets.MAIN }}'
+        ssh-add -l
         pip install .
     - name: Lint with pylint
       run: |
