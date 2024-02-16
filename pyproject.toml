@@ -31,19 +31,17 @@ dependencies = [
     "pytest"
 ]
 
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["*"]
-namespaces = true
+# [tool.setuptools.packages.find]
+# where = ["src"]
+# include = ["*"]
+# namespaces = true
 # packages = ["modlee", "modlee.recommender"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q"
+addopts = "-ra -v"
 testpaths = [
-    "fail",
+    "fail"
 ]
-console_output_style="progress"
-verbose = true
 
 # [tool.coverage.run]
