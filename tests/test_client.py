@@ -5,7 +5,7 @@ import yaml
 import os
 import modlee
 from modlee.client import ModleeClient
-from modlee.config import LOCAL_ENDPOINT
+from modlee.config import LOCAL_ENDPOINT, SERVER_ENDPOINT
 import importlib
 # 
 import inspect
@@ -17,7 +17,8 @@ python3 app.py
 '''
 
 # local endpoint
-ENDPOINT = LOCAL_ENDPOINT
+# ENDPOINT = LOCAL_ENDPOINT
+ENDPOINT = SERVER_ENDPOINT
 # remote endpoint
 # ENDPOINT = "http://modlee.pythonanywhere.com"
 dummy_endpoint = "http://9.9.9.9:9999"
@@ -36,7 +37,8 @@ run_dirs = [os.path.join(os.path.dirname(__file__), 'test_mlruns')]
 class TestModleeClient:
     client = ModleeClient(
         endpoint=ENDPOINT,
-        api_key='local'
+        api_key=os.environ.get('MODLEE_API_KEY')
+        # api_key=''
         )
     unauthorized_client = ModleeClient(
         endpoint=ENDPOINT,
