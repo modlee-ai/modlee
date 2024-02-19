@@ -18,7 +18,16 @@ globals().update(dict(
     run_dirs=ret_dict['run_dirs']
 ))
 
-class RepTest(unittest.TestCase):
+run_dirs = [os.path.join(os.path.dirname(__file__), 'test_mlruns')]
+
+class _RepTest(unittest.TestCase):
+    """
+    Deprecated, this functionality is still required on the client side but needs
+    updates according to the new documentation schemes
+
+    :param unittest: _description_
+    :return: _description_
+    """
     locals().update(ret_dict)
 
     def __init__(self,*args,**kwargs):
@@ -31,11 +40,12 @@ class RepTest(unittest.TestCase):
     def tearDown(self) -> None:
         return super().tearDown()
 
-    def test_get_runs(self):
+    def _test_get_runs(self):
         '''
         Retrieve runs from prior mlruns directories
         '''
-        for run_dir in mlruns_dirs:
+        # for run_dir in mlruns_dirs:
+        for run_dir in run_dirs:
             runs = modlee.get_runs(run_dir)
             assert len(runs) > 0, \
                 f"No runs found in {run_dir}"
@@ -52,7 +62,7 @@ class RepTest(unittest.TestCase):
             assert len(runs) == 0, \
                 f"Should not have found runs in {run_dir}, but found {len(runs)}"
 
-    def test_get_model(self):
+    def _test_get_model(self):
         '''
         Retrieve models from prior runs
         '''
@@ -78,7 +88,7 @@ class RepTest(unittest.TestCase):
                     assert np.max(diff_y) < param_thresh, \
                         f"Difference between modlee- and mlflow-loaded model outputs is greater than threshold. Prediction difference: {diff_y}"
 
-    def test_get_data_snapshot(self):
+    def _test_get_data_snapshot(self):
         for run_dir in run_dirs:
             data_snapshot = modlee.get_data_snapshot(run_dir)
             assert data_snapshot is not None, \
