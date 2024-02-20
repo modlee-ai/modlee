@@ -118,25 +118,32 @@ def init(run_dir=None, api_key=api_key):
             )
 
 
-def set_run_dir(run_dir):
+def set_run_dir(run_path):
+    """
+    Set the path to the current run.
+
+    :param run_dir: The path 
+    :raises FileNotFoundError: _description_
+    :return: _description_
+    """
     # Checking if path is absolute
-    if not os.path.isabs(run_dir):
-        run_dir = os.path.abspath(run_dir)
-        logging.debug(f"Setting run logs to abspath {run_dir}")
+    if not os.path.isabs(run_path):
+        run_path = os.path.abspath(run_path)
+        logging.debug(f"Setting run logs to abspath {run_path}")
 
     # Checking if path contains mlruns
-    if "mlruns" not in run_dir.split("/")[-1]:
-        run_dir = os.path.join(run_dir, "mlruns")
+    if "mlruns" not in run_path.split("/")[-1]:
+        run_path = os.path.join(run_path, "mlruns")
 
     # Setting base directory and checking for existence
-    run_dir_base = os.path.dirname(run_dir)
+    run_dir_base = os.path.dirname(run_path)
     if not os.path.exists(run_dir_base):
         raise FileNotFoundError(
             f"No base directory {run_dir_base}, cannot set tracking URI"
         )
 
     # Setting tracking URI for mlflow
-    tracking_uri = pathlib.Path(run_dir).as_uri()
+    tracking_uri = pathlib.Path(run_path).as_uri()
     mlflow.set_tracking_uri(tracking_uri)
     return tracking_uri
 
