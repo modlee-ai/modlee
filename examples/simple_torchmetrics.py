@@ -2,21 +2,22 @@
 import lightning.pytorch as pl
 import torch.nn.functional as F
 import torch.nn as nn
-import torch 
+import torch
 import os
 import ssl
 
 import torchmetrics
+
 ssl._create_default_https_context = ssl._create_unverified_context
 
 import modlee
-modlee.init(
-    api_key="local"
-)
+
+modlee.init(api_key="local")
 from modlee.dev_data import get_fashion_mnist
 from modlee.model import ModleeModel
 
 # %% Build models
+
 
 class Classifier(nn.Module):
     def __init__(self):
@@ -37,6 +38,7 @@ class Classifier(nn.Module):
         x = self.fc3(x)
         return x
 
+
 class LightningClassifier(ModleeModel):
     def __init__(self, num_classes, classifier=None, *args, **kwargs):
         self.num_classes = num_classes
@@ -46,8 +48,7 @@ class LightningClassifier(ModleeModel):
         else:
             self.classifier = classifier
         self.accuracy = torchmetrics.classification.Accuracy(
-            task="multiclass",
-            num_classes=self.num_classes
+            task="multiclass", num_classes=self.num_classes
         )
 
     def forward(self, x):
@@ -57,7 +58,7 @@ class LightningClassifier(ModleeModel):
         x, y = batch
         y_out = self(x)
         loss = F.cross_entropy(y_out, y)
-        return {'loss': loss}
+        return {"loss": loss}
 
     def validation_step(self, val_batch, batch_idx):
         x, y = val_batch
@@ -67,12 +68,9 @@ class LightningClassifier(ModleeModel):
         return loss
 
     def configure_optimizers(self):
-        optimizer = torch.optim.SGD(
-            self.parameters(),
-            lr=0.001,
-            momentum=0.9
-        )
+        optimizer = torch.optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
         return optimizer
+
 
 # %% Load data
 training_loader, test_loader = get_fashion_mnist()
@@ -81,10 +79,9 @@ model = LightningClassifier(num_classes=num_classes)
 
 # %% Run training loop
 with modlee.start_run() as run:
-    trainer = pl.Trainer(max_epochs=2,)
+    trainer = pl.Trainer(max_epochs=2)
     trainer.fit(
-        model=model,
-        train_dataloaders=training_loader,
-        val_dataloaders=test_loader)
+        model=model, train_dataloaders=training_loader, val_dataloaders=test_loader
+    )
 
 # %%

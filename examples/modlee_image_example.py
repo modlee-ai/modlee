@@ -2,20 +2,21 @@
 import lightning.pytorch as pl
 import torch.nn.functional as F
 import torch.nn as nn
-import torch 
+import torch
 import os
 import ssl
+
 ssl._create_default_https_context = ssl._create_unverified_context
 
 import modlee
-modlee.init(
-    api_key="local"
-)
+
+modlee.init(api_key="local")
 from modlee.dev_data import get_fashion_mnist
-from modlee.modlee_image_model import ModleeImageModel
+from modlee.image_model import ModleeImageModel
 from modlee.model import ModleeModel
 
 # %% Build models
+
 
 class Classifier(nn.Module):
     def __init__(self):
@@ -36,6 +37,7 @@ class Classifier(nn.Module):
         x = self.fc3(x)
         return x
 
+
 # class LightningClassifier(ModleeModel):
 class LightningClassifier(ModleeImageModel):
     def __init__(self, classifier=None, *args, **kwargs):
@@ -52,7 +54,7 @@ class LightningClassifier(ModleeImageModel):
         x, y = batch
         y_out = self(x)
         loss = F.cross_entropy(y_out, y)
-        return {'loss': loss}
+        return {"loss": loss}
 
     def validation_step(self, val_batch, batch_idx):
         x, y = val_batch
@@ -61,13 +63,8 @@ class LightningClassifier(ModleeImageModel):
         return loss
 
     def configure_optimizers(self):
-        optimizer = torch.optim.SGD(
-            self.parameters(),
-            lr=0.001,
-            momentum=0.9
-        )
+        optimizer = torch.optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
         return optimizer
-
 
 
 # %% Load data
@@ -77,10 +74,9 @@ model = LightningClassifier()
 
 # %% Run training loop
 with modlee.start_run() as run:
-    trainer = pl.Trainer(max_epochs=2,)
+    trainer = pl.Trainer(max_epochs=2)
     trainer.fit(
-        model=model,
-        train_dataloaders=training_loader,
-        val_dataloaders=test_loader)
+        model=model, train_dataloaders=training_loader, val_dataloaders=test_loader
+    )
 
 # %%

@@ -1,4 +1,3 @@
-
 import torch
 import torch.nn as nn
 import pytorch_lightning
@@ -18,7 +17,7 @@ try:
 except ImportError:
     from pytorch_lightning.metrics.functional import accuracy
 
-#ptorch out-of-box libs needed
+# ptorch out-of-box libs needed
 from torchvision.utils import _log_api_usage_once
 
 from functools import partial
@@ -48,10 +47,9 @@ import modlee
 
 
 class ModleeModel(modlee.model.ModleeModel):
-
     def __init__(self, model=None, loss_fn=F.cross_entropy, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
+
         self.model = model
         self.loss_fn = loss_fn
 
@@ -62,7 +60,7 @@ class ModleeModel(modlee.model.ModleeModel):
         x, y = batch
         y_out = self(x)
         loss = self.loss_fn(y_out, y)
-        return {'loss': loss}
+        return {"loss": loss}
 
     def validation_step(self, val_batch, batch_idx):
         x, y = val_batch
@@ -71,11 +69,5 @@ class ModleeModel(modlee.model.ModleeModel):
         return loss
 
     def configure_optimizers(self):
-        optimizer = torch.optim.SGD(
-            self.parameters(),
-            lr=0.001,
-            momentum=0.9
-        )
+        optimizer = torch.optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
         return optimizer
-
-

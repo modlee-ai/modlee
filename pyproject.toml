@@ -45,3 +45,23 @@ testpaths = [
 ]
 
 # [tool.coverage.run]
+[tool.pylint]
+# [tool.pylint.main]
+output-format = "colorized"
+recursive = true
+reports = true
+source-roots = ["./src/modlee"]
+load-plugins = ["pylint.extensions.docparams"]
+
+[tool.pylint.parameter_documentation]
+# [tool.pylint.extensions.docparams]
+# [tool.pylint.master]
+accept-no-param-doc = "no"
+accept-no-raise-doc = false
+accept-no-return-doc = false
+accept-no-yields-doc = false
+# Possible choices: ['sphinx', 'epytext', 'google', 'numpy', 'default']
+default-docstring-type = "google"
+
+# [tool.pylint.parameter_documentation]
+# default-docstring-type = "default"

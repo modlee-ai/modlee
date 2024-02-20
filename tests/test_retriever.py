@@ -1,3 +1,6 @@
+""" 
+Test retriever.
+"""
 import os
 import unittest
 import pathlib
@@ -11,14 +14,16 @@ import modlee
 import mlflow
 from mlflow.client import MlflowClient
 
-with open(os.path.join(os.path.dirname(__file__), 'test_retriever.yaml'),'r') as test_retriever_file:
+with open(
+    os.path.join(os.path.dirname(__file__), "test_retriever.yaml"), "r"
+) as test_retriever_file:
     ret_dict = yaml.safe_load(test_retriever_file)
-globals().update(dict(
-    mlruns_dirs=ret_dict['mlruns_dirs'],
-    run_dirs=ret_dict['run_dirs']
-))
+globals().update(
+    dict(mlruns_dirs=ret_dict["mlruns_dirs"], run_dirs=ret_dict["run_dirs"])
+)
 
-run_dirs = [os.path.join(os.path.dirname(__file__), 'test_mlruns')]
+run_dirs = [os.path.join(os.path.dirname(__file__), "test_mlruns")]
+
 
 class _RepTest(unittest.TestCase):
     """
@@ -28,9 +33,10 @@ class _RepTest(unittest.TestCase):
     :param unittest: _description_
     :return: _description_
     """
+
     locals().update(ret_dict)
 
-    def __init__(self,*args,**kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.__dict__.update(ret_dict)
 
@@ -41,36 +47,32 @@ class _RepTest(unittest.TestCase):
         return super().tearDown()
 
     def _test_get_runs(self):
-        '''
+        """
         Retrieve runs from prior mlruns directories
-        '''
+        """
         # for run_dir in mlruns_dirs:
         for run_dir in run_dirs:
             runs = modlee.get_runs(run_dir)
-            assert len(runs) > 0, \
-                f"No runs found in {run_dir}"
+            assert len(runs) > 0, f"No runs found in {run_dir}"
 
     def test_cant_get_runs(self):
-        '''
+        """
         Should not be able to retrieve runs from garbage directories
-        '''
-        run_dirs = [
-            'fasdfasf'
-        ]
+        """
+        run_dirs = ["fasdfasf"]
         for run_dir in run_dirs:
             runs = modlee.get_runs(run_dir)
-            assert len(runs) == 0, \
-                f"Should not have found runs in {run_dir}, but found {len(runs)}"
+            assert (
+                len(runs) == 0
+            ), f"Should not have found runs in {run_dir}, but found {len(runs)}"
 
     def _test_get_model(self):
-        '''
+        """
         Retrieve models from prior runs
-        '''
+        """
         for run_dir in run_dirs:
             model = modlee.get_model(run_dir)
-            mlflow_model = mlflow.pytorch.load_model(
-                f"{run_dir}/artifacts/model"
-            )
+            mlflow_model = mlflow.pytorch.load_model(f"{run_dir}/artifacts/model")
 
             data_snapshot = modlee.get_data_snapshot(run_dir)
 
@@ -84,13 +86,15 @@ class _RepTest(unittest.TestCase):
                 for x in data_snapshot:
                     y_modlee = model(torch.Tensor(x).unsqueeze(0))
                     y_mlflow = mlflow_model(torch.Tensor(x).unsqueeze(0))
-                    diff_y = np.abs(y_modlee.numpy()-y_mlflow.numpy())
-                    assert np.max(diff_y) < param_thresh, \
-                        f"Difference between modlee- and mlflow-loaded model outputs is greater than threshold. Prediction difference: {diff_y}"
+                    diff_y = np.abs(y_modlee.numpy() - y_mlflow.numpy())
+                    assert (
+                        np.max(diff_y) < param_thresh
+                    ), f"Difference between modlee- and mlflow-loaded model outputs is greater than threshold. Prediction difference: {diff_y}"
 
     def _test_get_data_snapshot(self):
         for run_dir in run_dirs:
             data_snapshot = modlee.get_data_snapshot(run_dir)
-            assert data_snapshot is not None, \
-                f"Could not retrieve data_snapshot.npy from {run_dir}"
+            assert (
+                data_snapshot is not None
+            ), f"Could not retrieve data_snapshot.npy from {run_dir}"
         pass
