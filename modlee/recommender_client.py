@@ -35,9 +35,12 @@ import sys
 
 import os
 from urllib.parse import urlparse
+from modlee import modlee_client
 
-SERVER_ENDPOINT = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
 
+SERVER_ENDPOINT = modlee_client.endpoint
+#SERVER_ENDPOINT = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
+print(SERVER_ENDPOINT)
 
 class Recommender(object):
     """
