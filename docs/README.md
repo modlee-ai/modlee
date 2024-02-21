@@ -60,9 +60,9 @@ class ExampleModel(lightning.pytorch.LightningModule):
 ...
 ```
 
-Change the parent class to inherit from `modlee.modlee_model.ModleeModel`:
+Change the parent class to inherit from `modlee.model.ModleeModel`:
 ```
-class ExampleModel(modlee.modlee_model.ModleeModel):
+class ExampleModel(modlee.model.ModleeModel):
 ...
 ```
 
@@ -102,7 +102,7 @@ def build_model():
     # model building goes here
     return model
 
-class ExampleModel(modlee.modlee_model.ModleeModel):
+class ExampleModel(modlee.model.ModleeModel):
     def __init__(self, *args, **kwargs):
         self.batch_size = batch_size
         model = build_model()
@@ -115,7 +115,7 @@ class build_model(torch.nn.Module):
         # model building goes here
         
 
-class ExampleModel(modlee.modlee_model.ModleeModel):
+class ExampleModel(modlee.model.ModleeModel):
     def __init__(self, *args, **kwargs):
         self.batch_size = 64
         model = build_model()
@@ -125,7 +125,7 @@ We are currently experimenting with how automatically logging custom parameters 
 This is partially working by setting parameters as object attributes.
 For example:
 ```
-class ExampleModel(modlee.modlee_model.ModleeModel):
+class ExampleModel(modlee.model.ModleeModel):
     def __init__(self, batch_size, *args, **kwargs):
         self.batch_size = batch_size
 ```
@@ -157,7 +157,7 @@ python3 -m unittest discover .
 ```
 To run a specific test, replace `discover .` with the script name, e.g. for the API client:
 ```
-python3 -m unittest test_api_client
+python3 -m unittest test_client
 ```
 
 *Note: `test_retriever.py` expects local paths to completed experiments and `mlruns` folders. Modify `mlruns_dirs`, `run_dirs`, and `fail_run_dirs` accordingly.*

@@ -24,10 +24,47 @@ dependencies = [
     "torchmetrics>=1.0.0",
     "torchvision>=0.15.2",
     "onnx==1.14.1",
-    # "onnx_graphsurgeon==0.3.27",
+    "torchsummary",
+    "onnx2torch @ git+ssh://git@github.com/modlee-ai/onnx2torch.git",
+    "onnx-graphsurgeon @ git+ssh://git@github.com/modlee-ai/onnx-graphsurgeon.git",
     "pymfe==0.4.2",
+    "pytest"
 ]
 
-[tool.setuptools]
-packages = ["modlee", "modlee.recommender"]
+# [tool.setuptools.packages.find]
+# where = ["src"]
+# include = ["*"]
+# namespaces = true
+# packages = ["modlee", "modlee.recommender"]
 
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -v"
+testpaths = [
+    "fail"
+]
+
+[tool.black]
+verbose = true
+
+# [tool.coverage.run]
+[tool.pylint]
+# [tool.pylint.main]
+output-format = "colorized"
+recursive = true
+reports = true
+source-roots = ["./src/modlee"]
+load-plugins = ["pylint.extensions.docparams"]
+
+[tool.pylint.parameter_documentation]
+# [tool.pylint.extensions.docparams]
+# [tool.pylint.master]
+accept-no-param-doc = false
+accept-no-raise-doc = false
+accept-no-return-doc = false
+accept-no-yields-doc = false
+# Possible choices: ['sphinx', 'epytext', 'google', 'numpy', 'default']
+default-docstring-type = "google"
+
+# [tool.pylint.parameter_documentation]
+# default-docstring-type = "default"

@@ -1,0 +1,117 @@
+    | Name                        | Type              | Params
+--------------------------------------------------------------------
+0   | model                       | ResNet            | 33.5 M
+1   | model.conv1                 | Conv2d            | 9.4 K 
+2   | model.bn1                   | BatchNorm2d       | 128   
+3   | model.relu                  | ReLU              | 0     
+4   | model.maxpool               | MaxPool2d         | 0     
+5   | model.layer1                | Sequential        | 74.0 K
+6   | model.layer1.0              | BasicBlock        | 74.0 K
+7   | model.layer1.0.conv1        | Conv2d            | 36.9 K
+8   | model.layer1.0.bn1          | BatchNorm2d       | 128   
+9   | model.layer1.0.relu         | ReLU              | 0     
+10  | model.layer1.0.conv2        | Conv2d            | 36.9 K
+11  | model.layer1.0.bn2          | BatchNorm2d       | 128   
+12  | model.layer2                | Sequential        | 1.1 M 
+13  | model.layer2.0              | BasicBlock        | 230 K 
+14  | model.layer2.0.conv1        | Conv2d            | 73.7 K
+15  | model.layer2.0.bn1          | BatchNorm2d       | 256   
+16  | model.layer2.0.relu         | ReLU              | 0     
+17  | model.layer2.0.conv2        | Conv2d            | 147 K 
+18  | model.layer2.0.bn2          | BatchNorm2d       | 256   
+19  | model.layer2.0.downsample   | Sequential        | 8.4 K 
+20  | model.layer2.0.downsample.0 | Conv2d            | 8.2 K 
+21  | model.layer2.0.downsample.1 | BatchNorm2d       | 256   
+22  | model.layer2.1              | BasicBlock        | 295 K 
+23  | model.layer2.1.conv1        | Conv2d            | 147 K 
+24  | model.layer2.1.bn1          | BatchNorm2d       | 256   
+25  | model.layer2.1.relu         | ReLU              | 0     
+26  | model.layer2.1.conv2        | Conv2d            | 147 K 
+27  | model.layer2.1.bn2          | BatchNorm2d       | 256   
+28  | model.layer2.2              | BasicBlock        | 295 K 
+29  | model.layer2.2.conv1        | Conv2d            | 147 K 
+30  | model.layer2.2.bn1          | BatchNorm2d       | 256   
+31  | model.layer2.2.relu         | ReLU              | 0     
+32  | model.layer2.2.conv2        | Conv2d            | 147 K 
+33  | model.layer2.2.bn2          | BatchNorm2d       | 256   
+34  | model.layer2.3              | BasicBlock        | 295 K 
+35  | model.layer2.3.conv1        | Conv2d            | 147 K 
+36  | model.layer2.3.bn1          | BatchNorm2d       | 256   
+37  | model.layer2.3.relu         | ReLU              | 0     
+38  | model.layer2.3.conv2        | Conv2d            | 147 K 
+39  | model.layer2.3.bn2          | BatchNorm2d       | 256   
+40  | model.layer3                | Sequential        | 4.5 M 
+41  | model.layer3.0              | BasicBlock        | 919 K 
+42  | model.layer3.0.conv1        | Conv2d            | 294 K 
+43  | model.layer3.0.bn1          | BatchNorm2d       | 512   
+44  | model.layer3.0.relu         | ReLU              | 0     
+45  | model.layer3.0.conv2        | Conv2d            | 589 K 
+46  | model.layer3.0.bn2          | BatchNorm2d       | 512   
+47  | model.layer3.0.downsample   | Sequential        | 33.3 K
+48  | model.layer3.0.downsample.0 | Conv2d            | 32.8 K
+49  | model.layer3.0.downsample.1 | BatchNorm2d       | 512   
+50  | model.layer3.1              | BasicBlock        | 1.2 M 
+51  | model.layer3.1.conv1        | Conv2d            | 589 K 
+52  | model.layer3.1.bn1          | BatchNorm2d       | 512   
+53  | model.layer3.1.relu         | ReLU              | 0     
+54  | model.layer3.1.conv2        | Conv2d            | 589 K 
+55  | model.layer3.1.bn2          | BatchNorm2d       | 512   
+56  | model.layer3.2              | BasicBlock        | 1.2 M 
+57  | model.layer3.2.conv1        | Conv2d            | 589 K 
+58  | model.layer3.2.bn1          | BatchNorm2d       | 512   
+59  | model.layer3.2.relu         | ReLU              | 0     
+60  | model.layer3.2.conv2        | Conv2d            | 589 K 
+61  | model.layer3.2.bn2          | BatchNorm2d       | 512   
+62  | model.layer3.3              | BasicBlock        | 1.2 M 
+63  | model.layer3.3.conv1        | Conv2d            | 589 K 
+64  | model.layer3.3.bn1          | BatchNorm2d       | 512   
+65  | model.layer3.3.relu         | ReLU              | 0     
+66  | model.layer3.3.conv2        | Conv2d            | 589 K 
+67  | model.layer3.3.bn2          | BatchNorm2d       | 512   
+68  | model.layer4                | Sequential        | 27.3 M
+69  | model.layer4.0              | BasicBlock        | 3.7 M 
+70  | model.layer4.0.conv1        | Conv2d            | 1.2 M 
+71  | model.layer4.0.bn1          | BatchNorm2d       | 1.0 K 
+72  | model.layer4.0.relu         | ReLU              | 0     
+73  | model.layer4.0.conv2        | Conv2d            | 2.4 M 
+74  | model.layer4.0.bn2          | BatchNorm2d       | 1.0 K 
+75  | model.layer4.0.downsample   | Sequential        | 132 K 
+76  | model.layer4.0.downsample.0 | Conv2d            | 131 K 
+77  | model.layer4.0.downsample.1 | BatchNorm2d       | 1.0 K 
+78  | model.layer4.1              | BasicBlock        | 4.7 M 
+79  | model.layer4.1.conv1        | Conv2d            | 2.4 M 
+80  | model.layer4.1.bn1          | BatchNorm2d       | 1.0 K 
+81  | model.layer4.1.relu         | ReLU              | 0     
+82  | model.layer4.1.conv2        | Conv2d            | 2.4 M 
+83  | model.layer4.1.bn2          | BatchNorm2d       | 1.0 K 
+84  | model.layer4.2              | BasicBlock        | 4.7 M 
+85  | model.layer4.2.conv1        | Conv2d            | 2.4 M 
+86  | model.layer4.2.bn1          | BatchNorm2d       | 1.0 K 
+87  | model.layer4.2.relu         | ReLU              | 0     
+88  | model.layer4.2.conv2        | Conv2d            | 2.4 M 
+89  | model.layer4.2.bn2          | BatchNorm2d       | 1.0 K 
+90  | model.layer4.3              | BasicBlock        | 4.7 M 
+91  | model.layer4.3.conv1        | Conv2d            | 2.4 M 
+92  | model.layer4.3.bn1          | BatchNorm2d       | 1.0 K 
+93  | model.layer4.3.relu         | ReLU              | 0     
+94  | model.layer4.3.conv2        | Conv2d            | 2.4 M 
+95  | model.layer4.3.bn2          | BatchNorm2d       | 1.0 K 
+96  | model.layer4.4              | BasicBlock        | 4.7 M 
+97  | model.layer4.4.conv1        | Conv2d            | 2.4 M 
+98  | model.layer4.4.bn1          | BatchNorm2d       | 1.0 K 
+99  | model.layer4.4.relu         | ReLU              | 0     
+100 | model.layer4.4.conv2        | Conv2d            | 2.4 M 
+101 | model.layer4.4.bn2          | BatchNorm2d       | 1.0 K 
+102 | model.layer4.5              | BasicBlock        | 4.7 M 
+103 | model.layer4.5.conv1        | Conv2d            | 2.4 M 
+104 | model.layer4.5.bn1          | BatchNorm2d       | 1.0 K 
+105 | model.layer4.5.relu         | ReLU              | 0     
+106 | model.layer4.5.conv2        | Conv2d            | 2.4 M 
+107 | model.layer4.5.bn2          | BatchNorm2d       | 1.0 K 
+108 | model.avgpool               | AdaptiveAvgPool2d | 0     
+109 | model.fc                    | Linear            | 513 K 
+--------------------------------------------------------------------
+33.5 M    Trainable params
+0         Non-trainable params
+33.5 M    Total params
+133.801   Total estimated model params size (MB)
