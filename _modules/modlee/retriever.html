@@ -98,7 +98,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">run_dir_exists</span><span class="p">(</span><span class="n">run_dir</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[]</span>
 
-    <span class="n">modlee</span><span class="o">.</span><span class="n">set_run_dir</span><span class="p">(</span><span class="n">run_dir</span><span class="p">)</span>
+    <span class="n">modlee</span><span class="o">.</span><span class="n">set_run_path</span><span class="p">(</span><span class="n">run_dir</span><span class="p">)</span>
 
     <span class="n">client</span> <span class="o">=</span> <span class="n">MlflowClient</span><span class="p">()</span>
     <span class="n">experiments</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_experiments</span><span class="p">()</span>

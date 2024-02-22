@@ -76,9 +76,9 @@
 <span class="kn">import</span> <span class="nn">cloudpickle</span> <span class="k">as</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">functools</span>
 
-<span class="n">LOCAL_ENDPOINT</span> <span class="o">=</span> <span class="s2">&quot;http://127.0.0.1:7070&quot;</span>
-<span class="c1"># REMOTE_ENDPOINT = &quot;http://modlee.pythonanywhere.com&quot;</span>
-<span class="n">REMOTE_ENDPOINT</span> <span class="o">=</span> <span class="s2">&quot;http://ec2-3-84-155-233.compute-1.amazonaws.com:7070&quot;</span>
+<span class="n">LOCAL_ORIGIN</span> <span class="o">=</span> <span class="s2">&quot;http://127.0.0.1:7070&quot;</span>
+<span class="c1"># REMOTE_ORIGIN = &quot;http://modlee.pythonanywhere.com&quot;</span>
+<span class="n">REMOTE_ORIGIN</span> <span class="o">=</span> <span class="s2">&quot;http://ec2-3-84-155-233.compute-1.amazonaws.com:7070&quot;</span>
 
 <div class="viewcode-block" id="ModleeClient">
 <a class="viewcode-back" href="../../modules/modlee.client.html#modlee.client.ModleeClient">[docs]</a>
@@ -86,17 +86,17 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A client for making requests to the API</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">LOCAL_ENDPOINT</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">LOCAL_ORIGIN</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
-<span class="sd">            endpoint (_type_, optional): The server endpoint. Defaults to LOCAL_ENDPOINT.</span>
+<span class="sd">            endpoint (_type_, optional): The server endpoint. Defaults to LOCAL_ORIGIN.</span>
 <span class="sd">            api_key (_type_, optional): The user&#39;s API key. Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="k">if</span> <span class="n">api_key</span><span class="o">==</span><span class="s1">&#39;local&#39;</span><span class="p">:</span>
-            <span class="n">endpoint</span> <span class="o">=</span> <span class="n">LOCAL_ENDPOINT</span>
+            <span class="n">endpoint</span> <span class="o">=</span> <span class="n">LOCAL_ORIGIN</span>
         <span class="k">elif</span> <span class="n">api_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">endpoint</span> <span class="o">=</span> <span class="n">REMOTE_ENDPOINT</span>
+            <span class="n">endpoint</span> <span class="o">=</span> <span class="n">REMOTE_ORIGIN</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">=</span> <span class="n">endpoint</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_callable</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_callable</span>
