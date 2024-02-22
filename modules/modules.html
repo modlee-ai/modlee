@@ -7,7 +7,8 @@
   <title>modlee &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ca37922a" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ca37922a" />
 
   
   <!--[if lt IE 9]>
@@ -78,6 +79,13 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modlee.html">modlee package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="modlee.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modlee.model.html">modlee.model package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modlee.model.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.model.html#module-modlee.model.image_model">modlee.model.image_model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.model.html#module-modlee.model.model">modlee.model.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.model.html#module-modlee.model">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.recommender.html">modlee.recommender package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modlee.recommender.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.recommender.html#module-modlee.recommender.image_recommender">modlee.recommender.image_recommender module</a></li>
@@ -99,7 +107,7 @@
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.client.ModleeClient.login"><code class="docutils literal notranslate"><span class="pre">ModleeClient.login()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.client.ModleeClient.post"><code class="docutils literal notranslate"><span class="pre">ModleeClient.post()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.client.ModleeClient.post_file"><code class="docutils literal notranslate"><span class="pre">ModleeClient.post_file()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.client.ModleeClient.save_run"><code class="docutils literal notranslate"><span class="pre">ModleeClient.save_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.client.ModleeClient.post_run"><code class="docutils literal notranslate"><span class="pre">ModleeClient.post_run()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -107,10 +115,11 @@
 <li class="toctree-l2"><a class="reference internal" href="modlee.html#module-modlee.config">modlee.config module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modlee.html#module-modlee.converter">modlee.converter module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.converter.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.cast_gather_layer"><code class="docutils literal notranslate"><span class="pre">Converter.cast_gather_layer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.cast_tile_layer"><code class="docutils literal notranslate"><span class="pre">Converter.cast_tile_layer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.code2torch"><code class="docutils literal notranslate"><span class="pre">Converter.code2torch()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.code_path2torch"><code class="docutils literal notranslate"><span class="pre">Converter.code_path2torch()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.convert_gather_layer"><code class="docutils literal notranslate"><span class="pre">Converter.convert_gather_layer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.convert_tile_layer"><code class="docutils literal notranslate"><span class="pre">Converter.convert_tile_layer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.dict2code"><code class="docutils literal notranslate"><span class="pre">Converter.dict2code()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.get_attr_name"><code class="docutils literal notranslate"><span class="pre">Converter.get_attr_name()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.get_forward"><code class="docutils literal notranslate"><span class="pre">Converter.get_forward()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.get_init"><code class="docutils literal notranslate"><span class="pre">Converter.get_init()</span></code></a></li>
@@ -124,7 +133,6 @@
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.init_graph_tensors"><code class="docutils literal notranslate"><span class="pre">Converter.init_graph_tensors()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.init_onnx_params"><code class="docutils literal notranslate"><span class="pre">Converter.init_onnx_params()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.init_onnx_tensors"><code class="docutils literal notranslate"><span class="pre">Converter.init_onnx_tensors()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.kwargs2str"><code class="docutils literal notranslate"><span class="pre">Converter.kwargs2str()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.onnx2onnx_gs"><code class="docutils literal notranslate"><span class="pre">Converter.onnx2onnx_gs()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.onnx2onnx_text"><code class="docutils literal notranslate"><span class="pre">Converter.onnx2onnx_text()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.onnx2torch"><code class="docutils literal notranslate"><span class="pre">Converter.onnx2torch()</span></code></a></li>
@@ -149,7 +157,7 @@
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.remove_identity"><code class="docutils literal notranslate"><span class="pre">Converter.remove_identity()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.save_code"><code class="docutils literal notranslate"><span class="pre">Converter.save_code()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.save_torch"><code class="docutils literal notranslate"><span class="pre">Converter.save_torch()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.tensor2init"><code class="docutils literal notranslate"><span class="pre">Converter.tensor2init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.tensor2init_code"><code class="docutils literal notranslate"><span class="pre">Converter.tensor2init_code()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.torch2code"><code class="docutils literal notranslate"><span class="pre">Converter.torch2code()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.torch2onnx"><code class="docutils literal notranslate"><span class="pre">Converter.torch2onnx()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.converter.Converter.torch2onnx_text"><code class="docutils literal notranslate"><span class="pre">Converter.torch2onnx_text()</span></code></a></li>
@@ -200,57 +208,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modlee.html#module-modlee.loss_sweeper">modlee.loss_sweeper module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modlee.html#module-modlee.model">modlee.model module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.model.DataStatsCallback"><code class="docutils literal notranslate"><span class="pre">DataStatsCallback</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.model.DataStatsCallback.on_train_start"><code class="docutils literal notranslate"><span class="pre">DataStatsCallback.on_train_start()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.model.LogCodeTextCallback"><code class="docutils literal notranslate"><span class="pre">LogCodeTextCallback</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.model.LogCodeTextCallback.on_train_start"><code class="docutils literal notranslate"><span class="pre">LogCodeTextCallback.on_train_start()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.model.LogCodeTextCallback.setup"><code class="docutils literal notranslate"><span class="pre">LogCodeTextCallback.setup()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.model.LogONNXCallback"><code class="docutils literal notranslate"><span class="pre">LogONNXCallback</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.model.LogONNXCallback.on_train_start"><code class="docutils literal notranslate"><span class="pre">LogONNXCallback.on_train_start()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.model.LogONNXCallback.setup"><code class="docutils literal notranslate"><span class="pre">LogONNXCallback.setup()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.model.LogOutputCallback"><code class="docutils literal notranslate"><span class="pre">LogOutputCallback</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.model.LogParamsCallback"><code class="docutils literal notranslate"><span class="pre">LogParamsCallback</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.model.LogParamsCallback.on_train_start"><code class="docutils literal notranslate"><span class="pre">LogParamsCallback.on_train_start()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.model.ModleeCallback"><code class="docutils literal notranslate"><span class="pre">ModleeCallback</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.model.ModleeCallback.get_input"><code class="docutils literal notranslate"><span class="pre">ModleeCallback.get_input()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.model.ModleeModel"><code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.model.ModleeModel.configure_callbacks"><code class="docutils literal notranslate"><span class="pre">ModleeModel.configure_callbacks()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.model.ModleeModel.run_dir"><code class="docutils literal notranslate"><span class="pre">ModleeModel.run_dir</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.model.PushAPICallback"><code class="docutils literal notranslate"><span class="pre">PushAPICallback</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.model.PushAPICallback.on_fit_end"><code class="docutils literal notranslate"><span class="pre">PushAPICallback.on_fit_end()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="modlee.html#module-modlee.model_text_converter">modlee.model_text_converter module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.model_text_converter.exhaust_sequence_branch"><code class="docutils literal notranslate"><span class="pre">exhaust_sequence_branch()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.model_text_converter.get_code_text"><code class="docutils literal notranslate"><span class="pre">get_code_text()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.model_text_converter.get_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">get_code_text_for_model()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.model_text_converter.save_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">save_code_text_for_model()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="modlee.html#module-modlee.modlee_image_model">modlee.modlee_image_model module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.modlee_image_model.ImageCallback"><code class="docutils literal notranslate"><span class="pre">ImageCallback</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.modlee_image_model.ImageCallback.on_validation_batch_end"><code class="docutils literal notranslate"><span class="pre">ImageCallback.on_validation_batch_end()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.modlee_image_model.ModleeImageModel"><code class="docutils literal notranslate"><span class="pre">ModleeImageModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.html#modlee.modlee_image_model.ModleeImageModel.configure_callbacks"><code class="docutils literal notranslate"><span class="pre">ModleeImageModel.configure_callbacks()</span></code></a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modlee.html#module-modlee.retriever">modlee.retriever module</a><ul>
@@ -272,6 +234,7 @@
 <li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.utils.quantize_dict"><code class="docutils literal notranslate"><span class="pre">quantize_dict()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.utils.test_discretize"><code class="docutils literal notranslate"><span class="pre">test_discretize()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>

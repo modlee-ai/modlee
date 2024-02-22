@@ -7,7 +7,7 @@ Welcome to modlee's documentation!
 ==================================
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 10
    :caption: Contents:
 
    source
