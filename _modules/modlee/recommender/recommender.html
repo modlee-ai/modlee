@@ -117,6 +117,8 @@
 <span class="sd">        object (_type_): _description_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="Recommender.__init__">
+<a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.recommender.Recommender.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">SERVER_ORIGIN</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -126,7 +128,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">meta_features</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">origin</span>
         <span class="k">if</span> <span class="n">dataloader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -421,24 +424,33 @@
 <div class="viewcode-block" id="DumbRecommender">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.recommender.DumbRecommender">[docs]</a>
 <span class="k">class</span> <span class="nc">DumbRecommender</span><span class="p">(</span><span class="n">Recommender</span><span class="p">):</span>
+<div class="viewcode-block" id="DumbRecommender.__init__">
+<a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.recommender.DumbRecommender.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+</div>
 
 
 
 <div class="viewcode-block" id="ActualRecommender">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.recommender.ActualRecommender">[docs]</a>
 <span class="k">class</span> <span class="nc">ActualRecommender</span><span class="p">(</span><span class="n">Recommender</span><span class="p">):</span>
+<div class="viewcode-block" id="ActualRecommender.__init__">
+<a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.recommender.ActualRecommender.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+</div>
 
 
 
 <div class="viewcode-block" id="ModelSummaryRecommender">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.recommender.ModelSummaryRecommender">[docs]</a>
 <span class="k">class</span> <span class="nc">ModelSummaryRecommender</span><span class="p">(</span><span class="n">Recommender</span><span class="p">):</span>
+<div class="viewcode-block" id="ModelSummaryRecommender.__init__">
+<a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.recommender.ModelSummaryRecommender.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="ModelSummaryRecommender.analyze">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.recommender.ModelSummaryRecommender.analyze">[docs]</a>
@@ -507,10 +519,13 @@
 <span class="sd">        modlee (_type_): _description_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="RecommendedModel.__init__">
+<a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.recommender.RecommendedModel.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="o">=</span><span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">loss_fn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">loss_fn</span></div>
+
 
 <div class="viewcode-block" id="RecommendedModel.forward">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.recommender.RecommendedModel.forward">[docs]</a>

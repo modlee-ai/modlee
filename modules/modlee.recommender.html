@@ -49,26 +49,41 @@
 <li><a class="reference internal" href="#">modlee.recommender package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-modlee.recommender.image_recommender">modlee.recommender.image_recommender module</a><ul>
-<li><a class="reference internal" href="#modlee.recommender.image_recommender.ImageClassificationRecommender"><code class="docutils literal notranslate"><span class="pre">ImageClassificationRecommender</span></code></a></li>
+<li><a class="reference internal" href="#modlee.recommender.image_recommender.ImageClassificationRecommender"><code class="docutils literal notranslate"><span class="pre">ImageClassificationRecommender</span></code></a><ul>
+<li><a class="reference internal" href="#modlee.recommender.image_recommender.ImageClassificationRecommender.__init__"><code class="docutils literal notranslate"><span class="pre">ImageClassificationRecommender.__init__()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#modlee.recommender.image_recommender.ImageRecommendedModel"><code class="docutils literal notranslate"><span class="pre">ImageRecommendedModel</span></code></a><ul>
 <li><a class="reference internal" href="#modlee.recommender.image_recommender.ImageRecommendedModel.forward"><code class="docutils literal notranslate"><span class="pre">ImageRecommendedModel.forward()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#modlee.recommender.image_recommender.ImageRecommender"><code class="docutils literal notranslate"><span class="pre">ImageRecommender</span></code></a><ul>
+<li><a class="reference internal" href="#modlee.recommender.image_recommender.ImageRecommender.__init__"><code class="docutils literal notranslate"><span class="pre">ImageRecommender.__init__()</span></code></a></li>
 <li><a class="reference internal" href="#modlee.recommender.image_recommender.ImageRecommender.fit"><code class="docutils literal notranslate"><span class="pre">ImageRecommender.fit()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#modlee.recommender.image_recommender.ImageSegmentationRecommender"><code class="docutils literal notranslate"><span class="pre">ImageSegmentationRecommender</span></code></a></li>
+<li><a class="reference internal" href="#modlee.recommender.image_recommender.ImageSegmentationRecommender"><code class="docutils literal notranslate"><span class="pre">ImageSegmentationRecommender</span></code></a><ul>
+<li><a class="reference internal" href="#modlee.recommender.image_recommender.ImageSegmentationRecommender.__init__"><code class="docutils literal notranslate"><span class="pre">ImageSegmentationRecommender.__init__()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-modlee.recommender.recommender">modlee.recommender.recommender module</a><ul>
-<li><a class="reference internal" href="#modlee.recommender.recommender.ActualRecommender"><code class="docutils literal notranslate"><span class="pre">ActualRecommender</span></code></a></li>
-<li><a class="reference internal" href="#modlee.recommender.recommender.DumbRecommender"><code class="docutils literal notranslate"><span class="pre">DumbRecommender</span></code></a></li>
+<li><a class="reference internal" href="#modlee.recommender.recommender.ActualRecommender"><code class="docutils literal notranslate"><span class="pre">ActualRecommender</span></code></a><ul>
+<li><a class="reference internal" href="#modlee.recommender.recommender.ActualRecommender.__init__"><code class="docutils literal notranslate"><span class="pre">ActualRecommender.__init__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modlee.recommender.recommender.DumbRecommender"><code class="docutils literal notranslate"><span class="pre">DumbRecommender</span></code></a><ul>
+<li><a class="reference internal" href="#modlee.recommender.recommender.DumbRecommender.__init__"><code class="docutils literal notranslate"><span class="pre">DumbRecommender.__init__()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#modlee.recommender.recommender.ModelSummaryRecommender"><code class="docutils literal notranslate"><span class="pre">ModelSummaryRecommender</span></code></a><ul>
+<li><a class="reference internal" href="#modlee.recommender.recommender.ModelSummaryRecommender.__init__"><code class="docutils literal notranslate"><span class="pre">ModelSummaryRecommender.__init__()</span></code></a></li>
 <li><a class="reference internal" href="#modlee.recommender.recommender.ModelSummaryRecommender.analyze"><code class="docutils literal notranslate"><span class="pre">ModelSummaryRecommender.analyze()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#modlee.recommender.recommender.RecommendedModel"><code class="docutils literal notranslate"><span class="pre">RecommendedModel</span></code></a><ul>
+<li><a class="reference internal" href="#modlee.recommender.recommender.RecommendedModel.__init__"><code class="docutils literal notranslate"><span class="pre">RecommendedModel.__init__()</span></code></a></li>
 <li><a class="reference internal" href="#modlee.recommender.recommender.RecommendedModel.configure_callbacks"><code class="docutils literal notranslate"><span class="pre">RecommendedModel.configure_callbacks()</span></code></a></li>
 <li><a class="reference internal" href="#modlee.recommender.recommender.RecommendedModel.configure_optimizers"><code class="docutils literal notranslate"><span class="pre">RecommendedModel.configure_optimizers()</span></code></a></li>
 <li><a class="reference internal" href="#modlee.recommender.recommender.RecommendedModel.forward"><code class="docutils literal notranslate"><span class="pre">RecommendedModel.forward()</span></code></a></li>
@@ -78,6 +93,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#modlee.recommender.recommender.Recommender"><code class="docutils literal notranslate"><span class="pre">Recommender</span></code></a><ul>
+<li><a class="reference internal" href="#modlee.recommender.recommender.Recommender.__init__"><code class="docutils literal notranslate"><span class="pre">Recommender.__init__()</span></code></a></li>
 <li><a class="reference internal" href="#modlee.recommender.recommender.Recommender.analyze"><code class="docutils literal notranslate"><span class="pre">Recommender.analyze()</span></code></a></li>
 <li><a class="reference internal" href="#modlee.recommender.recommender.Recommender.calculate_meta_features"><code class="docutils literal notranslate"><span class="pre">Recommender.calculate_meta_features()</span></code></a></li>
 <li><a class="reference internal" href="#modlee.recommender.recommender.Recommender.fit"><code class="docutils literal notranslate"><span class="pre">Recommender.fit()</span></code></a></li>
@@ -137,6 +153,11 @@
 <dt class="sig sig-object py" id="modlee.recommender.image_recommender.ImageClassificationRecommender">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ImageClassificationRecommender</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/image_recommender.html#ImageClassificationRecommender"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.image_recommender.ImageClassificationRecommender" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#modlee.recommender.image_recommender.ImageRecommender" title="modlee.recommender.image_recommender.ImageRecommender"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageRecommender</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.recommender.image_recommender.ImageClassificationRecommender.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/image_recommender.html#ImageClassificationRecommender.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.image_recommender.ImageClassificationRecommender.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -163,6 +184,11 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ImageRecommender</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/image_recommender.html#ImageRecommender"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.image_recommender.ImageRecommender" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#modlee.recommender.recommender.Recommender" title="modlee.recommender.recommender.Recommender"><code class="xref py py-class docutils literal notranslate"><span class="pre">Recommender</span></code></a></p>
 <dl class="py method">
+<dt class="sig sig-object py" id="modlee.recommender.image_recommender.ImageRecommender.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/image_recommender.html#ImageRecommender.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.image_recommender.ImageRecommender.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="modlee.recommender.image_recommender.ImageRecommender.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/image_recommender.html#ImageRecommender.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.image_recommender.ImageRecommender.fit" title="Link to this definition"></a></dt>
 <dd><p>Set dataloader and calculate meta features</p>
@@ -178,6 +204,11 @@
 <dt class="sig sig-object py" id="modlee.recommender.image_recommender.ImageSegmentationRecommender">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ImageSegmentationRecommender</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/image_recommender.html#ImageSegmentationRecommender"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.image_recommender.ImageSegmentationRecommender" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#modlee.recommender.image_recommender.ImageRecommender" title="modlee.recommender.image_recommender.ImageRecommender"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageRecommender</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.recommender.image_recommender.ImageSegmentationRecommender.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/image_recommender.html#ImageSegmentationRecommender.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.image_recommender.ImageSegmentationRecommender.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -188,18 +219,33 @@
 <dt class="sig sig-object py" id="modlee.recommender.recommender.ActualRecommender">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ActualRecommender</span></span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#ActualRecommender"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.ActualRecommender" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#modlee.recommender.recommender.Recommender" title="modlee.recommender.recommender.Recommender"><code class="xref py py-class docutils literal notranslate"><span class="pre">Recommender</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.recommender.recommender.ActualRecommender.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#ActualRecommender.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.ActualRecommender.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="modlee.recommender.recommender.DumbRecommender">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DumbRecommender</span></span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#DumbRecommender"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.DumbRecommender" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#modlee.recommender.recommender.Recommender" title="modlee.recommender.recommender.Recommender"><code class="xref py py-class docutils literal notranslate"><span class="pre">Recommender</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.recommender.recommender.DumbRecommender.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#DumbRecommender.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.DumbRecommender.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="modlee.recommender.recommender.ModelSummaryRecommender">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ModelSummaryRecommender</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#ModelSummaryRecommender"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.ModelSummaryRecommender" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#modlee.recommender.recommender.Recommender" title="modlee.recommender.recommender.Recommender"><code class="xref py py-class docutils literal notranslate"><span class="pre">Recommender</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.recommender.recommender.ModelSummaryRecommender.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#ModelSummaryRecommender.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.ModelSummaryRecommender.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.recommender.recommender.ModelSummaryRecommender.analyze">
 <span class="sig-name descname"><span class="pre">analyze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#ModelSummaryRecommender.analyze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.ModelSummaryRecommender.analyze" title="Link to this definition"></a></dt>
@@ -222,6 +268,15 @@ Defines a basic training pipeline</p>
 <dt>Args:</dt><dd><p>modlee (_type_): _description_</p>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.recommender.recommender.RecommendedModel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_fn=&lt;function</span> <span class="pre">cross_entropy&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#RecommendedModel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.RecommendedModel.__init__" title="Link to this definition"></a></dt>
+<dd><p>data_snapshot_size is the size limit of the chunk of data saved in each experiment
+We save this chunk in case we modify the calculation of data statistics (e.g. complexity)
+in future releases. Recalculating these measures enables backwards compatibility of 
+prior experiments</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.recommender.recommender.RecommendedModel.configure_callbacks">
 <span class="sig-name descname"><span class="pre">configure_callbacks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#RecommendedModel.configure_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.RecommendedModel.configure_callbacks" title="Link to this definition"></a></dt>
@@ -504,6 +559,11 @@ the model goes back to training mode and gradients are enabled.</p>
 <dt>Args:</dt><dd><p>object (_type_): _description_</p>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.recommender.recommender.Recommender.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'http://ec2-3-84-155-233.compute-1.amazonaws.com:6060'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#Recommender.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.Recommender.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.recommender.recommender.Recommender.analyze">
 <span class="sig-name descname"><span class="pre">analyze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#Recommender.analyze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.Recommender.analyze" title="Link to this definition"></a></dt>
