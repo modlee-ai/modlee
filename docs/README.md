@@ -218,8 +218,20 @@ Either wait it out or try setting `NUM_WORKERS=1`.
 # Docs
 
 ## Build docs
+To generate the assets for the documentation website:
 ```
-sphinx-quickstart docs
+pip3 install .          # Update environment package 
+sphinx-quickstart docs  # Only required if docs/ does not exist 
 cd docs
 sphinx-apidoc -f -o source/modules ../src/modlee
+sphinx-build -M html source build   # Or `make html`
+cd build/html
+python3 -m http.server 7777     # View the page at localhost:7777
+```
+
+
+## Class diagram
+To generate visualizations of the repository in `classes.png` and `packages.png`:
+```
+pyreverse -o png src/modlee
 ```

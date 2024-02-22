@@ -21,13 +21,12 @@ import mlflow
 from mlflow import start_run
 
 from .client import ModleeClient
-from .retriever import *
 api_key = os.environ.get("MODLEE_API_KEY", None)
 modlee_client = ModleeClient(api_key=api_key)
-from . import model_text_converter, exp_loss_logger, data_stats, model, image_model, recommender
-
-from modlee.model_text_converter import get_code_text, get_code_text_for_model
-
+from .retriever import *
+from .utils import save_run
+from .model_text_converter import get_code_text, get_code_text_for_model
+from . import model_text_converter, exp_loss_logger, data_stats, model, recommender
 
 logging.basicConfig(encoding="utf-8", level=logging.WARNING)
 api_modules = ["model_text_converter", "exp_loss_logger"]
@@ -145,10 +144,3 @@ def get_run_path():
     """
     return urlparse(mlflow.get_tracking_uri()).path
 
-
-def save_run(*args, **kwargs):
-    """
-    Save the current run.
-    Takes no arguments because the client will know the current tracking URI.
-    """
-    modlee_client.save_run(*args, **kwargs)

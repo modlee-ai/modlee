@@ -6,7 +6,8 @@
   <title>modlee.client &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=ca37922a" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=ca37922a" />
 
   
   <!--[if lt IE 9]>
@@ -69,8 +70,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for modlee.client</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">Modlee client for modlee server.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">requests</span>
+
 <span class="c1"># import pickle</span>
 <span class="c1"># import dill as pickle</span>
 <span class="kn">import</span> <span class="nn">cloudpickle</span> <span class="k">as</span> <span class="nn">pickle</span>
@@ -80,24 +85,27 @@
 <span class="c1"># REMOTE_ORIGIN = &quot;http://modlee.pythonanywhere.com&quot;</span>
 <span class="n">REMOTE_ORIGIN</span> <span class="o">=</span> <span class="s2">&quot;http://ec2-3-84-155-233.compute-1.amazonaws.com:7070&quot;</span>
 
+
 <div class="viewcode-block" id="ModleeClient">
-<a class="viewcode-back" href="../../modules/modlee.client.html#modlee.client.ModleeClient">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.client.ModleeClient">[docs]</a>
 <span class="k">class</span> <span class="nc">ModleeClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A client for making requests to the API</span>
+<span class="sd">    A client for making requests to the server.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">LOCAL_ORIGIN</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">LOCAL_ORIGIN</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Args:</span>
-<span class="sd">            endpoint (_type_, optional): The server endpoint. Defaults to LOCAL_ORIGIN.</span>
-<span class="sd">            api_key (_type_, optional): The user&#39;s API key. Defaults to None.</span>
+<span class="sd">        ModleeClient constructor.</span>
+<span class="sd">        </span>
+<span class="sd">        :param origin: The server origin (scheme://hostname:port).</span>
+<span class="sd">        :param api_key: The user&#39;s API key for authenticating functionality to the server.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
-        <span class="k">if</span> <span class="n">api_key</span><span class="o">==</span><span class="s1">&#39;local&#39;</span><span class="p">:</span>
-            <span class="n">endpoint</span> <span class="o">=</span> <span class="n">LOCAL_ORIGIN</span>
+
+        <span class="k">if</span> <span class="n">api_key</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
+            <span class="n">origin</span> <span class="o">=</span> <span class="n">LOCAL_ORIGIN</span>
         <span class="k">elif</span> <span class="n">api_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">endpoint</span> <span class="o">=</span> <span class="n">REMOTE_ORIGIN</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">=</span> <span class="n">endpoint</span>
+            <span class="n">origin</span> <span class="o">=</span> <span class="n">REMOTE_ORIGIN</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">origin</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_callable</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_callable</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="mi">3</span>
@@ -106,10 +114,9 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">available</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Ping the server</span>
+<span class="sd">        Check if the server is available.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            _type_: _description_</span>
+<span class="sd">        :return: Whether the server is available.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -118,47 +125,56 @@
             <span class="k">return</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="ModleeClient.post">
-<a class="viewcode-back" href="../../modules/modlee.client.html#modlee.client.ModleeClient.post">[docs]</a>
-    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">route</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">route</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;post&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.client.ModleeClient.post">[docs]</a>
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Post a request.</span>
+
+<span class="sd">        :param path: The URL path, defaults to &quot;&quot;.</span>
+<span class="sd">        :return: The response.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;post&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="ModleeClient.get">
-<a class="viewcode-back" href="../../modules/modlee.client.html#modlee.client.ModleeClient.get">[docs]</a>
-    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">route</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">route</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
-
-    <span class="k">def</span> <span class="nf">_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">route</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.client.ModleeClient.get">[docs]</a>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Send request to the endpoint</span>
+<span class="sd">        Get a request.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            route (str, optional): The route to send request. Defaults to &quot;&quot;.</span>
-<span class="sd">            method (str, optional): The request method in lowercase (e.g. get, post). Defaults to &quot;get&quot;.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            _type_: response from the server or None if an error (response.status_code&gt;=400)</span>
+<span class="sd">        :param path: The URL path, defaults to &quot;&quot;.</span>
+<span class="sd">        :return: The response.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">req_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">route</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="c1"># if method==&quot;get&quot;:</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">))</span>
-            
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-            <span class="s1">&#39;auth&#39;</span><span class="p">:(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">),</span>
-            <span class="s1">&#39;headers&#39;</span><span class="p">:{</span>
-                <span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;Mozilla/5.0&#39;</span><span class="p">,</span>
-                <span class="s2">&quot;Access-Control-Allow-Origin&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;Access-Control-Allow-Headers&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;Access-Control-Allow-Methods&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">}</span>
-            <span class="p">})</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send request to the origin</span>
+
+<span class="sd">        :param path: The URL path, defaults to &quot;&quot;.</span>
+<span class="sd">        :param method: The request method, defaults to &quot;get&quot;.</span>
+<span class="sd">        :return: The response.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">req_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span>
         
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">))</span>
+
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;auth&quot;</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">),</span>
+                <span class="s2">&quot;headers&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Access-Control-Allow-Origin&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Access-Control-Allow-Headers&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Access-Control-Allow-Methods&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">ret</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">requests</span><span class="p">,</span> <span class="n">method</span><span class="p">)(</span>
-                <span class="n">req_url</span><span class="p">,</span>
-                <span class="o">*</span><span class="n">args</span><span class="p">,</span> 
-                <span class="o">**</span><span class="n">kwargs</span>
-            <span class="p">)</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">requests</span><span class="p">,</span> <span class="n">method</span><span class="p">)(</span><span class="n">req_url</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">ret</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">ret</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">404</span><span class="p">:</span>
                     <span class="k">pass</span>
@@ -170,114 +186,117 @@
         <span class="k">return</span> <span class="n">ret</span>
 
 <div class="viewcode-block" id="ModleeClient.login">
-<a class="viewcode-back" href="../../modules/modlee.client.html#modlee.client.ModleeClient.login">[docs]</a>
-    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.client.ModleeClient.login">[docs]</a>
+    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Log the user in</span>
+<span class="sd">        Log the user in.</span>
+<span class="sd">        </span>
+<span class="sd">        :param api_key: The user&#39;s ID</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;login&quot;</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;user_id&#39;</span><span class="p">:</span><span class="n">user_id</span><span class="p">})</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;login&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="n">api_key</span><span class="p">})</span></div>
 
 
 <div class="viewcode-block" id="ModleeClient.get_attr">
-<a class="viewcode-back" href="../../modules/modlee.client.html#modlee.client.ModleeClient.get_attr">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">route</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;modlee/</span><span class="si">{</span><span class="n">route</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.client.ModleeClient.get_attr">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get an attribute from the server.</span>
+
+<span class="sd">        :param path: The server-side path of the attribute to get, defaults to &quot;&quot;.</span>
+<span class="sd">        :return: The server attribute.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;modlee/</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ModleeClient.get_callable">
-<a class="viewcode-back" href="../../modules/modlee.client.html#modlee.client.ModleeClient.get_callable">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_callable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">route</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_attr</span><span class="p">(</span><span class="n">route</span><span class="p">)</span>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.client.ModleeClient.get_callable">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_callable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a callable function from the server.</span>
+<span class="sd">        </span>
+<span class="sd">        :param path: The server-side path of the callable to get, defaults to &quot;&quot;.</span>
+<span class="sd">        :return: The callable, or None if not retrievable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_attr</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">ret</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret</span></div>
 
 
 <div class="viewcode-block" id="ModleeClient.get_script">
-<a class="viewcode-back" href="../../modules/modlee.client.html#modlee.client.ModleeClient.get_script">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">route</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;modleescript/</span><span class="si">{</span><span class="n">route</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.client.ModleeClient.get_script">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a script from the server.</span>
+
+<span class="sd">        :param path: The server-side path of the script to get, defaults to &quot;&quot;.</span>
+<span class="sd">        :return: The script as text, or None if not retrievable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;modleescript/</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ModleeClient.get_module">
-<a class="viewcode-back" href="../../modules/modlee.client.html#modlee.client.ModleeClient.get_module">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">route</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-        
-        <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_script</span><span class="p">(</span><span class="n">route</span><span class="p">)</span>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.client.ModleeClient.get_module">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a module from the server.</span>
+
+<span class="sd">        :param path: the server-side path of the module to get, defaults to &quot;&quot;.</span>
+<span class="sd">        :return: The module, or None if not retrievable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_script</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">content</span>
         <span class="k">return</span> <span class="n">ret</span></div>
 
 
 <div class="viewcode-block" id="ModleeClient.post_file">
-<a class="viewcode-back" href="../../modules/modlee.client.html#modlee.client.ModleeClient.post_file">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.client.ModleeClient.post_file">[docs]</a>
     <span class="k">def</span> <span class="nf">post_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Save a file (as text) to save on the server</span>
+<span class="sd">        Post a file (as text) to save on the server.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            file (_type_): The local file</span>
-<span class="sd">            filepath (_type_): The relative path on the server at which to save the file</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            _type_: Server request response</span>
+<span class="sd">        :param file: The local file to send.</span>
+<span class="sd">        :param filepath: The server-side relative path for the file.</span>
+<span class="sd">        :return: Response if successful, None if failed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">_file</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">_file</span><span class="p">:</span>
                 <span class="c1"># file_text = _file.read()</span>
                 <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-                    <span class="n">route</span><span class="o">=</span><span class="s2">&quot;postfile&quot;</span><span class="p">,</span>
+                    <span class="n">path</span><span class="o">=</span><span class="s2">&quot;postfile&quot;</span><span class="p">,</span>
                     <span class="n">data</span><span class="o">=</span><span class="p">{</span>
                         <span class="c1"># &#39;file_text&#39;:file_text,</span>
-                        <span class="s1">&#39;filepath&#39;</span><span class="p">:</span><span class="n">filepath</span>
-                        <span class="p">},</span>
+                        <span class="s2">&quot;filepath&quot;</span><span class="p">:</span> <span class="n">filepath</span>
+                    <span class="p">},</span>
                     <span class="n">files</span><span class="o">=</span><span class="p">{</span>
-                        <span class="s1">&#39;file&#39;</span><span class="p">:</span><span class="n">_file</span>
+                        <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="n">_file</span>
                         <span class="c1"># filepath:file</span>
-                    <span class="p">}</span>
-                    <span class="p">)</span>
-                <span class="k">return</span> <span class="n">res</span>
-        
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">_file</span><span class="p">:</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-                    <span class="n">route</span><span class="o">=</span><span class="s2">&quot;postfile&quot;</span><span class="p">,</span>
-                    <span class="n">data</span><span class="o">=</span><span class="p">{</span>
-                        
-                        <span class="s1">&#39;filepath&#39;</span><span class="p">:</span><span class="n">filepath</span><span class="p">,</span>
-                    <span class="p">}</span>
+                    <span class="p">},</span>
                 <span class="p">)</span>
+                <span class="k">return</span> <span class="n">res</span>
+
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">_file</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;postfile&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;filepath&quot;</span><span class="p">:</span> <span class="n">filepath</span><span class="p">})</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not access file </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">res</span></div>
+            <span class="k">return</span> <span class="kc">None</span></div>
 
-        
-<div class="viewcode-block" id="ModleeClient.save_run">
-<a class="viewcode-back" href="../../modules/modlee.client.html#modlee.client.ModleeClient.save_run">[docs]</a>
-    <span class="k">def</span> <span class="nf">save_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">run_dir</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ModleeClient.post_run">
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.client.ModleeClient.post_run">[docs]</a>
+    <span class="k">def</span> <span class="nf">post_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">run_path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Save a run given a directory,</span>
-<span class="sd">        returns True if all successful</span>
-<span class="sd">        or False if some failures</span>
+<span class="sd">        Post a local experiment run to save on the server.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            run_dir (_type_): _description_</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            _type_: _description_</span>
+<span class="sd">        :param run_path: The path of the run to save.</span>
+<span class="sd">        :return: Whether saving all files was successful. Partial failures still return False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># # early return if API key is not set</span>
-        <span class="c1"># if self.api_key is None:</span>
-        <span class="c1">#     return False</span>
-        <span class="n">ignore_files</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s1">&#39;model.pth&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;.npy&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;.DS_Store&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;__pycache__&#39;</span><span class="p">,</span>
-        <span class="p">]</span>
-        
+        <span class="n">ignore_files</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;model.pth&quot;</span><span class="p">,</span> <span class="s2">&quot;.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;.DS_Store&quot;</span><span class="p">,</span> <span class="s2">&quot;__pycache__&quot;</span><span class="p">]</span>
+
         <span class="n">error_files</span> <span class="o">=</span> <span class="p">[]</span>
-        
+
         <span class="k">def</span> <span class="nf">skip_file</span><span class="p">(</span><span class="n">rel_filepath</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Skip file if ignore_files in filepath</span>
@@ -286,30 +305,26 @@
                 <span class="k">if</span> <span class="n">ignore_file</span> <span class="ow">in</span> <span class="n">rel_filepath</span><span class="p">:</span>
                     <span class="k">return</span> <span class="kc">True</span>
             <span class="k">return</span> <span class="kc">False</span>
-                
-        <span class="n">run_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">run_dir</span><span class="p">)</span>
+
+        <span class="n">run_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">run_path</span><span class="p">)</span>
         <span class="c1"># Check that there are items in the directory</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">run_dir</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">run_dir</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">run_path</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">run_path</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
-        
-        <span class="k">for</span> <span class="n">dirs_files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">run_dir</span><span class="p">):</span>
-            <span class="n">base_dir</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">files</span> <span class="o">=</span> <span class="n">dirs_files</span>
+
+        <span class="k">for</span> <span class="n">dirs_files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
+            <span class="n">base_dir</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">files</span> <span class="o">=</span> <span class="n">dirs_files</span>
             <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
-                <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span><span class="n">file</span><span class="p">)</span>
+                <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
                 <span class="n">rel_filepath</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">run_id</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
                 <span class="k">if</span> <span class="n">skip_file</span><span class="p">(</span><span class="n">rel_filepath</span><span class="o">=</span><span class="n">rel_filepath</span><span class="p">):</span>
                     <span class="k">continue</span>
-                <span class="n">server_filepath</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
-                    <span class="n">run_id</span><span class="p">,</span>
-                    <span class="n">rel_filepath</span><span class="p">,</span>                    
-                <span class="p">])</span>
+                <span class="n">server_filepath</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span> <span class="n">run_id</span><span class="p">,</span> <span class="n">rel_filepath</span><span class="p">])</span>
 
                 <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">server_filepath</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">error_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rel_filepath</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">error_files</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">error_files</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span></div>
 </div>

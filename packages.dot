@@ -1,0 +1,45 @@
+digraph "packages" {
+rankdir=BT
+charset="utf-8"
+"modlee" [color="black", label=<modlee>, shape="box", style="solid"];
+"modlee.client" [color="black", label=<modlee.client>, shape="box", style="solid"];
+"modlee.config" [color="black", label=<modlee.config>, shape="box", style="solid"];
+"modlee.converter" [color="black", label=<modlee.converter>, shape="box", style="solid"];
+"modlee.data_stats" [color="black", label=<modlee.data_stats>, shape="box", style="solid"];
+"modlee.exp_loss_logger" [color="black", label=<modlee.exp_loss_logger>, shape="box", style="solid"];
+"modlee.loss_sweeper" [color="black", label=<modlee.loss_sweeper>, shape="box", style="solid"];
+"modlee.model" [color="black", label=<modlee.model>, shape="box", style="solid"];
+"modlee.model.image_model" [color="black", label=<modlee.model.image_model>, shape="box", style="solid"];
+"modlee.model.model" [color="black", label=<modlee.model.model>, shape="box", style="solid"];
+"modlee.model_text_converter" [color="black", label=<modlee.model_text_converter>, shape="box", style="solid"];
+"modlee.recommender" [color="black", label=<modlee.recommender>, shape="box", style="solid"];
+"modlee.recommender.image_recommender" [color="black", label=<modlee.recommender.image_recommender>, shape="box", style="solid"];
+"modlee.recommender.recommender" [color="black", label=<modlee.recommender.recommender>, shape="box", style="solid"];
+"modlee.retriever" [color="black", label=<modlee.retriever>, shape="box", style="solid"];
+"modlee.utils" [color="black", label=<modlee.utils>, shape="box", style="solid"];
+"modlee" -> "modlee.client" [arrowhead="open", arrowtail="none"];
+"modlee" -> "modlee.model_text_converter" [arrowhead="open", arrowtail="none"];
+"modlee" -> "modlee.retriever" [arrowhead="open", arrowtail="none"];
+"modlee.data_stats" -> "modlee" [arrowhead="open", arrowtail="none"];
+"modlee.exp_loss_logger" -> "modlee" [arrowhead="open", arrowtail="none"];
+"modlee.loss_sweeper" -> "modlee" [arrowhead="open", arrowtail="none"];
+"modlee.model" -> "modlee.model" [arrowhead="open", arrowtail="none"];
+"modlee.model" -> "modlee.model.image_model" [arrowhead="open", arrowtail="none"];
+"modlee.model.image_model" -> "modlee" [arrowhead="open", arrowtail="none"];
+"modlee.model.image_model" -> "modlee.model" [arrowhead="open", arrowtail="none"];
+"modlee.model.model" -> "modlee" [arrowhead="open", arrowtail="none"];
+"modlee.model.model" -> "modlee.config" [arrowhead="open", arrowtail="none"];
+"modlee.model.model" -> "modlee.converter" [arrowhead="open", arrowtail="none"];
+"modlee.model.model" -> "modlee.exp_loss_logger" [arrowhead="open", arrowtail="none"];
+"modlee.model.model" -> "modlee.utils" [arrowhead="open", arrowtail="none"];
+"modlee.model_text_converter" -> "modlee" [arrowhead="open", arrowtail="none"];
+"modlee.recommender" -> "modlee.recommender" [arrowhead="open", arrowtail="none"];
+"modlee.recommender" -> "modlee.recommender.image_recommender" [arrowhead="open", arrowtail="none"];
+"modlee.recommender.image_recommender" -> "modlee" [arrowhead="open", arrowtail="none"];
+"modlee.recommender.image_recommender" -> "modlee.converter" [arrowhead="open", arrowtail="none"];
+"modlee.recommender.image_recommender" -> "modlee.recommender.recommender" [arrowhead="open", arrowtail="none"];
+"modlee.recommender.recommender" -> "modlee" [arrowhead="open", arrowtail="none"];
+"modlee.recommender.recommender" -> "modlee.converter" [arrowhead="open", arrowtail="none"];
+"modlee.recommender.recommender" -> "modlee.utils" [arrowhead="open", arrowtail="none"];
+"modlee.retriever" -> "modlee" [arrowhead="open", arrowtail="none"];
+}

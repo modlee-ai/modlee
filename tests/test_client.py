@@ -197,17 +197,17 @@ class TestModleeClient:
             )
             assert response, f"Could not post {file_path}"
 
-    def test_save_run(self):
+    def test_post_run(self):
 
         for run_dir in run_dirs:
-            response = self.client.save_run(run_dir)
+            response = self.client.post_run(run_dir)
             assert response, f"Client {self.client.api_key} could not save {run_dir}"
 
-    def test_unauth_save_run(self):
-        """ Unauthorized clien should not be able to save runs 
+    def test_unauth_post_run(self):
+        """ Unauthorized client should not be able to save runs 
         """
         for run_dir in run_dirs:
-            response = self.unauthorized_client.save_run(run_dir)
+            response = self.unauthorized_client.post_run(run_dir)
             assert (
                 response is False
             ), f"Unauthorized client should not have saved {run_dir}"

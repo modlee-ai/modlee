@@ -133,7 +133,7 @@ OUTPUTS = [
 
 @pytest.mark.parametrize("input_value,actual_output_str", zip(INPUTS, OUTPUTS))
 def test_large_tensor_to_init(input_value: torch.Tensor, actual_output_str: str):
-    fn_output = converter.tensor2init(input_value)
+    fn_output = converter.tensor2init_code(input_value)
     local_dict = {}
     # breakpoint()
     exec(f"fn_output_array = {fn_output}", globals(), local_dict)
@@ -153,7 +153,7 @@ OUTPUTS = ["torch.randn((5,5))"]
 @pytest.mark.parametrize("input_value,actual_output_str", zip(INPUTS, OUTPUTS))
 @pytest.mark.parametrize("tensor_type", ["randn", "zeros", "ones"])
 def test_initializer_tensor_to_typed_init(input_value, actual_output_str, tensor_type):
-    fn_output = converter.tensor2init(input_value, tensor_type=tensor_type)
+    fn_output = converter.tensor2init_code(input_value, tensor_type=tensor_type)
     assert tensor_type in fn_output
     local_dict = {}
     exec(f"fn_output_array = {fn_output}", globals(), local_dict)
@@ -176,7 +176,7 @@ OUTPUTS = [
 
 @pytest.mark.parametrize("input_dict,actual_output_str", zip(INPUTS, OUTPUTS))
 def test_kwargs_to_str(input_dict, actual_output_str):
-    output_str = converter.kwargs2str(input_dict)
+    output_str = converter.dict2code(input_dict)
     exec(output_str)
     assert actual_output_str.replace(" ", "") == output_str.replace(" ", "")
     pass
@@ -197,8 +197,8 @@ TILES = [
 @pytest.mark.parametrize("input_output", TILES)
 def test_convert_tile(input_output):
     input_str, output_str = input_output
-    print(converter.convert_tile_layer(input_str))
-    assert output_str == converter.convert_tile_layer(input_str)
+    print(converter.cast_tile_layer(input_str))
+    assert output_str == converter.cast_tile_layer(input_str)
 
 
 GATHERS = [
@@ -212,7 +212,7 @@ GATHERS = [
 @pytest.mark.parametrize("input_output", GATHERS)
 def test_convert_gather(input_output):
     input_str, output_str = input_output
-    pred_str = converter.convert_gather_layer(input_str)
+    pred_str = converter.cast_gather_layer(input_str)
     print(pred_str)
     assert output_str == pred_str
 

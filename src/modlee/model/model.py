@@ -17,6 +17,7 @@ from lightning.pytorch.callbacks import Callback
 from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import modlee
+from modlee import data_stats, save_run, get_code_text_for_model
 from modlee import logging, utils as modlee_utils, exp_loss_logger
 from modlee.converter import Converter
 
@@ -117,7 +118,7 @@ class ModleeCallback(Callback):
 
 class PushServerCallback(Callback):
     def on_fit_end(self, trainer: Trainer, pl_module: LightningModule) -> None:
-        modlee.save_run(pl_module.run_dir)
+        save_run(pl_module.run_dir)
         return super().on_fit_end(trainer, pl_module)
 
 
@@ -146,13 +147,14 @@ class LogCodeTextCallback(ModleeCallback):
         return super().on_train_start(trainer, pl_module)
 
     def _log_code_text(self, trainer: Trainer, pl_module: LightningModule):
-        _get_code_text_for_model = getattr(modlee, "get_code_text_for_model", None)
+        # _get_code_text_for_model = getattr(modlee, "get_code_text_for_model", None)
+        _get_code_text_for_model = get_code_text_for_model
         code_text = ""
         # return
         if _get_code_text_for_model is not None:
             # ==== METHOD 1 ====
             # Save model as code using parsing
-            code_text = modlee.get_code_text_for_model(pl_module, include_header=True)
+            code_text = get_code_text_for_model(pl_module, include_header=True)
             mlflow.log_text(code_text, "model.py")
             # Save variables required to rebuild the model
             pl_module._update_vars_cached()
@@ -280,7 +282,7 @@ class DataStatsCallback(ModleeCallback):
         super().__init__()
         self.data_snapshot_size = data_snapshot_size
         if not DataStats:
-            DataStats = getattr(modlee.data_stats, "DataStats", None)
+            DataStats = getattr(data_stats, "DataStats", None)
         self.DataStats = DataStats
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:

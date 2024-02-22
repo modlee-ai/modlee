@@ -158,7 +158,7 @@ class ModleeClient(object):
 
     def post_file(self, file, filepath):
         """
-        Post a file (as text) to save on the server
+        Post a file (as text) to save on the server.
 
         :param file: The local file to send.
         :param filepath: The server-side relative path for the file.
@@ -186,9 +186,9 @@ class ModleeClient(object):
             print(f"Could not access file {file}")
             return None
 
-    def save_run(self, run_path):
+    def post_run(self, run_path):
         """
-        Save a local experiment run to the server.
+        Post a local experiment run to save on the server.
 
         :param run_path: The path of the run to save.
         :return: Whether saving all files was successful. Partial failures still return False.

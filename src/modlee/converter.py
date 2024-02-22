@@ -1,10 +1,14 @@
 """
 The converter module holds the Converter class for converting between different formats of a neural network.
 The supported formats include Torch and ONNX.
+
 The Torch formats include:
+
 - Model, the object which contains the forward pass and can be trained
 - Code, the model as text code that can be saved to a file and used to rebuild the model
+
 The ONNX formats include:
+
 - Graph, the network represented as a graph with layers as nodes
 - Text, the textual description of the graph that is portable and can be rebuilt into a graph
 """
@@ -29,17 +33,16 @@ from torch import tensor
 
 
 class Converter(object):
-    def __init__(self):
-        pass
+    """ 
+    Base object that holds conversion functions.
+    """
 
-    """
-    From Torch
-    """
     # def torch2onnx(self, torch_model, input_dummy=torch.randn([10, 3, 300, 300]), tmp_onnx_path="./tmp_model.onnx"):
+    # From Torch
     def torch_model2onnx_graph(
         self,
         torch_model,
-        input_dummy=torch.randn([10, 3, 300, 300]),
+        input_dummy=None,
         tmp_onnx_path="./.tmp_model.onnx",
         **kwargs,
     ):
@@ -54,6 +57,8 @@ class Converter(object):
         """
         # Keeping gradients on may cause issues, so turn them off
         torch_model.eval()
+        if input_dummy is None:
+            input_dummy = torch.randn([10,3,300,300])
         input_dummy.requires_grad = False
         with torch.no_grad():
             for param in torch_model.parameters():
@@ -119,12 +124,8 @@ class Converter(object):
         Convert Torch Code into a Torch Model
 
         :param torch_code: The Torch Code, either as a file path or the raw code text
-        Args:
-            torch_code (str): The string representation of the code
-            tmp_model_path (str): Where to cache the code as a .py file
-
-        Returns:
-            nn.Module: The PyTorch model
+        :param tmp_model_path: The path to a cache of the code, as a *.py file
+        :return: The Torch model.
         """
         # If the input is a path, load the text from the file
         if os.path.exists(torch_code):
@@ -156,11 +157,8 @@ class Converter(object):
         but represented as a graph of layers and operations
         PyTorch -> ONNX -> Code -> ONNX -> PyTorch
 
-        Args:
-            torch_model (_type_): The PyTorch model to convert
-
-        Returns:
-            _type_: _description_
+        :param torch_model: The Torch model, created normally through code.
+        :return: The Torch model, after it has been graphized through ONNX.
         """
         return self.code2torch(self.torch2code(torch_model, *args, **kwargs))
 
@@ -168,16 +166,13 @@ class Converter(object):
     torch2torch = torch_model2torch_model
     torch2torch_graph = torch_model2torch_model
 
-    """
-    From ONNX
-    """
-
+    # From ONNX
     def onnx_file2torch_model(self, onnx_file, *args, **kwargs):
         """
-        Convert an ONNX File to a Torch Model
+        Convert an ONNX File to a Torch Model.
 
-        :param onnx_file: The ONNX File as a path
-        :return torch_model: The Torch Model
+        :param onnx_file: The ONNX File as a path.
+        :return torch_model: The Torch Model.
         """
         return onnx2torch.convert(onnx_file, *args, **kwargs)
 
@@ -185,10 +180,10 @@ class Converter(object):
 
     def onnx_file2onnx_graph(self, onnx_file):
         """
-        Convert an ONNX File to an ONNX Graph
+        Convert an ONNX File to an ONNX Graph.
 
-        :param onnx_file: The ONNX File as a path
-        :return onnx_graph: The ONNX Graph as a text
+        :param onnx_file: The ONNX File as a path.
+        :return onnx_graph: The ONNX Graph as a text.
         """
         with open(onnx_file, "r") as _file:
             return self.onnx_text2onnx_graph(_file.read())
@@ -245,7 +240,7 @@ class Converter(object):
 
     def onnx_text2onnx_graph(self, onnx_text):
         """
-        Convert ONNX Text to an ONNX Graph
+        Convert ONNX Text to an ONNX Graph.
 
         :param onnx_text: The ONNX Text
         :return onnx_graph: The ONNX Graph
@@ -256,7 +251,10 @@ class Converter(object):
 
     def onnx_text2torch_model(self, onnx_text: bytes):
         """
-        Convert ONNX text to Torch model
+        Convert ONNX Text to Torch Model.
+        
+        :param onnx_text: The ONNX Text as bytes.
+        :return: The Torch Model.
         """
         onnx_graph = self.onnx_text2onnx_graph(onnx_text)
         # Load the graph into ONNX Graph Surgeon
@@ -273,10 +271,10 @@ class Converter(object):
 
     def onnx_graph2torch_model(self, onnx_graph, *args, **kwargs):
         """
-        Convert an ONNX Graph to a Torch Model
+        Convert an ONNX Graph to a Torch Model.
 
-        :param onnx_graph: The ONNX Graph object
-        :return torch_model: The Torch Model
+        :param onnx_graph: The ONNX Graph object.
+        :return torch_model: The Torch Model.
         """
         return onnx2torch.convert(onnx_graph, *args, **kwargs)
 
@@ -288,7 +286,7 @@ class Converter(object):
 
         :param onnx_graph: The ONNX Graph to convert
         :param remove_identity: Whether to remove Identity layers in the output text
-        :return onnx_text: The ONNX Text representation
+        :return: The ONNX Text representation
         """
 
         def get_inner_string(s, _start, _end):
@@ -395,12 +393,12 @@ class Converter(object):
 
     onnx2onnx_text = onnx_graph2onnx_text
 
-    def remove_identity(self, onnx_str):
+    def remove_identity(self, onnx_text):
         """
-        Remove identity layers in ONNX text
+        Remove identity layers in ONNX Text.
 
-        :param onnx_str: _description_
-        :return: _description_
+        :param onnx_text: The ONNX Text.
+        :return: The ONNX Text stripped of identity layers.
         """
 
         # Patterns to find 'identity_output_xxxx' assignments and their usage
@@ -410,27 +408,28 @@ class Converter(object):
         )
 
         assignments = {
-            match[0]: match[1] for match in pattern_assignment.findall(onnx_str)
+            match[0]: match[1] for match in pattern_assignment.findall(onnx_text)
         }
 
         # Remove the assignment lines for 'identity_output_xxxx'
-        onnx_str = re.sub(pattern_assignment, "", onnx_str)
+        onnx_text = re.sub(pattern_assignment, "", onnx_text)
 
         # Replace each instance of 'identity_output_xxxx' with its assigned value
         for identity_number, actual_value in assignments.items():
-            onnx_str = onnx_str.replace(
+            onnx_text = onnx_text.replace(
                 f"identity_output_{identity_number}", actual_value
             )
 
         # Remove multiple spaces and replace them with a single space
-        onnx_str = re.sub(r" +", " ", onnx_str)
+        onnx_text = re.sub(r" +", " ", onnx_text)
         # Remove chunks of blank space (multiple newlines)
-        onnx_str = re.sub(r"\n\s*\n", "\n", onnx_str)
+        onnx_text = re.sub(r"\n\s*\n", "\n", onnx_text)
 
-        return onnx_str
+        return onnx_text
 
     def refactor_bool_layer(self, input_str):
-        """Refactor boolean layers to the correct number of input elements
+        """
+        Refactor boolean layers to the correct number of input elements
         The onnx.printer.to_text() function seems to remove any inputs that the parser would use.
         For example, an int layer is defined like:
         constant_output_0006 = Constant <value = int64[4] {3,12,-1,-1}> ()
@@ -441,7 +440,8 @@ class Converter(object):
         constant_output_0005 = Constant <value = bool[1,1,3,3] {0,0,0,0,0,0,0,0,0}> ()
         
         
-        :param input_str: _description_
+        :param input_str: The string with boolean layers.
+        :return: The string with boolean layers properly refactored. 
         """
         if "bool" not in input_str:
             return input_str
@@ -466,9 +466,13 @@ class Converter(object):
     def refactor_inf(self, input_str, large_value="99999999"):
         """Replace 'inf' with a large value because the parser cannot handle infs
 
-        :param input_str: _description_
+        :param input_str: The string with 'inf'.
+        :param large_value: A suitably large value to replace 'inf' with, defaults to "99999999".
+        :return: The string with 'inf' refactored with a large value. 
         
         """
+        if not isinstance(large_value, str):
+            large_value = str(large_value)
         if "inf" not in input_str:
             return input_str
         # return re.sub('float {(-*)inf}',
@@ -476,36 +480,37 @@ class Converter(object):
         return re.sub("inf", str(large_value), input_str)
 
     def refactor_leading_number(self, input_str):
-        """Refactor variables with leading numbers which are not parseable,
-        0_model_fc_weight -> model_0_fc_weight
+        """
+        Refactor variables with leading numbers which are not parseable,
+        e.g. 0_model_fc_weight -> model_0_fc_weight
+
+        :param input_str: The string with variables with leading numbers.
+        :return: The string with number-lead variables refactored.
         """
         return re.sub("([\s(,]+)(\d+)_*([a-zA-Z0-9]*)[\s_=]", "\\1\\3_\\2_", input_str)
 
-    """
-    Below are helper functions for importing from torch
-    """
-
+    # Helper functions when converting from ONNX
     def init_graph_tensors(
-        self, graph, tensor_init_fn=partial(np.random.normal, scale=0.01)
+        self, onnx_gs_graph, tensor_init_fn=partial(np.random.normal, scale=0.01)
     ):
         """
         Initialize the graph's tensors, in place (you do not need to use the return value)
         The input should be an ONNX graph exported from torch without parameters, i.e.
-        torch.onnx.export(..., export_params=False)
-        This enables exporting to torch
+        torch.onnx.export(..., export_params=False).
         
         Identity layers get special treatment; they must be initialized for onnx2torch,
-        but their target shape is nested within its inputs
+        but their target shape is nested within its inputs.
         
         Example usage:
         import onnx_graphsurgeon as gs
         graph = gs.import_onnx(path/to/uninitialized/model.onnx)
         Converter().init_graph_tensors(graph)
 
-        Args:
-            graph (_type_): _description_
+        :param onnx_gs_graph: The ONNX GraphSurgeon Graph with uninitialized weights.
+        :param tensor_init_fn: The initialization function to use for the graph's weights, defaults to `np.random.normal(scale=0.01)`
+        :return: The ONNX GraphSurgeon Graph with tensors initialized. The function modifies the graph in place, so assigning the return to the graph is not necessary.
         """
-        graph_tensors = graph.tensors()
+        graph_tensors = onnx_gs_graph.tensors()
         for tensor_key, tensor_value in graph_tensors.items():
             # Skip initializing any tensors that are already Constants
             if "constant" in str(type(tensor_value)).lower():
@@ -541,7 +546,7 @@ class Converter(object):
                 ).astype(np.float32)
             )
             # if 'identity' in tensor_key: print(tensor_key)
-        return graph
+        return onnx_gs_graph
 
     # def init_constant_tensors(graph, constant_tensor_keys: list):
     #     """
@@ -572,8 +577,8 @@ class Converter(object):
         """
         Initialize a parameterless ONNX Graph
 
-        :param onnx_graph: The ONNX Graph
-        :return onnx_graph: The ONNX Graph with initialized parameters
+        :param onnx_graph: The ONNX Graph.
+        :return onnx_graph: The ONNX Graph with initialized parameters.
         """
         # graph = gs.import_onnx(
         #     onnx_model)
@@ -599,93 +604,80 @@ class Converter(object):
 
     def save_torch(self, torch_model, filepath):
         """
-        Save a PyTorch model's code representation as a .py file
+        Save a PyTorch model's code representation as a `.py` file.
 
-        Args:
-            torch_model (_type_): The PyTorch model to save
-            filepath (_type_): Where to save
+        :param torch_model: The Torch Model to save.
+        :param filepath: The path to where the model should be saved, should end in `.py`.
         """
         self.save_code(self.torch2code(torch_model), filepath=filepath)
 
     def save_code(self, torch_code, filepath):
         """
-        Save a PyTorch model string representation to a .py file
+        Save a PyTorch model's sring representation as a `.py` file.
 
-        Args:
-            torch_code (_type_): The string representation of the PyTorch model
-            filepath (_type_): Where to save
+        :param torch_model: The Torch Model to save.
+        :param filepath: The path to where the model should be saved, should end in `.py`.
         """
         with open(filepath, "w") as _file:
             _file.write(torch_code)
 
-    """
-    Below are helper functions for creating code representations from a model
-    """
-
-    def get_inner_string(self, s, _start, _end, return_only_single_value=True):
+    # Helper functions for creating code representations from a model
+    def get_inner_string(self, input_str, _start, _end, return_only_single_value=True):
         """
-        Retrieve an inner string between a start and end sequence
+        TODO - replace this with a sensible regex function.
+        Get the inner string between a start and end sequence.
         If there are multiple potential inner strings (e.g. if there are multiple instances
-        of the start and/or end sequences), returns the longest valid substring
-        Returns None if no inner string is found
+        of the start and/or end sequences), returns the longest valid substring.
 
-        Args:
-            s (_type_): The full string to retrieve from
-            _start (_type_): The start substring
-            _end (_type_): The end substring
-
-        Returns:
-            _type_: The inner string 
+        :param input_str: The string to extract from.
+        :param _start: The start of the string sequence.
+        :param _end: The end of the string sequence.
+        :param return_only_single_value: Whether to return only the first whitespace-split item in the found sequence, defaults to Truedefaults to True.
+        :return: The inner string, or None if the _start and _end sequences could not be found.
         """
         # If cannot find either substring limiters, return None
-        if any([idx == -1 for idx in [s.find(_start), s.find(_end)]]):
+        if any([idx == -1 for idx in [input_str.find(_start), input_str.find(_end)]]):
             return None
 
-        s = s[s.find(_start) + len(_start) :]
-        s = s[: s.rfind(_end)]
+        input_str = input_str[input_str.find(_start) + len(_start) :]
+        input_str = input_str[: input_str.rfind(_end)]
         # valid attributes should just be one string
         if return_only_single_value:
-            if len(s.split()) == 1:
-                return s
+            if len(input_str.split()) == 1:
+                return input_str
             else:
                 return None
         else:
-            return s
+            return input_str
 
-    def get_attr_name(self, s):
+    def get_attr_name(self, input_str):
         """
-        Parse the name of an object attribute referred to on a string
+        TODO - replace this with a sensible regex function; write tests first.
+        Get the variable name of an object attribute from a string.
         
         The input string to this function should be a line from the forward pass of a model
         converted from onnx2torch, e.g. :
         model_conv1_conv = getattr(self, "model/conv1/Conv")(input_1);  input_1 = None
-        
-        This function will retrieve "model/conv1/Conv"
+        Will retrieve "model/conv1/Conv".
 
-        Args:
-            s (_type_): The string to retrieve the attribute from
-
-        Returns:
-            _type_: The attribute name
+        :param input_str: The input string from which to get the attribute from.
+        :return: The attribute name.
         """
-        attr_name = self.get_inner_string(s, _start='getattr(self, "', _end='")')
+        attr_name = self.get_inner_string(input_str, _start='getattr(self, "', _end='")')
 
         # Catch a case where the attribute is directly accessed,
         # e.g. self.LogSoftmax -> retrieve "LogSoftmax"
         if attr_name is None:
-            attr_name = self.get_inner_string(s, _start="self.", _end="(")
+            attr_name = self.get_inner_string(input_str, _start="self.", _end="(")
         return attr_name
 
     def get_model_attr_on_line(self, model, line):
         """
-        Return attributes as {attribute_name : attribute_object} pairs
+        Get attributes as {attribute_name : attribute_object} pairs
 
-        Args:
-            model (_type_): The model to retrieve attributes from
-            line (str): The line that has the attribute to retrieve
-
-        Returns:
-            dict: {attribute_name : attribute_object}
+        :param model: The model to retrieve attributes from.
+        :param line: The line that has the attribute to retrieve.
+        :return: A dictionary of the {attribute_name : attribute_object}.
         """
         attr_name = self.get_attr_name(line)
         if attr_name:
@@ -697,14 +689,10 @@ class Converter(object):
 
     def get_model_attrs_in_forward(self, model):
         """
-        Retrieve all of the attributes from a model's forward pass
-        This should yield all of the attributes required to do a forward pass
+        Get all of the attributes from a model's forward pass.
 
-        Args:
-            model (_type_): The model
-
-        Returns:
-            _type_: A dictionary of { attribute_name : attribute_object } pairs
+        :param model: The model to get attributes from.
+        :return: A dictionary of { attribute_name : attribute_object } pairs
         """
         fwd_source = inspect.getsource(model.forward)
         fwd_lines = fwd_source.split("\n")
@@ -719,14 +707,11 @@ class Converter(object):
 
     def get_params_for_attr(self, model_attr):
         """
-        Retrieve the parameters required to initialize an attribute object
-        e.g. convolutional filter sizes / strides
+        Get the parameters required to initialize an attribute object,
+        e.g. convolutional filter sizes / strides, frozen directly from the object.
 
-        Args:
-            model_attr (_type_): The attribute object
-
-        Returns:
-            _type_: A dictionary of { parameter_key : parameter_default } values
+        :param model_attr: The attribute object to get parameters for.
+        :return: The parameters to reinitialize the object in the same state.
         """
         attrs_to_skip = ["bias"]
         attr_kwargs = dict(inspect.signature(model_attr.__init__).parameters)
@@ -744,7 +729,7 @@ class Converter(object):
                 # Convert potentially large tensors to constructors to reduce size
                 # if isinstance(model_attr_value, torch.Tensor) or 'tensor' in str(type(model_attr_value)).lower():
                 if isinstance(model_attr_value, torch.Tensor):
-                    model_attr_value = self.tensor2init(
+                    model_attr_value = self.tensor2init_code(
                         model_attr_value,
                         tensor_type="randn" if "initial" in attr_key else None,
                     )
@@ -755,7 +740,7 @@ class Converter(object):
             model_state_dict = model_attr.state_dict()
             # Do this only for initializers because the output file could get large
             model_state_dict = {
-                k: self.tensor2init(v, tensor_type="randn")
+                k: self.tensor2init_code(v, tensor_type="randn")
                 for k, v in model_state_dict.items()
                 if "initial" in k
             }
@@ -768,26 +753,20 @@ class Converter(object):
 
     def get_type_string(self, obj) -> str | None:
         """
-        Retrieve the type of an object as a string
+        Get the type of an object as a string.
         TODO - refactor this as a regex
 
-        Args:
-            obj (_type_): The object
-
-        Returns:
-            str | None: The type as a string
+        :param obj: The object.
+        :return: The type of the object as a string.
         """
         return self.get_inner_string(str(obj.__class__), _start="<class '", _end="'>")
 
     def get_init(self, model) -> str:
         """
-        Retrieve the code for a model's __init__() constructor function
+        Get the code for a model's __init__() constructor function.
 
-        Args:
-            model (_type_): The model
-
-        Returns:
-            str: An executable __init__ string
+        :param model: The model.
+        :return: The model's __init__() function as a string.
         """
         assert model is not None
         model_attrs = self.get_model_attrs_in_forward(model)
@@ -823,7 +802,7 @@ class Converter(object):
             # for attr_key,attr_value in init_attr[2].items():
             #     if isinstance(attr_value,str):
             #         if 'tensor.' in attr_value.lower():
-            kwarg_str = self.kwargs2str(init_attr[2])
+            kwarg_str = self.dict2code(init_attr[2])
 
             # init_line = f"{spacer*2}setattr(self,'{init_attr[0]}', {init_attr[1]}(**{init_attr[2]}))"
             init_line = f"{spacer*2}setattr(self,'{init_attr[0]}', {init_attr[1]}(**{kwarg_str}))"
@@ -846,13 +825,15 @@ class Converter(object):
     def get_init_module_state_dict_str(
         self, module_name_str: str, state_dict_str: str, indent_level=2
     ):
-        """Return a string that, when called with exec(), will initialize the torch module's state dictionary.
+        """
+        Return a string that, when called with exec(), will initialize the torch module's state dictionary.
         The module will likely be a freshly initialized module with an empty state dict.
         This uses register_buffer to add unexpected keys to the state dict.
 
         :param module_name: The variable name of the module to be initialized, as a string. Must have already been initialized.
         :param state_dict: A string representation of the state_dict
         :param indent_level: The amount of indents (4 whitespaces) to prepend to each line, defaults to 2 for use in a class function
+        :return: Code text to initialize the module's state dict.
         """
         spacer = "    "
         ret_str = ""
@@ -862,9 +843,12 @@ class Converter(object):
         return ret_str
         # return f'{module_nam'
 
-    def kwargs2str(self, kwarg_dict):
-        """Converts a dictionary of keyword arguments into a properly formatted string
-        that can be formatted into an attribute initialization in python code
+    def dict2code(self, kwarg_dict):
+        """
+        Converts a dictionary into a code string that, when called with exec(), rebuilds the dictionary.
+        
+        :param kwarg_dict: The dictionary to convert.
+        :return: A code string to create the dictionary.
         """
         # ret_str = ''
         kwarg_list = []
@@ -885,14 +869,16 @@ class Converter(object):
         return f"{{{','.join(kwarg_list)}}}"
         return
 
-    def tensor2init(self, input_tensor, tensor_type: str = None):
-        """Converts a monovalue tensor (len(set(tensor))==1) to a string representation of its initialization.
-        Converts potentially large from their explicit definition to simply 'tensor.ones((x,y))*values'.
+    def tensor2init_code(self, input_tensor, tensor_type: str = None):
+        """
+        Converts a monovalue tensor (len(set(tensor))==1) to a string representation of its initialization.
+        Minifies potentially large from their explicit definition to simply 'tensor.ones((x,y))*values'.
         If `tensor_type` is provided, this function will force-convert a non-uniform tensor to an 
         initialization string for a tensor of that type (e.g. 'randn','ones','zeros').
 
         :param input_tensor: The tensor to convert
-        :param tensor_type: The tensor type to convert to ['randn','zeros','ones']
+        :param tensor_type: The tensor type to convert to, from ['randn','zeros','ones']. Will try to auto-detect if not provided.
+        :return: A code string to create the tensor.
         """
         if not isinstance(input_tensor, torch.Tensor):
             return input_tensor
@@ -923,28 +909,29 @@ class Converter(object):
 
     def get_forward(self, model) -> str:
         """
-        Retrieve a model's forward pass as code
-
-        Args:
-            model (_type_): The model
-
-        Returns:
-            str: The forward pass as a string
+        Get a model's forward() pass as code.
+        
+        :param model: The model.
+        :return: The forward() code.
         """
         spacer = "    "
         fwd_lines = inspect.getsource(model.forward).split("\n")
         for i, fwd_line in enumerate(fwd_lines[1:]):
             if "self.Tile" in fwd_line:
-                fwd_line = self.convert_tile_layer(fwd_line)
+                fwd_line = self.cast_tile_layer(fwd_line)
             elif "self.Gather" in fwd_line:
-                fwd_line = self.convert_gather_layer(fwd_line)
+                fwd_line = self.cast_gather_layer(fwd_line)
             fwd_lines[i + 1] = f"{spacer}{fwd_line}"
 
         return "\n".join(fwd_lines)
 
     def get_model_code(self, model) -> str:
         """
-        Retrieve the model's string representation, which includes its constructor (__init__) and forward pass
+        Retrieve the model's string representation, which includes its constructor (__init__) and forward pass.
+        The code, when imported as a module or called with exec(), will rebuild the model object.
+        
+        :param model: The model.
+        :return: The code for the entire model module.
         """
         model_init_code = self.get_init(model)
         model_fwd_code = self.get_forward(model)
@@ -962,12 +949,24 @@ class Model(torch.nn.Module):
 
     torch_graph2code = get_model_code
 
-    def convert_tile_layer(self, input_str):
+    def cast_tile_layer(self, input_str):
+        """
+        Cast variables in a Tile ONNX layer to the required types.
+
+        :param input_str: The string of the Tile layer.
+        :return: The layer string with types properly cast.
+        """
         return re.sub(
             "(Tile.*), (.*)\)",
             "\\1, list(\\2.type(torch.int64).cpu().numpy()))",
             input_str,
         )
 
-    def convert_gather_layer(self, input_str):
+    def cast_gather_layer(self, input_str):
+        """
+        Cast variables in a Gather ONNX layer to the required types.
+
+        :param input_str: The string of the Gather layer.
+        :return: The string with types propery cast.
+        """
         return re.sub("(Gather.*), (.*)\)", "\\1, \\2.type(torch.int64))", input_str)

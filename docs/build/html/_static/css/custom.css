@@ -1,3 +1,7 @@
+:root {
+    --base-color: rgb(146,0,249);
+}
+
 .wy-side-nav-search {
     display: block;
     width: 300px;
@@ -5,8 +9,12 @@
     margin-bottom: .809em;
     z-index: 200;
     /* background-color: #2980b9; */
-    background-color: rgb(112,26,191);
+    background-color: var(--base-color);
     text-align: center;
     /* color: #fcfcfc; */
-    color: rgb(112,26,191)
+    color: var(--base-color);
+}
+
+.wy-nav-top {
+    color: var(--base-color);
 }
