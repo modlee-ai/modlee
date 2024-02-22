@@ -214,3 +214,12 @@ Either wait it out or try setting `NUM_WORKERS=1`.
 - [ ] make notebooks toggle-able for local files and package (toggle where we import mlflow from)
 - [ ] can we incorporate the model code_to_text within a testing notebook?
 - [ ] Right now it seems like we are just saving mlruns in the same folder as the python script right? Eventually, we may want to have modlee automatically keep track of where these are if we plan 
+
+# Docs
+
+## Build docs
+```
+sphinx-quickstart docs
+cd docs
+sphinx-apidoc -f -o source/modules ../src/modlee
+```

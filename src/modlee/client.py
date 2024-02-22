@@ -9,28 +9,29 @@ import requests
 import cloudpickle as pickle
 import functools
 
-LOCAL_ENDPOINT = "http://127.0.0.1:7070"
-# REMOTE_ENDPOINT = "http://modlee.pythonanywhere.com"
-REMOTE_ENDPOINT = "http://ec2-3-84-155-233.compute-1.amazonaws.com:7070"
+LOCAL_ORIGIN = "http://127.0.0.1:7070"
+# REMOTE_ORIGIN = "http://modlee.pythonanywhere.com"
+REMOTE_ORIGIN = "http://ec2-3-84-155-233.compute-1.amazonaws.com:7070"
 
 
 class ModleeClient(object):
     """
-    A client for making requests to the API
+    A client for making requests to the server.
     """
 
-    def __init__(self, endpoint=LOCAL_ENDPOINT, api_key=None, *args, **kwargs):
+    def __init__(self, origin=LOCAL_ORIGIN, api_key=None, *args, **kwargs):
         """
-        Args:
-            endpoint (_type_, optional): The server endpoint. Defaults to LOCAL_ENDPOINT.
-            api_key (_type_, optional): The user's API key. Defaults to None.
+        ModleeClient constructor.
+        
+        :param origin: The server origin (scheme://hostname:port).
+        :param api_key: The user's API key for authenticating functionality to the server.
         """
 
         if api_key == "local":
-            endpoint = LOCAL_ENDPOINT
+            origin = LOCAL_ORIGIN
         elif api_key is not None:
-            endpoint = REMOTE_ENDPOINT
-        self.endpoint = endpoint
+            origin = REMOTE_ORIGIN
+        self.origin = origin
         self.get_object = self.get_callable
         self.get_function = self.get_callable
         self.timeout = 3
@@ -39,10 +40,9 @@ class ModleeClient(object):
     @property
     def available(self):
         """
-        Ping the server
+        Check if the server is available.
 
-        Returns:
-            _type_: _description_
+        :return: Whether the server is available.
         """
         ret = self.get()
         if ret is not None:
@@ -50,25 +50,35 @@ class ModleeClient(object):
         else:
             return False
 
-    def post(self, route="", *args, **kwargs):
-        return self._request(route=route, method="post", *args, **kwargs)
-
-    def get(self, route="", *args, **kwargs):
-        return self._request(route=route, method="get", *args, **kwargs)
-
-    def _request(self, route="", method="get", *args, **kwargs):
+    def post(self, path="", *args, **kwargs):
         """
-        Send request to the endpoint
+        Post a request.
 
-        Args:
-            route (str, optional): The route to send request. Defaults to "".
-            method (str, optional): The request method in lowercase (e.g. get, post). Defaults to "get".
-
-        Returns:
-            _type_: response from the server or None if an error (response.status_code>=400)
+        :param path: The URL path, defaults to "".
+        :return: The response.
         """
-        req_url = f"{self.endpoint}/{route}"
-        # if method=="get":
+        return self._request(path=path, method="post", *args, **kwargs)
+
+
+    def get(self, path="", *args, **kwargs):
+        """
+        Get a request.
+
+        :param path: The URL path, defaults to "".
+        :return: The response.
+        """
+        return self._request(path=path, method="get", *args, **kwargs)
+
+    def _request(self, path="", method="get", *args, **kwargs):
+        """
+        Send request to the origin
+
+        :param path: The URL path, defaults to "".
+        :param method: The request method, defaults to "get".
+        :return: The response.
+        """
+        req_url = f"{self.origin}/{path}"
+        
         kwargs.update(dict(timeout=self.timeout))
 
         kwargs.update(
@@ -95,47 +105,70 @@ class ModleeClient(object):
             ret = None
         return ret
 
-    def login(self, user_id=""):
+    def login(self, api_key=""):
         """
-        Log the user in
+        Log the user in.
+        
+        :param api_key: The user's ID
         """
-        return self.post(route=f"login", data={"user_id": user_id})
+        return self.post(path=f"login", data={"user_id": api_key})
 
-    def get_attr(self, route=""):
-        return self.get(f"modlee/{route}")
+    def get_attr(self, path=""):
+        """
+        Get an attribute from the server.
 
-    def get_callable(self, route=""):
-        ret = self.get_attr(route)
+        :param path: The server-side path of the attribute to get, defaults to "".
+        :return: The server attribute.
+        """
+        return self.get(f"modlee/{path}")
+
+    def get_callable(self, path=""):
+        """
+        Get a callable function from the server.
+        
+        :param path: The server-side path of the callable to get, defaults to "".
+        :return: The callable, or None if not retrievable.
+        """
+        ret = self.get_attr(path)
         if ret is not None:
             ret = pickle.loads(ret.content)
         return ret
 
-    def get_script(self, route=""):
-        return self.get(f"modleescript/{route}")
+    def get_script(self, path=""):
+        """
+        Get a script from the server.
 
-    def get_module(self, route=""):
+        :param path: The server-side path of the script to get, defaults to "".
+        :return: The script as text, or None if not retrievable.
+        """
+        return self.get(f"modleescript/{path}")
 
-        ret = self.get_script(route)
+    def get_module(self, path=""):
+        """
+        Get a module from the server.
+
+        :param path: the server-side path of the module to get, defaults to "".
+        :return: The module, or None if not retrievable.
+        """
+
+        ret = self.get_script(path)
         if ret is not None:
             ret = ret.content
         return ret
 
     def post_file(self, file, filepath):
         """
-        Save a file (as text) to save on the server
+        Post a file (as text) to save on the server
 
-        Args:
-            file (_type_): The local file
-            filepath (_type_): The relative path on the server at which to save the file
-
-        Returns:
-            _type_: Server request response
+        :param file: The local file to send.
+        :param filepath: The server-side relative path for the file.
+        :return: Response if successful, None if failed.
         """
         try:
             with open(file, "rb") as _file:
                 # file_text = _file.read()
                 res = self.post(
-                    route="postfile",
+                    path="postfile",
                     data={
                         # 'file_text':file_text,
                         "filepath": filepath
@@ -148,27 +181,18 @@ class ModleeClient(object):
                 return res
 
             with open(file, "rb") as _file:
-                res = self.post(route="postfile", data={"filepath": filepath})
+                res = self.post(path="postfile", data={"filepath": filepath})
         except:
             print(f"Could not access file {file}")
             return None
-        return res
 
-    def save_run(self, run_dir):
+    def save_run(self, run_path):
         """
-        Save a run given a directory,
-        returns True if all successful
-        or False if some failures
+        Save a local experiment run to the server.
 
-        Args:
-            run_dir (_type_): _description_
-
-        Returns:
-            _type_: _description_
+        :param run_path: The path of the run to save.
+        :return: Whether saving all files was successful. Partial failures still return False.
         """
-        # # early return if API key is not set
-        # if self.api_key is None:
-        #     return False
         ignore_files = ["model.pth", ".npy", ".DS_Store", "__pycache__"]
 
         error_files = []
@@ -182,12 +206,12 @@ class ModleeClient(object):
                     return True
             return False
 
-        run_id = os.path.basename(run_dir)
+        run_id = os.path.basename(run_path)
         # Check that there are items in the directory
-        if not os.path.exists(run_dir) or len(os.listdir(run_dir)) < 1:
+        if not os.path.exists(run_path) or len(os.listdir(run_path)) < 1:
             return False
 
-        for dirs_files in os.walk(run_dir):
+        for dirs_files in os.walk(run_path):
             base_dir, _, files = dirs_files
             for file in files:
                 filepath = os.path.join(base_dir, file)

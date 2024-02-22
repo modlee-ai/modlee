@@ -45,13 +45,13 @@ class Recommender(object):
     """
 
     def __init__(
-        self, dataloader=None, endpoint=SERVER_ENDPOINT, *args, **kwargs
+        self, dataloader=None, origin=SERVER_ORIGIN, *args, **kwargs
     ) -> None:
         self._model = None
         self.modality = None
         self.task = None
         self.meta_features = None
-        self.endpoint = endpoint
+        self.origin = origin
         if dataloader is not None:
             self.analyze(dataloader)
 
@@ -101,7 +101,7 @@ class Recommender(object):
         ), "Recommender task is not set (e.g. classification, segmentation)"
         meta_features = json.loads(json.dumps(meta_features))
         res = requests.get(
-            f"{self.endpoint}/model/{self.modality}/{self.task}",
+            f"{self.origin}/model/{self.modality}/{self.task}",
             data=json.dumps({"data_features": meta_features}),
             headers={"Content-Type": "application/json"},
         )
@@ -362,7 +362,7 @@ class ModelSummaryRecommender(Recommender):
     def _get_onnx_text(self, meta_features):
         meta_features = json.loads(json.dumps(meta_features))
         res = requests.post(
-            f"{SERVER_ENDPOINT}/infer", data={"data_stats": str(meta_features)}
+            f"{SERVER_ORIGIN}/infer", data={"data_stats": str(meta_features)}
         )
         onnx_text = res.content
         return onnx_text

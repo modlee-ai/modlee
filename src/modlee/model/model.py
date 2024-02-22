@@ -74,7 +74,7 @@ class ModleeModel(LightningModule):
             LogCodeTextCallback(self.vars_cache),
             LogOutputCallback(),
             LogParamsCallback(),
-            PushAPICallback(),
+            PushServerCallback(),
             # LogONNXCallback(),
         ]
 
@@ -115,7 +115,7 @@ class ModleeCallback(Callback):
         return _input
 
 
-class PushAPICallback(Callback):
+class PushServerCallback(Callback):
     def on_fit_end(self, trainer: Trainer, pl_module: LightningModule) -> None:
         modlee.save_run(pl_module.run_dir)
         return super().on_fit_end(trainer, pl_module)

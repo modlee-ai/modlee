@@ -16,14 +16,14 @@ class ModleeTest(unittest.TestCase):
     def tearDown(self) -> None:
         return super().tearDown()
 
-    def test_set_run_dir(self):
+    def test_set_run_path(self):
         """
         Tracking URI should change
         """
         # modlee.set_tracking_uri()
         paths_to_test = [os.path.abspath("."), ".", ".."]
         for path_to_test in paths_to_test:
-            modlee.set_run_dir(path_to_test)
+            modlee.set_run_path(path_to_test)
             run_dir = os.path.abspath(f"{path_to_test}/mlruns")
 
             tracking_uri = mlflow.get_tracking_uri()
@@ -31,9 +31,9 @@ class ModleeTest(unittest.TestCase):
                 tracking_uri == pathlib.Path(run_dir).as_uri()
             ), f"Tracking URI {tracking_uri} does not match path {path_to_test}/mlruns"
 
-            got_run_dir = modlee.get_run_dir()
+            got_run_dir = modlee.get_run_path()
 
-    def test_cant_set_run_dir(self):
+    def test_cant_set_run_path(self):
         """
         Should not be able to set to track garbage directory
         """
@@ -41,13 +41,13 @@ class ModleeTest(unittest.TestCase):
         paths_to_test = ["asdfadsfsd"]
         for path_to_test in paths_to_test:
             with self.assertRaises(FileNotFoundError):
-                modlee.set_run_dir(path_to_test)
+                modlee.set_run_path(path_to_test)
 
     def test_init(self):
         init_args = [None, ".."]
         for init_arg in init_args:
             modlee.init(init_arg)
-            run_dir = modlee.get_run_dir()
+            run_dir = modlee.get_run_path()
             if init_arg == None:
                 init_arg = "."
             relative_mlruns_path = os.path.abspath(

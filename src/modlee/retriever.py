@@ -26,7 +26,7 @@ def get_runs(run_dir, experiment_id=None, run_id=None, **kwargs):
     if not run_dir_exists(run_dir):
         return []
 
-    modlee.set_run_dir(run_dir)
+    modlee.set_run_path(run_dir)
 
     client = MlflowClient()
     experiments = client.search_experiments()

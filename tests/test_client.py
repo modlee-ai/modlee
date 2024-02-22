@@ -8,7 +8,7 @@ import yaml
 import os
 import modlee
 from modlee.client import ModleeClient
-from modlee.config import LOCAL_ENDPOINT, SERVER_ENDPOINT
+from modlee.config import LOCAL_ORIGIN, SERVER_ENDPOINT
 import importlib
 
 #
@@ -21,7 +21,7 @@ python3 app.py
 """
 
 # local endpoint
-# ENDPOINT = LOCAL_ENDPOINT
+# ENDPOINT = LOCAL_ORIGIN
 ENDPOINT = SERVER_ENDPOINT
 # remote endpoint
 # ENDPOINT = "http://modlee.pythonanywhere.com"
