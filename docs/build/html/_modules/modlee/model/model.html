@@ -107,6 +107,8 @@
 <div class="viewcode-block" id="ModleeModel">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.ModleeModel">[docs]</a>
 <span class="k">class</span> <span class="nc">ModleeModel</span><span class="p">(</span><span class="n">LightningModule</span><span class="p">):</span>
+<div class="viewcode-block" id="ModleeModel.__init__">
+<a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.ModleeModel.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_snapshot_size</span><span class="o">=</span><span class="mf">10e6</span><span class="p">,</span> <span class="n">vars_cache</span><span class="o">=</span><span class="p">{},</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        data_snapshot_size is the size limit of the chunk of data saved in each experiment</span>
@@ -120,7 +122,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">vars_cache</span> <span class="o">=</span> <span class="n">vars_cache</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vars_cache</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="n">self_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">self_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
         <span class="c1"># self_dict = self.__dict__.</span>
         <span class="c1"># for self_key in self_keys:</span>
 
@@ -161,8 +164,11 @@
 <div class="viewcode-block" id="ModleeCallback">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.ModleeCallback">[docs]</a>
 <span class="k">class</span> <span class="nc">ModleeCallback</span><span class="p">(</span><span class="n">Callback</span><span class="p">):</span>
+<div class="viewcode-block" id="ModleeCallback.__init__">
+<a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.ModleeCallback.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
 
 <div class="viewcode-block" id="ModleeCallback.get_input">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.ModleeCallback.get_input">[docs]</a>
@@ -215,8 +221,11 @@
 <div class="viewcode-block" id="LogParamsCallback">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.LogParamsCallback">[docs]</a>
 <span class="k">class</span> <span class="nc">LogParamsCallback</span><span class="p">(</span><span class="n">Callback</span><span class="p">):</span>
+<div class="viewcode-block" id="LogParamsCallback.__init__">
+<a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.LogParamsCallback.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">Callback</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">Callback</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="LogParamsCallback.on_train_start">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.LogParamsCallback.on_train_start">[docs]</a>
@@ -230,9 +239,12 @@
 <div class="viewcode-block" id="LogCodeTextCallback">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.LogCodeTextCallback">[docs]</a>
 <span class="k">class</span> <span class="nc">LogCodeTextCallback</span><span class="p">(</span><span class="n">ModleeCallback</span><span class="p">):</span>
+<div class="viewcode-block" id="LogCodeTextCallback.__init__">
+<a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.LogCodeTextCallback.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vars_to_save</span><span class="o">=</span><span class="p">{},</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">Callback</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">vars_cache</span> <span class="o">=</span> <span class="n">vars_to_save</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vars_cache</span> <span class="o">=</span> <span class="n">vars_to_save</span></div>
+
 
 <div class="viewcode-block" id="LogCodeTextCallback.setup">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.LogCodeTextCallback.setup">[docs]</a>
@@ -316,8 +328,11 @@
 <div class="viewcode-block" id="LogONNXCallback">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.LogONNXCallback">[docs]</a>
 <span class="k">class</span> <span class="nc">LogONNXCallback</span><span class="p">(</span><span class="n">ModleeCallback</span><span class="p">):</span>
+<div class="viewcode-block" id="LogONNXCallback.__init__">
+<a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.LogONNXCallback.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
 
 <div class="viewcode-block" id="LogONNXCallback.setup">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.LogONNXCallback.setup">[docs]</a>
@@ -360,12 +375,15 @@
 <div class="viewcode-block" id="LogOutputCallback">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.LogOutputCallback">[docs]</a>
 <span class="k">class</span> <span class="nc">LogOutputCallback</span><span class="p">(</span><span class="n">Callback</span><span class="p">):</span>
+<div class="viewcode-block" id="LogOutputCallback.__init__">
+<a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.LogOutputCallback.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">Callback</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">on_train_batch_end</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_batch_end</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">on_validation_batch_end</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_batch_end</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;val&quot;</span><span class="p">)</span>
         <span class="c1"># self.train_outputs = self.val_outputs = []</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;train&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;train&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="p">[]}</span></div>
+
 
     <span class="k">def</span> <span class="nf">_on_batch_end</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -396,13 +414,16 @@
 <div class="viewcode-block" id="DataStatsCallback">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.DataStatsCallback">[docs]</a>
 <span class="k">class</span> <span class="nc">DataStatsCallback</span><span class="p">(</span><span class="n">ModleeCallback</span><span class="p">):</span>
+<div class="viewcode-block" id="DataStatsCallback.__init__">
+<a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.DataStatsCallback.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_snapshot_size</span><span class="o">=</span><span class="mf">1e7</span><span class="p">,</span> <span class="n">DataStats</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">Callback</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_snapshot_size</span> <span class="o">=</span> <span class="n">data_snapshot_size</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">DataStats</span><span class="p">:</span>
             <span class="n">DataStats</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data_stats</span><span class="p">,</span> <span class="s2">&quot;DataStats&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">DataStats</span> <span class="o">=</span> <span class="n">DataStats</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataStats</span> <span class="o">=</span> <span class="n">DataStats</span></div>
+
 
 <div class="viewcode-block" id="DataStatsCallback.on_train_start">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.model.DataStatsCallback.on_train_start">[docs]</a>

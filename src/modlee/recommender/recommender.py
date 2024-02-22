@@ -75,14 +75,14 @@ class Recommender(object):
     fit = analyze
 
     def calculate_meta_features(self, dataloader):
-        if modlee.data_stats.module_available:
+        if modlee.data_metafeatures.module_available:
             analyze_message = "[Modlee] -> Just a moment, analyzing your dataset ...\n"
 
             typewriter_print(analyze_message, sleep_time=0.01)
 
             # ??? Add in type writer print
-            return modlee.data_stats.ImageDataStats(dataloader, testing=True).stats_rep
-            # ??? Convert to ImageDataStats
+            return modlee.data_metafeatures.ImageDataMetaFeatures(dataloader, testing=True).stats_rep
+            # ??? Convert to ImageDataMetaFeatures
         else:
             print("Could not analyze data (check access to server)")
             return {}
@@ -362,7 +362,7 @@ class ModelSummaryRecommender(Recommender):
     def _get_onnx_text(self, meta_features):
         meta_features = json.loads(json.dumps(meta_features))
         res = requests.post(
-            f"{SERVER_ORIGIN}/infer", data={"data_stats": str(meta_features)}
+            f"{SERVER_ORIGIN}/infer", data={"data_metafeatures": str(meta_features)}
         )
         onnx_text = res.content
         return onnx_text

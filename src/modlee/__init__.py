@@ -26,7 +26,7 @@ modlee_client = ModleeClient(api_key=api_key)
 from .retriever import *
 from .utils import save_run
 from .model_text_converter import get_code_text, get_code_text_for_model
-from . import model_text_converter, exp_loss_logger, data_stats, model, recommender
+from . import model_text_converter, exp_loss_logger, data_metafeatures, model, recommender
 
 logging.basicConfig(encoding="utf-8", level=logging.WARNING)
 api_modules = ["model_text_converter", "exp_loss_logger"]
@@ -94,9 +94,9 @@ def auth(api_key=None):
     """
     # if api_key provided, reset modlee_client and reload API-locked modules
     if api_key:
-        global modlee_client, get_code_text, get_code_text_for_model, data_stats, model_text_converter, exp_loss_logger
+        global modlee_client, get_code_text, get_code_text_for_model, data_metafeatures, model_text_converter, exp_loss_logger
         modlee_client = ModleeClient(api_key=api_key)
-        for _module in [data_stats, model_text_converter, exp_loss_logger]:
+        for _module in [data_metafeatures, model_text_converter, exp_loss_logger]:
             importlib.reload(_module)
         if model_text_converter.module_available:
             from modlee.model_text_converter import (

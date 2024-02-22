@@ -205,7 +205,12 @@ todo_include_todos = True
 
 add_module_names = False
 
+def skip(app, what, name, obj, would_skip, options):
+    if name == "__init__":
+        return False
+    return would_skip
 
 def setup(app):
     print(app.__class__)
+    app.connect("autodoc-skip-member", skip)
     app.add_css_file("css/custom.css")

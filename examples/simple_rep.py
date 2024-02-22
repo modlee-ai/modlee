@@ -38,14 +38,14 @@ data_snapshot = rep.data_snapshot
 targets_snapshot = rep.targets_snapshot
 print(len(targets_snapshot), len(data_snapshot))
 #%%
-from modlee.data_stats import DataStats
+from modlee.data_metafeatures import DataMetaFeatures
 
-snapshot_stats = DataStats(data_snapshot)
-mlflow_stats = rep.data_stats
+snapshot_stats = DataMetaFeatures(data_snapshot)
+mlflow_stats = rep.data_metafeatures
 #%%
 # snapshots are tuples, mlflow are lists
 for (ss_k, ss_v), (mf_k, mf_v) in zip(
-    snapshot_stats.data_stats.items(), mlflow_stats.items()
+    snapshot_stats.data_metafeatures.items(), mlflow_stats.items()
 ):
     print(ss_k, mf_k, ss_v, mf_v)
 

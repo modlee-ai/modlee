@@ -80,7 +80,7 @@ class TestModleeClient:
         """
         Test getting functions
         """
-        attrs_to_get = ["get_code_text", "rep.Rep", "data_stats.DataStats"]
+        attrs_to_get = ["get_code_text", "rep.Rep", "data_metafeatures.DataMetaFeatures"]
         for attr_to_get in attrs_to_get:
             response = self.client.get_attr(attr_to_get)
             assert (
@@ -117,7 +117,7 @@ class TestModleeClient:
         Get callable objects (functions or classes)
         """
         callables_to_get = [
-            "data_stats.DataStats",
+            "data_metafeatures.DataMetaFeatures",
             "get_code_text",
             "get_code_text_for_model",
         ]
@@ -135,7 +135,7 @@ class TestModleeClient:
         """
         Cannot pickle modules so these should fail
         """
-        modules_to_get = ["data_stats", "utils", "rep"]
+        modules_to_get = ["data_metafeatures", "utils", "rep"]
         for module_to_get in modules_to_get:
             response = self.client.get_attr(module_to_get)
             assert response is None, f"Should not have gotten module {module_to_get}"
@@ -144,7 +144,7 @@ class TestModleeClient:
         """
         Get scripts as raw *.py files
         """
-        scripts_to_get = ["data_stats"]
+        scripts_to_get = ["data_metafeatures"]
         script_dict = {}
         for script_to_get in scripts_to_get:
             response = self.client.get_script(script_to_get)
@@ -157,7 +157,7 @@ class TestModleeClient:
         """
         Get scripts as raw *.py files
         """
-        scripts_to_get = ["data_stats", "model_text_converter", "exp_loss_logger"]
+        scripts_to_get = ["data_metafeatures", "model_text_converter", "exp_loss_logger"]
         script_dict = {}
         for script_to_get in scripts_to_get:
             response = self.client.get_module(script_to_get)
@@ -174,7 +174,7 @@ class TestModleeClient:
         """
         Get scripts as raw *.py files
         """
-        scripts_to_get = ["data_stats", "model_text_converter"]
+        scripts_to_get = ["data_metafeatures", "model_text_converter"]
         script_dict = {}
         for script_to_get in scripts_to_get:
             response = self.unauthorized_client.get_module(script_to_get)
