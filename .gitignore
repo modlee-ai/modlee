@@ -8,6 +8,7 @@ lightning_logs/
 *lightning_logs*
 mlruns/
 *mlruns*
+!tests/test_mlruns
 tmp/*
 *tmp*
 examples/tmp
@@ -87,6 +88,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+!docs/build/
 
 # PyBuilder
 .pybuilder/
