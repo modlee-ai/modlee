@@ -8,7 +8,8 @@ import pytest
 import modlee
 
 # modlee.init(api_key='modleemichael')
-from modlee.recommender import Recommender, RecommendedModel
+from modlee.recommender import Recommender
+from modlee.model import RecommendedModel
 from modlee.config import RECOMMENDER_ORIGIN
 import torch, torchvision, lightning
 from torchvision import datasets as tv_datasets

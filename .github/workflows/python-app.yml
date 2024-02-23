@@ -32,6 +32,8 @@ jobs:
         ssh-add -l
         pip install .
         export MODLEE_API_KEY='${{ secrets.MODLEE_API_KEY }}'
+        echo "MODLEE_API_KEY:"
+        echo $MODLEE_API_KEY
     - name: Lint with pylint
       run: |
         pylint --fail-under=0 **/*.py

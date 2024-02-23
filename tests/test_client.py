@@ -80,7 +80,7 @@ class TestModleeClient:
         """
         Test getting functions
         """
-        attrs_to_get = ["get_code_text", "rep.Rep", "data_metafeatures.DataMetaFeatures"]
+        attrs_to_get = ["get_code_text", "rep.Rep", "data_metafeatures.DataMetafeatures"]
         for attr_to_get in attrs_to_get:
             response = self.client.get_attr(attr_to_get)
             assert (
@@ -117,7 +117,7 @@ class TestModleeClient:
         Get callable objects (functions or classes)
         """
         callables_to_get = [
-            "data_metafeatures.DataMetaFeatures",
+            "data_metafeatures.DataMetafeatures",
             "get_code_text",
             "get_code_text_for_model",
         ]

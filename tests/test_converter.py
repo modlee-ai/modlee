@@ -7,7 +7,7 @@ import numpy as np
 import torch, torchvision, random
 import modlee
 from modlee.converter import Converter
-from modlee.recommender import RecommendedModel
+from modlee.model import RecommendedModel
 
 converter = Converter()
 
