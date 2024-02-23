@@ -24,14 +24,14 @@ class ModleeTest(unittest.TestCase):
         paths_to_test = [os.path.abspath("."), ".", ".."]
         for path_to_test in paths_to_test:
             modlee.set_run_path(path_to_test)
-            run_dir = os.path.abspath(f"{path_to_test}/mlruns")
+            run_path = os.path.abspath(f"{path_to_test}/mlruns")
 
             tracking_uri = mlflow.get_tracking_uri()
             assert (
-                tracking_uri == pathlib.Path(run_dir).as_uri()
+                tracking_uri == pathlib.Path(run_path).as_uri()
             ), f"Tracking URI {tracking_uri} does not match path {path_to_test}/mlruns"
 
-            got_run_dir = modlee.get_run_path()
+            got_run_path = modlee.get_run_path()
 
     def test_cant_set_run_path(self):
         """
@@ -47,12 +47,12 @@ class ModleeTest(unittest.TestCase):
         init_args = [None, ".."]
         for init_arg in init_args:
             modlee.init(init_arg)
-            run_dir = modlee.get_run_path()
+            run_path = modlee.get_run_path()
             if init_arg == None:
                 init_arg = "."
             relative_mlruns_path = os.path.abspath(
                 f"{os.path.join(os.getcwd(), init_arg)}/mlruns"
             )
             assert (
-                run_dir == relative_mlruns_path
-            ), f"Initialized directory {run_dir} does not match expected {relative_mlruns_path}"
+                run_path == relative_mlruns_path
+            ), f"Initialized directory {run_path} does not match expected {relative_mlruns_path}"

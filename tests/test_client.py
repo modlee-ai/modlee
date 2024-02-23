@@ -8,7 +8,7 @@ import yaml
 import os
 import modlee
 from modlee.client import ModleeClient
-from modlee.config import LOCAL_ORIGIN, SERVER_ENDPOINT
+from modlee.config import LOCAL_ORIGIN, SERVER_ORIGIN
 import importlib
 
 #
@@ -22,10 +22,10 @@ python3 app.py
 
 # local endpoint
 # ENDPOINT = LOCAL_ORIGIN
-ENDPOINT = SERVER_ENDPOINT
+ENDPOINT = SERVER_ORIGIN
 # remote endpoint
 # ENDPOINT = "http://modlee.pythonanywhere.com"
-dummy_endpoint = "http://9.9.9.9:9999"
+dummy_ORIGIN = "http://9.9.9.9:9999"
 
 modlee_dev_available = False
 try:
@@ -35,7 +35,7 @@ except ModuleNotFoundError as e:
     modlee_dev_available = False
 
 
-run_dirs = [os.path.join(os.path.dirname(__file__), "test_mlruns")]
+run_paths = [os.path.join(os.path.dirname(__file__), "test_mlruns")]
 
 # class ModleeClientTest(unittest.TestCase):
 class TestModleeClient:
@@ -45,7 +45,7 @@ class TestModleeClient:
         # api_key=''
     )
     unauthorized_client = ModleeClient(endpoint=ENDPOINT, api_key="unauthorized")
-    dummy_client = ModleeClient(endpoint=dummy_endpoint)
+    dummy_client = ModleeClient(endpoint=dummy_ORIGIN)
 
     def setUpModule(self):
         pass
@@ -102,11 +102,11 @@ class TestModleeClient:
         """
         Fail to get a response from a dummy endpoint
         """
-        dummy_endpoint = "http://9.9.9.9:9999"
+        dummy_ORIGIN = "http://9.9.9.9:9999"
         response = self.dummy_client.get()
         assert (
             response is None
-        ), f"Should not have gotten a non-error status code from {dummy_endpoint}"
+        ), f"Should not have gotten a non-error status code from {dummy_ORIGIN}"
 
     @unittest.skipIf(
         modlee_dev_available == False,
@@ -199,15 +199,15 @@ class TestModleeClient:
 
     def test_post_run(self):
 
-        for run_dir in run_dirs:
-            response = self.client.post_run(run_dir)
-            assert response, f"Client {self.client.api_key} could not save {run_dir}"
+        for run_path in run_paths:
+            response = self.client.post_run(run_path)
+            assert response, f"Client {self.client.api_key} could not save {run_path}"
 
     def test_unauth_post_run(self):
         """ Unauthorized client should not be able to save runs 
         """
-        for run_dir in run_dirs:
-            response = self.unauthorized_client.post_run(run_dir)
+        for run_path in run_paths:
+            response = self.unauthorized_client.post_run(run_path)
             assert (
                 response is False
-            ), f"Unauthorized client should not have saved {run_dir}"
+            ), f"Unauthorized client should not have saved {run_path}"

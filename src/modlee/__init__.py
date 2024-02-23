@@ -9,6 +9,7 @@ from contextlib import contextmanager, redirect_stderr, redirect_stdout
 import os
 from os import devnull
 from os.path import dirname, basename, isfile, join
+from functools import partial
 
 import pathlib
 from pathlib import Path
@@ -25,6 +26,7 @@ api_key = os.environ.get("MODLEE_API_KEY", None)
 modlee_client = ModleeClient(api_key=api_key)
 from .retriever import *
 from .utils import save_run
+save_run = partial(save_run, modlee_client)
 from .model_text_converter import get_code_text, get_code_text_for_model
 from . import model_text_converter, exp_loss_logger, data_metafeatures, model, recommender
 
@@ -79,7 +81,7 @@ def init(run_path=None, api_key=api_key):
     :param run_path: The path to the current run.
     """
 
-    # if run_dir not provided, set to the same directory as the calling file
+    # if run_path not provided, set to the same directory as the calling file
     if run_path is None or os.path.exists(run_path) == False:
         run_path = os.getcwd()
 
@@ -124,10 +126,10 @@ def set_run_path(run_path):
         run_path = os.path.join(run_path, "mlruns")
 
     # Setting base directory and checking for existence
-    run_dir_base = os.path.dirname(run_path)
-    if not os.path.exists(run_dir_base):
+    run_path_base = os.path.dirname(run_path)
+    if not os.path.exists(run_path_base):
         raise FileNotFoundError(
-            f"No base directory {run_dir_base}, cannot set tracking URI"
+            f"No base directory {run_path_base}, cannot set tracking URI"
         )
 
     # Setting tracking URI for mlflow

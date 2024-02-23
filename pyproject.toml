@@ -39,10 +39,8 @@ dependencies = [
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -v"
-testpaths = [
-    "fail"
-]
+addopts = "-ra -v -k 'not training'"
+markers = ["training"]
 
 [tool.black]
 verbose = true

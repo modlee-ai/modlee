@@ -160,7 +160,7 @@ To run a specific test, replace `discover .` with the script name, e.g. for the 
 python3 -m unittest test_client
 ```
 
-*Note: `test_retriever.py` expects local paths to completed experiments and `mlruns` folders. Modify `mlruns_dirs`, `run_dirs`, and `fail_run_dirs` accordingly.*
+*Note: `test_retriever.py` expects local paths to completed experiments and `mlruns` folders. Modify `mlruns_paths`, `run_dirs`, and `fail_run_dirs` accordingly.*
 
 ### GPU issues on Apple Silicon
 Install PyTorch nightly:

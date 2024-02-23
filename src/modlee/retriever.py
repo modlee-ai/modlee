@@ -15,24 +15,24 @@ import mlflow
 from mlflow.client import MlflowClient
 
 
-def run_dir_exists(run_dir):
-    if not os.path.exists(run_dir):
-        logging.warning(f"Run directory {run_dir} does not exist")
+def run_path_exists(run_path):
+    if not os.path.exists(run_path):
+        logging.warning(f"Run directory {run_path} does not exist")
         return False
     return True
 
 
-def get_runs(run_dir, experiment_id=None, run_id=None, **kwargs):
-    if not run_dir_exists(run_dir):
+def get_runs(run_path, experiment_id=None, run_id=None, **kwargs):
+    if not run_path_exists(run_path):
         return []
 
-    modlee.set_run_path(run_dir)
+    modlee.set_run_path(run_path)
 
     client = MlflowClient()
     experiments = client.search_experiments()
 
     if len(experiments) == 0:
-        logging.warning(f"No experiments found in {run_dir}")
+        logging.warning(f"No experiments found in {run_path}")
         return []
     runs = []
     if experiment_id is not None:
@@ -49,17 +49,17 @@ def get_runs(run_dir, experiment_id=None, run_id=None, **kwargs):
     return runs
 
 
-def get_model(run_dir):
-    if not run_dir_exists(run_dir):
+def get_model(run_path):
+    if not run_path_exists(run_path):
         return None
     model = SourceFileLoader(
-        "modlee_mod", f"{run_dir}/artifacts/model.py"
+        "modlee_mod", f"{run_path}/artifacts/model.py"
     ).load_module()
 
     # retrieve the variables for the object signature
     model_kwargs = dict(inspect.signature(model.ModleeModel).parameters)
     model_kwargs.pop("args"), model_kwargs.pop("kwargs")
-    cached_vars = get_cached_vars(run_dir)
+    cached_vars = get_cached_vars(run_path)
     keys_to_pop = []
     for model_key, model_val in model_kwargs.items():
         cached_val = cached_vars.get(model_key, None)
@@ -76,21 +76,21 @@ def get_model(run_dir):
     return model.ModleeModel(**model_kwargs)
 
 
-def get_cached_vars(run_dir):
-    if not run_dir_exists(run_dir):
+def get_cached_vars(run_path):
+    if not run_path_exists(run_path):
         return {}
-    with open(f"{run_dir}/artifacts/cached_vars", "r") as vars_file:
+    with open(f"{run_path}/artifacts/cached_vars", "r") as vars_file:
         return json.loads(vars_file.read())
 
 
-def get_data_snapshot(run_dir):
-    if not run_dir_exists(run_dir):
+def get_data_snapshot(run_path):
+    if not run_path_exists(run_path):
         return None
 
-    # data_snapshot_path = f"{run_dir}/artifacts/data_snapshot.npy"
+    # data_snapshot_path = f"{run_path}/artifacts/data_snapshot.npy"
 
     # Adding new snapshot name to the path following batched processing changes
-    data_snapshot_path = f"{run_dir}/artifacts/snapshot_0.npy"
+    data_snapshot_path = f"{run_path}/artifacts/snapshot_0.npy"
 
     if not os.path.exists(data_snapshot_path):
         return None

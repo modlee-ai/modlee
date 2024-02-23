@@ -247,7 +247,7 @@ ONNX_GRAPHS = glob.glob(
 )
 random.shuffle(ONNX_GRAPHS)
 
-
+@pytest.mark.training
 @pytest.mark.parametrize("onnx_file_path", ONNX_GRAPHS[:3])
 def _test_converted_onnx_model(onnx_file_path: str, dataloaders):
     """
