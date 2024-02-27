@@ -80,8 +80,8 @@
 <span class="kn">from</span> <span class="nn">lightning.pytorch.utilities.types</span> <span class="kn">import</span> <span class="n">STEP_OUTPUT</span>
 
 <span class="kn">import</span> <span class="nn">mlflow</span>
-<span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">data_stats</span>
-<span class="kn">from</span> <span class="nn">modlee.model</span> <span class="kn">import</span> <span class="n">ModleeModel</span><span class="p">,</span> <span class="n">DataStatsCallback</span>
+<span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">data_metafeatures</span>
+<span class="kn">from</span> <span class="nn">modlee.model</span> <span class="kn">import</span> <span class="n">ModleeModel</span><span class="p">,</span> <span class="n">DataMetafeaturesCallback</span>
 <span class="kn">from</span> <span class="nn">lightning.pytorch.callbacks</span> <span class="kn">import</span> <span class="n">Callback</span>
 
 <span class="kn">import</span> <span class="nn">torchmetrics</span>
@@ -101,7 +101,15 @@
 
 <div class="viewcode-block" id="ModleeImageModel.__init__">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.image_model.ModleeImageModel.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="s2">&quot;classification&quot;</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">task</span><span class="o">=</span><span class="s2">&quot;classification&quot;</span><span class="p">,</span>
+        <span class="n">num_classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        ModleeImageModel constructor.</span>
+<span class="sd">        </span>
+<span class="sd">        :param task: The task (&#39;classification&#39;,&#39;segmentation&#39;)</span>
+<span class="sd">        :param num_classes: The number of classes, defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">num_classes</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Must provide argument for num_classes&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -112,19 +120,22 @@
         <span class="c1">#     metric = TASK_METRIC[self.task],</span>
         <span class="c1">#     **kwargs</span>
         <span class="c1"># )</span>
-        <span class="n">ModleeModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vars_cache</span><span class="o">=</span><span class="n">vars_cache</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="n">ModleeModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs_cache</span><span class="o">=</span><span class="n">vars_cache</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ModleeImageModel.configure_callbacks">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.image_model.ModleeImageModel.configure_callbacks">[docs]</a>
     <span class="k">def</span> <span class="nf">configure_callbacks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Configure image-specific callbacks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">base_callbacks</span> <span class="o">=</span> <span class="n">ModleeModel</span><span class="o">.</span><span class="n">configure_callbacks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="c1"># save accuracy</span>
         <span class="c1"># image_callback = self.image_callback</span>
         <span class="n">image_callback</span> <span class="o">=</span> <span class="n">ImageCallback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">)</span>
         <span class="c1"># save image-specific datastats</span>
-        <span class="n">image_datastats_callback</span> <span class="o">=</span> <span class="n">DataStatsCallback</span><span class="p">(</span>
-            <span class="n">DataStats</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">modlee</span><span class="o">.</span><span class="n">data_stats</span><span class="p">,</span> <span class="s2">&quot;ImageDataStats&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">image_datastats_callback</span> <span class="o">=</span> <span class="n">DataMetafeaturesCallback</span><span class="p">(</span>
+            <span class="n">DataMetafeatures</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">modlee</span><span class="o">.</span><span class="n">data_metafeatures</span><span class="p">,</span> <span class="s2">&quot;ImageDataMetafeatures&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="n">base_callbacks</span><span class="p">,</span> <span class="n">image_callback</span><span class="p">,</span> <span class="n">image_datastats_callback</span><span class="p">]</span></div>
 </div>
@@ -140,7 +151,12 @@
 
 <div class="viewcode-block" id="ImageCallback.__init__">
 <a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.image_model.ImageCallback.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor for ImageCallback.</span>
+
+<span class="sd">        :param num_classes: The number of classes, defaults to 2 (binary classification)2 (binary classification)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Callback</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calculate_accuracy</span> <span class="o">=</span> <span class="n">Accuracy</span><span class="p">(</span>
             <span class="n">task</span><span class="o">=</span><span class="s2">&quot;binary&quot;</span> <span class="k">if</span> <span class="n">num_classes</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;multiclass&quot;</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">num_classes</span>
@@ -166,6 +182,12 @@
 
 
     <span class="k">def</span> <span class="nf">_calculate_accuracy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pl_module</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Calculate batch accuracy.</span>
+<span class="sd">        </span>
+<span class="sd">        :param pl_module: The model as a module.</span>
+<span class="sd">        :param batch: The data batch.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">batch</span>
         <span class="n">preds</span> <span class="o">=</span> <span class="n">pl_module</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calculate_accuracy</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">pl_module</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
@@ -173,68 +195,6 @@
         <span class="n">mlflow</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&quot;val_acc&quot;</span><span class="p">,</span> <span class="n">acc</span><span class="p">)</span></div>
 
 
-
-<span class="k">class</span> <span class="nc">_ImageCallback</span><span class="p">(</span><span class="n">Callback</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="n">metric</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">torchmetrics</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">metric_func_kwargs</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-            <span class="n">metric_func_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">k</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-            <span class="p">}</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span><span class="p">(</span><span class="o">**</span><span class="n">metric_func_kwargs</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="fm">__dir__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">on_fit_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">pl_module</span><span class="p">:</span> <span class="n">LightningModule</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">pl_module</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">on_fit_start</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">pl_module</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">on_validation_batch_end</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">,</span>
-        <span class="n">pl_module</span><span class="p">:</span> <span class="n">LightningModule</span><span class="p">,</span>
-        <span class="n">outputs</span><span class="p">:</span> <span class="n">STEP_OUTPUT</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">batch</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-        <span class="n">batch_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">dataloader_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">batch_idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="c1"># _metric_func = getattr(self, f&quot;_calculate_{self.metric}&quot;.lower(), None)</span>
-            <span class="c1"># if _metric_func is not None:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">data</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">batch</span>
-                <span class="n">preds</span> <span class="o">=</span> <span class="n">pl_module</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-                <span class="n">mlflow</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;val_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">targets</span><span class="p">))</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">on_validation_batch_end</span><span class="p">(</span>
-            <span class="n">trainer</span><span class="p">,</span> <span class="n">pl_module</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">dataloader_idx</span>
-        <span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_calculate_accuracy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pl_module</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
-        <span class="n">data</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">batch</span>
-        <span class="n">preds</span> <span class="o">=</span> <span class="n">pl_module</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="c1"># self.calculate_accuracy.to(device=pl_module.device)</span>
-        <span class="n">acc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
-        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&quot;val_acc&quot;</span><span class="p">,</span> <span class="n">acc</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_calculate_meansquarederror</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pl_module</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
-        <span class="n">data</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">batch</span>
-        <span class="n">preds</span> <span class="o">=</span> <span class="n">pl_module</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="c1"># self.</span>
-
-    <span class="c1"># @self._calculate</span>
-    <span class="c1"># def _calculate_mae(self,)</span>
-
-    <span class="c1"># def _calculate(func):</span>
-    <span class="c1">#     def wrapper(pl_module, batch):</span>
-    <span class="c1">#         data, targets = batch</span>
-    <span class="c1">#         preds = pl_module(data)</span>
-    <span class="c1">#         return func(preds, targets)</span>
-    <span class="c1">#         # return</span>
-    <span class="c1">#     return wrapper</span>
 </pre></div>
 
            </div>

@@ -74,7 +74,8 @@
 <span></span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">Recommender for image models.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">.recommender</span> <span class="kn">import</span> <span class="n">Recommender</span><span class="p">,</span> <span class="n">RecommendedModel</span>
+<span class="kn">from</span> <span class="nn">.recommender</span> <span class="kn">import</span> <span class="n">Recommender</span>
+<span class="kn">from</span> <span class="nn">modlee.model</span> <span class="kn">import</span> <span class="n">RecommendedModel</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
@@ -96,6 +97,9 @@
 <div class="viewcode-block" id="ImageRecommender">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.image_recommender.ImageRecommender">[docs]</a>
 <span class="k">class</span> <span class="nc">ImageRecommender</span><span class="p">(</span><span class="n">Recommender</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Recommender for image models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ImageRecommender.__init__">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.image_recommender.ImageRecommender.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -104,6 +108,13 @@
 
 
     <span class="k">def</span> <span class="nf">_append_classifier_to_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Helper function to append a classifier to a given model (deprecated?).</span>
+<span class="sd">        </span>
+<span class="sd">        :param model: The model on which to append a classifier.</span>
+<span class="sd">        :param num_classes: The number of classes.</span>
+<span class="sd">        :return: A tuple of the model object and an executable code string to rebuild the model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
             <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -145,8 +156,13 @@
 <div class="viewcode-block" id="ImageRecommender.fit">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.image_recommender.ImageRecommender.fit">[docs]</a>
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Fit the recommended to an image dataloader.</span>
+<span class="sd">        </span>
+<span class="sd">        :param dataloader: The dataloader, should contain images as the first batch element.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta_features</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">metafeatures</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="c1"># num_classes = len(dataloader.dataset.classes)</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="s2">&quot;classes&quot;</span><span class="p">):</span>
             <span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">classes</span><span class="p">)</span>
@@ -165,10 +181,10 @@
             <span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_labels</span><span class="p">)</span>
             <span class="c1"># num_classes = 21</span>
             <span class="c1"># print(f&#39;{unique_labels = }&#39;)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">meta_features</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;num_classes&quot;</span><span class="p">:</span> <span class="n">num_classes</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metafeatures</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;num_classes&quot;</span><span class="p">:</span> <span class="n">num_classes</span><span class="p">})</span>
         <span class="c1"># try:</span>
         <span class="k">if</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">model_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_model_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meta_features</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_model_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metafeatures</span><span class="p">)</span>
             <span class="c1"># breakpoint()</span>
             <span class="n">model</span> <span class="o">=</span> <span class="n">modlee_converter</span><span class="o">.</span><span class="n">onnx_text2torch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_text</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
@@ -177,7 +193,7 @@
                     <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">xavier_normal_</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
                 <span class="k">except</span><span class="p">:</span>
                     <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">ImageRecommendedModel</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">RecommendedModel</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">code_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_code_text</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model_code</span> <span class="o">=</span> <span class="n">modlee_converter</span><span class="o">.</span><span class="n">onnx_text2code</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_text</span><span class="p">)</span>
@@ -202,121 +218,33 @@
 <div class="viewcode-block" id="ImageClassificationRecommender">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.image_recommender.ImageClassificationRecommender">[docs]</a>
 <span class="k">class</span> <span class="nc">ImageClassificationRecommender</span><span class="p">(</span><span class="n">ImageRecommender</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Recommender for image classification tasks.</span>
+<span class="sd">    Uses cross-entropy loss.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ImageClassificationRecommender.__init__">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.image_recommender.ImageClassificationRecommender.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="c1">#  dataloader, max_model_size_MB=10, num_classes=10,</span>
-        <span class="c1">#  dataloader_input_inds=[0], min_accuracy=None, max_loss=None,</span>
-        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+       <span class="o">*</span><span class="n">args</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
-
-        <span class="c1"># sleep(0.5)</span>
-
-        <span class="c1"># print(&#39;---Contacting Modlee for a Recommended Image Classification Model---&gt;\n&#39;)</span>
-
-        <span class="c1"># sleep(0.5)</span>
-        <span class="c1"># self.dataloader = dataloader</span>
-        <span class="c1"># self.max_model_size_MB = max_model_size_MB</span>
-        <span class="c1"># self.num_classes = num_classes</span>
-        <span class="c1"># self.dataloader_input_inds = dataloader_input_inds</span>
-        <span class="c1"># self.num_classes = num_classes</span>
-
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="s2">&quot;classification&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span></div>
 </div>
 
 
-    <span class="c1"># def recommend_model(self, meta_features):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     Recommend a model based on meta-features</span>
-
-    <span class="c1">#     Args:</span>
-    <span class="c1">#         meta_features (_type_): A dictionary of meta-features</span>
-
-    <span class="c1">#     Returns:</span>
-    <span class="c1">#         torch.nn.Module: The recommended model</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-
-    <span class="c1">#     num_layers=1</span>
-    <span class="c1">#     num_channels=8</span>
-
-    <span class="c1">#     ret_model = VariableConvNet(num_layers,num_channels,self.input_sizes,self.num_classes)</span>
-    <span class="c1">#     model_str = &#39;VariableConvNet({},{},{},{})&#39;.format(num_layers,num_channels,self.input_sizes,self.num_classes)</span>
-
-    <span class="c1">#     for i in range(10):</span>
-
-    <span class="c1">#         model = VariableConvNet(int(num_layers),int(num_channels),self.input_sizes,self.num_classes)</span>
-
-    <span class="c1">#         if get_model_size(model)&lt;self.max_model_size_MB:</span>
-    <span class="c1">#             ret_model = model</span>
-    <span class="c1">#             num_layers += 1</span>
-    <span class="c1">#             num_channels = num_channels*2</span>
-    <span class="c1">#         else:</span>
-    <span class="c1">#             break</span>
-
-    <span class="c1">#     return ret_model,model_str</span>
-
-
-<span class="c1"># class VariableConvNet(nn.Module):</span>
-<span class="c1">#     def __init__(self, num_layers, num_channels, input_sizes_orig, num_classes):</span>
-<span class="c1">#         super(VariableConvNet, self).__init__()</span>
-
-<span class="c1">#         layers = []  # List to hold convolutional layers</span>
-
-<span class="c1">#         input_sizes = input_sizes_orig[1:]#this is a dummy batch index</span>
-
-<span class="c1">#         min_index = np.argmin(input_sizes)</span>
-
-<span class="c1">#         in_channels = int(input_sizes[min_index])  # Assuming RGB images as input</span>
-<span class="c1">#         img_shape = [int(ins) for i,ins in enumerate(input_sizes) if i != min_index]</span>
-
-<span class="c1">#         # Create convolutional layers based on num_layers</span>
-<span class="c1">#         for _ in range(num_layers):</span>
-<span class="c1">#             layers.append(nn.Conv2d(in_channels, num_channels, kernel_size=3, padding=1))</span>
-<span class="c1">#             layers.append(nn.ReLU())</span>
-<span class="c1">#             in_channels = num_channels  # Update in_channels for the next layer</span>
-
-<span class="c1">#         # Convert the list of layers to a Sequential container</span>
-<span class="c1">#         self.features = nn.Sequential(*layers)</span>
-
-<span class="c1">#         # Calculate the size of the input to the fully connected layers</span>
-<span class="c1">#         # Assuming the input image size is 32x32</span>
-<span class="c1">#         input_size = num_channels * int(np.prod(img_shape))</span>
-
-<span class="c1">#         # Fully connected layers</span>
-<span class="c1">#         self.fc1 = nn.Linear(input_size, 128)</span>
-<span class="c1">#         self.relu = nn.ReLU()</span>
-<span class="c1">#         self.fc2 = nn.Linear(128, num_classes)  # Assuming 10 output classes</span>
-
-<span class="c1">#     def forward(self, x):</span>
-<span class="c1">#         x = self.features(x)</span>
-<span class="c1">#         x = x.view(x.size(0), -1)</span>
-<span class="c1">#         x = self.relu(self.fc1(x))</span>
-<span class="c1">#         x = self.fc2(x)</span>
-<span class="c1">#         return x</span>
-
-
 <div class="viewcode-block" id="ImageSegmentationRecommender">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.image_recommender.ImageSegmentationRecommender">[docs]</a>
 <span class="k">class</span> <span class="nc">ImageSegmentationRecommender</span><span class="p">(</span><span class="n">ImageRecommender</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Recommender for image segmentation tasks.</span>
+<span class="sd">    Uses cross entropy loss.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ImageSegmentationRecommender.__init__">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.image_recommender.ImageSegmentationRecommender.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-
-        <span class="c1"># sleep(0.5)</span>
-
-        <span class="c1"># print(&#39;---Contacting Modlee for a Recommended Image Classification Model---&gt;\n&#39;)</span>
-
-        <span class="c1"># sleep(0.5)</span>
-        <span class="c1"># self.dataloader = dataloader</span>
-        <span class="c1"># self.max_model_size_MB = max_model_size_MB</span>
-        <span class="c1"># self.num_classes = num_classes</span>
-        <span class="c1"># self.dataloader_input_inds = dataloader_input_inds</span>
-        <span class="c1"># self.num_classes = num_classes</span>
-
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="s2">&quot;segmentation&quot;</span>
         <span class="c1"># self.loss_fn = F.cross_entropy</span>
@@ -326,18 +254,6 @@
             <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()(</span><span class="n">x</span><span class="o">.</span><span class="n">squeeze</span><span class="p">)</span></div>
 </div>
 
-
-
-<div class="viewcode-block" id="ImageRecommendedModel">
-<a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.image_recommender.ImageRecommendedModel">[docs]</a>
-<span class="k">class</span> <span class="nc">ImageRecommendedModel</span><span class="p">(</span><span class="n">RecommendedModel</span><span class="p">):</span>
-<div class="viewcode-block" id="ImageRecommendedModel.forward">
-<a class="viewcode-back" href="../../../modules/modlee.recommender.html#modlee.recommender.image_recommender.ImageRecommendedModel.forward">[docs]</a>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="c1"># print(type(x))</span>
-        <span class="c1"># x = torchvision.transforms.Resize((300,300))(x)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
-</div>
 
 </pre></div>
 
