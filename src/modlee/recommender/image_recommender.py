@@ -1,7 +1,8 @@
 """ 
 Recommender for image models.
 """
-from .recommender import Recommender, RecommendedModel
+from .recommender import Recommender
+from modlee.model import RecommendedModel
 
 import torch
 import torch.nn as nn
@@ -21,11 +22,21 @@ modlee_converter = Converter()
 
 
 class ImageRecommender(Recommender):
+    """ 
+    Recommender for image models.
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.modality = "image"
 
     def _append_classifier_to_model(self, model, num_classes):
+        """ 
+        Helper function to append a classifier to a given model (deprecated?).
+        
+        :param model: The model on which to append a classifier.
+        :param num_classes: The number of classes.
+        :return: A tuple of the model object and an executable code string to rebuild the model.
+        """
         class Model(nn.Module):
             def __init__(self):
                 super().__init__()
@@ -65,8 +76,13 @@ class ImageRecommender(Recommender):
         return ret_model, model_str
 
     def fit(self, dataloader, *args, **kwargs):
+        """ 
+        Fit the recommended to an image dataloader.
+        
+        :param dataloader: The dataloader, should contain images as the first batch element.
+        """
         super().fit(dataloader, *args, **kwargs)
-        assert self.meta_features is not None
+        assert self.metafeatures is not None
         # num_classes = len(dataloader.dataset.classes)
         if hasattr(dataloader.dataset, "classes"):
             num_classes = len(dataloader.dataset.classes)
@@ -85,10 +101,10 @@ class ImageRecommender(Recommender):
             num_classes = len(unique_labels)
             # num_classes = 21
             # print(f'{unique_labels = }')
-        self.meta_features.update({"num_classes": num_classes})
+        self.metafeatures.update({"num_classes": num_classes})
         # try:
         if 1:
-            self.model_text = self._get_model_text(self.meta_features)
+            self.model_text = self._get_model_text(self.metafeatures)
             # breakpoint()
             model = modlee_converter.onnx_text2torch(self.model_text)
             for param in model.parameters():
@@ -97,7 +113,7 @@ class ImageRecommender(Recommender):
                     torch.nn.init.xavier_normal_(param, 1.0)
                 except:
                     torch.nn.init.normal_(param)
-            self.model = ImageRecommendedModel(model, loss_fn=self.loss_fn)
+            self.model = RecommendedModel(model, loss_fn=self.loss_fn)
 
             self.code_text = self.get_code_text()
             self.model_code = modlee_converter.onnx_text2code(self.model_text)
@@ -118,113 +134,25 @@ class ImageRecommender(Recommender):
 
 
 class ImageClassificationRecommender(ImageRecommender):
+    """ 
+    Recommender for image classification tasks.
+    Uses cross-entropy loss.
+    """
     def __init__(
         self,
-        #  dataloader, max_model_size_MB=10, num_classes=10,
-        #  dataloader_input_inds=[0], min_accuracy=None, max_loss=None,
-        *args,
+       *args,
         **kwargs
     ):
-
-        # sleep(0.5)
-
-        # print('---Contacting Modlee for a Recommended Image Classification Model--->\n')
-
-        # sleep(0.5)
-        # self.dataloader = dataloader
-        # self.max_model_size_MB = max_model_size_MB
-        # self.num_classes = num_classes
-        # self.dataloader_input_inds = dataloader_input_inds
-        # self.num_classes = num_classes
-
         super().__init__(*args, **kwargs)
         self.task = "classification"
         self.loss_fn = F.cross_entropy
 
-    # def recommend_model(self, meta_features):
-    #     """
-    #     Recommend a model based on meta-features
-
-    #     Args:
-    #         meta_features (_type_): A dictionary of meta-features
-
-    #     Returns:
-    #         torch.nn.Module: The recommended model
-    #     """
-
-    #     num_layers=1
-    #     num_channels=8
-
-    #     ret_model = VariableConvNet(num_layers,num_channels,self.input_sizes,self.num_classes)
-    #     model_str = 'VariableConvNet({},{},{},{})'.format(num_layers,num_channels,self.input_sizes,self.num_classes)
-
-    #     for i in range(10):
-
-    #         model = VariableConvNet(int(num_layers),int(num_channels),self.input_sizes,self.num_classes)
-
-    #         if get_model_size(model)<self.max_model_size_MB:
-    #             ret_model = model
-    #             num_layers += 1
-    #             num_channels = num_channels*2
-    #         else:
-    #             break
-
-    #     return ret_model,model_str
-
-
-# class VariableConvNet(nn.Module):
-#     def __init__(self, num_layers, num_channels, input_sizes_orig, num_classes):
-#         super(VariableConvNet, self).__init__()
-
-#         layers = []  # List to hold convolutional layers
-
-#         input_sizes = input_sizes_orig[1:]#this is a dummy batch index
-
-#         min_index = np.argmin(input_sizes)
-
-#         in_channels = int(input_sizes[min_index])  # Assuming RGB images as input
-#         img_shape = [int(ins) for i,ins in enumerate(input_sizes) if i != min_index]
-
-#         # Create convolutional layers based on num_layers
-#         for _ in range(num_layers):
-#             layers.append(nn.Conv2d(in_channels, num_channels, kernel_size=3, padding=1))
-#             layers.append(nn.ReLU())
-#             in_channels = num_channels  # Update in_channels for the next layer
-
-#         # Convert the list of layers to a Sequential container
-#         self.features = nn.Sequential(*layers)
-
-#         # Calculate the size of the input to the fully connected layers
-#         # Assuming the input image size is 32x32
-#         input_size = num_channels * int(np.prod(img_shape))
-
-#         # Fully connected layers
-#         self.fc1 = nn.Linear(input_size, 128)
-#         self.relu = nn.ReLU()
-#         self.fc2 = nn.Linear(128, num_classes)  # Assuming 10 output classes
-
-#     def forward(self, x):
-#         x = self.features(x)
-#         x = x.view(x.size(0), -1)
-#         x = self.relu(self.fc1(x))
-#         x = self.fc2(x)
-#         return x
-
-
 class ImageSegmentationRecommender(ImageRecommender):
+    """ 
+    Recommender for image segmentation tasks.
+    Uses cross entropy loss.
+    """
     def __init__(self, *args, **kwargs):
-
-        # sleep(0.5)
-
-        # print('---Contacting Modlee for a Recommended Image Classification Model--->\n')
-
-        # sleep(0.5)
-        # self.dataloader = dataloader
-        # self.max_model_size_MB = max_model_size_MB
-        # self.num_classes = num_classes
-        # self.dataloader_input_inds = dataloader_input_inds
-        # self.num_classes = num_classes
-
         super().__init__(*args, **kwargs)
         self.task = "segmentation"
         # self.loss_fn = F.cross_entropy
@@ -233,9 +161,3 @@ class ImageSegmentationRecommender(ImageRecommender):
         def squeeze_entropy_loss(x, *args, **kwargs):
             return torch.nn.CrossEntropyLoss()(x.squeeze)
 
-
-class ImageRecommendedModel(RecommendedModel):
-    def forward(self, x):
-        # print(type(x))
-        # x = torchvision.transforms.Resize((300,300))(x)
-        return self.model(x)

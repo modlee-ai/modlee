@@ -1,6 +1,6 @@
 """
 Test the recommender in the package, which acts as a client for the recommender system on the server.
-Note that the recommender server must be running, either locally, and modify RECOMMENDER_ENDPOINT accordingly.
+Note that the recommender server must be running, either locally, and modify RECOMMENDER_ORIGIN accordingly.
 """
 
 
@@ -8,8 +8,9 @@ import pytest
 import modlee
 
 # modlee.init(api_key='modleemichael')
-from modlee.recommender import Recommender, RecommendedModel
-from modlee.config import RECOMMENDER_ENDPOINT
+from modlee.recommender import Recommender
+from modlee.model import RecommendedModel
+from modlee.config import RECOMMENDER_ORIGIN
 import torch, torchvision, lightning
 from torchvision import datasets as tv_datasets
 from torchvision.transforms import ToTensor
@@ -43,7 +44,7 @@ class TestRecommender:
     def test_image_recommenders(self, modality, task):
 
         # recommender = modlee.recommender.ImageClassificationRecommender(
-        #     endpoint = RECOMMENDER_ENDPOINT
+        #     endpoint = RECOMMENDER_ORIGIN
         # )
         # alternatively,
         recommender = modlee.recommender.from_modality_task(modality, task)
@@ -64,6 +65,7 @@ class TestRecommender:
         # TODO - test passing through loss, maybe run one training epoch
         # breakpoint()
 
+    @pytest.mark.training
     def test_recommended_model(self,):
         # modlee.init(api_key='modleemichael')
         # load a pretrained model

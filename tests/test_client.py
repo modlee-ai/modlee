@@ -8,7 +8,7 @@ import yaml
 import os
 import modlee
 from modlee.client import ModleeClient
-from modlee.config import LOCAL_ENDPOINT, SERVER_ENDPOINT
+from modlee.config import LOCAL_ORIGIN, SERVER_ORIGIN
 import importlib
 
 #
@@ -21,11 +21,11 @@ python3 app.py
 """
 
 # local endpoint
-# ENDPOINT = LOCAL_ENDPOINT
-ENDPOINT = SERVER_ENDPOINT
+# ENDPOINT = LOCAL_ORIGIN
+ENDPOINT = SERVER_ORIGIN
 # remote endpoint
 # ENDPOINT = "http://modlee.pythonanywhere.com"
-dummy_endpoint = "http://9.9.9.9:9999"
+dummy_ORIGIN = "http://9.9.9.9:9999"
 
 modlee_dev_available = False
 try:
@@ -35,7 +35,7 @@ except ModuleNotFoundError as e:
     modlee_dev_available = False
 
 
-run_dirs = [os.path.join(os.path.dirname(__file__), "test_mlruns")]
+run_paths = [os.path.join(os.path.dirname(__file__), "test_mlruns")]
 
 # class ModleeClientTest(unittest.TestCase):
 class TestModleeClient:
@@ -45,7 +45,7 @@ class TestModleeClient:
         # api_key=''
     )
     unauthorized_client = ModleeClient(endpoint=ENDPOINT, api_key="unauthorized")
-    dummy_client = ModleeClient(endpoint=dummy_endpoint)
+    dummy_client = ModleeClient(endpoint=dummy_ORIGIN)
 
     def setUpModule(self):
         pass
@@ -80,7 +80,7 @@ class TestModleeClient:
         """
         Test getting functions
         """
-        attrs_to_get = ["get_code_text", "rep.Rep", "data_stats.DataStats"]
+        attrs_to_get = ["get_code_text", "rep.Rep", "data_metafeatures.DataMetafeatures"]
         for attr_to_get in attrs_to_get:
             response = self.client.get_attr(attr_to_get)
             assert (
@@ -102,11 +102,11 @@ class TestModleeClient:
         """
         Fail to get a response from a dummy endpoint
         """
-        dummy_endpoint = "http://9.9.9.9:9999"
+        dummy_ORIGIN = "http://9.9.9.9:9999"
         response = self.dummy_client.get()
         assert (
             response is None
-        ), f"Should not have gotten a non-error status code from {dummy_endpoint}"
+        ), f"Should not have gotten a non-error status code from {dummy_ORIGIN}"
 
     @unittest.skipIf(
         modlee_dev_available == False,
@@ -117,7 +117,7 @@ class TestModleeClient:
         Get callable objects (functions or classes)
         """
         callables_to_get = [
-            "data_stats.DataStats",
+            "data_metafeatures.DataMetafeatures",
             "get_code_text",
             "get_code_text_for_model",
         ]
@@ -135,7 +135,7 @@ class TestModleeClient:
         """
         Cannot pickle modules so these should fail
         """
-        modules_to_get = ["data_stats", "utils", "rep"]
+        modules_to_get = ["data_metafeatures", "utils", "rep"]
         for module_to_get in modules_to_get:
             response = self.client.get_attr(module_to_get)
             assert response is None, f"Should not have gotten module {module_to_get}"
@@ -144,7 +144,7 @@ class TestModleeClient:
         """
         Get scripts as raw *.py files
         """
-        scripts_to_get = ["data_stats"]
+        scripts_to_get = ["data_metafeatures"]
         script_dict = {}
         for script_to_get in scripts_to_get:
             response = self.client.get_script(script_to_get)
@@ -157,7 +157,7 @@ class TestModleeClient:
         """
         Get scripts as raw *.py files
         """
-        scripts_to_get = ["data_stats", "model_text_converter", "exp_loss_logger"]
+        scripts_to_get = ["data_metafeatures", "model_text_converter", "exp_loss_logger"]
         script_dict = {}
         for script_to_get in scripts_to_get:
             response = self.client.get_module(script_to_get)
@@ -174,7 +174,7 @@ class TestModleeClient:
         """
         Get scripts as raw *.py files
         """
-        scripts_to_get = ["data_stats", "model_text_converter"]
+        scripts_to_get = ["data_metafeatures", "model_text_converter"]
         script_dict = {}
         for script_to_get in scripts_to_get:
             response = self.unauthorized_client.get_module(script_to_get)
@@ -197,17 +197,17 @@ class TestModleeClient:
             )
             assert response, f"Could not post {file_path}"
 
-    def test_save_run(self):
+    def test_post_run(self):
 
-        for run_dir in run_dirs:
-            response = self.client.save_run(run_dir)
-            assert response, f"Client {self.client.api_key} could not save {run_dir}"
+        for run_path in run_paths:
+            response = self.client.post_run(run_path)
+            assert response, f"Client {self.client.api_key} could not save {run_path}"
 
-    def test_unauth_save_run(self):
-        """ Unauthorized clien should not be able to save runs 
+    def test_unauth_post_run(self):
+        """ Unauthorized client should not be able to save runs 
         """
-        for run_dir in run_dirs:
-            response = self.unauthorized_client.save_run(run_dir)
+        for run_path in run_paths:
+            response = self.unauthorized_client.post_run(run_path)
             assert (
                 response is False
-            ), f"Unauthorized client should not have saved {run_dir}"
+            ), f"Unauthorized client should not have saved {run_path}"

@@ -1,0 +1,20 @@
+:root {
+    --base-color: rgb(146,0,249);
+}
+
+.wy-side-nav-search {
+    display: block;
+    width: 300px;
+    padding: .809em;
+    margin-bottom: .809em;
+    z-index: 200;
+    /* background-color: #2980b9; */
+    background-color: var(--base-color);
+    text-align: center;
+    /* color: #fcfcfc; */
+    color: var(--base-color);
+}
+
+.wy-nav-top {
+    color: var(--base-color);
+}

@@ -9,44 +9,29 @@ from contextlib import contextmanager, redirect_stderr, redirect_stdout
 import os
 from os import devnull
 from os.path import dirname, basename, isfile, join
+from functools import partial
+
 import pathlib
 from pathlib import Path
 from urllib.parse import urlparse
 
-import logging
+import logging, warnings
 
-logging.basicConfig(encoding="utf-8", level=logging.WARNING)
-import warnings
 
 import mlflow
 from mlflow import start_run
 
 from .client import ModleeClient
-
 api_key = os.environ.get("MODLEE_API_KEY", None)
 modlee_client = ModleeClient(api_key=api_key)
-
-api_modules = ["model_text_converter", "exp_loss_logger"]
-# importlib.import_module
-# for api_module in api_modules:
-#     globals().update({
-#         api_module:importlib.import_module('.', api_module)
-#     })
-# from modlee import \
-from . import model_text_converter, exp_loss_logger
-
-if model_text_converter.module_available:
-    from modlee.model_text_converter import get_code_text, get_code_text_for_model
-else:
-    get_code_text, get_code_text_for_model = None, None
 from .retriever import *
-from . import data_stats, model, image_model
+from .utils import save_run
+save_run = partial(save_run, modlee_client)
+from .model_text_converter import get_code_text, get_code_text_for_model
+from . import model_text_converter, exp_loss_logger, data_metafeatures, model, recommender
 
-# from . import *
-# from . import demo
-from . import recommender
-
-
+logging.basicConfig(encoding="utf-8", level=logging.WARNING)
+api_modules = ["model_text_converter", "exp_loss_logger"]
 modules = glob.glob(join(dirname(__file__), "*.py"))
 __all__ = [
     basename(f)[:-3] for f in modules if isfile(f) and not f.endswith("__init__.py")
@@ -87,29 +72,33 @@ def suppress_stdout_stderr():
 
 
 # Try to get an API key
-def init(run_dir=None, api_key=api_key):
+def init(run_path=None, api_key=api_key):
     """
-    Initialize modlee
-    - Set the run directory to save experiments
-    - Set the API key
+    Initialize package.
+    Typically called at the beginning of a machine learning pipeline.
+    Sets the run path where experiment assets will be stored.
+    
+    :param run_path: The path to the current run.
     """
 
-    # if run_dir not provided, set to the same directory as the calling file
-    # if run_dir is None:
-    #     run_dir = os.getcwd()
-    # calling_file = traceback.extract_stack()[-2].filename
-    # run_dir = os.path.dirname(calling_file)
+    # if run_path not provided, set to the same directory as the calling file
+    if run_path is None or os.path.exists(run_path) == False:
+        run_path = os.getcwd()
 
-    if run_dir is None or os.path.exists(run_dir) == False:
-        run_dir = os.getcwd()
+    set_run_path(run_path)
+    auth(api_key)
 
-    set_run_dir(run_dir)
+def auth(api_key=None):
+    """
+    Fetches API functionality if the API key is valid.
 
+    :param api_key: The user's API key, if it is not available as an environment variable.
+    """
     # if api_key provided, reset modlee_client and reload API-locked modules
     if api_key:
-        global modlee_client, get_code_text, get_code_text_for_model, data_stats, model_text_converter, exp_loss_logger
+        global modlee_client, get_code_text, get_code_text_for_model, data_metafeatures, model_text_converter, exp_loss_logger
         modlee_client = ModleeClient(api_key=api_key)
-        for _module in [data_stats, model_text_converter, exp_loss_logger]:
+        for _module in [data_metafeatures, model_text_converter, exp_loss_logger]:
             importlib.reload(_module)
         if model_text_converter.module_available:
             from modlee.model_text_converter import (
@@ -118,13 +107,14 @@ def init(run_dir=None, api_key=api_key):
             )
 
 
-def set_run_dir(run_path):
+def set_run_path(run_path):
     """
     Set the path to the current run.
+    This is where the experiment assets will be saved.
 
-    :param run_dir: The path 
-    :raises FileNotFoundError: _description_
-    :return: _description_
+    :param run_path: The path to the current run.
+    :raises FileNotFoundError: If the path does not exist, will not create the parent directories.
+    :return: The tracking URI for the experiment. 
     """
     # Checking if path is absolute
     if not os.path.isabs(run_path):
@@ -136,10 +126,10 @@ def set_run_dir(run_path):
         run_path = os.path.join(run_path, "mlruns")
 
     # Setting base directory and checking for existence
-    run_dir_base = os.path.dirname(run_path)
-    if not os.path.exists(run_dir_base):
+    run_path_base = os.path.dirname(run_path)
+    if not os.path.exists(run_path_base):
         raise FileNotFoundError(
-            f"No base directory {run_dir_base}, cannot set tracking URI"
+            f"No base directory {run_path_base}, cannot set tracking URI"
         )
 
     # Setting tracking URI for mlflow
@@ -148,9 +138,11 @@ def set_run_dir(run_path):
     return tracking_uri
 
 
-def get_run_dir():
+def get_run_path():
+    """
+    Get the path to the current run.
+
+    :return: The path to the current run.
+    """
     return urlparse(mlflow.get_tracking_uri()).path
 
-
-def save_run(*args, **kwargs):
-    modlee_client.save_run(*args, **kwargs)

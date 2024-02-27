@@ -19,10 +19,10 @@ with open(
 ) as test_retriever_file:
     ret_dict = yaml.safe_load(test_retriever_file)
 globals().update(
-    dict(mlruns_dirs=ret_dict["mlruns_dirs"], run_dirs=ret_dict["run_dirs"])
+    dict(mlruns_paths=ret_dict["mlruns_paths"], run_paths=ret_dict["run_paths"])
 )
 
-run_dirs = [os.path.join(os.path.dirname(__file__), "test_mlruns")]
+run_paths = [os.path.join(os.path.dirname(__file__), "test_mlruns")]
 
 
 class _RepTest(unittest.TestCase):
@@ -50,31 +50,31 @@ class _RepTest(unittest.TestCase):
         """
         Retrieve runs from prior mlruns directories
         """
-        # for run_dir in mlruns_dirs:
-        for run_dir in run_dirs:
-            runs = modlee.get_runs(run_dir)
-            assert len(runs) > 0, f"No runs found in {run_dir}"
+        # for run_path in mlruns_paths:
+        for run_path in run_paths:
+            runs = modlee.get_runs(run_path)
+            assert len(runs) > 0, f"No runs found in {run_path}"
 
     def test_cant_get_runs(self):
         """
         Should not be able to retrieve runs from garbage directories
         """
-        run_dirs = ["fasdfasf"]
-        for run_dir in run_dirs:
-            runs = modlee.get_runs(run_dir)
+        run_paths = ["fasdfasf"]
+        for run_path in run_paths:
+            runs = modlee.get_runs(run_path)
             assert (
                 len(runs) == 0
-            ), f"Should not have found runs in {run_dir}, but found {len(runs)}"
+            ), f"Should not have found runs in {run_path}, but found {len(runs)}"
 
     def _test_get_model(self):
         """
         Retrieve models from prior runs
         """
-        for run_dir in run_dirs:
-            model = modlee.get_model(run_dir)
-            mlflow_model = mlflow.pytorch.load_model(f"{run_dir}/artifacts/model")
+        for run_path in run_paths:
+            model = modlee.get_model(run_path)
+            mlflow_model = mlflow.pytorch.load_model(f"{run_path}/artifacts/model")
 
-            data_snapshot = modlee.get_data_snapshot(run_dir)
+            data_snapshot = modlee.get_data_snapshot(run_path)
 
             # set the modlee-loaded weights equal to the mlflow-loaded weights
             model.load_state_dict(mlflow_model.state_dict())
@@ -92,9 +92,9 @@ class _RepTest(unittest.TestCase):
                     ), f"Difference between modlee- and mlflow-loaded model outputs is greater than threshold. Prediction difference: {diff_y}"
 
     def _test_get_data_snapshot(self):
-        for run_dir in run_dirs:
-            data_snapshot = modlee.get_data_snapshot(run_dir)
+        for run_path in run_paths:
+            data_snapshot = modlee.get_data_snapshot(run_path)
             assert (
                 data_snapshot is not None
-            ), f"Could not retrieve data_snapshot.npy from {run_dir}"
+            ), f"Could not retrieve data_snapshot.npy from {run_path}"
         pass

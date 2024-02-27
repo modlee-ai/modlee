@@ -160,7 +160,7 @@ To run a specific test, replace `discover .` with the script name, e.g. for the 
 python3 -m unittest test_client
 ```
 
-*Note: `test_retriever.py` expects local paths to completed experiments and `mlruns` folders. Modify `mlruns_dirs`, `run_dirs`, and `fail_run_dirs` accordingly.*
+*Note: `test_retriever.py` expects local paths to completed experiments and `mlruns` folders. Modify `mlruns_paths`, `run_dirs`, and `fail_run_dirs` accordingly.*
 
 ### GPU issues on Apple Silicon
 Install PyTorch nightly:
@@ -214,3 +214,24 @@ Either wait it out or try setting `NUM_WORKERS=1`.
 - [ ] make notebooks toggle-able for local files and package (toggle where we import mlflow from)
 - [ ] can we incorporate the model code_to_text within a testing notebook?
 - [ ] Right now it seems like we are just saving mlruns in the same folder as the python script right? Eventually, we may want to have modlee automatically keep track of where these are if we plan 
+
+# Docs
+
+## Build docs
+To generate the assets for the documentation website:
+```
+pip3 install .          # Update environment package 
+sphinx-quickstart docs  # Only required if docs/ does not exist 
+cd docs
+sphinx-apidoc -f -o source/modules ../src/modlee
+sphinx-build -M html source build   # Or `make html`
+cd build/html
+python3 -m http.server 7777     # View the page at localhost:7777
+```
+
+
+## Class diagram
+To generate visualizations of the repository in `classes.png` and `packages.png`:
+```
+pyreverse -o png src/modlee
+```

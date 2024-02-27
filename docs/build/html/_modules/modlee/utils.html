@@ -6,7 +6,8 @@
   <title>modlee.utils &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=ca37922a" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=ca37922a" />
 
   
   <!--[if lt IE 9]>
@@ -69,7 +70,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for modlee.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">pickle</span><span class="o">,</span> <span class="nn">requests</span><span class="o">,</span> <span class="nn">importlib</span><span class="o">,</span> <span class="nn">pathlib</span>
+<span></span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">Utility functions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">pickle</span><span class="o">,</span> <span class="nn">requests</span><span class="o">,</span> <span class="nn">importlib</span><span class="o">,</span> <span class="nn">pathlib</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlparse</span><span class="p">,</span> <span class="n">unquote</span>
 <span class="kn">from</span> <span class="nn">ast</span> <span class="kn">import</span> <span class="n">literal_eval</span>
@@ -84,7 +88,7 @@
 
 
 <div class="viewcode-block" id="safe_mkdir">
-<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.safe_mkdir">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.safe_mkdir">[docs]</a>
 <span class="k">def</span> <span class="nf">safe_mkdir</span><span class="p">(</span><span class="n">target_dir</span><span class="p">):</span>
     <span class="n">root</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">target_dir</span><span class="p">)</span>
     <span class="c1"># is a file</span>
@@ -100,30 +104,28 @@
 
 
 <div class="viewcode-block" id="get_fashion_mnist">
-<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.get_fashion_mnist">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.get_fashion_mnist">[docs]</a>
 <span class="k">def</span> <span class="nf">get_fashion_mnist</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">):</span>
     <span class="n">training_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
         <span class="n">tv_datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
-            <span class="n">root</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span>
-            <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">transform</span><span class="o">=</span><span class="n">ToTensor</span><span class="p">(),</span>
-        <span class="p">),</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">root</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ToTensor</span><span class="p">()</span>
+        <span class="p">),</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
         <span class="n">tv_datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
-            <span class="n">root</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span>
-            <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">transform</span><span class="o">=</span><span class="n">ToTensor</span><span class="p">(),</span>
-        <span class="p">),</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">root</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ToTensor</span><span class="p">()</span>
+        <span class="p">),</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">training_loader</span><span class="p">,</span> <span class="n">test_loader</span></div>
 
 
 
 <div class="viewcode-block" id="uri_to_path">
-<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.uri_to_path">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.uri_to_path">[docs]</a>
 <span class="k">def</span> <span class="nf">uri_to_path</span><span class="p">(</span><span class="n">uri</span><span class="p">):</span>
     <span class="n">parsed_uri</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">unquote</span><span class="p">(</span><span class="n">parsed_uri</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
@@ -132,7 +134,7 @@
 
 
 <div class="viewcode-block" id="is_cacheable">
-<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.is_cacheable">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.is_cacheable">[docs]</a>
 <span class="k">def</span> <span class="nf">is_cacheable</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -143,7 +145,7 @@
 
 
 <div class="viewcode-block" id="get_model_size">
-<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.get_model_size">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.get_model_size">[docs]</a>
 <span class="k">def</span> <span class="nf">get_model_size</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">as_MB</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="n">param_size</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
@@ -151,41 +153,43 @@
     <span class="n">buffer_size</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">buffer</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">buffers</span><span class="p">():</span>
         <span class="n">buffer_size</span> <span class="o">+=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">nelement</span><span class="p">()</span> <span class="o">*</span> <span class="n">buffer</span><span class="o">.</span><span class="n">element_size</span><span class="p">()</span>
-    <span class="n">model_size</span> <span class="o">=</span> <span class="n">param_size</span><span class="o">+</span><span class="n">buffer_size</span>
+    <span class="n">model_size</span> <span class="o">=</span> <span class="n">param_size</span> <span class="o">+</span> <span class="n">buffer_size</span>
     <span class="k">if</span> <span class="n">as_MB</span><span class="p">:</span>
-        <span class="n">model_size</span> <span class="o">/=</span> <span class="p">(</span><span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">model_size</span> <span class="o">/=</span> <span class="mi">1024</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="k">return</span> <span class="n">model_size</span></div>
 
 
 
 <div class="viewcode-block" id="quantize">
-<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.quantize">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.quantize">[docs]</a>
 <span class="k">def</span> <span class="nf">quantize</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
 
     <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">:</span>
         <span class="n">ind</span> <span class="o">=</span> <span class="mi">2</span>
-        <span class="k">while</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)[</span><span class="n">ind</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+        <span class="k">while</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)[</span><span class="n">ind</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;0&quot;</span><span class="p">:</span>
             <span class="n">ind</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="c1"># print(ind)</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">ind</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">ind</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
         <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">10.</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">10.0</span><span class="p">:</span>
         <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
 
     <span class="k">return</span> <span class="n">c</span></div>
 
 
+
 <div class="viewcode-block" id="convert_to_scientific">
-<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.convert_to_scientific">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.convert_to_scientific">[docs]</a>
 <span class="k">def</span> <span class="nf">convert_to_scientific</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="si">:</span><span class="s2">0.0e</span><span class="si">}</span><span class="s2">&quot;</span></div>
 
 
+
 <div class="viewcode-block" id="closest_power_of_2">
-<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.closest_power_of_2">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.closest_power_of_2">[docs]</a>
 <span class="k">def</span> <span class="nf">closest_power_of_2</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
     <span class="c1"># Handle negative numbers by taking the absolute value</span>
     <span class="n">number</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
@@ -202,30 +206,31 @@
     <span class="k">return</span> <span class="n">closest_value</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">_is_number</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="c1"># if isinstance(n,list):</span>
     <span class="c1">#     return all([_is_number(num) for num in n])</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>   <span class="c1"># Type-casting the string to `float`.</span>
-                   <span class="c1"># If string is not a valid `float`, </span>
-                   <span class="c1"># it&#39;ll raise `ValueError` exception</span>
+        <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>  <span class="c1"># Type-casting the string to `float`.</span>
+        <span class="c1"># If string is not a valid `float`,</span>
+        <span class="c1"># it&#39;ll raise `ValueError` exception</span>
     <span class="c1"># except ValueError, TypeError:</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">return</span> <span class="kc">True</span>
 
+
 <div class="viewcode-block" id="quantize_dict">
-<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.quantize_dict">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.quantize_dict">[docs]</a>
 <span class="k">def</span> <span class="nf">quantize_dict</span><span class="p">(</span><span class="n">base_dict</span><span class="p">,</span> <span class="n">quantize_fn</span><span class="o">=</span><span class="n">quantize</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">base_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="nb">dict</span><span class="p">):</span>
-            <span class="n">base_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span><span class="n">quantize_dict</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">quantize_fn</span><span class="p">)})</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">)):</span>
-            <span class="n">base_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span><span class="n">quantize_fn</span><span class="p">(</span><span class="n">v</span><span class="p">)})</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">base_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">base_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">quantize_dict</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">quantize_fn</span><span class="p">)})</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="n">base_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">quantize_fn</span><span class="p">(</span><span class="n">v</span><span class="p">)})</span>
         <span class="k">elif</span> <span class="n">_is_number</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
-            <span class="n">base_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span><span class="n">quantize_fn</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">))})</span>
-        
-            
+            <span class="n">base_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">quantize_fn</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">))})</span>
+
         <span class="c1"># elif &#39;float&#39; in str(type(v)):</span>
         <span class="c1">#     base_dict.update({k:str(v)})</span>
         <span class="c1"># elif isinstance(v,np.int64):</span>
@@ -235,65 +240,66 @@
 
 
 <div class="viewcode-block" id="typewriter_print">
-<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.typewriter_print">[docs]</a>
-<span class="k">def</span> <span class="nf">typewriter_print</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">sleep_time</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span><span class="n">max_line_length</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span><span class="n">max_lines</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.typewriter_print">[docs]</a>
+<span class="k">def</span> <span class="nf">typewriter_print</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">sleep_time</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">max_line_length</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">max_lines</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-    <span class="n">text_lines</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">text_lines</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_lines</span><span class="p">)</span><span class="o">&gt;</span><span class="n">max_lines</span><span class="p">:</span>
-        <span class="n">text_lines</span> <span class="o">=</span> <span class="n">text_lines</span><span class="p">[:</span><span class="n">max_lines</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;...</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_lines</span><span class="p">:</span>
+        <span class="n">text_lines</span> <span class="o">=</span> <span class="n">text_lines</span><span class="p">[:</span><span class="n">max_lines</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">shorten_if_needed</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="n">max_line_length</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">&gt;</span><span class="n">max_line_length</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">line</span><span class="p">[:</span><span class="n">max_line_length</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39; ...</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">def</span> <span class="nf">shorten_if_needed</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">max_line_length</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_line_length</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">line</span><span class="p">[:</span><span class="n">max_line_length</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; ...</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">line</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="k">return</span> <span class="n">line</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
 
-    <span class="n">text_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">shorten_if_needed</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">max_line_length</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">text_lines</span><span class="p">]</span>
+    <span class="n">text_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">shorten_if_needed</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">max_line_length</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">text_lines</span><span class="p">]</span>
 
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">text_lines</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleep_time</span><span class="p">)</span></div>
 
 
-            
 
-<span class="c1">#---------------------------------------------</span>
+<span class="c1"># ---------------------------------------------</span>
+
 
 <span class="k">def</span> <span class="nf">_discretize</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
 
-    <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">0.1</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">:</span>
         <span class="n">ind</span> <span class="o">=</span> <span class="mi">2</span>
-        <span class="k">while</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)[</span><span class="n">ind</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+        <span class="k">while</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)[</span><span class="n">ind</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;0&quot;</span><span class="p">:</span>
             <span class="n">ind</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="c1"># print(ind)</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">ind</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">1.0</span><span class="p">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">10.</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">ind</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">10.0</span><span class="p">:</span>
         <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">c</span>
-        
+
+
 <div class="viewcode-block" id="discretize">
-<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.discretize">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.discretize">[docs]</a>
 <span class="k">def</span> <span class="nf">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Discretize a list of inputs</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
-    
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
             <span class="n">n</span> <span class="o">=</span> <span class="n">literal_eval</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">==</span><span class="nb">list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
             <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">_discretize</span><span class="p">(</span><span class="n">_n</span><span class="p">)</span> <span class="k">for</span> <span class="n">_n</span> <span class="ow">in</span> <span class="n">n</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">==</span><span class="nb">tuple</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span><span class="p">:</span>
             <span class="n">n</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
             <span class="n">c</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">_discretize</span><span class="p">(</span><span class="n">_n</span><span class="p">)</span> <span class="k">for</span> <span class="n">_n</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
@@ -304,60 +310,79 @@
     <span class="k">return</span> <span class="n">c</span></div>
 
 
+
 <div class="viewcode-block" id="test_discretize">
-<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.test_discretize">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.test_discretize">[docs]</a>
 <span class="k">def</span> <span class="nf">test_discretize</span><span class="p">():</span>
 
     <span class="n">n</span> <span class="o">=</span> <span class="mf">0.234</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;input = </span><span class="si">{}</span><span class="s1">, discretize(input)= </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input = </span><span class="si">{}</span><span class="s2">, discretize(input)= </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
 
     <span class="n">n</span> <span class="o">=</span> <span class="mf">0.00234</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;input = </span><span class="si">{}</span><span class="s1">, discretize(input)= </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input = </span><span class="si">{}</span><span class="s2">, discretize(input)= </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
 
     <span class="n">n</span> <span class="o">=</span> <span class="mf">2.34</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;input = </span><span class="si">{}</span><span class="s1">, discretize(input)= </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input = </span><span class="si">{}</span><span class="s2">, discretize(input)= </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
 
     <span class="n">n</span> <span class="o">=</span> <span class="mi">30143215</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;input = </span><span class="si">{}</span><span class="s1">, discretize(input)= </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input = </span><span class="si">{}</span><span class="s2">, discretize(input)= </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
 
-    <span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="mf">3.3</span><span class="p">,</span><span class="mi">32144321</span><span class="p">,</span><span class="mf">0.032</span><span class="p">]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="mf">3.3</span><span class="p">,</span> <span class="mi">32144321</span><span class="p">,</span> <span class="mf">0.032</span><span class="p">]</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;input = </span><span class="si">{}</span><span class="s1">, discretize(input)= </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input = </span><span class="si">{}</span><span class="s2">, discretize(input)= </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
 
-    <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">23</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">23</span><span class="p">)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;input = </span><span class="si">{}</span><span class="s1">, discretize(input)= </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input = </span><span class="si">{}</span><span class="s2">, discretize(input)= </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
 
-    <span class="n">n</span><span class="o">=</span> <span class="s1">&#39;test&#39;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;input = </span><span class="si">{}</span><span class="s1">, discretize(input)= </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="s2">&quot;test&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input = </span><span class="si">{}</span><span class="s2">, discretize(input)= </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
 
-    <span class="n">n</span><span class="o">=</span><span class="mf">0.0005985885113477707</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mf">0.0005985885113477707</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;input = </span><span class="si">{}</span><span class="s1">, discretize(input)= </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span></div>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input = </span><span class="si">{}</span><span class="s2">, discretize(input)= </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span></div>
 
 
 
 <div class="viewcode-block" id="apply_discretize_to_summary">
-<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary">[docs]</a>
-<span class="k">def</span> <span class="nf">apply_discretize_to_summary</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">info</span><span class="p">):</span>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.apply_discretize_to_summary">[docs]</a>
+<span class="k">def</span> <span class="nf">apply_discretize_to_summary</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
 
-    <span class="c1"># text_split = [ [ p.split(key_val_seperator) for p in l.split(parameter_seperator)] for l in text.split(layer_seperator)] </span>
-    <span class="c1"># print(text_split)</span>
-    
-    <span class="n">text_split</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span> <span class="p">[</span> <span class="nb">str</span><span class="p">(</span><span class="n">discretize</span><span class="p">(</span><span class="n">pp</span><span class="p">))</span> <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">key_val_seperator</span><span class="p">)]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">parameter_seperator</span><span class="p">)]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">layer_seperator</span><span class="p">)]</span> 
+    <span class="c1"># text_split = [ [ p.split(key_val_seperator) for p in l.split(parameter_seperator)] for l in text.split(layer_seperator)]</span>
     <span class="c1"># print(text_split)</span>
 
-    <span class="n">text_join</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">layer_seperator</span><span class="o">.</span><span class="n">join</span><span class="p">([</span> <span class="n">info</span><span class="o">.</span><span class="n">parameter_seperator</span><span class="o">.</span><span class="n">join</span><span class="p">([</span> <span class="n">info</span><span class="o">.</span><span class="n">key_val_seperator</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">l</span><span class="p">])</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">text_split</span><span class="p">])</span>         
+    <span class="n">text_split</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">discretize</span><span class="p">(</span><span class="n">pp</span><span class="p">))</span> <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">key_val_seperator</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">parameter_seperator</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">layer_seperator</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="c1"># print(text_split)</span>
+
+    <span class="n">text_join</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">layer_seperator</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">info</span><span class="o">.</span><span class="n">parameter_seperator</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">info</span><span class="o">.</span><span class="n">key_val_seperator</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">l</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">text_split</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
     <span class="c1"># print(text_join)</span>
-        
+
     <span class="k">return</span> <span class="n">text_join</span></div>
 
-        
 
+<div class="viewcode-block" id="save_run">
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.save_run">[docs]</a>
+<span class="k">def</span> <span class="nf">save_run</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save the current run.</span>
+<span class="sd">    Takes no arguments because the client will know the current tracking URI.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">modlee_client</span><span class="o">.</span><span class="n">post_run</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 </pre></div>
 

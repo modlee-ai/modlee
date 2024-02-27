@@ -263,3 +263,10 @@ def apply_discretize_to_summary(text, info):
     # print(text_join)
 
     return text_join
+
+def save_run(modlee_client, *args, **kwargs):
+    """
+    Save the current run.
+    Takes no arguments because the client will know the current tracking URI.
+    """
+    modlee_client.post_run(*args, **kwargs)

@@ -6,7 +6,8 @@
   <title>modlee.retriever &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=ca37922a" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=ca37922a" />
 
   
   <!--[if lt IE 9]>
@@ -69,7 +70,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for modlee.retriever</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">importlib.machinery</span> <span class="kn">import</span> <span class="n">SourceFileLoader</span>
+<span></span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">Retriever for experiment assets.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">importlib.machinery</span> <span class="kn">import</span> <span class="n">SourceFileLoader</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -82,8 +86,9 @@
 <span class="kn">import</span> <span class="nn">mlflow</span>
 <span class="kn">from</span> <span class="nn">mlflow.client</span> <span class="kn">import</span> <span class="n">MlflowClient</span>
 
+
 <div class="viewcode-block" id="run_dir_exists">
-<a class="viewcode-back" href="../../modules/modlee.retriever.html#modlee.retriever.run_dir_exists">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.retriever.run_dir_exists">[docs]</a>
 <span class="k">def</span> <span class="nf">run_dir_exists</span><span class="p">(</span><span class="n">run_dir</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">run_dir</span><span class="p">):</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run directory </span><span class="si">{</span><span class="n">run_dir</span><span class="si">}</span><span class="s2"> does not exist&quot;</span><span class="p">)</span>
@@ -93,28 +98,29 @@
 
 
 <div class="viewcode-block" id="get_runs">
-<a class="viewcode-back" href="../../modules/modlee.retriever.html#modlee.retriever.get_runs">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.retriever.get_runs">[docs]</a>
 <span class="k">def</span> <span class="nf">get_runs</span><span class="p">(</span><span class="n">run_dir</span><span class="p">,</span> <span class="n">experiment_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">run_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">run_dir_exists</span><span class="p">(</span><span class="n">run_dir</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[]</span>
 
-    <span class="n">modlee</span><span class="o">.</span><span class="n">set_run_dir</span><span class="p">(</span><span class="n">run_dir</span><span class="p">)</span>
+    <span class="n">modlee</span><span class="o">.</span><span class="n">set_run_path</span><span class="p">(</span><span class="n">run_dir</span><span class="p">)</span>
 
     <span class="n">client</span> <span class="o">=</span> <span class="n">MlflowClient</span><span class="p">()</span>
     <span class="n">experiments</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_experiments</span><span class="p">()</span>
-    
+
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No experiments found in </span><span class="si">{</span><span class="n">run_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[]</span>
     <span class="n">runs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">experiment_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">experiments</span> <span class="o">=</span> <span class="p">[</span><span class="n">experiments</span><span class="p">[</span><span class="n">experiment_id</span><span class="p">]]</span>
-    <span class="n">filter_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">filter_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">if</span> <span class="n">run_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">filter_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;run_id=&#39;</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
     <span class="k">for</span> <span class="n">experiment</span> <span class="ow">in</span> <span class="n">experiments</span><span class="p">:</span>
         <span class="n">_exp_runs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_runs</span><span class="p">(</span>
-            <span class="n">experiment</span><span class="o">.</span><span class="n">experiment_id</span><span class="p">,</span> <span class="n">filter_string</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">experiment</span><span class="o">.</span><span class="n">experiment_id</span><span class="p">,</span> <span class="n">filter_string</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
         <span class="n">runs</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">runs</span><span class="p">,</span> <span class="o">*</span><span class="n">_exp_runs</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">runs</span></div>
@@ -122,18 +128,17 @@
 
 
 <div class="viewcode-block" id="get_model">
-<a class="viewcode-back" href="../../modules/modlee.retriever.html#modlee.retriever.get_model">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.retriever.get_model">[docs]</a>
 <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">run_dir</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">run_dir_exists</span><span class="p">(</span><span class="n">run_dir</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">SourceFileLoader</span><span class="p">(</span>
-        <span class="s1">&#39;modlee_mod&#39;</span><span class="p">,</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run_dir</span><span class="si">}</span><span class="s2">/artifacts/model.py&quot;</span>
+        <span class="s2">&quot;modlee_mod&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run_dir</span><span class="si">}</span><span class="s2">/artifacts/model.py&quot;</span>
     <span class="p">)</span><span class="o">.</span><span class="n">load_module</span><span class="p">()</span>
 
     <span class="c1"># retrieve the variables for the object signature</span>
     <span class="n">model_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">ModleeModel</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
-    <span class="n">model_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;args&#39;</span><span class="p">),</span> <span class="n">model_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;kwargs&#39;</span><span class="p">)</span>
+    <span class="n">model_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;args&quot;</span><span class="p">),</span> <span class="n">model_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;kwargs&quot;</span><span class="p">)</span>
     <span class="n">cached_vars</span> <span class="o">=</span> <span class="n">get_cached_vars</span><span class="p">(</span><span class="n">run_dir</span><span class="p">)</span>
     <span class="n">keys_to_pop</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">model_key</span><span class="p">,</span> <span class="n">model_val</span> <span class="ow">in</span> <span class="n">model_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -148,33 +153,31 @@
         <span class="n">model_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key_to_pop</span><span class="p">)</span>
 
     <span class="c1"># recreate the model</span>
-    <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">ModleeModel</span><span class="p">(</span>
-        <span class="o">**</span><span class="n">model_kwargs</span>
-    <span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">ModleeModel</span><span class="p">(</span><span class="o">**</span><span class="n">model_kwargs</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="get_cached_vars">
-<a class="viewcode-back" href="../../modules/modlee.retriever.html#modlee.retriever.get_cached_vars">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.retriever.get_cached_vars">[docs]</a>
 <span class="k">def</span> <span class="nf">get_cached_vars</span><span class="p">(</span><span class="n">run_dir</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">run_dir_exists</span><span class="p">(</span><span class="n">run_dir</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{}</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run_dir</span><span class="si">}</span><span class="s2">/artifacts/cached_vars&quot;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">vars_file</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run_dir</span><span class="si">}</span><span class="s2">/artifacts/cached_vars&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">vars_file</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">vars_file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span></div>
 
-    
+
 
 <div class="viewcode-block" id="get_data_snapshot">
-<a class="viewcode-back" href="../../modules/modlee.retriever.html#modlee.retriever.get_data_snapshot">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.html#modlee.retriever.get_data_snapshot">[docs]</a>
 <span class="k">def</span> <span class="nf">get_data_snapshot</span><span class="p">(</span><span class="n">run_dir</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">run_dir_exists</span><span class="p">(</span><span class="n">run_dir</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span>
-    
-    <span class="c1">#data_snapshot_path = f&quot;{run_dir}/artifacts/data_snapshot.npy&quot;</span>
-    
+
+    <span class="c1"># data_snapshot_path = f&quot;{run_dir}/artifacts/data_snapshot.npy&quot;</span>
+
     <span class="c1"># Adding new snapshot name to the path following batched processing changes</span>
     <span class="n">data_snapshot_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run_dir</span><span class="si">}</span><span class="s2">/artifacts/snapshot_0.npy&quot;</span>
-    
+
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_snapshot_path</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_snapshot_path</span><span class="p">)</span></div>
