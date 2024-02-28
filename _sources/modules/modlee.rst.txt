@@ -37,6 +37,14 @@ modlee.converter module
    :undoc-members:
    :show-inheritance:
 
+modlee.data\_metafeatures module
+--------------------------------
+
+.. automodule:: modlee.data_metafeatures
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 modlee.data\_stats module
 -------------------------
 
@@ -61,10 +69,26 @@ modlee.loss\_sweeper module
    :undoc-members:
    :show-inheritance:
 
+modlee.model module
+-------------------
+
+.. automodule:: modlee.model
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 modlee.model\_text\_converter module
 ------------------------------------
 
 .. automodule:: modlee.model_text_converter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+modlee.modlee\_image\_model module
+----------------------------------
+
+.. automodule:: modlee.modlee_image_model
    :members:
    :undoc-members:
    :show-inheritance:

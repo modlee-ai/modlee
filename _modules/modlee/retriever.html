@@ -90,6 +90,12 @@
 <div class="viewcode-block" id="run_path_exists">
 <a class="viewcode-back" href="../../modules/modlee.html#modlee.retriever.run_path_exists">[docs]</a>
 <span class="k">def</span> <span class="nf">run_path_exists</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Chek if a run path exists.</span>
+
+<span class="sd">    :param run_path: The run path to check.</span>
+<span class="sd">    :return: Whether the path exists or not.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run directory </span><span class="si">{</span><span class="n">run_path</span><span class="si">}</span><span class="s2"> does not exist&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -100,6 +106,14 @@
 <div class="viewcode-block" id="get_runs">
 <a class="viewcode-back" href="../../modules/modlee.html#modlee.retriever.get_runs">[docs]</a>
 <span class="k">def</span> <span class="nf">get_runs</span><span class="p">(</span><span class="n">run_path</span><span class="p">,</span> <span class="n">experiment_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">run_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the runs in a given run path.</span>
+
+<span class="sd">    :param run_path: The path to search.</span>
+<span class="sd">    :param experiment_id: The experiment ID to retrieve, defaults to None and retrieves all experiments.</span>
+<span class="sd">    :param run_id: The run ID to retrieve, defaults to None to retrieves all runs.</span>
+<span class="sd">    :return: A list of runs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">run_path_exists</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[]</span>
 
@@ -130,6 +144,12 @@
 <div class="viewcode-block" id="get_model">
 <a class="viewcode-back" href="../../modules/modlee.html#modlee.retriever.get_model">[docs]</a>
 <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the model at a run path.</span>
+
+<span class="sd">    :param run_path: The run path.</span>
+<span class="sd">    :return: The model as a ModleeModel object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">run_path_exists</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">SourceFileLoader</span><span class="p">(</span>
@@ -160,6 +180,12 @@
 <div class="viewcode-block" id="get_cached_vars">
 <a class="viewcode-back" href="../../modules/modlee.html#modlee.retriever.get_cached_vars">[docs]</a>
 <span class="k">def</span> <span class="nf">get_cached_vars</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the cached variables required to rebuild a model from a run path.</span>
+
+<span class="sd">    :param run_path: The run path.</span>
+<span class="sd">    :return: A dictionary of the cached variables.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">run_path_exists</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{}</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run_path</span><span class="si">}</span><span class="s2">/artifacts/cached_vars&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">vars_file</span><span class="p">:</span>
@@ -170,6 +196,12 @@
 <div class="viewcode-block" id="get_data_snapshot">
 <a class="viewcode-back" href="../../modules/modlee.html#modlee.retriever.get_data_snapshot">[docs]</a>
 <span class="k">def</span> <span class="nf">get_data_snapshot</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the saved data snapshot from a run path.</span>
+
+<span class="sd">    :param run_path: The run path.</span>
+<span class="sd">    :return: The data snapshot as a numpy array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">run_path_exists</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span>
 

@@ -48,29 +48,11 @@
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">modlee.model package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-modlee.model.image_model">modlee.model.image_model module</a><ul>
-<li><a class="reference internal" href="#modlee.model.image_model.ImageCallback"><code class="docutils literal notranslate"><span class="pre">ImageCallback</span></code></a><ul>
-<li><a class="reference internal" href="#modlee.model.image_model.ImageCallback.__init__"><code class="docutils literal notranslate"><span class="pre">ImageCallback.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#modlee.model.image_model.ImageCallback.on_validation_batch_end"><code class="docutils literal notranslate"><span class="pre">ImageCallback.on_validation_batch_end()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#modlee.model.image_model.ModleeImageModel"><code class="docutils literal notranslate"><span class="pre">ModleeImageModel</span></code></a><ul>
-<li><a class="reference internal" href="#modlee.model.image_model.ModleeImageModel.__init__"><code class="docutils literal notranslate"><span class="pre">ModleeImageModel.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#modlee.model.image_model.ModleeImageModel.configure_callbacks"><code class="docutils literal notranslate"><span class="pre">ModleeImageModel.configure_callbacks()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-modlee.model.model">modlee.model.model module</a><ul>
-<li><a class="reference internal" href="#modlee.model.model.ModleeModel"><code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code></a><ul>
-<li><a class="reference internal" href="#modlee.model.model.ModleeModel.__init__"><code class="docutils literal notranslate"><span class="pre">ModleeModel.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#modlee.model.model.ModleeModel.configure_callbacks"><code class="docutils literal notranslate"><span class="pre">ModleeModel.configure_callbacks()</span></code></a></li>
-<li><a class="reference internal" href="#modlee.model.model.ModleeModel.run_path"><code class="docutils literal notranslate"><span class="pre">ModleeModel.run_path</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-modlee.model">Module contents</a></li>
+<li><a class="reference internal" href="#modlee-model-callbacks-module">modlee.model.callbacks module</a></li>
+<li><a class="reference internal" href="#modlee-model-image-model-module">modlee.model.image_model module</a></li>
+<li><a class="reference internal" href="#modlee-model-model-module">modlee.model.model module</a></li>
+<li><a class="reference internal" href="#modlee-model-recommended-model-module">modlee.model.recommended_model module</a></li>
+<li><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -104,111 +86,20 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-modlee.model.image_model">
-<span id="modlee-model-image-model-module"></span><h2>modlee.model.image_model module<a class="headerlink" href="#module-modlee.model.image_model" title="Link to this heading"></a></h2>
-<p>Modlee model for images.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="modlee.model.image_model.ImageCallback">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ImageCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/image_model.html#ImageCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.image_model.ImageCallback" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Callback</span></code></p>
-<p>Saves accuracy</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.model.image_model.ImageCallback.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/image_model.html#ImageCallback.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.image_model.ImageCallback.__init__" title="Link to this definition"></a></dt>
-<dd><p>Constructor for ImageCallback.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>num_classes</strong> – The number of classes, defaults to 2 (binary classification)2 (binary classification)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.model.image_model.ImageCallback.on_validation_batch_end">
-<span class="sig-name descname"><span class="pre">on_validation_batch_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Trainer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pl_module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LightningModule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/modlee/model/image_model.html#ImageCallback.on_validation_batch_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.image_model.ImageCallback.on_validation_batch_end" title="Link to this definition"></a></dt>
-<dd><p>Called when the validation batch ends.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="modlee.model.image_model.ModleeImageModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ModleeImageModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'classification'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/image_model.html#ModleeImageModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.image_model.ModleeImageModel" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#modlee.model.model.ModleeModel" title="modlee.model.model.ModleeModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModleeModel</span></code></a></p>
-<p>Subclass of ModleeModel with image-specific convenience wrappers
-- Logs classification accuracy
-- Calculates data-specific data statistics</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.model.image_model.ModleeImageModel.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'classification'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/image_model.html#ModleeImageModel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.image_model.ModleeImageModel.__init__" title="Link to this definition"></a></dt>
-<dd><p>ModleeImageModel constructor.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>task</strong> – The task (‘classification’,’segmentation’)</p></li>
-<li><p><strong>num_classes</strong> – The number of classes, defaults to None.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.model.image_model.ModleeImageModel.configure_callbacks">
-<span class="sig-name descname"><span class="pre">configure_callbacks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/image_model.html#ModleeImageModel.configure_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.image_model.ModleeImageModel.configure_callbacks" title="Link to this definition"></a></dt>
-<dd><p>Configure image-specific callbacks.</p>
-</dd></dl>
-
-</dd></dl>
-
+<section id="modlee-model-callbacks-module">
+<h2>modlee.model.callbacks module<a class="headerlink" href="#modlee-model-callbacks-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-modlee.model.model">
-<span id="modlee-model-model-module"></span><h2>modlee.model.model module<a class="headerlink" href="#module-modlee.model.model" title="Link to this heading"></a></h2>
-<p>Modlee model class and callbacks.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="modlee.model.model.ModleeModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ModleeModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_snapshot_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/model.html#ModleeModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.model.ModleeModel" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LightningModule</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.model.model.ModleeModel.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_snapshot_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/modlee/model/model.html#ModleeModel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.model.ModleeModel.__init__" title="Link to this definition"></a></dt>
-<dd><p>ModleeModel constructor.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data_snapshot_size</strong> – The maximum size of the data snapshots saved during meta-feature calculation.</p></li>
-<li><p><strong>vars_cache</strong> – A dictionary of variables to cache for later rebuilding the model.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.model.model.ModleeModel.configure_callbacks">
-<span class="sig-name descname"><span class="pre">configure_callbacks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/model.html#ModleeModel.configure_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.model.ModleeModel.configure_callbacks" title="Link to this definition"></a></dt>
-<dd><p>Configure callbacks for auto-documentation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list of callbacks for auto-documentation.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="modlee.model.model.ModleeModel.run_path">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run_path</span></span><a class="headerlink" href="#modlee.model.model.ModleeModel.run_path" title="Link to this definition"></a></dt>
-<dd><p>The path to the current run.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The path to the current run.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<section id="modlee-model-image-model-module">
+<h2>modlee.model.image_model module<a class="headerlink" href="#modlee-model-image-model-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-modlee.model">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-modlee.model" title="Link to this heading"></a></h2>
+<section id="modlee-model-model-module">
+<h2>modlee.model.model module<a class="headerlink" href="#modlee-model-model-module" title="Link to this heading"></a></h2>
+</section>
+<section id="modlee-model-recommended-model-module">
+<h2>modlee.model.recommended_model module<a class="headerlink" href="#modlee-model-recommended-model-module" title="Link to this heading"></a></h2>
+</section>
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
 </section>
 </section>
 
