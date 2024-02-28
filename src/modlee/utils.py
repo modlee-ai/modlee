@@ -15,20 +15,31 @@ from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader
 
 
-def safe_mkdir(target_dir):
-    root, ext = os.path.splitext(target_dir)
+def safe_mkdir(target_path):
+    """
+    Safely make a directory.
+
+    :param target_path: The path to the target directory.
+    """
+    root, ext = os.path.splitext(target_path)
     # is a file
     if len(ext) > 0:
-        target_dir = os.path.split(root)
+        target_path = os.path.split(root)
     else:
-        target_dir = f"{target_dir}/"
+        target_path = f"{target_path}/"
     # if os.path.isfile(target_dir):
     #     target_dir,_ = os.path.split(target_dir.split('.')[0])
-    if not os.path.exists(target_dir):
-        os.mkdir(target_dir)
+    if not os.path.exists(target_path):
+        os.mkdir(target_path)
 
 
 def get_fashion_mnist(batch_size=64):
+    """
+    Get the Fashion MNIST dataset from torchvision.
+
+    :param batch_size: The batch size, defaults to 64.
+    :return: A tuple of train and test dataloaders.
+    """
     training_loader = DataLoader(
         tv_datasets.FashionMNIST(
             root="data", train=True, download=True, transform=ToTensor()
@@ -47,12 +58,24 @@ def get_fashion_mnist(batch_size=64):
 
 
 def uri_to_path(uri):
+    """
+    Convert a URI to a path.
+
+    :param uri: The URI to convert.
+    :return: The converted path.
+    """
     parsed_uri = urlparse(uri)
     path = unquote(parsed_uri.path)
     return path
 
 
 def is_cacheable(x):
+    """
+    Check if an object is cacheable / serializable.
+
+    :param x: The object to check cacheability, probably a dictionary.
+    :return: A boolean of whether the object is cacheable or not.
+    """
     try:
         json.dumps(x)
         return True
@@ -61,6 +84,13 @@ def is_cacheable(x):
 
 
 def get_model_size(model, as_MB=True):
+    """
+    Get the size of a model, as estimated from the number and size of its parameters.
+
+    :param model: The model for which to get the size.
+    :param as_MB: Whether to return the size in MB, defaults to True.
+    :return: The model size.
+    """
     param_size = 0
     for param in model.parameters():
         param_size += param.nelement() * param.element_size()
@@ -73,49 +103,73 @@ def get_model_size(model, as_MB=True):
     return model_size
 
 
-def quantize(n):
+def quantize(x):
+    """
+    Quantize an object.
 
-    if float(n) < 0.1:
+    :param x: The object to quantize.
+    :return: The object, quantized.
+    """
+
+    if float(x) < 0.1:
         ind = 2
-        while str(n)[ind] == "0":
+        while str(x)[ind] == "0":
             ind += 1
         # print(ind)
-        c = np.around(float(n), ind - 1)
-    elif float(n) < 1.0:
-        c = np.around(float(n), 2)
-    elif float(n) < 10.0:
-        c = int(n)
+        c = np.around(float(x), ind - 1)
+    elif float(x) < 1.0:
+        c = np.around(float(x), 2)
+    elif float(x) < 10.0:
+        c = int(x)
     else:
-        c = int(2 ** np.round(math.log(float(n)) / math.log(2)))
+        c = int(2 ** np.round(math.log(float(x)) / math.log(2)))
 
     return c
+_discretize = quantize
 
 
-def convert_to_scientific(n):
-    return f"{float(n):0.0e}"
+def convert_to_scientific(x):
+    """
+    Convert a number to scientific notation.
+
+    :param x: The number to convert.
+    :return: The number in scientific notation as a string.
+    """
+    return f"{float(x):0.0e}"
 
 
-def closest_power_of_2(number):
+def closest_power_of_2(x):
+    """ 
+    Round a number to its closest power of 2, i.e. y = 2**floor(log_2(x)).
+    
+    :param x: The number.
+    :return: The closest power of 2 of the number.
+    """
     # Handle negative numbers by taking the absolute value
-    number = abs(number)
-
+    x = abs(x)
+    
     # Find the exponent (log base 2)
-    exponent = math.log2(number)
-
+    exponent = math.log2(x)
+    
     # Round the exponent to the nearest integer
     rounded_exponent = round(exponent)
-
+    
     # Calculate the closest power of 2
     closest_value = 2 ** rounded_exponent
-
+    
     return closest_value
 
+def _is_number(x):
+    """
+    Check if an object is a number.
 
-def _is_number(n):
+    :param x: The object to check.
+    :return: Whether the object is a number.
+    """
     # if isinstance(n,list):
     #     return all([_is_number(num) for num in n])
     try:
-        float(n)  # Type-casting the string to `float`.
+        float(x)  # Type-casting the string to `float`.
         # If string is not a valid `float`,
         # it'll raise `ValueError` exception
     # except ValueError, TypeError:
@@ -125,6 +179,13 @@ def _is_number(n):
 
 
 def quantize_dict(base_dict, quantize_fn=quantize):
+    """
+    Quantize a dictionary.
+
+    :param base_dict: The dictionary to quantize.
+    :param quantize_fn: The function to use for quantization, defaults to quantize.
+    :return: The quantized dictionary.
+    """
     for k, v in base_dict.items():
         if isinstance(v, dict):
             base_dict.update({k: quantize_dict(v, quantize_fn)})
@@ -141,6 +202,14 @@ def quantize_dict(base_dict, quantize_fn=quantize):
 
 
 def typewriter_print(text, sleep_time=0.001, max_line_length=150, max_lines=20):
+    """
+    Print a string letter-by-letter, like a typewriter.
+
+    :param text: The text to print.
+    :param sleep_time: The time to sleep between letters, defaults to 0.001.
+    :param max_line_length: The maximum line length to truncate to, defaults to 150.
+    :param max_lines: The maximum number of lines to print, defaults to 20.
+    """
     if not isinstance(text, str):
         text = str(text)
     text_lines = text.split("\n")
@@ -165,27 +234,12 @@ def typewriter_print(text, sleep_time=0.001, max_line_length=150, max_lines=20):
 
 # ---------------------------------------------
 
-
-def _discretize(n):
-
-    if float(n) < 0.1:
-        ind = 2
-        while str(n)[ind] == "0":
-            ind += 1
-        # print(ind)
-        c = np.around(float(n), ind - 1)
-    elif float(n) < 1.0:
-        c = np.around(float(n), 2)
-    elif float(n) < 10.0:
-        c = int(n)
-    else:
-        c = int(2 ** np.round(math.log(float(n)) / math.log(2)))
-    return c
-
-
 def discretize(n: list[float, int]) -> list[float, int]:
     """
     Discretize a list of inputs
+
+    :param n: The list of inputs to discretize.
+    :return: The list of discretized inputs.
     """
 
     try:
@@ -205,42 +259,14 @@ def discretize(n: list[float, int]) -> list[float, int]:
 
     return c
 
-
-def test_discretize():
-
-    n = 0.234
-    n = str(n)
-    print("input = {}, discretize(input)= {}".format(n, discretize(n)))
-
-    n = 0.00234
-    n = str(n)
-    print("input = {}, discretize(input)= {}".format(n, discretize(n)))
-
-    n = 2.34
-    n = str(n)
-    print("input = {}, discretize(input)= {}".format(n, discretize(n)))
-
-    n = 30143215
-    n = str(n)
-    print("input = {}, discretize(input)= {}".format(n, discretize(n)))
-
-    n = [3.3, 32144321, 0.032]
-    n = str(n)
-    print("input = {}, discretize(input)= {}".format(n, discretize(n)))
-
-    n = (1, 23)
-    n = str(n)
-    print("input = {}, discretize(input)= {}".format(n, discretize(n)))
-
-    n = "test"
-    print("input = {}, discretize(input)= {}".format(n, discretize(n)))
-
-    n = 0.0005985885113477707
-    n = str(n)
-    print("input = {}, discretize(input)= {}".format(n, discretize(n)))
-
-
 def apply_discretize_to_summary(text, info):
+    """
+    Discretize a summary.
+    
+    :param text: The text to discretize.
+    :param info: An object that contains different separators.
+    :return: The discretized summary.
+    """
 
     # text_split = [ [ p.split(key_val_seperator) for p in l.split(parameter_seperator)] for l in text.split(layer_seperator)]
     # print(text_split)
@@ -267,6 +293,7 @@ def apply_discretize_to_summary(text, info):
 def save_run(modlee_client, *args, **kwargs):
     """
     Save the current run.
-    Takes no arguments because the client will know the current tracking URI.
+
+    :param modlee_client: The client object that is tracking the current run.
     """
     modlee_client.post_run(*args, **kwargs)

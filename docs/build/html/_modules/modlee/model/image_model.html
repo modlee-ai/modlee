@@ -133,11 +133,11 @@
         <span class="c1"># save accuracy</span>
         <span class="c1"># image_callback = self.image_callback</span>
         <span class="n">image_callback</span> <span class="o">=</span> <span class="n">ImageCallback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">)</span>
-        <span class="c1"># save image-specific datastats</span>
-        <span class="n">image_datastats_callback</span> <span class="o">=</span> <span class="n">DataMetafeaturesCallback</span><span class="p">(</span>
+        <span class="c1"># save image-specific data_mf</span>
+        <span class="n">image_data_mf_callback</span> <span class="o">=</span> <span class="n">DataMetafeaturesCallback</span><span class="p">(</span>
             <span class="n">DataMetafeatures</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">modlee</span><span class="o">.</span><span class="n">data_metafeatures</span><span class="p">,</span> <span class="s2">&quot;ImageDataMetafeatures&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="n">base_callbacks</span><span class="p">,</span> <span class="n">image_callback</span><span class="p">,</span> <span class="n">image_datastats_callback</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="n">base_callbacks</span><span class="p">,</span> <span class="n">image_callback</span><span class="p">,</span> <span class="n">image_data_mf_callback</span><span class="p">]</span></div>
 </div>
 
 

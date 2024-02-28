@@ -19,3 +19,8 @@ help:
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 
+serve:
+	python3 -m http.server 7777 -d build/html
+
+apidoc:
+	sphinx-apidoc -f -o source/modules ../src/modlee

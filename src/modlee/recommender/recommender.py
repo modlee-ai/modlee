@@ -29,32 +29,26 @@ import sys
 
 import os
 from urllib.parse import urlparse
-from modlee import modlee_client
 
+SERVER_ORIGIN = "http://ec2-3-84-155-233.compute-1.amazonaws.com:6060"
+# SERVER_ORIGIN = 'http://127.0.0.1:6060'
 
-# SERVER_ENDPOINT = modlee_client.endpoint
-SERVER_ORIGIN = modlee_client.origin
-#SERVER_ENDPOINT = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
-#print(SERVER_ENDPOINT)
 
 class Recommender(object):
     """
-    Recommender for models conditioned on datasets.
+    Recommends models given a dataset
+
+    Args:
+        object (_type_): _description_
     """
 
     def __init__(
         self, dataloader=None, origin=SERVER_ORIGIN, *args, **kwargs
     ) -> None:
-        """ 
-        Constructor for recommender.
-        
-        :param dataloader: The dataloader to analyze, defaults to None.
-        :param origin: The origin (scheme://hostname:port) for the server, defaults to Modlee's server. 
-        """
         self._model = None
         self.modality = None
         self.task = None
-        self.metafeatures = None
+        self.meta_features = None
         self.origin = origin
         if dataloader is not None:
             self.analyze(dataloader)
@@ -65,51 +59,37 @@ class Recommender(object):
         """
         self.analyze(*args, **kwargs)
 
-    def analyze(self, dataloader=None, *args, **kwargs):
+    def analyze(self, dataloader, *args, **kwargs):
         """
-        Analyze a dataloader and calculate data metafeatures.
+        Set dataloader and calculate meta features
 
-        :param dataloader: The dataloader to analyze. If not given, tries to use the class dataloader.
+        Args:
+            dataloader (torch.utils.data.DataLoader): The dataloader
         """
-        if not dataloader:
-            dataloader = self.dataloader
         self.dataloader = dataloader
-        if not dataloader:
-            raise Exception(f'Dataloader not provided and not previously set.')
-        self.metafeatures = self.calculate_metafeatures(dataloader)
+        self.meta_features = self.calculate_meta_features(dataloader)
         # self.write_files()
 
     fit = analyze
 
-    def calculate_metafeatures(self, dataloader):
-        """
-        Calculate metafeatures.
-
-        :param dataloader: The dataloader on which to calculate metafeatures.
-        :return: The metafeatures of the data as a dictionary.
-        """
-        if modlee.data_metafeatures.module_available:
+    def calculate_meta_features(self, dataloader):
+        if modlee.data_mf.module_available:
             analyze_message = "[Modlee] -> Just a moment, analyzing your dataset ...\n"
 
             typewriter_print(analyze_message, sleep_time=0.01)
 
             # ??? Add in type writer print
-            # TODO - generalize to a base DataMetafeatures,
-            # override this method for modality-specific calclations
-            return modlee.data_metafeatures.ImageDataMetafeatures(dataloader, testing=True).stats_rep
+            return modlee.data_mf.ImageDataMetafeatures(dataloader, testing=True).stats_rep
             # ??? Convert to ImageDataMetafeatures
         else:
             print("Could not analyze data (check access to server)")
             return {}
 
-    def _get_model_text(self, metafeatures):
-        """
-        Get the text for a recommended model based on data metafeatures.
-        Sends the metafeatures to the server, the server analyzes the metafeatures
-        and returns a client-parseable text representation of the model.
+    def _get_model_text(self, meta_features):
+        """Get the model text from the server, based on the data meta features
 
-        :param metafeatures: The data metafeatures to send to the server.
-        :return: The model as text that can be parsed into a trainable object. 
+        :param meta_features: _description_
+        :return: _description_
         """
         assert (
             self.modality is not None
@@ -117,10 +97,10 @@ class Recommender(object):
         assert (
             self.task is not None
         ), "Recommender task is not set (e.g. classification, segmentation)"
-        metafeatures = json.loads(json.dumps(metafeatures))
+        meta_features = json.loads(json.dumps(meta_features))
         res = requests.get(
             f"{self.origin}/model/{self.modality}/{self.task}",
-            data=json.dumps({"data_features": metafeatures}),
+            data=json.dumps({"data_features": meta_features}),
             headers={"Content-Type": "application/json"},
         )
         model_text = res.content
@@ -128,9 +108,6 @@ class Recommender(object):
 
     @property
     def model(self):
-        """ 
-        The cached model.
-        """
         if self._model is None:
             logging.info(
                 "No model recommendation, call .analyze on a dataloader first."
@@ -142,9 +119,6 @@ class Recommender(object):
         self._model = model
 
     def get_model_details(self):
-        """ 
-        Get the details of a model with verbose logging.
-        """
         # ??? save self.model_onnx_text and self.model_code to local place, point use to them here
         # In case you wanted to take a deeper look I saved the onnx graph summary here:, I also saved and python editable version of the model with train, val, and optimzers. This is a great place to start your own model exploration!
 
@@ -166,36 +140,21 @@ class Recommender(object):
         typewriter_print(code_message, sleep_time=0.01)
 
     def _write_files(self):
-        """ 
-        Write the model text and code to files.
-        """
+
         self.model_onnx_text_file = "./model_summary.txt"
         self.model_code_file = "./model_code.py"
-    
-        if hasattr(self, "model_text"):
-            with open(self.model_onnx_text_file, "w") as file:
-                file.write(self.model_text)
+
+        with open(self.model_onnx_text_file, "w") as file:
+            file.write(self.model_text)
         if hasattr(self, "model_code"):
             with open(self.model_code_file, "w") as file:
                 file.write(self.model_code)
 
     def write_file(self, file_contents, file_path):
-        """ 
-        Helper function to write a file.
-        
-        :param file_contents: The contents to write.
-        :param file_path: The path to the file.
-        """
         with open(file_path, "w") as _file:
             _file.write(file_contents)
 
     def train(self, max_epochs=1, val_dataloaders=None):
-        """ 
-        Train the recommended model.
-        
-        :param max_epochs: The maximum epochs to train for.
-        :param val_dataloaders: The validation dataloaders, optional.
-        """
 
         print("----------------------------------------------------------------")
         print("Training your recommended modlee model:")
@@ -238,9 +197,6 @@ class Recommender(object):
             # <RunInfo: artifact_uri='file:///Users/brad/Github_Modlee/modlee_survey/notebooks/mlruns/0/e2d08510ac28438681203a930bb713ed/artifacts', end_time=None, experiment_id='0', lifecycle_stage='active', run_id='e2d08510ac28438681203a930bb713ed', run_name='skittish-trout-521', run_uuid='e2d08510ac28438681203a930bb713ed', start_time=1697907858055, status='RUNNING', user_id='brad'>
 
     def train_documentation_locations(self):
-        """ 
-        Print the location of documented assets.
-        """
 
         vertical_sep = "\n-----------------------------------------------------------------------------------------------\n"
         path_indent = "        Path: "
@@ -264,9 +220,6 @@ class Recommender(object):
         print(vertical_sep)
 
     def train_documentation_shared(self):
-        """ 
-        Print the shared experiment assets. 
-        """
 
         vertical_sep = "\n-----------------------------------------------------------------------------------------------\n"
         path_indent = "        Path: "
@@ -325,11 +278,6 @@ class Recommender(object):
         print(vertical_sep)
 
     def get_input_torch(self):
-        """ 
-        Get an input from the dataloader.
-
-        :return: A tuple of the inputs (tensors) and their sizes.
-        """
 
         # Assuming you have a DataLoader called dataloader
         for batch in self.dataloader:
@@ -347,11 +295,6 @@ class Recommender(object):
         return input_torches, input_sizes
 
     def get_code_text(self):
-        """ 
-        Get the code for a model as text (deprecated?).
-        
-        :return: The model code as text.
-        """
         _get_code_text_for_model = getattr(modlee, "get_code_text_for_model", None)
 
         if _get_code_text_for_model is not None:
@@ -371,3 +314,128 @@ class Recommender(object):
 
         return self.model_code
 
+
+class DumbRecommender(Recommender):
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class ActualRecommender(Recommender):
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class ModelSummaryRecommender(Recommender):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def analyze(self, dataloader, *args, **kwargs):
+        super().analyze(dataloader, *args, **kwargs)
+        num_classes = len(dataloader.dataset.classes)
+        self.meta_features.update({"num_classes": num_classes})
+        # try:
+        if 1:
+            self.model_onnx_text = self._get_onnx_text(self.meta_features)
+            model = modlee_converter.onnx_text2torch(self.model_onnx_text)
+            for param in model.parameters():
+                # torch.nn.init.constant_(param,0.001)
+                try:
+                    torch.nn.init.xavier_normal_(param, 1.0)
+                except:
+                    torch.nn.init.normal_(param)
+            model = self._append_classifier_to_model(model, num_classes)
+            self.model = ImageClassificationModleeModel(model)
+
+            self.get_code_text()
+            self.model_onnx_text = self.model_onnx_text.decode("utf-8")
+            clean_model_onnx_text = ">".join(self.model_onnx_text.split(">")[1:])
+            typewriter_print(clean_model_onnx_text, sleep_time=0.005)
+            self.write_files()
+
+        # except:
+        else:
+            print("Could not retrieve model, data features may be malformed ")
+            self.model = None
+
+    def _get_onnx_text(self, meta_features):
+        meta_features = json.loads(json.dumps(meta_features))
+        res = requests.post(
+            f"{SERVER_ORIGIN}/infer", data={"data_mf": str(meta_features)}
+        )
+        onnx_text = res.content
+        return onnx_text
+
+    def _append_classifier_to_model(self, model, num_classes):
+        class Model(nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.model = model
+                self.model_clf_layer = nn.Linear(1000, num_classes)
+
+            def forward(self, x):
+                x = self.model(x)
+                x = self.model_clf_layer(x)
+                return x
+
+        return Model()
+
+
+class RecommendedModel(modlee.model.ModleeModel):
+    # class RecommendedModel(pl.LightningModule):
+    """
+    A ready-to-train ModleeModel that wraps around a recommended model
+    Defines a basic training pipeline
+
+    Args:
+        modlee (_type_): _description_
+    """
+
+    def __init__(self, model, loss_fn=F.cross_entropy, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.model = model
+        self.loss_fn = loss_fn
+
+    def forward(self, x):
+        return self.model(x)
+
+    def training_step(self, batch, batch_idx, *args, **kwargs):
+        x, y = batch
+        y_out = self(x)
+        loss = self.loss_fn(y_out, y)
+        return {"loss": loss}
+
+    def validation_step(self, val_batch, batch_idx, *args, **kwargs):
+        x, y = val_batch
+        y_out = self(x)
+        loss = self.loss_fn(y_out, y)
+        return {"val_loss": loss}
+
+    def configure_optimizers(self,):
+        optimizer = torch.optim.AdamW(self.parameters(), lr=0.001)
+        self.scheduler = lr_scheduler.ReduceLROnPlateau(
+            optimizer, factor=0.8, patience=5
+        )
+        return optimizer
+
+    def on_train_epoch_end(self) -> None:
+        """
+        Update the learning rate scheduler
+        """
+        sch = self.scheduler
+        if isinstance(sch, torch.optim.lr_scheduler.ReduceLROnPlateau):
+            sch.step(self.trainer.callback_metrics["loss"])
+            self.log("scheduler_last_lr", sch._last_lr[0])
+        return super().on_train_epoch_end()
+
+    def configure_callbacks(self):
+        base_callbacks = super().configure_callbacks()
+        # base_callbacks.append(
+        #     pl.callbacks.EarlyStopping(
+        #         'val_loss',
+        #         patience=10,
+        #         verbose=True,)
+        # )
+        return base_callbacks
+
+    # def configure_early_stopping_callback(self, **kwargs):
+    #     return pl.callbacks.EarlyStopping(**kwargs)
