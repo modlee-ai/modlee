@@ -48,7 +48,7 @@ class Recommender(object):
         self._model = None
         self.modality = None
         self.task = None
-        self.meta_features = None
+        self.metafeatures = None
         self.origin = origin
         if dataloader is not None:
             self.analyze(dataloader)
@@ -67,28 +67,28 @@ class Recommender(object):
             dataloader (torch.utils.data.DataLoader): The dataloader
         """
         self.dataloader = dataloader
-        self.meta_features = self.calculate_meta_features(dataloader)
+        self.metafeatures = self.calculate_meta_features(dataloader)
         # self.write_files()
 
     fit = analyze
 
     def calculate_meta_features(self, dataloader):
-        if modlee.data_mf.module_available:
+        if modlee.data_metafeatures.module_available:
             analyze_message = "[Modlee] -> Just a moment, analyzing your dataset ...\n"
 
             typewriter_print(analyze_message, sleep_time=0.01)
 
             # ??? Add in type writer print
-            return modlee.data_mf.ImageDataMetafeatures(dataloader, testing=True).stats_rep
+            return modlee.data_metafeatures.ImageDataMetafeatures(dataloader, testing=True).stats_rep
             # ??? Convert to ImageDataMetafeatures
         else:
             print("Could not analyze data (check access to server)")
             return {}
 
-    def _get_model_text(self, meta_features):
+    def _get_model_text(self, metafeatures):
         """Get the model text from the server, based on the data meta features
 
-        :param meta_features: _description_
+        :param metafeatures: _description_
         :return: _description_
         """
         assert (
@@ -97,10 +97,10 @@ class Recommender(object):
         assert (
             self.task is not None
         ), "Recommender task is not set (e.g. classification, segmentation)"
-        meta_features = json.loads(json.dumps(meta_features))
+        metafeatures = json.loads(json.dumps(metafeatures))
         res = requests.get(
             f"{self.origin}/model/{self.modality}/{self.task}",
-            data=json.dumps({"data_features": meta_features}),
+            data=json.dumps({"data_features": metafeatures}),
             headers={"Content-Type": "application/json"},
         )
         model_text = res.content
@@ -332,10 +332,10 @@ class ModelSummaryRecommender(Recommender):
     def analyze(self, dataloader, *args, **kwargs):
         super().analyze(dataloader, *args, **kwargs)
         num_classes = len(dataloader.dataset.classes)
-        self.meta_features.update({"num_classes": num_classes})
+        self.metafeatures.update({"num_classes": num_classes})
         # try:
         if 1:
-            self.model_onnx_text = self._get_onnx_text(self.meta_features)
+            self.model_onnx_text = self._get_onnx_text(self.metafeatures)
             model = modlee_converter.onnx_text2torch(self.model_onnx_text)
             for param in model.parameters():
                 # torch.nn.init.constant_(param,0.001)
@@ -357,10 +357,10 @@ class ModelSummaryRecommender(Recommender):
             print("Could not retrieve model, data features may be malformed ")
             self.model = None
 
-    def _get_onnx_text(self, meta_features):
-        meta_features = json.loads(json.dumps(meta_features))
+    def _get_onnx_text(self, metafeatures):
+        metafeatures = json.loads(json.dumps(metafeatures))
         res = requests.post(
-            f"{SERVER_ORIGIN}/infer", data={"data_mf": str(meta_features)}
+            f"{SERVER_ORIGIN}/infer", data={"data_metafeatures": str(metafeatures)}
         )
         onnx_text = res.content
         return onnx_text

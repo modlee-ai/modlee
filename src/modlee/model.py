@@ -271,7 +271,7 @@ class DataMetafeaturesCallback(ModleeCallback):
         super().__init__()
         self.data_snapshot_size = data_snapshot_size
         if not DataMetafeatures:
-            DataMetafeatures = getattr(modlee.data_mf, 'DataMetafeatures', None)
+            DataMetafeatures = getattr(modlee.data_metafeatures, 'DataMetafeatures', None)
         self.DataMetafeatures = DataMetafeatures
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
@@ -290,8 +290,8 @@ class DataMetafeaturesCallback(ModleeCallback):
         if self.DataMetafeatures:
             if isinstance(data, torch.Tensor):
                 data, targets = data.numpy(), targets.numpy()
-            data_mf = self.DataMetafeatures(x=data, y=targets)
-            mlflow.log_dict(data_mf.data_mf, 'data_mf')
+            data_metafeatures = self.DataMetafeatures(x=data, y=targets)
+            mlflow.log_dict(data_metafeatures.data_metafeatures, 'data_metafeatures')
         else:
             logging.warning(
                 "Could not access data statistics calculation from server, \
@@ -300,9 +300,9 @@ class DataMetafeaturesCallback(ModleeCallback):
     def _log_data_mf_dataloader(self, dataloader) -> None:
         if self.DataMetafeatures:
             # TODO - use data batch and model to get output size
-            data_mf = self.DataMetafeatures(dataloader)
+            data_metafeatures = self.DataMetafeatures(dataloader)
             mlflow.log_dict(
-                data_mf._serializable_stats_rep,
+                data_metafeatures._serializable_stats_rep,
                 'stats_rep')
         else:
             logging.warning(

@@ -8,7 +8,7 @@ from lightning.pytorch import Trainer, LightningModule
 from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import mlflow
-from modlee import data_mf
+from modlee import data_metafeatures
 from modlee.model import ModleeModel, DataMetafeaturesCallback
 from lightning.pytorch.callbacks import Callback
 
@@ -43,9 +43,9 @@ class ModleeImageModel(ModleeModel):
         # save accuracy
         # image_callback = self.image_callback
         image_callback = ImageCallback(self.num_classes)
-        # save image-specific data_mf
+        # save image-specific data_metafeatures
         image_data_mf_callback = DataMetafeaturesCallback(
-            DataMetafeatures=getattr(modlee.data_mf, "ImageDataMetafeatures", None)
+            DataMetafeatures=getattr(modlee.data_metafeatures, "ImageDataMetafeatures", None)
         )
         return [*base_callbacks, image_callback, image_data_mf_callback]
 
