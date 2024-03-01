@@ -19,6 +19,7 @@
         <script src="../../../_static/documentation_options.js?v=8dde47fa"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -43,8 +44,20 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">modlee</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../py-modindex.html">Module Index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/document.html">Document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/recommend.html">Recommend</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -91,16 +104,16 @@
 
 
 <div class="viewcode-block" id="ModleeImageModel">
-<a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.image_model.ModleeImageModel">[docs]</a>
+<a class="viewcode-back" href="../../../modules/modlee.model.image_model.html#modlee.model.image_model.ModleeImageModel">[docs]</a>
 <span class="k">class</span> <span class="nc">ModleeImageModel</span><span class="p">(</span><span class="n">ModleeModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Subclass of ModleeModel with image-specific convenience wrappers</span>
-<span class="sd">    - Logs classification accuracy</span>
-<span class="sd">    - Calculates data-specific data statistics</span>
+<span class="sd">    Subclass of ModleeModel with image-specific convenience wrappers.</span>
+<span class="sd">    - Logs classification accuracy.</span>
+<span class="sd">    - Calculates data-specific data statistics.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="ModleeImageModel.__init__">
-<a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.image_model.ModleeImageModel.__init__">[docs]</a>
+<a class="viewcode-back" href="../../../modules/modlee.model.image_model.html#modlee.model.image_model.ModleeImageModel.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="s2">&quot;classification&quot;</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">num_classes</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Must provide argument for num_classes&quot;</span><span class="p">)</span>
@@ -116,7 +129,7 @@
 
 
 <div class="viewcode-block" id="ModleeImageModel.configure_callbacks">
-<a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.image_model.ModleeImageModel.configure_callbacks">[docs]</a>
+<a class="viewcode-back" href="../../../modules/modlee.model.image_model.html#modlee.model.image_model.ModleeImageModel.configure_callbacks">[docs]</a>
     <span class="k">def</span> <span class="nf">configure_callbacks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">base_callbacks</span> <span class="o">=</span> <span class="n">ModleeModel</span><span class="o">.</span><span class="n">configure_callbacks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="c1"># save accuracy</span>
@@ -124,7 +137,9 @@
         <span class="n">image_callback</span> <span class="o">=</span> <span class="n">ImageCallback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">)</span>
         <span class="c1"># save image-specific data_metafeatures</span>
         <span class="n">image_data_mf_callback</span> <span class="o">=</span> <span class="n">DataMetafeaturesCallback</span><span class="p">(</span>
-            <span class="n">DataMetafeatures</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">modlee</span><span class="o">.</span><span class="n">data_metafeatures</span><span class="p">,</span> <span class="s2">&quot;ImageDataMetafeatures&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">DataMetafeatures</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span>
+                <span class="n">modlee</span><span class="o">.</span><span class="n">data_metafeatures</span><span class="p">,</span> <span class="s2">&quot;ImageDataMetafeatures&quot;</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="p">)</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="n">base_callbacks</span><span class="p">,</span> <span class="n">image_callback</span><span class="p">,</span> <span class="n">image_data_mf_callback</span><span class="p">]</span></div>
 </div>
@@ -132,14 +147,14 @@
 
 
 <div class="viewcode-block" id="ImageCallback">
-<a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.image_model.ImageCallback">[docs]</a>
+<a class="viewcode-back" href="../../../modules/modlee.model.image_model.html#modlee.model.image_model.ImageCallback">[docs]</a>
 <span class="k">class</span> <span class="nc">ImageCallback</span><span class="p">(</span><span class="n">Callback</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Saves accuracy</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="ImageCallback.__init__">
-<a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.image_model.ImageCallback.__init__">[docs]</a>
+<a class="viewcode-back" href="../../../modules/modlee.model.image_model.html#modlee.model.image_model.ImageCallback.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">Callback</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calculate_accuracy</span> <span class="o">=</span> <span class="n">Accuracy</span><span class="p">(</span>
@@ -148,7 +163,7 @@
 
 
 <div class="viewcode-block" id="ImageCallback.on_validation_batch_end">
-<a class="viewcode-back" href="../../../modules/modlee.model.html#modlee.model.image_model.ImageCallback.on_validation_batch_end">[docs]</a>
+<a class="viewcode-back" href="../../../modules/modlee.model.image_model.html#modlee.model.image_model.ImageCallback.on_validation_batch_end">[docs]</a>
     <span class="k">def</span> <span class="nf">on_validation_batch_end</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">,</span>
@@ -244,7 +259,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, modlee.</p>
+    <p>&#169; Copyright 2024, Modlee, Inc.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

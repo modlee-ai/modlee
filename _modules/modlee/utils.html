@@ -19,6 +19,7 @@
         <script src="../../_static/documentation_options.js?v=8dde47fa"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -43,8 +44,20 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">modlee</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../py-modindex.html">Module Index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/document.html">Document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/recommend.html">Recommend</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -88,7 +101,7 @@
 
 
 <div class="viewcode-block" id="safe_mkdir">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.safe_mkdir">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.safe_mkdir">[docs]</a>
 <span class="k">def</span> <span class="nf">safe_mkdir</span><span class="p">(</span><span class="n">target_path</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Safely make a directory.</span>
@@ -109,7 +122,7 @@
 
 
 <div class="viewcode-block" id="get_fashion_mnist">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.get_fashion_mnist">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.get_fashion_mnist">[docs]</a>
 <span class="k">def</span> <span class="nf">get_fashion_mnist</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the Fashion MNIST dataset from torchvision.</span>
@@ -136,7 +149,7 @@
 
 
 <div class="viewcode-block" id="uri_to_path">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.uri_to_path">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.uri_to_path">[docs]</a>
 <span class="k">def</span> <span class="nf">uri_to_path</span><span class="p">(</span><span class="n">uri</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a URI to a path.</span>
@@ -151,7 +164,7 @@
 
 
 <div class="viewcode-block" id="is_cacheable">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.is_cacheable">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.is_cacheable">[docs]</a>
 <span class="k">def</span> <span class="nf">is_cacheable</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if an object is cacheable / serializable.</span>
@@ -168,7 +181,7 @@
 
 
 <div class="viewcode-block" id="get_model_size">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.get_model_size">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.get_model_size">[docs]</a>
 <span class="k">def</span> <span class="nf">get_model_size</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">as_MB</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the size of a model, as estimated from the number and size of its parameters.</span>
@@ -191,7 +204,7 @@
 
 
 <div class="viewcode-block" id="quantize">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.quantize">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.quantize">[docs]</a>
 <span class="k">def</span> <span class="nf">quantize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Quantize an object.</span>
@@ -215,11 +228,13 @@
 
     <span class="k">return</span> <span class="n">c</span></div>
 
+
+
 <span class="n">_discretize</span> <span class="o">=</span> <span class="n">quantize</span>
 
 
 <div class="viewcode-block" id="convert_to_scientific">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.convert_to_scientific">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.convert_to_scientific">[docs]</a>
 <span class="k">def</span> <span class="nf">convert_to_scientific</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a number to scientific notation.</span>
@@ -232,7 +247,7 @@
 
 
 <div class="viewcode-block" id="closest_power_of_2">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.closest_power_of_2">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.closest_power_of_2">[docs]</a>
 <span class="k">def</span> <span class="nf">closest_power_of_2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Round a number to its closest power of 2, i.e. y = 2**floor(log_2(x)).</span>
@@ -242,17 +257,18 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Handle negative numbers by taking the absolute value</span>
     <span class="n">x</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    
+
     <span class="c1"># Find the exponent (log base 2)</span>
     <span class="n">exponent</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    
+
     <span class="c1"># Round the exponent to the nearest integer</span>
     <span class="n">rounded_exponent</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">exponent</span><span class="p">)</span>
-    
+
     <span class="c1"># Calculate the closest power of 2</span>
     <span class="n">closest_value</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">rounded_exponent</span>
-    
+
     <span class="k">return</span> <span class="n">closest_value</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_is_number</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -275,7 +291,7 @@
 
 
 <div class="viewcode-block" id="quantize_dict">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.quantize_dict">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.quantize_dict">[docs]</a>
 <span class="k">def</span> <span class="nf">quantize_dict</span><span class="p">(</span><span class="n">base_dict</span><span class="p">,</span> <span class="n">quantize_fn</span><span class="o">=</span><span class="n">quantize</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Quantize a dictionary.</span>
@@ -301,7 +317,7 @@
 
 
 <div class="viewcode-block" id="typewriter_print">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.typewriter_print">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.typewriter_print">[docs]</a>
 <span class="k">def</span> <span class="nf">typewriter_print</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">sleep_time</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">max_line_length</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">max_lines</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Print a string letter-by-letter, like a typewriter.</span>
@@ -336,8 +352,9 @@
 
 <span class="c1"># ---------------------------------------------</span>
 
+
 <div class="viewcode-block" id="discretize">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.discretize">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.discretize">[docs]</a>
 <span class="k">def</span> <span class="nf">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Discretize a list of inputs</span>
@@ -364,8 +381,9 @@
     <span class="k">return</span> <span class="n">c</span></div>
 
 
+
 <div class="viewcode-block" id="apply_discretize_to_summary">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.apply_discretize_to_summary">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary">[docs]</a>
 <span class="k">def</span> <span class="nf">apply_discretize_to_summary</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Discretize a summary.</span>
@@ -398,8 +416,9 @@
     <span class="k">return</span> <span class="n">text_join</span></div>
 
 
+
 <div class="viewcode-block" id="save_run">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.utils.save_run">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.save_run">[docs]</a>
 <span class="k">def</span> <span class="nf">save_run</span><span class="p">(</span><span class="n">modlee_client</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Save the current run.</span>
@@ -417,7 +436,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, modlee.</p>
+    <p>&#169; Copyright 2024, Modlee, Inc.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
