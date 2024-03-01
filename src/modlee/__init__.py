@@ -15,18 +15,26 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 import logging, warnings
-
+from functools import partial
 
 import mlflow
 from mlflow import start_run
 
 from .client import ModleeClient
+
 api_key = os.environ.get("MODLEE_API_KEY", None)
 modlee_client = ModleeClient(api_key=api_key)
 from .retriever import *
 from .utils import save_run
+save_run = partial(save_run, modlee_client)
 from .model_text_converter import get_code_text, get_code_text_for_model
-from . import model_text_converter, exp_loss_logger, data_metafeatures, model, recommender
+from . import (
+    model_text_converter,
+    exp_loss_logger,
+    data_metafeatures,
+    model,
+    recommender,
+)
 
 logging.basicConfig(encoding="utf-8", level=logging.WARNING)
 api_modules = ["model_text_converter", "exp_loss_logger"]
@@ -86,6 +94,7 @@ def init(run_path=None, api_key=api_key):
     set_run_path(run_path)
     auth(api_key)
 
+
 def auth(api_key=None):
     """
     Fetches API functionality if the API key is valid.
@@ -143,4 +152,3 @@ def get_run_path():
     :return: The path to the current run.
     """
     return urlparse(mlflow.get_tracking_uri()).path
-

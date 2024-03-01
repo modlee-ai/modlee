@@ -33,6 +33,7 @@ class ModleeCallback(Callback):
     """ 
     Base class for Modlee-specific callbacks.
     """
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -69,6 +70,7 @@ class PushServerCallback(Callback):
     """
     Callback to push run assets to the server at the end of training.
     """
+
     def on_fit_end(self, trainer: Trainer, pl_module: LightningModule) -> None:
         save_run(pl_module.run_path)
         return super().on_fit_end(trainer, pl_module)
@@ -78,6 +80,7 @@ class LogParamsCallback(Callback):
     """ 
     Callback to log parameters at the start of training.
     """
+
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
         mlflow.log_param("batch_size", trainer.train_dataloader.batch_size)
         return super().on_train_start(trainer, pl_module)
@@ -87,6 +90,7 @@ class LogCodeTextCallback(ModleeCallback):
     """ 
     Callback to log the model as code and text.
     """
+
     def __init__(self, kwargs_to_cache={}, *args, **kwargs):
         """ 
         Constructor for LogCodeTextCallback.
@@ -179,6 +183,7 @@ class LogONNXCallback(ModleeCallback):
     Callback for logging the model in its ONNX representations.
     Deprecated, will be combined with LogCodeTextCallback.
     """
+
     def setup(self, trainer: Trainer, pl_module: LightningModule, stage: str) -> None:
         # self._log_onnx(trainer, pl_module)
         return super().setup(trainer, pl_module, stage)
@@ -214,6 +219,7 @@ class LogOutputCallback(Callback):
     """ 
     Callback to log the output metrics for each batch.
     """
+
     def __init__(self, *args, **kwargs):
         """ 
         Constructor for LogOutputCallback.
@@ -260,6 +266,7 @@ class DataMetafeaturesCallback(ModleeCallback):
     """ 
     Callback to calculate and log data meta-features.
     """
+
     def __init__(self, data_snapshot_size=1e7, DataMetafeatures=None, *args, **kwargs):
         """ 
         Constructor for the data metafeature callback.
@@ -381,7 +388,6 @@ class DataMetafeaturesCallback(ModleeCallback):
             targets = _dataset.targets
             self._save_snapshot(targets, "targets", max_len=len(data))
         return data, targets
-
 
     def _save_snapshot(self, data, snapshot_name="data", max_len=None):
         """ 

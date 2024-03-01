@@ -40,11 +40,7 @@ class Converter(object):
     # def torch2onnx(self, torch_model, input_dummy=torch.randn([10, 3, 300, 300]), tmp_onnx_path="./tmp_model.onnx"):
     # From Torch
     def torch_model2onnx_graph(
-        self,
-        torch_model,
-        input_dummy=None,
-        tmp_onnx_path="./.tmp_model.onnx",
-        **kwargs,
+        self, torch_model, input_dummy=None, tmp_onnx_path="./.tmp_model.onnx", **kwargs
     ):
         """
         Convert a Torch Model to ONNX Graph. 
@@ -58,7 +54,7 @@ class Converter(object):
         # Keeping gradients on may cause issues, so turn them off
         torch_model.eval()
         if input_dummy is None:
-            input_dummy = torch.randn([10,3,300,300])
+            input_dummy = torch.randn([10, 3, 300, 300])
         input_dummy.requires_grad = False
         with torch.no_grad():
             for param in torch_model.parameters():
@@ -663,7 +659,9 @@ class Converter(object):
         :param input_str: The input string from which to get the attribute from.
         :return: The attribute name.
         """
-        attr_name = self.get_inner_string(input_str, _start='getattr(self, "', _end='")')
+        attr_name = self.get_inner_string(
+            input_str, _start='getattr(self, "', _end='")'
+        )
 
         # Catch a case where the attribute is directly accessed,
         # e.g. self.LogSoftmax -> retrieve "LogSoftmax"

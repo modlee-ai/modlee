@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>modlee.utils module &mdash; modlee 0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ca37922a" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ca37922a" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=8dde47fa"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            modlee
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">modlee</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../py-modindex.html">Module Index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/document.html">Document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/recommend.html">Recommend</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">modlee</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">modlee.utils module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/modlee.utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-modlee.utils">
+<span id="modlee-utils-module"></span><h1>modlee.utils module<a class="headerlink" href="#module-modlee.utils" title="Link to this heading"></a></h1>
+<p>Utility functions.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.apply_discretize_to_summary">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">apply_discretize_to_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#apply_discretize_to_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.apply_discretize_to_summary" title="Link to this definition"></a></dt>
+<dd><p>Discretize a summary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> – The text to discretize.</p></li>
+<li><p><strong>info</strong> – An object that contains different separators.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The discretized summary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.closest_power_of_2">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">closest_power_of_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#closest_power_of_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.closest_power_of_2" title="Link to this definition"></a></dt>
+<dd><p>Round a number to its closest power of 2, i.e. y = 2**floor(log_2(x)).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – The number.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The closest power of 2 of the number.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.convert_to_scientific">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">convert_to_scientific</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#convert_to_scientific"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.convert_to_scientific" title="Link to this definition"></a></dt>
+<dd><p>Convert a number to scientific notation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – The number to convert.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number in scientific notation as a string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.discretize">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">discretize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/modlee/utils.html#discretize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.discretize" title="Link to this definition"></a></dt>
+<dd><p>Discretize a list of inputs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> – The list of inputs to discretize.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of discretized inputs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.get_fashion_mnist">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">get_fashion_mnist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#get_fashion_mnist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.get_fashion_mnist" title="Link to this definition"></a></dt>
+<dd><p>Get the Fashion MNIST dataset from torchvision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>batch_size</strong> – The batch size, defaults to 64.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple of train and test dataloaders.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.get_model_size">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">get_model_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_MB</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#get_model_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.get_model_size" title="Link to this definition"></a></dt>
+<dd><p>Get the size of a model, as estimated from the number and size of its parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> – The model for which to get the size.</p></li>
+<li><p><strong>as_MB</strong> – Whether to return the size in MB, defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The model size.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.is_cacheable">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">is_cacheable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#is_cacheable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.is_cacheable" title="Link to this definition"></a></dt>
+<dd><p>Check if an object is cacheable / serializable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – The object to check cacheability, probably a dictionary.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A boolean of whether the object is cacheable or not.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.quantize">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">quantize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#quantize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.quantize" title="Link to this definition"></a></dt>
+<dd><p>Quantize an object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – The object to quantize.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The object, quantized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.quantize_dict">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">quantize_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantize_fn=&lt;function</span> <span class="pre">quantize&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#quantize_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.quantize_dict" title="Link to this definition"></a></dt>
+<dd><p>Quantize a dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_dict</strong> – The dictionary to quantize.</p></li>
+<li><p><strong>quantize_fn</strong> – The function to use for quantization, defaults to quantize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The quantized dictionary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.safe_mkdir">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">safe_mkdir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#safe_mkdir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.safe_mkdir" title="Link to this definition"></a></dt>
+<dd><p>Safely make a directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>target_path</strong> – The path to the target directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.save_run">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">save_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modlee_client</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#save_run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.save_run" title="Link to this definition"></a></dt>
+<dd><p>Save the current run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>modlee_client</strong> – The client object that is tracking the current run.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.typewriter_print">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">typewriter_print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sleep_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_line_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#typewriter_print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.typewriter_print" title="Link to this definition"></a></dt>
+<dd><p>Print a string letter-by-letter, like a typewriter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> – The text to print.</p></li>
+<li><p><strong>sleep_time</strong> – The time to sleep between letters, defaults to 0.001.</p></li>
+<li><p><strong>max_line_length</strong> – The maximum line length to truncate to, defaults to 150.</p></li>
+<li><p><strong>max_lines</strong> – The maximum number of lines to print, defaults to 20.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.uri_to_path">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">uri_to_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#uri_to_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.uri_to_path" title="Link to this definition"></a></dt>
+<dd><p>Convert a URI to a path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>uri</strong> – The URI to convert.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The converted path.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Modlee, Inc.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

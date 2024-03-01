@@ -42,9 +42,7 @@ class Recommender(object):
         object (_type_): _description_
     """
 
-    def __init__(
-        self, dataloader=None, origin=SERVER_ORIGIN, *args, **kwargs
-    ) -> None:
+    def __init__(self, dataloader=None, origin=SERVER_ORIGIN, *args, **kwargs) -> None:
         self._model = None
         self.modality = None
         self.task = None
@@ -79,7 +77,9 @@ class Recommender(object):
             typewriter_print(analyze_message, sleep_time=0.01)
 
             # ??? Add in type writer print
-            return modlee.data_metafeatures.ImageDataMetafeatures(dataloader, testing=True).stats_rep
+            return modlee.data_metafeatures.ImageDataMetafeatures(
+                dataloader, testing=True
+            ).stats_rep
             # ??? Convert to ImageDataMetafeatures
         else:
             print("Could not analyze data (check access to server)")

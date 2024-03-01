@@ -4,6 +4,7 @@ import torch
 import torch.nn.functional as F
 from torch.optim import lr_scheduler
 
+
 class RecommendedModel(ModleeModel):
     # class RecommendedModel(pl.LightningModule):
     """
@@ -57,4 +58,3 @@ class RecommendedModel(ModleeModel):
     def configure_callbacks(self):
         base_callbacks = super().configure_callbacks()
         return base_callbacks
-

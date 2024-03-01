@@ -9,7 +9,7 @@ Based on these meta-features from prior experiments, Modlee recommends a neural 
 ## Installation
 The Modlee package consists of the client-side interface for the recommendation API and auxiliary functions for documentation.
 The documentation functionality is usable without an account, but the recommendation functionality requires an API key.
-To create an account and receive an API key, [visit our website](modlee.ai).
+To create an account and receive an API key, [visit our website](https://www.modlee.ai).
 
 ### PyPI
 Install `modlee` from PyPI:
@@ -20,7 +20,7 @@ pip install modlee
 ### Source
 Alternatively, build the package from the source by cloning this repository and installing from the `pyproject.toml` configuration file:
 ```shell
-git clone https://github.com/modle-ai/modlee
+git clone https://github.com/modlee-ai/modlee
 cd modlee
 pip install .
 ```
@@ -105,8 +105,5 @@ FAQ - link to the section on the site and add some dev-specific ones here
 - Raise an issue
 - Open PR and read code of conduct
 
-# TODO
+## TODO
 - [ ] Add logo, links to website and Discord
-- [ ] Add examples and document 
-- [ ] Update Sphinx website
-- [ ] Refactor data_metafeatures, model_text, etc

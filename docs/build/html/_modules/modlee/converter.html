@@ -19,6 +19,7 @@
         <script src="../../_static/documentation_options.js?v=8dde47fa"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -43,8 +44,20 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">modlee</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../py-modindex.html">Module Index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/document.html">Document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/recommend.html">Recommend</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -105,7 +118,7 @@
 
 
 <div class="viewcode-block" id="Converter">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter">[docs]</a>
 <span class="k">class</span> <span class="nc">Converter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Base object that holds conversion functions.</span>
@@ -114,13 +127,9 @@
     <span class="c1"># def torch2onnx(self, torch_model, input_dummy=torch.randn([10, 3, 300, 300]), tmp_onnx_path=&quot;./tmp_model.onnx&quot;):</span>
     <span class="c1"># From Torch</span>
 <div class="viewcode-block" id="Converter.torch_model2onnx_graph">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.torch_model2onnx_graph">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.torch_model2onnx_graph">[docs]</a>
     <span class="k">def</span> <span class="nf">torch_model2onnx_graph</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">torch_model</span><span class="p">,</span>
-        <span class="n">input_dummy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">tmp_onnx_path</span><span class="o">=</span><span class="s2">&quot;./.tmp_model.onnx&quot;</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">torch_model</span><span class="p">,</span> <span class="n">input_dummy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmp_onnx_path</span><span class="o">=</span><span class="s2">&quot;./.tmp_model.onnx&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert a Torch Model to ONNX Graph. </span>
@@ -134,7 +143,7 @@
         <span class="c1"># Keeping gradients on may cause issues, so turn them off</span>
         <span class="n">torch_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">input_dummy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">input_dummy</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">])</span>
+            <span class="n">input_dummy</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">])</span>
         <span class="n">input_dummy</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">torch_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
@@ -170,7 +179,7 @@
     <span class="n">torch2onnx</span> <span class="o">=</span> <span class="n">torch_model2onnx_graph</span>
 
 <div class="viewcode-block" id="Converter.torch_model2torch_code">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.torch_model2torch_code">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.torch_model2torch_code">[docs]</a>
     <span class="k">def</span> <span class="nf">torch_model2torch_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">torch_model</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert a Torch Model to Torch Code.</span>
@@ -187,7 +196,7 @@
     <span class="n">torch2code</span> <span class="o">=</span> <span class="n">torch_model2torch_code</span>
 
 <div class="viewcode-block" id="Converter.torch_model2onnx_text">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.torch_model2onnx_text">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.torch_model2onnx_text">[docs]</a>
     <span class="k">def</span> <span class="nf">torch_model2onnx_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">torch_model</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert a Torch Model to ONNX Text</span>
@@ -201,7 +210,7 @@
     <span class="n">torch2onnx_text</span> <span class="o">=</span> <span class="n">torch_model2onnx_text</span>
 
 <div class="viewcode-block" id="Converter.torch_code2torch_model">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.torch_code2torch_model">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.torch_code2torch_model">[docs]</a>
     <span class="k">def</span> <span class="nf">torch_code2torch_model</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">torch_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tmp_model_path</span><span class="o">=</span><span class="s2">&quot;./.tmp_model.py&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
@@ -224,7 +233,7 @@
     <span class="n">code2torch</span> <span class="o">=</span> <span class="n">torch_code2torch_model</span>
 
 <div class="viewcode-block" id="Converter.torch_file2torch_model">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.torch_file2torch_model">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.torch_file2torch_model">[docs]</a>
     <span class="k">def</span> <span class="nf">torch_file2torch_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">torch_file</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert a Torch File into a Torch Model</span>
@@ -241,7 +250,7 @@
     <span class="n">code_path2torch</span> <span class="o">=</span> <span class="n">torch_file2torch_model</span>
 
 <div class="viewcode-block" id="Converter.torch_model2torch_model">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.torch_model2torch_model">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.torch_model2torch_model">[docs]</a>
     <span class="k">def</span> <span class="nf">torch_model2torch_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">torch_model</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert a PyTorch model into an equivalent PyTorch model,</span>
@@ -271,7 +280,7 @@
     <span class="n">onnx_path2torch</span> <span class="o">=</span> <span class="n">onnx_file2torch_model</span>
 
 <div class="viewcode-block" id="Converter.onnx_file2onnx_graph">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.onnx_file2onnx_graph">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.onnx_file2onnx_graph">[docs]</a>
     <span class="k">def</span> <span class="nf">onnx_file2onnx_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_file</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert an ONNX File to an ONNX Graph.</span>
@@ -286,7 +295,7 @@
     <span class="n">onnx_text_file2onnx</span> <span class="o">=</span> <span class="n">onnx_file2onnx_graph</span>
 
 <div class="viewcode-block" id="Converter.onnx_file2torch_model">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.onnx_file2torch_model">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.onnx_file2torch_model">[docs]</a>
     <span class="k">def</span> <span class="nf">onnx_file2torch_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_file</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert an ONNX File to a Torch Model</span>
@@ -303,7 +312,7 @@
     <span class="n">onnx_file2torch</span> <span class="o">=</span> <span class="n">onnx_file2torch_model</span>
 
 <div class="viewcode-block" id="Converter.onnx_uninit2torch">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.onnx_uninit2torch">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.onnx_uninit2torch">[docs]</a>
     <span class="k">def</span> <span class="nf">onnx_uninit2torch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_graph</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert an uninitialized ONNX Graph to a Torch Model</span>
@@ -315,7 +324,7 @@
 
 
 <div class="viewcode-block" id="Converter.onnx_text2torch_code">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.onnx_text2torch_code">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.onnx_text2torch_code">[docs]</a>
     <span class="k">def</span> <span class="nf">onnx_text2torch_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_text</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert ONNX Text to Torch Code</span>
@@ -343,7 +352,7 @@
     <span class="c1">#     return self.get_model_code(torch_graph,*args,**kwargs)</span>
 
 <div class="viewcode-block" id="Converter.onnx_text2onnx_graph">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.onnx_text2onnx_graph">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.onnx_text2onnx_graph">[docs]</a>
     <span class="k">def</span> <span class="nf">onnx_text2onnx_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_text</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert ONNX Text to an ONNX Graph.</span>
@@ -357,7 +366,7 @@
     <span class="n">onnx_text2onnx</span> <span class="o">=</span> <span class="n">onnx_text2onnx_graph</span>
 
 <div class="viewcode-block" id="Converter.onnx_text2torch_model">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.onnx_text2torch_model">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.onnx_text2torch_model">[docs]</a>
     <span class="k">def</span> <span class="nf">onnx_text2torch_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_text</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert ONNX Text to Torch Model.</span>
@@ -380,7 +389,7 @@
     <span class="n">onnx_text2torch</span> <span class="o">=</span> <span class="n">onnx_text2torch_model</span>
 
 <div class="viewcode-block" id="Converter.onnx_graph2torch_model">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.onnx_graph2torch_model">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.onnx_graph2torch_model">[docs]</a>
     <span class="k">def</span> <span class="nf">onnx_graph2torch_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_graph</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert an ONNX Graph to a Torch Model.</span>
@@ -394,7 +403,7 @@
     <span class="n">onnx2torch</span> <span class="o">=</span> <span class="n">onnx_graph2torch_model</span>
 
 <div class="viewcode-block" id="Converter.onnx_graph2onnx_text">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.onnx_graph2onnx_text">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.onnx_graph2onnx_text">[docs]</a>
     <span class="k">def</span> <span class="nf">onnx_graph2onnx_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_graph</span><span class="p">,</span> <span class="n">remove_identity</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert an ONNX Graph to ONNX Text</span>
@@ -510,7 +519,7 @@
     <span class="n">onnx2onnx_text</span> <span class="o">=</span> <span class="n">onnx_graph2onnx_text</span>
 
 <div class="viewcode-block" id="Converter.remove_identity">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.remove_identity">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.remove_identity">[docs]</a>
     <span class="k">def</span> <span class="nf">remove_identity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_text</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove identity layers in ONNX Text.</span>
@@ -547,7 +556,7 @@
 
 
 <div class="viewcode-block" id="Converter.refactor_bool_layer">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.refactor_bool_layer">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.refactor_bool_layer">[docs]</a>
     <span class="k">def</span> <span class="nf">refactor_bool_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Refactor boolean layers to the correct number of input elements</span>
@@ -586,7 +595,7 @@
 
 
 <div class="viewcode-block" id="Converter.refactor_inf">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.refactor_inf">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.refactor_inf">[docs]</a>
     <span class="k">def</span> <span class="nf">refactor_inf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_str</span><span class="p">,</span> <span class="n">large_value</span><span class="o">=</span><span class="s2">&quot;99999999&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Replace &#39;inf&#39; with a large value because the parser cannot handle infs</span>
 
@@ -605,7 +614,7 @@
 
 
 <div class="viewcode-block" id="Converter.refactor_leading_number">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.refactor_leading_number">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.refactor_leading_number">[docs]</a>
     <span class="k">def</span> <span class="nf">refactor_leading_number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Refactor variables with leading numbers which are not parseable,</span>
@@ -619,7 +628,7 @@
 
     <span class="c1"># Helper functions when converting from ONNX</span>
 <div class="viewcode-block" id="Converter.init_graph_tensors">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.init_graph_tensors">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.init_graph_tensors">[docs]</a>
     <span class="k">def</span> <span class="nf">init_graph_tensors</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">onnx_gs_graph</span><span class="p">,</span> <span class="n">tensor_init_fn</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
     <span class="p">):</span>
@@ -705,7 +714,7 @@
 
     <span class="c1"># def onnx_parameterless2onnx(self, onnx_path):</span>
 <div class="viewcode-block" id="Converter.init_onnx_params">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.init_onnx_params">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.init_onnx_params">[docs]</a>
     <span class="k">def</span> <span class="nf">init_onnx_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_graph</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a parameterless ONNX Graph</span>
@@ -724,7 +733,7 @@
     <span class="n">onnx_parameterless2onnx</span> <span class="o">=</span> <span class="n">init_onnx_params</span>
 
 <div class="viewcode-block" id="Converter.init_onnx_tensors">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.init_onnx_tensors">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.init_onnx_tensors">[docs]</a>
     <span class="k">def</span> <span class="nf">init_onnx_tensors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_graph</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the tensors of an ONNX Graph</span>
@@ -740,7 +749,7 @@
     <span class="n">onnx2onnx_gs</span> <span class="o">=</span> <span class="n">init_onnx_tensors</span>
 
 <div class="viewcode-block" id="Converter.save_torch">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.save_torch">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.save_torch">[docs]</a>
     <span class="k">def</span> <span class="nf">save_torch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">torch_model</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save a PyTorch model&#39;s code representation as a `.py` file.</span>
@@ -752,7 +761,7 @@
 
 
 <div class="viewcode-block" id="Converter.save_code">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.save_code">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.save_code">[docs]</a>
     <span class="k">def</span> <span class="nf">save_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">torch_code</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save a PyTorch model&#39;s sring representation as a `.py` file.</span>
@@ -766,7 +775,7 @@
 
     <span class="c1"># Helper functions for creating code representations from a model</span>
 <div class="viewcode-block" id="Converter.get_inner_string">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.get_inner_string">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.get_inner_string">[docs]</a>
     <span class="k">def</span> <span class="nf">get_inner_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_str</span><span class="p">,</span> <span class="n">_start</span><span class="p">,</span> <span class="n">_end</span><span class="p">,</span> <span class="n">return_only_single_value</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        TODO - replace this with a sensible regex function.</span>
@@ -797,7 +806,7 @@
 
 
 <div class="viewcode-block" id="Converter.get_attr_name">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.get_attr_name">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.get_attr_name">[docs]</a>
     <span class="k">def</span> <span class="nf">get_attr_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        TODO - replace this with a sensible regex function; write tests first.</span>
@@ -811,7 +820,9 @@
 <span class="sd">        :param input_str: The input string from which to get the attribute from.</span>
 <span class="sd">        :return: The attribute name.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">attr_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_inner_string</span><span class="p">(</span><span class="n">input_str</span><span class="p">,</span> <span class="n">_start</span><span class="o">=</span><span class="s1">&#39;getattr(self, &quot;&#39;</span><span class="p">,</span> <span class="n">_end</span><span class="o">=</span><span class="s1">&#39;&quot;)&#39;</span><span class="p">)</span>
+        <span class="n">attr_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_inner_string</span><span class="p">(</span>
+            <span class="n">input_str</span><span class="p">,</span> <span class="n">_start</span><span class="o">=</span><span class="s1">&#39;getattr(self, &quot;&#39;</span><span class="p">,</span> <span class="n">_end</span><span class="o">=</span><span class="s1">&#39;&quot;)&#39;</span>
+        <span class="p">)</span>
 
         <span class="c1"># Catch a case where the attribute is directly accessed,</span>
         <span class="c1"># e.g. self.LogSoftmax -&gt; retrieve &quot;LogSoftmax&quot;</span>
@@ -821,7 +832,7 @@
 
 
 <div class="viewcode-block" id="Converter.get_model_attr_on_line">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.get_model_attr_on_line">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.get_model_attr_on_line">[docs]</a>
     <span class="k">def</span> <span class="nf">get_model_attr_on_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get attributes as {attribute_name : attribute_object} pairs</span>
@@ -840,7 +851,7 @@
 
 
 <div class="viewcode-block" id="Converter.get_model_attrs_in_forward">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.get_model_attrs_in_forward">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.get_model_attrs_in_forward">[docs]</a>
     <span class="k">def</span> <span class="nf">get_model_attrs_in_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all of the attributes from a model&#39;s forward pass.</span>
@@ -861,7 +872,7 @@
 
 
 <div class="viewcode-block" id="Converter.get_params_for_attr">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.get_params_for_attr">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.get_params_for_attr">[docs]</a>
     <span class="k">def</span> <span class="nf">get_params_for_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_attr</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the parameters required to initialize an attribute object,</span>
@@ -910,7 +921,7 @@
 
 
 <div class="viewcode-block" id="Converter.get_type_string">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.get_type_string">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.get_type_string">[docs]</a>
     <span class="k">def</span> <span class="nf">get_type_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the type of an object as a string.</span>
@@ -923,7 +934,7 @@
 
 
 <div class="viewcode-block" id="Converter.get_init">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.get_init">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.get_init">[docs]</a>
     <span class="k">def</span> <span class="nf">get_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the code for a model&#39;s __init__() constructor function.</span>
@@ -987,7 +998,7 @@
 
 
 <div class="viewcode-block" id="Converter.get_init_module_state_dict_str">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.get_init_module_state_dict_str">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.get_init_module_state_dict_str">[docs]</a>
     <span class="k">def</span> <span class="nf">get_init_module_state_dict_str</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">module_name_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">state_dict_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">indent_level</span><span class="o">=</span><span class="mi">2</span>
     <span class="p">):</span>
@@ -1011,7 +1022,7 @@
         <span class="c1"># return f&#39;{module_nam&#39;</span>
 
 <div class="viewcode-block" id="Converter.dict2code">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.dict2code">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.dict2code">[docs]</a>
     <span class="k">def</span> <span class="nf">dict2code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwarg_dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts a dictionary into a code string that, when called with exec(), rebuilds the dictionary.</span>
@@ -1040,7 +1051,7 @@
 
 
 <div class="viewcode-block" id="Converter.tensor2init_code">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.tensor2init_code">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.tensor2init_code">[docs]</a>
     <span class="k">def</span> <span class="nf">tensor2init_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_tensor</span><span class="p">,</span> <span class="n">tensor_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts a monovalue tensor (len(set(tensor))==1) to a string representation of its initialization.</span>
@@ -1081,7 +1092,7 @@
 
 
 <div class="viewcode-block" id="Converter.get_forward">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.get_forward">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.get_forward">[docs]</a>
     <span class="k">def</span> <span class="nf">get_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a model&#39;s forward() pass as code.</span>
@@ -1102,7 +1113,7 @@
 
 
 <div class="viewcode-block" id="Converter.get_model_code">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.get_model_code">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.get_model_code">[docs]</a>
     <span class="k">def</span> <span class="nf">get_model_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve the model&#39;s string representation, which includes its constructor (__init__) and forward pass.</span>
@@ -1129,7 +1140,7 @@
     <span class="n">torch_graph2code</span> <span class="o">=</span> <span class="n">get_model_code</span>
 
 <div class="viewcode-block" id="Converter.cast_tile_layer">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.cast_tile_layer">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.cast_tile_layer">[docs]</a>
     <span class="k">def</span> <span class="nf">cast_tile_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Cast variables in a Tile ONNX layer to the required types.</span>
@@ -1145,7 +1156,7 @@
 
 
 <div class="viewcode-block" id="Converter.cast_gather_layer">
-<a class="viewcode-back" href="../../modules/modlee.html#modlee.converter.Converter.cast_gather_layer">[docs]</a>
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.cast_gather_layer">[docs]</a>
     <span class="k">def</span> <span class="nf">cast_gather_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Cast variables in a Gather ONNX layer to the required types.</span>
@@ -1165,7 +1176,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, modlee.</p>
+    <p>&#169; Copyright 2024, Modlee, Inc.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

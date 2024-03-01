@@ -25,6 +25,7 @@ class ImageRecommender(Recommender):
     """ 
     Recommender for image models.
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.modality = "image"
@@ -37,6 +38,7 @@ class ImageRecommender(Recommender):
         :param num_classes: The number of classes.
         :return: A tuple of the model object and an executable code string to rebuild the model.
         """
+
         class Model(nn.Module):
             def __init__(self):
                 super().__init__()
@@ -138,20 +140,19 @@ class ImageClassificationRecommender(ImageRecommender):
     Recommender for image classification tasks.
     Uses cross-entropy loss.
     """
-    def __init__(
-        self,
-       *args,
-        **kwargs
-    ):
+
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.task = "classification"
         self.loss_fn = F.cross_entropy
+
 
 class ImageSegmentationRecommender(ImageRecommender):
     """ 
     Recommender for image segmentation tasks.
     Uses cross entropy loss.
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.task = "segmentation"
@@ -160,4 +161,3 @@ class ImageSegmentationRecommender(ImageRecommender):
 
         def squeeze_entropy_loss(x, *args, **kwargs):
             return torch.nn.CrossEntropyLoss()(x.squeeze)
-

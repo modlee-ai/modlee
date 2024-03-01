@@ -59,7 +59,6 @@ class ModleeClient(object):
         """
         return self._request(path=path, method="post", *args, **kwargs)
 
-
     def get(self, path="", *args, **kwargs):
         """
         Get a request.
@@ -78,7 +77,7 @@ class ModleeClient(object):
         :return: The response.
         """
         req_url = f"{self.origin}/{path}"
-        
+
         kwargs.update(dict(timeout=self.timeout))
 
         kwargs.update(

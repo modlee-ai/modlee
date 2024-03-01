@@ -125,6 +125,8 @@ def quantize(x):
         c = int(2 ** np.round(math.log(float(x)) / math.log(2)))
 
     return c
+
+
 _discretize = quantize
 
 
@@ -147,17 +149,18 @@ def closest_power_of_2(x):
     """
     # Handle negative numbers by taking the absolute value
     x = abs(x)
-    
+
     # Find the exponent (log base 2)
     exponent = math.log2(x)
-    
+
     # Round the exponent to the nearest integer
     rounded_exponent = round(exponent)
-    
+
     # Calculate the closest power of 2
     closest_value = 2 ** rounded_exponent
-    
+
     return closest_value
+
 
 def _is_number(x):
     """
@@ -234,6 +237,7 @@ def typewriter_print(text, sleep_time=0.001, max_line_length=150, max_lines=20):
 
 # ---------------------------------------------
 
+
 def discretize(n: list[float, int]) -> list[float, int]:
     """
     Discretize a list of inputs
@@ -258,6 +262,7 @@ def discretize(n: list[float, int]) -> list[float, int]:
         c = n
 
     return c
+
 
 def apply_discretize_to_summary(text, info):
     """
@@ -289,6 +294,7 @@ def apply_discretize_to_summary(text, info):
     # print(text_join)
 
     return text_join
+
 
 def save_run(modlee_client, *args, **kwargs):
     """

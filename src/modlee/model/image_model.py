@@ -20,9 +20,9 @@ TASK_METRIC = {"classification": "Accuracy", "regression": "MeanSquaredError"}
 
 class ModleeImageModel(ModleeModel):
     """
-    Subclass of ModleeModel with image-specific convenience wrappers
-    - Logs classification accuracy
-    - Calculates data-specific data statistics
+    Subclass of ModleeModel with image-specific convenience wrappers.
+    - Logs classification accuracy.
+    - Calculates data-specific data statistics.
     """
 
     def __init__(self, task="classification", num_classes=None, *args, **kwargs):
@@ -45,7 +45,9 @@ class ModleeImageModel(ModleeModel):
         image_callback = ImageCallback(self.num_classes)
         # save image-specific data_metafeatures
         image_data_mf_callback = DataMetafeaturesCallback(
-            DataMetafeatures=getattr(modlee.data_metafeatures, "ImageDataMetafeatures", None)
+            DataMetafeatures=getattr(
+                modlee.data_metafeatures, "ImageDataMetafeatures", None
+            )
         )
         return [*base_callbacks, image_callback, image_data_mf_callback]
 
