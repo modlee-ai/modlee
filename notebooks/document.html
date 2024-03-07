@@ -59,6 +59,11 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="recommend.html">Recommendation</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
+</ul>
 
         </div>
       </div>
@@ -86,34 +91,47 @@
              
   <section id="documentation">
 <h1>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h1>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
+<p>This example notebook uses the <code class="docutils literal notranslate"><span class="pre">modlee</span></code> package to document a machine
+learning experiment with a user-built model. We train a simple
+convolutional classifier on the simple Fashion MNIST dataset. After
+training, we can reuse the model from the auto-documented model class.
+Prerequisites for this tutorial include familiarity with
+<a class="reference external" href="https://pytorch.org/docs/stable/index.html">PyTorch</a> and
+<a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">Lightning</a>.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Boilerplate imports</span>
+<span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
 <span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">ssl</span>
+<span class="n">ssl</span><span class="o">.</span><span class="n">_create_default_https_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">_create_unverified_context</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ssl</span><span class="o">.</span><span class="n">_create_default_https_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">_create_unverified_context</span>
-</pre></div>
-</div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">modlee</span>
-</pre></div>
-</div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modlee</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;local&quot;</span><span class="p">)</span>
+<p>Import <code class="docutils literal notranslate"><span class="pre">modlee</span></code> and initialize with an API key.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Modlee-specific imports</span>
+<span class="kn">import</span> <span class="nn">modlee</span>
+<span class="n">modlee</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;modleemichael&quot;</span><span class="p">)</span>   <span class="c1"># Replace with your API key</span>
 <span class="kn">from</span> <span class="nn">modlee.utils</span> <span class="kn">import</span> <span class="n">get_fashion_mnist</span>
 <span class="kn">from</span> <span class="nn">modlee.model</span> <span class="kn">import</span> <span class="n">ModleeModel</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Classifier</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<p>Load the training data.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span> <span class="o">=</span> <span class="n">get_fashion_mnist</span><span class="p">()</span>
+<span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">classes</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Build the PyTorch model as a <code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code>.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Classifier</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Classifier</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">84</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">84</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">84</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
@@ -125,40 +143,99 @@
         <span class="k">return</span> <span class="n">x</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LightningClassifier</span><span class="p">(</span><span class="n">ModleeModel</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<p>Wrap the model in a <code class="docutils literal notranslate"><span class="pre">modlee.model.ModleeModel</span></code>. <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code>
+subclassees <code class="docutils literal notranslate"><span class="pre">lightning.pytorch.LightningModule</span></code> and uses the same
+design for defining the <code class="docutils literal notranslate"><span class="pre">training_step</span></code>, <code class="docutils literal notranslate"><span class="pre">validation_step</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">configure_optimizers</span></code> functions.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LightningClassifier</span><span class="p">(</span><span class="n">modlee</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">ModleeModel</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">classifier</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">Classifier</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">classifier</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">Classifier</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="n">num_classes</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>
         <span class="n">y_out</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">y_out</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">loss</span><span class="p">}</span>
+
     <span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">val_batch</span>
         <span class="n">y_out</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">y_out</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">loss</span>
+
     <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">optimizer</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LightningClassifier</span><span class="p">(</span><span class="n">num_classes</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_loader</span><span class="p">,</span> <span class="n">test_loader</span> <span class="o">=</span> <span class="n">get_fashion_mnist</span><span class="p">()</span>
-<span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">training_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">classes</span><span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">LightningClassifier</span><span class="p">()</span>
-</pre></div>
-</div>
+<p>Run the training loop, just for one epoch.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
     <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
-        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">training_loader</span><span class="p">,</span> <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">test_loader</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_loader</span><span class="p">,</span>
+        <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">val_loader</span>
     <span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LOCAL_RANK</span><span class="p">:</span> <span class="mi">0</span> <span class="o">-</span> <span class="n">CUDA_VISIBLE_DEVICES</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+  <span class="o">|</span> <span class="n">Name</span>       <span class="o">|</span> <span class="n">Type</span>       <span class="o">|</span> <span class="n">Params</span>
+<span class="o">------------------------------------------</span>
+<span class="mi">0</span> <span class="o">|</span> <span class="n">classifier</span> <span class="o">|</span> <span class="n">Classifier</span> <span class="o">|</span> <span class="mf">44.4</span> <span class="n">K</span>
+<span class="o">------------------------------------------</span>
+<span class="mf">44.4</span> <span class="n">K</span>    <span class="n">Trainable</span> <span class="n">params</span>
+<span class="mi">0</span>         <span class="n">Non</span><span class="o">-</span><span class="n">trainable</span> <span class="n">params</span>
+<span class="mf">44.4</span> <span class="n">K</span>    <span class="n">Total</span> <span class="n">params</span>
+<span class="mf">0.178</span>     <span class="n">Total</span> <span class="n">estimated</span> <span class="n">model</span> <span class="n">params</span> <span class="n">size</span> <span class="p">(</span><span class="n">MB</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Sanity Checking: 0it [00:00, ?it/s]
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Training: 0it [00:00, ?it/s]
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Validation: 0it [00:00, ?it/s]
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">modlee</span></code> with <code class="docutils literal notranslate"><span class="pre">mlflow</span></code> underneath will document the experiment in an
+automatically generated <code class="docutils literal notranslate"><span class="pre">assets</span></code> folder.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_run_path</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">last_run_path</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run path: </span><span class="si">{</span><span class="n">last_run_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">artifacts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">,</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">)</span>
+<span class="n">artifacts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved artifacts: </span><span class="si">{</span><span class="n">artifacts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Run</span> <span class="n">path</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">modlee_pypi</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mf">19e6</span><span class="n">c1aacc8046939225db701aa7dfda</span>
+<span class="n">Saved</span> <span class="n">artifacts</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;model_graph.py&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_size&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;cached_vars&#39;</span><span class="p">,</span> <span class="s1">&#39;stats_rep&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_1.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_0.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;model.py&#39;</span><span class="p">,</span> <span class="s1">&#39;loss_calls.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_summary.txt&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>We can build the model from the cached <code class="docutils literal notranslate"><span class="pre">model_graph.Model</span></code> class and
+confirm that we can pass an input through it. Note that this model’s
+weights will be uninitialized. To load the model from the last
+checkpoint, we can load it directly from the cached <code class="docutils literal notranslate"><span class="pre">model.pth</span></code>.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">)</span>
+
+<span class="c1"># Building from the object</span>
+<span class="kn">import</span> <span class="nn">model_graph</span>
+<span class="n">rebuilt_model</span> <span class="o">=</span> <span class="n">model_graph</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_loader</span><span class="p">))</span>
+<span class="n">y_original</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">y_rebuilt</span> <span class="o">=</span> <span class="n">rebuilt_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">y_original</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">y_rebuilt</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="c1"># Loading from the checkpoint</span>
+<span class="n">reloaded_model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span><span class="s1">&#39;model.pth&#39;</span><span class="p">))</span>
+<span class="n">y_reloaded</span> <span class="o">=</span> <span class="n">reloaded_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">y_original</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">y_reloaded</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </section>

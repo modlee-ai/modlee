@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentation &mdash; modlee 0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ca37922a" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ca37922a" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=8dde47fa"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            modlee
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">modlee</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../py-modindex.html">Module Index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="document.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="recommend.html">Recommendation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">modlee</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/document_exercise.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h1>
+<p>In this exercise, you will implement the <code class="docutils literal notranslate"><span class="pre">modlee</span></code> package to document
+an image segmentation experiment.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Boilerplate imports</span>
+<span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torchvision</span>
+<span class="kn">from</span> <span class="nn">torchvision.transforms.functional</span> <span class="kn">import</span> <span class="n">InterpolationMode</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">ssl</span>
+<span class="n">ssl</span><span class="o">.</span><span class="n">_create_default_https_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">_create_unverified_context</span>
+</pre></div>
+</div>
+<p>In the next cell, import <code class="docutils literal notranslate"><span class="pre">modlee</span></code> and initialize with an API key.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Your code goes here. Import the modlee package and initialize with your API key.</span>
+</pre></div>
+</div>
+<p>Load the training data.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span> <span class="o">=</span> <span class="n">get_fashion_mnist</span><span class="p">()</span>
+<span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">classes</span><span class="p">)</span>
+
+<span class="n">train_dataset</span><span class="p">,</span> <span class="n">val_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">VOCSegmentation</span><span class="p">(</span>
+    <span class="n">root</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,)</span>
+
+
+<span class="k">def</span> <span class="nf">replace_tensor_value_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">tensor</span><span class="p">[</span><span class="n">tensor</span> <span class="o">==</span> <span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span>
+    <span class="k">return</span> <span class="n">tensor</span>
+
+<span class="n">input_resize</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="n">input_transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">input_resize</span><span class="p">,</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">imagenet_mean</span><span class="p">,</span> <span class="n">imagenet_std</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">target_resize</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">InterpolationMode</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">)</span>
+<span class="n">target_transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">target_resize</span><span class="p">,</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">PILToTensor</span><span class="p">(),</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">Lambda</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">replace_tensor_value_</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">(),</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">21</span><span class="p">)),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Creating the dataset</span>
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">VOCSegmentation</span><span class="p">(</span>
+    <span class="s1">&#39;./datasets/&#39;</span><span class="p">,</span>
+    <span class="n">year</span><span class="o">=</span><span class="s1">&#39;2007&#39;</span><span class="p">,</span>
+    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">image_set</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">input_transform</span><span class="p">,</span>
+    <span class="n">target_transform</span><span class="o">=</span><span class="n">target_transform</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">val_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">VOCSegmentation</span><span class="p">(</span>
+    <span class="s1">&#39;./datasets/&#39;</span><span class="p">,</span>
+    <span class="n">year</span><span class="o">=</span><span class="s1">&#39;2007&#39;</span><span class="p">,</span>
+    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">image_set</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">input_transform</span><span class="p">,</span>
+    <span class="n">target_transform</span><span class="o">=</span><span class="n">target_transform</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Downloading</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">fashion</span><span class="o">-</span><span class="n">mnist</span><span class="o">.</span><span class="n">s3</span><span class="o">-</span><span class="n">website</span><span class="o">.</span><span class="n">eu</span><span class="o">-</span><span class="n">central</span><span class="o">-</span><span class="mf">1.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">train</span><span class="o">-</span><span class="n">images</span><span class="o">-</span><span class="n">idx3</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">Downloading</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">fashion</span><span class="o">-</span><span class="n">mnist</span><span class="o">.</span><span class="n">s3</span><span class="o">-</span><span class="n">website</span><span class="o">.</span><span class="n">eu</span><span class="o">-</span><span class="n">central</span><span class="o">-</span><span class="mf">1.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">train</span><span class="o">-</span><span class="n">images</span><span class="o">-</span><span class="n">idx3</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span> <span class="n">to</span> <span class="n">data</span><span class="o">/</span><span class="n">FashionMNIST</span><span class="o">/</span><span class="n">raw</span><span class="o">/</span><span class="n">train</span><span class="o">-</span><span class="n">images</span><span class="o">-</span><span class="n">idx3</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>100%|██████████| 26421880/26421880 [00:01&lt;00:00, 13333207.84it/s]
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Extracting</span> <span class="n">data</span><span class="o">/</span><span class="n">FashionMNIST</span><span class="o">/</span><span class="n">raw</span><span class="o">/</span><span class="n">train</span><span class="o">-</span><span class="n">images</span><span class="o">-</span><span class="n">idx3</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span> <span class="n">to</span> <span class="n">data</span><span class="o">/</span><span class="n">FashionMNIST</span><span class="o">/</span><span class="n">raw</span>
+
+<span class="n">Downloading</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">fashion</span><span class="o">-</span><span class="n">mnist</span><span class="o">.</span><span class="n">s3</span><span class="o">-</span><span class="n">website</span><span class="o">.</span><span class="n">eu</span><span class="o">-</span><span class="n">central</span><span class="o">-</span><span class="mf">1.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">train</span><span class="o">-</span><span class="n">labels</span><span class="o">-</span><span class="n">idx1</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">Downloading</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">fashion</span><span class="o">-</span><span class="n">mnist</span><span class="o">.</span><span class="n">s3</span><span class="o">-</span><span class="n">website</span><span class="o">.</span><span class="n">eu</span><span class="o">-</span><span class="n">central</span><span class="o">-</span><span class="mf">1.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">train</span><span class="o">-</span><span class="n">labels</span><span class="o">-</span><span class="n">idx1</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span> <span class="n">to</span> <span class="n">data</span><span class="o">/</span><span class="n">FashionMNIST</span><span class="o">/</span><span class="n">raw</span><span class="o">/</span><span class="n">train</span><span class="o">-</span><span class="n">labels</span><span class="o">-</span><span class="n">idx1</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>100%|██████████| 29515/29515 [00:00&lt;00:00, 332473.60it/s]
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Extracting</span> <span class="n">data</span><span class="o">/</span><span class="n">FashionMNIST</span><span class="o">/</span><span class="n">raw</span><span class="o">/</span><span class="n">train</span><span class="o">-</span><span class="n">labels</span><span class="o">-</span><span class="n">idx1</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span> <span class="n">to</span> <span class="n">data</span><span class="o">/</span><span class="n">FashionMNIST</span><span class="o">/</span><span class="n">raw</span>
+
+<span class="n">Downloading</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">fashion</span><span class="o">-</span><span class="n">mnist</span><span class="o">.</span><span class="n">s3</span><span class="o">-</span><span class="n">website</span><span class="o">.</span><span class="n">eu</span><span class="o">-</span><span class="n">central</span><span class="o">-</span><span class="mf">1.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">t10k</span><span class="o">-</span><span class="n">images</span><span class="o">-</span><span class="n">idx3</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">Downloading</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">fashion</span><span class="o">-</span><span class="n">mnist</span><span class="o">.</span><span class="n">s3</span><span class="o">-</span><span class="n">website</span><span class="o">.</span><span class="n">eu</span><span class="o">-</span><span class="n">central</span><span class="o">-</span><span class="mf">1.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">t10k</span><span class="o">-</span><span class="n">images</span><span class="o">-</span><span class="n">idx3</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span> <span class="n">to</span> <span class="n">data</span><span class="o">/</span><span class="n">FashionMNIST</span><span class="o">/</span><span class="n">raw</span><span class="o">/</span><span class="n">t10k</span><span class="o">-</span><span class="n">images</span><span class="o">-</span><span class="n">idx3</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>100%|██████████| 4422102/4422102 [00:00&lt;00:00, 6112706.99it/s]
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Extracting</span> <span class="n">data</span><span class="o">/</span><span class="n">FashionMNIST</span><span class="o">/</span><span class="n">raw</span><span class="o">/</span><span class="n">t10k</span><span class="o">-</span><span class="n">images</span><span class="o">-</span><span class="n">idx3</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span> <span class="n">to</span> <span class="n">data</span><span class="o">/</span><span class="n">FashionMNIST</span><span class="o">/</span><span class="n">raw</span>
+
+<span class="n">Downloading</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">fashion</span><span class="o">-</span><span class="n">mnist</span><span class="o">.</span><span class="n">s3</span><span class="o">-</span><span class="n">website</span><span class="o">.</span><span class="n">eu</span><span class="o">-</span><span class="n">central</span><span class="o">-</span><span class="mf">1.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">t10k</span><span class="o">-</span><span class="n">labels</span><span class="o">-</span><span class="n">idx1</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">Downloading</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">fashion</span><span class="o">-</span><span class="n">mnist</span><span class="o">.</span><span class="n">s3</span><span class="o">-</span><span class="n">website</span><span class="o">.</span><span class="n">eu</span><span class="o">-</span><span class="n">central</span><span class="o">-</span><span class="mf">1.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">t10k</span><span class="o">-</span><span class="n">labels</span><span class="o">-</span><span class="n">idx1</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span> <span class="n">to</span> <span class="n">data</span><span class="o">/</span><span class="n">FashionMNIST</span><span class="o">/</span><span class="n">raw</span><span class="o">/</span><span class="n">t10k</span><span class="o">-</span><span class="n">labels</span><span class="o">-</span><span class="n">idx1</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>100%|██████████| 5148/5148 [00:00&lt;00:00, 6405303.17it/s]
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Extracting</span> <span class="n">data</span><span class="o">/</span><span class="n">FashionMNIST</span><span class="o">/</span><span class="n">raw</span><span class="o">/</span><span class="n">t10k</span><span class="o">-</span><span class="n">labels</span><span class="o">-</span><span class="n">idx1</span><span class="o">-</span><span class="n">ubyte</span><span class="o">.</span><span class="n">gz</span> <span class="n">to</span> <span class="n">data</span><span class="o">/</span><span class="n">FashionMNIST</span><span class="o">/</span><span class="n">raw</span>
+</pre></div>
+</div>
+<p>Build the PyTorch model as a <code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code>.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Classifier</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Classifier</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">84</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">84</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">conv1x1_block</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;(conv 1 x 1 )&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_planes</span><span class="p">,</span> <span class="n">out_planes</span><span class="p">,</span> <span class="n">stride</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">conv1x1_block</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span>  <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_planes</span><span class="p">,</span> <span class="n">out_planes</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+<span class="k">class</span> <span class="nc">conv3x3_block_x1</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;(conv =&gt; BN =&gt; ReLU) * 1&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">conv3x3_block_x1</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">out_ch</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+<span class="k">class</span> <span class="nc">conv3x3_block_x2</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;(conv =&gt; BN =&gt; ReLU) * 2&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">conv3x3_block_x2</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">out_ch</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">out_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">out_ch</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+<span class="k">class</span> <span class="nc">upsample</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">upsample</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1x1</span> <span class="o">=</span> <span class="n">conv1x1_block</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">conv3x3_block_x2</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        H: High level feature map, upsample</span>
+<span class="sd">        L: Low level feature map, block output</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">scale_factor</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1x1</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">H</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+<span class="k">class</span> <span class="nc">UNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">22</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">UNet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxpool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block1</span> <span class="o">=</span> <span class="n">conv3x3_block_x2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block2</span> <span class="o">=</span> <span class="n">conv3x3_block_x2</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block3</span> <span class="o">=</span> <span class="n">conv3x3_block_x2</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block4</span> <span class="o">=</span> <span class="n">conv3x3_block_x2</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block_out</span> <span class="o">=</span> <span class="n">conv3x3_block_x1</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upsample1</span> <span class="o">=</span> <span class="n">upsample</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upsample2</span> <span class="o">=</span> <span class="n">upsample</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upsample3</span> <span class="o">=</span> <span class="n">upsample</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upsample4</span> <span class="o">=</span> <span class="n">upsample</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upsample_out</span> <span class="o">=</span> <span class="n">conv3x3_block_x2</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">):</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kaiming_normal_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">):</span>
+                <span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">m</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">block1_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxpool</span><span class="p">(</span><span class="n">block1_x</span><span class="p">)</span>
+        <span class="n">block2_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxpool</span><span class="p">(</span><span class="n">block2_x</span><span class="p">)</span>
+        <span class="n">block3_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxpool</span><span class="p">(</span><span class="n">block3_x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_out</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upsample2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">block3_x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upsample3</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">block2_x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upsample4</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">block1_x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upsample_out</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>In the next cell, wrap the model defined above in a
+<code class="docutils literal notranslate"><span class="pre">modlee.model.ModleeModel</span></code> object. At minimum, you must define the
+<code class="docutils literal notranslate"><span class="pre">__init__()</span></code>, <code class="docutils literal notranslate"><span class="pre">forward()</span></code>, <code class="docutils literal notranslate"><span class="pre">training_step()</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">configure_optimizers()</span></code> functions. Refer to the <a class="reference external" href="https://lightning.ai/docs/pytorch/stable/starter/introduction.html">Lightning
+documentation</a>
+for a refresher.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ModleeUNet</span><span class="p">(</span> <span class="s1">&#39;&#39;&#39;Inherit the modlee model&#39;&#39;&#39;</span> <span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>                <span class="c1"># Fill out the constructor</span>
+        <span class="c1"># Fill out the constructor</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Fill out the forward pass</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="c1"># Fill out the training step</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Fill out the optimizer configuration</span>
+        <span class="k">pass</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">ModleeUNet</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In the next cell, start training within a <code class="docutils literal notranslate"><span class="pre">modlee.start_run()</span></code>
+<a class="reference external" href="https://realpython.com/python-with-statement/">context manager</a>.
+Refer to <code class="docutils literal notranslate"><span class="pre">`mlflow</span></code>’s
+implementation &lt;<a class="reference external" href="https://mlflow.org/docs/latest/python_api/mlflow.html">https://mlflow.org/docs/latest/python_api/mlflow.html</a>&gt;`__
+as a refresher.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Your code goes here. Star training within a modlee.start_run() context manager</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Missing</span> <span class="n">logger</span> <span class="n">folder</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">modlee_pypi</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mi">297</span><span class="n">bc8969bb64235bbfa0824f20dd24b</span><span class="o">/</span><span class="n">artifacts</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mi">0729922</span><span class="n">d48c14c8b9c78f3b15ca962e3</span><span class="o">/</span><span class="n">artifacts</span><span class="o">/</span><span class="n">lightning_logs</span>
+<span class="n">LOCAL_RANK</span><span class="p">:</span> <span class="mi">0</span> <span class="o">-</span> <span class="n">CUDA_VISIBLE_DEVICES</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+  <span class="o">|</span> <span class="n">Name</span>       <span class="o">|</span> <span class="n">Type</span>       <span class="o">|</span> <span class="n">Params</span>
+<span class="o">------------------------------------------</span>
+<span class="mi">0</span> <span class="o">|</span> <span class="n">classifier</span> <span class="o">|</span> <span class="n">Classifier</span> <span class="o">|</span> <span class="mf">44.4</span> <span class="n">K</span>
+<span class="o">------------------------------------------</span>
+<span class="mf">44.4</span> <span class="n">K</span>    <span class="n">Trainable</span> <span class="n">params</span>
+<span class="mi">0</span>         <span class="n">Non</span><span class="o">-</span><span class="n">trainable</span> <span class="n">params</span>
+<span class="mf">44.4</span> <span class="n">K</span>    <span class="n">Total</span> <span class="n">params</span>
+<span class="mf">0.178</span>     <span class="n">Total</span> <span class="n">estimated</span> <span class="n">model</span> <span class="n">params</span> <span class="n">size</span> <span class="p">(</span><span class="n">MB</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Sanity Checking: 0it [00:00, ?it/s]
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Training: 0it [00:00, ?it/s]
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Validation: 0it [00:00, ?it/s]
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">modlee</span></code> with <code class="docutils literal notranslate"><span class="pre">mlflow</span></code> underneath will document the experiment in an
+automatically generated <code class="docutils literal notranslate"><span class="pre">assets</span></code> folder.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_run_path</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">last_run_path</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run path: </span><span class="si">{</span><span class="n">last_run_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">artifacts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">,</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">)</span>
+<span class="n">artifacts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved artifacts: </span><span class="si">{</span><span class="n">artifacts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Run</span> <span class="n">path</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">modlee_pypi</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mi">297</span><span class="n">bc8969bb64235bbfa0824f20dd24b</span><span class="o">/</span><span class="n">artifacts</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mi">0729922</span><span class="n">d48c14c8b9c78f3b15ca962e3</span><span class="o">/</span><span class="n">artifacts</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mf">910e72</span><span class="n">fc9bef4e958046ffc5fe3e3585</span>
+<span class="n">Saved</span> <span class="n">artifacts</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;model_graph.py&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_size&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;cached_vars&#39;</span><span class="p">,</span> <span class="s1">&#39;stats_rep&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_1.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_0.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;model.py&#39;</span><span class="p">,</span> <span class="s1">&#39;loss_calls.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_summary.txt&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>We can build the model from the cached <code class="docutils literal notranslate"><span class="pre">model_graph.Model</span></code> class and
+confirm that we can pass an input through it. Note that this model’s
+weights will be uninitialized. To load the model from the last
+checkpoint, we can load it directly from the cached <code class="docutils literal notranslate"><span class="pre">model.pth</span></code>.</p>
+<p>Rebuild the saved model. First, determine the path to the most recent
+run.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_run_path</span> <span class="o">=</span> <span class="c1"># Get the most recent run</span>
+<span class="n">artifacts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">,</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, import the model from the assets saved in the <code class="docutils literal notranslate"><span class="pre">artifacts/</span></code>
+directory.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="c1"># the model graph</span>
+<span class="n">rebuilt_model</span> <span class="o">=</span> <span class="c1"># Construct the model</span>
+
+<span class="c1"># Pass an input through the model</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_loader</span><span class="p">))</span>
+<span class="n">y_rebuilt</span> <span class="o">=</span> <span class="n">rebuilt_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You’ve reached the end of the tutorial and can now implement <code class="docutils literal notranslate"><span class="pre">modlee</span></code>
+into your machine learning experiments. Congratulations!</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Modlee, Inc.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
