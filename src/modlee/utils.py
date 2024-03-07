@@ -10,6 +10,8 @@ import requests
 import math, numbers
 import numpy as np
 
+import mlflow
+
 from torchvision import datasets as tv_datasets
 from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader
@@ -303,3 +305,14 @@ def save_run(modlee_client, *args, **kwargs):
     :param modlee_client: The client object that is tracking the current run.
     """
     modlee_client.post_run(*args, **kwargs)
+
+def last_run_path(*args, **kwargs):
+    """ 
+    Return the path to the last / most recent run path
+    
+    :return: The path to the last run.
+    """
+    artifact_uri = mlflow.last_active_run().info.artifact_uri
+    artifact_path = urlparse(artifact_uri).path
+    return os.path.dirname(artifact_path)
+    

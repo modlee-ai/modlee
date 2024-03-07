@@ -239,4 +239,4 @@ pyreverse -o png src/modlee
 ## 240301
 New commands, from `/docs/`:
 - Rebuild `build/html` from `source`: `make rebuild`
-- Convert jupyter to rst: `jupyter nbconvert --to rst --output-dir source/notebooks /path/to/file.ipynb`
+- Convert jupyter to rst: `jupyter nbconvert --to rst --output-dir source/notebooks /path/to/file.ipynb`, or `make nb_rst`.

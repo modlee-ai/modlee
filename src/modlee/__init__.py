@@ -18,15 +18,19 @@ import logging, warnings
 from functools import partial
 
 import mlflow
-from mlflow import start_run
+from mlflow import start_run, last_active_run
 
 from .client import ModleeClient
 
 api_key = os.environ.get("MODLEE_API_KEY", None)
+if api_key is None:
+    logging.warning(f"Modlee API key is not set, functionality will be limited.")
 modlee_client = ModleeClient(api_key=api_key)
+# modlee_client = None
 from .retriever import *
-from .utils import save_run
-save_run = partial(save_run, modlee_client)
+from .utils import save_run, last_run_path
+from .utils import save_run as utils_save_run
+save_run = partial(utils_save_run, modlee_client)
 from .model_text_converter import get_code_text, get_code_text_for_model
 from . import (
     model_text_converter,
@@ -103,8 +107,12 @@ def auth(api_key=None):
     """
     # if api_key provided, reset modlee_client and reload API-locked modules
     if api_key:
-        global modlee_client, get_code_text, get_code_text_for_model, data_metafeatures, model_text_converter, exp_loss_logger
+        global modlee_client, get_code_text, \
+            get_code_text_for_model, data_metafeatures, \
+                model_text_converter, exp_loss_logger, \
+                    save_run
         modlee_client = ModleeClient(api_key=api_key)
+        save_run = partial(utils_save_run, modlee_client)
         for _module in [data_metafeatures, model_text_converter, exp_loss_logger]:
             importlib.reload(_module)
         if model_text_converter.module_available:
@@ -151,4 +159,5 @@ def get_run_path():
 
     :return: The path to the current run.
     """
-    return urlparse(mlflow.get_tracking_uri()).path
+    artifact_path = urlparse(mlflow.get_tracking_uri()).path
+    return artifact_path
