@@ -118,32 +118,26 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.modlee_image_model.ModleeImageModel.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'classification'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/modlee_image_model.html#ModleeImageModel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.modlee_image_model.ModleeImageModel.__init__" title="Link to this definition"></a></dt>
-<dd><p>data_snapshot_size is the size limit of the chunk of data saved in each experiment
-We save this chunk in case we modify the calculation of data statistics (e.g. complexity)
-in future releases. Recalculating these measures enables backwards compatibility of 
-prior experiments</p>
+<dd><p>ModleeModel constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_snapshot_size</strong> – The maximum size of the data snapshots saved during meta-feature calculation.</p></li>
+<li><p><strong>vars_cache</strong> – A dictionary of variables to cache for later rebuilding the model.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.modlee_image_model.ModleeImageModel.configure_callbacks">
 <span class="sig-name descname"><span class="pre">configure_callbacks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/modlee_image_model.html#ModleeImageModel.configure_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.modlee_image_model.ModleeImageModel.configure_callbacks" title="Link to this definition"></a></dt>
-<dd><p>Configure model-specific callbacks. When the model gets attached, e.g., when <code class="docutils literal notranslate"><span class="pre">.fit()</span></code> or <code class="docutils literal notranslate"><span class="pre">.test()</span></code>
-gets called, the list or a callback returned here will be merged with the list of callbacks passed to the
-Trainer’s <code class="docutils literal notranslate"><span class="pre">callbacks</span></code> argument. If a callback returned here has the same type as one or several callbacks
-already present in the Trainer’s callbacks list, it will take priority and replace them. In addition,
-Lightning will make sure <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelCheckpoint</span></code> callbacks
-run last.</p>
-<dl class="simple">
-<dt>Return:</dt><dd><p>A callback or a list of callbacks which will extend the list of callbacks in the Trainer.</p>
+<dd><p>Configure callbacks for auto-documentation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of callbacks for auto-documentation.</p>
 </dd>
 </dl>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">configure_callbacks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="n">early_stop</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;val_acc&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">)</span>
-    <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;val_loss&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">early_stop</span><span class="p">,</span> <span class="n">checkpoint</span><span class="p">]</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </dd></dl>
