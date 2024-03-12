@@ -41,6 +41,17 @@ modlee
    modlee.ai <https://www.modlee.ai>
    Discord <https://discord.com/channels/1205271955306192936/1205271956098646087>
 
+Modlee is a machine learning tool that **documents** experiments for
+reproduciblity and **recommends** neural network models suited for a
+particular dataset. Modlee bypasses costly machine learning
+experimentation by recommending performant models based on prior
+experiments. Built on top of MLFlow, Modlee documents traditional
+experiment assets (model checkpoints, (hyper)parameters, performance
+metrics) and meta-features for
+`meta-learning <https://ieeexplore.ieee.org/abstract/document/9428530>`__.
+Based on these meta-features from prior experiments, Modlee recommends a
+neural network model matched to a new task.
+
 `Getting started <README.html>`_
 ======
 Learn about modlee and how to get started.

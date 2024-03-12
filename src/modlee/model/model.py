@@ -85,6 +85,7 @@ class ModleeModel(LightningModule):
             LogOutputCallback(),
             LogParamsCallback(),
             PushServerCallback(),
+            pl.callbacks.ModelCheckpoint(monitor='val_loss', ),
             # LogONNXCallback(),
         ]
 

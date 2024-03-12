@@ -16,6 +16,7 @@ from torchvision import datasets as tv_datasets
 from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader
 
+from modlee.client import ModleeClient
 
 def safe_mkdir(target_path):
     """
@@ -298,13 +299,14 @@ def apply_discretize_to_summary(text, info):
     return text_join
 
 
-def save_run(modlee_client, *args, **kwargs):
+def save_run(*args, **kwargs):
     """
     Save the current run.
 
     :param modlee_client: The client object that is tracking the current run.
     """
-    modlee_client.post_run(*args, **kwargs)
+    api_key = os.environ.get('MODLEE_API_KEY')
+    ModleeClient(api_key=api_key).post_run(*args, **kwargs)
 
 def last_run_path(*args, **kwargs):
     """ 

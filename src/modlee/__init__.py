@@ -22,15 +22,15 @@ from mlflow import start_run, last_active_run
 
 from .client import ModleeClient
 
-api_key = os.environ.get("MODLEE_API_KEY", None)
-if api_key is None:
+API_KEY = os.environ.get("MODLEE_API_KEY", None)
+if API_KEY is None:
     logging.warning(f"Modlee API key is not set, functionality will be limited.")
-modlee_client = ModleeClient(api_key=api_key)
+modlee_client = ModleeClient(api_key=API_KEY)
 # modlee_client = None
 from .retriever import *
 from .utils import save_run, last_run_path
-from .utils import save_run as utils_save_run
-save_run = partial(utils_save_run, modlee_client)
+# from .utils import save_run as utils_save_run
+# save_run = partial(utils_save_run, modlee_client)
 from .model_text_converter import get_code_text, get_code_text_for_model
 from . import (
     model_text_converter,
@@ -81,8 +81,9 @@ def suppress_stdout_stderr():
             yield (err, out)
 
 
+
 # Try to get an API key
-def init(run_path=None, api_key=api_key):
+def init(run_path=None, api_key=API_KEY):
     """
     Initialize package.
     Typically called at the beginning of a machine learning pipeline.
@@ -110,9 +111,11 @@ def auth(api_key=None):
         global modlee_client, get_code_text, \
             get_code_text_for_model, data_metafeatures, \
                 model_text_converter, exp_loss_logger, \
-                    save_run
+                    save_run, API_KEY
+        API_KEY = api_key
+        os.environ['MODLEE_API_KEY'] = API_KEY
         modlee_client = ModleeClient(api_key=api_key)
-        save_run = partial(utils_save_run, modlee_client)
+        # save_run = partial(utils_save_run, modlee_client)
         for _module in [data_metafeatures, model_text_converter, exp_loss_logger]:
             importlib.reload(_module)
         if model_text_converter.module_available:
@@ -161,3 +164,10 @@ def get_run_path():
     """
     artifact_path = urlparse(mlflow.get_tracking_uri()).path
     return artifact_path
+
+def get_api_key():
+    """
+    Get the current API key.
+    """
+    global API_KEY
+    return API_KEY
