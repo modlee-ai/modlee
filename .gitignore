@@ -4,6 +4,8 @@
 ./notebooks/lightning_logs/
 .vscode/
 data/
+data/*
+*datasets*
 lightning_logs/
 *lightning_logs*
 mlruns/

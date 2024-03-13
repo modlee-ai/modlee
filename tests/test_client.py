@@ -37,6 +37,8 @@ except ModuleNotFoundError as e:
 
 run_paths = [os.path.join(os.path.dirname(__file__), "test_mlruns")]
 
+assert os.environ.get("MODLEE_API_KEY"), "MODLEE_API_KEY environment variable not set, cannot test test_client.py"
+
 # class ModleeClientTest(unittest.TestCase):
 class TestModleeClient:
     client = ModleeClient(

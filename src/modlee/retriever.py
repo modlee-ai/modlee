@@ -16,6 +16,12 @@ from mlflow.client import MlflowClient
 
 
 def run_path_exists(run_path):
+    """
+    Chek if a run path exists.
+
+    :param run_path: The run path to check.
+    :return: Whether the path exists or not.
+    """
     if not os.path.exists(run_path):
         logging.warning(f"Run directory {run_path} does not exist")
         return False
@@ -23,6 +29,14 @@ def run_path_exists(run_path):
 
 
 def get_runs(run_path, experiment_id=None, run_id=None, **kwargs):
+    """
+    Get the runs in a given run path.
+
+    :param run_path: The path to search.
+    :param experiment_id: The experiment ID to retrieve, defaults to None and retrieves all experiments.
+    :param run_id: The run ID to retrieve, defaults to None to retrieves all runs.
+    :return: A list of runs.
+    """
     if not run_path_exists(run_path):
         return []
 
@@ -50,6 +64,12 @@ def get_runs(run_path, experiment_id=None, run_id=None, **kwargs):
 
 
 def get_model(run_path):
+    """
+    Get the model at a run path.
+
+    :param run_path: The run path.
+    :return: The model as a ModleeModel object.
+    """
     if not run_path_exists(run_path):
         return None
     model = SourceFileLoader(
@@ -77,6 +97,12 @@ def get_model(run_path):
 
 
 def get_cached_vars(run_path):
+    """
+    Get the cached variables required to rebuild a model from a run path.
+
+    :param run_path: The run path.
+    :return: A dictionary of the cached variables.
+    """
     if not run_path_exists(run_path):
         return {}
     with open(f"{run_path}/artifacts/cached_vars", "r") as vars_file:
@@ -84,6 +110,12 @@ def get_cached_vars(run_path):
 
 
 def get_data_snapshot(run_path):
+    """
+    Get the saved data snapshot from a run path.
+
+    :param run_path: The run path.
+    :return: The data snapshot as a numpy array.
+    """
     if not run_path_exists(run_path):
         return None
 

@@ -9,26 +9,36 @@ from contextlib import contextmanager, redirect_stderr, redirect_stdout
 import os
 from os import devnull
 from os.path import dirname, basename, isfile, join
-from functools import partial
 
 import pathlib
 from pathlib import Path
 from urllib.parse import urlparse
 
 import logging, warnings
-
+from functools import partial
 
 import mlflow
-from mlflow import start_run
+from mlflow import start_run, last_active_run
 
 from .client import ModleeClient
-api_key = os.environ.get("MODLEE_API_KEY", None)
-modlee_client = ModleeClient(api_key=api_key)
+
+API_KEY = os.environ.get("MODLEE_API_KEY", None)
+if API_KEY is None:
+    logging.warning(f"Modlee API key is not set, functionality will be limited.")
+modlee_client = ModleeClient(api_key=API_KEY)
+# modlee_client = None
 from .retriever import *
-from .utils import save_run
-save_run = partial(save_run, modlee_client)
+from .utils import save_run, last_run_path
+# from .utils import save_run as utils_save_run
+# save_run = partial(utils_save_run, modlee_client)
 from .model_text_converter import get_code_text, get_code_text_for_model
-from . import model_text_converter, exp_loss_logger, data_metafeatures, model, recommender
+from . import (
+    model_text_converter,
+    exp_loss_logger,
+    data_metafeatures,
+    model,
+    recommender,
+)
 
 logging.basicConfig(encoding="utf-8", level=logging.WARNING)
 api_modules = ["model_text_converter", "exp_loss_logger"]
@@ -71,8 +81,9 @@ def suppress_stdout_stderr():
             yield (err, out)
 
 
+
 # Try to get an API key
-def init(run_path=None, api_key=api_key):
+def init(run_path=None, api_key=API_KEY):
     """
     Initialize package.
     Typically called at the beginning of a machine learning pipeline.
@@ -81,12 +92,13 @@ def init(run_path=None, api_key=api_key):
     :param run_path: The path to the current run.
     """
 
-    # if run_path not provided, set to the same directory as the calling file
+    # if run_dir not provided, set to the same directory as the calling file
     if run_path is None or os.path.exists(run_path) == False:
         run_path = os.getcwd()
 
     set_run_path(run_path)
     auth(api_key)
+
 
 def auth(api_key=None):
     """
@@ -96,8 +108,14 @@ def auth(api_key=None):
     """
     # if api_key provided, reset modlee_client and reload API-locked modules
     if api_key:
-        global modlee_client, get_code_text, get_code_text_for_model, data_metafeatures, model_text_converter, exp_loss_logger
+        global modlee_client, get_code_text, \
+            get_code_text_for_model, data_metafeatures, \
+                model_text_converter, exp_loss_logger, \
+                    save_run, API_KEY
+        API_KEY = api_key
+        os.environ['MODLEE_API_KEY'] = API_KEY
         modlee_client = ModleeClient(api_key=api_key)
+        # save_run = partial(utils_save_run, modlee_client)
         for _module in [data_metafeatures, model_text_converter, exp_loss_logger]:
             importlib.reload(_module)
         if model_text_converter.module_available:
@@ -126,10 +144,10 @@ def set_run_path(run_path):
         run_path = os.path.join(run_path, "mlruns")
 
     # Setting base directory and checking for existence
-    run_path_base = os.path.dirname(run_path)
-    if not os.path.exists(run_path_base):
+    run_dir_base = os.path.dirname(run_path)
+    if not os.path.exists(run_dir_base):
         raise FileNotFoundError(
-            f"No base directory {run_path_base}, cannot set tracking URI"
+            f"No base directory {run_dir_base}, cannot set tracking URI"
         )
 
     # Setting tracking URI for mlflow
@@ -144,5 +162,12 @@ def get_run_path():
 
     :return: The path to the current run.
     """
-    return urlparse(mlflow.get_tracking_uri()).path
+    artifact_path = urlparse(mlflow.get_tracking_uri()).path
+    return artifact_path
 
+def get_api_key():
+    """
+    Get the current API key.
+    """
+    global API_KEY
+    return API_KEY

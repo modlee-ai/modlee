@@ -4,21 +4,13 @@ modlee.model package
 Submodules
 ----------
 
-modlee.model.image\_model module
---------------------------------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: modlee.model.image_model
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-modlee.model.model module
--------------------------
-
-.. automodule:: modlee.model.model
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   modlee.model.callbacks
+   modlee.model.image_model
+   modlee.model.model
+   modlee.model.recommended_model
 
 Module contents
 ---------------

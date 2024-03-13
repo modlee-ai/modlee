@@ -4,21 +4,11 @@ modlee.recommender package
 Submodules
 ----------
 
-modlee.recommender.image\_recommender module
---------------------------------------------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: modlee.recommender.image_recommender
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-modlee.recommender.recommender module
--------------------------------------
-
-.. automodule:: modlee.recommender.recommender
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   modlee.recommender.image_recommender
+   modlee.recommender.recommender
 
 Module contents
 ---------------

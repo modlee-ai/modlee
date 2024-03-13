@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.abspath('../src/modlee'))
 # -- Project information -----------------------------------------------------
 
 project = "modlee"
-copyright = "2024, modlee"
+copyright = "2024, Modlee, Inc"
 author = "modlee"
 
 # The short X.Y version
@@ -52,6 +52,8 @@ extensions = [
     "sphinx.ext.ifconfig",
     "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
+    "sphinx.ext.autosectionlabel",
+    "nbsphinx",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -113,6 +115,9 @@ html_css_files = ['css/custom.css']
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
+# html_sidebars = { '**': ['globaltoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'] }
+html_sidebars = { '**': ['localtoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'] }
+
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
@@ -203,7 +208,9 @@ intersphinx_mapping = {"https://docs.python.org/": None}
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
-add_module_names = False
+add_module_names = True
+
+autosectionlabel_prefix_document = True
 
 def skip(app, what, name, obj, would_skip, options):
     if name == "__init__":

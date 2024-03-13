@@ -17,3 +17,19 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+
+serve:
+	python3 -m http.server 7777 -d build/html
+
+apidoc:
+	sphinx-apidoc -f -o source/modules ../src/modlee --separate
+
+rebuild:
+	make apidoc && make clean && make html
+
+md_rst:
+	pandoc -s README.md -o source/README.rst
+
+nb_rst:
+	jupyter nbconvert --to rst --output-dir ./source/notebooks/ ../examples/*.ipynb

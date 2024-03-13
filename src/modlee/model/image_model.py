@@ -21,6 +21,7 @@ TASK_METRIC = {"classification": "Accuracy", "regression": "MeanSquaredError"}
 class ModleeImageModel(ModleeModel):
     """
     Subclass of ModleeModel with image-specific convenience wrappers
+
     - Logs classification accuracy
     - Calculates data-specific data statistics
     """
