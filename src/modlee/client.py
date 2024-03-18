@@ -27,7 +27,7 @@ class ModleeClient(object):
         :param api_key: The user's API key for authenticating functionality to the server.
         """
 
-        if api_key == "local":
+        if api_key == "kF4dN7mP9qW2sT8v":
             origin = LOCAL_ORIGIN
         elif api_key is not None:
             origin = REMOTE_ORIGIN
@@ -88,7 +88,8 @@ class ModleeClient(object):
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Headers": "*",
                     "Access-Control-Allow-Methods": "*",
-                },
+                    "X-API-KEY": self.api_key,
+                    },
             }
         )
 

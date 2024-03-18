@@ -22,7 +22,7 @@ from mlflow import start_run, last_active_run
 
 from .client import ModleeClient
 
-API_KEY = os.environ.get("MODLEE_API_KEY", None)
+API_KEY = os.environ.get("MODLEE_API_KEY", 'None')
 if API_KEY is None:
     logging.warning(f"Modlee API key is not set, functionality will be limited.")
 modlee_client = ModleeClient(api_key=API_KEY)

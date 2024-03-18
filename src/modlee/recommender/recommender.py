@@ -29,11 +29,14 @@ import sys
 
 import os
 from urllib.parse import urlparse
-from modlee import modlee_client
+from modlee import ModleeClient
+API_KEY = os.environ.get("MODLEE_API_KEY", 'None')
+import modlee
 
-
+modlee_client = ModleeClient(api_key=API_KEY)
 # SERVER_ENDPOINT = modlee_client.endpoint
-SERVER_ORIGIN = modlee_client.origin
+SERVER_ENDPOINT = modlee_client.origin
+#SERVER_ORIGIN = 'http://127.0.0.1:7070'
 #SERVER_ENDPOINT = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
 #print(SERVER_ENDPOINT)
 
@@ -43,7 +46,7 @@ class Recommender(object):
     """
 
     def __init__(
-        self, dataloader=None, origin=SERVER_ORIGIN, *args, **kwargs
+        self, dataloader=None, origin=SERVER_ENDPOINT, *args, **kwargs
     ) -> None:
         """ 
         Constructor for recommender.
@@ -121,7 +124,8 @@ class Recommender(object):
         res = requests.get(
             f"{self.origin}/model/{self.modality}/{self.task}",
             data=json.dumps({"data_features": metafeatures}),
-            headers={"Content-Type": "application/json"},
+            headers={"Content-Type": "application/json",
+                     "X-API-KEY": API_KEY},
         )
         model_text = res.content
         return model_text
