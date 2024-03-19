@@ -11,7 +11,7 @@ import functools
 
 LOCAL_ORIGIN = "http://127.0.0.1:7070"
 # REMOTE_ORIGIN = "http://modlee.pythonanywhere.com"
-REMOTE_ORIGIN = "http://ec2-3-84-155-233.compute-1.amazonaws.com:7070"
+REMOTE_ORIGIN = "https://server.modlee.ai:7070"
 
 
 class ModleeClient(object):
