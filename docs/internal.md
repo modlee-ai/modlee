@@ -217,17 +217,35 @@ Either wait it out or try setting `NUM_WORKERS=1`.
 
 # Docs
 
+The [`pymfe` documentation](https://github.com/ealcobaca/pymfe/tree/master/docs) are a good template.
+
 ## Build docs
-To generate the assets for the documentation website:
+To generate the assets for the documentation website, first create the `sphinx` directory (**only if** `docs/` does not yet exist):
+``` 
+sphinx-quickstart docs
 ```
-pip3 install .          # Update environment package 
-sphinx-quickstart docs  # Only required if docs/ does not exist 
+
+Then, make modifications to the documetation and rebuild:
+```
+# Move to documentation folder
 cd docs
-sphinx-apidoc -f -o source/modules ../src/modlee
-sphinx-build -M html source build   # Or `make html`
-cd build/html
-python3 -m http.server 7777     # View the page at localhost:7777
+
+# Modify source/*.rst files manually
+
+# Update environment package 
+pip3 install ..
+
+# Rebuild, the following is equivalent to running `make rebuild`
+sphinx-apidoc -f -o source/modules ../src/modlee    # Or `make apidoc`
+sphinx-build -M html source build                   # Or `make html`
+
+# View the page at localhost:7777
+python3 -m http.server 7777 -d build/html           # Or `make serve`
 ```
+
+### Other `make` commands:
+- `md_rst`: convert the `README.md` to `source/README.rst`
+- `nb_rst`: convert Jupyter notebooks in `../examples/*.ipynb` to `source/notebooks/*.rst`
 
 
 ## Class diagram

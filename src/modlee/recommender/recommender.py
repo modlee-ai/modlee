@@ -121,11 +121,25 @@ class Recommender(object):
             self.task is not None
         ), "Recommender task is not set (e.g. classification, segmentation)"
         metafeatures = json.loads(json.dumps(metafeatures))
-        res = requests.get(
-            f"{self.origin}/model/{self.modality}/{self.task}",
+        # breakpoint()
+        # res = requests.get(
+        #     f"{self.origin}/model/{self.modality}/{self.task}",
+        #     data=json.dumps({"data_features": metafeatures}),
+        #     headers={"Content-Type": "application/json"},
+        #     verify=False,
+        # )
+        
+        res = modlee_client.get(
+            path=f"model/{self.modality}/{self.task}",
             data=json.dumps({"data_features": metafeatures}),
             headers={"Content-Type": "application/json",
-                     "X-API-KEY": API_KEY},
+                    "User-Agent": "Mozilla/5.0",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "*",
+                    "Access-Control-Allow-Methods": "*",
+                    # "X-API-KEY": API_KEY
+                    },
+            timeout=20,
         )
         model_text = res.content
         return model_text

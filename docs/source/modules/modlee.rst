@@ -26,6 +26,7 @@ Submodules
    modlee.model_text_converter
    modlee.modlee_image_model
    modlee.retriever
+   modlee.trainer
    modlee.utils
 
 Module contents

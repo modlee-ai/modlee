@@ -11,7 +11,8 @@ import functools
 
 LOCAL_ORIGIN = "http://127.0.0.1:7070"
 # REMOTE_ORIGIN = "http://modlee.pythonanywhere.com"
-REMOTE_ORIGIN = "https://server.modlee.ai:7070"
+# REMOTE_ORIGIN = "http://ec2-3-84-155-233.compute-1.amazonaws.com:7070"
+from modlee.config import SERVER_ORIGIN as REMOTE_ORIGIN
 
 
 class ModleeClient(object):
@@ -78,23 +79,33 @@ class ModleeClient(object):
         """
         req_url = f"{self.origin}/{path}"
 
-        kwargs.update(dict(timeout=self.timeout))
+        # kwargs.update(dict(timeout=self.timeout))
+        kwargs['timeout'] = kwargs.get('timeout',self.timeout)
 
-        kwargs.update(
-            {
-                "auth": (self.api_key, self.api_key),
-                "headers": {
+        # Set headers only if not already defined 
+        kwargs_headers = kwargs.get("headers", {
                     "User-Agent": "Mozilla/5.0",
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Headers": "*",
                     "Access-Control-Allow-Methods": "*",
                     "X-API-KEY": self.api_key,
                     },
+                )
+        kwargs_headers.update({
+            "X-API-KEY": self.api_key,
+        })
+        kwargs.update(
+            {
+                "auth": (self.api_key, self.api_key),
+                "headers": kwargs_headers,
             }
         )
-
+        # breakpoint()
+ 
         try:
+            # if method=='post': breakpoint()
             ret = getattr(requests, method)(req_url, *args, **kwargs)
+            # breakpoint()
             if ret.status_code >= 400:
                 if ret.status_code != 404:
                     pass

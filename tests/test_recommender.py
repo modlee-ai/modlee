@@ -16,7 +16,6 @@ from torchvision import datasets as tv_datasets
 from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader
 
-
 def get_dataloader(batch_size=64):
     training_loader = DataLoader(
         tv_datasets.CIFAR10(

@@ -9,11 +9,13 @@ First, import ``torch``- and ``modlee``-related packages.
 
 .. code:: ipython3
 
+    import os
+    os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
     import torch, torchvision
     import torchvision.transforms as transforms
     
     import modlee
-    modlee.init(api_key="my-api-key")
+    modlee.init(api_key=os.environ.get('MODLEE_API_KEY'))
 
 Next, we create a dataloader from CIFAR10.
 
@@ -35,20 +37,6 @@ Next, we create a dataloader from CIFAR10.
         batch_size=16
     )
 
-
-.. parsed-literal::
-
-    /home/ubuntu/projects/.venv/lib/python3.10/site-packages/torchvision/transforms/v2/_deprecated.py:43: UserWarning: The transform `ToTensor()` is deprecated and will be removed in a future release. Instead, please use `v2.Compose([v2.ToImage(), v2.ToDtype(torch.float32, scale=True)])`.
-      warnings.warn(
-
-
-.. parsed-literal::
-
-    Files already downloaded and verified
-    Using downloaded and verified file: ./data/VOCtest_06-Nov-2007.tar
-    Extracting ./data/VOCtest_06-Nov-2007.tar to ./data
-
-
 Create a ``modlee`` recommender object and fit to the dataset. The
 recommended ``ModleeModel`` object will be assigned to
 ``recommender.model``.
@@ -63,20 +51,13 @@ recommended ``ModleeModel`` object will be assigned to
     modlee_model = recommender.model 
 
 
-
-.. parsed-literal::
-
-    [Modlee] -> Just a moment, analyzing your dataset ...
-    
-
-
 We can train the model as we would a basic ``ModleeModel``, with
 documentation.
 
 .. code:: ipython3
 
     with modlee.start_run() as run:
-        trainer = pl.Trainer(max_epochs=1)
+        trainer = modlee.Trainer(max_epochs=1)
         trainer.fit(
             model=modlee_model,
             train_dataloaders=train_dataloader

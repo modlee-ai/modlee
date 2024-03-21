@@ -619,6 +619,22 @@
             <span class="n">batch_ctr</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">data_snapshots</span></div>
 
+
+<div class="viewcode-block" id="LogTransformsCallback">
+<a class="viewcode-back" href="../../../modules/modlee.model.callbacks.html#modlee.model.callbacks.LogTransformsCallback">[docs]</a>
+<span class="k">class</span> <span class="nc">LogTransformsCallback</span><span class="p">(</span><span class="n">ModleeCallback</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Logs transforms applied to the dataset, if applied with torchvision.transforms</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="LogTransformsCallback.on_train_start">
+<a class="viewcode-back" href="../../../modules/modlee.model.callbacks.html#modlee.model.callbacks.LogTransformsCallback.on_train_start">[docs]</a>
+    <span class="k">def</span> <span class="nf">on_train_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">,</span> <span class="n">pl_module</span><span class="p">):</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train_dataloader</span><span class="o">.</span><span class="n">dataset</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="s2">&quot;transforms&quot;</span><span class="p">):</span>
+            <span class="n">mlflow</span><span class="o">.</span><span class="n">log_text</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">transform</span><span class="p">),</span> <span class="s2">&quot;transforms.txt&quot;</span><span class="p">)</span></div>
+</div>
+
+   
 </pre></div>
 
            </div>

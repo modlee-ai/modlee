@@ -14,7 +14,6 @@ from lightning.pytorch.callbacks import Callback
 from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import modlee
-from modlee import data_metafeatures, save_run, get_code_text_for_model
 from modlee import logging, utils as modlee_utils, exp_loss_logger
 from modlee.converter import Converter
 
@@ -29,20 +28,68 @@ base_lightning_module = LightningModule()
 base_lm_keys = list(LightningModule.__dict__.keys())
 
 
+class ModleeModel(LightningModule):
+    def __init__(self, data_snapshot_size=10e6, vars_cache={}, *args, **kwargs) -> None:
+        """
+        data_snapshot_size is the size limit of the chunk of data saved in each experiment
+        We save this chunk in case we modify the calculation of data statistics (e.g. complexity)
+        in future releases. Recalculating these measures enables backwards compatibility of 
+        prior experiments
+        """
+        LightningModule.__init__(self, *args, **kwargs)
+        mlflow.pytorch.autolog(log_datasets=False)
+        self.data_snapshot_size = data_snapshot_size
+        self.vars_cache = vars_cache
+        self.vars_cache.update(kwargs)
+
+        self_keys = list(self.__dict__.keys())
+        # self_dict = self.__dict__.
+        # for self_key in self_keys:
+
+    def _update_vars_cached(self):
+        for self_key, self_val in self.__dict__.items():
+            if self_key == "vars_cache":
+                continue
+            if self_key[0] == "_":
+                continue
+            if self_key not in base_lm_keys:
+                if modlee_utils.is_cacheable(self_val):
+                    self.vars_cache.update({self_key: self.__dict__[self_key]})
+
+    @property
+    def run_dir(self):
+        """Get the current run directory
+
+        Returns:
+            _type_: the directory to the mlruns/{experiment_id}/{run_id}
+        """
+        return os.path.dirname(modlee_utils.uri_to_path(mlflow.get_artifact_uri()))
+
+    def configure_callbacks(self):
+        return [
+            DataMetafeaturesCallback(self.data_snapshot_size),
+            LogCodeTextCallback(self.vars_cache),
+            LogOutputCallback(),
+            LogParamsCallback(),
+            PushAPICallback(),
+            # LogONNXCallback(),
+        ]
+
+
 class ModleeCallback(Callback):
-    """ 
-    Base class for Modlee-specific callbacks.
-    """
     def __init__(self) -> None:
         super().__init__()
 
     def get_input(self, trainer, pl_module):
         """
-        Get an input (one element from a batch) from a trainer's dataloader.  
+        Retrieve an input from a trainer 
 
-        :param trainer: The trainer with the dataloader.
-        :param pl_module: The model module, used for loading the data input to the correct device.
-        :return: An input from the batch.
+        Args:
+            trainer (_type_): _description_
+            pl_module (_type_): _description_
+
+        Returns:
+            _type_: _description_
         """
         _dataloader = trainer.train_dataloader
         _batch = next(iter(_dataloader))
@@ -65,36 +112,25 @@ class ModleeCallback(Callback):
         return _input
 
 
-class PushServerCallback(Callback):
-    """
-    Callback to push run assets to the server at the end of training.
-    """
+class PushAPICallback(Callback):
     def on_fit_end(self, trainer: Trainer, pl_module: LightningModule) -> None:
-        save_run(pl_module.run_path)
+        modlee.save_run(pl_module.run_dir)
         return super().on_fit_end(trainer, pl_module)
 
 
 class LogParamsCallback(Callback):
-    """ 
-    Callback to log parameters at the start of training.
-    """
+    def __init__(self, *args, **kwargs):
+        Callback.__init__(self, *args, **kwargs)
+
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
         mlflow.log_param("batch_size", trainer.train_dataloader.batch_size)
         return super().on_train_start(trainer, pl_module)
 
 
 class LogCodeTextCallback(ModleeCallback):
-    """ 
-    Callback to log the model as code and text.
-    """
-    def __init__(self, kwargs_to_cache={}, *args, **kwargs):
-        """ 
-        Constructor for LogCodeTextCallback.
-        
-        :param kwargs_to_cache: A dictionary of kwargs to cache in the run for rebuilding the model.
-        """
+    def __init__(self, vars_to_save={}, *args, **kwargs):
         Callback.__init__(self, *args, **kwargs)
-        self.kwargs_cache = kwargs_to_cache
+        self.vars_cache = vars_to_save
 
     def setup(self, trainer: Trainer, pl_module: LightningModule, stage: str) -> None:
         # log the code text as a python file
@@ -107,24 +143,17 @@ class LogCodeTextCallback(ModleeCallback):
         return super().on_train_start(trainer, pl_module)
 
     def _log_code_text(self, trainer: Trainer, pl_module: LightningModule):
-        """ 
-        Log the model as code and text. Converts the model through modlee.converter pipelines.
-
-        :param trainer: The trainer that contains the dataloader.
-        :param pl_module: The model as a module.
-        """
-        # _get_code_text_for_model = getattr(modlee, "get_code_text_for_model", None)
-        _get_code_text_for_model = get_code_text_for_model
+        _get_code_text_for_model = getattr(modlee, "get_code_text_for_model", None)
         code_text = ""
         # return
         if _get_code_text_for_model is not None:
             # ==== METHOD 1 ====
             # Save model as code using parsing
-            code_text = get_code_text_for_model(pl_module, include_header=True)
+            code_text = modlee.get_code_text_for_model(pl_module, include_header=True)
             mlflow.log_text(code_text, "model.py")
             # Save variables required to rebuild the model
-            pl_module._update_kwargs_cached()
-            mlflow.log_dict(self.kwargs_cache, "cached_vars")
+            pl_module._update_vars_cached()
+            mlflow.log_dict(self.vars_cache, "cached_vars")
 
             # ==== METHOD 2 ====
             # Save model as code by converting to a graph through ONNX
@@ -175,10 +204,9 @@ class LogCodeTextCallback(ModleeCallback):
 
 
 class LogONNXCallback(ModleeCallback):
-    """ 
-    Callback for logging the model in its ONNX representations.
-    Deprecated, will be combined with LogCodeTextCallback.
-    """
+    def __init__(self) -> None:
+        super().__init__()
+
     def setup(self, trainer: Trainer, pl_module: LightningModule, stage: str) -> None:
         # self._log_onnx(trainer, pl_module)
         return super().setup(trainer, pl_module, stage)
@@ -211,16 +239,11 @@ class LogONNXCallback(ModleeCallback):
 
 
 class LogOutputCallback(Callback):
-    """ 
-    Callback to log the output metrics for each batch.
-    """
     def __init__(self, *args, **kwargs):
-        """ 
-        Constructor for LogOutputCallback.
-        """
         Callback.__init__(self, *args, **kwargs)
         self.on_train_batch_end = partial(self._on_batch_end, phase="train")
         self.on_validation_batch_end = partial(self._on_batch_end, phase="val")
+        # self.train_outputs = self.val_outputs = []
         self.outputs = {"train": [], "val": []}
 
     def _on_batch_end(
@@ -232,16 +255,8 @@ class LogOutputCallback(Callback):
         batch_idx: int,
         phase="train",
     ) -> None:
-        """ 
-        Helper function to log output metrics on batch end.
-        Currently catches metrics formatted as '{phase}_loss'.
-        
-        :param trainer: The trainer.
-        :param pl_module: The model as a module.
-        :param outputs: The outputs on batch end, automatically passed by the base callback.
-        :param batch: The batch, automatically passed by the base callback.
-        :param batch_idx: The index of the batch, automatcally passed by te base callback.
-        :param phase: The phase of training for logging, ["train", "val"]. Defaults to "train".
+        """
+        TODO - refactor to epoch end
         """
         if trainer.is_last_batch:
             if isinstance(outputs, dict):
@@ -257,21 +272,14 @@ class LogOutputCallback(Callback):
 
 
 class DataMetafeaturesCallback(ModleeCallback):
-    """ 
-    Callback to calculate and log data meta-features.
-    """
     def __init__(self, data_snapshot_size=1e7, DataMetafeatures=None, *args, **kwargs):
-        """ 
-        Constructor for the data metafeature callback.
-        
-        :param data_snapshot_size: The maximum size of the cached data snapshot.
-        :param DataMetafeatures: The DataMetafeatures module. If not provided, will not calculate metafeatures.
-        """
         Callback.__init__(self, *args, **kwargs)
         super().__init__()
         self.data_snapshot_size = data_snapshot_size
         if not DataMetafeatures:
-            DataMetafeatures = getattr(data_metafeatures, "DataMetafeatures", None)
+            DataMetafeatures = getattr(
+                modlee.data_metafeatures, "DataMetafeatures", None
+            )
         self.DataMetafeatures = DataMetafeatures
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
@@ -279,21 +287,14 @@ class DataMetafeaturesCallback(ModleeCallback):
         data_snapshots = self._get_snapshots_batched(trainer.train_dataloader)
         self._save_snapshots_batched(data_snapshots)
         # log the data statistics
-        # self._log_data_metafeatures(data, targets)
-        self._log_data_metafeatures_dataloader(trainer.train_dataloader)
+        # self._log_data_mf(data, targets)
+        self._log_data_mf_dataloader(trainer.train_dataloader)
 
         self._log_output_size(trainer, pl_module)
 
         return super().on_train_start(trainer, pl_module)
 
-    def _log_data_metafeatures(self, data, targets=[]) -> None:
-        """ 
-        Log the data metafeatures from input data and targets.
-        Deprecated in favor of _log_data_metafeatures_dataloader.
-
-        :param data: The input data.
-        :param targets: The targets.
-        """
+    def _log_data_mf(self, data, targets=[]) -> None:
         if self.DataMetafeatures:
             if isinstance(data, torch.Tensor):
                 data, targets = data.numpy(), targets.numpy()
@@ -305,12 +306,7 @@ class DataMetafeaturesCallback(ModleeCallback):
                     not logging but continuing experiment"
             )
 
-    def _log_data_metafeatures_dataloader(self, dataloader) -> None:
-        """ 
-        Log data metafeatures with a dataloader.
-
-        :param dataloader: The dataloader.
-        """
+    def _log_data_mf_dataloader(self, dataloader) -> None:
         if self.DataMetafeatures:
             # TODO - use data batch and model to get output size
             data_metafeatures = self.DataMetafeatures(dataloader)
@@ -319,12 +315,6 @@ class DataMetafeaturesCallback(ModleeCallback):
             logging.warning("Cannot log data statistics, could not access from server")
 
     def _log_output_size(self, trainer: Trainer, pl_module: LightningModule) -> None:
-        """ 
-        Log the output size of the model.
-        
-        :param trainer: The trainer.
-        :param pl_module: The model as a module.
-        """
         # _dataloader = trainer.train_dataloader
         # _batch = next(iter(_dataloader))
         # # NOTE - how can we generalize to different input schemes?
@@ -354,12 +344,6 @@ class DataMetafeaturesCallback(ModleeCallback):
             )
 
     def _get_data_targets(self, trainer: Trainer):
-        """
-        Get the data and targets from a trainer's dataloader.
-        
-        :param trainer: The trainer.
-        :return: The data and targets.
-        """
         _dataset = trainer.train_dataloader.dataset
         if isinstance(_dataset, list):
             data = np.array(_dataset)
@@ -382,15 +366,11 @@ class DataMetafeaturesCallback(ModleeCallback):
             self._save_snapshot(targets, "targets", max_len=len(data))
         return data, targets
 
+    def _get_data_targets_batch(self, trainer: Trainer):
+        _dataloader = trainer.train_dataloader
+        data_snapshot = np.array()
 
     def _save_snapshot(self, data, snapshot_name="data", max_len=None):
-        """ 
-        Save a snapshot of data.
-        
-        :param data: The data to save.
-        :param snapshot_name: The name to save the data.
-        :param max_len: The maximum length of the data.
-        """
         data = self._get_snapshot(data=data, max_len=max_len)
         modlee_utils.safe_mkdir(TMP_DIR)
         data_filename = f"{TMP_DIR}/{snapshot_name}_snapshot.npy"
@@ -398,13 +378,6 @@ class DataMetafeaturesCallback(ModleeCallback):
         mlflow.log_artifact(data_filename)
 
     def _get_snapshot(self, data, max_len=None):
-        """ 
-        Get a snapshot of data.
-        
-        :param data: The data.
-        :param max_len: The maximum length of the snapshot.
-        :return: A snapshot of the data.
-        """
         if isinstance(data, torch.Tensor):
             data = data.numpy()
         elif not isinstance(data, np.ndarray):
@@ -418,11 +391,6 @@ class DataMetafeaturesCallback(ModleeCallback):
         return data[:max_len]
 
     def _save_snapshots_batched(self, data_snapshots):
-        """ 
-        Save batches of data snapshots.
-        
-        :param data_snapshots: A batch of data snapshots.
-        """
         modlee_utils.safe_mkdir(TMP_DIR)
         for snapshot_idx, data_snapshot in enumerate(data_snapshots):
 
@@ -431,13 +399,6 @@ class DataMetafeaturesCallback(ModleeCallback):
             mlflow.log_artifact(data_filename)
 
     def _get_snapshots_batched(self, dataloader, max_len=None):
-        """ 
-        Get a batch of data snapshots.
-        
-        :param dataloader: The dataloader of the data to snapshot.
-        :param max_len: The maximum length of the snapshot.
-        :return: A batch of data snapshots.
-        """
         # Use batch to determine how many "sub"batches to create
         _batch = next(iter(dataloader))
 
@@ -472,13 +433,3 @@ class DataMetafeaturesCallback(ModleeCallback):
                     data_snapshots[0] = np.vstack([data_snapshots[0], (_batch.numpy())])
             batch_ctr += 1
         return data_snapshots
-
-class LogTransformsCallback(ModleeCallback):
-    """ 
-    Logs transforms applied to the dataset, if applied with torchvision.transforms
-    """
-    def on_train_start(self, trainer, pl_module):
-        dataset = trainer.train_dataloader.dataset
-        if hasattr(dataset, "transforms"):
-            mlflow.log_text(str(dataset.transform), "transforms.txt")
-   

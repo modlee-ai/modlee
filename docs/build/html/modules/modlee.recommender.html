@@ -137,7 +137,27 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="modlee.recommender.from_modality_task">
 <span class="sig-prename descclassname"><span class="pre">modlee.recommender.</span></span><span class="sig-name descname"><span class="pre">from_modality_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modality</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender.html#from_modality_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.from_modality_task" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Return a Recommender object based on the modality and task.
+Currently supports:</p>
+<ul class="simple">
+<li><p>image</p></li>
+</ul>
+<p>— classification
+— segmentation
+- text
+— classification</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>modality</strong> – The modality as a string, e.g. “image”, “text”.</p></li>
+<li><p><strong>task</strong> – The task as a string, e.g. “classification”, “segmentation”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The RecommenderObject, if it exists.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 </section>

@@ -2,6 +2,7 @@
 Modlee model class and callbacks. 
 """
 from functools import partial
+import inspect
 import pickle
 from typing import Any, Optional
 import numpy as np
@@ -9,6 +10,7 @@ import numpy as np
 import os
 import pandas as pd
 import torch
+from torch import nn
 from torch.utils.data import Dataset
 
 import lightning.pytorch as pl
@@ -73,19 +75,84 @@ class ModleeModel(LightningModule):
         """
         return os.path.dirname(modlee_utils.uri_to_path(mlflow.get_artifact_uri()))
 
+    def _check_step_defined(self, method_name):
+        """
+        Check if a step method (i.e. training_step, validation_step, test_step) is defined.
+        
+        :param method_name: The name of the method to check.
+        :return: Whether the method is defined.
+        """
+        method_params = inspect.signature(getattr(self, method_name)).parameters
+        return 'batch' in method_params
+        
+
     def configure_callbacks(self):
         """ 
         Configure callbacks for auto-documentation.
 
         :return: A list of callbacks for auto-documentation.
         """
-        return [
+        callbacks = [
             DataMetafeaturesCallback(self.data_snapshot_size),
             LogCodeTextCallback(self.kwargs_cache),
             LogOutputCallback(),
             LogParamsCallback(),
             PushServerCallback(),
-            pl.callbacks.ModelCheckpoint(monitor='val_loss', ),
+            LogTransformsCallback(),
             # LogONNXCallback(),
+            pl.callbacks.ModelCheckpoint(
+                # dirpath='./',
+                filename='{epoch}-{loss:.2f}',
+                monitor='loss', 
+                save_top_k=1,
+                mode='min',
+                verbose=True),
         ]
+        
+        # If the validation step is defined, add
+        if self._check_step_defined("validation_step"): 
+            callbacks.append(pl.callbacks.ModelCheckpoint(
+                # dirpath='./',
+                filename='{epoch}-{val_loss:.2f}',
+                monitor='val_loss', 
+                save_top_k=1,
+                mode='min',
+                verbose=True))
+            
+            
+        return callbacks
 
+class SimpleModel(ModleeModel):
+    def __init__(self, input_shape=(1,10), output_shape=(1,20)):
+        super().__init__()
+        self.input_shape = input_shape
+        self.model = nn.Linear(input_shape[-1], output_shape[-1])
+        self.loss = nn.functional.cross_entropy
+        self.dataset = SimpleDataset(input_shape, output_shape)
+        
+    def forward(self, x):
+        return self.model(x)
+    
+    def training_step(self, batch):
+        x,y = batch
+        return {'loss': self.loss(self(x), y)}
+    
+    def configure_optimizers(self):
+        return torch.optim.Adam(
+            self.parameters(),
+            lr=0.001
+        )
+
+class SimpleDataset(Dataset):
+    def __init__(self, input_shape=(1,10), output_shape=(1,20)):
+        super().__init__()
+        self.inputs = torch.rand(10, input_shape[-1])
+        self.outputs = torch.rand(10, output_shape[-1])
+
+    def __len__(self):
+        return len(self.inputs)
+    
+    def __getitem__(self, index):
+        return self.inputs[index], self.outputs[index]
+    
+    

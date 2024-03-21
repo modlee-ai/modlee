@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>modlee.trainer module &mdash; modlee 0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ca37922a" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ca37922a" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=8dde47fa"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            modlee
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">modlee</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../py-modindex.html">Module Index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/document.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/recommend.html">Recommendation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">modlee</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">modlee.trainer module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/modlee.trainer.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-modlee.trainer">
+<span id="modlee-trainer-module"></span><h1>modlee.trainer module<a class="headerlink" href="#module-modlee.trainer" title="Link to this heading"></a></h1>
+<p>Modlee Trainer.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="modlee.trainer.Trainer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.trainer.</span></span><span class="sig-name descname"><span class="pre">Trainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/trainer.html#Trainer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.trainer.Trainer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code></p>
+<p>Trainer that directs checkpoint files to the current run directory.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.trainer.Trainer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/trainer.html#Trainer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.trainer.Trainer.__init__" title="Link to this definition"></a></dt>
+<dd><p>Customize every aspect of training via flags.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>accelerator: Supports passing different accelerator types (“cpu”, “gpu”, “tpu”, “ipu”, “hpu”, “mps”, “auto”)</dt><dd><p>as well as custom accelerator instances.</p>
+</dd>
+<dt>strategy: Supports different training strategies with aliases as well custom strategies.</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>.</p>
+</dd>
+<dt>devices: The devices to use. Can be set to a positive number (int or str), a sequence of device indices</dt><dd><p>(list or str), the value <code class="docutils literal notranslate"><span class="pre">-1</span></code> to indicate all available devices should be used, or <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> for
+automatic selection based on the chosen accelerator. Default: <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>.</p>
+</dd>
+<dt>num_nodes: Number of GPU nodes for distributed training.</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+</dd>
+<dt>precision: Double precision (64, ‘64’ or ‘64-true’), full precision (32, ‘32’ or ‘32-true’),</dt><dd><p>16bit mixed precision (16, ‘16’, ‘16-mixed’) or bfloat16 mixed precision (‘bf16’, ‘bf16-mixed’).
+Can be used on CPU, GPU, TPUs, HPUs or IPUs.
+Default: <code class="docutils literal notranslate"><span class="pre">'32-true'</span></code>.</p>
+</dd>
+<dt>logger: Logger (or iterable collection of loggers) for experiment tracking. A <code class="docutils literal notranslate"><span class="pre">True</span></code> value uses</dt><dd><p>the default <code class="docutils literal notranslate"><span class="pre">TensorBoardLogger</span></code> if it is installed, otherwise <code class="docutils literal notranslate"><span class="pre">CSVLogger</span></code>.
+<code class="docutils literal notranslate"><span class="pre">False</span></code> will disable logging. If multiple loggers are provided, local files
+(checkpoints, profiler traces, etc.) are saved in the <code class="docutils literal notranslate"><span class="pre">log_dir</span></code> of he first logger.
+Default: <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt>callbacks: Add a callback or list of callbacks.</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt>fast_dev_run: Runs n if set to <code class="docutils literal notranslate"><span class="pre">n</span></code> (int) else 1 if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> batch(es)</dt><dd><p>of train, val and test to find any bugs (ie: a sort of unit test).
+Default: <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt>max_epochs: Stop training once this number of epochs is reached. Disabled by default (None).</dt><dd><p>If both max_epochs and max_steps are not specified, defaults to <code class="docutils literal notranslate"><span class="pre">max_epochs</span> <span class="pre">=</span> <span class="pre">1000</span></code>.
+To enable infinite training, set <code class="docutils literal notranslate"><span class="pre">max_epochs</span> <span class="pre">=</span> <span class="pre">-1</span></code>.</p>
+</dd>
+</dl>
+<p>min_epochs: Force training for at least these many epochs. Disabled by default (None).</p>
+<dl class="simple">
+<dt>max_steps: Stop training after this number of steps. Disabled by default (-1). If <code class="docutils literal notranslate"><span class="pre">max_steps</span> <span class="pre">=</span> <span class="pre">-1</span></code></dt><dd><p>and <code class="docutils literal notranslate"><span class="pre">max_epochs</span> <span class="pre">=</span> <span class="pre">None</span></code>, will default to <code class="docutils literal notranslate"><span class="pre">max_epochs</span> <span class="pre">=</span> <span class="pre">1000</span></code>. To enable infinite training, set
+<code class="docutils literal notranslate"><span class="pre">max_epochs</span></code> to <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p>
+</dd>
+</dl>
+<p>min_steps: Force training for at least these number of steps. Disabled by default (<code class="docutils literal notranslate"><span class="pre">None</span></code>).</p>
+<dl class="simple">
+<dt>max_time: Stop training after this amount of time has passed. Disabled by default (<code class="docutils literal notranslate"><span class="pre">None</span></code>).</dt><dd><p>The time duration can be specified in the format DD:HH:MM:SS (days, hours, minutes seconds), as a
+<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime.timedelta</span></code></a>, or a dictionary with keys that will be passed to
+<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime.timedelta</span></code></a>.</p>
+</dd>
+<dt>limit_train_batches: How much of training dataset to check (float = fraction, int = num_batches).</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p>
+</dd>
+<dt>limit_val_batches: How much of validation dataset to check (float = fraction, int = num_batches).</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p>
+</dd>
+<dt>limit_test_batches: How much of test dataset to check (float = fraction, int = num_batches).</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p>
+</dd>
+<dt>limit_predict_batches: How much of prediction dataset to check (float = fraction, int = num_batches).</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p>
+</dd>
+<dt>overfit_batches: Overfit a fraction of training/validation data (float) or a set number of batches (int).</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">0.0</span></code>.</p>
+</dd>
+<dt>val_check_interval: How often to check the validation set. Pass a <code class="docutils literal notranslate"><span class="pre">float</span></code> in the range [0.0, 1.0] to check</dt><dd><p>after a fraction of the training epoch. Pass an <code class="docutils literal notranslate"><span class="pre">int</span></code> to check after a fixed number of training
+batches. An <code class="docutils literal notranslate"><span class="pre">int</span></code> value can only be higher than the number of training batches when
+<code class="docutils literal notranslate"><span class="pre">check_val_every_n_epoch=None</span></code>, which validates after every <code class="docutils literal notranslate"><span class="pre">N</span></code> training batches
+across epochs or during iteration-based training.
+Default: <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p>
+</dd>
+<dt>check_val_every_n_epoch: Perform a validation loop every after every <cite>N</cite> training epochs. If <code class="docutils literal notranslate"><span class="pre">None</span></code>,</dt><dd><p>validation will be done solely based on the number of training batches, requiring <code class="docutils literal notranslate"><span class="pre">val_check_interval</span></code>
+to be an integer value.
+Default: <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+</dd>
+<dt>num_sanity_val_steps: Sanity check runs n validation batches before starting the training routine.</dt><dd><p>Set it to <cite>-1</cite> to run all batches in all validation dataloaders.
+Default: <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p>
+</dd>
+<dt>log_every_n_steps: How often to log within steps.</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">50</span></code>.</p>
+</dd>
+<dt>enable_checkpointing: If <code class="docutils literal notranslate"><span class="pre">True</span></code>, enable checkpointing.</dt><dd><p>It will configure a default ModelCheckpoint callback if there is no user-defined ModelCheckpoint in
+<a href="#id1"><span class="problematic" id="id2">:paramref:`~lightning.pytorch.trainer.trainer.Trainer.callbacks`</span></a>.
+Default: <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt>enable_progress_bar: Whether to enable to progress bar by default.</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt>enable_model_summary: Whether to enable model summarization by default.</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt>accumulate_grad_batches: Accumulates gradients over k batches before stepping the optimizer.</dt><dd><p>Default: 1.</p>
+</dd>
+<dt>gradient_clip_val: The value at which to clip gradients. Passing <code class="docutils literal notranslate"><span class="pre">gradient_clip_val=None</span></code> disables</dt><dd><p>gradient clipping. If using Automatic Mixed Precision (AMP), the gradients will be unscaled before.
+Default: <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt>gradient_clip_algorithm: The gradient clipping algorithm to use. Pass <code class="docutils literal notranslate"><span class="pre">gradient_clip_algorithm=&quot;value&quot;</span></code></dt><dd><p>to clip by value, and <code class="docutils literal notranslate"><span class="pre">gradient_clip_algorithm=&quot;norm&quot;</span></code> to clip by norm. By default it will
+be set to <code class="docutils literal notranslate"><span class="pre">&quot;norm&quot;</span></code>.</p>
+</dd>
+<dt>deterministic: If <code class="docutils literal notranslate"><span class="pre">True</span></code>, sets whether PyTorch operations must use deterministic algorithms.</dt><dd><p>Set to <code class="docutils literal notranslate"><span class="pre">&quot;warn&quot;</span></code> to use deterministic algorithms whenever possible, throwing warnings on operations
+that don’t support deterministic mode (requires PyTorch 1.11+). If not set, defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.
+Default: <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt>benchmark: The value (<code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>) to set <code class="docutils literal notranslate"><span class="pre">torch.backends.cudnn.benchmark</span></code> to.</dt><dd><p>The value for <code class="docutils literal notranslate"><span class="pre">torch.backends.cudnn.benchmark</span></code> set in the current session will be used
+(<code class="docutils literal notranslate"><span class="pre">False</span></code> if not manually set). If <a href="#id3"><span class="problematic" id="id4">:paramref:`~lightning.pytorch.trainer.trainer.Trainer.deterministic`</span></a>
+is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, this will default to <code class="docutils literal notranslate"><span class="pre">False</span></code>. Override to manually set a different value.
+Default: <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt>inference_mode: Whether to use <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.inference_mode()</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.no_grad()</span></code> during</dt><dd><p>evaluation (<code class="docutils literal notranslate"><span class="pre">validate</span></code>/<code class="docutils literal notranslate"><span class="pre">test</span></code>/<code class="docutils literal notranslate"><span class="pre">predict</span></code>).</p>
+</dd>
+<dt>use_distributed_sampler: Whether to wrap the DataLoader’s sampler with</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.DistributedSampler</span></code>. If not specified this is toggled automatically for
+strategies that require it. By default, it will add <code class="docutils literal notranslate"><span class="pre">shuffle=True</span></code> for the train sampler and
+<code class="docutils literal notranslate"><span class="pre">shuffle=False</span></code> for validation/test/predict samplers. If you want to disable this logic, you can pass
+<code class="docutils literal notranslate"><span class="pre">False</span></code> and add your own distributed sampler in the dataloader hooks. If <code class="docutils literal notranslate"><span class="pre">True</span></code> and a distributed
+sampler was already added, Lightning will not replace the existing one. For iterable-style datasets,
+we don’t do this automatically.</p>
+</dd>
+<dt>profiler: To profile individual steps during training and assist in identifying bottlenecks.</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt>detect_anomaly: Enable anomaly detection for the autograd engine.</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt>barebones: Whether to run in “barebones mode”, where all features that may impact raw speed are</dt><dd><p>disabled. This is meant for analyzing the Trainer overhead and is discouraged during regular training
+runs. The following features are deactivated:
+<a href="#id5"><span class="problematic" id="id6">:paramref:`~lightning.pytorch.trainer.trainer.Trainer.enable_checkpointing`</span></a>,
+<a href="#id7"><span class="problematic" id="id8">:paramref:`~lightning.pytorch.trainer.trainer.Trainer.logger`</span></a>,
+<a href="#id9"><span class="problematic" id="id10">:paramref:`~lightning.pytorch.trainer.trainer.Trainer.enable_progress_bar`</span></a>,
+<a href="#id11"><span class="problematic" id="id12">:paramref:`~lightning.pytorch.trainer.trainer.Trainer.log_every_n_steps`</span></a>,
+<a href="#id13"><span class="problematic" id="id14">:paramref:`~lightning.pytorch.trainer.trainer.Trainer.enable_model_summary`</span></a>,
+<a href="#id15"><span class="problematic" id="id16">:paramref:`~lightning.pytorch.trainer.trainer.Trainer.num_sanity_val_steps`</span></a>,
+<a href="#id17"><span class="problematic" id="id18">:paramref:`~lightning.pytorch.trainer.trainer.Trainer.fast_dev_run`</span></a>,
+<a href="#id19"><span class="problematic" id="id20">:paramref:`~lightning.pytorch.trainer.trainer.Trainer.detect_anomaly`</span></a>,
+<a href="#id21"><span class="problematic" id="id22">:paramref:`~lightning.pytorch.trainer.trainer.Trainer.profiler`</span></a>,
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">log()</span></code>,
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">log_dict()</span></code>.</p>
+</dd>
+<dt>plugins: Plugins allow modification of core behavior like ddp and amp, and enable custom lightning plugins.</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt>sync_batchnorm: Synchronize batch norm layers between process groups/whole world.</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt>reload_dataloaders_every_n_epochs: Set to a non-negative integer to reload dataloaders every n epochs.</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</dd>
+<dt>default_root_dir: Default path for logs and weights when no logger/ckpt_callback passed.</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">os.getcwd()</span></code>.
+Can be remote file paths such as <cite>s3://mybucket/path</cite> or ‘hdfs://path/’</p>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><dl class="simple">
+<dt>TypeError:</dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">gradient_clip_val</span></code> is not an int or float.</p>
+</dd>
+<dt>MisconfigurationException:</dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">gradient_clip_algorithm</span></code> is invalid.
+If <code class="docutils literal notranslate"><span class="pre">track_grad_norm</span></code> is not a positive number or inf.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Modlee, Inc.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

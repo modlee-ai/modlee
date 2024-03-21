@@ -26,7 +26,7 @@ apidoc:
 	sphinx-apidoc -f -o source/modules ../src/modlee --separate
 
 rebuild:
-	make apidoc && make clean && make html
+	make nb_rst && make apidoc && make clean && make html
 
 md_rst:
 	pandoc -s README.md -o source/README.rst
