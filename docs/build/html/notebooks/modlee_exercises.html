@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction &mdash; modlee 0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ca37922a" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ca37922a" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=8dde47fa"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            modlee
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">modlee</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modlee.html">modlee package</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="document.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="recommend.html">Recommendation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.dashboard.modlee.ai">modlee Dashboard</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">modlee</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>Introduction</strong></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/modlee_exercises.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="introduction">
+<h1><strong>Introduction</strong><a class="headerlink" href="#introduction" title="Link to this heading"></a></h1>
+<p>In this exercise, you will implement the <code class="docutils literal notranslate"><span class="pre">modlee</span></code> package to: -
+Document an image segmentation experiment with a pretrained model from
+<code class="docutils literal notranslate"><span class="pre">torchvision</span></code>. - Receive and train a recommended model.</p>
+<p>It may be helpful to <a class="reference external" href="https://www.documentation.modlee.ai/index.html">keep the API documentation
+open</a>.</p>
+<p>For best performance, ensure that the runtime is set to use a GPU
+(<code class="docutils literal notranslate"><span class="pre">Runtime</span> <span class="pre">&gt;</span> <span class="pre">Change</span> <span class="pre">runtime</span> <span class="pre">type</span> <span class="pre">&gt;</span> <span class="pre">T4</span> <span class="pre">GPU</span></code>).</p>
+</section>
+<section id="installation">
+<h1><strong>Installation</strong><a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<p>Next, we need to install <code class="docutils literal notranslate"><span class="pre">modlee</span></code> and its related packages. This
+process may take a few minutes, so you can <a class="reference external" href="https://www.documentation.modlee.ai/notebooks/document.html">review the
+examples</a>
+while waiting.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;replace-with-your-api-key&quot;</span>
+<span class="o">!</span>curl<span class="w"> </span>-H<span class="w"> </span>X-API-KEY:<span class="nv">$MODLEE_API_KEY</span><span class="w"> </span>https://server.modlee.ai:7070/get_wheel/requirements.txt<span class="w"> </span>-O
+<span class="o">!</span>pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>curl<span class="w"> </span>-H<span class="w"> </span>X-API-KEY:<span class="nv">$MODLEE_API_KEY</span><span class="w"> </span>https://server.modlee.ai:7070/get_wheel/modlee-0.0.1.post6-py3-none-any.whl<span class="w"> </span>-O
+<span class="o">!</span>curl<span class="w"> </span>-H<span class="w"> </span>X-API-KEY:<span class="nv">$MODLEE_API_KEY</span><span class="w"> </span>https://server.modlee.ai:7070/get_wheel/onnx2torch-1.5.11-py3-none-any.whl<span class="w"> </span>-O
+<span class="o">!</span>curl<span class="w"> </span>-H<span class="w"> </span>X-API-KEY:<span class="nv">$MODLEE_API_KEY</span><span class="w"> </span>https://server.modlee.ai:7070/get_wheel/onnx_graphsurgeon-0.3.27-py2.py3-none-any.whl<span class="w"> </span>-O
+<span class="o">!</span>pip3<span class="w"> </span>install<span class="w"> </span>--force-reinstall<span class="w"> </span>--no-deps<span class="w"> </span>modlee-0.0.1.post6-py3-none-any.whl<span class="w"> </span>onnx2torch-1.5.11-py3-none-any.whl<span class="w"> </span>onnx_graphsurgeon-0.3.27-py2.py3-none-any.whl<span class="w"> </span><span class="err">\</span>
+    <span class="n">lightning</span><span class="o">==</span><span class="mf">2.0.7</span> <span class="n">pytorch</span><span class="o">-</span><span class="n">lightning</span><span class="o">==</span><span class="mf">2.0.7</span> <span class="n">lightning</span><span class="o">-</span><span class="n">utilities</span> <span class="n">lightning</span><span class="o">-</span><span class="n">cloud</span> <span class="n">torchmetrics</span><span class="o">==</span><span class="mf">1.3.2</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Boilerplate imports</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">ssl</span>
+<span class="n">ssl</span><span class="o">.</span><span class="n">_create_default_https_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">_create_unverified_context</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">import</span> <span class="nn">torchvision</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
+<span class="kn">from</span> <span class="nn">torchvision.transforms.functional</span> <span class="kn">import</span> <span class="n">InterpolationMode</span>
+<span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
+</pre></div>
+</div>
+</section>
+<section id="documentation">
+<h1><strong>Documentation</strong><a class="headerlink" href="#documentation" title="Link to this heading"></a></h1>
+<p>We’re ready to implement modlee to document an image segmentation
+experiment. Please <a class="reference external" href="https://www.documentation.modlee.ai/notebooks/document.html">review the documentation
+example</a>
+before continuing.</p>
+<p>In the next cell, import <code class="docutils literal notranslate"><span class="pre">modlee</span></code> and initialize with an API key.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Your code goes here. Import the modlee package and initialize with your API key.</span>
+<span class="c1"># Import</span>
+<span class="kn">import</span>
+<span class="c1"># Initialize</span>
+</pre></div>
+</div>
+<p>Load the training data. This cell requires no modifications.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">imagenet_mean</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">]</span>  <span class="c1"># mean of the imagenet dataset for normalizing</span>
+<span class="n">imagenet_std</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">]</span>  <span class="c1"># std of the imagenet dataset for normalizing</span>
+
+<span class="k">def</span> <span class="nf">replace_tensor_value_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">tensor</span><span class="p">[</span><span class="n">tensor</span> <span class="o">==</span> <span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span>
+    <span class="k">return</span> <span class="n">tensor</span>
+
+<span class="n">input_resize</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="n">input_transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">input_resize</span><span class="p">,</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">imagenet_mean</span><span class="p">,</span> <span class="n">imagenet_std</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">target_resize</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">InterpolationMode</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">)</span>
+<span class="n">target_transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">target_resize</span><span class="p">,</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">PILToTensor</span><span class="p">(),</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">Lambda</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">replace_tensor_value_</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">(),</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">21</span><span class="p">)),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Creating the dataset</span>
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">VOCSegmentation</span><span class="p">(</span>
+    <span class="s1">&#39;./datasets/&#39;</span><span class="p">,</span>
+    <span class="n">year</span><span class="o">=</span><span class="s1">&#39;2007&#39;</span><span class="p">,</span>
+    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">image_set</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">input_transform</span><span class="p">,</span>
+    <span class="n">target_transform</span><span class="o">=</span><span class="n">target_transform</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">val_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">VOCSegmentation</span><span class="p">(</span>
+    <span class="s1">&#39;./datasets/&#39;</span><span class="p">,</span>
+    <span class="n">year</span><span class="o">=</span><span class="s1">&#39;2007&#39;</span><span class="p">,</span>
+    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">image_set</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">input_transform</span><span class="p">,</span>
+    <span class="n">target_transform</span><span class="o">=</span><span class="n">target_transform</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the next cell, we will construct the model. We initialize the model
+from a <a class="reference external" href="https://pytorch.org/vision/main/models/generated/torchvision.models.segmentation.fcn_resnet50.html#torchvision.models.segmentation.fcn_resnet50">pretrained fully connected
+network</a>.
+We subclass the <code class="docutils literal notranslate"><span class="pre">modlee.model.ModleeModel</span></code> parent class so that the
+experiment will automatically document. At minimum, you must define the
+<code class="docutils literal notranslate"><span class="pre">__init__()</span></code>, <code class="docutils literal notranslate"><span class="pre">forward()</span></code>, <code class="docutils literal notranslate"><span class="pre">training_step()</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">configure_optimizers()</span></code> functions.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use a prerained torchvision Fully Connected Network</span>
+<span class="n">fcn_model</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">segmentation</span><span class="o">.</span><span class="n">fcn_resnet50</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+
+<span class="c1"># Subclass the correct modlee class</span>
+<span class="k">class</span> <span class="nc">ModleeFCN</span><span class="p">(</span> <span class="s1">&#39;&#39;&#39; Replace this with the correct modlee parent class &#39;&#39;&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="c1"># Set the above fcn object to self.model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Fill out the forward pass</span>
+        <span class="c1"># Should return a tensor after it has passed through the model</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="c1"># Fill out the training step</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="c1"># Get the input and output from the batch</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="s1">&#39;out&#39;</span><span class="p">]</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="c1"># Calculate the loss between the prediction and target</span>
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Fill out the optimizer configuration</span>
+        <span class="k">pass</span>
+
+<span class="c1"># Create the model object</span>
+<span class="n">modlee_model</span> <span class="o">=</span> <span class="n">ModleeFCN</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In the next cell, start training within a <code class="docutils literal notranslate"><span class="pre">modlee.start_run()</span></code> context
+manager.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Your code goes here. Start training within a modlee.start_run() context manager</span>
+<span class="c1"># Create the context manager (with ... as ... :)</span>
+<span class="k">with</span> <span class="c1"># Fill in the context manager (with ... as ...)</span>
+    <span class="c1"># Create the trainer object</span>
+    <span class="n">trainer</span> <span class="o">=</span>
+    <span class="c1"># Fit the trainer to the model and the training dataloader</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="c1"># Fill in the arguments for training</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Rebuild the saved model. First, determine the path to the most recent
+run.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_run_path</span> <span class="o">=</span> <span class="c1"># Get the last run path</span>
+<span class="n">artifacts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">,</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, reload the model from the assets saved in the <code class="docutils literal notranslate"><span class="pre">artifacts/</span></code>
+directory.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Change directories</span>
+<span class="n">exercise_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">)</span>
+
+<span class="c1"># Import the model graph:</span>
+
+<span class="n">rebuilt_model</span> <span class="o">=</span> <span class="c1"># Construct the model from the model graph module</span>
+<span class="c1"># Set the model to evaluation mode to turn off gradients</span>
+<span class="n">rebuilt_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">exercise_dir</span><span class="p">)</span>
+<span class="c1"># Pass an input through the model</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_loader</span><span class="p">))</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">y_rebuilt</span> <span class="o">=</span> <span class="n">rebuilt_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rebuilt output shape: </span><span class="si">{</span><span class="n">y_rebuilt</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You have completed the documentation example.</p>
+</section>
+<section id="recommendation">
+<h1><strong>Recommendation</strong><a class="headerlink" href="#recommendation" title="Link to this heading"></a></h1>
+<p>We’re ready to implement a modlee-recommended model in an experiment.
+Please <a class="reference external" href="https://www.documentation.modlee.ai/notebooks/recommend.html">review the recommendation
+example</a>
+before continuing.</p>
+<p>We can skip the <code class="docutils literal notranslate"><span class="pre">modlee</span></code> initialization steps assuming we did so in
+the documentation example. First, we create a dataloader from CIFAR10.
+This cell does not need any modifications.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transforms</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span><span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))])</span>
+
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span>
+    <span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transforms</span><span class="p">)</span>
+<span class="n">val_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span>
+    <span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transforms</span><span class="p">)</span>
+
+<span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">train_dataset</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">val_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">val_dataset</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Create a <code class="docutils literal notranslate"><span class="pre">modlee</span></code> recommender object and fit to the dataset. This
+process will calculate the dataset metafeatures to send to the server.
+The server will return a recommended model for the dataset assigned to
+<code class="docutils literal notranslate"><span class="pre">recommender.model</span></code>.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recommender</span> <span class="o">=</span> <span class="c1"># Create a recommender object based on the modality and task</span>
+<span class="n">recommender</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">)</span>
+<span class="n">modlee_model</span> <span class="o">=</span> <span class="c1"># Extract the model from the recommender</span>
+</pre></div>
+</div>
+<p>We can train the model as we would a basic <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code>, with
+automatic documentation of metafeatures.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create and train the trainer</span>
+<span class="k">with</span> <span class="c1"># ... as ...:</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="c1"># Create the trainer</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="c1"># Fill in the arguments</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, we can view the saved assets from training.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_run_path</span> <span class="o">=</span> <span class="c1"># Get the last run path</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run path: </span><span class="si">{</span><span class="n">last_run_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">artifacts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">,</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">)</span>
+<span class="n">artifacts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved artifacts: </span><span class="si">{</span><span class="n">artifacts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="conclusion">
+<h1><strong>Conclusion</strong><a class="headerlink" href="#conclusion" title="Link to this heading"></a></h1>
+<p>You’ve reached the end of the tutorial and can now implement <code class="docutils literal notranslate"><span class="pre">modlee</span></code>
+into your machine learning experiments. Congratulations!</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Modlee, Inc.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

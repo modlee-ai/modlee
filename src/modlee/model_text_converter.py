@@ -11,10 +11,9 @@ module_available = True
 modlee_required_packages = """
 import torch
 import torch.nn as nn
-import pytorch_lightning
-import pytorch_lightning as pl
 from torch.nn import functional as F
 import lightning
+import lightning.pytorch as pl
 
 import torch
 import torch.nn as nn

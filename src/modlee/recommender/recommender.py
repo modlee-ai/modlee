@@ -80,6 +80,7 @@ class Recommender(object):
         if not dataloader:
             raise Exception(f'Dataloader not provided and not previously set.')
         self.metafeatures = self.calculate_metafeatures(dataloader)
+        typewriter_print("[Modlee] Finished analyzing.")
         # self.write_files()
 
     fit = analyze
@@ -92,7 +93,7 @@ class Recommender(object):
         :return: The metafeatures of the data as a dictionary.
         """
         if modlee.data_metafeatures.module_available:
-            analyze_message = "[Modlee] -> Just a moment, analyzing your dataset ...\n"
+            analyze_message = "[Modlee] Just a moment, analyzing your dataset...n"
 
             typewriter_print(analyze_message, sleep_time=0.01)
 

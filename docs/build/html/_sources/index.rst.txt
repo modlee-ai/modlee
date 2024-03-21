@@ -23,7 +23,7 @@ modlee
    :caption: API Reference
    :hidden:
 
-   modindex
+   modules/modlee
 
 .. toctree::
    :maxdepth: 2
@@ -39,6 +39,7 @@ modlee
    :hidden:
 
    modlee.ai <https://www.modlee.ai>
+   modlee Dashboard <https://www.dashboard.modlee.ai>
    Discord <https://discord.com/channels/1205271955306192936/1205271956098646087>
 
 Modlee is a machine learning tool that **documents** experiments for

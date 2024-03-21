@@ -52,7 +52,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../py-modindex.html">Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modlee.html">modlee package</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current">
@@ -62,6 +62,7 @@
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.dashboard.modlee.ai">modlee Dashboard</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
 </ul>
 
@@ -122,8 +123,9 @@ model. We will perform image classification on CIFAR10 from
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>Create a <code class="docutils literal notranslate"><span class="pre">modlee</span></code> recommender object and fit to the dataset. The
-recommended <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code> object will be assigned to
+<p>Create a <code class="docutils literal notranslate"><span class="pre">modlee</span></code> recommender object and fit to the dataset. This
+process will calculate the dataset metafeatures to send to the server.
+The server will return a recommended model for the dataset assigned to
 <code class="docutils literal notranslate"><span class="pre">recommender.model</span></code>.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recommender</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">recommender</span><span class="o">.</span><span class="n">from_modality_task</span><span class="p">(</span>
     <span class="n">modality</span><span class="o">=</span><span class="s1">&#39;image&#39;</span><span class="p">,</span>
@@ -134,7 +136,7 @@ recommended <code class="docutils literal notranslate"><span class="pre">ModleeM
 </pre></div>
 </div>
 <p>We can train the model as we would a basic <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code>, with
-documentation.</p>
+automatic documentation of metafeatures.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
     <span class="n">trainer</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
@@ -143,11 +145,27 @@ documentation.</p>
     <span class="p">)</span>
 </pre></div>
 </div>
-<p>We can view the saved assets from training.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  | Name  | Type        | Params
+--------------------------------------
+0 | model | GraphModule | 11.7 M
+--------------------------------------
+11.7 M    Trainable params
+0         Non-trainable params
+11.7 M    Total params
+46.779    Total estimated model params size (MB)
+Epoch 0: 100%|██████████| 3125/3125 [01:14&lt;00:00, 41.86it/s, v_num=0]
+</pre></div>
+</div>
+<p>Finally, we can view the saved assets from training.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_run_path</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">last_run_path</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">)</span>
-<span class="n">artifacts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">,</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">artifacts</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run path: </span><span class="si">{</span><span class="n">last_run_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">artifacts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">,</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">)</span>
+<span class="n">artifacts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved artifacts: </span><span class="si">{</span><span class="n">artifacts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Run</span> <span class="n">path</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">modlee_pypi</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mi">7</span><span class="n">a47086681324d0e924f9076a1262de9</span><span class="o">/</span><span class="n">artifacts</span><span class="o">/</span><span class="n">model_graph</span><span class="o">.</span><span class="n">py</span>
+<span class="n">Saved</span> <span class="n">artifacts</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;transforms.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.py&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_size&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;cached_vars&#39;</span><span class="p">,</span> <span class="s1">&#39;stats_rep&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_1.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;lightning_logs&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_0.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;model.py&#39;</span><span class="p">,</span> <span class="s1">&#39;loss_calls.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_summary.txt&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </section>

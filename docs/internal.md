@@ -258,3 +258,11 @@ pyreverse -o png src/modlee
 New commands, from `/docs/`:
 - Rebuild `build/html` from `source`: `make rebuild`
 - Convert jupyter to rst: `jupyter nbconvert --to rst --output-dir source/notebooks /path/to/file.ipynb`, or `make nb_rst`.
+
+## 240321
+Workflow for rebuilding documentation from this directory (`docs/`):
+```
+pip3 install ..     # If the package changed, reinstall
+make rebuild        # Wraps make {nb_rst, md_rst, apidoc, clean, and html} together
+make serve          # Serve at localhost:7777
+```
