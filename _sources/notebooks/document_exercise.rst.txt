@@ -2,7 +2,8 @@ Documentation
 =============
 
 In this exercise, you will implement the ``modlee`` package to document
-an image segmentation experiment.
+an image segmentation experiment with a pretrained model from
+``torchvision``.
 
 .. code:: ipython3
 
@@ -11,7 +12,9 @@ an image segmentation experiment.
     import torch.nn.functional as F
     import torch.nn as nn
     import torch
+    from torch.utils.data import DataLoader
     import torchvision
+    from torchvision import transforms
     from torchvision.transforms.functional import InterpolationMode
     import os
     import ssl
@@ -22,18 +25,16 @@ In the next cell, import ``modlee`` and initialize with an API key.
 .. code:: ipython3
 
     # Your code goes here. Import the modlee package and initialize with your API key.
-
+    os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
+    import modlee
+    modlee.init(api_key="modleemichael")
 
 Load the training data.
 
 .. code:: ipython3
 
-    train_loader, val_loader = get_fashion_mnist()
-    num_classes = len(train_loader.dataset.classes)
-    
-    train_dataset, val_dataset = torchvision.datasets.VOCSegmentation(
-        root='./', download=True,)
-    
+    imagenet_mean = [0.485, 0.456, 0.406]  # mean of the imagenet dataset for normalizing
+    imagenet_std = [0.229, 0.224, 0.225]  # std of the imagenet dataset for normalizing
     
     def replace_tensor_value_(tensor, a, b):
         tensor[tensor == a] = b
@@ -62,7 +63,7 @@ Load the training data.
         './datasets/',
         year='2007',
         download=True,
-        image_set='train',
+        image_set='val',
         transform=input_transform,
         target_transform=target_transform,
     )
@@ -82,187 +83,18 @@ Load the training data.
 
 .. parsed-literal::
 
-    Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz
-    Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz to data/FashionMNIST/raw/train-images-idx3-ubyte.gz
+    Using downloaded and verified file: ./datasets/VOCtrainval_06-Nov-2007.tar
+    Extracting ./datasets/VOCtrainval_06-Nov-2007.tar to ./datasets/
+    Using downloaded and verified file: ./datasets/VOCtrainval_06-Nov-2007.tar
+    Extracting ./datasets/VOCtrainval_06-Nov-2007.tar to ./datasets/
 
 
-.. parsed-literal::
-
-    100%|██████████| 26421880/26421880 [00:01<00:00, 13333207.84it/s]
-
-
-.. parsed-literal::
-
-    Extracting data/FashionMNIST/raw/train-images-idx3-ubyte.gz to data/FashionMNIST/raw
-    
-    Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz
-    Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz to data/FashionMNIST/raw/train-labels-idx1-ubyte.gz
-
-
-.. parsed-literal::
-
-    100%|██████████| 29515/29515 [00:00<00:00, 332473.60it/s]
-
-
-.. parsed-literal::
-
-    Extracting data/FashionMNIST/raw/train-labels-idx1-ubyte.gz to data/FashionMNIST/raw
-    
-    Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz
-    Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz to data/FashionMNIST/raw/t10k-images-idx3-ubyte.gz
-
-
-.. parsed-literal::
-
-    100%|██████████| 4422102/4422102 [00:00<00:00, 6112706.99it/s]
-
-
-.. parsed-literal::
-
-    Extracting data/FashionMNIST/raw/t10k-images-idx3-ubyte.gz to data/FashionMNIST/raw
-    
-    Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz
-    Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz to data/FashionMNIST/raw/t10k-labels-idx1-ubyte.gz
-
-
-.. parsed-literal::
-
-    100%|██████████| 5148/5148 [00:00<00:00, 6405303.17it/s]
-
-.. parsed-literal::
-
-    Extracting data/FashionMNIST/raw/t10k-labels-idx1-ubyte.gz to data/FashionMNIST/raw
-    
-
-
-.. parsed-literal::
-
-    
-
-
-Build the PyTorch model as a ``torch.nn.Module``.
+Create the image segmentation model using a `pretrained fully connected
+network <https://pytorch.org/vision/main/models/generated/torchvision.models.segmentation.fcn_resnet50.html#torchvision.models.segmentation.fcn_resnet50>`__.
 
 .. code:: ipython3
 
-    class Classifier(torch.nn.Module):
-        def __init__(self, num_classes=10):
-            super(Classifier, self).__init__()
-            self.conv1 = nn.Conv2d(1, 6, 5)
-            self.pool = nn.MaxPool2d(2, 2)
-            self.conv2 = nn.Conv2d(6, 16, 5)
-            self.fc1 = nn.Linear(16 * 4 * 4, 120)
-            self.fc2 = nn.Linear(120, 84)
-            self.fc3 = nn.Linear(84, num_classes)
-            
-        def forward(self, x):
-            x = self.pool(F.relu(self.conv1(x)))
-            x = self.pool(F.relu(self.conv2(x)))
-            x = x.view(-1, 16 * 4 * 4)
-            x = F.relu(self.fc1(x))
-            x = F.relu(self.fc2(x))
-            x = self.fc3(x)
-            x = F.softmax(x)
-            return x
-
-.. code:: ipython3
-
-    class conv1x1_block(nn.Module):
-        '''(conv 1 x 1 )'''
-        def __init__(self, in_planes, out_planes, stride = 1):
-            super(conv1x1_block, self).__init__()
-            self.conv =  nn.Conv2d(in_planes, out_planes, kernel_size=1, stride=stride, bias=False, padding='same')
-            
-    
-        def forward(self, x):
-            x = self.conv(x)
-            return x 
-    
-    class conv3x3_block_x1(nn.Module):
-        '''(conv => BN => ReLU) * 1'''
-    
-        def __init__(self, in_ch, out_ch):
-            super(conv3x3_block_x1, self).__init__()
-            self.conv = nn.Sequential(
-                nn.Conv2d(in_ch, out_ch, 3, padding='same'),
-                nn.BatchNorm2d(out_ch),
-                nn.ReLU(inplace=True)
-            )
-    
-        def forward(self, x):
-            x = self.conv(x)
-            return x
-    
-    class conv3x3_block_x2(nn.Module):
-        '''(conv => BN => ReLU) * 2'''
-    
-        def __init__(self, in_ch, out_ch):
-            super(conv3x3_block_x2, self).__init__()
-            self.conv = nn.Sequential(
-                nn.Conv2d(in_ch, out_ch, 3, padding='same'),
-                nn.BatchNorm2d(out_ch),
-                nn.ReLU(inplace=True),
-                nn.Conv2d(out_ch, out_ch, 3, padding='same'),
-                nn.BatchNorm2d(out_ch),
-                nn.ReLU(inplace=True)
-            )
-    
-        def forward(self, x):
-            x = self.conv(x)
-            return x
-    
-    class upsample(nn.Module):
-        def __init__(self, in_ch, out_ch):
-            super(upsample, self).__init__()
-            self.conv1x1 = conv1x1_block(in_ch, out_ch)
-            self.conv = conv3x3_block_x2(in_ch, out_ch)
-    
-        def forward(self, H, L):
-            """
-            H: High level feature map, upsample
-            L: Low level feature map, block output
-            """
-            H = F.interpolate(H, scale_factor=2, mode='bilinear', align_corners=False)
-            H = self.conv1x1(H)
-            x = torch.cat([H, L], dim=1)
-            x = self.conv(x)
-            return x
-    
-    class UNet(nn.Module):
-        def __init__(self, num_classes=22):
-            super(UNet, self).__init__()
-            self.maxpool = nn.MaxPool2d(2)
-            self.block1 = conv3x3_block_x2(3, 64)
-            self.block2 = conv3x3_block_x2(64, 128)
-            self.block3 = conv3x3_block_x2(128, 256)
-            self.block4 = conv3x3_block_x2(256, 512)
-            self.block_out = conv3x3_block_x1(256, 512)
-            self.upsample1 = upsample(1024, 512)
-            self.upsample2 = upsample(512, 256)
-            self.upsample3 = upsample(256, 128)
-            self.upsample4 = upsample(128, 64)
-            self.upsample_out = conv3x3_block_x2(64, num_classes)
-    
-            for m in self.modules():
-                if isinstance(m, nn.Conv2d):
-                    torch.nn.init.kaiming_normal_(m.weight)
-                elif isinstance(m, nn.BatchNorm2d):
-                    m.weight.data.fill_(1)
-                    m.bias.data.zero_()
-    
-        def forward(self, x):
-            block1_x = self.block1(x)
-            x = self.maxpool(block1_x)
-            block2_x = self.block2(x)
-            x = self.maxpool(block2_x)
-            block3_x = self.block3(x)
-            x = self.maxpool(block3_x)
-            x = self.block_out(x)
-            x = self.upsample2(x, block3_x)
-            x = self.upsample3(x, block2_x)
-            x = self.upsample4(x, block1_x)
-            x = self.upsample_out(x)
-    
-            return x
+    model = torchvision.models.segmentation.fcn_resnet50(num_classes=22)
 
 In the next cell, wrap the model defined above in a
 ``modlee.model.ModleeModel`` object. At minimum, you must define the
@@ -273,24 +105,37 @@ for a refresher.
 
 .. code:: ipython3
 
-    class ModleeUNet( '''Inherit the modlee model''' )
+    class ModleeFCN(modlee.model.ModleeModel):
         def __init__(self):                # Fill out the constructor
             # Fill out the constructor
+            super().__init__()
+            self.model = model
             pass
         
         def forward(self, x):
             # Fill out the forward pass
+            return self.model(x)
             pass
         
         def training_step(self, batch, batch_idx):
             # Fill out the training step
+            x, y_target = batch
+            
+            y_pred = self(x)['out']
+            # print(y_pred)
+            loss = F.cross_entropy(y_pred, y_target)
+            return loss
             pass
         
         def configure_optimizers(self):
             # Fill out the optimizer configuration
+            return torch.optim.Adam(
+                self.parameters(), 
+                lr=0.001,
+            )
             pass
         
-    model = ModleeUNet()
+    model = ModleeFCN()
 
 In the next cell, start training within a ``modlee.start_run()``
 `context manager <https://realpython.com/python-with-statement/>`__.
@@ -301,27 +146,29 @@ as a refresher.
 .. code:: ipython3
 
     # Your code goes here. Star training within a modlee.start_run() context manager
+    with modlee.start_run() as run:
+        trainer = modlee.Trainer(max_epochs=1)
+        trainer.fit(
+            model=model,
+            train_dataloaders=train_loader,
+        )
 
 
 .. parsed-literal::
 
-    Missing logger folder: /home/ubuntu/projects/modlee_pypi/examples/mlruns/0/297bc8969bb64235bbfa0824f20dd24b/artifacts/mlruns/0/0729922d48c14c8b9c78f3b15ca962e3/artifacts/lightning_logs
+    Missing logger folder: /home/ubuntu/projects/modlee_pypi/examples/mlruns/0/7a47086681324d0e924f9076a1262de9/artifacts/lightning_logs
     LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
     
-      | Name       | Type       | Params
-    ------------------------------------------
-    0 | classifier | Classifier | 44.4 K
-    ------------------------------------------
-    44.4 K    Trainable params
+      | Name  | Type | Params
+    -------------------------------
+    0 | model | FCN  | 33.0 M
+    -------------------------------
+    33.0 M    Trainable params
     0         Non-trainable params
-    44.4 K    Total params
-    0.178     Total estimated model params size (MB)
-
-
-
-.. parsed-literal::
-
-    Sanity Checking: 0it [00:00, ?it/s]
+    33.0 M    Total params
+    131.830   Total estimated model params size (MB)
+    /opt/conda/envs/modlee/lib/python3.10/site-packages/lightning/pytorch/loops/fit_loop.py:281: PossibleUserWarning: The number of training batches (14) is smaller than the logging interval Trainer(log_every_n_steps=50). Set a lower value for log_every_n_steps if you want to see logs for the training epoch.
+      rank_zero_warn(
 
 
 
@@ -330,56 +177,45 @@ as a refresher.
     Training: 0it [00:00, ?it/s]
 
 
-
 .. parsed-literal::
 
-    Validation: 0it [00:00, ?it/s]
+    WARNING:root:Cannot log output shape, could not pass batch through network
 
-
-``modlee`` with ``mlflow`` underneath will document the experiment in an
-automatically generated ``assets`` folder.
-
-.. code:: ipython3
-
-    last_run_path = modlee.last_run_path()
-    print(f"Run path: {last_run_path}")
-    artifacts_path = os.path.join(last_run_path, 'artifacts')
-    artifacts = os.listdir(artifacts_path)
-    print(f"Saved artifacts: {artifacts}")
-
-
-.. parsed-literal::
-
-    Run path: /home/ubuntu/projects/modlee_pypi/examples/mlruns/0/297bc8969bb64235bbfa0824f20dd24b/artifacts/mlruns/0/0729922d48c14c8b9c78f3b15ca962e3/artifacts/mlruns/0/910e72fc9bef4e958046ffc5fe3e3585
-    Saved artifacts: ['model_graph.py', 'model_graph.txt', 'model_size', 'model', 'cached_vars', 'stats_rep', 'snapshot_1.npy', 'snapshot_0.npy', 'model.py', 'loss_calls.txt', 'model_summary.txt']
-
-
-We can build the model from the cached ``model_graph.Model`` class and
-confirm that we can pass an input through it. Note that this model’s
-weights will be uninitialized. To load the model from the last
-checkpoint, we can load it directly from the cached ``model.pth``.
 
 Rebuild the saved model. First, determine the path to the most recent
 run.
 
 .. code:: ipython3
 
-    last_run_path = # Get the most recent run
+    last_run_path = modlee.last_run_path()
     artifacts_path = os.path.join(last_run_path, 'artifacts')
+    print(os.listdir(artifacts_path))
+    print(os.path.join(artifacts_path,'model_graph.py'))
+
+
+.. parsed-literal::
+
+    ['transforms.txt', 'model_graph.py', 'model_graph.txt', 'model_size', 'model', 'cached_vars', 'stats_rep', 'snapshot_1.npy', 'lightning_logs', 'snapshot_0.npy', 'model.py', 'loss_calls.txt', 'model_summary.txt']
+    /home/ubuntu/projects/modlee_pypi/examples/mlruns/0/7a47086681324d0e924f9076a1262de9/artifacts/model_graph.py
+
 
 Next, import the model from the assets saved in the ``artifacts/``
 directory.
 
 .. code:: ipython3
 
+    exercise_dir = os.path.abspath(os.getcwd())
     os.chdir(artifacts_path)
     
-    import # the model graph
-    rebuilt_model = # Construct the model
+    import model_graph
+    rebuilt_model = model_graph.Model()
+    rebuilt_model.eval()
     
+    os.chdir(exercise_dir)
     # Pass an input through the model
     x, _ = next(iter(train_loader))
-    y_rebuilt = rebuilt_model(x)
+    with torch.no_grad():
+        y_rebuilt = rebuilt_model(x)
 
 You’ve reached the end of the tutorial and can now implement ``modlee``
 into your machine learning experiments. Congratulations!

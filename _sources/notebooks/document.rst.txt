@@ -24,9 +24,12 @@ Import ``modlee`` and initialize with an API key.
 
 .. code:: ipython3
 
+    # Set the API key to an environment variable,
+    # to simulate setting this in your shell profile
+    os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
     # Modlee-specific imports
     import modlee
-    modlee.init(api_key="modleemichael")   # Replace with your API key
+    modlee.init(api_key=os.environ['MODLEE_API_KEY'])   # Replace with your API key
     from modlee.utils import get_fashion_mnist
     from modlee.model import ModleeModel
 
@@ -98,46 +101,18 @@ Run the training loop, just for one epoch.
 
 .. code:: ipython3
 
+    import os
+    os.environ.get('MODLEE_API_KEY')
+
+.. code:: ipython3
+
     with modlee.start_run() as run:
-        trainer = pl.Trainer(max_epochs=1)
+        trainer = modlee.Trainer(max_epochs=1)
         trainer.fit(
             model=model,
             train_dataloaders=train_loader,
             val_dataloaders=val_loader
         )
-
-
-.. parsed-literal::
-
-    LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
-    
-      | Name       | Type       | Params
-    ------------------------------------------
-    0 | classifier | Classifier | 44.4 K
-    ------------------------------------------
-    44.4 K    Trainable params
-    0         Non-trainable params
-    44.4 K    Total params
-    0.178     Total estimated model params size (MB)
-
-
-
-.. parsed-literal::
-
-    Sanity Checking: 0it [00:00, ?it/s]
-
-
-
-.. parsed-literal::
-
-    Training: 0it [00:00, ?it/s]
-
-
-
-.. parsed-literal::
-
-    Validation: 0it [00:00, ?it/s]
-
 
 ``modlee`` with ``mlflow`` underneath will document the experiment in an
 automatically generated ``assets`` folder.
@@ -149,13 +124,6 @@ automatically generated ``assets`` folder.
     artifacts_path = os.path.join(last_run_path, 'artifacts')
     artifacts = os.listdir(artifacts_path)
     print(f"Saved artifacts: {artifacts}")
-
-
-.. parsed-literal::
-
-    Run path: /home/ubuntu/projects/modlee_pypi/examples/mlruns/0/19e6c1aacc8046939225db701aa7dfda
-    Saved artifacts: ['model_graph.py', 'model_graph.txt', 'model_size', 'model', 'cached_vars', 'stats_rep', 'snapshot_1.npy', 'snapshot_0.npy', 'model.py', 'loss_calls.txt', 'model_summary.txt']
-
 
 We can build the model from the cached ``model_graph.Model`` class and
 confirm that we can pass an input through it. Note that this model’s
@@ -169,9 +137,11 @@ checkpoint, we can load it directly from the cached ``model.pth``.
     # Building from the object
     import model_graph
     rebuilt_model = model_graph.Model()
+    model.eval(); rebuild_model.eval()
     x, _ = next(iter(train_loader))
-    y_original = model(x)
-    y_rebuilt = rebuilt_model(x)
+    with torch.no_grad():
+        y_original = model(x)
+        y_rebuilt = rebuilt_model(x)
     assert y_original.shape == y_rebuilt.shape
     
     # Loading from the checkpoint

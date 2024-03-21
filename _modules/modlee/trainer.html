@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>modlee.recommender &mdash; modlee 0 documentation</title>
+  <title>modlee.trainer &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=ca37922a" />
@@ -78,7 +78,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">modlee.recommender</li>
+      <li class="breadcrumb-item active">modlee.trainer</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -87,36 +87,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for modlee.recommender</h1><div class="highlight"><pre>
+  <h1>Source code for modlee.trainer</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">Recommender for models.</span>
+<span class="sd">Modlee Trainer.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">.recommender</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.image_recommender</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">mlflow</span>
+<span class="kn">from</span> <span class="nn">modlee.utils</span> <span class="kn">import</span> <span class="n">last_run_path</span>
+<span class="kn">from</span> <span class="nn">lightning</span> <span class="kn">import</span> <span class="n">pytorch</span> <span class="k">as</span> <span class="n">pl</span>
 
-
-<div class="viewcode-block" id="from_modality_task">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.from_modality_task">[docs]</a>
-<span class="k">def</span> <span class="nf">from_modality_task</span><span class="p">(</span><span class="n">modality</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return a Recommender object based on the modality and task.</span>
-<span class="sd">    Currently supports:</span>
-<span class="sd">    </span>
-<span class="sd">    - image</span>
-<span class="sd">    --- classification</span>
-<span class="sd">    --- segmentation</span>
-<span class="sd">    - text</span>
-<span class="sd">    --- classification</span>
-
-<span class="sd">    :param modality: The modality as a string, e.g. &quot;image&quot;, &quot;text&quot;.</span>
-<span class="sd">    :param task: The task as a string, e.g. &quot;classification&quot;, &quot;segmentation&quot;.</span>
-<span class="sd">    :return: The RecommenderObject, if it exists.</span>
+<div class="viewcode-block" id="Trainer">
+<a class="viewcode-back" href="../../modules/modlee.trainer.html#modlee.trainer.Trainer">[docs]</a>
+<span class="k">class</span> <span class="nc">Trainer</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Trainer that directs checkpoint files to the current run directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">RecommenderObject</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">modality</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}{</span><span class="n">task</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">Recommender&quot;</span><span class="p">,</span> <span class="kc">None</span>
-    <span class="p">)</span>
-    <span class="k">assert</span> <span class="n">RecommenderObject</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;No Recommender for </span><span class="si">{</span><span class="n">modality</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">task</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="k">return</span> <span class="n">RecommenderObject</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Trainer.__init__">
+<a class="viewcode-back" href="../../modules/modlee.trainer.html#modlee.trainer.Trainer.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">artifacts_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">(),</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;default_root_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;default_root_dir&#39;</span><span class="p">,</span> <span class="n">artifacts_dir</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</div>
 
 </pre></div>
 

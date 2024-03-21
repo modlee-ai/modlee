@@ -120,11 +120,14 @@
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlparse</span>
-<span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">modlee_client</span>
+<span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">ModleeClient</span>
+<span class="n">API_KEY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MODLEE_API_KEY&quot;</span><span class="p">,</span> <span class="s1">&#39;None&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">modlee</span>
 
-
+<span class="n">modlee_client</span> <span class="o">=</span> <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">API_KEY</span><span class="p">)</span>
 <span class="c1"># SERVER_ENDPOINT = modlee_client.endpoint</span>
-<span class="n">SERVER_ORIGIN</span> <span class="o">=</span> <span class="n">modlee_client</span><span class="o">.</span><span class="n">origin</span>
+<span class="n">SERVER_ENDPOINT</span> <span class="o">=</span> <span class="n">modlee_client</span><span class="o">.</span><span class="n">origin</span>
+<span class="c1">#SERVER_ORIGIN = &#39;http://127.0.0.1:7070&#39;</span>
 <span class="c1">#SERVER_ENDPOINT = &#39;http://ec2-3-84-155-233.compute-1.amazonaws.com:7070&#39;</span>
 <span class="c1">#print(SERVER_ENDPOINT)</span>
 
@@ -138,7 +141,7 @@
 <div class="viewcode-block" id="Recommender.__init__">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">SERVER_ORIGIN</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">SERVER_ENDPOINT</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">        Constructor for recommender.</span>
@@ -220,10 +223,25 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="p">),</span> <span class="s2">&quot;Recommender task is not set (e.g. classification, segmentation)&quot;</span>
         <span class="n">metafeatures</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">metafeatures</span><span class="p">))</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="si">}</span><span class="s2">/model/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">modality</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="c1"># breakpoint()</span>
+        <span class="c1"># res = requests.get(</span>
+        <span class="c1">#     f&quot;{self.origin}/model/{self.modality}/{self.task}&quot;,</span>
+        <span class="c1">#     data=json.dumps({&quot;data_features&quot;: metafeatures}),</span>
+        <span class="c1">#     headers={&quot;Content-Type&quot;: &quot;application/json&quot;},</span>
+        <span class="c1">#     verify=False,</span>
+        <span class="c1"># )</span>
+        
+        <span class="n">res</span> <span class="o">=</span> <span class="n">modlee_client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">path</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;model/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">modality</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;data_features&quot;</span><span class="p">:</span> <span class="n">metafeatures</span><span class="p">}),</span>
-            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">},</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Access-Control-Allow-Origin&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Access-Control-Allow-Headers&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Access-Control-Allow-Methods&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                    <span class="c1"># &quot;X-API-KEY&quot;: API_KEY</span>
+                    <span class="p">},</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">model_text</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">content</span>
         <span class="k">return</span> <span class="n">model_text</span>
