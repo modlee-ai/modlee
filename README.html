@@ -24,6 +24,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="modlee package" href="modules/modlee.html" />
     <link rel="prev" title="modlee" href="index.html" /> 
 </head>
 
@@ -61,18 +62,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#recommend">Recommend</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#colab">Colab</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="#support">Support</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#todo">TODO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#roadmap">Roadmap</a></li>
 </ul>
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="py-modindex.html">Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/modlee.html">modlee package</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
@@ -82,6 +79,7 @@
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.dashboard.modlee.ai">modlee Dashboard</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
 </ul>
 
@@ -130,7 +128,8 @@ neural network model matched to a new task.</p>
 recommendation API and auxiliary functions for documentation. The
 documentation functionality is usable without an account, but the
 recommendation functionality requires an API key. To create an account
-and receive an API key, <a class="reference external" href="https://www.modlee.ai">visit our website</a>.</p>
+and receive an API key, <a class="reference external" href="https://www.dashboard.modlee.ai">visit our
+website</a>.</p>
 <section id="pypi">
 <h3>PyPI<a class="headerlink" href="#pypi" title="Link to this heading"></a></h3>
 <p>Install <code class="docutils literal notranslate"><span class="pre">modlee</span></code> from PyPI:</p>
@@ -148,8 +147,9 @@ file:</p>
 pip<span class="w"> </span>install<span class="w"> </span>.
 </pre></div>
 </div>
-<p>We have developed the package in Python 3.10. Please raise an issue if
-you experience environment errors.</p>
+<p>We have developed the package in Python 3.10. Please <a class="reference external" href="https://github.com/modlee-ai/modlee_pypi/issues">raise an
+issue</a>) if you
+experience environment errors.</p>
 </section>
 <section id="set-api-key">
 <h3>Set API key<a class="headerlink" href="#set-api-key" title="Link to this heading"></a></h3>
@@ -190,7 +190,7 @@ Once you have created your experiment script, simply follow the four
 
 <span class="c1"># Insert the modlee context manager before training</span>
 <span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
-    <span class="n">trainer</span> <span class="o">=</span> <span class="n">lightning</span><span class="o">.</span><span class="n">pytorch</span><span class="o">.</span><span class="n">trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
         <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
         <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_dataloader</span><span class="p">,</span>
@@ -217,7 +217,7 @@ relative to wherever the script was called.</p>
 <span class="c1"># Get the model from the recommender and train</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">recommender</span><span class="o">.</span><span class="n">model</span>
 <span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
-    <span class="n">trainer</span> <span class="o">=</span> <span class="n">lightning</span><span class="o">.</span><span class="n">pytorch</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
         <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
         <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_dataloader</span><span class="p">,</span>
@@ -227,21 +227,16 @@ relative to wherever the script was called.</p>
 </div>
 </section>
 </section>
-<section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
-<section id="colab">
-<h3>Colab<a class="headerlink" href="#colab" title="Link to this heading"></a></h3>
-</section>
-</section>
 <section id="support">
 <h2>Support<a class="headerlink" href="#support" title="Link to this heading"></a></h2>
-<p>FAQ - link to the section on the site and add some dev-specific ones
-here - Discord - Raise an issue - Open PR and read code of conduct</p>
+<p>If you encounter errors, <a class="reference external" href="https://github.com/modlee-ai/modlee_pypi/issues">please raise an issue in this
+repository</a>.</p>
 </section>
-<section id="todo">
-<h2>TODO<a class="headerlink" href="#todo" title="Link to this heading"></a></h2>
+<section id="roadmap">
+<h2>Roadmap<a class="headerlink" href="#roadmap" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p>[ ] Add logo, links to website and Discord</p></li>
+<li><p>[ ] Add logo, links to website and Discord.</p></li>
+<li><p>[ ] Create contribution guidelines.</p></li>
 </ul>
 </section>
 </section>
@@ -251,6 +246,7 @@ here - Discord - Raise an issue - Open PR and read code of conduct</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="modlee" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules/modlee.html" class="btn btn-neutral float-right" title="modlee package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
