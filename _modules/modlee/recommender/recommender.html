@@ -50,7 +50,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../py-modindex.html">Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/modlee.html">modlee package</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
@@ -60,6 +60,7 @@
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.dashboard.modlee.ai">modlee Dashboard</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
 </ul>
 
@@ -177,7 +178,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span> <span class="o">=</span> <span class="n">dataloader</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">dataloader</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dataloader not provided and not previously set.&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metafeatures</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_metafeatures</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metafeatures</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_metafeatures</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
+        <span class="n">typewriter_print</span><span class="p">(</span><span class="s2">&quot;[Modlee] Finished analyzing.&quot;</span><span class="p">)</span></div>
 
         <span class="c1"># self.write_files()</span>
 
@@ -193,7 +195,7 @@
 <span class="sd">        :return: The metafeatures of the data as a dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">modlee</span><span class="o">.</span><span class="n">data_metafeatures</span><span class="o">.</span><span class="n">module_available</span><span class="p">:</span>
-            <span class="n">analyze_message</span> <span class="o">=</span> <span class="s2">&quot;[Modlee] -&gt; Just a moment, analyzing your dataset ...</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">analyze_message</span> <span class="o">=</span> <span class="s2">&quot;[Modlee] Just a moment, analyzing your dataset...n&quot;</span>
 
             <span class="n">typewriter_print</span><span class="p">(</span><span class="n">analyze_message</span><span class="p">,</span> <span class="n">sleep_time</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 

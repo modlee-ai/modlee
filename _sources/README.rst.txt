@@ -22,7 +22,8 @@ The Modlee package consists of the client-side interface for the
 recommendation API and auxiliary functions for documentation. The
 documentation functionality is usable without an account, but the
 recommendation functionality requires an API key. To create an account
-and receive an API key, `visit our website <https://www.modlee.ai>`__.
+and receive an API key, `visit our
+website <https://www.dashboard.modlee.ai>`__.
 
 PyPI
 ~~~~
@@ -46,8 +47,9 @@ file:
    cd modlee
    pip install .
 
-We have developed the package in Python 3.10. Please raise an issue if
-you experience environment errors.
+We have developed the package in Python 3.10. Please `raise an
+issue <https://github.com/modlee-ai/modlee_pypi/issues>`__) if you
+experience environment errors.
 
 Set API key
 ~~~~~~~~~~~
@@ -96,7 +98,7 @@ Once you have created your experiment script, simply follow the four
 
    # Insert the modlee context manager before training
    with modlee.start_run() as run:
-       trainer = lightning.pytorch.trainer(max_epochs=10)
+       trainer = modlee.trainer(max_epochs=10)
        trainer.fit(
            model=model,
            train_dataloaders=train_dataloader,
@@ -126,26 +128,21 @@ To receive a recommended model based on your dataset:
    # Get the model from the recommender and train
    model = recommender.model
    with modlee.start_run() as run:
-       trainer = lightning.pytorch.Trainer(max_epochs=10)
+       trainer = modlee.Trainer(max_epochs=10)
        trainer.fit(
            model=model,
            train_dataloaders=train_dataloader,
            val_dataloaders=val_dataloader
        )
 
-Examples
---------
-
-Colab
-~~~~~
-
 Support
 -------
 
-FAQ - link to the section on the site and add some dev-specific ones
-here - Discord - Raise an issue - Open PR and read code of conduct
+If you encounter errors, `please raise an issue in this
+repository <https://github.com/modlee-ai/modlee_pypi/issues>`__.
 
-TODO
-----
+Roadmap
+-------
 
--  [ ] Add logo, links to website and Discord
+-  [ ] Add logo, links to website and Discord.
+-  [ ] Create contribution guidelines.
