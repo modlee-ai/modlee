@@ -50,7 +50,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../py-modindex.html">Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/modlee.html">modlee package</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
@@ -60,6 +60,7 @@
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.dashboard.modlee.ai">modlee Dashboard</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
 </ul>
 
@@ -465,35 +466,19 @@
         <span class="n">name_model_pairs</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;resnet18&quot;</span><span class="p">,</span> <span class="n">model_resnet</span><span class="p">]]</span>
 
     <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># TODO - Deprectaed, whole function should be refactored or removed</span>
         <span class="c1"># Load the pre-trained models</span>
-        <span class="n">model_resnet</span> <span class="o">=</span> <span class="n">resnet18</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">model_resnet</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span>
+        <span class="n">model_resnet</span> <span class="o">=</span> <span class="n">model_vgg</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># model_resnet = resnet18(pretrained=True)</span>
+        <span class="c1"># model_resnet.fc = torch.nn.Identity()</span>
 
-        <span class="n">model_vgg</span> <span class="o">=</span> <span class="n">vgg16</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">model_vgg</span><span class="o">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
-            <span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="n">model_vgg</span><span class="o">.</span><span class="n">classifier</span><span class="o">.</span><span class="n">children</span><span class="p">())[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="p">)</span>
-
-        <span class="c1"># model_densenet = densenet121(pretrained=True)</span>
-        <span class="c1"># model_densenet.classifier = torch.nn.Identity()</span>
-
-        <span class="c1"># model_alexnet = alexnet(pretrained=True)</span>
-        <span class="c1"># model_alexnet.classifier = torch.nn.Identity()</span>
-
-        <span class="c1"># model_mobile_small = mobilenet_v3_small(pretrained=True)</span>
-        <span class="c1"># model_mobile_small.classifier = torch.nn.Identity()</span>
-
-        <span class="c1"># model_vit_l_32 = vit_l_32(pretrained=True)</span>
-        <span class="c1"># model_vit_l_32.heads = torch.nn.Identity()</span>
-
-        <span class="c1"># Set the models to evaluation mode</span>
-        <span class="n">model_resnet</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-        <span class="n">model_vgg</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-        <span class="c1"># model_densenet.eval()</span>
-        <span class="c1"># model_alexnet.eval()</span>
-        <span class="c1"># model_mobile_small.eval()</span>
-        <span class="c1"># model_vit_l_32.eval()</span>
-
+        <span class="c1"># model_vgg = vgg16(pretrained=True)</span>
+        <span class="c1"># model_vgg.classifier = torch.nn.Sequential(</span>
+        <span class="c1">#     *list(model_vgg.classifier.children())[:-1]</span>
+        <span class="c1"># )</span>
+        <span class="c1"># # Set the models to evaluation mode</span>
+        <span class="c1"># model_resnet.eval()</span>
+        <span class="c1"># model_vgg.eval()</span>
         <span class="n">name_model_pairs</span> <span class="o">=</span> <span class="p">[</span>
             <span class="p">[</span><span class="s2">&quot;resnet18&quot;</span><span class="p">,</span> <span class="n">model_resnet</span><span class="p">],</span>
             <span class="p">[</span><span class="s2">&quot;vgg16&quot;</span><span class="p">,</span> <span class="n">model_vgg</span><span class="p">],</span>
@@ -508,7 +493,8 @@
     <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">name_model_pairs</span><span class="p">:</span>
         <span class="c1"># feature_dict[pair[0]] = extract_features(pair[1], x)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">feature_dict</span><span class="p">[</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">extract_features_from_model</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">)</span>
+            <span class="n">feature_dict</span><span class="p">[</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># feature_dict[pair[0]] = extract_features_from_model(pair[1], x)</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="c1"># if model is not compatible with data, just skip for now</span>
             <span class="k">pass</span>

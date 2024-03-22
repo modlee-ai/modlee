@@ -343,35 +343,19 @@ def get_image_features(x, testing=False):
         name_model_pairs = [["resnet18", model_resnet]]
 
     else:
+        # TODO - Deprectaed, whole function should be refactored or removed
         # Load the pre-trained models
-        model_resnet = resnet18(pretrained=True)
-        model_resnet.fc = torch.nn.Identity()
+        model_resnet = model_vgg = None
+        # model_resnet = resnet18(pretrained=True)
+        # model_resnet.fc = torch.nn.Identity()
 
-        model_vgg = vgg16(pretrained=True)
-        model_vgg.classifier = torch.nn.Sequential(
-            *list(model_vgg.classifier.children())[:-1]
-        )
-
-        # model_densenet = densenet121(pretrained=True)
-        # model_densenet.classifier = torch.nn.Identity()
-
-        # model_alexnet = alexnet(pretrained=True)
-        # model_alexnet.classifier = torch.nn.Identity()
-
-        # model_mobile_small = mobilenet_v3_small(pretrained=True)
-        # model_mobile_small.classifier = torch.nn.Identity()
-
-        # model_vit_l_32 = vit_l_32(pretrained=True)
-        # model_vit_l_32.heads = torch.nn.Identity()
-
-        # Set the models to evaluation mode
-        model_resnet.eval()
-        model_vgg.eval()
-        # model_densenet.eval()
-        # model_alexnet.eval()
-        # model_mobile_small.eval()
-        # model_vit_l_32.eval()
-
+        # model_vgg = vgg16(pretrained=True)
+        # model_vgg.classifier = torch.nn.Sequential(
+        #     *list(model_vgg.classifier.children())[:-1]
+        # )
+        # # Set the models to evaluation mode
+        # model_resnet.eval()
+        # model_vgg.eval()
         name_model_pairs = [
             ["resnet18", model_resnet],
             ["vgg16", model_vgg],
@@ -386,7 +370,8 @@ def get_image_features(x, testing=False):
     for pair in name_model_pairs:
         # feature_dict[pair[0]] = extract_features(pair[1], x)
         try:
-            feature_dict[pair[0]] = extract_features_from_model(pair[1], x)
+            feature_dict[pair[0]] = torch.zeros(1,1)
+            # feature_dict[pair[0]] = extract_features_from_model(pair[1], x)
         except:
             # if model is not compatible with data, just skip for now
             pass

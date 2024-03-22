@@ -17,6 +17,7 @@ import torchvision
 
 import modlee
 from modlee.converter import Converter
+from modlee.utils import get_model_size, typewriter_print
 
 modlee_converter = Converter()
 
@@ -102,8 +103,8 @@ class ImageRecommender(Recommender):
             # num_classes = 21
             # print(f'{unique_labels = }')
         self.metafeatures.update({"num_classes": num_classes})
-        # try:
-        if 1:
+        try:
+        # if 1:
             self.model_text = self._get_model_text(self.metafeatures)
             # breakpoint()
             model = modlee_converter.onnx_text2torch(self.model_text)
@@ -124,9 +125,10 @@ class ImageRecommender(Recommender):
             # self.write_files()
             self.write_file(self.model_text, "./model.txt")
             self.write_file(self.model_code, "./model.py")
+            typewriter_print(f"The model is available at the recommender object's `model` attribute.")
 
-        # except:
-        else:
+        except:
+        # else:
             print(
                 "Could not retrieve model, could not access server or data features may be malformed."
             )

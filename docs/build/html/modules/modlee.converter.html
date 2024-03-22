@@ -23,7 +23,9 @@
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="modlee.data_metafeatures module" href="modlee.data_metafeatures.html" />
+    <link rel="prev" title="modlee.config module" href="modlee.config.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,8 +52,30 @@
 <li class="toctree-l1"><a class="reference internal" href="../README.html">modlee</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../py-modindex.html">Module Index</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modlee.html">modlee package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="modlee.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="modlee.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="modlee.client.html">modlee.client module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.config.html">modlee.config module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">modlee.converter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#modlee.converter.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.data_metafeatures.html">modlee.data_metafeatures module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.exp_loss_logger.html">modlee.exp_loss_logger module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.loss_sweeper.html">modlee.loss_sweeper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.model.html">modlee.model package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.model_text_converter.html">modlee.model_text_converter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.modlee_image_model.html">modlee.modlee_image_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.retriever.html">modlee.retriever module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.trainer.html">modlee.trainer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.utils.html">modlee.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modlee.html#module-modlee">Module contents</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
@@ -61,6 +85,7 @@
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.dashboard.modlee.ai">modlee Dashboard</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
 </ul>
 
@@ -78,6 +103,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modlee.html">modlee package</a></li>
       <li class="breadcrumb-item active">modlee.converter module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/modules/modlee.converter.rst.txt" rel="nofollow"> View page source</a>
@@ -755,7 +781,7 @@ e.g. 0_model_fc_weight -&gt; model_0_fc_weight</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.converter.Converter.tensor2init_code">
-<span class="sig-name descname"><span class="pre">tensor2init_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.tensor2init_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.tensor2init_code" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tensor2init_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.tensor2init_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.tensor2init_code" title="Link to this definition"></a></dt>
 <dd><p>Converts a monovalue tensor (len(set(tensor))==1) to a string representation of its initialization.
 Minifies potentially large from their explicit definition to simply ‘tensor.ones((x,y))*values’.
 If <cite>tensor_type</cite> is provided, this function will force-convert a non-uniform tensor to an 
@@ -964,7 +990,10 @@ PyTorch -&gt; ONNX -&gt; Code -&gt; ONNX -&gt; PyTorch</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modlee.config.html" class="btn btn-neutral float-left" title="modlee.config module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modlee.data_metafeatures.html" class="btn btn-neutral float-right" title="modlee.data_metafeatures module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
