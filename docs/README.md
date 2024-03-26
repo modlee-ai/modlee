@@ -101,6 +101,10 @@ with modlee.start_run() as run:
 
 ## Support
 
+### Contributing
+We welcome contributions of any kind: bug reports, feature requests, tutorials, etc.
+Before submitting a pull request, [please read the contribution guidelines](https://github.com/modlee-ai/modlee_pypi/docs/CONTRIBUTING.md).
+
 ### Issues
 If you encounter errors, [please raise an issue in this repository](https://github.com/modlee-ai/modlee_pypi/issues).
 
