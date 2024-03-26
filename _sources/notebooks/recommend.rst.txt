@@ -1,4 +1,4 @@
-Recommendation
+Automate model creation
 ==============
 
 This example notebook uses the ``modlee`` package to train a recommended

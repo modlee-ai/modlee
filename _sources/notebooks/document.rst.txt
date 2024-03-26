@@ -1,4 +1,4 @@
-Documentation
+Automate experiment documentation
 =============
 
 This example notebook uses the ``modlee`` package to document a machine
