@@ -18,8 +18,9 @@
 import os, sys
 
 # sys.path.insert(0, os.path.abspath('..'))
-sys.path.insert(0, os.path.abspath("../src/"))
-sys.path.insert(0, os.path.abspath('../src/modlee'))
+# sys.path.insert(0, os.path.abspath("../src/"))
+# sys.path.insert(0, os.path.abspath('../src/modlee'))
+sys.path.insert(0, os.path.abspath('../../src/modlee'))
 
 # -- Project information -----------------------------------------------------
 
@@ -44,6 +45,7 @@ release = "0"
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
+    # "sphinx.ext.autosummary",
     "sphinx.ext.doctest",
     "sphinx.ext.intersphinx",
     "sphinx.ext.todo",
@@ -55,6 +57,7 @@ extensions = [
     "sphinx.ext.autosectionlabel",
     "nbsphinx",
 ]
+# autosummary_generate = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -97,9 +100,10 @@ html_theme = "sphinx_rtd_theme"
 # documentation.
 #
 html_theme_options = {
-    'github_url':'https://github.com/modlee-ai/modlee_pypi'
+    'github_url':'https://github.com/modlee-ai/modlee_pypi',
+    # "show_navbar_depth": 3,
+    "collapse_navigation": False,
 }
-
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".

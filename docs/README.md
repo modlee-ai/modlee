@@ -3,7 +3,7 @@
 ## Introduction
 Modlee is a machine learning tool that **documents** experiments for reproduciblity and **recommends** neural network models suited for a particular dataset.
 Modlee bypasses costly machine learning experimentation by recommending performant models based on prior experiments.
-Built on top of MLFlow, Modlee documents traditional experiment assets (model checkpoints, (hyper)parameters, performance metrics) and meta-features for [meta-learning](https://ieeexplore.ieee.org/abstract/document/9428530).
+Modlee documents traditional experiment assets (model checkpoints, (hyper)parameters, performance metrics) and meta-features for [meta-learning](https://ieeexplore.ieee.org/abstract/document/9428530).
 Based on these meta-features from prior experiments, Modlee recommends a neural network model matched to a new task.
 
 ## Installation
@@ -42,8 +42,12 @@ modlee.init(api_key="my-api-key")
 
 ## Usage
 
+Modlee is built on top of [PyTorch Lightning](https://lightning.ai/docs/pytorch/stable/) and [MLFlow](https://mlflow.org).
+While you do not have to be an expert in either framework to use Modlee, we recommend having at least a familiarity with machine learning and the experiment pipeline.
+This documentation page does not cover the frameworks; we recommend referencing the [Lightning](https://lightning.ai/docs/overview/getting-started) and [MLFlow](https://mlflow.org/docs/latest/index.html) documentation directly.
+
 ### Document
-Modlee supports documentation for PyTorch Lightning experiments.
+Modlee supports documentation for Lightning experiments.
 Guides for structuring PyTorch Lightning projects are available [here](https://lightning.ai/docs/pytorch/stable/starter/converting.html) and [here](https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09).
 Once you have created your experiment script, simply follow the four "I's":
 ```python
@@ -96,8 +100,12 @@ with modlee.start_run() as run:
 ```
 
 ## Support
+
+### Issues
 If you encounter errors, [please raise an issue in this repository](https://github.com/modlee-ai/modlee_pypi/issues).
 
+### Community
+[Join our Discord server](https://discord.com/invite/m8YDbWDvrF) to discuss and contribute with other Modlee users.
+
 ## Roadmap
-- [ ] Add logo, links to website and Discord.
 - [ ] Create contribution guidelines.
