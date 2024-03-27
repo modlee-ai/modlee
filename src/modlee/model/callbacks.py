@@ -14,7 +14,7 @@ from lightning.pytorch.callbacks import Callback
 from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import modlee
-from modlee import data_metafeatures, save_run, get_code_text_for_model
+from modlee import data_metafeatures, save_run, get_code_text_for_model, save_run_as_json
 from modlee import logging, utils as modlee_utils, exp_loss_logger
 from modlee.converter import Converter
 
@@ -70,7 +70,8 @@ class PushServerCallback(Callback):
     Callback to push run assets to the server at the end of training.
     """
     def on_fit_end(self, trainer: Trainer, pl_module: LightningModule) -> None:
-        save_run(pl_module.run_path)
+        #save_run(pl_module.run_path)
+        save_run_as_json(pl_module.run_path)
         return super().on_fit_end(trainer, pl_module)
 
 

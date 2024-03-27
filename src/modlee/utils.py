@@ -308,6 +308,17 @@ def save_run(*args, **kwargs):
     api_key = os.environ.get('MODLEE_API_KEY')
     ModleeClient(api_key=api_key).post_run(*args, **kwargs)
 
+def save_run_as_json(*args, **kwargs):
+    """
+    Save the current run as a JSON.
+
+    :param modlee_client: The client object that is tracking the current run.
+    """
+    api_key = os.environ.get('MODLEE_API_KEY')
+    ModleeClient(api_key=api_key).post_run_as_json(*args, **kwargs)
+
+
+
 def last_run_path(*args, **kwargs):
     """ 
     Return the path to the last / most recent run path

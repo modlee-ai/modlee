@@ -13,7 +13,7 @@ LOCAL_ORIGIN = "http://127.0.0.1:7070"
 # REMOTE_ORIGIN = "http://modlee.pythonanywhere.com"
 # REMOTE_ORIGIN = "http://ec2-3-84-155-233.compute-1.amazonaws.com:7070"
 from modlee.config import SERVER_ORIGIN as REMOTE_ORIGIN
-
+import json
 
 class ModleeClient(object):
     """
@@ -238,3 +238,77 @@ class ModleeClient(object):
         if len(error_files) > 0:
             return False
         return True
+
+
+    def post_run_as_json(self, run_path):
+        """
+        Convert the specified mlruns' directory structure and files to JSON format, 
+        excluding files that match patterns in ignore_files. Tracks files that could not be processed.
+
+        :param run_path: The path of the run to convert to JSON.
+        :return: A dictionary representing the directory structure and files in JSON format, 
+                 or None if the directory is empty or doesn't exist.
+        """
+        ignore_files = ["model.pth", ".npy", ".DS_Store", "__pycache__"]
+        error_files = []
+
+        def skip_file(file_name):
+            """
+            Skip file if it matches any pattern in ignore_files.
+
+            :param file_name: The name of the file to check.
+            :return: True if the file should be skipped, False otherwise.
+            """
+            for ignore_file in ignore_files:
+                if ignore_file in file_name:
+                    return True
+            return False
+
+        def dir_to_json(path):
+            """
+            Recursively convert a directory structure to a JSON-compatible dictionary.
+
+            :param path: The directory path to convert.
+            :return: A dictionary representing the directory's structure and contents.
+            """
+            result = {}
+            for item in os.listdir(path):
+                item_path = os.path.join(path, item)
+                if os.path.isdir(item_path):
+                    result[item] = dir_to_json(item_path)  # Recurse into subdirectories
+                elif not skip_file(item):
+                    try:
+                        with open(item_path, 'r') as file:
+                            # Attempt to read the file as JSON, or as plain text if that fails
+                            content = json.load(file)
+                            result[item] = content
+                    except Exception as e:
+                        error_files.append(item_path)
+            return result
+
+        # Check that there are items in the directory
+        if not os.path.exists(run_path) or len(os.listdir(run_path)) < 1:
+            return False
+        json_data = dir_to_json(run_path)
+
+        if len(error_files) > 0:
+            print(f"Error processing the following files: {error_files}")
+            return False
+        
+          # Define the temporary file path
+        temp_file_path = 'temp_json_data.json'
+        with open(temp_file_path, 'w') as tmp_file:
+            json.dump(json_data, tmp_file, indent=4)
+
+        # Post the file
+        run_id = os.path.basename(run_path)
+        
+        
+        server_filepath = "/".join([self.api_key, run_id, 'logs.json'])
+
+        res = self.post_file(temp_file_path, server_filepath)                
+        os.remove(temp_file_path)
+        if res in None:
+            return False
+        else:
+            return False
