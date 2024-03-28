@@ -37,7 +37,7 @@ dependencies = [
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -v -k 'not training or not deprecated'"
+addopts = "-ra -v -k 'not (training or deprecated)'"
 markers = ["training", "deprecated"]
 
 [tool.black]

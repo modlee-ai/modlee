@@ -38,6 +38,7 @@ train_dataloader, test_dataloader = get_dataloader()
 
 
 class TestRecommender:
+    @pytest.mark.training
     @pytest.mark.parametrize("modality", ["image"])
     @pytest.mark.parametrize("task", ["classification", "segmentation"])
     def test_image_recommenders(self, modality, task):
