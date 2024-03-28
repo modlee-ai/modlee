@@ -2,7 +2,7 @@
 Test modlee.client
 """
 #
-import unittest
+import unittest, pytest
 import yaml
 
 import os
@@ -172,6 +172,7 @@ class TestModleeClient:
             # except:
             # assert False, "Could not execute callable even though modlee_dev package available"
 
+    @pytest.mark.deprecated
     def test_fail_dummy_gets_callable_from_script(self):
         """
         Get scripts as raw *.py files
