@@ -93,6 +93,7 @@ pygments_style = None
 # a list of builtin themes.
 #
 # html_theme = 'alabaster'
+# html_style = 'css/custom.css'
 html_theme = "sphinx_rtd_theme"
 
 # Favicon
@@ -224,7 +225,7 @@ def skip(app, what, name, obj, would_skip, options):
         return False
     return would_skip
 
-def setup(app):
-    print(app.__class__)
-    app.connect("autodoc-skip-member", skip)
-    app.add_css_file("css/custom.css")
+# def setup(app):
+#     print(app.__class__)
+#     app.connect("autodoc-skip-member", skip)
+#     app.add_css_file("css/custom.css")

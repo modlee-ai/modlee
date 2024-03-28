@@ -6,10 +6,10 @@
   <title>modlee.modlee_image_model &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=ca37922a" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=ca37922a" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=e5dd142c" />
 
   
+    <link rel="shortcut icon" href="../../_static/modlee.ico"/>
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -59,7 +59,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../../README.html#recommend">Recommend</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#support">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../README.html#support">Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../README.html#contributing">Contributing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../README.html#issues">Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../README.html#community">Community</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#roadmap">Roadmap</a></li>
 </ul>
 </li>
@@ -167,8 +172,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/document.html">Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/recommend.html">Recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/document.html">Automate experiment documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/recommend.html">Automate model recommendation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
@@ -192,6 +197,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../modlee.html">modlee</a></li>
       <li class="breadcrumb-item active">modlee.modlee_image_model</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -228,8 +234,6 @@
 <span class="sd">    - Calculates data-specific data statistics</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ModleeImageModel.__init__">
-<a class="viewcode-back" href="../../modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ModleeImageModel.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="s2">&quot;classification&quot;</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">num_classes</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Must provide argument for num_classes&quot;</span><span class="p">)</span>
@@ -241,8 +245,7 @@
         <span class="c1">#     metric = TASK_METRIC[self.task],</span>
         <span class="c1">#     **kwargs</span>
         <span class="c1"># )</span>
-        <span class="n">ModleeModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs_cache</span><span class="o">=</span><span class="n">vars_cache</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
+        <span class="n">ModleeModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs_cache</span><span class="o">=</span><span class="n">vars_cache</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ModleeImageModel.configure_callbacks">
 <a class="viewcode-back" href="../../modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ModleeImageModel.configure_callbacks">[docs]</a>
@@ -269,14 +272,11 @@
 <span class="sd">    Saves accuracy</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ImageCallback.__init__">
-<a class="viewcode-back" href="../../modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ImageCallback.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">Callback</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calculate_accuracy</span> <span class="o">=</span> <span class="n">Accuracy</span><span class="p">(</span>
             <span class="n">task</span><span class="o">=</span><span class="s2">&quot;binary&quot;</span> <span class="k">if</span> <span class="n">num_classes</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;multiclass&quot;</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">num_classes</span>
-        <span class="p">)</span></div>
-
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="ImageCallback.on_validation_batch_end">
 <a class="viewcode-back" href="../../modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ImageCallback.on_validation_batch_end">[docs]</a>

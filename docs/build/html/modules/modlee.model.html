@@ -7,8 +7,7 @@
   <title>modlee.model package &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=f83a7d91" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=f83a7d91" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=e5dd142c" />
 
   
     <link rel="shortcut icon" href="../_static/modlee.ico"/>
@@ -63,7 +62,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#recommend">Recommend</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#support">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#support">Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#contributing">Contributing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#issues">Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#community">Community</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#roadmap">Roadmap</a></li>
 </ul>
 </li>
@@ -172,7 +176,7 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/document.html">Automate experiment documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/recommend.html">Automate model creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/recommend.html">Automate model recommendation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
@@ -214,12 +218,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modlee.model.callbacks.html">modlee.model.callbacks module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.DataMetafeaturesCallback"><code class="docutils literal notranslate"><span class="pre">DataMetafeaturesCallback</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.DataMetafeaturesCallback.__init__"><code class="docutils literal notranslate"><span class="pre">DataMetafeaturesCallback.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.DataMetafeaturesCallback.on_train_start"><code class="docutils literal notranslate"><span class="pre">DataMetafeaturesCallback.on_train_start()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.LogCodeTextCallback"><code class="docutils literal notranslate"><span class="pre">LogCodeTextCallback</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.LogCodeTextCallback.__init__"><code class="docutils literal notranslate"><span class="pre">LogCodeTextCallback.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.LogCodeTextCallback.on_train_start"><code class="docutils literal notranslate"><span class="pre">LogCodeTextCallback.on_train_start()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.LogCodeTextCallback.setup"><code class="docutils literal notranslate"><span class="pre">LogCodeTextCallback.setup()</span></code></a></li>
 </ul>
@@ -229,10 +231,7 @@
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.LogONNXCallback.setup"><code class="docutils literal notranslate"><span class="pre">LogONNXCallback.setup()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.LogOutputCallback"><code class="docutils literal notranslate"><span class="pre">LogOutputCallback</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.LogOutputCallback.__init__"><code class="docutils literal notranslate"><span class="pre">LogOutputCallback.__init__()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.LogOutputCallback"><code class="docutils literal notranslate"><span class="pre">LogOutputCallback</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.LogParamsCallback"><code class="docutils literal notranslate"><span class="pre">LogParamsCallback</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.LogParamsCallback.on_train_start"><code class="docutils literal notranslate"><span class="pre">LogParamsCallback.on_train_start()</span></code></a></li>
 </ul>
@@ -242,7 +241,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.ModleeCallback"><code class="docutils literal notranslate"><span class="pre">ModleeCallback</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.ModleeCallback.__init__"><code class="docutils literal notranslate"><span class="pre">ModleeCallback.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.callbacks.html#modlee.model.callbacks.ModleeCallback.get_input"><code class="docutils literal notranslate"><span class="pre">ModleeCallback.get_input()</span></code></a></li>
 </ul>
 </li>
@@ -254,12 +252,10 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modlee.model.image_model.html">modlee.model.image_model module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="modlee.model.image_model.html#modlee.model.image_model.ImageCallback"><code class="docutils literal notranslate"><span class="pre">ImageCallback</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modlee.model.image_model.html#modlee.model.image_model.ImageCallback.__init__"><code class="docutils literal notranslate"><span class="pre">ImageCallback.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.image_model.html#modlee.model.image_model.ImageCallback.on_validation_batch_end"><code class="docutils literal notranslate"><span class="pre">ImageCallback.on_validation_batch_end()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modlee.model.image_model.html#modlee.model.image_model.ModleeImageModel"><code class="docutils literal notranslate"><span class="pre">ModleeImageModel</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modlee.model.image_model.html#modlee.model.image_model.ModleeImageModel.__init__"><code class="docutils literal notranslate"><span class="pre">ModleeImageModel.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.image_model.html#modlee.model.image_model.ModleeImageModel.configure_callbacks"><code class="docutils literal notranslate"><span class="pre">ModleeImageModel.configure_callbacks()</span></code></a></li>
 </ul>
 </li>
@@ -267,17 +263,12 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modlee.model.model.html">modlee.model.model module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="modlee.model.model.html#modlee.model.model.ModleeModel"><code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modlee.model.model.html#modlee.model.model.ModleeModel.__init__"><code class="docutils literal notranslate"><span class="pre">ModleeModel.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.model.html#modlee.model.model.ModleeModel.configure_callbacks"><code class="docutils literal notranslate"><span class="pre">ModleeModel.configure_callbacks()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.model.html#modlee.model.model.ModleeModel.run_path"><code class="docutils literal notranslate"><span class="pre">ModleeModel.run_path</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="modlee.model.model.html#modlee.model.model.SimpleDataset"><code class="docutils literal notranslate"><span class="pre">SimpleDataset</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modlee.model.model.html#modlee.model.model.SimpleDataset.__init__"><code class="docutils literal notranslate"><span class="pre">SimpleDataset.__init__()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="modlee.model.model.html#modlee.model.model.SimpleDataset"><code class="docutils literal notranslate"><span class="pre">SimpleDataset</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="modlee.model.model.html#modlee.model.model.SimpleModel"><code class="docutils literal notranslate"><span class="pre">SimpleModel</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modlee.model.model.html#modlee.model.model.SimpleModel.__init__"><code class="docutils literal notranslate"><span class="pre">SimpleModel.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.model.html#modlee.model.model.SimpleModel.configure_optimizers"><code class="docutils literal notranslate"><span class="pre">SimpleModel.configure_optimizers()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.model.html#modlee.model.model.SimpleModel.forward"><code class="docutils literal notranslate"><span class="pre">SimpleModel.forward()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.model.html#modlee.model.model.SimpleModel.training_step"><code class="docutils literal notranslate"><span class="pre">SimpleModel.training_step()</span></code></a></li>
@@ -287,7 +278,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modlee.model.recommended_model.html">modlee.model.recommended_model module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="modlee.model.recommended_model.html#modlee.model.recommended_model.RecommendedModel"><code class="docutils literal notranslate"><span class="pre">RecommendedModel</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modlee.model.recommended_model.html#modlee.model.recommended_model.RecommendedModel.__init__"><code class="docutils literal notranslate"><span class="pre">RecommendedModel.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.recommended_model.html#modlee.model.recommended_model.RecommendedModel.configure_callbacks"><code class="docutils literal notranslate"><span class="pre">RecommendedModel.configure_callbacks()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.recommended_model.html#modlee.model.recommended_model.RecommendedModel.configure_optimizers"><code class="docutils literal notranslate"><span class="pre">RecommendedModel.configure_optimizers()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.recommended_model.html#modlee.model.recommended_model.RecommendedModel.forward"><code class="docutils literal notranslate"><span class="pre">RecommendedModel.forward()</span></code></a></li>

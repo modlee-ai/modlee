@@ -12,8 +12,10 @@ import numpy as np
 
 import mlflow
 
+import torch
+import torchvision
 from torchvision import datasets as tv_datasets
-from torchvision.transforms import ToTensor
+from torchvision import transforms
 from torch.utils.data import DataLoader
 
 from modlee.client import ModleeClient
@@ -36,23 +38,28 @@ def safe_mkdir(target_path):
         os.mkdir(target_path)
 
 
-def get_fashion_mnist(batch_size=64):
+def get_fashion_mnist(batch_size=64, num_output_channels=1):
     """
     Get the Fashion MNIST dataset from torchvision.
 
     :param batch_size: The batch size, defaults to 64.
+    :param num_output_channels: Passed to torchvision.transforms.Grayscale. 1 = grayscale, 3 = RGB. Defaults to 1.
     :return: A tuple of train and test dataloaders.
     """
+    data_transforms = torchvision.transforms.Compose([
+        transforms.Grayscale(num_output_channels=num_output_channels),
+        transforms.ToTensor(),
+    ])
     training_loader = DataLoader(
         tv_datasets.FashionMNIST(
-            root="data", train=True, download=True, transform=ToTensor()
+            root="data", train=True, download=True, transform=data_transforms
         ),
         batch_size=batch_size,
         shuffle=True,
     )
     test_loader = DataLoader(
         tv_datasets.FashionMNIST(
-            root="data", train=False, download=True, transform=ToTensor()
+            root="data", train=False, download=True, transform=data_transforms
         ),
         batch_size=batch_size,
         shuffle=True,

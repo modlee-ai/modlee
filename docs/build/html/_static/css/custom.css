@@ -1,12 +1,14 @@
+/* @import './rtd.css' */
+
 :root {
     --base-color: rgb(146,0,249);
 }
 
 .wy-side-nav-search {
     display: block;
-    width: 300px;
+    /* width: 300px;
     padding: .809em;
-    margin-bottom: .809em;
+    margin-bottom: .809em; */
     z-index: 200;
     /* background-color: #2980b9; */
     background-color: var(--base-color);
@@ -15,6 +17,7 @@
     color: var(--base-color);
 }
 
-/* .wy-nav-top {
-    color: var(--base-color);
-} */
+.wy-nav-top {
+    background: var(--base-color);
+    background-color: var(--base-color);
+}
