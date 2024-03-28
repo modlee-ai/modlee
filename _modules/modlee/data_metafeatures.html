@@ -6,10 +6,10 @@
   <title>modlee.data_metafeatures &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=ca37922a" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=ca37922a" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=e5dd142c" />
 
   
+    <link rel="shortcut icon" href="../../_static/modlee.ico"/>
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -59,7 +59,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../../README.html#recommend">Recommend</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#support">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../README.html#support">Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../README.html#contributing">Contributing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../README.html#issues">Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../README.html#community">Community</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#roadmap">Roadmap</a></li>
 </ul>
 </li>
@@ -167,8 +172,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/document.html">Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/recommend.html">Recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/document.html">Automate experiment documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/recommend.html">Automate model recommendation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
@@ -192,6 +197,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../modlee.html">modlee</a></li>
       <li class="breadcrumb-item active">modlee.data_metafeatures</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -716,8 +722,6 @@
 <span class="sd">    An object to hold metafeatures for a dataset, as loaded from a dataloader.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="DataMetafeatures.__init__">
-<a class="viewcode-back" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="n">num_sample</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">testing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor for the data metafeature object.</span>
@@ -768,8 +772,7 @@
         <span class="c1"># general and independent of any data type or ml task</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stats_rep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_features</span><span class="p">()</span>
         <span class="c1"># self.stats_rep.update(self.mfe_features)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_serializable_stats_rep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_serializable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats_rep</span><span class="p">)</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">_serializable_stats_rep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_serializable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats_rep</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DataMetafeatures.get_raw_batch_elements">
 <a class="viewcode-back" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures.get_raw_batch_elements">[docs]</a>

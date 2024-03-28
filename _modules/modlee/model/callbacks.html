@@ -6,10 +6,10 @@
   <title>modlee.model.callbacks &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ca37922a" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ca37922a" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=e5dd142c" />
 
   
+    <link rel="shortcut icon" href="../../../_static/modlee.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -59,7 +59,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../README.html#recommend">Recommend</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../README.html#support">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../README.html#support">Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../README.html#contributing">Contributing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../README.html#issues">Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../README.html#community">Community</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../../README.html#roadmap">Roadmap</a></li>
 </ul>
 </li>
@@ -167,8 +172,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/document.html">Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/recommend.html">Recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/document.html">Automate experiment documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/recommend.html">Automate model recommendation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
@@ -192,6 +197,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../modlee.html">modlee</a></li>
       <li class="breadcrumb-item active">modlee.model.callbacks</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -239,11 +245,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Base class for Modlee-specific callbacks.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="ModleeCallback.__init__">
-<a class="viewcode-back" href="../../../modules/modlee.model.callbacks.html#modlee.model.callbacks.ModleeCallback.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
-
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
 <div class="viewcode-block" id="ModleeCallback.get_input">
 <a class="viewcode-back" href="../../../modules/modlee.model.callbacks.html#modlee.model.callbacks.ModleeCallback.get_input">[docs]</a>
@@ -314,8 +317,6 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Callback to log the model as code and text.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="LogCodeTextCallback.__init__">
-<a class="viewcode-back" href="../../../modules/modlee.model.callbacks.html#modlee.model.callbacks.LogCodeTextCallback.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs_to_cache</span><span class="o">=</span><span class="p">{},</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">        Constructor for LogCodeTextCallback.</span>
@@ -323,8 +324,7 @@
 <span class="sd">        :param kwargs_to_cache: A dictionary of kwargs to cache in the run for rebuilding the model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Callback</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_cache</span> <span class="o">=</span> <span class="n">kwargs_to_cache</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_cache</span> <span class="o">=</span> <span class="n">kwargs_to_cache</span>
 
 <div class="viewcode-block" id="LogCodeTextCallback.setup">
 <a class="viewcode-back" href="../../../modules/modlee.model.callbacks.html#modlee.model.callbacks.LogCodeTextCallback.setup">[docs]</a>
@@ -462,8 +462,6 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Callback to log the output metrics for each batch.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="LogOutputCallback.__init__">
-<a class="viewcode-back" href="../../../modules/modlee.model.callbacks.html#modlee.model.callbacks.LogOutputCallback.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">        Constructor for LogOutputCallback.</span>
@@ -471,8 +469,7 @@
         <span class="n">Callback</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">on_train_batch_end</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_batch_end</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">on_validation_batch_end</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_batch_end</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;val&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;train&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="p">[]}</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;train&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="p">[]}</span>
 
     <span class="k">def</span> <span class="nf">_on_batch_end</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -514,8 +511,6 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Callback to calculate and log data meta-features.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="DataMetafeaturesCallback.__init__">
-<a class="viewcode-back" href="../../../modules/modlee.model.callbacks.html#modlee.model.callbacks.DataMetafeaturesCallback.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_snapshot_size</span><span class="o">=</span><span class="mf">1e7</span><span class="p">,</span> <span class="n">DataMetafeatures</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">        Constructor for the data metafeature callback.</span>
@@ -528,8 +523,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data_snapshot_size</span> <span class="o">=</span> <span class="n">data_snapshot_size</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">DataMetafeatures</span><span class="p">:</span>
             <span class="n">DataMetafeatures</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data_metafeatures</span><span class="p">,</span> <span class="s2">&quot;DataMetafeatures&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">DataMetafeatures</span> <span class="o">=</span> <span class="n">DataMetafeatures</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">DataMetafeatures</span> <span class="o">=</span> <span class="n">DataMetafeatures</span>
 
 <div class="viewcode-block" id="DataMetafeaturesCallback.on_train_start">
 <a class="viewcode-back" href="../../../modules/modlee.model.callbacks.html#modlee.model.callbacks.DataMetafeaturesCallback.on_train_start">[docs]</a>

@@ -1,5 +1,5 @@
-Automate model creation
-==============
+Automate model recommendation
+=============================
 
 This example notebook uses the ``modlee`` package to train a recommended
 model. We will perform image classification on CIFAR10 from

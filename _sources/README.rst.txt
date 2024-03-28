@@ -8,9 +8,9 @@ Modlee is a machine learning tool that **documents** experiments for
 reproduciblity and **recommends** neural network models suited for a
 particular dataset. Modlee bypasses costly machine learning
 experimentation by recommending performant models based on prior
-experiments. Built on top of MLFlow, Modlee documents traditional
-experiment assets (model checkpoints, (hyper)parameters, performance
-metrics) and meta-features for
+experiments. Modlee documents traditional experiment assets (model
+checkpoints, (hyper)parameters, performance metrics) and meta-features
+for
 `meta-learning <https://ieeexplore.ieee.org/abstract/document/9428530>`__.
 Based on these meta-features from prior experiments, Modlee recommends a
 neural network model matched to a new task.
@@ -71,11 +71,22 @@ Or pass directly to the ``modlee.init`` function (less recommended):
 Usage
 -----
 
+Modlee is built on top of `PyTorch
+Lightning <https://lightning.ai/docs/pytorch/stable/>`__ and
+`MLFlow <https://mlflow.org>`__. While you do not have to be an expert
+in either framework to use Modlee, we recommend having at least a
+familiarity with machine learning and the experiment pipeline. This
+documentation page does not cover the frameworks; we recommend
+referencing the
+`Lightning <https://lightning.ai/docs/overview/getting-started>`__ and
+`MLFlow <https://mlflow.org/docs/latest/index.html>`__ documentation
+directly.
+
 Document
 ~~~~~~~~
 
-Modlee supports documentation for PyTorch Lightning experiments. Guides
-for structuring PyTorch Lightning projects are available
+Modlee supports documentation for Lightning experiments. Guides for
+structuring PyTorch Lightning projects are available
 `here <https://lightning.ai/docs/pytorch/stable/starter/converting.html>`__
 and
 `here <https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09>`__.
@@ -110,7 +121,7 @@ relative to wherever the script was called.
 Recommend
 ~~~~~~~~~
 
-To receive a recommended model based on your dataset:
+Modlee recommends models based on your dataset. We
 
 .. code:: python
 
@@ -138,11 +149,27 @@ To receive a recommended model based on your dataset:
 Support
 -------
 
+Contributing
+~~~~~~~~~~~~
+
+We welcome contributions of any kind: bug reports, feature requests,
+tutorials, etc. Before submitting a pull request, `please read the
+contribution
+guidelines <https://github.com/modlee-ai/modlee_pypi/docs/CONTRIBUTING.md>`__.
+
+Issues
+~~~~~~
+
 If you encounter errors, `please raise an issue in this
 repository <https://github.com/modlee-ai/modlee_pypi/issues>`__.
+
+Community
+~~~~~~~~~
+
+`Join our Discord server <https://discord.com/invite/m8YDbWDvrF>`__ to
+discuss and contribute with other Modlee users.
 
 Roadmap
 -------
 
--  [ ] Add logo, links to website and Discord.
 -  [ ] Create contribution guidelines.

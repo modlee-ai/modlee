@@ -7,8 +7,7 @@
   <title>modlee.recommender.recommender module &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=f83a7d91" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=f83a7d91" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=e5dd142c" />
 
   
     <link rel="shortcut icon" href="../_static/modlee.ico"/>
@@ -63,7 +62,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#recommend">Recommend</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#support">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#support">Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#contributing">Contributing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#issues">Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#community">Community</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#roadmap">Roadmap</a></li>
 </ul>
 </li>
@@ -172,7 +176,7 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/document.html">Automate experiment documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/recommend.html">Automate model creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/recommend.html">Automate model recommendation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
@@ -215,20 +219,6 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.recommender.recommender.</span></span><span class="sig-name descname"><span class="pre">Recommender</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://server.modlee.ai:7070'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#Recommender"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.Recommender" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Recommender for models conditioned on datasets.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.recommender.recommender.Recommender.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://server.modlee.ai:7070'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#Recommender.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.Recommender.__init__" title="Link to this definition"></a></dt>
-<dd><p>Constructor for recommender.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dataloader</strong> – The dataloader to analyze, defaults to None.</p></li>
-<li><p><strong>origin</strong> – The origin (scheme://hostname:port) for the server, defaults to Modlee’s server.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.recommender.recommender.Recommender.analyze">
 <span class="sig-name descname"><span class="pre">analyze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#Recommender.analyze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.Recommender.analyze" title="Link to this definition"></a></dt>

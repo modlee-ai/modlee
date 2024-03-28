@@ -1,5 +1,5 @@
 Automate experiment documentation
-=============
+=================================
 
 This example notebook uses the ``modlee`` package to document a machine
 learning experiment with a user-built model. We train a simple
