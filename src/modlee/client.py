@@ -280,7 +280,7 @@ class ModleeClient(object):
                     try:
                         with open(item_path, 'r') as file:
                             result[item] = json.load(file)
-                    except json.JSONDecodeError:
+                    except (json.JSONDecodeError, UnicodeDecodeError):
                         try:
                             with open(item_path, 'r') as file:
                                 result[item] = file.read()  # Read file content as plain text

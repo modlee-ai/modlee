@@ -185,6 +185,7 @@ class TestModleeClient:
                 response is None
             ), f"Unauthorized client should not have gotten {script_to_get}"
 
+    @pytest.mark.deprecated
     def test_send_file(self):
         files_paths = [
             [
@@ -200,12 +201,14 @@ class TestModleeClient:
             )
             assert response, f"Could not post {file_path}"
 
+    @pytest.mark.deprecated
     def test_post_run(self):
 
         for run_path in run_paths:
             response = self.client.post_run(run_path)
             assert response, f"Client {self.client.api_key} could not save {run_path}"
 
+    @pytest.mark.deprecated
     def test_unauth_post_run(self):
         """ Unauthorized client should not be able to save runs 
         """
@@ -215,12 +218,15 @@ class TestModleeClient:
                 response is False
             ), f"Unauthorized client should not have saved {run_path}"
 
+    # The 'server' marker excuses the client for known server-related issues
+    @pytest.mark.server
     def test_post_run_as_json(self):
 
         for run_path in run_paths:
             response = self.client.post_run_as_json(run_path)
             assert response, f"Client {self.client.api_key} could not save {run_path}"
 
+    @pytest.mark.server
     def test_unauth_post_run_as_json(self):
         """ Unauthorized client should not be able to save runs 
         """
