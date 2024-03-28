@@ -14,8 +14,10 @@ For best performance, ensure that the runtime is set to use a GPU
 **Installation**
 ================
 
-Next, we need to install ``modlee`` and its related packages. This
-process may take a few minutes, so you can `review the
+First, we need to install ``modlee`` and its related packages. Make sure
+that you have an account and API key `from the
+dashboard <https://www.dashboard.modlee.ai/>`__. This process may take a
+few minutes, so you can `review the
 examples <https://www.documentation.modlee.ai/notebooks/document.html>`__
 while waiting.
 
@@ -237,14 +239,14 @@ This cell does not need any modifications.
         batch_size=16
     )
 
-Create a ``modlee`` recommender object and fit to the dataset. This
-process will calculate the dataset metafeatures to send to the server.
-The server will return a recommended model for the dataset assigned to
-``recommender.model``.
+Create a ``modlee`` recommender object for an image classification task
+and fit to the dataset. This process will calculate the dataset
+metafeatures to send to the server. The server will return a recommended
+model for the dataset assigned to ``recommender.model``.
 
 .. code:: ipython3
 
-    recommender = # Create a recommender object based on the modality and task
+    recommender = # Create a recommender object for Image Classification
     recommender.fit(train_dataloader)
     modlee_model = # Extract the model from the recommender
 

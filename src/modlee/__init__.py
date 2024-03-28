@@ -29,7 +29,7 @@ modlee_client = ModleeClient(api_key=API_KEY)
 # modlee_client = None
 from .trainer import Trainer
 from .retriever import *
-from .utils import save_run, last_run_path
+from .utils import save_run, last_run_path, save_run_as_json
 # from .utils import save_run as utils_save_run
 # save_run = partial(utils_save_run, modlee_client)
 from .model_text_converter import get_code_text, get_code_text_for_model
@@ -112,7 +112,7 @@ def auth(api_key=None):
         global modlee_client, get_code_text, \
             get_code_text_for_model, data_metafeatures, \
                 model_text_converter, exp_loss_logger, \
-                    save_run, API_KEY
+                    save_run, save_run_as_json, API_KEY
         API_KEY = api_key
         os.environ['MODLEE_API_KEY'] = API_KEY
         modlee_client = ModleeClient(api_key=api_key)
