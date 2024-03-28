@@ -279,11 +279,15 @@ class ModleeClient(object):
                 elif not skip_file(item):
                     try:
                         with open(item_path, 'r') as file:
-                            # Attempt to read the file as JSON, or as plain text if that fails
-                            content = json.load(file)
-                            result[item] = content
-                    except Exception as e:
-                        error_files.append(item_path)
+                            result[item] = json.load(file)
+                    except json.JSONDecodeError:
+                        try:
+                            with open(item_path, 'r') as file:
+                                result[item] = file.read()  # Read file content as plain text
+                        except Exception as e:
+                            print(f"Error reading file {item_path}: {e}")
+                            error_files.append(item_path)
+                            result[item] = f"Error reading file: {e}"
             return result
 
         # Check that there are items in the directory

@@ -213,3 +213,18 @@ class TestModleeClient:
             assert (
                 response is False
             ), f"Unauthorized client should not have saved {run_path}"
+
+    def test_post_run_as_json(self):
+
+        for run_path in run_paths:
+            response = self.client.post_run_as_json(run_path)
+            assert response, f"Client {self.client.api_key} could not save {run_path}"
+
+    def test_unauth_post_run_as_json(self):
+        """ Unauthorized client should not be able to save runs 
+        """
+        for run_path in run_paths:
+            response = self.unauthorized_client.post_run(run_path)
+            assert (
+                response is False
+            ), f"Unauthorized client should not have saved {run_path}"
