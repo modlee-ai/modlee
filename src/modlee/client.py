@@ -300,7 +300,7 @@ class ModleeClient(object):
             return False
         
           # Define the temporary file path
-        temp_file_path = 'temp_json_data.json'
+        temp_file_path = 'logs.json'
         with open(temp_file_path, 'w') as tmp_file:
             json.dump(json_data, tmp_file, indent=4)
 
@@ -308,11 +308,11 @@ class ModleeClient(object):
         run_id = os.path.basename(run_path)
         
         
-        server_filepath = "/".join([self.api_key, run_id, 'logs.json'])
+        server_filepath = "/".join([self.api_key, run_id]) #, 'logs.json'])
 
         res = self.post_file(temp_file_path, server_filepath)                
         os.remove(temp_file_path)
-        if res in None:
+        if res is None:
             return False
         else:
-            return False
+            return True
