@@ -71,7 +71,7 @@ class LightningClassifier(ModleeModel):
 training_loader, test_loader = get_fashion_mnist()
 num_classes = len(training_loader.dataset.classes)
 model = LightningClassifier()
-
+breakpoint()
 # %% Run training loop
 with modlee.start_run() as run:
     trainer = pl.Trainer(max_epochs=1)
