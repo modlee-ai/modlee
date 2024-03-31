@@ -5,7 +5,7 @@ import json
 import requests
 import logging
 
-logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
 
 import modlee
 from modlee.utils import get_model_size, typewriter_print
@@ -93,9 +93,9 @@ class Recommender(object):
         :return: The metafeatures of the data as a dictionary.
         """
         if modlee.data_metafeatures.module_available:
-            analyze_message = "[Modlee] Just a moment, analyzing your dataset...n"
-
-            typewriter_print(analyze_message, sleep_time=0.01)
+            logging.info("Analyzing dataset based on data metafeatures...")
+            # analyze_message = "[Modlee] Just a moment, analyzing your dataset...n"
+            # typewriter_print(analyze_message, sleep_time=0.01)
 
             # ??? Add in type writer print
             # TODO - generalize to a base DataMetafeatures,
