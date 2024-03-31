@@ -204,7 +204,7 @@ class ModleeClient(object):
         :param run_path: The path of the run to save.
         :return: Whether saving all files was successful. Partial failures still return False.
         """
-        ignore_files = ["model.pth", ".npy", ".DS_Store", "__pycache__", ".ckpt"]
+        ignore_files = ["model.pth", ".npy", ".DS_Store", "__pycache__"]
 
         error_files = []
 
@@ -249,7 +249,7 @@ class ModleeClient(object):
         :return: A dictionary representing the directory structure and files in JSON format, 
                  or None if the directory is empty or doesn't exist.
         """
-        ignore_files = ["model.pth", ".npy", ".DS_Store", "__pycache__", ".ckpt"]
+        ignore_files = ["model.pth", ".npy", ".DS_Store", "__pycache__"]
         ignore_exts = ["ckpt"]
         error_files = []
 
