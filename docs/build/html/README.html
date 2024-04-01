@@ -121,11 +121,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="modules/modlee.loss_sweeper.html">modlee.loss_sweeper module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/modlee.model.html">modlee.model package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model.html#module-modlee.model">Module contents</a></li>
-</ul>
-</li>
 <li class="toctree-l3"><a class="reference internal" href="modules/modlee.model_text_converter.html">modlee.model_text_converter module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_text_converter.html#modlee.model_text_converter.exhaust_sequence_branch"><code class="docutils literal notranslate"><span class="pre">exhaust_sequence_branch()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text"><code class="docutils literal notranslate"><span class="pre">get_code_text()</span></code></a></li>
@@ -163,6 +158,7 @@
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.quantize_dict"><code class="docutils literal notranslate"><span class="pre">quantize_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
@@ -249,9 +245,9 @@ file:</p>
 pip<span class="w"> </span>install<span class="w"> </span>.
 </pre></div>
 </div>
-<p>We have developed the package in Python 3.10. Please <a class="reference external" href="https://github.com/modlee-ai/modlee_pypi/issues">raise an
-issue</a>) if you
-experience environment errors.</p>
+<p>We have developed the package in Python 3.10. Please <a class="reference external" href="https://github.com/modlee-ai/modlee/issues">raise an
+issue</a>) if you experience
+environment errors.</p>
 </section>
 <section id="set-api-key">
 <h3>Set API key<a class="headerlink" href="#set-api-key" title="Link to this heading"></a></h3>
@@ -297,7 +293,7 @@ Once you have created your experiment script, simply follow the four
 <span class="c1"># Inherit the ModleeModel class for your model module,</span>
 <span class="c1"># instead of lightning.pytorch.LightningModule</span>
 <span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">modlee</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">ModleeModel</span><span class="p">):</span>
-    <span class="o">...</span>
+    <span class="c1"># Define the model</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">MyModel</span><span class="p">()</span>
 
 <span class="c1"># Insert the modlee context manager before training</span>
@@ -310,11 +306,52 @@ Once you have created your experiment script, simply follow the four
 </pre></div>
 </div>
 <p>Modlee will document experiment assets in a new <code class="docutils literal notranslate"><span class="pre">./mlruns/</span></code> directory,
-relative to wherever the script was called.</p>
+relative to wherever the script was called. Among the assets is a
+<code class="docutils literal notranslate"><span class="pre">model_graph.py</span></code> module that recreates the model as a graph, including
+the <code class="docutils literal notranslate"><span class="pre">forward()</span></code> pass:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span><span class="o">,</span> <span class="nn">onnx2torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">tensor</span>
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Rebuild the model from its base components. &#39;&#39;&#39;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Shape&#39;</span><span class="p">,</span> <span class="n">Shape</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;end&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Constant&#39;</span><span class="p">,</span> <span class="n">Constant</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(())</span><span class="o">*</span><span class="mi">2</span><span class="p">}))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Gather&#39;</span><span class="p">,</span> <span class="n">Gather</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;axis&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Shape_1&#39;</span><span class="p">,</span> <span class="n">Shape</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;end&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Constant_1&#39;</span><span class="p">,</span> <span class="n">Constant</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(())</span><span class="o">*</span><span class="mi">3</span><span class="p">}))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Gather_1&#39;</span><span class="p">,</span> <span class="n">Gather</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;axis&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Conv&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="o">**</span><span class="p">{</span>
+            <span class="s1">&#39;in_channels&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span>
+            <span class="s1">&#39;out_channels&#39;</span><span class="p">:</span><span class="mi">64</span><span class="p">,</span>
+            <span class="s1">&#39;kernel_size&#39;</span><span class="p">:(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+            <span class="s1">&#39;stride&#39;</span><span class="p">:(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="s1">&#39;padding&#39;</span><span class="p">:(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+            <span class="s1">&#39;dilation&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="s1">&#39;groups&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+            <span class="s1">&#39;padding_mode&#39;</span><span class="p">:</span><span class="s1">&#39;zeros&#39;</span><span class="p">}))</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Forward pass an input through the network &#39;&#39;&#39;</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Shape</span><span class="p">(</span><span class="n">input_1</span><span class="p">)</span>
+        <span class="n">constant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Constant</span><span class="p">()</span>
+        <span class="n">gather</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Gather</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">constant</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
+        <span class="n">shape_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Shape_1</span><span class="p">(</span><span class="n">input_1</span><span class="p">)</span>
+        <span class="n">constant_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Constant_1</span><span class="p">()</span>
+        <span class="n">gather_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Gather_1</span><span class="p">(</span><span class="n">shape_1</span><span class="p">,</span> <span class="n">constant_1</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
+        <span class="n">conv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Conv</span><span class="p">(</span><span class="n">input_1</span><span class="p">)</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
 </section>
 <section id="recommend">
 <h3>Recommend<a class="headerlink" href="#recommend" title="Link to this heading"></a></h3>
-<p>Modlee recommends models based on your dataset. We</p>
+<p>Modlee recommends models based on your data modality, task, and data
+meta-features. Rather than defining the model manually, you can use this
+recommended model as a starting point for your experiments.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import and initialize</span>
 <span class="kn">import</span> <span class="nn">modlee</span><span class="o">,</span> <span class="nn">lightning</span>
 <span class="n">modlee</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;my-api-key&quot;</span><span class="p">)</span>
@@ -323,7 +360,12 @@ relative to wherever the script was called.</p>
 <span class="n">train_dataloader</span><span class="p">,</span> <span class="n">val_dataloader</span> <span class="o">=</span> <span class="n">your_function_to_get_dataloaders</span><span class="p">()</span>
 
 <span class="c1"># Create a recommender object and fit to the training dataloader</span>
-<span class="n">recommender</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">Recommender</span><span class="p">()</span>
+<span class="n">recommender</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">recommender</span><span class="o">.</span><span class="n">from_modality_task</span><span class="p">(</span>
+    <span class="n">modality</span><span class="o">=</span><span class="s1">&#39;image&#39;</span><span class="p">,</span>
+    <span class="n">task</span><span class="o">=</span><span class="s1">&#39;classification&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="c1"># Fit the recommender to the data meta-features</span>
 <span class="n">recommender</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">)</span>
 
 <span class="c1"># Get the model from the recommender and train</span>
@@ -344,13 +386,13 @@ relative to wherever the script was called.</p>
 <section id="contributing">
 <h3>Contributing<a class="headerlink" href="#contributing" title="Link to this heading"></a></h3>
 <p>We welcome contributions of any kind: bug reports, feature requests,
-tutorials, etc. Before submitting a pull request, <a class="reference external" href="https://github.com/modlee-ai/modlee_pypi/docs/CONTRIBUTING.md">please read the
+tutorials, etc. Before submitting a pull request, <a class="reference external" href="https://github.com/modlee-ai/modlee/docs/CONTRIBUTING.md">please read the
 contribution
 guidelines</a>.</p>
 </section>
 <section id="issues">
 <h3>Issues<a class="headerlink" href="#issues" title="Link to this heading"></a></h3>
-<p>If you encounter errors, <a class="reference external" href="https://github.com/modlee-ai/modlee_pypi/issues">please raise an issue in this
+<p>If you encounter errors, <a class="reference external" href="https://github.com/modlee-ai/modlee/issues">please raise an issue in this
 repository</a>.</p>
 </section>
 <section id="community">
@@ -362,7 +404,7 @@ discuss and contribute with other Modlee users.</p>
 <section id="roadmap">
 <h2>Roadmap<a class="headerlink" href="#roadmap" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p>[ ] Create contribution guidelines.</p></li>
+<li><p>[ ] Add more modalities and tasks.</p></li>
 </ul>
 </section>
 </section>
