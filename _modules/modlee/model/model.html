@@ -118,11 +118,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../modules/modlee.loss_sweeper.html">modlee.loss_sweeper module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../modules/modlee.model.html">modlee.model package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.model.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.model.html#module-modlee.model">Module contents</a></li>
-</ul>
-</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../modules/modlee.model_text_converter.html">modlee.model_text_converter module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.model_text_converter.html#modlee.model_text_converter.exhaust_sequence_branch"><code class="docutils literal notranslate"><span class="pre">exhaust_sequence_branch()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text"><code class="docutils literal notranslate"><span class="pre">get_code_text()</span></code></a></li>
@@ -160,6 +155,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.quantize_dict"><code class="docutils literal notranslate"><span class="pre">quantize_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
@@ -229,7 +225,7 @@
 <span class="kn">from</span> <span class="nn">lightning.pytorch.utilities.types</span> <span class="kn">import</span> <span class="n">STEP_OUTPUT</span>
 
 <span class="kn">import</span> <span class="nn">modlee</span>
-<span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">data_metafeatures</span><span class="p">,</span> <span class="n">save_run</span><span class="p">,</span> <span class="n">get_code_text_for_model</span>
+<span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">data_metafeatures</span><span class="p">,</span> <span class="n">save_run</span><span class="p">,</span> <span class="n">get_code_text_for_model</span><span class="p">,</span> <span class="n">save_run_as_json</span>
 <span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">logging</span><span class="p">,</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">modlee_utils</span><span class="p">,</span> <span class="n">exp_loss_logger</span>
 <span class="kn">from</span> <span class="nn">modlee.converter</span> <span class="kn">import</span> <span class="n">Converter</span>
 <span class="kn">from</span> <span class="nn">modlee.model.callbacks</span> <span class="kn">import</span> <span class="o">*</span>
@@ -341,7 +337,16 @@
 <div class="viewcode-block" id="SimpleModel">
 <a class="viewcode-back" href="../../../modules/modlee.model.model.html#modlee.model.model.SimpleModel">[docs]</a>
 <span class="k">class</span> <span class="nc">SimpleModel</span><span class="p">(</span><span class="n">ModleeModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A simple Modlee model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">output_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">)):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct the model.</span>
+
+<span class="sd">        :param input_shape: The model&#39;s input shape.</span>
+<span class="sd">        :param output_shape: The model&#39;s output shape.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span> <span class="o">=</span> <span class="n">input_shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">output_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
@@ -351,12 +356,25 @@
 <div class="viewcode-block" id="SimpleModel.forward">
 <a class="viewcode-back" href="../../../modules/modlee.model.model.html#modlee.model.model.SimpleModel.forward">[docs]</a>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Forward pass.</span>
+
+<span class="sd">        :param x: The input to the model.</span>
+<span class="sd">        :return: The output of the model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 
     
 <div class="viewcode-block" id="SimpleModel.training_step">
 <a class="viewcode-back" href="../../../modules/modlee.model.model.html#modlee.model.model.SimpleModel.training_step">[docs]</a>
-    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform a training step.</span>
+
+<span class="sd">        :param batch: The batch of dat.a</span>
+<span class="sd">        :param batch_idx: The index of the batch.</span>
+<span class="sd">        :return: A dictionary of the loss.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>
         <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;loss&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">)}</span></div>
 
@@ -364,6 +382,11 @@
 <div class="viewcode-block" id="SimpleModel.configure_optimizers">
 <a class="viewcode-back" href="../../../modules/modlee.model.model.html#modlee.model.model.SimpleModel.configure_optimizers">[docs]</a>
     <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configure optimizers for the model.</span>
+
+<span class="sd">        :return: The optimizer object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span>
             <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span>
@@ -374,7 +397,16 @@
 <div class="viewcode-block" id="SimpleDataset">
 <a class="viewcode-back" href="../../../modules/modlee.model.model.html#modlee.model.model.SimpleDataset">[docs]</a>
 <span class="k">class</span> <span class="nc">SimpleDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    A simple dataset class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">output_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">)):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct the simple dataset.</span>
+<span class="sd">        </span>
+<span class="sd">        :param input_shape: The shape of the input.</span>
+<span class="sd">        :param output_shape: The shape of the output.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">output_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>

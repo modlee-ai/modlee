@@ -118,11 +118,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.loss_sweeper.html">modlee.loss_sweeper module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.model.html">modlee.model package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model.html#module-modlee.model">Module contents</a></li>
-</ul>
-</li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.model_text_converter.html">modlee.model_text_converter module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model_text_converter.html#modlee.model_text_converter.exhaust_sequence_branch"><code class="docutils literal notranslate"><span class="pre">exhaust_sequence_branch()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text"><code class="docutils literal notranslate"><span class="pre">get_code_text()</span></code></a></li>
@@ -160,6 +155,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.quantize_dict"><code class="docutils literal notranslate"><span class="pre">quantize_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
@@ -222,8 +218,10 @@
 
 <span class="kn">import</span> <span class="nn">mlflow</span>
 
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torchvision</span>
 <span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">datasets</span> <span class="k">as</span> <span class="n">tv_datasets</span>
-<span class="kn">from</span> <span class="nn">torchvision.transforms</span> <span class="kn">import</span> <span class="n">ToTensor</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
 <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
 
 <span class="kn">from</span> <span class="nn">modlee.client</span> <span class="kn">import</span> <span class="n">ModleeClient</span>
@@ -251,23 +249,28 @@
 
 <div class="viewcode-block" id="get_fashion_mnist">
 <a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.get_fashion_mnist">[docs]</a>
-<span class="k">def</span> <span class="nf">get_fashion_mnist</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_fashion_mnist</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">num_output_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the Fashion MNIST dataset from torchvision.</span>
 
 <span class="sd">    :param batch_size: The batch size, defaults to 64.</span>
+<span class="sd">    :param num_output_channels: Passed to torchvision.transforms.Grayscale. 1 = grayscale, 3 = RGB. Defaults to 1.</span>
 <span class="sd">    :return: A tuple of train and test dataloaders.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data_transforms</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">Grayscale</span><span class="p">(</span><span class="n">num_output_channels</span><span class="o">=</span><span class="n">num_output_channels</span><span class="p">),</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+    <span class="p">])</span>
     <span class="n">training_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
         <span class="n">tv_datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
-            <span class="n">root</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ToTensor</span><span class="p">()</span>
+            <span class="n">root</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">data_transforms</span>
         <span class="p">),</span>
         <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
         <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
         <span class="n">tv_datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
-            <span class="n">root</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ToTensor</span><span class="p">()</span>
+            <span class="n">root</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">data_transforms</span>
         <span class="p">),</span>
         <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
         <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -555,6 +558,20 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">)</span>
     <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span><span class="o">.</span><span class="n">post_run</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="save_run_as_json">
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.save_run_as_json">[docs]</a>
+<span class="k">def</span> <span class="nf">save_run_as_json</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save the current run as a JSON.</span>
+
+<span class="sd">    :param modlee_client: The client object that is tracking the current run.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">)</span>
+    <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span><span class="o">.</span><span class="n">post_run_as_json</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
 
 
 <div class="viewcode-block" id="last_run_path">
