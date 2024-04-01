@@ -104,7 +104,7 @@ html_favicon = "modlee.ico"
 # documentation.
 #
 html_theme_options = {
-    'github_url':'https://github.com/modlee-ai/modlee_pypi',
+    'github_url':'https://github.com/modlee-ai/modlee',
     # "show_navbar_depth": 3,
     "collapse_navigation": False,
 }

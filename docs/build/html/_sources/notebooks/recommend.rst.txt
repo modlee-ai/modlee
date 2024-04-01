@@ -10,7 +10,7 @@ First, import ``torch``- and ``modlee``-related packages.
 .. code:: ipython3
 
     import os
-    os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
+    # os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
     import torch, torchvision
     import torchvision.transforms as transforms
     
@@ -50,6 +50,30 @@ The server will return a recommended model for the dataset assigned to
         )
     recommender.fit(train_dataloader)
     modlee_model = recommender.model 
+    print(f"\nRecommended model: \n{modlee_model}")
+
+::
+
+   INFO:Analyzing dataset based on data metafeatures...
+   INFO:Finished analyzing dataset.
+   INFO:The model is available at the recommender object's `model` attribute.
+
+   Recommended model: 
+   RecommendedModel(
+     (model): GraphModule(
+       (Conv): Conv2d(3, 3, kernel_size=(1, 1), stride=(1, 1))
+       (Conv_1): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3))
+       (Relu): ReLU()
+       (MaxPool): MaxPool2d(kernel_size=[3, 3], stride=[2, 2], padding=[1, 1], dilation=[1, 1], ceil_mode=False)
+       (Conv_2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+       (Relu_1): ReLU()
+       (Conv_3): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+       (Add): OnnxBinaryMathOperation()
+       (Relu_2): ReLU()
+       (Conv_4): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+       (Relu_3): ReLU()
+       (Conv_5): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+       ...
 
 We can train the model as we would a basic ``ModleeModel``, with
 automatic documentation of metafeatures.
