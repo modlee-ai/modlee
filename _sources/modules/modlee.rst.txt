@@ -22,7 +22,6 @@ Submodules
    modlee.data_metafeatures
    modlee.exp_loss_logger
    modlee.loss_sweeper
-   modlee.model
    modlee.model_text_converter
    modlee.modlee_image_model
    modlee.retriever
