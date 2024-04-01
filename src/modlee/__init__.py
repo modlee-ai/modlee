@@ -27,7 +27,7 @@ if API_KEY is None:
     logging.warning(f"Modlee API key is not set, functionality will be limited.")
 modlee_client = ModleeClient(api_key=API_KEY)
 # modlee_client = None
-from .trainer import Trainer
+#from .trainer import Trainer
 from .retriever import *
 from .utils import save_run, last_run_path, save_run_as_json
 # from .utils import save_run as utils_save_run

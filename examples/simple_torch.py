@@ -60,7 +60,7 @@ class LightningClassifier(ModleeModel):
         x, y = val_batch
         y_out = self(x)
         loss = F.cross_entropy(y_out, y)
-        return loss
+        return {"val_loss": loss}
 
     def configure_optimizers(self):
         optimizer = torch.optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
