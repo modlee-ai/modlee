@@ -21,7 +21,7 @@ Reference for using the `modlee` package is available at the [Modlee API documen
 
 1. Fork this repository.
 2. Commit your changes in your fork.
-3. Submit a [pull request](https://github.com/modlee-ai/modlee_pypi/pulls).
+3. Submit a [pull request](https://github.com/modlee-ai/modlee/pulls).
 
 As a rule of thumb, please bundle small changes (e.g. typographic or grammatic corrections, comments) with larger contributions (e.g. function refactors).
 

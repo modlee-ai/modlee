@@ -7,7 +7,8 @@ name = "modlee"
 version = "0.0.1-6"
 authors = [{ name = "modlee", email = "michael@modlee.ai" }]
 description = "modlee package"
-# readme = "README.md"
+readme = "docs/README.md"
+license = {file = "docs/LICENSE"}
 requires-python = ">=3.10"
 # dynamic = ["version", "description"]
 
@@ -22,12 +23,19 @@ dependencies = [
     "torchvision>=0.15.2",
     "onnx==1.14.1",
     "torchsummary==1.5.1",
-    "onnx2torch @ git+ssh://git@github.com/modlee-ai/onnx2torch.git",
-    "onnx-graphsurgeon @ git+ssh://git@github.com/modlee-ai/onnx-graphsurgeon.git",
+    # "onnx2torch @ git+ssh://git@github.com/modlee-ai/onnx2torch",
+    # "onnx2torch @ https://github.com/modlee-ai/onnx2torch",
+    "modlee-onnx2torch==1.5.11",
+    "modlee-onnx_graphsurgeon==0.3.27",
+    # "onnx-graphsurgeon @ git+ssh://git@github.com/modlee-ai/onnx-graphsurgeon",
     "pymfe==0.4.2",
     "pytest==8.1.1",
     "nbsphinx", "sphinx-rtd-theme",
 ]
+
+[project.urls]
+"Homepage" = "https://www.modlee.ai"
+"Source" = "https://www.github.com/modlee-ai/modlee"
 
 # [tool.setuptools.packages.find]
 # where = ["src"]

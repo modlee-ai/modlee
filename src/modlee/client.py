@@ -250,6 +250,7 @@ class ModleeClient(object):
                  or None if the directory is empty or doesn't exist.
         """
         ignore_files = ["model.pth", ".npy", ".DS_Store", "__pycache__"]
+        ignore_exts = ["ckpt"]
         error_files = []
 
         def skip_file(file_name):
@@ -261,6 +262,8 @@ class ModleeClient(object):
             """
             for ignore_file in ignore_files:
                 if ignore_file in file_name:
+                    return True
+                elif os.path.splitext(file_name)[-1] in ignore_exts:
                     return True
             return False
 

@@ -60,7 +60,7 @@ class LightningClassifier(ModleeModel):
         x, y = val_batch
         y_out = self(x)
         loss = F.cross_entropy(y_out, y)
-        return loss
+        return {"val_loss": loss}
 
     def configure_optimizers(self):
         optimizer = torch.optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
@@ -71,7 +71,7 @@ class LightningClassifier(ModleeModel):
 training_loader, test_loader = get_fashion_mnist()
 num_classes = len(training_loader.dataset.classes)
 model = LightningClassifier()
-
+breakpoint()
 # %% Run training loop
 with modlee.start_run() as run:
     trainer = pl.Trainer(max_epochs=1)

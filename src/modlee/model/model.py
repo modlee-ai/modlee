@@ -99,31 +99,43 @@ class ModleeModel(LightningModule):
             LogParamsCallback(),
             PushServerCallback(),
             LogTransformsCallback(),
-            # LogONNXCallback(),
-            pl.callbacks.ModelCheckpoint(
-                # dirpath='./',
-                filename='{epoch}-{loss:.2f}',
-                monitor='loss', 
-                save_top_k=1,
-                mode='min',
-                verbose=True),
+            LogModelCheckpointCallback(monitor='loss'),
+            LogModelCheckpointCallback(monitor= 'val_loss')
         ]
+            # LogONNXCallback(),
+        #     pl.callbacks.ModelCheckpoint(
+        #         # dirpath='./',
+        #         filename='{epoch}-{loss:.2f}',
+        #         monitor='loss', 
+        #         save_top_k=1,
+        #         mode='min',
+        #         verbose=True),
+        # ]
         
-        # If the validation step is defined, add
-        if self._check_step_defined("validation_step"): 
-            callbacks.append(pl.callbacks.ModelCheckpoint(
-                # dirpath='./',
-                filename='{epoch}-{val_loss:.2f}',
-                monitor='val_loss', 
-                save_top_k=1,
-                mode='min',
-                verbose=True))
+        # # If the validation step is defined, add
+        # if self._check_step_defined("validation_step"): 
+        #     callbacks.append(pl.callbacks.ModelCheckpoint(
+        #         # dirpath='./',
+        #         filename='{epoch}-{val_loss:.2f}',
+        #         monitor='val_loss', 
+        #         save_top_k=1,
+        #         mode='min',
+        #         verbose=True))
             
             
         return callbacks
 
 class SimpleModel(ModleeModel):
+    """
+    A simple Modlee model.
+    """
     def __init__(self, input_shape=(1,10), output_shape=(1,20)):
+        """
+        Construct the model.
+
+        :param input_shape: The model's input shape.
+        :param output_shape: The model's output shape.
+        """
         super().__init__()
         self.input_shape = input_shape
         self.model = nn.Linear(input_shape[-1], output_shape[-1])
@@ -131,20 +143,47 @@ class SimpleModel(ModleeModel):
         self.dataset = SimpleDataset(input_shape, output_shape)
         
     def forward(self, x):
+        """
+        Forward pass.
+
+        :param x: The input to the model.
+        :return: The output of the model.
+        """
         return self.model(x)
     
-    def training_step(self, batch):
+    def training_step(self, batch, batch_idx):
+        """
+        Perform a training step.
+
+        :param batch: The batch of dat.a
+        :param batch_idx: The index of the batch.
+        :return: A dictionary of the loss.
+        """
         x,y = batch
         return {'loss': self.loss(self(x), y)}
     
     def configure_optimizers(self):
+        """
+        Configure optimizers for the model.
+
+        :return: The optimizer object.
+        """
         return torch.optim.Adam(
             self.parameters(),
             lr=0.001
         )
 
 class SimpleDataset(Dataset):
+    """ 
+    A simple dataset class.
+    """
     def __init__(self, input_shape=(1,10), output_shape=(1,20)):
+        """
+        Construct the simple dataset.
+        
+        :param input_shape: The shape of the input.
+        :param output_shape: The shape of the output.
+        """
         super().__init__()
         self.inputs = torch.rand(10, input_shape[-1])
         self.outputs = torch.rand(10, output_shape[-1])

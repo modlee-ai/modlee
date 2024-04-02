@@ -2,6 +2,7 @@ from functools import partial
 import pickle
 from typing import Any, Optional
 import numpy as np
+import logging
 
 import os
 import pandas as pd
@@ -103,6 +104,7 @@ class LogCodeTextCallback(ModleeCallback):
         return super().setup(trainer, pl_module, stage)
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
+        logging.info("Logging model as code (model_graph.py) and text (model_graph.txt)...")
         self._log_code_text(trainer=trainer, pl_module=pl_module)
 
         return super().on_train_start(trainer, pl_module)
@@ -277,10 +279,11 @@ class DataMetafeaturesCallback(ModleeCallback):
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
         # data, targets = self._get_data_targets(trainer)
-        data_snapshots = self._get_snapshots_batched(trainer.train_dataloader)
-        self._save_snapshots_batched(data_snapshots)
+        # data_snapshots = self._get_snapshots_batched(trainer.train_dataloader)
+        # self._save_snapshots_batched(data_snapshots)
         # log the data statistics
         # self._log_data_metafeatures(data, targets)
+        logging.info("Logging data metafeatures...")
         self._log_data_metafeatures_dataloader(trainer.train_dataloader)
 
         self._log_output_size(trainer, pl_module)

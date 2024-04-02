@@ -48,8 +48,8 @@ file:
    pip install .
 
 We have developed the package in Python 3.10. Please `raise an
-issue <https://github.com/modlee-ai/modlee_pypi/issues>`__) if you
-experience environment errors.
+issue <https://github.com/modlee-ai/modlee/issues>`__) if you experience
+environment errors.
 
 Set API key
 ~~~~~~~~~~~
@@ -104,7 +104,7 @@ Once you have created your experiment script, simply follow the four
    # Inherit the ModleeModel class for your model module,
    # instead of lightning.pytorch.LightningModule
    class MyModel(modlee.model.ModleeModel):
-       ...
+       # Define the model
    model = MyModel()
 
    # Insert the modlee context manager before training
@@ -116,12 +116,54 @@ Once you have created your experiment script, simply follow the four
        )
 
 Modlee will document experiment assets in a new ``./mlruns/`` directory,
-relative to wherever the script was called.
+relative to wherever the script was called. Among the assets is a
+``model_graph.py`` module that recreates the model as a graph, including
+the ``forward()`` pass:
+
+.. code:: python
+
+   import torch, onnx2torch
+   from torch import tensor
+
+   class Model(torch.nn.Module):
+       
+       def __init__(self):
+           ''' Rebuild the model from its base components. '''
+           super().__init__()
+           setattr(self,'Shape', Shape(**{'start':0,'end':None}))
+           setattr(self,'Constant', Constant(**{'value':torch.ones(())*2}))
+           setattr(self,'Gather', Gather(**{'axis':0}))
+           setattr(self,'Shape_1', Shape(**{'start':0,'end':None}))
+           setattr(self,'Constant_1', Constant(**{'value':torch.ones(())*3}))
+           setattr(self,'Gather_1', Gather(**{'axis':0}))
+           setattr(self,'Conv', torch.nn.modules.conv.Conv2d(**{
+               'in_channels':3,
+               'out_channels':64,
+               'kernel_size':(7, 7),
+               'stride':(2, 2),
+               'padding':(3, 3),
+               'dilation':(1, 1),
+               'groups':1,
+               'padding_mode':'zeros'}))
+           ...
+       
+       def forward(self, input_1):
+           ''' Forward pass an input through the network '''
+           shape = self.Shape(input_1)
+           constant = self.Constant()
+           gather = self.Gather(shape, constant.type(torch.int64))
+           shape_1 = self.Shape_1(input_1)
+           constant_1 = self.Constant_1()
+           gather_1 = self.Gather_1(shape_1, constant_1.type(torch.int64))
+           conv = self.Conv(input_1)
+           ...
 
 Recommend
 ~~~~~~~~~
 
-Modlee recommends models based on your dataset. We
+Modlee recommends models based on your data modality, task, and data
+meta-features. Rather than defining the model manually, you can use this
+recommended model as a starting point for your experiments.
 
 .. code:: python
 
@@ -133,7 +175,12 @@ Modlee recommends models based on your dataset. We
    train_dataloader, val_dataloader = your_function_to_get_dataloaders()
 
    # Create a recommender object and fit to the training dataloader
-   recommender = modlee.Recommender()
+   recommender = modlee.recommender.from_modality_task(
+       modality='image',
+       task='classification',
+       )
+
+   # Fit the recommender to the data meta-features
    recommender.fit(train_dataloader)
 
    # Get the model from the recommender and train
@@ -155,13 +202,13 @@ Contributing
 We welcome contributions of any kind: bug reports, feature requests,
 tutorials, etc. Before submitting a pull request, `please read the
 contribution
-guidelines <https://github.com/modlee-ai/modlee_pypi/docs/CONTRIBUTING.md>`__.
+guidelines <https://github.com/modlee-ai/modlee/docs/CONTRIBUTING.md>`__.
 
 Issues
 ~~~~~~
 
 If you encounter errors, `please raise an issue in this
-repository <https://github.com/modlee-ai/modlee_pypi/issues>`__.
+repository <https://github.com/modlee-ai/modlee/issues>`__.
 
 Community
 ~~~~~~~~~
@@ -172,4 +219,4 @@ discuss and contribute with other Modlee users.
 Roadmap
 -------
 
--  [ ] Create contribution guidelines.
+-  [ ] Add more modalities and tasks.

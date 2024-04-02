@@ -26,7 +26,7 @@ pip install .
 ```
 
 We have developed the package in Python 3.10. 
-Please [raise an issue](https://github.com/modlee-ai/modlee_pypi/issues)) if you experience environment errors.
+Please [raise an issue](https://github.com/modlee-ai/modlee/issues)) if you experience environment errors.
 
 ### Set API key
 Either save your API key to an environment variable: 
@@ -149,13 +149,10 @@ with modlee.start_run() as run:
 
 ### Contributing
 We welcome contributions of any kind: bug reports, feature requests, tutorials, etc.
-Before submitting a pull request, [please read the contribution guidelines](https://github.com/modlee-ai/modlee_pypi/docs/CONTRIBUTING.md).
+Before submitting a pull request, [please read the contribution guidelines](https://github.com/modlee-ai/modlee/docs/CONTRIBUTING.md).
 
 ### Issues
-If you encounter errors, [please raise an issue in this repository](https://github.com/modlee-ai/modlee_pypi/issues).
+If you encounter errors, [please raise an issue in this repository](https://github.com/modlee-ai/modlee/issues).
 
 ### Community
 [Join our Discord server](https://discord.com/invite/m8YDbWDvrF) to discuss and contribute with other Modlee users.
-
-## Roadmap
-- [ ] Add more modalities and tasks.

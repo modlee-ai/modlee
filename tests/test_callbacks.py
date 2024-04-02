@@ -51,7 +51,7 @@ class TestCallback:
         last_run_path = modlee.last_run_path()
         # artifacts_path = os.path.join()
         checkpoints_path = os.path.join(
-            last_run_path, 'artifacts', 'lightning_logs','version_0','checkpoints')
+            last_run_path, 'artifacts', 'checkpoints','train')
         
         # Check that a checkpoint was saved
         assert len(os.listdir(checkpoints_path)) > 0
