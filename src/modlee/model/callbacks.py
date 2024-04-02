@@ -2,7 +2,6 @@ from functools import partial
 import pickle
 from typing import Any, Optional
 import numpy as np
-import logging
 
 import os
 import pandas as pd
@@ -24,7 +23,7 @@ modlee_converter = Converter()
 from modlee.config import TMP_DIR, MLRUNS_DIR
 
 import mlflow
-import json
+import shutil
 
 base_lightning_module = LightningModule()
 base_lm_keys = list(LightningModule.__dict__.keys())
@@ -329,23 +328,7 @@ class DataMetafeaturesCallback(ModleeCallback):
         :param trainer: The trainer.
         :param pl_module: The model as a module.
         """
-        # _dataloader = trainer.train_dataloader
-        # _batch = next(iter(_dataloader))
-        # # NOTE - how can we generalize to different input schemes?
-        # # e.g. siamese network with multiple inputs
-        # # Right now, this makes the assumption that that only the network
-        # # uses only the first element
-        # # NOTE - maybe using inspect.signature(pl_module.forward)
-        # # could help generalize to different forward() calls
-        # if type(_batch) in [list,tuple]:
-        #     _batch = _batch[0]
-        #     # print(_batch[0].shape)
-        #     # _batch = torch.Tensor(_batch[0])
-        # try:
-        #     _batch = _batch.to(pl_module.device)
-        # except:
-        #     pass
-
+    
         _input = self.get_input(trainer, pl_module)
 
         try:
@@ -369,14 +352,12 @@ class DataMetafeaturesCallback(ModleeCallback):
             data = np.array(_dataset)
         elif isinstance(_dataset, torch.utils.data.dataset.IterableDataset):
             data = list(_dataset)
-            # data = np.array(list(_dataset))
         else:
             if isinstance(_dataset, torch.utils.data.Subset):
                 _dataset = _dataset.dataset
             data = _dataset.data
             if isinstance(data, torch.Tensor):
                 data = data.numpy()
-            # data = _dataset.data.numpy()
 
         self._save_snapshot(data, "data")
 
@@ -486,3 +467,67 @@ class LogTransformsCallback(ModleeCallback):
         if hasattr(dataset, "transforms"):
             mlflow.log_text(str(dataset.transform), "transforms.txt")
    
+class LogModelCheckpointCallback(pl.callbacks.ModelCheckpoint):
+    """
+    Callback to log the best performing model in a training routine based on Loss value
+    """
+
+    def __init__(self, monitor='val_loss', filename='model_checkpoint', temp_dir_path = f'./tmp', save_top_k=1, mode='min', verbose=True, *args, **kwargs):
+        """
+        Constructor for LogModelCheckpointCallback. Extends standard pl ModelCheckpoint callback.
+
+        :param monitor: The metric to monitor for saving the best model checkpoint.
+        :param filename: Template for checkpoint filenames.
+        :param dirpath: The directory to save the temporarily generated checkpoint files.
+        :param save_top_k: The number of best model checkpoints to save.
+        :param mode: One of {'min', 'max'}.
+        :param verbose: Whether to print verbose messages.
+        """
+        super().__init__(
+            filename=f'{filename}_{monitor}',
+            dirpath=temp_dir_path,
+            monitor=monitor,
+            save_top_k=save_top_k,
+            mode=mode,
+            verbose=verbose,
+            *args,
+            **kwargs
+        )
+        self.monitor= monitor
+        self.temp_dir_path = temp_dir_path
+
+    def on_train_epoch_end(self, trainer, pl_module):
+        super().on_train_epoch_end(trainer, pl_module)
+        if self.monitor=='val_loss':
+            self.log_and_clean_checkpoint(trainer, pl_module, 'val')
+        else:
+            self.log_and_clean_checkpoint(trainer, pl_module, 'train')
+
+    def log_and_clean_checkpoint(self, trainer, pl_module, step):
+        """
+        Log the latest checkpoint to MLflow and remove the local file.
+
+        :param trainer: The PyTorch Lightning `Trainer` instance.
+        :param pl_module: The LightningModule being trained.
+        :param step: The step ('train' or 'val') that triggered the checkpoint.
+        """
+        checkpoint_path = self.best_model_path
+
+        # Log the checkpoint file to MLflow
+        if checkpoint_path:
+            mlflow.log_artifact(checkpoint_path, artifact_path=f'checkpoints/{step}')
+            # Get the current epoch and metric value
+            current_epoch = trainer.current_epoch
+            metric_value = trainer.callback_metrics.get(self.monitor)
+
+            # Ensure the metric value is a float
+        
+            if not isinstance(metric_value, float):
+                metric_value = float(metric_value)
+            # Log the epoch and metric value
+            mlflow.log_metrics({f'best_{self.monitor}_epoch': current_epoch, f'best_{self.monitor}_value':metric_value })
+            
+            # Remove the local file after logging
+            shutil.rmtree(self.temp_dir_path)
+            
+            #os.rmdir(self.temp_dir_path)

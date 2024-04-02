@@ -4,13 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "modlee"
-version = "0.0.1-6"
+version = "0.0.1-8"
 authors = [{ name = "modlee", email = "michael@modlee.ai" }]
 description = "modlee package"
 readme = "docs/README.md"
 license = {file = "docs/LICENSE"}
 requires-python = ">=3.10"
-# dynamic = ["version", "description"]
 
 dependencies = [
     "lightning==2.0.7",
@@ -23,11 +22,8 @@ dependencies = [
     "torchvision>=0.15.2",
     "onnx==1.14.1",
     "torchsummary==1.5.1",
-    # "onnx2torch @ git+ssh://git@github.com/modlee-ai/onnx2torch",
-    # "onnx2torch @ https://github.com/modlee-ai/onnx2torch",
     "modlee-onnx2torch==1.5.11",
     "modlee-onnx_graphsurgeon==0.3.27",
-    # "onnx-graphsurgeon @ git+ssh://git@github.com/modlee-ai/onnx-graphsurgeon",
     "pymfe==0.4.2",
     "pytest==8.1.1",
     "nbsphinx", "sphinx-rtd-theme",
@@ -37,12 +33,6 @@ dependencies = [
 "Homepage" = "https://www.modlee.ai"
 "Source" = "https://www.github.com/modlee-ai/modlee"
 
-# [tool.setuptools.packages.find]
-# where = ["src"]
-# include = ["*"]
-# namespaces = true
-# packages = ["modlee", "modlee.recommender"]
-
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -v -k 'not (training or deprecated or server)'"
@@ -51,9 +41,7 @@ markers = ["training", "deprecated", "server"]
 [tool.black]
 verbose = true
 
-# [tool.coverage.run]
 [tool.pylint]
-# [tool.pylint.main]
 output-format = "colorized"
 recursive = true
 reports = true
@@ -61,14 +49,9 @@ source-roots = ["./src/modlee"]
 load-plugins = ["pylint.extensions.docparams"]
 
 [tool.pylint.parameter_documentation]
-# [tool.pylint.extensions.docparams]
-# [tool.pylint.master]
 accept-no-param-doc = false
 accept-no-raise-doc = false
 accept-no-return-doc = false
 accept-no-yields-doc = false
 # Possible choices: ['sphinx', 'epytext', 'google', 'numpy', 'default']
 default-docstring-type = "google"
-
-# [tool.pylint.parameter_documentation]
-# default-docstring-type = "default"

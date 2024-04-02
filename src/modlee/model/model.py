@@ -100,7 +100,6 @@ class ModleeModel(LightningModule):
             PushServerCallback(),
             LogTransformsCallback(),
             LogModelCheckpointCallback(monitor='loss'),
-            LogModelCheckpointCallback(monitor= 'val_loss')
         ]
             # LogONNXCallback(),
         #     pl.callbacks.ModelCheckpoint(
@@ -113,7 +112,10 @@ class ModleeModel(LightningModule):
         # ]
         
         # # If the validation step is defined, add
-        # if self._check_step_defined("validation_step"): 
+        if self._check_step_defined("validation_step"): 
+            callbacks.append(
+                LogModelCheckpointCallback(monitor='val_loss')
+            )
         #     callbacks.append(pl.callbacks.ModelCheckpoint(
         #         # dirpath='./',
         #         filename='{epoch}-{val_loss:.2f}',
