@@ -32,6 +32,13 @@ Import ``modlee`` and initialize with an API key.
     import modlee
     modlee.init(api_key=os.environ['MODLEE_API_KEY'])
 
+
+.. parsed-literal::
+
+    /home/ubuntu/.conda/envs/modlee3.12/lib/python3.12/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+      from .autonotebook import tqdm as notebook_tqdm
+
+
 Load the training data; we’ll use ``torch``\ ’s Fashion MNIST dataset.
 
 .. code:: ipython3
@@ -95,6 +102,36 @@ Run the training loop, just for one epoch.
             val_dataloaders=val_dataloader
         )
 
+
+.. parsed-literal::
+
+    LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+    
+      | Name  | Type   | Params
+    ---------------------------------
+    0 | model | ResNet | 11.2 M
+    ---------------------------------
+    11.2 M    Trainable params
+    0         Non-trainable params
+    11.2 M    Total params
+    44.727    Total estimated model params size (MB)
+
+
+.. parsed-literal::
+
+    Training: 0it [00:00, ?it/s]                                               
+
+.. parsed-literal::
+
+    INFO:Logging data metafeatures...
+    INFO:Logging model as code (model_graph.py) and text (model_graph.txt)...
+
+
+.. parsed-literal::
+
+    Epoch 0: 100%|██████████| 938/938 [00:39<00:00, 23.59it/s, v_num=11]
+
+
 ::
 
      | Name  | Type       | Params
@@ -125,6 +162,13 @@ automatically generated ``assets`` folder.
     sys.path.insert(0, artifacts_path)
 
 
+
+.. parsed-literal::
+
+    Run path: /home/ubuntu/projects/modlee_pypi/examples/mlruns/0/e7d5a6c91c294e43baeb198122fa56cc
+    Saved artifacts: ['transforms.txt', 'model_graph.py', 'model_graph.txt', 'model_size', 'model', 'cached_vars', 'stats_rep', 'checkpoints', 'model.py', 'model_summary.txt']
+
+
 ::
 
    Run path: /home/ubuntu/projects/modlee_pypi/examples/mlruns/0/7a47086681324d0e924f9076a1262de9/artifacts/model_graph.py
@@ -138,6 +182,40 @@ automatically generated ``assets`` folder.
     !echo "        ..."
     !sed -n -e 58,68p $ARTIFACTS_PATH/model_graph.py
     !echo "        ..."
+
+
+.. parsed-literal::
+
+    Model graph:
+    
+    import torch, onnx2torch
+    from torch import tensor
+    
+    class Model(torch.nn.Module):
+        
+        def __init__(self):
+            super().__init__()
+            setattr(self,'Conv', torch.nn.modules.conv.Conv2d(**{'in_channels':3,'out_channels':64,'kernel_size':(7, 7),'stride':(2, 2),'padding':(3, 3),'dilation':(1, 1),'groups':1,'padding_mode':'zeros'}))
+            setattr(self,'Relu', torch.nn.modules.activation.ReLU(**{'inplace':False}))
+            setattr(self,'MaxPool', torch.nn.modules.pooling.MaxPool2d(**{'kernel_size':[3, 3],'stride':[2, 2],'padding':[1, 1],'dilation':[1, 1],'return_indices':False,'ceil_mode':False}))
+            setattr(self,'Conv_1', torch.nn.modules.conv.Conv2d(**{'in_channels':64,'out_channels':64,'kernel_size':(3, 3),'stride':(1, 1),'padding':(1, 1),'dilation':(1, 1),'groups':1,'padding_mode':'zeros'}))
+            setattr(self,'Relu_1', torch.nn.modules.activation.ReLU(**{'inplace':False}))
+            setattr(self,'Conv_2', torch.nn.modules.conv.Conv2d(**{'in_channels':64,'out_channels':64,'kernel_size':(3, 3),'stride':(1, 1),'padding':(1, 1),'dilation':(1, 1),'groups':1,'padding_mode':'zeros'}))
+            setattr(self,'Add', onnx2torch.node_converters.binary_math_operations.OnnxBinaryMathOperation(**{'operation_type':'Add','broadcast':None,'axis':None}))
+            ...
+    
+        def forward(self, input_1):
+            conv = self.Conv(input_1);  input_1 = None
+            relu = self.Relu(conv);  conv = None
+            max_pool = self.MaxPool(relu);  relu = None
+            conv_1 = self.Conv_1(max_pool)
+            relu_1 = self.Relu_1(conv_1);  conv_1 = None
+            conv_2 = self.Conv_2(relu_1);  relu_1 = None
+            add = self.Add(conv_2, max_pool);  conv_2 = max_pool = None
+            relu_2 = self.Relu_2(add);  add = None
+            conv_3 = self.Conv_3(relu_2)
+            ...
+
 
 ::
 
@@ -177,6 +255,32 @@ automatically generated ``assets`` folder.
     print("Data metafeatures:")
     !head -20 $ARTIFACTS_PATH/stats_rep
 
+
+.. parsed-literal::
+
+    Data metafeatures:
+    {
+      "dataset_size": 60032,
+      "num_sample": 1000,
+      "batch_element_0": {
+        "raw": {
+          "feature_shape": [
+            960,
+            3,
+            28,
+            28
+          ],
+          "stats": {
+            "kmeans": {
+              "2": {
+                "inertia": "153330.2265393474",
+                "silhouette_score": "0.20397691",
+                "calinski_harabasz_score": "276.1004016863861",
+                "davies_bouldin_score": "1.8227405506886885",
+                "time_taken": "0.7286636829376221"
+              },
+
+
 ::
 
    Data metafeatures:
@@ -215,6 +319,65 @@ weights will be uninitialized.
     modlee_model.eval(); rebuilt_model.eval()
 
 
+
+
+
+.. parsed-literal::
+
+    Model(
+      (Conv): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3))
+      (Relu): ReLU()
+      (MaxPool): MaxPool2d(kernel_size=[3, 3], stride=[2, 2], padding=[1, 1], dilation=[1, 1], ceil_mode=False)
+      (Conv_1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (Relu_1): ReLU()
+      (Conv_2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (Add): OnnxBinaryMathOperation()
+      (Relu_2): ReLU()
+      (Conv_3): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (Relu_3): ReLU()
+      (Conv_4): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (Add_1): OnnxBinaryMathOperation()
+      (Relu_4): ReLU()
+      (Conv_5): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+      (Relu_5): ReLU()
+      (Conv_6): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (Conv_7): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2))
+      (Add_2): OnnxBinaryMathOperation()
+      (Relu_6): ReLU()
+      (Conv_8): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (Relu_7): ReLU()
+      (Conv_9): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (Add_3): OnnxBinaryMathOperation()
+      (Relu_8): ReLU()
+      (Conv_10): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+      (Relu_9): ReLU()
+      (Conv_11): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (Conv_12): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2))
+      (Add_4): OnnxBinaryMathOperation()
+      (Relu_10): ReLU()
+      (Conv_13): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (Relu_11): ReLU()
+      (Conv_14): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (Add_5): OnnxBinaryMathOperation()
+      (Relu_12): ReLU()
+      (Conv_15): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+      (Relu_13): ReLU()
+      (Conv_16): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (Conv_17): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2))
+      (Add_6): OnnxBinaryMathOperation()
+      (Relu_14): ReLU()
+      (Conv_18): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (Relu_15): ReLU()
+      (Conv_19): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (Add_7): OnnxBinaryMathOperation()
+      (Relu_16): ReLU()
+      (GlobalAveragePool): OnnxGlobalAveragePoolWithKnownInputShape()
+      (Flatten): Flatten(start_dim=1, end_dim=-1)
+      (Gemm): Linear(in_features=512, out_features=10, bias=True)
+    )
+
+
+
 Next, pass an input from the train dataloader through the rebuilt
 network and check that the output shape is equal to the original data.
 
@@ -231,6 +394,13 @@ network and check that the output shape is equal to the original data.
     print(f"Original input and output shapes: {x.shape}, {y_original.shape}")
     print(f"Output shape from module-rebuilt model: {y_rebuilt.shape}")
 
+
+.. parsed-literal::
+
+    Original input and output shapes: torch.Size([64, 3, 28, 28]), torch.Size([64, 10])
+    Output shape from module-rebuilt model: torch.Size([64, 10])
+
+
 Alternatively, to load the model from the last checkpoint, we can load
 it directly from the cached ``model.pth``.
 
@@ -241,6 +411,12 @@ it directly from the cached ``model.pth``.
     y_reloaded = reloaded_model(x)
     assert y_original.shape == y_reloaded.shape
     print(f"Output shape from checkpoint-reloaded model: {y_reloaded.shape}")
+
+
+.. parsed-literal::
+
+    Output shape from checkpoint-reloaded model: torch.Size([64, 10])
+
 
 ::
 
