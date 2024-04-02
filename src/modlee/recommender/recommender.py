@@ -80,7 +80,7 @@ class Recommender(object):
         if not dataloader:
             raise Exception(f'Dataloader not provided and not previously set.')
         self.metafeatures = self.calculate_metafeatures(dataloader)
-        typewriter_print("[Modlee] Finished analyzing.")
+        logging.info("Finished analyzing dataset.")
         # self.write_files()
 
     fit = analyze
