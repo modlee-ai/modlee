@@ -48,8 +48,8 @@ file:
    pip install .
 
 We have developed the package in Python 3.10. Please `raise an
-issue <https://github.com/modlee-ai/modlee/issues>`__) if you experience
-environment errors.
+issue <https://github.com/modlee-ai/modlee/blob/main/issues>`__) if you
+experience environment errors.
 
 Set API key
 ~~~~~~~~~~~
@@ -202,7 +202,7 @@ Contributing
 We welcome contributions of any kind: bug reports, feature requests,
 tutorials, etc. Before submitting a pull request, `please read the
 contribution
-guidelines <https://github.com/modlee-ai/modlee/docs/CONTRIBUTING.md>`__.
+guidelines <https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md>`__.
 
 Issues
 ~~~~~~

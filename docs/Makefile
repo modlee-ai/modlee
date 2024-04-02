@@ -27,9 +27,15 @@ apidoc:
 
 rebuild:
 	make nb_rst && make md_rst && make apidoc && make clean && make html
+	echo 'docs.modlee.ai' >> build/html/CNAME
 
 md_rst:
 	pandoc -s README.md -o source/README.rst
 
 nb_rst:
 	jupyter nbconvert --to rst --output-dir ./source/notebooks/ ../examples/*.ipynb
+
+docpush:
+	- git push origin --delete gh-pages
+	- git branch -d gh-pages
+	cd .. && git subtree push --prefix docs/build/html origin gh-pages
