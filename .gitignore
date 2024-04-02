@@ -17,6 +17,11 @@ examples/tmp
 *.DS_Store
 *.onnx
 *.zip
+*.sqlite*
+
+# Assets that get cached
+./model.py
+./model.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

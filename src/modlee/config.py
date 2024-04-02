@@ -1,5 +1,5 @@
 """ 
-Configuration variables.
+Configuration variables: relative folder paths, server origins and endpoints.
 """
 import pathlib
 
