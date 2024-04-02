@@ -17,6 +17,7 @@ examples/tmp
 *.DS_Store
 *.onnx
 *.zip
+*.sqlite*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
