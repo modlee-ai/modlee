@@ -3,6 +3,7 @@ Recommender for image models.
 """
 from .recommender import Recommender
 from modlee.model import RecommendedModel
+import logging
 
 import torch
 import torch.nn as nn
@@ -125,7 +126,7 @@ class ImageRecommender(Recommender):
             # self.write_files()
             self.write_file(self.model_text, "./model.txt")
             self.write_file(self.model_code, "./model.py")
-            typewriter_print(f"The model is available at the recommender object's `model` attribute.")
+            logging.info(f"The model is available at the recommender object's `model` attribute.")
 
         except:
         # else:

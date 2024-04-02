@@ -41,7 +41,10 @@ from . import (
     recommender,
 )
 
-logging.basicConfig(encoding="utf-8", level=logging.WARNING)
+logging.basicConfig(
+    format='%(levelname)s:%(message)s',
+    level=logging.INFO)
+
 api_modules = ["model_text_converter", "exp_loss_logger"]
 modules = glob.glob(join(dirname(__file__), "*.py"))
 __all__ = [
@@ -72,7 +75,7 @@ warnings.filterwarnings("ignore", ".*NLLLoss2d has been deprecated.*")
 warnings.filterwarnings("ignore", ".*The default value of the antialias parameter.*")
 warnings.filterwarnings("ignore", ".*No names were found for specified dynamic axes.*")
 warnings.filterwarnings("ignore", ".*Starting from v1.9.0.*")
-
+warnings.filterwarnings("ignore", "Input data has range zero. The results may not be accurate.")
 
 @contextmanager
 def suppress_stdout_stderr():
