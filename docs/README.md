@@ -156,6 +156,3 @@ If you encounter errors, [please raise an issue in this repository](https://gith
 
 ### Community
 [Join our Discord server](https://discord.com/invite/m8YDbWDvrF) to discuss and contribute with other Modlee users.
-
-## Roadmap
-- [ ] Add more modalities and tasks.
