@@ -76,7 +76,7 @@ warnings.filterwarnings("ignore", ".*The default value of the antialias paramete
 warnings.filterwarnings("ignore", ".*No names were found for specified dynamic axes.*")
 warnings.filterwarnings("ignore", ".*Starting from v1.9.0.*")
 warnings.filterwarnings("ignore", "Input data has range zero. The results may not be accurate.")
-
+warnings.filterwarnings("ignore", "scipy.stats.shapiro: Input data has range zero.")
 @contextmanager
 def suppress_stdout_stderr():
     """A context manager that redirects stdout and stderr to devnull"""
