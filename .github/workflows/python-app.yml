@@ -27,9 +27,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pylint pytest
-        eval `ssh-agent -s`
-        ssh-add - <<< '${{ secrets.MAIN }}'
-        ssh-add -l
         pip install .
     - name: Lint with pylint
       run: |
