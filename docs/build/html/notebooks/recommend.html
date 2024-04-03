@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Automate model recommendation &mdash; modlee 0 documentation</title>
+  <title>Benchmark with model recommendations &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=e5dd142c" />
@@ -24,7 +24,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Automate experiment documentation" href="document.html" />
+    <link rel="next" title="Explore &amp; document" href="document.html" />
     <link rel="prev" title="modlee.utils module" href="../modules/modlee.utils.html" /> 
 </head>
 
@@ -69,8 +69,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#usage">Usage</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#recommend">Recommend</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#document">Document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#benchmark-with-model-recommendations">Benchmark with model recommendations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#explore-document">Explore &amp; document</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#roadmap">Roadmap</a><ul>
@@ -183,8 +183,27 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Automate model recommendation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="document.html">Automate experiment documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Benchmark with model recommendations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="document.html">Explore &amp; document</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="model_definition_guidelines.html">Model definition guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset_guidelines.html">Dataset guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#tldr">TLDR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#define-example-custom-dataset-objects">Define example custom dataset objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#create-dataset-and-dataloader">Create dataset and dataloader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dataset_guidelines.html#modlee-guideline">MODLEE_GUIDELINE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset_guidelines.html#why">Why?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#define-a-pytorch-dataloader">Define a PyTorch DataLoader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dataset_guidelines.html#id1">MODLEE_GUIDELINE</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#modality-task-compatibility">Modality &amp; task compatibility</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
@@ -207,7 +226,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Automate model recommendation</li>
+      <li class="breadcrumb-item active">Benchmark with model recommendations</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/notebooks/recommend.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -217,8 +236,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="automate-model-recommendation">
-<h1>Automate model recommendation<a class="headerlink" href="#automate-model-recommendation" title="Link to this heading"></a></h1>
+  <section id="benchmark-with-model-recommendations">
+<h1>Benchmark with model recommendations<a class="headerlink" href="#benchmark-with-model-recommendations" title="Link to this heading"></a></h1>
 <p>This example notebook uses the <code class="docutils literal notranslate"><span class="pre">modlee</span></code> package to train a recommended
 model. We will perform image classification on CIFAR10 from
 <code class="docutils literal notranslate"><span class="pre">torchvision</span></code>.</p>
@@ -325,7 +344,7 @@ print(f&quot;Saved artifacts: {artifacts}&quot;)
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../modules/modlee.utils.html" class="btn btn-neutral float-left" title="modlee.utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="document.html" class="btn btn-neutral float-right" title="Automate experiment documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="document.html" class="btn btn-neutral float-right" title="Explore &amp; document" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
