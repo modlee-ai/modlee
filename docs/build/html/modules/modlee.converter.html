@@ -50,16 +50,32 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../README.html">modlee</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#until-now-ml-r-d-has-been">Until now, ML R&amp;D has been …</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#weve-developed-a-better-way">We’ve developed a better way …</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#starter-environment">Starter environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#pypi">PyPI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#source">Source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#api-key">API key</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#features-that-require-an-api-key">Features that require an API key</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#features-that-work-without-an-api-key">Features that work without an API key</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#set-api-key">Set API key</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#document">Document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#prerequisites">Prerequisites</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#recommend">Recommend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#document">Document</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#roadmap">Roadmap</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#open-source">Open source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#modlee-internal">Modlee internal</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#support">Support</a><ul>
@@ -68,7 +84,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#community">Community</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#roadmap">Roadmap</a></li>
 </ul>
 </li>
 </ul>
@@ -141,10 +156,7 @@
 <li class="toctree-l4"><a class="reference internal" href="modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.trainer.html">modlee.trainer module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.trainer.html#modlee.trainer.Trainer"><code class="docutils literal notranslate"><span class="pre">Trainer</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.trainer.html">modlee.trainer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.utils.html">modlee.utils module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
@@ -171,8 +183,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/document.html">Automate experiment documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/recommend.html">Automate model recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/document.html">Automate experiment documentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
@@ -873,7 +885,7 @@ e.g. 0_model_fc_weight -&gt; model_0_fc_weight</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.converter.Converter.tensor2init_code">
-<span class="sig-name descname"><span class="pre">tensor2init_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.tensor2init_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.tensor2init_code" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tensor2init_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.tensor2init_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.tensor2init_code" title="Link to this definition"></a></dt>
 <dd><p>Converts a monovalue tensor (len(set(tensor))==1) to a string representation of its initialization.
 Minifies potentially large from their explicit definition to simply ‘tensor.ones((x,y))*values’.
 If <cite>tensor_type</cite> is provided, this function will force-convert a non-uniform tensor to an 

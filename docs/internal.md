@@ -220,6 +220,18 @@ Either wait it out or try setting `NUM_WORKERS=1`.
 The [`pymfe` documentation](https://github.com/ealcobaca/pymfe/tree/master/docs) are a good template.
 
 ## Build docs
+
+Here's an example environment that will work for below steps ...
+
+```
+brew install python@3.10
+brew install pandoc
+python3.10 -m venv venv
+source venv/bin/activate
+pip3.10 install ..
+```
+
+
 To generate the assets for the documentation website, first create the `sphinx` directory (**only if** `docs/` does not yet exist):
 ``` 
 sphinx-quickstart docs
@@ -230,10 +242,12 @@ Then, make modifications to the documetation and rebuild:
 # Move to documentation folder
 cd docs
 
-# Modify source/*.rst files manually
+# Modify source/index.rst manually. 
+# Avoid making changes to rst files pertaining to Github /docs/README.md & /docs/examples/*.ipynb
 
 # Update environment package 
 pip3 install ..
+#or pipX install .. with X = your Python version name used during install, such as 3.10 above
 
 # Rebuild, the following is equivalent to running `make rebuild`
 sphinx-apidoc -f -o source/modules ../src/modlee    # Or `make apidoc`

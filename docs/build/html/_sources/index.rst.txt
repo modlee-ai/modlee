@@ -30,8 +30,8 @@ modlee
    :caption: Examples
    :hidden:
 
-   notebooks/document
    notebooks/recommend
+   notebooks/document
 
 .. toctree::
    :maxdepth: 2
