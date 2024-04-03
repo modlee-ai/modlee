@@ -133,7 +133,7 @@ recommender.fit(train_dataloader)
 
 ```
 
-Modlee analyzed your dataset locally and extracted meta-features, which are needed for us to recommend a model architecture for your. Learn more about how we do this in our [docs](https://docs.modlee.ai/modules/modlee.data_metafeatures.html).
+Modlee analyzed your dataset locally and extracted meta-features, which are needed for us to recommend a model architecture. Learn more about how we do this in our [docs](https://docs.modlee.ai/modules/modlee.data_metafeatures.html).
 
 
 ```python
