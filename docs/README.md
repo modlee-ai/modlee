@@ -65,7 +65,7 @@ pip install .
 
 ### API key
 
-Our Python package seamlessly connects you to your collaborators and recommends model architectures for your datatasets based on the experiments shared by your collaborators. At Modlee we've built a powerful flywheel that allows the ML R&D community to work together in new ways and guide eachother to better ML solutions over time.
+Our Python package seamlessly connects you to your collaborators and recommends model architectures for your datatasets based on the experiments shared by your collaborators. At Modlee we've built a powerful flywheel that allows the ML R&D community to work together in new ways and guide each other to better ML solutions over time.
 
 To use all of the innovative features of Modlee, you'll need to [Sign up](https://www.dashboard.modlee.ai?signUp) and generate an API Key: *Modlee Purple is free, always.*
 
