@@ -35,7 +35,7 @@ def safe_mkdir(target_path):
     # if os.path.isfile(target_dir):
     #     target_dir,_ = os.path.split(target_dir.split('.')[0])
     if not os.path.exists(target_path):
-        os.mkdir(target_path)
+        os.makedirs(target_path)
 
 
 def get_fashion_mnist(batch_size=64, num_output_channels=1):
