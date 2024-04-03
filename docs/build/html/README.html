@@ -56,7 +56,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#starter-environment">Starter environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pypi">PyPI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#source">Source</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#api-key">API key</a><ul>
@@ -276,19 +275,17 @@ The documentation functionality is usable without an account, but the recommenda
 To create an account and receive an API key, [visit our website](https://www.dashboard.modlee.ai). --><p>Modlee is a machine learning tool that allows us to benchmark &amp; explore
 ML solutions more easily together. You can start building ML with Modlee
 today using our python client side interface:</p>
-<section id="starter-environment">
-<h3>Starter environment<a class="headerlink" href="#starter-environment" title="Link to this heading"></a></h3>
-<p>Here’s an example virtual environment for Mac, using <code class="docutils literal notranslate"><span class="pre">brew</span></code> &amp;
-<code class="docutils literal notranslate"><span class="pre">virtualenv</span></code>, compatiable with Modlee:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">python</span><span class="o">@</span><span class="mf">3.10</span>
-<span class="n">python3</span><span class="mf">.10</span> <span class="o">-</span><span class="n">m</span> <span class="n">venv</span> <span class="n">venv</span>
-<span class="n">source</span> <span class="n">venv</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
-</pre></div>
-</div>
-<p><em>In this case you may need to use ``pip3.10``, depending on your
-symlinking.</em></p>
-</section>
-<section id="pypi">
+<!-- ### Starter environment
+
+Here's an example virtual environment for Mac, using `brew` & `virtualenv`, compatiable with Modlee:
+
+```
+brew install python@3.10
+python3.10 -m venv venv
+source venv/bin/activate
+```
+
+*In this case you may need to use `pip3.10`, depending on your symlinking.* --><section id="pypi">
 <h3>PyPI<a class="headerlink" href="#pypi" title="Link to this heading"></a></h3>
 <p>Install <code class="docutils literal notranslate"><span class="pre">modlee</span></code> from PyPI:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>modlee
@@ -317,22 +314,22 @@ pip<span class="w"> </span>install<span class="w"> </span>.
 <p>Our Python package seamlessly connects you to your collaborators and
 recommends model architectures for your datatasets based on the
 experiments shared by your collaborators. At Modlee we’ve built a
-powerful flywheel that will allow the ML R&amp;D community to work together
-in new ways and guide eachother to better ML solutions over time.</p>
+powerful flywheel that allows the ML R&amp;D community to work together in
+new ways and guide eachother to better ML solutions over time.</p>
 <p>To use all of the innovative features of Modlee, you’ll need to <a class="reference external" href="https://www.dashboard.modlee.ai?signUp">Sign
 up</a> and generate an API Key:
 <em>Modlee Purple is free, always.</em></p>
 <section id="features-that-require-an-api-key">
 <h4>Features that require an API key<a class="headerlink" href="#features-that-require-an-api-key" title="Link to this heading"></a></h4>
 <ul class="simple">
-<li><p><strong>Automated experiment collaboration</strong> - <em>Connect</em></p></li>
-<li><p><strong>ML model architecture recommendations</strong> - <em>Benchmark</em></p></li>
+<li><p>Automated experiment collaboration - <em>Connect</em></p></li>
+<li><p>ML model architecture recommendations - <em>Benchmark</em></p></li>
 </ul>
 </section>
 <section id="features-that-work-without-an-api-key">
 <h4>Features that work without an API key<a class="headerlink" href="#features-that-work-without-an-api-key" title="Link to this heading"></a></h4>
 <ul class="simple">
-<li><p><strong>Automated local ML experiment documentation</strong> - <em>Explore</em></p></li>
+<li><p>Automated local ML experiment documentation - <em>Explore</em></p></li>
 </ul>
 </section>
 </section>
@@ -367,12 +364,11 @@ directly.</p>
 </section>
 <section id="benchmark-with-model-recommendations">
 <h3>Benchmark with model recommendations<a class="headerlink" href="#benchmark-with-model-recommendations" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p>benchmark intro statement</p></li>
-</ul>
-<p>Modlee recommends models based on your data modality, task, and data
-meta-features. Rather than defining the model manually, you can use this
-recommended model as a starting point for your experiments.</p>
+<p>Obtain a better benchmark ML solution faster &amp; easier, by using our ML
+Model Architecture Recommendations. We recommend model architectures
+based on your data modality, task, and data meta-features, and deliver a
+trainable model within your python script all within a few lines of
+code.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import and initialize</span>
 <span class="kn">import</span> <span class="nn">modlee</span><span class="o">,</span> <span class="nn">lightning</span>
 <span class="n">modlee</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;my-api-key&quot;</span><span class="p">)</span>
@@ -388,8 +384,13 @@ recommended model as a starting point for your experiments.</p>
 
 <span class="c1"># Fit the recommender to the data meta-features</span>
 <span class="n">recommender</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">)</span>
-
-<span class="c1"># Get the model from the recommender and train</span>
+</pre></div>
+</div>
+<p>Modlee analyzed your dataset locally and extracted meta-features, which
+are needed for us to recommend a model architecture for your. Learn more
+about how we do this in our
+<a class="reference external" href="https://docs.modlee.ai/modules/modlee.data_metafeatures.html">docs</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the model from the recommender and train</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">recommender</span><span class="o">.</span><span class="n">model</span>
 <span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
     <span class="n">trainer</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -400,23 +401,34 @@ recommended model as a starting point for your experiments.</p>
     <span class="p">)</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>modlee automatically documented your experiment locally and shared it
-with your modlee collaborators, the entire ML community if you’re
-using modlee purple</p></li>
-<li><p>At Modlee we’ve built a powerful flywheel that will allow the ML R&amp;D
-community to work together in new ways and guide eachother to better
-ML solutions over time.</p></li>
-<li><p>mention current modality and tasks tested and supported at modlee</p></li>
-<li><p>Go through the full example: <a href="#id1"><span class="problematic" id="id2">`Benchmark with model recommendations
-url &lt;&gt;`__</span></a></p></li>
-</ul>
+<p>We format your recommended model as a <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code>, which allows us
+to automatically document your experiment locally and share it with your
+Modlee collaborators. If you’re signed up for Modlee Purple, that’s the
+entire Modlee community!</p>
+<p>In training a Modlee recommended model, and sharing key information
+about your experiment automatically, you’ve contributed to a powerful
+flywheel that will allow the ML R&amp;D community to work together in new
+ways and guide eachother to better ML solutions over time.</p>
+<p>At the moment we support modalities of <code class="docutils literal notranslate"><span class="pre">images</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">text</span></code>, and tasks
+of <code class="docutils literal notranslate"><span class="pre">classification</span></code>, with more coming soon. Let us know which
+modalities and tasks you’d prefer on our
+<a class="reference external" href="https://discord.com/invite/m8YDbWDvrF">Discord</a> in the
+package-feature-brainstorming channel. If you’re excited about what
+we’re building, help us support your use case by contributing to our
+<a class="reference external" href="https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md">Github</a>.</p>
+<p>To go through a full recommendation example in more detail, check out
+<a class="reference external" href="https://docs.modlee.ai/notebooks/recommend.html">Benchmark with model
+recommendations</a></p>
 </section>
 <section id="explore-document">
 <h3>Explore &amp; document<a class="headerlink" href="#explore-document" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p>explore intro statement</p></li>
-</ul>
+<p>Using Modlee to obtain a benchmark solution, is an easy way to determine
+a great starting point for future model exploration. With Modlee you can
+focus more on breaking new ground and less of re-venting the “ML
+experiment” wheel. Define a custom <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code>, and share key
+information about your <code class="docutils literal notranslate"><span class="pre">Automatically</span> <span class="pre">Documented</span> <span class="pre">Experiments</span></code> to guide
+your collaborators towards better solutions, simply through the act of
+experimenting. No need to share code, repos, or set up a meeting.</p>
 <p>Modlee supports documentation for Lightning experiments. Guides for
 structuring PyTorch Lightning projects are available
 <a class="reference external" href="https://lightning.ai/docs/pytorch/stable/starter/converting.html">here</a>
@@ -445,19 +457,17 @@ Once you have created your experiment script, simply follow the four
     <span class="p">)</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>Defining your dataloaders in the following way ensures your
-experiment is compatible with modlee auto documentaion</p>
-<ul>
-<li><p>…</p></li>
-<li><p>…</p></li>
-</ul>
-</li>
-</ul>
-<p>Modlee will document experiment assets in a new <code class="docutils literal notranslate"><span class="pre">./mlruns/</span></code> directory,
-relative to wherever the script was called. Among the assets is a
-<code class="docutils literal notranslate"><span class="pre">model_graph.py</span></code> module that recreates the model as a graph, including
-the <code class="docutils literal notranslate"><span class="pre">forward()</span></code> pass:</p>
+<p>For the sake of illustration, we did not define <code class="docutils literal notranslate"><span class="pre">train_dataloader</span></code> &amp;
+<code class="docutils literal notranslate"><span class="pre">MyModel</span></code> above. Read through our <a class="reference external" href="https://docs.modlee.ai/notebooks/dataset_guidelines.html">Dataset
+guidelines</a>
+&amp; <a class="reference external" href="https://docs.modlee.ai/notebooks/model_definition_guidelines.html">Model definition
+guidelines</a>
+to learn how to define your own custom datasets and models, while using
+Modlee’s <code class="docutils literal notranslate"><span class="pre">Automated</span> <span class="pre">Experiment</span> <span class="pre">Documentation</span></code>.</p>
+<p>Modlee will automatically document experiment assets in a new
+<code class="docutils literal notranslate"><span class="pre">./mlruns/</span></code> directory, relative to wherever the script was called.
+Among the assets is a <code class="docutils literal notranslate"><span class="pre">model_graph.py</span></code> module that recreates the model
+as a graph, including the <code class="docutils literal notranslate"><span class="pre">forward()</span></code> pass:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span><span class="o">,</span> <span class="nn">onnx2torch</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">tensor</span>
 
