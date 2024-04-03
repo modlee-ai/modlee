@@ -81,11 +81,10 @@ class Recommender(object):
             raise Exception(f'Dataloader not provided and not previously set.')
         self.metafeatures = self.calculate_metafeatures(dataloader)
         logging.info("Finished analyzing dataset.")
-        # self.write_files()
 
     fit = analyze
 
-    def calculate_metafeatures(self, dataloader):
+    def calculate_metafeatures(self, dataloader, data_metafeature_cls=modlee.data_metafeatures.DataMetafeatures):
         """
         Calculate metafeatures.
 
@@ -94,14 +93,8 @@ class Recommender(object):
         """
         if modlee.data_metafeatures.module_available:
             logging.info("Analyzing dataset based on data metafeatures...")
-            # analyze_message = "[Modlee] Just a moment, analyzing your dataset...n"
-            # typewriter_print(analyze_message, sleep_time=0.01)
 
-            # ??? Add in type writer print
-            # TODO - generalize to a base DataMetafeatures,
-            # override this method for modality-specific calclations
-            return modlee.data_metafeatures.ImageDataMetafeatures(dataloader, testing=True).stats_rep
-            # ??? Convert to ImageDataMetafeatures
+            return data_metafeature_cls(dataloader, testing=True).stats_rep
         else:
             print("Could not analyze data (check access to server)")
             return {}
@@ -122,14 +115,7 @@ class Recommender(object):
             self.task is not None
         ), "Recommender task is not set (e.g. classification, segmentation)"
         metafeatures = json.loads(json.dumps(metafeatures))
-        # breakpoint()
-        # res = requests.get(
-        #     f"{self.origin}/model/{self.modality}/{self.task}",
-        #     data=json.dumps({"data_features": metafeatures}),
-        #     headers={"Content-Type": "application/json"},
-        #     verify=False,
-        # )
-        
+       
         res = modlee_client.get(
             path=f"model/{self.modality}/{self.task}",
             data=json.dumps({"data_features": metafeatures}),
@@ -138,7 +124,6 @@ class Recommender(object):
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Headers": "*",
                     "Access-Control-Allow-Methods": "*",
-                    # "X-API-KEY": API_KEY
                     },
             timeout=20,
         )
@@ -159,45 +144,7 @@ class Recommender(object):
     @model.setter
     def model(self, model):
         self._model = model
-
-    def get_model_details(self):
-        """ 
-        Get the details of a model with verbose logging.
-        """
-        # ??? save self.model_onnx_text and self.model_code to local place, point use to them here
-        # In case you wanted to take a deeper look I saved the onnx graph summary here:, I also saved and python editable version of the model with train, val, and optimzers. This is a great place to start your own model exploration!
-
-        print("--- Modlee Recommended Model Details --->")
-
-        indent = "        "
-        text_indent = "\n            "
-
-        # summary_message = '\n[Modlee] -> In case you want to take a deeper look, I saved the summary of my current model recommendation here:{}file: {}'.format(text_indent+indent,self.model_onnx_text_file)
-        summary_message = "\n[Modlee] -> In case you want to take a deeper look, I saved the summary of my current model recommendation here:{}file: {}".format(
-            text_indent + indent, "./model.txt"
-        )
-        typewriter_print(summary_message, sleep_time=0.01)
-
-        # code_message = '\n[Modlee] -> I also saved the model as a python editable version (model def, train, val, optimizer):{}file: {}{}This is a great place to start your own model exploration!'.format(text_indent+indent,self.model_code_file,text_indent)
-        code_message = "\n[Modlee] -> I also saved the model as a python editable version (model def, train, val, optimizer):{}file: {}{}This is a great place to start your own model exploration!".format(
-            text_indent + indent, "./model.py", text_indent
-        )
-        typewriter_print(code_message, sleep_time=0.01)
-
-    def _write_files(self):
-        """ 
-        Write the model text and code to files.
-        """
-        self.model_onnx_text_file = "./model_summary.txt"
-        self.model_code_file = "./model_code.py"
     
-        if hasattr(self, "model_text"):
-            with open(self.model_onnx_text_file, "w") as file:
-                file.write(self.model_text)
-        if hasattr(self, "model_code"):
-            with open(self.model_code_file, "w") as file:
-                file.write(self.model_code)
-
     def write_file(self, file_contents, file_path):
         """ 
         Helper function to write a file.
@@ -238,111 +185,13 @@ class Recommender(object):
                 train_dataloaders=self.dataloader,
                 val_dataloaders=val_dataloaders,
             )
-            # if val_dataloaders == None:
-            #     trainer.fit(
-            #         model=self.model,
-            #         train_dataloaders=self.dataloader)
-            # else:
-            #     trainer.fit(
-            #         model=self.model,
-            #         train_dataloaders=self.dataloader,
-            #         val_dataloaders=val_dataloaders)
-
             self.run_artifact_uri = urlparse(run.info.artifact_uri).path
             self.run_id = run.info.artifact_uri.split("/")[-2]
             self.exp_id = run.info.artifact_uri.split("/")[-3]
             self.run_folder = self.run_artifact_uri.split("///")[-1].split("artifacts")[
                 0
             ]
-            # <RunInfo: artifact_uri='file:///Users/brad/Github_Modlee/modlee_survey/notebooks/mlruns/0/e2d08510ac28438681203a930bb713ed/artifacts', end_time=None, experiment_id='0', lifecycle_stage='active', run_id='e2d08510ac28438681203a930bb713ed', run_name='skittish-trout-521', run_uuid='e2d08510ac28438681203a930bb713ed', start_time=1697907858055, status='RUNNING', user_id='brad'>
-
-    def train_documentation_locations(self):
-        """ 
-        Print the location of documented assets.
-        """
-
-        vertical_sep = "\n-----------------------------------------------------------------------------------------------\n"
-        path_indent = "        Path: "
-        indent = "        "
-        doc_indent = "                     "
-
-        print(vertical_sep)
-
-        print(
-            "Modlee documented all the details about your trained model and experiment here: \n\n{}{}".format(
-                path_indent, self.run_folder
-            )
-        )
-        print(
-            "{}Experiment_id: automatically assigned to | {}".format(
-                indent, self.exp_id
-            )
-        )
-        print("{}Run_id: automatically assigned to | {}".format(indent, self.run_id))
-
-        print(vertical_sep)
-
-    def train_documentation_shared(self):
-        """ 
-        Print the shared experiment assets. 
-        """
-
-        vertical_sep = "\n-----------------------------------------------------------------------------------------------\n"
-        path_indent = "        Path: "
-        indent = "        "
-        doc_indent = "                     "
-
-        print(vertical_sep)
-
-        print(
-            "Modlee auto-documents your experiment locally and learns from non-sensitive details:\n -> Sharing helps to enhance ML model recommendations across the entire community of modlee users, including you!\n"
-        )
-
-        print("Modlee's ML Experiment Documentation Overview: \n")
-        print("[ Local ] [ Shared ] Documented Element Description ...")
-        print(vertical_sep[2:-2])
-
-        print("[       ] [        ] Dataloader\n")
-
-        print(
-            "[   X   ] [        ] Sampling of Dataloader: for your benefit, and in case we have improvements to our data analysis process"
-        )
-        print(
-            "{}{}{}".format(
-                doc_indent, path_indent, self.run_artifact_uri + "/model/snapshot*"
-            )
-        )
-
-        print("[   X   ] [        ] Model Weights")
-        print(
-            "{}{}{}".format(
-                doc_indent, path_indent, self.run_artifact_uri + "/model/data/model.pth"
-            )
-        )
-
-        print(
-            "[   X   ] [   X    ] Dataloader Complexity Analysis: Applying standard statistics (dims, mean, std, var, etc ...) & ML methods (clustering, etc ...) to your dataset"
-        )
-        print(
-            "{}{}{}".format(
-                doc_indent, path_indent, self.run_artifact_uri + "/stats_rep"
-            )
-        )
-
-        print(
-            "[   X   ] [   X    ] Modlee Model Code (model def, training step, validation step, optimizers)"
-        )
-        print(
-            "{}{}{}".format(
-                doc_indent, path_indent, self.run_artifact_uri + "/model.py"
-            )
-        )
-
-        print("[   X   ] [   X    ] Experiment Metrics: (loss, accuracy, etc ...)")
-        print("{}{}{}".format(doc_indent, path_indent, self.run_folder + "/metrics/"))
-
-        print(vertical_sep)
-
+   
     def get_input_torch(self):
         """ 
         Get an input from the dataloader.

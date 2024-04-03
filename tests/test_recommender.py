@@ -38,6 +38,18 @@ train_dataloader, test_dataloader = get_dataloader()
 
 
 class TestRecommender:
+    def test_calculate_metafeatures(self, ):
+        recommender = modlee.recommender.Recommender()
+        recommender.calculate_metafeatures(train_dataloader)
+
+    def test_calculate_metafeatures_image(self,):
+        recommender = modlee.recommender.Recommender()
+        base_metafeatures = recommender.calculate_metafeatures(train_dataloader)
+
+        image_recommender = modlee.recommender.from_modality_task(modality="image", task="classification")
+        image_metafeatures = image_recommender.calculate_metafeatures(train_dataloader)
+        # breakpoint()
+
     @pytest.mark.training
     @pytest.mark.parametrize("modality", ["image"])
     @pytest.mark.parametrize("task", ["classification", "segmentation"])
