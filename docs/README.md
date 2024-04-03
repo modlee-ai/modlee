@@ -241,8 +241,10 @@ Start implementing Modlee to continue your own model experimentation or go throu
 
 #### Open source
 
-- [ ] Add more data modalities and ML tasks
-- [ ] Client-side features needed by the community 
+Join us in shaping the future of AI & ML! Reach out on [Discord](https://discord.com/invite/m8YDbWDvrF) and let us know what you need! Contribute directly on our [Github](https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md).
+
+- [ ] Add more data modalities and ML tasks: a great way to 
+- [ ] Client-side features needed by the community: 
 
 #### Modlee internal
 
