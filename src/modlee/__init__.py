@@ -14,24 +14,22 @@ import pathlib
 from pathlib import Path
 from urllib.parse import urlparse
 
-import logging, warnings
 from functools import partial
+import logging, warnings
+logging.basicConfig(
+    format='%(levelname)s:%(message)s',
+    level=logging.INFO)
 
 import mlflow
 from mlflow import start_run, last_active_run
 
 from .client import ModleeClient
-
 API_KEY = os.environ.get("MODLEE_API_KEY", 'None')
 if API_KEY is None:
     logging.warning(f"Modlee API key is not set, functionality will be limited.")
 modlee_client = ModleeClient(api_key=API_KEY)
-# modlee_client = None
-#from .trainer import Trainer
 from .retriever import *
 from .utils import save_run, last_run_path, save_run_as_json
-# from .utils import save_run as utils_save_run
-# save_run = partial(utils_save_run, modlee_client)
 from .model_text_converter import get_code_text, get_code_text_for_model
 from . import (
     model_text_converter,
@@ -40,10 +38,6 @@ from . import (
     model,
     recommender,
 )
-
-logging.basicConfig(
-    format='%(levelname)s:%(message)s',
-    level=logging.INFO)
 
 api_modules = ["model_text_converter", "exp_loss_logger"]
 modules = glob.glob(join(dirname(__file__), "*.py"))
@@ -68,15 +62,14 @@ warnings.filterwarnings("ignore", ".*The parameter 'pretrained' is deprecated si
 warnings.filterwarnings("ignore", ".*Using a target size.*")
 warnings.filterwarnings("ignore", ".*Implicit dimension choice.*")
 warnings.filterwarnings("ignore", ".*divides the total loss by both.*")
-warnings.filterwarnings(
-    "ignore", ".*To copy construct from a tensor, it is recommended.*"
-)
+warnings.filterwarnings("ignore", ".*To copy construct from a tensor, it is recommended.*")
 warnings.filterwarnings("ignore", ".*NLLLoss2d has been deprecated.*")
 warnings.filterwarnings("ignore", ".*The default value of the antialias parameter.*")
 warnings.filterwarnings("ignore", ".*No names were found for specified dynamic axes.*")
 warnings.filterwarnings("ignore", ".*Starting from v1.9.0.*")
 warnings.filterwarnings("ignore", "Input data has range zero. The results may not be accurate.")
 warnings.filterwarnings("ignore", "scipy.stats.shapiro: Input data has range zero.")
+
 @contextmanager
 def suppress_stdout_stderr():
     """A context manager that redirects stdout and stderr to devnull"""
