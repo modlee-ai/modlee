@@ -1,5 +1,5 @@
-Automate model recommendation
-=============================
+Benchmark with model recommendations
+====================================
 
 This example notebook uses the ``modlee`` package to train a recommended
 model. We will perform image classification on CIFAR10 from
@@ -9,7 +9,7 @@ First, import ``torch``- and ``modlee``-related packages.
 
 .. code:: ipython3
 
-    import os
+    import os 
     # os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
     import torch, torchvision
     import torchvision.transforms as transforms

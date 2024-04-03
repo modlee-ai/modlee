@@ -110,7 +110,7 @@ This documentation page does not cover the frameworks; we recommend referencing 
 
 
 
-### Recommend
+### Benchmark with model recommendations
 
 - benchmark intro statement
 
@@ -150,8 +150,9 @@ with modlee.start_run() as run:
 
 - mention current modality and tasks tested and supported at modlee
 
+- Go through the full example: [Benchmark with model recommendations url]()
 
-### Document
+### Explore & document
 
 - explore intro statement
 
@@ -236,6 +237,7 @@ class Model(torch.nn.Module):
 
 - mention current modality and tasks tested and supported at modlee
 
+- Go through the full example: [Benchmark with model recommendations url]
 
 ## Roadmap
 
