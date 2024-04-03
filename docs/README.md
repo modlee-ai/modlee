@@ -159,7 +159,7 @@ To go through a full recommendation example in more detail, check out [Benchmark
 
 ### Explore & document
 
-Using Modlee to obtain a benchmark solution is an easy way to determine a great starting point for future model exploration. With Modlee you can focus more on breaking new ground and less of re-venting the "ML experiment" wheel. Define a custom `ModleeModel`, and share key information about your `Automatically Documented Experiments` to guide your collaborators towards better solutions, simply through the act of experimenting. No need to share code, repos, or set up a meeting.
+Using Modlee to obtain a benchmark solution is an easy way to determine a great starting point for future model exploration. With Modlee, you can focus more on breaking new ground and less of reinventing the "ML experiment" wheel. Define a custom `ModleeModel`, and share key information about your `Automatically Documented Experiments` to guide your collaborators towards better solutions, simply through the act of experimenting. No need to share code, repos, or set up a meeting.
 
 Modlee supports documentation for Lightning experiments.
 Guides for structuring PyTorch Lightning projects are available [here](https://lightning.ai/docs/pytorch/stable/starter/converting.html) and [here](https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09).
