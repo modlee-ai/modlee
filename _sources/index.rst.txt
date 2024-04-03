@@ -35,6 +35,15 @@ modlee
 
 .. toctree::
    :maxdepth: 2
+   :caption: Advanced
+   :hidden:
+
+   notebooks/model_definition_guidelines
+   notebooks/dataset_guidelines
+
+
+.. toctree::
+   :maxdepth: 2
    :caption: Links 
    :hidden:
 

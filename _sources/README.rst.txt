@@ -151,8 +151,8 @@ referencing the
 `MLFlow <https://mlflow.org/docs/latest/index.html>`__ documentation
 directly.
 
-Recommend
-~~~~~~~~~
+Benchmark with model recommendations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  benchmark intro statement
 
@@ -198,8 +198,11 @@ recommended model as a starting point for your experiments.
 
 -  mention current modality and tasks tested and supported at modlee
 
-Document
-~~~~~~~~
+-  Go through the full example: `Benchmark with model recommendations
+   url <>`__
+
+Explore & document
+~~~~~~~~~~~~~~~~~~
 
 -  explore intro statement
 
@@ -294,6 +297,9 @@ the ``forward()`` pass:
    share inviting individuals to dig deeper for themselves.
 
 -  mention current modality and tasks tested and supported at modlee
+
+-  Go through the full example: [Benchmark with model recommendations
+   url]
 
 Roadmap
 -------
