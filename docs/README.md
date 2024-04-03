@@ -245,7 +245,7 @@ class Model(torch.nn.Module):
 
 #### Open source
 
-Join us in shaping the future of AI & ML! Reach out on [Discord](https://discord.com/invite/m8YDbWDvrF) and let us know what you need!), contribute directly on our [Github](https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md).
+Join us in shaping the future of AI & ML! Reach out on [Discord](https://discord.com/invite/m8YDbWDvrF) and let us know what you need! Contribute directly on our [Github](https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md).
 
 - [ ] Add more data modalities and ML tasks: a great way to 
 - [ ] Client-side features needed by the community: 
