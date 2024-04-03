@@ -9,8 +9,8 @@ TLDR
 ----
 
 -  Define your dataset in an unnested format: [[x1, x2, x3, …, y], …]
--  Create a dataloader which is used to train a ModleeModel with Modlee
-   Trainer
+-  Create a dataloader which is used to train a ModleeModel with a
+   Modlee Trainer
 
 Define example custom dataset objects
 -------------------------------------
@@ -68,7 +68,7 @@ Why?
 
 Modlee extracts key meta features from your dataset so your experiment
 can be used in aggregate analysis alongside your collaborators data, to
-improve Modlee’s model recommendation technology for connected
+improve Modlee’s model recommendation technology for your connected
 environment. The above stated list data structure allows us to easily
 extract the information we need. Check out exactly how we do this on our
 public `Github Repo <https://github.com/modlee-ai/modlee>`__.
