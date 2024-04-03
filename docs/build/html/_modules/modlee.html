@@ -138,10 +138,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.trainer.html">modlee.trainer module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.trainer.html#modlee.trainer.Trainer"><code class="docutils literal notranslate"><span class="pre">Trainer</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.trainer.html">modlee.trainer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.utils.html">modlee.utils module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
@@ -232,7 +229,7 @@
     <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Modlee API key is not set, functionality will be limited.&quot;</span><span class="p">)</span>
 <span class="n">modlee_client</span> <span class="o">=</span> <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">API_KEY</span><span class="p">)</span>
 <span class="c1"># modlee_client = None</span>
-<span class="kn">from</span> <span class="nn">.trainer</span> <span class="kn">import</span> <span class="n">Trainer</span>
+<span class="c1">#from .trainer import Trainer</span>
 <span class="kn">from</span> <span class="nn">.retriever</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">save_run</span><span class="p">,</span> <span class="n">last_run_path</span><span class="p">,</span> <span class="n">save_run_as_json</span>
 <span class="c1"># from .utils import save_run as utils_save_run</span>
@@ -246,7 +243,10 @@
     <span class="n">recommender</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+    <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(levelname)s</span><span class="s1">:</span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
 <span class="n">api_modules</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;model_text_converter&quot;</span><span class="p">,</span> <span class="s2">&quot;exp_loss_logger&quot;</span><span class="p">]</span>
 <span class="n">modules</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;*.py&quot;</span><span class="p">))</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
@@ -277,7 +277,7 @@
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="s2">&quot;.*The default value of the antialias parameter.*&quot;</span><span class="p">)</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="s2">&quot;.*No names were found for specified dynamic axes.*&quot;</span><span class="p">)</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="s2">&quot;.*Starting from v1.9.0.*&quot;</span><span class="p">)</span>
-
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="s2">&quot;Input data has range zero. The results may not be accurate.&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="suppress_stdout_stderr">
 <a class="viewcode-back" href="../_autosummary/%3C--%20add%20this%20line/modlee.suppress_stdout_stderr.html#modlee.suppress_stdout_stderr">[docs]</a>

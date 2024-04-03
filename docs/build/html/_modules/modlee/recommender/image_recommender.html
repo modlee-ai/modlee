@@ -138,10 +138,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../modules/modlee.trainer.html">modlee.trainer module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.trainer.html#modlee.trainer.Trainer"><code class="docutils literal notranslate"><span class="pre">Trainer</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../modules/modlee.trainer.html">modlee.trainer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../modules/modlee.utils.html">modlee.utils module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
@@ -208,6 +205,8 @@
 <span></span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">Recommender for image models.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.recommender</span> <span class="kn">import</span> <span class="n">Recommender</span>
+<span class="kn">from</span> <span class="nn">modlee.model</span> <span class="kn">import</span> <span class="n">RecommendedModel</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
@@ -221,12 +220,9 @@
 <span class="c1">#     resnet152, ResNet152_Weights</span>
 
 
-<span class="kn">from</span> <span class="nn">.recommender</span> <span class="kn">import</span> <span class="n">Recommender</span>
 <span class="kn">import</span> <span class="nn">modlee</span>
 <span class="kn">from</span> <span class="nn">modlee.converter</span> <span class="kn">import</span> <span class="n">Converter</span>
 <span class="kn">from</span> <span class="nn">modlee.utils</span> <span class="kn">import</span> <span class="n">get_model_size</span><span class="p">,</span> <span class="n">typewriter_print</span>
-<span class="kn">from</span> <span class="nn">modlee.model</span> <span class="kn">import</span> <span class="n">RecommendedModel</span>
-
 
 <span class="n">modlee_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">()</span>
 
