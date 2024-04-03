@@ -472,7 +472,7 @@ class LogModelCheckpointCallback(pl.callbacks.ModelCheckpoint):
     Callback to log the best performing model in a training routine based on Loss value
     """
 
-    def __init__(self, monitor='val_loss', filename='model_checkpoint', temp_dir_path = f'./tmp', save_top_k=1, mode='min', verbose=True, *args, **kwargs):
+    def __init__(self, monitor='val_loss', filename='model_checkpoint', temp_dir_path = f'{TMP_DIR}/checkpoints', save_top_k=1, mode='min', verbose=True, *args, **kwargs):
         """
         Constructor for LogModelCheckpointCallback. Extends standard pl ModelCheckpoint callback.
 
@@ -483,6 +483,7 @@ class LogModelCheckpointCallback(pl.callbacks.ModelCheckpoint):
         :param mode: One of {'min', 'max'}.
         :param verbose: Whether to print verbose messages.
         """
+        modlee_utils.safe_mkdir(temp_dir_path)
         super().__init__(
             filename=f'{filename}_{monitor}',
             dirpath=temp_dir_path,
@@ -526,8 +527,9 @@ class LogModelCheckpointCallback(pl.callbacks.ModelCheckpoint):
                 metric_value = float(metric_value)
             # Log the epoch and metric value
             mlflow.log_metrics({f'best_{self.monitor}_epoch': current_epoch, f'best_{self.monitor}_value':metric_value })
-            
-            # Remove the local file after logging
-            shutil.rmtree(self.temp_dir_path)
-            
-            #os.rmdir(self.temp_dir_path)
+
+    def on_fit_end(self, trainer, pl_module):
+        super().on_fit_end(trainer, pl_module)
+        
+        #Cleaning up temp_directory
+        shutil.rmtree(self.temp_dir_path)
