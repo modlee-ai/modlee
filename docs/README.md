@@ -151,7 +151,7 @@ with modlee.start_run() as run:
 
 We format your recommended model as a `ModleeModel`, which allows us to automatically document your experiment locally and share it with your Modlee collaborators. If you're signed up for Modlee Purple, that's the entire Modlee community! 
 
-In training a Modlee recommended model, and sharing key information about your experiment automatically, you've contributed to a powerful flywheel that will allow the ML R&D community to work together in new ways and guide eachother to better ML solutions over time.
+In training a Modlee recommended model, and sharing key information about your experiment automatically, you've contributed to a powerful flywheel that will allow the ML R&D community to work together in new ways and guide one another to better ML solutions over time.
 
 At the moment we support modalities of `images` & `text`, and tasks of `classification`, with more coming soon. Let us know which modalities and tasks you'd prefer on our [Discord](https://discord.com/invite/m8YDbWDvrF) in the package-feature-brainstorming channel. If you're excited about what we're building, help us support your use case by contributing to our [Github](https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md).
 
