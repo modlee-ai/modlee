@@ -112,7 +112,7 @@ This documentation page does not cover the frameworks; we recommend referencing 
 
 ### Benchmark with model recommendations
 
-Obtain a better benchmark ML solution faster & easier, by using our ML Model Architecture Recommendations.  We recommend model architectures based on your data modality, task, and data meta-features, and deliver a trainable model within your python script all within a few lines of code.
+Obtain a better benchmark ML solution faster & easier, by using our ML Model Architecture Recommendations.  We recommend model architectures based on your data modality, task, and data meta-features, and deliver a trainable model within your python script, all within a few lines of code.
 
 ```python
 # Import and initialize
