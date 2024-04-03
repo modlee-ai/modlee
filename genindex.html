@@ -138,10 +138,7 @@
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="modules/modlee.trainer.html">modlee.trainer module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modules/modlee.trainer.html#modlee.trainer.Trainer"><code class="docutils literal notranslate"><span class="pre">Trainer</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.trainer.html">modlee.trainer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/modlee.utils.html">modlee.utils module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
@@ -467,12 +464,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/modlee.utils.html#modlee.utils.last_run_path">last_run_path() (in module modlee.utils)</a>
 </li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogModelCheckpointCallback.log_and_clean_checkpoint">log_and_clean_checkpoint() (modlee.model.callbacks.LogModelCheckpointCallback method)</a>
+</li>
       <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogCodeTextCallback">LogCodeTextCallback (class in modlee.model.callbacks)</a>
 </li>
       <li><a href="modules/modlee.client.html#modlee.client.ModleeClient.login">login() (modlee.client.ModleeClient method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogModelCheckpointCallback">LogModelCheckpointCallback (class in modlee.model.callbacks)</a>
+</li>
       <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogONNXCallback">LogONNXCallback (class in modlee.model.callbacks)</a>
 </li>
       <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogOutputCallback">LogOutputCallback (class in modlee.model.callbacks)</a>
@@ -706,8 +707,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.PushServerCallback.on_fit_end">on_fit_end() (modlee.model.callbacks.PushServerCallback method)</a>
 </li>
-      <li><a href="modules/modlee.model.recommended_model.html#modlee.model.recommended_model.RecommendedModel.on_train_epoch_end">on_train_epoch_end() (modlee.model.recommended_model.RecommendedModel method)</a>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogModelCheckpointCallback.on_train_epoch_end">on_train_epoch_end() (modlee.model.callbacks.LogModelCheckpointCallback method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.model.recommended_model.html#modlee.model.recommended_model.RecommendedModel.on_train_epoch_end">(modlee.model.recommended_model.RecommendedModel method)</a>
 </li>
+      </ul></li>
       <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.DataMetafeaturesCallback.on_train_start">on_train_start() (modlee.model.callbacks.DataMetafeaturesCallback method)</a>
 
       <ul>
@@ -884,10 +889,10 @@
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_graph2code">torch_graph2code() (modlee.converter.Converter method)</a>
 </li>
-      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_model2onnx_graph">torch_model2onnx_graph() (modlee.converter.Converter method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_model2onnx_graph">torch_model2onnx_graph() (modlee.converter.Converter method)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_model2onnx_text">torch_model2onnx_text() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_model2torch_code">torch_model2torch_code() (modlee.converter.Converter method)</a>
@@ -899,8 +904,6 @@
       <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.train_documentation_locations">train_documentation_locations() (modlee.recommender.recommender.Recommender method)</a>
 </li>
       <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.train_documentation_shared">train_documentation_shared() (modlee.recommender.recommender.Recommender method)</a>
-</li>
-      <li><a href="modules/modlee.trainer.html#modlee.trainer.Trainer">Trainer (class in modlee.trainer)</a>
 </li>
       <li><a href="modules/modlee.model.model.html#modlee.model.model.SimpleModel.training_step">training_step() (modlee.model.model.SimpleModel method)</a>
 

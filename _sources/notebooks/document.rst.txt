@@ -15,6 +15,7 @@ Prerequisites for this tutorial include familiarity with
     import os, sys
     import ssl
     ssl._create_default_https_context = ssl._create_unverified_context
+    import lightning.pytorch as pl
     import torch
     import torch.nn as nn
     import torch.nn.functional as F
@@ -87,7 +88,7 @@ Run the training loop, just for one epoch.
 .. code:: ipython3
 
     with modlee.start_run() as run:
-        trainer = modlee.Trainer(max_epochs=1)
+        trainer = pl.Trainer(max_epochs=1)
         trainer.fit(
             model=modlee_model,
             train_dataloaders=train_dataloader,
@@ -199,11 +200,6 @@ automatically generated ``assets`` folder.
                "davies_bouldin_score": "1.9090644142081366",
                "time_taken": "0.6537415981292725"
              },
-
-We can build the model from the cached ``model_graph.Model`` class and
-confirm that we can pass an input through it. Note that this model’s
-weights will be uninitialized. To load the model from the last
-checkpoint, we can load it directly from the cached ``model.pth``.
 
 We can build the model from the cached ``model_graph.Model`` class and
 confirm that we can pass an input through it. Note that this model’s

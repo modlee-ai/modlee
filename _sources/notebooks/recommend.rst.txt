@@ -10,7 +10,8 @@ First, import ``torch``- and ``modlee``-related packages.
 .. code:: ipython3
 
     import os
-    # os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
+    import lightning.pytorch as pl
+    os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
     import torch, torchvision
     import torchvision.transforms as transforms
     
@@ -81,7 +82,7 @@ automatic documentation of metafeatures.
 .. code:: ipython3
 
     with modlee.start_run() as run:
-        trainer = modlee.Trainer(max_epochs=1)
+        trainer = pl.Trainer(max_epochs=1)
         trainer.fit(
             model=modlee_model,
             train_dataloaders=train_dataloader
@@ -106,10 +107,10 @@ Finally, we can view the saved assets from training.
     last_run_path = modlee.last_run_path()
     print(f"Run path: {last_run_path}")
     artifacts_path = os.path.join(last_run_path, 'artifacts')
-    artifacts = os.listdir(artifacts_path)
+    artifacts = sorted(os.listdir(artifacts_path))
     print(f"Saved artifacts: {artifacts}")
 
 ::
 
-   Run path: /home/ubuntu/projects/modlee_pypi/examples/mlruns/0/7a47086681324d0e924f9076a1262de9/artifacts/model_graph.py
-   Saved artifacts: ['transforms.txt', 'model_graph.py', 'model_graph.txt', 'model_size', 'model', 'cached_vars', 'stats_rep', 'snapshot_1.npy', 'lightning_logs', 'snapshot_0.npy', 'model.py', 'loss_calls.txt', 'model_summary.txt']
+   Run path: /home/ubuntu/projects/modlee_pypi/examples/mlruns/0/ff1e754d6401438fba506a0d98ca1f91
+   Saved artifacts: ['cached_vars', 'checkpoints', 'model', 'model.py', 'model_graph.py', 'model_graph.txt', 'model_size', 'model_summary.txt', 'stats_rep', 'transforms.txt']

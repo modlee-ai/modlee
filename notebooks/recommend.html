@@ -140,10 +140,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.trainer.html">modlee.trainer module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.trainer.html#modlee.trainer.Trainer"><code class="docutils literal notranslate"><span class="pre">Trainer</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.trainer.html">modlee.trainer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.utils.html">modlee.utils module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
@@ -211,7 +208,8 @@ model. We will perform image classification on CIFAR10 from
 <code class="docutils literal notranslate"><span class="pre">torchvision</span></code>.</p>
 <p>First, import <code class="docutils literal notranslate"><span class="pre">torch</span></code>- and <code class="docutils literal notranslate"><span class="pre">modlee</span></code>-related packages.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="c1"># os.environ[&#39;MODLEE_API_KEY&#39;] = &quot;replace-with-your-api-key&quot;</span>
+<span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;replace-with-your-api-key&quot;</span>
 <span class="kn">import</span> <span class="nn">torch</span><span class="o">,</span> <span class="nn">torchvision</span>
 <span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="nn">transforms</span>
 
@@ -275,7 +273,7 @@ The server will return a recommended model for the dataset assigned to
 <p>We can train the model as we would a basic <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code>, with
 automatic documentation of metafeatures.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
-    <span class="n">trainer</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
         <span class="n">model</span><span class="o">=</span><span class="n">modlee_model</span><span class="p">,</span>
         <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_dataloader</span>
@@ -297,12 +295,12 @@ Epoch 0: 100%|██████████| 3125/3125 [01:14&lt;00:00, 41.86it
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_run_path</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">last_run_path</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run path: </span><span class="si">{</span><span class="n">last_run_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">artifacts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">,</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">)</span>
-<span class="n">artifacts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">)</span>
+<span class="n">artifacts</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved artifacts: </span><span class="si">{</span><span class="n">artifacts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Run</span> <span class="n">path</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">modlee_pypi</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mi">7</span><span class="n">a47086681324d0e924f9076a1262de9</span><span class="o">/</span><span class="n">artifacts</span><span class="o">/</span><span class="n">model_graph</span><span class="o">.</span><span class="n">py</span>
-<span class="n">Saved</span> <span class="n">artifacts</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;transforms.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.py&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_size&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;cached_vars&#39;</span><span class="p">,</span> <span class="s1">&#39;stats_rep&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_1.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;lightning_logs&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_0.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;model.py&#39;</span><span class="p">,</span> <span class="s1">&#39;loss_calls.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_summary.txt&#39;</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Run</span> <span class="n">path</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">modlee_pypi</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="n">ff1e754d6401438fba506a0d98ca1f91</span>
+<span class="n">Saved</span> <span class="n">artifacts</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;cached_vars&#39;</span><span class="p">,</span> <span class="s1">&#39;checkpoints&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;model.py&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.py&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_size&#39;</span><span class="p">,</span> <span class="s1">&#39;model_summary.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;stats_rep&#39;</span><span class="p">,</span> <span class="s1">&#39;transforms.txt&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </section>

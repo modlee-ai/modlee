@@ -141,10 +141,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.trainer.html">modlee.trainer module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.trainer.html#modlee.trainer.Trainer"><code class="docutils literal notranslate"><span class="pre">Trainer</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.trainer.html">modlee.trainer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.utils.html">modlee.utils module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
@@ -218,6 +215,7 @@ Prerequisites for this tutorial include familiarity with
 <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">ssl</span>
 <span class="n">ssl</span><span class="o">.</span><span class="n">_create_default_https_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">_create_unverified_context</span>
+<span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 <span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
@@ -282,7 +280,7 @@ experiment metafeatures.</p>
 </div>
 <p>Run the training loop, just for one epoch.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
-    <span class="n">trainer</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
         <span class="n">model</span><span class="o">=</span><span class="n">modlee_model</span><span class="p">,</span>
         <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_dataloader</span><span class="p">,</span>
@@ -387,10 +385,6 @@ automatically generated <code class="docutils literal notranslate"><span class="
           <span class="p">},</span>
 </pre></div>
 </div>
-<p>We can build the model from the cached <code class="docutils literal notranslate"><span class="pre">model_graph.Model</span></code> class and
-confirm that we can pass an input through it. Note that this model’s
-weights will be uninitialized. To load the model from the last
-checkpoint, we can load it directly from the cached <code class="docutils literal notranslate"><span class="pre">model.pth</span></code>.</p>
 <p>We can build the model from the cached <code class="docutils literal notranslate"><span class="pre">model_graph.Model</span></code> class and
 confirm that we can pass an input through it. Note that this model’s
 weights will be uninitialized.</p>

@@ -141,10 +141,7 @@
 <li class="toctree-l4"><a class="reference internal" href="modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.trainer.html">modlee.trainer module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.trainer.html#modlee.trainer.Trainer"><code class="docutils literal notranslate"><span class="pre">Trainer</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.trainer.html">modlee.trainer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.utils.html">modlee.utils module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
@@ -237,6 +234,34 @@
 <dt class="sig sig-object py" id="modlee.model.callbacks.LogCodeTextCallback.setup">
 <span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Trainer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pl_module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LightningModule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/modlee/model/callbacks.html#LogCodeTextCallback.setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.callbacks.LogCodeTextCallback.setup" title="Link to this definition"></a></dt>
 <dd><p>Called when fit, validate, test, predict, or tune begins.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modlee.model.callbacks.LogModelCheckpointCallback">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.model.callbacks.</span></span><span class="sig-name descname"><span class="pre">LogModelCheckpointCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'val_loss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'model_checkpoint'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp_dir_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./tmp'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_top_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'min'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/callbacks.html#LogModelCheckpointCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.callbacks.LogModelCheckpointCallback" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelCheckpoint</span></code></p>
+<p>Callback to log the best performing model in a training routine based on Loss value</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.model.callbacks.LogModelCheckpointCallback.log_and_clean_checkpoint">
+<span class="sig-name descname"><span class="pre">log_and_clean_checkpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pl_module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/callbacks.html#LogModelCheckpointCallback.log_and_clean_checkpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.callbacks.LogModelCheckpointCallback.log_and_clean_checkpoint" title="Link to this definition"></a></dt>
+<dd><p>Log the latest checkpoint to MLflow and remove the local file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trainer</strong> – The PyTorch Lightning <cite>Trainer</cite> instance.</p></li>
+<li><p><strong>pl_module</strong> – The LightningModule being trained.</p></li>
+<li><p><strong>step</strong> – The step (‘train’ or ‘val’) that triggered the checkpoint.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.model.callbacks.LogModelCheckpointCallback.on_train_epoch_end">
+<span class="sig-name descname"><span class="pre">on_train_epoch_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pl_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/callbacks.html#LogModelCheckpointCallback.on_train_epoch_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.callbacks.LogModelCheckpointCallback.on_train_epoch_end" title="Link to this definition"></a></dt>
+<dd><p>Save a checkpoint at the end of the training epoch.</p>
 </dd></dl>
 
 </dd></dl>

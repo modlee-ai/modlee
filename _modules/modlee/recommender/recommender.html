@@ -138,10 +138,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../modules/modlee.trainer.html">modlee.trainer module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.trainer.html#modlee.trainer.Trainer"><code class="docutils literal notranslate"><span class="pre">Trainer</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../modules/modlee.trainer.html">modlee.trainer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../modules/modlee.utils.html">modlee.utils module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
@@ -291,12 +288,8 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">dataloader</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dataloader not provided and not previously set.&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metafeatures</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_metafeatures</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metafeatures</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished analyzing dataset.&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Could not analyze dataset.&quot;</span><span class="p">)</span></div>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished analyzing dataset.&quot;</span><span class="p">)</span></div>
 
-        <span class="c1"># typewriter_print(&quot;[Modlee] Finished analyzing.&quot;)</span>
         <span class="c1"># self.write_files()</span>
 
     <span class="n">fit</span> <span class="o">=</span> <span class="n">analyze</span>
