@@ -253,7 +253,7 @@ We're working hard on exciting new features to help you build better together! -
 - [ ] Improvements to model architecture recommendations
 - [ ] Control how you're connected to Modlee
 - [ ] Query and search your own and collaborators experiments backed up to Modlee
-- [ ] Personalized model architecture recommendations based on your own and collaborators experiments
+- [ ] Personalized model architecture recommendations, based on your own and collaborators experiments
 
 
 ## Support
