@@ -47,11 +47,6 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">modlee</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../README.html#introduction">Introduction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../README.html#until-now-ml-r-d-has-been">Until now, ML R&amp;D has been …</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../README.html#weve-developed-a-better-way">We’ve developed a better way …</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../../../README.html#installation">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../README.html#pypi">PyPI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../README.html#source">Source</a></li>
@@ -65,8 +60,16 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../README.html#usage">Usage</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../README.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../README.html#benchmark-with-model-recommendations">Benchmark with model recommendations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../README.html#explore-document">Explore &amp; document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../README.html#model-architecture-recommendations">Model Architecture Recommendations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../README.html#supported-use-cases">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../README.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../README.html#automated-experiment-documentation">Automated Experiment Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../README.html#supported-use-cases-1">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../README.html#next-steps-1">Next steps</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../README.html#roadmap">Roadmap</a><ul>
@@ -179,8 +182,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/recommend.html">Benchmark with model recommendations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/document.html">Explore &amp; document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/recommend.html">Automate model recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/document.html">Automate experiment documentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
 <ul>
@@ -327,19 +330,14 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">dataloader</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dataloader not provided and not previously set.&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metafeatures</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_metafeatures</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metafeatures</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished analyzing dataset.&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Could not analyze dataset.&quot;</span><span class="p">)</span></div>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished analyzing dataset.&quot;</span><span class="p">)</span></div>
 
-        <span class="c1"># typewriter_print(&quot;[Modlee] Finished analyzing.&quot;)</span>
-        <span class="c1"># self.write_files()</span>
 
     <span class="n">fit</span> <span class="o">=</span> <span class="n">analyze</span>
 
 <div class="viewcode-block" id="Recommender.calculate_metafeatures">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.calculate_metafeatures">[docs]</a>
-    <span class="k">def</span> <span class="nf">calculate_metafeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">calculate_metafeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="n">data_metafeature_cls</span><span class="o">=</span><span class="n">modlee</span><span class="o">.</span><span class="n">data_metafeatures</span><span class="o">.</span><span class="n">DataMetafeatures</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate metafeatures.</span>
 
@@ -348,14 +346,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">modlee</span><span class="o">.</span><span class="n">data_metafeatures</span><span class="o">.</span><span class="n">module_available</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Analyzing dataset based on data metafeatures...&quot;</span><span class="p">)</span>
-            <span class="c1"># analyze_message = &quot;[Modlee] Just a moment, analyzing your dataset...n&quot;</span>
-            <span class="c1"># typewriter_print(analyze_message, sleep_time=0.01)</span>
 
-            <span class="c1"># ??? Add in type writer print</span>
-            <span class="c1"># TODO - generalize to a base DataMetafeatures,</span>
-            <span class="c1"># override this method for modality-specific calclations</span>
-            <span class="k">return</span> <span class="n">modlee</span><span class="o">.</span><span class="n">data_metafeatures</span><span class="o">.</span><span class="n">ImageDataMetafeatures</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">testing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">stats_rep</span>
-            <span class="c1"># ??? Convert to ImageDataMetafeatures</span>
+            <span class="k">return</span> <span class="n">data_metafeature_cls</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">testing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">stats_rep</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Could not analyze data (check access to server)&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">{}</span></div>
@@ -377,14 +369,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="p">),</span> <span class="s2">&quot;Recommender task is not set (e.g. classification, segmentation)&quot;</span>
         <span class="n">metafeatures</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">metafeatures</span><span class="p">))</span>
-        <span class="c1"># breakpoint()</span>
-        <span class="c1"># res = requests.get(</span>
-        <span class="c1">#     f&quot;{self.origin}/model/{self.modality}/{self.task}&quot;,</span>
-        <span class="c1">#     data=json.dumps({&quot;data_features&quot;: metafeatures}),</span>
-        <span class="c1">#     headers={&quot;Content-Type&quot;: &quot;application/json&quot;},</span>
-        <span class="c1">#     verify=False,</span>
-        <span class="c1"># )</span>
-        
+       
         <span class="n">res</span> <span class="o">=</span> <span class="n">modlee_client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
             <span class="n">path</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;model/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">modality</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;data_features&quot;</span><span class="p">:</span> <span class="n">metafeatures</span><span class="p">}),</span>
@@ -393,7 +378,6 @@
                     <span class="s2">&quot;Access-Control-Allow-Origin&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;Access-Control-Allow-Headers&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;Access-Control-Allow-Methods&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
-                    <span class="c1"># &quot;X-API-KEY&quot;: API_KEY</span>
                     <span class="p">},</span>
             <span class="n">timeout</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
         <span class="p">)</span>
@@ -414,48 +398,7 @@
     <span class="nd">@model</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model</span>
-
-<div class="viewcode-block" id="Recommender.get_model_details">
-<a class="viewcode-back" href="../../../modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.get_model_details">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_model_details</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">        Get the details of a model with verbose logging.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># ??? save self.model_onnx_text and self.model_code to local place, point use to them here</span>
-        <span class="c1"># In case you wanted to take a deeper look I saved the onnx graph summary here:, I also saved and python editable version of the model with train, val, and optimzers. This is a great place to start your own model exploration!</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- Modlee Recommended Model Details ---&gt;&quot;</span><span class="p">)</span>
-
-        <span class="n">indent</span> <span class="o">=</span> <span class="s2">&quot;        &quot;</span>
-        <span class="n">text_indent</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">            &quot;</span>
-
-        <span class="c1"># summary_message = &#39;\n[Modlee] -&gt; In case you want to take a deeper look, I saved the summary of my current model recommendation here:{}file: {}&#39;.format(text_indent+indent,self.model_onnx_text_file)</span>
-        <span class="n">summary_message</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[Modlee] -&gt; In case you want to take a deeper look, I saved the summary of my current model recommendation here:</span><span class="si">{}</span><span class="s2">file: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">text_indent</span> <span class="o">+</span> <span class="n">indent</span><span class="p">,</span> <span class="s2">&quot;./model.txt&quot;</span>
-        <span class="p">)</span>
-        <span class="n">typewriter_print</span><span class="p">(</span><span class="n">summary_message</span><span class="p">,</span> <span class="n">sleep_time</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
-
-        <span class="c1"># code_message = &#39;\n[Modlee] -&gt; I also saved the model as a python editable version (model def, train, val, optimizer):{}file: {}{}This is a great place to start your own model exploration!&#39;.format(text_indent+indent,self.model_code_file,text_indent)</span>
-        <span class="n">code_message</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[Modlee] -&gt; I also saved the model as a python editable version (model def, train, val, optimizer):</span><span class="si">{}</span><span class="s2">file: </span><span class="si">{}{}</span><span class="s2">This is a great place to start your own model exploration!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">text_indent</span> <span class="o">+</span> <span class="n">indent</span><span class="p">,</span> <span class="s2">&quot;./model.py&quot;</span><span class="p">,</span> <span class="n">text_indent</span>
-        <span class="p">)</span>
-        <span class="n">typewriter_print</span><span class="p">(</span><span class="n">code_message</span><span class="p">,</span> <span class="n">sleep_time</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span></div>
-
-
-    <span class="k">def</span> <span class="nf">_write_files</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">        Write the model text and code to files.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model_onnx_text_file</span> <span class="o">=</span> <span class="s2">&quot;./model_summary.txt&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model_code_file</span> <span class="o">=</span> <span class="s2">&quot;./model_code.py&quot;</span>
     
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;model_text&quot;</span><span class="p">):</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_onnx_text_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-                <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_text</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;model_code&quot;</span><span class="p">):</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_code_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-                <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_code</span><span class="p">)</span>
-
 <div class="viewcode-block" id="Recommender.write_file">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.write_file">[docs]</a>
     <span class="k">def</span> <span class="nf">write_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_contents</span><span class="p">,</span> <span class="n">file_path</span><span class="p">):</span>
@@ -501,16 +444,6 @@
                 <span class="n">train_dataloaders</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">,</span>
                 <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">val_dataloaders</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="c1"># if val_dataloaders == None:</span>
-            <span class="c1">#     trainer.fit(</span>
-            <span class="c1">#         model=self.model,</span>
-            <span class="c1">#         train_dataloaders=self.dataloader)</span>
-            <span class="c1"># else:</span>
-            <span class="c1">#     trainer.fit(</span>
-            <span class="c1">#         model=self.model,</span>
-            <span class="c1">#         train_dataloaders=self.dataloader,</span>
-            <span class="c1">#         val_dataloaders=val_dataloaders)</span>
-
             <span class="bp">self</span><span class="o">.</span><span class="n">run_artifact_uri</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">artifact_uri</span><span class="p">)</span><span class="o">.</span><span class="n">path</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">run_id</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">artifact_uri</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">exp_id</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">artifact_uri</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
@@ -518,101 +451,7 @@
                 <span class="mi">0</span>
             <span class="p">]</span></div>
 
-            <span class="c1"># &lt;RunInfo: artifact_uri=&#39;file:///Users/brad/Github_Modlee/modlee_survey/notebooks/mlruns/0/e2d08510ac28438681203a930bb713ed/artifacts&#39;, end_time=None, experiment_id=&#39;0&#39;, lifecycle_stage=&#39;active&#39;, run_id=&#39;e2d08510ac28438681203a930bb713ed&#39;, run_name=&#39;skittish-trout-521&#39;, run_uuid=&#39;e2d08510ac28438681203a930bb713ed&#39;, start_time=1697907858055, status=&#39;RUNNING&#39;, user_id=&#39;brad&#39;&gt;</span>
-
-<div class="viewcode-block" id="Recommender.train_documentation_locations">
-<a class="viewcode-back" href="../../../modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.train_documentation_locations">[docs]</a>
-    <span class="k">def</span> <span class="nf">train_documentation_locations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">        Print the location of documented assets.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">vertical_sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">-----------------------------------------------------------------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="n">path_indent</span> <span class="o">=</span> <span class="s2">&quot;        Path: &quot;</span>
-        <span class="n">indent</span> <span class="o">=</span> <span class="s2">&quot;        &quot;</span>
-        <span class="n">doc_indent</span> <span class="o">=</span> <span class="s2">&quot;                     &quot;</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="n">vertical_sep</span><span class="p">)</span>
-
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot;Modlee documented all the details about your trained model and experiment here: </span><span class="se">\n\n</span><span class="si">{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">path_indent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_folder</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">Experiment_id: automatically assigned to | </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">indent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp_id</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">Run_id: automatically assigned to | </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">indent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_id</span><span class="p">))</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="n">vertical_sep</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Recommender.train_documentation_shared">
-<a class="viewcode-back" href="../../../modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.train_documentation_shared">[docs]</a>
-    <span class="k">def</span> <span class="nf">train_documentation_shared</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">        Print the shared experiment assets. </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">vertical_sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">-----------------------------------------------------------------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="n">path_indent</span> <span class="o">=</span> <span class="s2">&quot;        Path: &quot;</span>
-        <span class="n">indent</span> <span class="o">=</span> <span class="s2">&quot;        &quot;</span>
-        <span class="n">doc_indent</span> <span class="o">=</span> <span class="s2">&quot;                     &quot;</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="n">vertical_sep</span><span class="p">)</span>
-
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot;Modlee auto-documents your experiment locally and learns from non-sensitive details:</span><span class="se">\n</span><span class="s2"> -&gt; Sharing helps to enhance ML model recommendations across the entire community of modlee users, including you!</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Modlee&#39;s ML Experiment Documentation Overview: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ Local ] [ Shared ] Documented Element Description ...&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">vertical_sep</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[       ] [        ] Dataloader</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot;[   X   ] [        ] Sampling of Dataloader: for your benefit, and in case we have improvements to our data analysis process&quot;</span>
-        <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">{}{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">doc_indent</span><span class="p">,</span> <span class="n">path_indent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_artifact_uri</span> <span class="o">+</span> <span class="s2">&quot;/model/snapshot*&quot;</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[   X   ] [        ] Model Weights&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">{}{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">doc_indent</span><span class="p">,</span> <span class="n">path_indent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_artifact_uri</span> <span class="o">+</span> <span class="s2">&quot;/model/data/model.pth&quot;</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot;[   X   ] [   X    ] Dataloader Complexity Analysis: Applying standard statistics (dims, mean, std, var, etc ...) &amp; ML methods (clustering, etc ...) to your dataset&quot;</span>
-        <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">{}{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">doc_indent</span><span class="p">,</span> <span class="n">path_indent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_artifact_uri</span> <span class="o">+</span> <span class="s2">&quot;/stats_rep&quot;</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot;[   X   ] [   X    ] Modlee Model Code (model def, training step, validation step, optimizers)&quot;</span>
-        <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">{}{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">doc_indent</span><span class="p">,</span> <span class="n">path_indent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_artifact_uri</span> <span class="o">+</span> <span class="s2">&quot;/model.py&quot;</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[   X   ] [   X    ] Experiment Metrics: (loss, accuracy, etc ...)&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">doc_indent</span><span class="p">,</span> <span class="n">path_indent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_folder</span> <span class="o">+</span> <span class="s2">&quot;/metrics/&quot;</span><span class="p">))</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="n">vertical_sep</span><span class="p">)</span></div>
-
-
+   
 <div class="viewcode-block" id="Recommender.get_input_torch">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.get_input_torch">[docs]</a>
     <span class="k">def</span> <span class="nf">get_input_torch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

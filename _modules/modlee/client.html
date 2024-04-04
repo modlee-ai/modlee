@@ -47,11 +47,6 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">modlee</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#introduction">Introduction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../README.html#until-now-ml-r-d-has-been">Until now, ML R&amp;D has been …</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../README.html#weve-developed-a-better-way">We’ve developed a better way …</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#installation">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../README.html#pypi">PyPI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../README.html#source">Source</a></li>
@@ -65,8 +60,16 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#usage">Usage</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../README.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../README.html#benchmark-with-model-recommendations">Benchmark with model recommendations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../README.html#explore-document">Explore &amp; document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../README.html#model-architecture-recommendations">Model Architecture Recommendations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../README.html#supported-use-cases">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../README.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../README.html#automated-experiment-documentation">Automated Experiment Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../README.html#supported-use-cases-1">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../README.html#next-steps-1">Next steps</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#roadmap">Roadmap</a><ul>
@@ -179,8 +182,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/recommend.html">Benchmark with model recommendations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/document.html">Explore &amp; document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/recommend.html">Automate model recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/document.html">Automate experiment documentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
 <ul>
@@ -523,11 +526,7 @@
 <span class="sd">                 or None if the directory is empty or doesn&#39;t exist.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ignore_files</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;model.pth&quot;</span><span class="p">,</span> <span class="s2">&quot;.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;.DS_Store&quot;</span><span class="p">,</span> <span class="s2">&quot;__pycache__&quot;</span><span class="p">]</span>
-<<<<<<< HEAD
-        <span class="n">ignore_exts</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ckpt&quot;</span><span class="p">]</span>
-=======
         <span class="n">ignore_exts</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;.ckpt&quot;</span><span class="p">]</span>
->>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
         <span class="n">error_files</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">def</span> <span class="nf">skip_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
