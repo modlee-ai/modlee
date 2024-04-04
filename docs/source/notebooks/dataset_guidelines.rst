@@ -123,9 +123,12 @@ Modality & task compatibility
 
 We’re working on making modlee compatible with any data modality and
 machine learning task which drove us to create the above stated
-MODLEE_GUIDELINES. Check out our `Github
-Repo <https://github.com/modlee-ai/modlee>`__ to see which have been
-tested for auto documentation to date, and if you don’t see one you
-need, test it out yourself and contribute!
+MODLEE_GUIDELINES.
 
+Check out our `Github Repo <https://github.com/modlee-ai/modlee>`__ to
+see which have been tested for auto documentation to date, and if you
+don’t see one you need, test it out yourself and contribute!
 
+Reach out on our `Discord <https://discord.com/invite/m8YDbWDvrF>`__ to
+let us know what modality & tasks you want to use next, or give us
+feedback on these guidelines.
