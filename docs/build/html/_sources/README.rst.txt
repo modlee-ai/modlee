@@ -198,7 +198,8 @@ about how we do this in our
 We format your recommended model as a ``ModleeModel``, which allows us
 to automatically document your experiment locally and share it with your
 Modlee collaborators. If you’re signed up for Modlee Purple, that’s the
-entire Modlee community!
+entire Modlee community! Learn more in our
+`docs <https://docs.modlee.ai/modules/modlee.client.html#modlee.client.ModleeClient.post_run>`__.
 
 In training a Modlee recommended model, and sharing key information
 about your experiment automatically, you’ve contributed to a powerful
@@ -222,7 +223,7 @@ Explore & document
 
 Using Modlee to obtain a benchmark solution, is an easy way to determine
 a great starting point for future model exploration. With Modlee you can
-focus more on breaking new ground and less of re-venting the “ML
+focus more on breaking new ground and less of re-inventing the “ML
 experiment” wheel. Define a custom ``ModleeModel``, and share key
 information about your ``Automatically Documented Experiments`` to guide
 your collaborators towards better solutions, simply through the act of
@@ -266,10 +267,10 @@ guidelines <https://docs.modlee.ai/notebooks/model_definition_guidelines.html>`_
 to learn how to define your own custom datasets and models, while using
 Modlee’s ``Automated Experiment Documentation``.
 
-Modlee will automatically document experiment assets in a new
-``./mlruns/`` directory, relative to wherever the script was called.
-Among the assets is a ``model_graph.py`` module that recreates the model
-as a graph, including the ``forward()`` pass:
+Modlee automatically documents experiment assets in a new ``./mlruns/``
+directory, relative to wherever the script was called. Among the assets
+is a ``model_graph.py`` module that recreates the model as a graph,
+including the ``forward()`` pass:
 
 .. code:: python
 
@@ -309,21 +310,15 @@ as a graph, including the ``forward()`` pass:
            conv = self.Conv(input_1)
            ...
 
--  add custom nn.module definitions in example above
+At the moment we support modalities of ``images`` & ``text``, and tasks
+of ``classification``, with more coming soon. As with recommendation,
+use `Discord <https://discord.com/invite/m8YDbWDvrF>`__ to let us know
+which modalities and tasks you’d prefer or help make these changes on
+our
+`Github <https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md>`__.
 
--  add description of guidelines for definiing custom ModleeModel
-   classes that are auto-documented
-
--  Define data meta-features and describe what’s unique & shared.
-   Address, why … relate to connect, with excitment and value.
-
--  point to the github repo where we define meta-data calcs & where we
-   share inviting individuals to dig deeper for themselves.
-
--  mention current modality and tasks tested and supported at modlee
-
--  Go through the full example: [Benchmark with model recommendations
-   url]
+To go through a full documentation example in more detail, check out
+`Explore & document <https://docs.modlee.ai/notebooks/document.html>`__
 
 Roadmap
 -------
@@ -331,13 +326,8 @@ Roadmap
 Open source
 ~~~~~~~~~~~
 
-Join us in shaping the future of AI & ML! Reach out on
-`Discord <https://discord.com/invite/m8YDbWDvrF>`__ and let us know what
-you need!), contribute directly on our
-`Github <https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md>`__.
-
--  ☐ Add more data modalities and ML tasks: a great way to
--  ☐ Client-side features needed by the community:
+-  ☐ Add more data modalities and ML tasks
+-  ☐ Client-side features needed by the community
 
 Modlee internal
 ~~~~~~~~~~~~~~~
@@ -345,6 +335,7 @@ Modlee internal
 We’re working hard on exciting new features to help you build better
 together! - *(Modlee Silver & Gold)*
 
+-  ☐ Improvements to model architecture recommendations
 -  ☐ Control how you’re connected to Modlee
 -  ☐ Query and search your own and collaborators experiments backed up
    to Modlee
@@ -353,6 +344,12 @@ together! - *(Modlee Silver & Gold)*
 
 Support
 -------
+
+Community
+~~~~~~~~~
+
+`Join our Discord server <https://discord.com/invite/m8YDbWDvrF>`__ to
+discuss & contribute with other Modlee users.
 
 Contributing
 ~~~~~~~~~~~~
@@ -370,9 +367,3 @@ Issues
 
 If you encounter errors, `please raise an issue in this
 repository <https://github.com/modlee-ai/modlee/issues>`__.
-
-Community
-~~~~~~~~~
-
-`Join our Discord server <https://discord.com/invite/m8YDbWDvrF>`__ to
-discuss and contribute with other Modlee users.
