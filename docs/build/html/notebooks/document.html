@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Explore &amp; document &mdash; modlee 0 documentation</title>
+  <title>Automate experiment documentation &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=e5dd142c" />
@@ -25,7 +25,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Model definition guidelines" href="model_definition_guidelines.html" />
-    <link rel="prev" title="Benchmark with model recommendations" href="recommend.html" /> 
+    <link rel="prev" title="Automate model recommendation" href="recommend.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,11 +50,6 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../README.html">modlee</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#introduction">Introduction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#until-now-ml-r-d-has-been">Until now, ML R&amp;D has been …</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#weve-developed-a-better-way">We’ve developed a better way …</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#installation">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#pypi">PyPI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#source">Source</a></li>
@@ -68,8 +63,16 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#usage">Usage</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#benchmark-with-model-recommendations">Benchmark with model recommendations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#explore-document">Explore &amp; document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#model-architecture-recommendations">Model Architecture Recommendations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#supported-use-cases">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#automated-experiment-documentation">Automated Experiment Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#supported-use-cases-1">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#next-steps-1">Next steps</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#roadmap">Roadmap</a><ul>
@@ -182,8 +185,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="recommend.html">Benchmark with model recommendations</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Explore &amp; document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="recommend.html">Automate model recommendation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Automate experiment documentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
 <ul>
@@ -229,7 +232,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Explore &amp; document</li>
+      <li class="breadcrumb-item active">Automate experiment documentation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/notebooks/document.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -239,8 +242,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="explore-document">
-<h1>Explore &amp; document<a class="headerlink" href="#explore-document" title="Link to this heading"></a></h1>
+  <section id="automate-experiment-documentation">
+<h1>Automate experiment documentation<a class="headerlink" href="#automate-experiment-documentation" title="Link to this heading"></a></h1>
 <p>This example notebook uses the <code class="docutils literal notranslate"><span class="pre">modlee</span></code> package to document a machine
 learning experiment with a user-built model. We train a simple
 convolutional classifier on the simple Fashion MNIST dataset. After
@@ -253,6 +256,7 @@ Prerequisites for this tutorial include familiarity with
 import os, sys
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
+import lightning.pytorch as pl
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -360,7 +364,7 @@ modlee_model = ModleeClassifier()
 </div>
 <p>Run the training loop, just for one epoch.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>with modlee.start_run() as run:
-    trainer = modlee.Trainer(max_epochs=1)
+    trainer = pl.Trainer(max_epochs=1)
     trainer.fit(
         model=modlee_model,
         train_dataloaders=train_dataloader,
@@ -510,10 +514,6 @@ print(&quot;Data metafeatures:&quot;)
 </div>
 <p>We can build the model from the cached <code class="docutils literal notranslate"><span class="pre">model_graph.Model</span></code> class and
 confirm that we can pass an input through it. Note that this model’s
-weights will be uninitialized. To load the model from the last
-checkpoint, we can load it directly from the cached <code class="docutils literal notranslate"><span class="pre">model.pth</span></code>.</p>
-<p>We can build the model from the cached <code class="docutils literal notranslate"><span class="pre">model_graph.Model</span></code> class and
-confirm that we can pass an input through it. Note that this model’s
 weights will be uninitialized.</p>
 <<<<<<< HEAD
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Rebuilding from the object
@@ -585,7 +585,7 @@ print(f&quot;Output shape from checkpoint-reloaded model: {y_reloaded.shape}&quo
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="recommend.html" class="btn btn-neutral float-left" title="Benchmark with model recommendations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="recommend.html" class="btn btn-neutral float-left" title="Automate model recommendation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="model_definition_guidelines.html" class="btn btn-neutral float-right" title="Model definition guidelines" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

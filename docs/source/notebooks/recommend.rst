@@ -11,10 +11,15 @@ First, import ``torch``- and ``modlee``-related packages.
 
     import os
     import lightning.pytorch as pl
-    # os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
+    os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
     import torch, torchvision
     import torchvision.transforms as transforms
-    
+
+
+First, initialize the package.
+
+.. code:: ipython3
+
     import modlee
     modlee.init(api_key=os.environ.get('MODLEE_API_KEY'))
 
@@ -109,13 +114,6 @@ Finally, we can view the saved assets from training.
     artifacts_path = os.path.join(last_run_path, 'artifacts')
     artifacts = sorted(os.listdir(artifacts_path))
     print(f"Saved artifacts: {artifacts}")
-
-
-.. parsed-literal::
-
-    Run path: /home/ubuntu/projects/modlee_pypi/examples/mlruns/0/ff1e754d6401438fba506a0d98ca1f91
-    Saved artifacts: ['cached_vars', 'checkpoints', 'model', 'model.py', 'model_graph.py', 'model_graph.txt', 'model_size', 'model_summary.txt', 'stats_rep', 'transforms.txt']
-
 
 ::
 

@@ -50,11 +50,6 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../README.html">modlee</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#introduction">Introduction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#until-now-ml-r-d-has-been">Until now, ML R&amp;D has been …</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#weve-developed-a-better-way">We’ve developed a better way …</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#installation">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#pypi">PyPI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#source">Source</a></li>
@@ -68,8 +63,16 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#usage">Usage</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#benchmark-with-model-recommendations">Benchmark with model recommendations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#explore-document">Explore &amp; document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#model-architecture-recommendations">Model Architecture Recommendations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#supported-use-cases">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#automated-experiment-documentation">Automated Experiment Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#supported-use-cases-1">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#next-steps-1">Next steps</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#roadmap">Roadmap</a><ul>
@@ -182,8 +185,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/recommend.html">Benchmark with model recommendations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/document.html">Explore &amp; document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/recommend.html">Automate model recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/document.html">Automate experiment documentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
 <ul>
@@ -262,7 +265,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.recommender.recommender.Recommender.calculate_metafeatures">
-<span class="sig-name descname"><span class="pre">calculate_metafeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#Recommender.calculate_metafeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.Recommender.calculate_metafeatures" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">calculate_metafeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_metafeature_cls=&lt;class</span> <span class="pre">'modlee.data_metafeatures.DataMetafeatures'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#Recommender.calculate_metafeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.Recommender.calculate_metafeatures" title="Link to this definition"></a></dt>
 <dd><p>Calculate metafeatures.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -307,12 +310,6 @@
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.recommender.recommender.Recommender.get_model_details">
-<span class="sig-name descname"><span class="pre">get_model_details</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#Recommender.get_model_details"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.Recommender.get_model_details" title="Link to this definition"></a></dt>
-<dd><p>Get the details of a model with verbose logging.</p>
-</dd></dl>
-
 <dl class="py property">
 <dt class="sig sig-object py" id="modlee.recommender.recommender.Recommender.model">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#modlee.recommender.recommender.Recommender.model" title="Link to this definition"></a></dt>
@@ -331,18 +328,6 @@
 </ul>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.recommender.recommender.Recommender.train_documentation_locations">
-<span class="sig-name descname"><span class="pre">train_documentation_locations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#Recommender.train_documentation_locations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.Recommender.train_documentation_locations" title="Link to this definition"></a></dt>
-<dd><p>Print the location of documented assets.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.recommender.recommender.Recommender.train_documentation_shared">
-<span class="sig-name descname"><span class="pre">train_documentation_shared</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#Recommender.train_documentation_shared"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.Recommender.train_documentation_shared" title="Link to this definition"></a></dt>
-<dd><p>Print the shared experiment assets.</p>
 </dd></dl>
 
 <dl class="py method">
