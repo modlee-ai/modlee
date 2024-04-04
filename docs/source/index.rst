@@ -30,8 +30,17 @@ modlee
    :caption: Examples
    :hidden:
 
-   notebooks/document
    notebooks/recommend
+   notebooks/document
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Advanced
+   :hidden:
+
+   notebooks/model_definition_guidelines
+   notebooks/dataset_guidelines
+
 
 .. toctree::
    :maxdepth: 2
@@ -63,7 +72,7 @@ Reference the source code and how to use the API.
 
 Examples
 ========
-View starter examples for :ref:`documentation<notebooks/document:Documentation>` or :ref:`recommendation<notebooks/recommend:Recommendation>`.
+View starter examples for :ref:`recommendation<notebooks/recommend:Recommendation>` or :ref:`documentation<notebooks/document:Documentation>` .
 
 Indices and tables
 ==================

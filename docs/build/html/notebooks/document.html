@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Automate experiment documentation &mdash; modlee 0 documentation</title>
+  <title>Explore &amp; document &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=e5dd142c" />
@@ -24,8 +24,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Automate model recommendation" href="recommend.html" />
-    <link rel="prev" title="modlee.utils module" href="../modules/modlee.utils.html" /> 
+    <link rel="next" title="Model definition guidelines" href="model_definition_guidelines.html" />
+    <link rel="prev" title="Benchmark with model recommendations" href="recommend.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,25 +50,39 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../README.html">modlee</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#until-now-ml-r-d-has-been">Until now, ML R&amp;D has been …</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#weve-developed-a-better-way">We’ve developed a better way …</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#installation">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#pypi">PyPI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#source">Source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#api-key">API key</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#features-that-require-an-api-key">Features that require an API key</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#features-that-work-without-an-api-key">Features that work without an API key</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#set-api-key">Set API key</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#document">Document</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#recommend">Recommend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#benchmark-with-model-recommendations">Benchmark with model recommendations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#explore-document">Explore &amp; document</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#roadmap">Roadmap</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#open-source">Open source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#modlee-internal">Modlee internal</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#support">Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#community">Community</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#contributing">Contributing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#issues">Issues</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#community">Community</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#roadmap">Roadmap</a></li>
 </ul>
 </li>
 </ul>
@@ -168,8 +182,31 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Automate experiment documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="recommend.html">Automate model recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="recommend.html">Benchmark with model recommendations</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Explore &amp; document</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="model_definition_guidelines.html">Model definition guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="model_definition_guidelines.html#tldr">TLDR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_definition_guidelines.html#define-example-custom-modleemodel">Define example custom ModleeModel</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dataset_guidelines.html">Dataset guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#tldr">TLDR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#define-example-custom-dataset-objects">Define example custom dataset objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#create-dataset-and-dataloader">Create dataset and dataloader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dataset_guidelines.html#modlee-guideline">MODLEE_GUIDELINE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset_guidelines.html#why">Why?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#define-a-pytorch-dataloader">Define a PyTorch DataLoader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dataset_guidelines.html#id1">MODLEE_GUIDELINE</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#modality-task-compatibility">Modality &amp; task compatibility</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
@@ -192,7 +229,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Automate experiment documentation</li>
+      <li class="breadcrumb-item active">Explore &amp; document</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/notebooks/document.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -202,8 +239,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="automate-experiment-documentation">
-<h1>Automate experiment documentation<a class="headerlink" href="#automate-experiment-documentation" title="Link to this heading"></a></h1>
+  <section id="explore-document">
+<h1>Explore &amp; document<a class="headerlink" href="#explore-document" title="Link to this heading"></a></h1>
 <p>This example notebook uses the <code class="docutils literal notranslate"><span class="pre">modlee</span></code> package to document a machine
 learning experiment with a user-built model. We train a simple
 convolutional classifier on the simple Fashion MNIST dataset. After
@@ -211,34 +248,29 @@ training, we can reuse the model from the auto-documented model class.
 Prerequisites for this tutorial include familiarity with
 <a class="reference external" href="https://pytorch.org/docs/stable/index.html">PyTorch</a> and
 <a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">Lightning</a>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Boilerplate imports</span>
-<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">ssl</span>
-<span class="n">ssl</span><span class="o">.</span><span class="n">_create_default_https_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">_create_unverified_context</span>
-<span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
-<span class="kn">import</span> <span class="nn">torchvision</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Boilerplate imports
+import os, sys
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torchvision
 </pre></div>
 </div>
 <p>Import <code class="docutils literal notranslate"><span class="pre">modlee</span></code> and initialize with an API key.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the API key to an environment variable,</span>
-<span class="c1"># to simulate setting this in your shell profile</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;replace-with-your-api-key&quot;</span>
-<span class="c1"># Modlee-specific imports</span>
-<span class="kn">import</span> <span class="nn">modlee</span>
-<span class="n">modlee</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">])</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/.</span><span class="n">conda</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">modlee3</span><span class="mf">.12</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.12</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">tqdm</span><span class="o">/</span><span class="n">auto</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">21</span><span class="p">:</span> <span class="n">TqdmWarning</span><span class="p">:</span> <span class="n">IProgress</span> <span class="ow">not</span> <span class="n">found</span><span class="o">.</span> <span class="n">Please</span> <span class="n">update</span> <span class="n">jupyter</span> <span class="ow">and</span> <span class="n">ipywidgets</span><span class="o">.</span> <span class="n">See</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">ipywidgets</span><span class="o">.</span><span class="n">readthedocs</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">en</span><span class="o">/</span><span class="n">stable</span><span class="o">/</span><span class="n">user_install</span><span class="o">.</span><span class="n">html</span>
-  <span class="kn">from</span> <span class="nn">.autonotebook</span> <span class="kn">import</span> <span class="n">tqdm</span> <span class="k">as</span> <span class="n">notebook_tqdm</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set the API key to an environment variable,
+# to simulate setting this in your shell profile
+os.environ[&#39;MODLEE_API_KEY&#39;] = &quot;replace-with-your-api-key&quot;
+# Modlee-specific imports
+import modlee
+modlee.init(api_key=os.environ[&#39;MODLEE_API_KEY&#39;])
 </pre></div>
 </div>
 <p>Load the training data; we’ll use <code class="docutils literal notranslate"><span class="pre">torch</span></code>’s Fashion MNIST dataset.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get Fashion MNIST, and convert from grayscale to RGB for compatibility with the model</span>
-<span class="n">train_dataloader</span><span class="p">,</span> <span class="n">val_dataloader</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_fashion_mnist</span><span class="p">(</span><span class="n">num_output_channels</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">classes</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get Fashion MNIST, and convert from grayscale to RGB for compatibility with the model
+train_dataloader, val_dataloader = modlee.utils.get_fashion_mnist(num_output_channels=3)
+num_classes = len(train_dataloader.dataset.classes)
 </pre></div>
 </div>
 <p>Next, we build the model from a pretrained torchvision ResNet model. To
@@ -249,69 +281,47 @@ and uses the same structure for the <code class="docutils literal notranslate"><
 <code class="docutils literal notranslate"><span class="pre">validation_step</span></code>, and <code class="docutils literal notranslate"><span class="pre">configure_optimizers</span></code> functions. Under the
 hood, <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code> also contains the callbacks to document the
 experiment metafeatures.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use a pretrained torchvision ResNet</span>
-<span class="n">classifier_model</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Use a pretrained torchvision ResNet
+classifier_model = torchvision.models.resnet18(num_classes=10)
 
-<span class="c1"># Subclass the ModleeModel class to enable automatic documentation</span>
-<span class="k">class</span> <span class="nc">ModleeClassifier</span><span class="p">(</span><span class="n">modlee</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">ModleeModel</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">classifier_model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span>
+# Subclass the ModleeModel class to enable automatic documentation
+class ModleeClassifier(modlee.model.ModleeModel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.model = classifier_model
+        self.loss_fn = F.cross_entropy
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    def forward(self, x):
+        return self.model(x)
 
-    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="n">batch</span>
-        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">loss</span><span class="p">}</span>
+    def training_step(self, batch, batch_idx):
+        x, y_target = batch
+        y_pred = self(x)
+        loss = self.loss_fn(y_pred, y_target)
+        return {&quot;loss&quot;: loss}
 
-    <span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="n">val_batch</span>
-        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">val_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;val_loss&#39;</span><span class="p">:</span> <span class="n">val_loss</span><span class="p">}</span>
+    def validation_step(self, val_batch, batch_idx):
+        x, y_target = val_batch
+        y_pred = self(x)
+        val_loss = self.loss_fn(y_pred, y_target)
+        return {&#39;val_loss&#39;: val_loss}
 
-    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">optimizer</span>
+    def configure_optimizers(self):
+        optimizer = torch.optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
+        return optimizer
 
-<span class="c1"># Create the model object</span>
-<span class="n">modlee_model</span> <span class="o">=</span> <span class="n">ModleeClassifier</span><span class="p">()</span>
+# Create the model object
+modlee_model = ModleeClassifier()
 </pre></div>
 </div>
 <p>Run the training loop, just for one epoch.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
-    <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
-        <span class="n">model</span><span class="o">=</span><span class="n">modlee_model</span><span class="p">,</span>
-        <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_dataloader</span><span class="p">,</span>
-        <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">val_dataloader</span>
-    <span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LOCAL_RANK</span><span class="p">:</span> <span class="mi">0</span> <span class="o">-</span> <span class="n">CUDA_VISIBLE_DEVICES</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-  <span class="o">|</span> <span class="n">Name</span>  <span class="o">|</span> <span class="n">Type</span>   <span class="o">|</span> <span class="n">Params</span>
-<span class="o">---------------------------------</span>
-<span class="mi">0</span> <span class="o">|</span> <span class="n">model</span> <span class="o">|</span> <span class="n">ResNet</span> <span class="o">|</span> <span class="mf">11.2</span> <span class="n">M</span>
-<span class="o">---------------------------------</span>
-<span class="mf">11.2</span> <span class="n">M</span>    <span class="n">Trainable</span> <span class="n">params</span>
-<span class="mi">0</span>         <span class="n">Non</span><span class="o">-</span><span class="n">trainable</span> <span class="n">params</span>
-<span class="mf">11.2</span> <span class="n">M</span>    <span class="n">Total</span> <span class="n">params</span>
-<span class="mf">44.727</span>    <span class="n">Total</span> <span class="n">estimated</span> <span class="n">model</span> <span class="n">params</span> <span class="n">size</span> <span class="p">(</span><span class="n">MB</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Training: 0it [00:00, ?it/s]
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INFO</span><span class="p">:</span><span class="n">Logging</span> <span class="n">data</span> <span class="n">metafeatures</span><span class="o">...</span>
-<span class="n">INFO</span><span class="p">:</span><span class="n">Logging</span> <span class="n">model</span> <span class="k">as</span> <span class="n">code</span> <span class="p">(</span><span class="n">model_graph</span><span class="o">.</span><span class="n">py</span><span class="p">)</span> <span class="ow">and</span> <span class="n">text</span> <span class="p">(</span><span class="n">model_graph</span><span class="o">.</span><span class="n">txt</span><span class="p">)</span><span class="o">...</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Epoch 0: 100%|██████████| 938/938 [00:39&lt;00:00, 23.59it/s, v_num=11]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>with modlee.start_run() as run:
+    trainer = modlee.Trainer(max_epochs=1)
+    trainer.fit(
+        model=modlee_model,
+        train_dataloaders=train_dataloader,
+        val_dataloaders=val_dataloader
+    )
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  | Name  | Type       | Params
@@ -327,33 +337,29 @@ Epoch 0: 100%|██████████| 938/938 [00:16&lt;00:00, 57.47it/s
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">modlee</span></code> with <code class="docutils literal notranslate"><span class="pre">mlflow</span></code> underneath will document the experiment in an
 automatically generated <code class="docutils literal notranslate"><span class="pre">assets</span></code> folder.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_run_path</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">last_run_path</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run path: </span><span class="si">{</span><span class="n">last_run_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>last_run_path = modlee.last_run_path()
+print(f&quot;Run path: {last_run_path}&quot;)
 
-<span class="n">artifacts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">,</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">)</span>
-<span class="n">artifacts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved artifacts: </span><span class="si">{</span><span class="n">artifacts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+artifacts_path = os.path.join(last_run_path, &#39;artifacts&#39;)
+artifacts = os.listdir(artifacts_path)
+print(f&quot;Saved artifacts: {artifacts}&quot;)
 
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;ARTIFACTS_PATH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">artifacts_path</span>
-<span class="c1"># Add the artifacts directory to the path,</span>
-<span class="c1"># so we can import the model</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">artifacts_path</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Run</span> <span class="n">path</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">modlee_pypi</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="n">e7d5a6c91c294e43baeb198122fa56cc</span>
-<span class="n">Saved</span> <span class="n">artifacts</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;transforms.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.py&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_size&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;cached_vars&#39;</span><span class="p">,</span> <span class="s1">&#39;stats_rep&#39;</span><span class="p">,</span> <span class="s1">&#39;checkpoints&#39;</span><span class="p">,</span> <span class="s1">&#39;model.py&#39;</span><span class="p">,</span> <span class="s1">&#39;model_summary.txt&#39;</span><span class="p">]</span>
+os.environ[&#39;ARTIFACTS_PATH&#39;] = artifacts_path
+# Add the artifacts directory to the path,
+# so we can import the model
+sys.path.insert(0, artifacts_path)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Run</span> <span class="n">path</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">modlee_pypi</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mi">7</span><span class="n">a47086681324d0e924f9076a1262de9</span><span class="o">/</span><span class="n">artifacts</span><span class="o">/</span><span class="n">model_graph</span><span class="o">.</span><span class="n">py</span>
 <span class="n">Saved</span> <span class="n">artifacts</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;transforms.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.py&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_size&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;cached_vars&#39;</span><span class="p">,</span> <span class="s1">&#39;stats_rep&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_1.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;lightning_logs&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_0.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;model.py&#39;</span><span class="p">,</span> <span class="s1">&#39;loss_calls.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_summary.txt&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print out the first few lines of the model</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model graph:&quot;</span><span class="p">)</span>
-<span class="o">!</span>sed<span class="w"> </span>-n<span class="w"> </span>-e<span class="w"> </span><span class="m">1</span>,15p<span class="w"> </span><span class="nv">$ARTIFACTS_PATH</span>/model_graph.py
-<span class="o">!</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;        ...&quot;</span>
-<span class="o">!</span>sed<span class="w"> </span>-n<span class="w"> </span>-e<span class="w"> </span><span class="m">58</span>,68p<span class="w"> </span><span class="nv">$ARTIFACTS_PATH</span>/model_graph.py
-<span class="o">!</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;        ...&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Print out the first few lines of the model
+print(&quot;Model graph:&quot;)
+!sed -n -e 1,15p $ARTIFACTS_PATH/model_graph.py
+!echo &quot;        ...&quot;
+!sed -n -e 58,68p $ARTIFACTS_PATH/model_graph.py
+!echo &quot;        ...&quot;
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Model</span> <span class="n">graph</span><span class="p">:</span>
@@ -387,63 +393,9 @@ automatically generated <code class="docutils literal notranslate"><span class="
         <span class="o">...</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Model</span> <span class="n">graph</span><span class="p">:</span>
-
-<span class="kn">import</span> <span class="nn">torch</span><span class="o">,</span> <span class="nn">onnx2torch</span>
-<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">tensor</span>
-
-<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Conv&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;in_channels&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;out_channels&#39;</span><span class="p">:</span><span class="mi">64</span><span class="p">,</span><span class="s1">&#39;kernel_size&#39;</span><span class="p">:(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span><span class="s1">&#39;stride&#39;</span><span class="p">:(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span><span class="s1">&#39;padding&#39;</span><span class="p">:(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span><span class="s1">&#39;dilation&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span><span class="s1">&#39;groups&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;padding_mode&#39;</span><span class="p">:</span><span class="s1">&#39;zeros&#39;</span><span class="p">}))</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Relu&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;inplace&#39;</span><span class="p">:</span><span class="kc">False</span><span class="p">}))</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;MaxPool&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">pooling</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;kernel_size&#39;</span><span class="p">:[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span><span class="s1">&#39;stride&#39;</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span><span class="s1">&#39;padding&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span><span class="s1">&#39;dilation&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span><span class="s1">&#39;return_indices&#39;</span><span class="p">:</span><span class="kc">False</span><span class="p">,</span><span class="s1">&#39;ceil_mode&#39;</span><span class="p">:</span><span class="kc">False</span><span class="p">}))</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Conv_1&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;in_channels&#39;</span><span class="p">:</span><span class="mi">64</span><span class="p">,</span><span class="s1">&#39;out_channels&#39;</span><span class="p">:</span><span class="mi">64</span><span class="p">,</span><span class="s1">&#39;kernel_size&#39;</span><span class="p">:(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span><span class="s1">&#39;stride&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span><span class="s1">&#39;padding&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span><span class="s1">&#39;dilation&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span><span class="s1">&#39;groups&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;padding_mode&#39;</span><span class="p">:</span><span class="s1">&#39;zeros&#39;</span><span class="p">}))</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Relu_1&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;inplace&#39;</span><span class="p">:</span><span class="kc">False</span><span class="p">}))</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Conv_2&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;in_channels&#39;</span><span class="p">:</span><span class="mi">64</span><span class="p">,</span><span class="s1">&#39;out_channels&#39;</span><span class="p">:</span><span class="mi">64</span><span class="p">,</span><span class="s1">&#39;kernel_size&#39;</span><span class="p">:(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span><span class="s1">&#39;stride&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span><span class="s1">&#39;padding&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span><span class="s1">&#39;dilation&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span><span class="s1">&#39;groups&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;padding_mode&#39;</span><span class="p">:</span><span class="s1">&#39;zeros&#39;</span><span class="p">}))</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Add&#39;</span><span class="p">,</span> <span class="n">onnx2torch</span><span class="o">.</span><span class="n">node_converters</span><span class="o">.</span><span class="n">binary_math_operations</span><span class="o">.</span><span class="n">OnnxBinaryMathOperation</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;operation_type&#39;</span><span class="p">:</span><span class="s1">&#39;Add&#39;</span><span class="p">,</span><span class="s1">&#39;broadcast&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span><span class="s1">&#39;axis&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}))</span>
-        <span class="o">...</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_1</span><span class="p">):</span>
-        <span class="n">conv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Conv</span><span class="p">(</span><span class="n">input_1</span><span class="p">);</span>  <span class="n">input_1</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">relu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Relu</span><span class="p">(</span><span class="n">conv</span><span class="p">);</span>  <span class="n">conv</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">max_pool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MaxPool</span><span class="p">(</span><span class="n">relu</span><span class="p">);</span>  <span class="n">relu</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">conv_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Conv_1</span><span class="p">(</span><span class="n">max_pool</span><span class="p">)</span>
-        <span class="n">relu_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Relu_1</span><span class="p">(</span><span class="n">conv_1</span><span class="p">);</span>  <span class="n">conv_1</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">conv_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Conv_2</span><span class="p">(</span><span class="n">relu_1</span><span class="p">);</span>  <span class="n">relu_1</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">add</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">conv_2</span><span class="p">,</span> <span class="n">max_pool</span><span class="p">);</span>  <span class="n">conv_2</span> <span class="o">=</span> <span class="n">max_pool</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">relu_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Relu_2</span><span class="p">(</span><span class="n">add</span><span class="p">);</span>  <span class="n">add</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">conv_3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Conv_3</span><span class="p">(</span><span class="n">relu_2</span><span class="p">)</span>
-        <span class="o">...</span>
-</pre></div>
-</div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print the first lines of the data metafeatures</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data metafeatures:&quot;</span><span class="p">)</span>
-<span class="o">!</span>head<span class="w"> </span>-20<span class="w"> </span><span class="nv">$ARTIFACTS_PATH</span>/stats_rep
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span> <span class="n">metafeatures</span><span class="p">:</span>
-<span class="p">{</span>
-  <span class="s2">&quot;dataset_size&quot;</span><span class="p">:</span> <span class="mi">60032</span><span class="p">,</span>
-  <span class="s2">&quot;num_sample&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
-  <span class="s2">&quot;batch_element_0&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s2">&quot;raw&quot;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s2">&quot;feature_shape&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="mi">960</span><span class="p">,</span>
-        <span class="mi">3</span><span class="p">,</span>
-        <span class="mi">28</span><span class="p">,</span>
-        <span class="mi">28</span>
-      <span class="p">],</span>
-      <span class="s2">&quot;stats&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;kmeans&quot;</span><span class="p">:</span> <span class="p">{</span>
-          <span class="s2">&quot;2&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;inertia&quot;</span><span class="p">:</span> <span class="s2">&quot;153330.2265393474&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;silhouette_score&quot;</span><span class="p">:</span> <span class="s2">&quot;0.20397691&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;calinski_harabasz_score&quot;</span><span class="p">:</span> <span class="s2">&quot;276.1004016863861&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;davies_bouldin_score&quot;</span><span class="p">:</span> <span class="s2">&quot;1.8227405506886885&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;time_taken&quot;</span><span class="p">:</span> <span class="s2">&quot;0.7286636829376221&quot;</span>
-          <span class="p">},</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Print the first lines of the data metafeatures
+print(&quot;Data metafeatures:&quot;)
+!head -20 $ARTIFACTS_PATH/stats_rep
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span> <span class="n">metafeatures</span><span class="p">:</span>
@@ -471,95 +423,39 @@ automatically generated <code class="docutils literal notranslate"><span class="
 </div>
 <p>We can build the model from the cached <code class="docutils literal notranslate"><span class="pre">model_graph.Model</span></code> class and
 confirm that we can pass an input through it. Note that this model’s
+weights will be uninitialized. To load the model from the last
+checkpoint, we can load it directly from the cached <code class="docutils literal notranslate"><span class="pre">model.pth</span></code>.</p>
+<p>We can build the model from the cached <code class="docutils literal notranslate"><span class="pre">model_graph.Model</span></code> class and
+confirm that we can pass an input through it. Note that this model’s
 weights will be uninitialized.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rebuilding from the object</span>
-<span class="kn">import</span> <span class="nn">model_graph</span>
-<span class="n">rebuilt_model</span> <span class="o">=</span> <span class="n">model_graph</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Rebuilding from the object
+import model_graph
+rebuilt_model = model_graph.Model()
 
-<span class="c1"># Set models to inference</span>
-<span class="n">modlee_model</span><span class="o">.</span><span class="n">eval</span><span class="p">();</span> <span class="n">rebuilt_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Model</span><span class="p">(</span>
-  <span class="p">(</span><span class="n">Conv</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Relu</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">MaxPool</span><span class="p">):</span> <span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">padding</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dilation</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ceil_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-  <span class="p">(</span><span class="n">Conv_1</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Relu_1</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_2</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Add</span><span class="p">):</span> <span class="n">OnnxBinaryMathOperation</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Relu_2</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_3</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Relu_3</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_4</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Add_1</span><span class="p">):</span> <span class="n">OnnxBinaryMathOperation</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Relu_4</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_5</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Relu_5</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_6</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Conv_7</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Add_2</span><span class="p">):</span> <span class="n">OnnxBinaryMathOperation</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Relu_6</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_8</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Relu_7</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_9</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Add_3</span><span class="p">):</span> <span class="n">OnnxBinaryMathOperation</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Relu_8</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_10</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Relu_9</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_11</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Conv_12</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Add_4</span><span class="p">):</span> <span class="n">OnnxBinaryMathOperation</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Relu_10</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_13</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Relu_11</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_14</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Add_5</span><span class="p">):</span> <span class="n">OnnxBinaryMathOperation</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Relu_12</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_15</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Relu_13</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_16</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Conv_17</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Add_6</span><span class="p">):</span> <span class="n">OnnxBinaryMathOperation</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Relu_14</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_18</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Relu_15</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Conv_19</span><span class="p">):</span> <span class="n">Conv2d</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="p">(</span><span class="n">Add_7</span><span class="p">):</span> <span class="n">OnnxBinaryMathOperation</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Relu_16</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">GlobalAveragePool</span><span class="p">):</span> <span class="n">OnnxGlobalAveragePoolWithKnownInputShape</span><span class="p">()</span>
-  <span class="p">(</span><span class="n">Flatten</span><span class="p">):</span> <span class="n">Flatten</span><span class="p">(</span><span class="n">start_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">end_dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-  <span class="p">(</span><span class="n">Gemm</span><span class="p">):</span> <span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="p">)</span>
+# Set models to inference
+modlee_model.eval(); rebuilt_model.eval()
 </pre></div>
 </div>
 <p>Next, pass an input from the train dataloader through the rebuilt
 network and check that the output shape is equal to the original data.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get a batch from the training loader</span>
-<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">))</span>
-<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-    <span class="n">y_original</span> <span class="o">=</span> <span class="n">modlee_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">y_rebuilt</span> <span class="o">=</span> <span class="n">rebuilt_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">y_original</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">y_rebuilt</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get a batch from the training loader
+x, y = next(iter(train_dataloader))
+with torch.no_grad():
+    y_original = modlee_model(x)
+    y_rebuilt = rebuilt_model(x)
+assert y_original.shape == y_rebuilt.shape
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Original input and output shapes: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y_original</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Output shape from module-rebuilt model: </span><span class="si">{</span><span class="n">y_rebuilt</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Original</span> <span class="nb">input</span> <span class="ow">and</span> <span class="n">output</span> <span class="n">shapes</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">64</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
-<span class="n">Output</span> <span class="n">shape</span> <span class="kn">from</span> <span class="nn">module</span><span class="o">-</span><span class="n">rebuilt</span> <span class="n">model</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">64</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+print(f&quot;Original input and output shapes: {x.shape}, {y_original.shape}&quot;)
+print(f&quot;Output shape from module-rebuilt model: {y_rebuilt.shape}&quot;)
 </pre></div>
 </div>
 <p>Alternatively, to load the model from the last checkpoint, we can load
 it directly from the cached <code class="docutils literal notranslate"><span class="pre">model.pth</span></code>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reloading from the checkpoint</span>
-<span class="n">reloaded_model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span><span class="s1">&#39;model.pth&#39;</span><span class="p">))</span>
-<span class="n">y_reloaded</span> <span class="o">=</span> <span class="n">reloaded_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">y_original</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">y_reloaded</span><span class="o">.</span><span class="n">shape</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Output shape from checkpoint-reloaded model: </span><span class="si">{</span><span class="n">y_reloaded</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Output</span> <span class="n">shape</span> <span class="kn">from</span> <span class="nn">checkpoint</span><span class="o">-</span><span class="n">reloaded</span> <span class="n">model</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">64</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Reloading from the checkpoint
+reloaded_model = torch.load(os.path.join(artifacts_path, &#39;model&#39;, &#39;data&#39;,&#39;model.pth&#39;))
+y_reloaded = reloaded_model(x)
+assert y_original.shape == y_reloaded.shape
+print(f&quot;Output shape from checkpoint-reloaded model: {y_reloaded.shape}&quot;)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Original</span> <span class="nb">input</span> <span class="ow">and</span> <span class="n">output</span> <span class="n">shapes</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">64</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
@@ -573,8 +469,8 @@ it directly from the cached <code class="docutils literal notranslate"><span cla
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../modules/modlee.utils.html" class="btn btn-neutral float-left" title="modlee.utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="recommend.html" class="btn btn-neutral float-right" title="Automate model recommendation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="recommend.html" class="btn btn-neutral float-left" title="Benchmark with model recommendations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="model_definition_guidelines.html" class="btn btn-neutral float-right" title="Model definition guidelines" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
