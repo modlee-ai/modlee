@@ -17,30 +17,10 @@ You can use Modlee to obtain higher-quality solutions more easily in three simpl
 - **3. Explore**: Improve upon your benchmark solution, and contribute with your Modlee collaborators.
 
 
-<!-- ## Introduction
-Modlee is a machine learning tool that **documents** experiments for reproduciblity and **recommends** neural network models suited for a particular dataset.
-Modlee bypasses costly machine learning experimentation by recommending performant models based on prior experiments.
-Modlee documents traditional experiment assets (model checkpoints, (hyper)parameters, performance metrics) and meta-features for [meta-learning](https://ieeexplore.ieee.org/abstract/document/9428530).
-Based on these meta-features from prior experiments, Modlee recommends a neural network model matched to a new task. -->
-
 ## Installation
-<!-- The Modlee package consists of the client-side interface for the recommendation API and auxiliary functions for documentation.
-The documentation functionality is usable without an account, but the recommendation functionality requires an API key.
-To create an account and receive an API key, [visit our website](https://www.dashboard.modlee.ai). -->
 
 Modlee is a machine learning tool that allows us to benchmark & explore ML solutions more easily together. You can start building ML with Modlee today using our python client side interface:
 
-<!-- ### Starter environment
-
-Here's an example virtual environment for Mac, using `brew` & `virtualenv`, compatiable with Modlee:
-
-```
-brew install python@3.10
-python3.10 -m venv venv
-source venv/bin/activate
-```
-
-*In this case you may need to use `pip3.10`, depending on your symlinking.* -->
 
 ### PyPI
 
@@ -73,17 +53,11 @@ To use all of the innovative features of Modlee, you'll need to [Sign up](https:
 #### Features that require an API key
 
 - Automated experiment collaboration - *Connect*
-    <!-- - *Worldwide Modlee community*
-    - *Controlled connections, coming soon.* -->
 - ML model architecture recommendations - *Benchmark*
-    <!-- - *Data modalities: images, text & more coming soon.*
-    - *ML Tasks: classification, segmentation, & more coming soon.* -->
 
 #### Features that work without an API key
 
 - Automated local ML experiment documentation - *Explore*
-    <!-- - *Data modalities: ...*
-    - *ML Tasks: ...* -->
 
 
 ### Set API key
