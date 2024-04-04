@@ -47,11 +47,6 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="README.html">modlee</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="README.html#introduction">Introduction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="README.html#until-now-ml-r-d-has-been">Until now, ML R&amp;D has been …</a></li>
-<li class="toctree-l3"><a class="reference internal" href="README.html#weve-developed-a-better-way">We’ve developed a better way …</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#installation">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="README.html#pypi">PyPI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="README.html#source">Source</a></li>
@@ -65,8 +60,16 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#usage">Usage</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="README.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="README.html#benchmark-with-model-recommendations">Benchmark with model recommendations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="README.html#explore-document">Explore &amp; document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#model-architecture-recommendations">Model Architecture Recommendations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="README.html#supported-use-cases">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="README.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#automated-experiment-documentation">Automated Experiment Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="README.html#supported-use-cases-1">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="README.html#next-steps-1">Next steps</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#roadmap">Roadmap</a><ul>
@@ -179,14 +182,16 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/recommend.html">Benchmark with model recommendations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/document.html">Explore &amp; document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/recommend.html">Automate model recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/document.html">Automate experiment documentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/model_definition_guidelines.html">Model definition guidelines</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/model_definition_guidelines.html#tldr">TLDR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/model_definition_guidelines.html#define-example-custom-modleemodel">Define example custom ModleeModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/model_definition_guidelines.html#modlee-guideline">MODLEE_GUIDELINE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/model_definition_guidelines.html#modality-task-compatibility">Modality &amp; task compatibility</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/dataset_guidelines.html">Dataset guidelines</a><ul>
@@ -287,8 +292,12 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.calculate_metafeatures">calculate_metafeatures() (modlee.recommender.recommender.Recommender method)</a>
+      <li><a href="modules/modlee.recommender.image_recommender.html#modlee.recommender.image_recommender.ImageRecommender.calculate_metafeatures">calculate_metafeatures() (modlee.recommender.image_recommender.ImageRecommender method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.calculate_metafeatures">(modlee.recommender.recommender.Recommender method)</a>
 </li>
+      </ul></li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.cast_gather_layer">cast_gather_layer() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.cast_tile_layer">cast_tile_layer() (modlee.converter.Converter method)</a>
@@ -299,6 +308,8 @@
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.code_path2torch">code_path2torch() (modlee.converter.Converter method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/modlee.model.image_model.html#modlee.model.image_model.ModleeImageModel.configure_callbacks">configure_callbacks() (modlee.model.image_model.ModleeImageModel method)</a>
 
       <ul>
@@ -309,8 +320,6 @@
         <li><a href="modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ModleeImageModel.configure_callbacks">(modlee.modlee_image_model.ModleeImageModel method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/modlee.model.model.html#modlee.model.model.SimpleModel.configure_optimizers">configure_optimizers() (modlee.model.model.SimpleModel method)</a>
 
       <ul>
@@ -417,10 +426,10 @@
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.get_inner_string">get_inner_string() (modlee.converter.Converter method)</a>
 </li>
-      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.ModleeCallback.get_input">get_input() (modlee.model.callbacks.ModleeCallback method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.ModleeCallback.get_input">get_input() (modlee.model.callbacks.ModleeCallback method)</a>
+</li>
       <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.get_input_torch">get_input_torch() (modlee.recommender.recommender.Recommender method)</a>
 </li>
       <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures.get_mfe_features">get_mfe_features() (modlee.data_metafeatures.DataMetafeatures method)</a>
@@ -434,8 +443,6 @@
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.get_model_attrs_in_forward">get_model_attrs_in_forward() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.get_model_code">get_model_code() (modlee.converter.Converter method)</a>
-</li>
-      <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.get_model_details">get_model_details() (modlee.recommender.recommender.Recommender method)</a>
 </li>
       <li><a href="modules/modlee.utils.html#modlee.utils.get_model_size">get_model_size() (in module modlee.utils)</a>
 </li>
@@ -742,8 +749,12 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.PushServerCallback.on_fit_end">on_fit_end() (modlee.model.callbacks.PushServerCallback method)</a>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogModelCheckpointCallback.on_fit_end">on_fit_end() (modlee.model.callbacks.LogModelCheckpointCallback method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.PushServerCallback.on_fit_end">(modlee.model.callbacks.PushServerCallback method)</a>
 </li>
+      </ul></li>
       <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogModelCheckpointCallback.on_train_epoch_end">on_train_epoch_end() (modlee.model.callbacks.LogModelCheckpointCallback method)</a>
 
       <ul>
@@ -774,10 +785,10 @@
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx2torch">onnx2torch() (modlee.converter.Converter method)</a>
 </li>
-      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_file2onnx_graph">onnx_file2onnx_graph() (modlee.converter.Converter method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_file2onnx_graph">onnx_file2onnx_graph() (modlee.converter.Converter method)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_file2torch">onnx_file2torch() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_file2torch_model">onnx_file2torch_model() (modlee.converter.Converter method)</a>
@@ -924,10 +935,10 @@
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_file2torch_model">torch_file2torch_model() (modlee.converter.Converter method)</a>
 </li>
-      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_graph2code">torch_graph2code() (modlee.converter.Converter method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_graph2code">torch_graph2code() (modlee.converter.Converter method)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_model2onnx_graph">torch_model2onnx_graph() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_model2onnx_text">torch_model2onnx_text() (modlee.converter.Converter method)</a>
@@ -937,10 +948,6 @@
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_model2torch_model">torch_model2torch_model() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.train">train() (modlee.recommender.recommender.Recommender method)</a>
-</li>
-      <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.train_documentation_locations">train_documentation_locations() (modlee.recommender.recommender.Recommender method)</a>
-</li>
-      <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.train_documentation_shared">train_documentation_shared() (modlee.recommender.recommender.Recommender method)</a>
 </li>
       <li><a href="modules/modlee.model.model.html#modlee.model.model.SimpleModel.training_step">training_step() (modlee.model.model.SimpleModel method)</a>
 

@@ -50,11 +50,6 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../README.html">modlee</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#introduction">Introduction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#until-now-ml-r-d-has-been">Until now, ML R&amp;D has been …</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#weve-developed-a-better-way">We’ve developed a better way …</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#installation">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#pypi">PyPI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#source">Source</a></li>
@@ -68,8 +63,16 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#usage">Usage</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#benchmark-with-model-recommendations">Benchmark with model recommendations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#explore-document">Explore &amp; document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#model-architecture-recommendations">Model Architecture Recommendations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#supported-use-cases">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#automated-experiment-documentation">Automated Experiment Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#supported-use-cases-1">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#next-steps-1">Next steps</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#roadmap">Roadmap</a><ul>
@@ -182,14 +185,16 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/recommend.html">Benchmark with model recommendations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/document.html">Explore &amp; document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/recommend.html">Automate model recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/document.html">Automate experiment documentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/model_definition_guidelines.html">Model definition guidelines</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../notebooks/model_definition_guidelines.html#tldr">TLDR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../notebooks/model_definition_guidelines.html#define-example-custom-modleemodel">Define example custom ModleeModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/model_definition_guidelines.html#modlee-guideline">MODLEE_GUIDELINE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/model_definition_guidelines.html#modality-task-compatibility">Modality &amp; task compatibility</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/dataset_guidelines.html">Dataset guidelines</a><ul>
@@ -277,7 +282,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="modlee.model.callbacks.LogModelCheckpointCallback">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.model.callbacks.</span></span><span class="sig-name descname"><span class="pre">LogModelCheckpointCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'val_loss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'model_checkpoint'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp_dir_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./tmp'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_top_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'min'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/callbacks.html#LogModelCheckpointCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.callbacks.LogModelCheckpointCallback" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.model.callbacks.</span></span><span class="sig-name descname"><span class="pre">LogModelCheckpointCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'val_loss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'model_checkpoint'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp_dir_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/Users/brad/Github_Modlee/modlee/venv/lib/python3.10/site-packages/modlee/tmp/checkpoints'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_top_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'min'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/callbacks.html#LogModelCheckpointCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.callbacks.LogModelCheckpointCallback" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelCheckpoint</span></code></p>
 <p>Callback to log the best performing model in a training routine based on Loss value</p>
 <dl class="py method">
@@ -293,6 +298,12 @@
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.model.callbacks.LogModelCheckpointCallback.on_fit_end">
+<span class="sig-name descname"><span class="pre">on_fit_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pl_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/callbacks.html#LogModelCheckpointCallback.on_fit_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.callbacks.LogModelCheckpointCallback.on_fit_end" title="Link to this definition"></a></dt>
+<dd><p>Called when fit ends.</p>
 </dd></dl>
 
 <dl class="py method">

@@ -1,21 +1,19 @@
 Model definition guidelines
 ===========================
 
-Here we show pseudo code to illustrate building defining a ModleeModel
-that is compatible with **Modlee Auto Experiment Documentation**.
-Following these guidelines will ensure your model architecture is
-preserved, and can be shared with your collaborates in a way that can be
-reloaded, *without having to share your model weights*.
+Here we show pseudo code to illustrate how to define a ModleeModel that
+is compatible with **Modlee Auto Experiment Documentation**. Following
+these guidelines will ensure your model architecture is preserved, and
+can be shared with your collaborators in a way that it can be reloaded,
+*without having to share your model weights*.
 
 TLDR
 ----
 
--  Define all custom layers, activations, etc .. as ``nn.module``
-   PyTorch classes within the same file as your ModleeModel. Doing so
-   ensures we can retrieve the necessary information to preserve the
-   model architecture.
-
--  Be careful of using YAMLs or other config files
+-  Define all custom objects as ``nn.module`` PyTorch classes within the
+   same file as your ModleeModel.
+-  Define all parameters used by PyTorch classes as hard coded variables
+   within each class.
 
 Define example custom ModleeModel
 ---------------------------------
@@ -39,9 +37,10 @@ Define example custom ModleeModel
     class CNNModel(nn.Module):
         def __init__(self):
             super(CNNModel, self).__init__()
-            self.conv1 = nn.Conv2d(1, 32, kernel_size=3, padding=1)
-            self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
-            self.conv3 = nn.Conv2d(64, 128, kernel_size=3, padding=1)
+            self.kernel_size = 3 # --- Hard coded parameter to define network paramters
+            self.conv1 = nn.Conv2d(1, 32, kernel_size=self.kernel_size, padding=1)
+            self.conv2 = nn.Conv2d(32, 64, kernel_size=self.kernel_size, padding=1)
+            self.conv3 = nn.Conv2d(64, 128, kernel_size=self.kernel_size, padding=1)
             self.pool = nn.MaxPool2d(2, 2)
             self.activation = CustomActivation()  # Custom activation
             self.fc1 = nn.Linear(128 * 3 * 3, 512)
@@ -81,3 +80,39 @@ Define example custom ModleeModel
     # Initialize the ModleeModel
     model = CNNModleeModel()
 
+
+MODLEE_GUIDELINE
+----------------
+
+Define all custom objects, layers, activations, etc .. as ``nn.module``
+PyTorch classes within the same file as your ModleeModel. Doing so
+ensures we can retrieve the necessary information to preserve the model
+architecture.
+
+Define all parameters, batch size, number of layers, learning rate, etc
+…, used by PyTorch classes as hard coded variables within each class.
+Avoid using YAMLs or other config files as inputs to your Pytorch
+classes, because this makes it hard for us to retrieve parameter values
+needed to preserve the model architecture.
+
+Modlee preserves the architecture of your models so your experiments can
+be used in aggregate analysis alongside your collaborators data, to
+improve Modlee’s model recommendation technology **without sharing your
+model weights**. This helps Modlee users protect parts of their IP,
+trained models, while allowing them the freedom to share aspects of
+their experiments to collaborate more effectively.
+
+Modality & task compatibility
+-----------------------------
+
+We’re working on making modlee compatible with any data modality and
+machine learning task which drove us to create the above stated
+MODLEE_GUIDELINES.
+
+Check out our `Github Repo <https://github.com/modlee-ai/modlee>`__ to
+see which have been tested for auto documentation to date, and if you
+don’t see one you need, test it out yourself and contribute!
+
+Reach out on our `Discord <https://discord.com/invite/m8YDbWDvrF>`__ to
+let us know what modality & tasks you want to use next, or give us
+feedback on these guidelines.
