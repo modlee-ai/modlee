@@ -92,6 +92,7 @@ file:
    cd modlee
    pip install .
 
+<<<<<<< HEAD
 API key
 ~~~~~~~
 
@@ -115,6 +116,11 @@ Features that work without an API key
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 -  Automated local ML experiment documentation - *Explore*
+=======
+We have developed the package in Python 3.10. Please `raise an
+issue <https://github.com/modlee-ai/modlee/issues>`__) if you experience
+environment errors.
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 
 Set API key
 ~~~~~~~~~~~
@@ -260,6 +266,7 @@ Once you have created your experiment script, simply follow the four
            train_dataloaders=train_dataloader,
        )
 
+<<<<<<< HEAD
 For the sake of illustration, we did not define ``train_dataloader`` &
 ``MyModel`` above. Read through our `Dataset
 guidelines <https://docs.modlee.ai/notebooks/dataset_guidelines.html>`__
@@ -272,6 +279,57 @@ Modlee automatically documents experiment assets in a new ``./mlruns/``
 directory, relative to wherever the script was called. Among the assets
 is a ``model_graph.py`` module that recreates the model as a graph,
 including the ``forward()`` pass:
+=======
+Modlee will document experiment assets in a new ``./mlruns/`` directory,
+relative to wherever the script was called. Among the assets is a
+``model_graph.py`` module that recreates the model as a graph, including
+the ``forward()`` pass:
+
+.. code:: python
+
+   import torch, onnx2torch
+   from torch import tensor
+
+   class Model(torch.nn.Module):
+       
+       def __init__(self):
+           ''' Rebuild the model from its base components. '''
+           super().__init__()
+           setattr(self,'Shape', Shape(**{'start':0,'end':None}))
+           setattr(self,'Constant', Constant(**{'value':torch.ones(())*2}))
+           setattr(self,'Gather', Gather(**{'axis':0}))
+           setattr(self,'Shape_1', Shape(**{'start':0,'end':None}))
+           setattr(self,'Constant_1', Constant(**{'value':torch.ones(())*3}))
+           setattr(self,'Gather_1', Gather(**{'axis':0}))
+           setattr(self,'Conv', torch.nn.modules.conv.Conv2d(**{
+               'in_channels':3,
+               'out_channels':64,
+               'kernel_size':(7, 7),
+               'stride':(2, 2),
+               'padding':(3, 3),
+               'dilation':(1, 1),
+               'groups':1,
+               'padding_mode':'zeros'}))
+           ...
+       
+       def forward(self, input_1):
+           ''' Forward pass an input through the network '''
+           shape = self.Shape(input_1)
+           constant = self.Constant()
+           gather = self.Gather(shape, constant.type(torch.int64))
+           shape_1 = self.Shape_1(input_1)
+           constant_1 = self.Constant_1()
+           gather_1 = self.Gather_1(shape_1, constant_1.type(torch.int64))
+           conv = self.Conv(input_1)
+           ...
+
+Recommend
+~~~~~~~~~
+
+Modlee recommends models based on your data modality, task, and data
+meta-features. Rather than defining the model manually, you can use this
+recommended model as a starting point for your experiments.
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 
 .. code:: python
 
@@ -325,8 +383,19 @@ go through a full documentation example in more detail to learn more:
 Roadmap
 -------
 
+<<<<<<< HEAD
 Open source
 ~~~~~~~~~~~
+=======
+   # Create a recommender object and fit to the training dataloader
+   recommender = modlee.recommender.from_modality_task(
+       modality='image',
+       task='classification',
+       )
+
+   # Fit the recommender to the data meta-features
+   recommender.fit(train_dataloader)
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 
 -  ☐ Add more data modalities and ML tasks
 -  ☐ Client-side features needed by the community
@@ -356,6 +425,7 @@ discuss & contribute with other Modlee users.
 Contributing
 ~~~~~~~~~~~~
 
+<<<<<<< HEAD
 Modlee is designed & maintained by developers passionate about AI
 innovation, infrastructure & meta learning. For those like us, we
 welcome contributions of any kind: bug reports, feature requests,
@@ -363,9 +433,29 @@ tutorials, etc.
 
 Before submitting a pull request, `please read the contribution
 guidelines <https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md>`__.
+=======
+We welcome contributions of any kind: bug reports, feature requests,
+tutorials, etc. Before submitting a pull request, `please read the
+contribution
+guidelines <https://github.com/modlee-ai/modlee/docs/CONTRIBUTING.md>`__.
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 
 Issues
 ~~~~~~
 
 If you encounter errors, `please raise an issue in this
 repository <https://github.com/modlee-ai/modlee/issues>`__.
+<<<<<<< HEAD
+=======
+
+Community
+~~~~~~~~~
+
+`Join our Discord server <https://discord.com/invite/m8YDbWDvrF>`__ to
+discuss and contribute with other Modlee users.
+
+Roadmap
+-------
+
+-  [ ] Add more modalities and tasks.
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a

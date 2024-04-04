@@ -242,8 +242,7 @@
 <span></span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">Recommender for image models.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">.recommender</span> <span class="kn">import</span> <span class="n">Recommender</span>
-<span class="kn">from</span> <span class="nn">modlee.model</span> <span class="kn">import</span> <span class="n">RecommendedModel</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
@@ -256,9 +255,12 @@
 <span class="c1">#     resnet152, ResNet152_Weights</span>
 
 
+<span class="kn">from</span> <span class="nn">.recommender</span> <span class="kn">import</span> <span class="n">Recommender</span>
 <span class="kn">import</span> <span class="nn">modlee</span>
 <span class="kn">from</span> <span class="nn">modlee.converter</span> <span class="kn">import</span> <span class="n">Converter</span>
 <span class="kn">from</span> <span class="nn">modlee.utils</span> <span class="kn">import</span> <span class="n">get_model_size</span><span class="p">,</span> <span class="n">typewriter_print</span>
+<span class="kn">from</span> <span class="nn">modlee.model</span> <span class="kn">import</span> <span class="n">RecommendedModel</span>
+
 
 <span class="n">modlee_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">()</span>
 
@@ -370,7 +372,7 @@
             <span class="c1"># self.write_files()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">write_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_text</span><span class="p">,</span> <span class="s2">&quot;./model.txt&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">write_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_code</span><span class="p">,</span> <span class="s2">&quot;./model.py&quot;</span><span class="p">)</span>
-            <span class="n">typewriter_print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The model is available at the recommender object&#39;s `model` attribute.&quot;</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The model is available at the recommender object&#39;s `model` attribute.&quot;</span><span class="p">)</span>
 
         <span class="k">except</span><span class="p">:</span>
         <span class="c1"># else:</span>

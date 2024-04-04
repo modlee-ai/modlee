@@ -245,10 +245,17 @@
 model. We will perform image classification on CIFAR10 from
 <code class="docutils literal notranslate"><span class="pre">torchvision</span></code>.</p>
 <p>First, import <code class="docutils literal notranslate"><span class="pre">torch</span></code>- and <code class="docutils literal notranslate"><span class="pre">modlee</span></code>-related packages.</p>
+<<<<<<< HEAD
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
 # os.environ[&#39;MODLEE_API_KEY&#39;] = &quot;replace-with-your-api-key&quot;
 import torch, torchvision
 import torchvision.transforms as transforms
+=======
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="c1"># os.environ[&#39;MODLEE_API_KEY&#39;] = &quot;replace-with-your-api-key&quot;</span>
+<span class="kn">import</span> <span class="nn">torch</span><span class="o">,</span> <span class="nn">torchvision</span>
+<span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="nn">transforms</span>
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 
 import modlee
 modlee.init(api_key=os.environ.get(&#39;MODLEE_API_KEY&#39;))
@@ -276,6 +283,7 @@ val_dataloader = torch.utils.data.DataLoader(
 process will calculate the dataset metafeatures to send to the server.
 The server will return a recommended model for the dataset assigned to
 <code class="docutils literal notranslate"><span class="pre">recommender.model</span></code>.</p>
+<<<<<<< HEAD
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>recommender = modlee.recommender.from_modality_task(
     modality=&#39;image&#39;,
     task=&#39;classification&#39;,
@@ -283,6 +291,15 @@ The server will return a recommended model for the dataset assigned to
 recommender.fit(train_dataloader)
 modlee_model = recommender.model
 print(f&quot;\nRecommended model: \n{modlee_model}&quot;)
+=======
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recommender</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">recommender</span><span class="o">.</span><span class="n">from_modality_task</span><span class="p">(</span>
+    <span class="n">modality</span><span class="o">=</span><span class="s1">&#39;image&#39;</span><span class="p">,</span>
+    <span class="n">task</span><span class="o">=</span><span class="s1">&#39;classification&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">recommender</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">)</span>
+<span class="n">modlee_model</span> <span class="o">=</span> <span class="n">recommender</span><span class="o">.</span><span class="n">model</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Recommended model: </span><span class="se">\n</span><span class="si">{</span><span class="n">modlee_model</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INFO</span><span class="p">:</span><span class="n">Analyzing</span> <span class="n">dataset</span> <span class="n">based</span> <span class="n">on</span> <span class="n">data</span> <span class="n">metafeatures</span><span class="o">...</span>
