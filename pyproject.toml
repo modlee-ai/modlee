@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "modlee"
-version = "0.0.1-13"
+version = "0.0.1-16"
 authors = [{ name = "modlee", email = "michael@modlee.ai" }]
 description = "modlee package"
 readme = "docs/README.md"
@@ -22,7 +22,7 @@ dependencies = [
     "torchvision>=0.15.2",
     "onnx==1.14.1",
     "torchsummary==1.5.1",
-    "modlee-onnx2torch==1.5.11",
+    "modlee-onnx2torch==1.5.12",
     "modlee-onnx_graphsurgeon==0.3.27",
     "pymfe==0.4.2",
     "pytest==8.1.1",
