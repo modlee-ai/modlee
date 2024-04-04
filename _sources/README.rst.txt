@@ -214,9 +214,10 @@ package-feature-brainstorming channel. If you’re excited about what
 we’re building, help us support your use case by contributing to our
 `Github <https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md>`__.
 
-To go through a full recommendation example in more detail, check out
+Build your own Modlee model recommendation pipeline and connect your
+data today or go through a full recommendation example in more detail:
 `Benchmark with model
-recommendations <https://docs.modlee.ai/notebooks/recommend.html>`__
+recommendations <https://docs.modlee.ai/notebooks/recommend.html>`__.
 
 Explore & document
 ~~~~~~~~~~~~~~~~~~
@@ -317,8 +318,9 @@ which modalities and tasks you’d prefer or help make these changes on
 our
 `Github <https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md>`__.
 
-To go through a full documentation example in more detail, check out
-`Explore & document <https://docs.modlee.ai/notebooks/document.html>`__
+Start implementing Modlee to continue your own model experimentation or
+go through a full documentation example in more detail to learn more:
+`Explore & document <https://docs.modlee.ai/notebooks/document.html>`__.
 
 Roadmap
 -------
