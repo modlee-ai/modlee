@@ -84,7 +84,7 @@ This documentation page does not cover the frameworks; we recommend referencing 
 
 
 
-### Benchmark with model recommendations
+### Model Architecture Recommendations
 
 Obtain a better benchmark ML solution faster & easier, by using our ML Model Architecture Recommendations.  We recommend model architectures based on your data modality, task, and data meta-features, and deliver a trainable model within your python script, all within a few lines of code.
 
@@ -131,9 +131,9 @@ At the moment we support modalities of `images` & `text`, and tasks of `classifi
 
 Build your own Modlee model recommendation pipeline and connect your data today or go through a full recommendation example in more detail: [Benchmark with model recommendations](https://docs.modlee.ai/notebooks/recommend.html).
 
-### Explore & document
+### Automated Experiment Documentation
 
-Using Modlee to obtain a benchmark solution is an easy way to determine a great starting point for future model exploration. With Modlee, you can focus more on breaking new ground and less of reinventing the "ML experiment" wheel. Define a custom `ModleeModel`, and share key information about your `Automatically Documented Experiments` to guide your collaborators towards better solutions, simply through the act of experimenting. No need to share code, repos, or set up a meeting.
+Using Modlee to obtain a benchmark solution is an easy way to determine a great starting point for future model exploration. With Modlee, you can focus more on breaking new ground and less of reinventing the "ML experiment" wheel. Define a custom `ModleeModel`, and share key information about your automatically documented experiments to guide your collaborators towards better solutions, simply through the act of experimenting. No need to share code, repos, or set up a meeting.
 
 Modlee supports documentation for Lightning experiments.
 Guides for structuring PyTorch Lightning projects are available [here](https://lightning.ai/docs/pytorch/stable/starter/converting.html) and [here](https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09).
