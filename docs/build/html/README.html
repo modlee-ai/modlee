@@ -78,9 +78,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#support">Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#community">Community</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#contributing">Contributing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#issues">Issues</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#community">Community</a></li>
 </ul>
 </li>
 </ul>
@@ -187,7 +187,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/model_definition_guidelines.html">Model definition guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/model_definition_guidelines.html">Model definition guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/model_definition_guidelines.html#tldr">TLDR</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/dataset_guidelines.html">Dataset guidelines</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/dataset_guidelines.html#tldr">TLDR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/dataset_guidelines.html#define-example-custom-dataset-objects">Define example custom dataset objects</a></li>
@@ -404,7 +407,8 @@ about how we do this in our
 <p>We format your recommended model as a <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code>, which allows us
 to automatically document your experiment locally and share it with your
 Modlee collaborators. If you’re signed up for Modlee Purple, that’s the
-entire Modlee community!</p>
+entire Modlee community! Learn more in our
+<a class="reference external" href="https://docs.modlee.ai/modules/modlee.client.html#modlee.client.ModleeClient.post_run">docs</a>.</p>
 <p>In training a Modlee recommended model, and sharing key information
 about your experiment automatically, you’ve contributed to a powerful
 flywheel that will allow the ML R&amp;D community to work together in new
@@ -424,7 +428,7 @@ recommendations</a></p>
 <h3>Explore &amp; document<a class="headerlink" href="#explore-document" title="Link to this heading"></a></h3>
 <p>Using Modlee to obtain a benchmark solution, is an easy way to determine
 a great starting point for future model exploration. With Modlee you can
-focus more on breaking new ground and less of re-venting the “ML
+focus more on breaking new ground and less of re-inventing the “ML
 experiment” wheel. Define a custom <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code>, and share key
 information about your <code class="docutils literal notranslate"><span class="pre">Automatically</span> <span class="pre">Documented</span> <span class="pre">Experiments</span></code> to guide
 your collaborators towards better solutions, simply through the act of
@@ -464,10 +468,10 @@ guidelines</a>
 guidelines</a>
 to learn how to define your own custom datasets and models, while using
 Modlee’s <code class="docutils literal notranslate"><span class="pre">Automated</span> <span class="pre">Experiment</span> <span class="pre">Documentation</span></code>.</p>
-<p>Modlee will automatically document experiment assets in a new
-<code class="docutils literal notranslate"><span class="pre">./mlruns/</span></code> directory, relative to wherever the script was called.
-Among the assets is a <code class="docutils literal notranslate"><span class="pre">model_graph.py</span></code> module that recreates the model
-as a graph, including the <code class="docutils literal notranslate"><span class="pre">forward()</span></code> pass:</p>
+<p>Modlee automatically documents experiment assets in a new <code class="docutils literal notranslate"><span class="pre">./mlruns/</span></code>
+directory, relative to wherever the script was called. Among the assets
+is a <code class="docutils literal notranslate"><span class="pre">model_graph.py</span></code> module that recreates the model as a graph,
+including the <code class="docutils literal notranslate"><span class="pre">forward()</span></code> pass:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span><span class="o">,</span> <span class="nn">onnx2torch</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">tensor</span>
 
@@ -505,28 +509,20 @@ as a graph, including the <code class="docutils literal notranslate"><span class
         <span class="o">...</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>add custom nn.module definitions in example above</p></li>
-<li><p>add description of guidelines for definiing custom ModleeModel
-classes that are auto-documented</p></li>
-<li><p>Define data meta-features and describe what’s unique &amp; shared.
-Address, why … relate to connect, with excitment and value.</p></li>
-<li><p>point to the github repo where we define meta-data calcs &amp; where we
-share inviting individuals to dig deeper for themselves.</p></li>
-<li><p>mention current modality and tasks tested and supported at modlee</p></li>
-<li><p>Go through the full example: [Benchmark with model recommendations
-url]</p></li>
-</ul>
+<p>To go through a full documentation example in more detail, check out
+<a class="reference external" href="https://docs.modlee.ai/notebooks/document.html">Explore &amp; document</a></p>
+<p>At the moment we support modalities of <code class="docutils literal notranslate"><span class="pre">images</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">text</span></code>, and tasks
+of <code class="docutils literal notranslate"><span class="pre">classification</span></code>, with more coming soon. As with recommendation,
+use <a class="reference external" href="https://discord.com/invite/m8YDbWDvrF">Discord</a> to let us know
+which modalities and tasks you’d prefer or help make these changes on
+our
+<a class="reference external" href="https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md">Github</a>.</p>
 </section>
 </section>
 <section id="roadmap">
 <h2>Roadmap<a class="headerlink" href="#roadmap" title="Link to this heading"></a></h2>
 <section id="open-source">
 <h3>Open source<a class="headerlink" href="#open-source" title="Link to this heading"></a></h3>
-<p>Join us in shaping the future of AI &amp; ML! Reach out on
-<a class="reference external" href="https://discord.com/invite/m8YDbWDvrF">Discord</a> and let us know what
-you need!), contribute directly on our
-<a class="reference external" href="https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md">Github</a>.</p>
 <ul class="simple">
 <li><p>☐ Add more data modalities and ML tasks: a great way to</p></li>
 <li><p>☐ Client-side features needed by the community:</p></li>
@@ -547,6 +543,11 @@ and collaborators experiments</p></li>
 </section>
 <section id="support">
 <h2>Support<a class="headerlink" href="#support" title="Link to this heading"></a></h2>
+<section id="community">
+<h3>Community<a class="headerlink" href="#community" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://discord.com/invite/m8YDbWDvrF">Join our Discord server</a> to
+discuss &amp; contribute with other Modlee users.</p>
+</section>
 <section id="contributing">
 <h3>Contributing<a class="headerlink" href="#contributing" title="Link to this heading"></a></h3>
 <p>Modlee is designed &amp; maintained by developers passionate about AI
@@ -560,11 +561,6 @@ guidelines</a>.</p>
 <h3>Issues<a class="headerlink" href="#issues" title="Link to this heading"></a></h3>
 <p>If you encounter errors, <a class="reference external" href="https://github.com/modlee-ai/modlee/issues">please raise an issue in this
 repository</a>.</p>
-</section>
-<section id="community">
-<h3>Community<a class="headerlink" href="#community" title="Link to this heading"></a></h3>
-<p><a class="reference external" href="https://discord.com/invite/m8YDbWDvrF">Join our Discord server</a> to
-discuss and contribute with other Modlee users.</p>
 </section>
 </section>
 </section>

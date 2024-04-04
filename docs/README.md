@@ -149,7 +149,7 @@ with modlee.start_run() as run:
     )
 ```
 
-We format your recommended model as a `ModleeModel`, which allows us to automatically document your experiment locally and share it with your Modlee collaborators. If you're signed up for Modlee Purple, that's the entire Modlee community! 
+We format your recommended model as a `ModleeModel`, which allows us to automatically document your experiment locally and share it with your Modlee collaborators. If you're signed up for Modlee Purple, that's the entire Modlee community! Learn more in our [docs](https://docs.modlee.ai/modules/modlee.client.html#modlee.client.ModleeClient.post_run).
 
 In training a Modlee recommended model, and sharing key information about your experiment automatically, you've contributed to a powerful flywheel that will allow the ML R&D community to work together in new ways and guide eachother to better ML solutions over time.
 
@@ -159,7 +159,7 @@ To go through a full recommendation example in more detail, check out [Benchmark
 
 ### Explore & document
 
-Using Modlee to obtain a benchmark solution, is an easy way to determine a great starting point for future model exploration. With Modlee you can focus more on breaking new ground and less of re-venting the "ML experiment" wheel. Define a custom `ModleeModel`, and share key information about your `Automatically Documented Experiments` to guide your collaborators towards better solutions, simply through the act of experimenting. No need to share code, repos, or set up a meeting.
+Using Modlee to obtain a benchmark solution, is an easy way to determine a great starting point for future model exploration. With Modlee you can focus more on breaking new ground and less of re-inventing the "ML experiment" wheel. Define a custom `ModleeModel`, and share key information about your `Automatically Documented Experiments` to guide your collaborators towards better solutions, simply through the act of experimenting. No need to share code, repos, or set up a meeting.
 
 Modlee supports documentation for Lightning experiments.
 Guides for structuring PyTorch Lightning projects are available [here](https://lightning.ai/docs/pytorch/stable/starter/converting.html) and [here](https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09).
@@ -188,8 +188,7 @@ with modlee.start_run() as run:
 ```
 For the sake of illustration, we did not define `train_dataloader` & `MyModel` above. Read through our [Dataset guidelines](https://docs.modlee.ai/notebooks/dataset_guidelines.html) &  [Model definition guidelines](https://docs.modlee.ai/notebooks/model_definition_guidelines.html) to learn how to define your own custom datasets and models, while using Modlee's `Automated Experiment Documentation`.
 
-
-Modlee will automatically document experiment assets in a new `./mlruns/` directory, relative to wherever the script was called.
+Modlee automatically documents experiment assets in a new `./mlruns/` directory, relative to wherever the script was called.
 Among the assets is a `model_graph.py` module that recreates the model as a graph, including the `forward()` pass:
 
 ```python
@@ -232,20 +231,15 @@ class Model(torch.nn.Module):
 ```
 
 
-- add custom nn.module definitions in example above
-- add description of guidelines for definiing custom ModleeModel classes that are auto-documented
-- Define data meta-features and describe what's unique & shared. Address, why ... relate to connect, with excitment and value.
-- point to the github repo where we define meta-data calcs & where we share inviting individuals to dig deeper for themselves.
+At the moment we support modalities of `images` & `text`, and tasks of `classification`, with more coming soon. As with recommendation, use [Discord](https://discord.com/invite/m8YDbWDvrF) to let us know which modalities and tasks you'd prefer or help make these changes on our [Github](https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md).
 
-- mention current modality and tasks tested and supported at modlee
 
-- Go through the full example: [Benchmark with model recommendations url]
+To go through a full documentation example in more detail, check out [Explore & document](https://docs.modlee.ai/notebooks/document.html)
+
 
 ## Roadmap
 
 #### Open source
-
-Join us in shaping the future of AI & ML! Reach out on [Discord](https://discord.com/invite/m8YDbWDvrF) and let us know what you need!), contribute directly on our [Github](https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md).
 
 - [ ] Add more data modalities and ML tasks: a great way to 
 - [ ] Client-side features needed by the community: 
@@ -261,6 +255,9 @@ We're working hard on exciting new features to help you build better together! -
 
 ## Support
 
+### Community
+[Join our Discord server](https://discord.com/invite/m8YDbWDvrF) to discuss & contribute with other Modlee users. 
+
 ### Contributing
 
 Modlee is designed & maintained by developers passionate about AI innovation, infrastructure & meta learning. For those like us, we welcome contributions of any kind: bug reports, feature requests, tutorials, etc.
@@ -270,5 +267,3 @@ Before submitting a pull request, [please read the contribution guidelines](http
 ### Issues
 If you encounter errors, [please raise an issue in this repository](https://github.com/modlee-ai/modlee/issues).
 
-### Community
-[Join our Discord server](https://discord.com/invite/m8YDbWDvrF) to discuss and contribute with other Modlee users.
