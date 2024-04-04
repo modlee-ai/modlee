@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Benchmark with model recommendations &mdash; modlee 0 documentation</title>
+  <title>Automate model recommendation &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=e5dd142c" />
@@ -24,7 +24,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Explore &amp; document" href="document.html" />
+    <link rel="next" title="Automate experiment documentation" href="document.html" />
     <link rel="prev" title="modlee.utils module" href="../modules/modlee.utils.html" /> 
 </head>
 
@@ -50,11 +50,6 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../README.html">modlee</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#introduction">Introduction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#until-now-ml-r-d-has-been">Until now, ML R&amp;D has been …</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#weve-developed-a-better-way">We’ve developed a better way …</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#installation">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#pypi">PyPI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#source">Source</a></li>
@@ -68,8 +63,16 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#usage">Usage</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#benchmark-with-model-recommendations">Benchmark with model recommendations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#explore-document">Explore &amp; document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#model-architecture-recommendations">Model Architecture Recommendations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#supported-use-cases">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#automated-experiment-documentation">Automated Experiment Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#supported-use-cases-1">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../README.html#next-steps-1">Next steps</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#roadmap">Roadmap</a><ul>
@@ -182,8 +185,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Benchmark with model recommendations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="document.html">Explore &amp; document</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Automate model recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="document.html">Automate experiment documentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
 <ul>
@@ -231,7 +234,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Benchmark with model recommendations</li>
+      <li class="breadcrumb-item active">Automate model recommendation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/notebooks/recommend.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -241,25 +244,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="benchmark-with-model-recommendations">
-<h1>Benchmark with model recommendations<a class="headerlink" href="#benchmark-with-model-recommendations" title="Link to this heading"></a></h1>
+  <section id="automate-model-recommendation">
+<h1>Automate model recommendation<a class="headerlink" href="#automate-model-recommendation" title="Link to this heading"></a></h1>
 <p>This example notebook uses the <code class="docutils literal notranslate"><span class="pre">modlee</span></code> package to train a recommended
 model. We will perform image classification on CIFAR10 from
 <code class="docutils literal notranslate"><span class="pre">torchvision</span></code>.</p>
 <p>First, import <code class="docutils literal notranslate"><span class="pre">torch</span></code>- and <code class="docutils literal notranslate"><span class="pre">modlee</span></code>-related packages.</p>
-<<<<<<< HEAD
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
-# os.environ[&#39;MODLEE_API_KEY&#39;] = &quot;replace-with-your-api-key&quot;
+import lightning.pytorch as pl
+os.environ[&#39;MODLEE_API_KEY&#39;] = &quot;replace-with-your-api-key&quot;
 import torch, torchvision
 import torchvision.transforms as transforms
-=======
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="c1"># os.environ[&#39;MODLEE_API_KEY&#39;] = &quot;replace-with-your-api-key&quot;</span>
-<span class="kn">import</span> <span class="nn">torch</span><span class="o">,</span> <span class="nn">torchvision</span>
-<span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="nn">transforms</span>
->>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
-
-import modlee
+</pre></div>
+</div>
+<p>First, initialize the package.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import modlee
 modlee.init(api_key=os.environ.get(&#39;MODLEE_API_KEY&#39;))
 </pre></div>
 </div>
@@ -285,7 +284,6 @@ val_dataloader = torch.utils.data.DataLoader(
 process will calculate the dataset metafeatures to send to the server.
 The server will return a recommended model for the dataset assigned to
 <code class="docutils literal notranslate"><span class="pre">recommender.model</span></code>.</p>
-<<<<<<< HEAD
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>recommender = modlee.recommender.from_modality_task(
     modality=&#39;image&#39;,
     task=&#39;classification&#39;,
@@ -293,15 +291,6 @@ The server will return a recommended model for the dataset assigned to
 recommender.fit(train_dataloader)
 modlee_model = recommender.model
 print(f&quot;\nRecommended model: \n{modlee_model}&quot;)
-=======
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recommender</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">recommender</span><span class="o">.</span><span class="n">from_modality_task</span><span class="p">(</span>
-    <span class="n">modality</span><span class="o">=</span><span class="s1">&#39;image&#39;</span><span class="p">,</span>
-    <span class="n">task</span><span class="o">=</span><span class="s1">&#39;classification&#39;</span><span class="p">,</span>
-    <span class="p">)</span>
-<span class="n">recommender</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">)</span>
-<span class="n">modlee_model</span> <span class="o">=</span> <span class="n">recommender</span><span class="o">.</span><span class="n">model</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Recommended model: </span><span class="se">\n</span><span class="si">{</span><span class="n">modlee_model</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
->>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INFO</span><span class="p">:</span><span class="n">Analyzing</span> <span class="n">dataset</span> <span class="n">based</span> <span class="n">on</span> <span class="n">data</span> <span class="n">metafeatures</span><span class="o">...</span>
@@ -329,7 +318,7 @@ print(f&quot;\nRecommended model: \n{modlee_model}&quot;)
 <p>We can train the model as we would a basic <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code>, with
 automatic documentation of metafeatures.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>with modlee.start_run() as run:
-    trainer = modlee.Trainer(max_epochs=1)
+    trainer = pl.Trainer(max_epochs=1)
     trainer.fit(
         model=modlee_model,
         train_dataloaders=train_dataloader
@@ -351,12 +340,12 @@ Epoch 0: 100%|██████████| 3125/3125 [01:14&lt;00:00, 41.86it
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>last_run_path = modlee.last_run_path()
 print(f&quot;Run path: {last_run_path}&quot;)
 artifacts_path = os.path.join(last_run_path, &#39;artifacts&#39;)
-artifacts = os.listdir(artifacts_path)
+artifacts = sorted(os.listdir(artifacts_path))
 print(f&quot;Saved artifacts: {artifacts}&quot;)
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Run</span> <span class="n">path</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">modlee_pypi</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mi">7</span><span class="n">a47086681324d0e924f9076a1262de9</span><span class="o">/</span><span class="n">artifacts</span><span class="o">/</span><span class="n">model_graph</span><span class="o">.</span><span class="n">py</span>
-<span class="n">Saved</span> <span class="n">artifacts</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;transforms.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.py&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_size&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;cached_vars&#39;</span><span class="p">,</span> <span class="s1">&#39;stats_rep&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_1.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;lightning_logs&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_0.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;model.py&#39;</span><span class="p">,</span> <span class="s1">&#39;loss_calls.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_summary.txt&#39;</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Run</span> <span class="n">path</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">modlee_pypi</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="n">ff1e754d6401438fba506a0d98ca1f91</span>
+<span class="n">Saved</span> <span class="n">artifacts</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;cached_vars&#39;</span><span class="p">,</span> <span class="s1">&#39;checkpoints&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;model.py&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.py&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_size&#39;</span><span class="p">,</span> <span class="s1">&#39;model_summary.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;stats_rep&#39;</span><span class="p">,</span> <span class="s1">&#39;transforms.txt&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </section>
@@ -366,7 +355,7 @@ print(f&quot;Saved artifacts: {artifacts}&quot;)
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../modules/modlee.utils.html" class="btn btn-neutral float-left" title="modlee.utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="document.html" class="btn btn-neutral float-right" title="Explore &amp; document" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="document.html" class="btn btn-neutral float-right" title="Automate experiment documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
