@@ -241,13 +241,14 @@ To go through a full documentation example in more detail, check out [Explore & 
 
 #### Open source
 
-- [ ] Add more data modalities and ML tasks: a great way to 
-- [ ] Client-side features needed by the community: 
+- [ ] Add more data modalities and ML tasks
+- [ ] Client-side features needed by the community 
 
 #### Modlee internal
 
 We're working hard on exciting new features to help you build better together! - *(Modlee Silver & Gold)*
 
+- [ ] Improvements to model architecture recommendations
 - [ ] Control how you're connected to Modlee
 - [ ] Query and search your own and collaborators experiments backed up to Modlee
 - [ ] Personalized model architecture recommendations based on your own and collaborators experiments
