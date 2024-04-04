@@ -310,9 +310,6 @@ including the ``forward()`` pass:
            conv = self.Conv(input_1)
            ...
 
-To go through a full documentation example in more detail, check out
-`Explore & document <https://docs.modlee.ai/notebooks/document.html>`__
-
 At the moment we support modalities of ``images`` & ``text``, and tasks
 of ``classification``, with more coming soon. As with recommendation,
 use `Discord <https://discord.com/invite/m8YDbWDvrF>`__ to let us know
@@ -320,14 +317,17 @@ which modalities and tasks you’d prefer or help make these changes on
 our
 `Github <https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md>`__.
 
+To go through a full documentation example in more detail, check out
+`Explore & document <https://docs.modlee.ai/notebooks/document.html>`__
+
 Roadmap
 -------
 
 Open source
 ~~~~~~~~~~~
 
--  ☐ Add more data modalities and ML tasks: a great way to
--  ☐ Client-side features needed by the community:
+-  ☐ Add more data modalities and ML tasks
+-  ☐ Client-side features needed by the community
 
 Modlee internal
 ~~~~~~~~~~~~~~~
@@ -335,6 +335,7 @@ Modlee internal
 We’re working hard on exciting new features to help you build better
 together! - *(Modlee Silver & Gold)*
 
+-  ☐ Improvements to model architecture recommendations
 -  ☐ Control how you’re connected to Modlee
 -  ☐ Query and search your own and collaborators experiments backed up
    to Modlee
