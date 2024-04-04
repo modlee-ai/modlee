@@ -11,10 +11,13 @@ First, import ``torch``- and ``modlee``-related packages.
 
 <<<<<<< HEAD
     import os
+<<<<<<< HEAD
     import lightning.pytorch as pl
 =======
     import os 
 >>>>>>> dfd4488... changes to README.md and added new advanced examples
+=======
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
     # os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
     import torch, torchvision
     import torchvision.transforms as transforms

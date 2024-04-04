@@ -248,6 +248,7 @@ training, we can reuse the model from the auto-documented model class.
 Prerequisites for this tutorial include familiarity with
 <a class="reference external" href="https://pytorch.org/docs/stable/index.html">PyTorch</a> and
 <a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">Lightning</a>.</p>
+<<<<<<< HEAD
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Boilerplate imports
 import os, sys
 import ssl
@@ -256,6 +257,16 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision
+=======
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Boilerplate imports</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">ssl</span>
+<span class="n">ssl</span><span class="o">.</span><span class="n">_create_default_https_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">_create_unverified_context</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">torchvision</span>
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 </pre></div>
 </div>
 <p>Import <code class="docutils literal notranslate"><span class="pre">modlee</span></code> and initialize with an API key.</p>
@@ -268,9 +279,15 @@ modlee.init(api_key=os.environ[&#39;MODLEE_API_KEY&#39;])
 </pre></div>
 </div>
 <p>Load the training data; we’ll use <code class="docutils literal notranslate"><span class="pre">torch</span></code>’s Fashion MNIST dataset.</p>
+<<<<<<< HEAD
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get Fashion MNIST, and convert from grayscale to RGB for compatibility with the model
 train_dataloader, val_dataloader = modlee.utils.get_fashion_mnist(num_output_channels=3)
 num_classes = len(train_dataloader.dataset.classes)
+=======
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get Fashion MNIST, and convert from grayscale to RGB for compatibility with the model</span>
+<span class="n">train_dataloader</span><span class="p">,</span> <span class="n">val_dataloader</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_fashion_mnist</span><span class="p">(</span><span class="n">num_output_channels</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">classes</span><span class="p">)</span>
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 </pre></div>
 </div>
 <p>Next, we build the model from a pretrained torchvision ResNet model. To
@@ -281,8 +298,20 @@ and uses the same structure for the <code class="docutils literal notranslate"><
 <code class="docutils literal notranslate"><span class="pre">validation_step</span></code>, and <code class="docutils literal notranslate"><span class="pre">configure_optimizers</span></code> functions. Under the
 hood, <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code> also contains the callbacks to document the
 experiment metafeatures.</p>
+<<<<<<< HEAD
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Use a pretrained torchvision ResNet
 classifier_model = torchvision.models.resnet18(num_classes=10)
+=======
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use a pretrained torchvision ResNet</span>
+<span class="n">classifier_model</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Subclass the ModleeModel class to enable automatic documentation</span>
+<span class="k">class</span> <span class="nc">ModleeClassifier</span><span class="p">(</span><span class="n">modlee</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">ModleeModel</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">classifier_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span>
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 
 # Subclass the ModleeModel class to enable automatic documentation
 class ModleeClassifier(modlee.model.ModleeModel):
@@ -291,6 +320,7 @@ class ModleeClassifier(modlee.model.ModleeModel):
         self.model = classifier_model
         self.loss_fn = F.cross_entropy
 
+<<<<<<< HEAD
     def forward(self, x):
         return self.model(x)
 
@@ -299,6 +329,19 @@ class ModleeClassifier(modlee.model.ModleeModel):
         y_pred = self(x)
         loss = self.loss_fn(y_pred, y_target)
         return {&quot;loss&quot;: loss}
+=======
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">loss</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="n">val_batch</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">val_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;val_loss&#39;</span><span class="p">:</span> <span class="n">val_loss</span><span class="p">}</span>
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 
     def validation_step(self, val_batch, batch_idx):
         x, y_target = val_batch
@@ -306,6 +349,7 @@ class ModleeClassifier(modlee.model.ModleeModel):
         val_loss = self.loss_fn(y_pred, y_target)
         return {&#39;val_loss&#39;: val_loss}
 
+<<<<<<< HEAD
     def configure_optimizers(self):
         optimizer = torch.optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
         return optimizer
@@ -322,6 +366,20 @@ modlee_model = ModleeClassifier()
         train_dataloaders=train_dataloader,
         val_dataloaders=val_dataloader
     )
+=======
+<span class="c1"># Create the model object</span>
+<span class="n">modlee_model</span> <span class="o">=</span> <span class="n">ModleeClassifier</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Run the training loop, just for one epoch.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">modlee_model</span><span class="p">,</span>
+        <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_dataloader</span><span class="p">,</span>
+        <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">val_dataloader</span>
+    <span class="p">)</span>
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  | Name  | Type       | Params
@@ -337,6 +395,7 @@ Epoch 0: 100%|██████████| 938/938 [00:16&lt;00:00, 57.47it/s
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">modlee</span></code> with <code class="docutils literal notranslate"><span class="pre">mlflow</span></code> underneath will document the experiment in an
 automatically generated <code class="docutils literal notranslate"><span class="pre">assets</span></code> folder.</p>
+<<<<<<< HEAD
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>last_run_path = modlee.last_run_path()
 print(f&quot;Run path: {last_run_path}&quot;)
 
@@ -348,18 +407,40 @@ os.environ[&#39;ARTIFACTS_PATH&#39;] = artifacts_path
 # Add the artifacts directory to the path,
 # so we can import the model
 sys.path.insert(0, artifacts_path)
+=======
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_run_path</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">last_run_path</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run path: </span><span class="si">{</span><span class="n">last_run_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">artifacts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">,</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">)</span>
+<span class="n">artifacts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved artifacts: </span><span class="si">{</span><span class="n">artifacts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;ARTIFACTS_PATH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">artifacts_path</span>
+<span class="c1"># Add the artifacts directory to the path,</span>
+<span class="c1"># so we can import the model</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">artifacts_path</span><span class="p">)</span>
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Run</span> <span class="n">path</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">modlee_pypi</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mi">7</span><span class="n">a47086681324d0e924f9076a1262de9</span><span class="o">/</span><span class="n">artifacts</span><span class="o">/</span><span class="n">model_graph</span><span class="o">.</span><span class="n">py</span>
 <span class="n">Saved</span> <span class="n">artifacts</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;transforms.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.py&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_size&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;cached_vars&#39;</span><span class="p">,</span> <span class="s1">&#39;stats_rep&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_1.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;lightning_logs&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_0.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;model.py&#39;</span><span class="p">,</span> <span class="s1">&#39;loss_calls.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_summary.txt&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
+<<<<<<< HEAD
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Print out the first few lines of the model
 print(&quot;Model graph:&quot;)
 !sed -n -e 1,15p $ARTIFACTS_PATH/model_graph.py
 !echo &quot;        ...&quot;
 !sed -n -e 58,68p $ARTIFACTS_PATH/model_graph.py
 !echo &quot;        ...&quot;
+=======
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print out the first few lines of the model</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model graph:&quot;</span><span class="p">)</span>
+<span class="o">!</span>sed<span class="w"> </span>-n<span class="w"> </span>-e<span class="w"> </span><span class="m">1</span>,15p<span class="w"> </span><span class="nv">$ARTIFACTS_PATH</span>/model_graph.py
+<span class="o">!</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;        ...&quot;</span>
+<span class="o">!</span>sed<span class="w"> </span>-n<span class="w"> </span>-e<span class="w"> </span><span class="m">58</span>,68p<span class="w"> </span><span class="nv">$ARTIFACTS_PATH</span>/model_graph.py
+<span class="o">!</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;        ...&quot;</span>
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Model</span> <span class="n">graph</span><span class="p">:</span>
@@ -393,9 +474,15 @@ print(&quot;Model graph:&quot;)
         <span class="o">...</span>
 </pre></div>
 </div>
+<<<<<<< HEAD
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Print the first lines of the data metafeatures
 print(&quot;Data metafeatures:&quot;)
 !head -20 $ARTIFACTS_PATH/stats_rep
+=======
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print the first lines of the data metafeatures</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data metafeatures:&quot;</span><span class="p">)</span>
+<span class="o">!</span>head<span class="w"> </span>-20<span class="w"> </span><span class="nv">$ARTIFACTS_PATH</span>/stats_rep
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span> <span class="n">metafeatures</span><span class="p">:</span>
@@ -428,16 +515,26 @@ checkpoint, we can load it directly from the cached <code class="docutils litera
 <p>We can build the model from the cached <code class="docutils literal notranslate"><span class="pre">model_graph.Model</span></code> class and
 confirm that we can pass an input through it. Note that this model’s
 weights will be uninitialized.</p>
+<<<<<<< HEAD
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Rebuilding from the object
 import model_graph
 rebuilt_model = model_graph.Model()
 
 # Set models to inference
 modlee_model.eval(); rebuilt_model.eval()
+=======
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rebuilding from the object</span>
+<span class="kn">import</span> <span class="nn">model_graph</span>
+<span class="n">rebuilt_model</span> <span class="o">=</span> <span class="n">model_graph</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
+
+<span class="c1"># Set models to inference</span>
+<span class="n">modlee_model</span><span class="o">.</span><span class="n">eval</span><span class="p">();</span> <span class="n">rebuilt_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 </pre></div>
 </div>
 <p>Next, pass an input from the train dataloader through the rebuilt
 network and check that the output shape is equal to the original data.</p>
+<<<<<<< HEAD
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get a batch from the training loader
 x, y = next(iter(train_dataloader))
 with torch.no_grad():
@@ -447,15 +544,34 @@ assert y_original.shape == y_rebuilt.shape
 
 print(f&quot;Original input and output shapes: {x.shape}, {y_original.shape}&quot;)
 print(f&quot;Output shape from module-rebuilt model: {y_rebuilt.shape}&quot;)
+=======
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get a batch from the training loader</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">))</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">y_original</span> <span class="o">=</span> <span class="n">modlee_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y_rebuilt</span> <span class="o">=</span> <span class="n">rebuilt_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">y_original</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">y_rebuilt</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Original input and output shapes: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y_original</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Output shape from module-rebuilt model: </span><span class="si">{</span><span class="n">y_rebuilt</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 </pre></div>
 </div>
 <p>Alternatively, to load the model from the last checkpoint, we can load
 it directly from the cached <code class="docutils literal notranslate"><span class="pre">model.pth</span></code>.</p>
+<<<<<<< HEAD
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Reloading from the checkpoint
 reloaded_model = torch.load(os.path.join(artifacts_path, &#39;model&#39;, &#39;data&#39;,&#39;model.pth&#39;))
 y_reloaded = reloaded_model(x)
 assert y_original.shape == y_reloaded.shape
 print(f&quot;Output shape from checkpoint-reloaded model: {y_reloaded.shape}&quot;)
+=======
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reloading from the checkpoint</span>
+<span class="n">reloaded_model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span><span class="s1">&#39;model.pth&#39;</span><span class="p">))</span>
+<span class="n">y_reloaded</span> <span class="o">=</span> <span class="n">reloaded_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">y_original</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">y_reloaded</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Output shape from checkpoint-reloaded model: </span><span class="si">{</span><span class="n">y_reloaded</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+>>>>>>> 283bd64718ec269597c32afeb3729e864023a93a
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Original</span> <span class="nb">input</span> <span class="ow">and</span> <span class="n">output</span> <span class="n">shapes</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">64</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>

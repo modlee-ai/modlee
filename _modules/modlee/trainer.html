@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>modlee.recommender &mdash; modlee 0 documentation</title>
+  <title>modlee.trainer &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=e5dd142c" />
@@ -47,39 +47,25 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">modlee</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#introduction">Introduction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../README.html#until-now-ml-r-d-has-been">Until now, ML R&amp;D has been …</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../README.html#weve-developed-a-better-way">We’ve developed a better way …</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../README.html#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#installation">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../README.html#pypi">PyPI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../README.html#source">Source</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../README.html#api-key">API key</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../README.html#features-that-require-an-api-key">Features that require an API key</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../README.html#features-that-work-without-an-api-key">Features that work without an API key</a></li>
-</ul>
-</li>
 <li class="toctree-l3"><a class="reference internal" href="../../README.html#set-api-key">Set API key</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../README.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../README.html#benchmark-with-model-recommendations">Benchmark with model recommendations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../README.html#explore-document">Explore &amp; document</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#roadmap">Roadmap</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../README.html#open-source">Open source</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../README.html#modlee-internal">Modlee internal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../README.html#document">Document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../README.html#recommend">Recommend</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#support">Support</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../README.html#community">Community</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../README.html#contributing">Contributing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../README.html#issues">Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../README.html#community">Community</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../README.html#roadmap">Roadmap</a></li>
 </ul>
 </li>
 </ul>
@@ -152,7 +138,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.trainer.html">modlee.trainer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.trainer.html">modlee.trainer module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.trainer.html#modlee.trainer.Trainer"><code class="docutils literal notranslate"><span class="pre">Trainer</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.utils.html">modlee.utils module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
@@ -179,31 +168,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/recommend.html">Benchmark with model recommendations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/document.html">Explore &amp; document</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/model_definition_guidelines.html">Model definition guidelines</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../notebooks/model_definition_guidelines.html#tldr">TLDR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../notebooks/model_definition_guidelines.html#define-example-custom-modleemodel">Define example custom ModleeModel</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/dataset_guidelines.html">Dataset guidelines</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../notebooks/dataset_guidelines.html#tldr">TLDR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../notebooks/dataset_guidelines.html#define-example-custom-dataset-objects">Define example custom dataset objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../notebooks/dataset_guidelines.html#create-dataset-and-dataloader">Create dataset and dataloader</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../notebooks/dataset_guidelines.html#modlee-guideline">MODLEE_GUIDELINE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../notebooks/dataset_guidelines.html#why">Why?</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../notebooks/dataset_guidelines.html#define-a-pytorch-dataloader">Define a PyTorch DataLoader</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../notebooks/dataset_guidelines.html#id1">MODLEE_GUIDELINE</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../notebooks/dataset_guidelines.html#modality-task-compatibility">Modality &amp; task compatibility</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/document.html">Automate experiment documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/recommend.html">Automate model recommendation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
@@ -228,7 +194,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../modlee.html">modlee</a></li>
-      <li class="breadcrumb-item active">modlee.recommender</li>
+      <li class="breadcrumb-item active">modlee.trainer</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -237,40 +203,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for modlee.recommender</h1><div class="highlight"><pre>
+  <h1>Source code for modlee.trainer</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">Recommender for models.</span>
+<span class="sd">Modlee Trainer.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">.recommender</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.image_recommender</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">mlflow</span>
+<span class="kn">from</span> <span class="nn">modlee.utils</span> <span class="kn">import</span> <span class="n">last_run_path</span>
+<span class="kn">from</span> <span class="nn">lightning</span> <span class="kn">import</span> <span class="n">pytorch</span> <span class="k">as</span> <span class="n">pl</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
-    <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(levelname)s</span><span class="s1">:</span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">,</span>
-    <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
-
-<div class="viewcode-block" id="from_modality_task">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.from_modality_task">[docs]</a>
-<span class="k">def</span> <span class="nf">from_modality_task</span><span class="p">(</span><span class="n">modality</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return a Recommender object based on the modality and task.</span>
-<span class="sd">    Currently supports:</span>
-<span class="sd">    </span>
-<span class="sd">    - image</span>
-<span class="sd">    --- classification</span>
-<span class="sd">    --- segmentation</span>
-<span class="sd">    - text</span>
-<span class="sd">    --- classification</span>
-
-<span class="sd">    :param modality: The modality as a string, e.g. &quot;image&quot;, &quot;text&quot;.</span>
-<span class="sd">    :param task: The task as a string, e.g. &quot;classification&quot;, &quot;segmentation&quot;.</span>
-<span class="sd">    :return: The RecommenderObject, if it exists.</span>
+<div class="viewcode-block" id="Trainer">
+<a class="viewcode-back" href="../../modules/modlee.trainer.html#modlee.trainer.Trainer">[docs]</a>
+<span class="k">class</span> <span class="nc">Trainer</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Trainer that directs checkpoint files to the current run directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">RecommenderObject</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">modality</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}{</span><span class="n">task</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">Recommender&quot;</span><span class="p">,</span> <span class="kc">None</span>
-    <span class="p">)</span>
-    <span class="k">assert</span> <span class="n">RecommenderObject</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;No Recommender for </span><span class="si">{</span><span class="n">modality</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">task</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="k">return</span> <span class="n">RecommenderObject</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">artifacts_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">(),</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;default_root_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;default_root_dir&#39;</span><span class="p">,</span> <span class="n">artifacts_dir</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 </pre></div>
 
