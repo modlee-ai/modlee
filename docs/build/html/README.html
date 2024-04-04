@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>modlee &mdash; modlee 0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e5dd142c" />
+
+  
+    <link rel="shortcut icon" href="_static/modlee.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8dde47fa"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="modlee package" href="modules/modlee.html" />
+    <link rel="prev" title="modlee" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            modlee
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">modlee</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pypi">PyPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#source">Source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-key">API key</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#features-that-require-an-api-key">Features that require an API key</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#features-that-work-without-an-api-key">Features that work without an API key</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#set-api-key">Set API key</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-architecture-recommendations">Model Architecture Recommendations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#supported-use-cases">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#next-steps">Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#automated-experiment-documentation">Automated Experiment Documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#supported-use-cases-1">Supported use cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#next-steps-1">Next steps</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#roadmap">Roadmap</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#open-source">Open source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modlee-internal">Modlee internal</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#support">Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#community">Community</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#contributing">Contributing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#issues">Issues</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/modlee.html">modlee package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/modlee.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.model.html">modlee.model package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model.html#module-modlee.model">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.recommender.html">modlee.recommender package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.recommender.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.recommender.html#module-modlee.recommender">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/modlee.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.client.html">modlee.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.config.html">modlee.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.converter.html">modlee.converter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.converter.html#modlee.converter.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_4"><code class="docutils literal notranslate"><span class="pre">manipulate_x_4()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_5"><code class="docutils literal notranslate"><span class="pre">manipulate_x_5()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.pad_image_channels"><code class="docutils literal notranslate"><span class="pre">pad_image_channels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_dataloader"><code class="docutils literal notranslate"><span class="pre">sample_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_channels"><code class="docutils literal notranslate"><span class="pre">sample_image_channels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_from_video"><code class="docutils literal notranslate"><span class="pre">sample_image_from_video()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.exp_loss_logger.html">modlee.exp_loss_logger module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.exp_loss_logger.html#modlee.exp_loss_logger.extract_loss_functions"><code class="docutils literal notranslate"><span class="pre">extract_loss_functions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.exp_loss_logger.html#modlee.exp_loss_logger.get_exp_loss_for_model"><code class="docutils literal notranslate"><span class="pre">get_exp_loss_for_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.loss_sweeper.html">modlee.loss_sweeper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.model_text_converter.html">modlee.model_text_converter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_text_converter.html#modlee.model_text_converter.exhaust_sequence_branch"><code class="docutils literal notranslate"><span class="pre">exhaust_sequence_branch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text"><code class="docutils literal notranslate"><span class="pre">get_code_text()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">get_code_text_for_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_text_converter.html#modlee.model_text_converter.save_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">save_code_text_for_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.modlee_image_model.html">modlee.modlee_image_model module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ImageCallback"><code class="docutils literal notranslate"><span class="pre">ImageCallback</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ModleeImageModel"><code class="docutils literal notranslate"><span class="pre">ModleeImageModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.retriever.html">modlee.retriever module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.get_cached_vars"><code class="docutils literal notranslate"><span class="pre">get_cached_vars()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.get_data_snapshot"><code class="docutils literal notranslate"><span class="pre">get_data_snapshot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.get_model"><code class="docutils literal notranslate"><span class="pre">get_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.get_runs"><code class="docutils literal notranslate"><span class="pre">get_runs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.trainer.html">modlee.trainer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.utils.html">modlee.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.quantize_dict"><code class="docutils literal notranslate"><span class="pre">quantize_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/modlee.html#module-modlee">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/recommend.html">Automate model recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/document.html">Automate experiment documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/model_definition_guidelines.html">Model definition guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/model_definition_guidelines.html#tldr">TLDR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/model_definition_guidelines.html#define-example-custom-modleemodel">Define example custom ModleeModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/model_definition_guidelines.html#modlee-guideline">MODLEE_GUIDELINE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/model_definition_guidelines.html#modality-task-compatibility">Modality &amp; task compatibility</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/dataset_guidelines.html">Dataset guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/dataset_guidelines.html#tldr">TLDR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/dataset_guidelines.html#define-example-custom-dataset-objects">Define example custom dataset objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/dataset_guidelines.html#create-dataset-and-dataloader">Create dataset and dataloader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dataset_guidelines.html#modlee-guideline">MODLEE_GUIDELINE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dataset_guidelines.html#why">Why?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/dataset_guidelines.html#define-a-pytorch-dataloader">Define a PyTorch DataLoader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dataset_guidelines.html#id1">MODLEE_GUIDELINE</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/dataset_guidelines.html#modality-task-compatibility">Modality &amp; task compatibility</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.dashboard.modlee.ai">modlee Dashboard</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">modlee</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">modlee</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/README.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="modlee">
+<h1>modlee<a class="headerlink" href="#modlee" title="Link to this heading"></a></h1>
+<p><em>Until now, ML R&amp;D has been …</em></p>
+<ul class="simple">
+<li><p><strong>Isolated</strong>: Even with community resources, critical knowledge often
+remains overlooked or neglected.</p></li>
+<li><p><strong>Tedious</strong>: Training and evaluating many models is often boring,
+slow and wastes precious time.</p></li>
+<li><p><strong>Messy</strong>: Months of model experimentation can often feel like
+navigating through an endless maze.</p></li>
+</ul>
+<p><em>We’ve developed a better way …</em> Our Python package seemlessly connects
+you to your collaborators and recommends model architectures for your
+datatasets based on the experiments shared between you. At Modlee we’ve
+built a flywheel that allows the ML R&amp;D community to work together in
+new ways and guide each other to better ML solutions.</p>
+<p>You can <strong>use Modlee’s Python package</strong> to more easily define high
+performing ML models in three simple steps using <strong>our tools</strong>:</p>
+<ul class="simple">
+<li><p><strong>1. Connect with our Automated Experiment Collaboration</strong>: Embrace
+the opportunity to collaborate effortlessly with developers &amp;
+colleagues worldwide.</p></li>
+<li><p><strong>2. Benchmark with our Model Architecture Recommendations</strong>: Train a
+high-quality benchmark ML solution faster and easier, regardless of
+your expertise.</p></li>
+<li><p><strong>3. Explore with our Automated Experiment Documentation</strong>: Improve
+upon your benchmark solution and contribute with your Modlee
+collaborators.</p></li>
+</ul>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>We have developed the package in Python 3.10. Please <a class="reference external" href="https://github.com/modlee-ai/modlee/blob/main/issues">raise an
+issue</a> if you
+experience environment errors.</p>
+<section id="pypi">
+<h3>PyPI<a class="headerlink" href="#pypi" title="Link to this heading"></a></h3>
+<p>Install <code class="docutils literal notranslate"><span class="pre">modlee</span></code> from PyPI:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>modlee
+</pre></div>
+</div>
+<p>Our package is built on top of PyTorch, PyTorch-lightning, MLFlow and
+more to ensure you can continue developing ML with frameworks that you
+are familiar with.</p>
+</section>
+<section id="source">
+<h3>Source<a class="headerlink" href="#source" title="Link to this heading"></a></h3>
+<p>Alternatively, you can build the package from the source by cloning this
+repository and installing from the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> configuration
+file:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/modlee-ai/modlee
+<span class="nb">cd</span><span class="w"> </span>modlee
+pip<span class="w"> </span>install<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+<section id="api-key">
+<h3>API key<a class="headerlink" href="#api-key" title="Link to this heading"></a></h3>
+<p>To use all of features of Modlee, you’ll need to <a class="reference external" href="https://www.dashboard.modlee.ai?signUp">Sign
+up</a> and generate an API Key:
+<em>Modlee Purple is free, always.</em></p>
+<section id="features-that-require-an-api-key">
+<h4>Features that require an API key<a class="headerlink" href="#features-that-require-an-api-key" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>Automated Experiment Collaboration - <em>Connect</em></p></li>
+<li><p>Modle Architecture Recommendations - <em>Benchmark</em></p></li>
+</ul>
+</section>
+<section id="features-that-work-without-an-api-key">
+<h4>Features that work without an API key<a class="headerlink" href="#features-that-work-without-an-api-key" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>Automated Experiment Documentation (local) - <em>Explore</em></p></li>
+</ul>
+</section>
+</section>
+<section id="set-api-key">
+<h3>Set API key<a class="headerlink" href="#set-api-key" title="Link to this heading"></a></h3>
+<p>Either save your API key to an environment variable:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">MODLEE_API_KEY</span><span class="o">=</span><span class="s2">&quot;my-api-key&quot;</span>
+</pre></div>
+</div>
+<p>Or pass directly to the <code class="docutils literal notranslate"><span class="pre">modlee.init</span></code> function (less recommended):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># your_experiment_script.py</span>
+<span class="kn">import</span> <span class="nn">modlee</span>
+<span class="n">modlee</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;my-api-key&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<section id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h3>
+<p>Modlee is built on top of <a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">PyTorch
+Lightning</a> and
+<a class="reference external" href="https://mlflow.org">MLFlow</a>. While you do not have to be an expert
+in either framework to use Modlee, we recommend being familiar with
+machine learning concepts and techniques. This documentation page does
+not cover the frameworks; we recommend referencing the
+<a class="reference external" href="https://lightning.ai/docs/overview/getting-started">Lightning</a> and
+<a class="reference external" href="https://mlflow.org/docs/latest/index.html">MLFlow</a> documentation
+directly.</p>
+</section>
+<section id="model-architecture-recommendations">
+<h3>Model Architecture Recommendations<a class="headerlink" href="#model-architecture-recommendations" title="Link to this heading"></a></h3>
+<p>Obtain a better benchmark ML solution faster and easier, by using our ML
+Model Architecture Recommendations. We recommend model architectures
+based on your data modality, task, and data meta-features, and deliver a
+trainable model within your python script, all within a few lines of
+code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import and initialize</span>
+<span class="kn">import</span> <span class="nn">modlee</span><span class="o">,</span> <span class="nn">lightning</span>
+<span class="n">modlee</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;my-api-key&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create your dataloaders</span>
+<span class="n">train_dataloader</span><span class="p">,</span> <span class="n">val_dataloader</span> <span class="o">=</span> <span class="n">your_function_to_get_dataloaders</span><span class="p">()</span>
+
+<span class="c1"># Create a recommender object and fit to the training dataloader</span>
+<span class="n">recommender</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">recommender</span><span class="o">.</span><span class="n">from_modality_task</span><span class="p">(</span>
+    <span class="n">modality</span><span class="o">=</span><span class="s1">&#39;image&#39;</span><span class="p">,</span>
+    <span class="n">task</span><span class="o">=</span><span class="s1">&#39;classification&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="c1"># Fit the recommender to the data meta-features</span>
+<span class="n">recommender</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Modlee analyzed your dataset locally and extracted meta-features, which
+are needed for us to recommend a model architecture. Learn more about
+how we do this in our
+<a class="reference external" href="https://docs.modlee.ai/modules/modlee.data_metafeatures.html">docs</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the model from the recommender and train</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">recommender</span><span class="o">.</span><span class="n">model</span>
+<span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_dataloader</span><span class="p">,</span>
+        <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">val_dataloader</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>We formatted your recommended model as a <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code>, which allows
+us to automatically document your experiment locally and share it with
+your Modlee collaborators. If you’re signed up for Modlee Purple, that’s
+the entire Modlee community! Learn more in our
+<a class="reference external" href="https://docs.modlee.ai/modules/modlee.client.html#modlee.client.ModleeClient.post_run">docs</a>.</p>
+<p>In training a Modlee recommended model, and sharing key information
+about your experiment automatically, you’ve contributed to a powerful
+flywheel that will allow the ML R&amp;D community to work together in new
+ways and guide one another to better ML solutions over time.</p>
+<section id="supported-use-cases">
+<h4>Supported use cases<a class="headerlink" href="#supported-use-cases" title="Link to this heading"></a></h4>
+<p>At the moment we support modalities of <code class="docutils literal notranslate"><span class="pre">images</span></code> and <code class="docutils literal notranslate"><span class="pre">text</span></code>, and
+tasks of <code class="docutils literal notranslate"><span class="pre">classification</span></code>, with more coming soon. Let us know which
+modalities and tasks you’d prefer on our
+<a class="reference external" href="https://discord.com/invite/m8YDbWDvrF">Discord</a> in the
+package-feature-brainstorming channel. If you’re excited about what
+we’re building, help us support your use case by contributing to our
+<a class="reference external" href="https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md">Github</a>.</p>
+</section>
+<section id="next-steps">
+<h4>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h4>
+<p>Build your own Modlee model recommendation pipeline and connect your
+data today or go through a full recommendation example in more detail:
+<a class="reference external" href="https://docs.modlee.ai/notebooks/recommend.html">Benchmark with model
+recommendations</a>.</p>
+</section>
+</section>
+<section id="automated-experiment-documentation">
+<h3>Automated Experiment Documentation<a class="headerlink" href="#automated-experiment-documentation" title="Link to this heading"></a></h3>
+<p>Using Modlee to obtain a benchmark solution is an easy way to determine
+a great starting point for future model exploration. To explore further
+define a custom <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code>, which will automatically share key
+information about your experiment and help guide your collaborators
+towards better solutions. No need to share code, repos, or set up a
+meeting.</p>
+<p>Modlee supports documentation for Lightning experiments. Guides for
+structuring PyTorch Lightning projects are available
+<a class="reference external" href="https://lightning.ai/docs/pytorch/stable/starter/converting.html">here</a>
+and
+<a class="reference external" href="https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09">here</a>.
+Once you have created your experiment script, simply follow the four
+“I’s”:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the package</span>
+<span class="kn">import</span> <span class="nn">modlee</span><span class="o">,</span> <span class="nn">lightning</span>
+
+<span class="c1"># Initialize with your API key</span>
+<span class="n">modlee</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;my-api-key&quot;</span><span class="p">)</span>
+
+<span class="c1"># Inherit the ModleeModel class for your model module,</span>
+<span class="c1"># instead of lightning.pytorch.LightningModule</span>
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">modlee</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">ModleeModel</span><span class="p">):</span>
+    <span class="c1"># Define the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">MyModel</span><span class="p">()</span>
+
+<span class="c1"># Insert the modlee context manager before training</span>
+<span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_dataloader</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>For the sake of illustration, we did not define <code class="docutils literal notranslate"><span class="pre">train_dataloader</span></code> and
+<code class="docutils literal notranslate"><span class="pre">MyModel</span></code> above. Read through our <a class="reference external" href="https://docs.modlee.ai/notebooks/dataset_guidelines.html">Dataset
+guidelines</a>
+and <a class="reference external" href="https://docs.modlee.ai/notebooks/model_definition_guidelines.html">Model definition
+guidelines</a>
+to learn our guidelines for creating custom datasets and models, to
+ensure your experiment is documented correctly.</p>
+<p>Modlee automatically documents experiment assets in a new <code class="docutils literal notranslate"><span class="pre">./mlruns/</span></code>
+directory, relative to wherever the script was called. Among the assets
+is a <code class="docutils literal notranslate"><span class="pre">model_graph.py</span></code> module that recreates the model as a graph,
+including the <code class="docutils literal notranslate"><span class="pre">forward()</span></code> pass:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span><span class="o">,</span> <span class="nn">onnx2torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">tensor</span>
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Rebuild the model from its base components. &#39;&#39;&#39;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Shape&#39;</span><span class="p">,</span> <span class="n">Shape</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;end&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Constant&#39;</span><span class="p">,</span> <span class="n">Constant</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(())</span><span class="o">*</span><span class="mi">2</span><span class="p">}))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Gather&#39;</span><span class="p">,</span> <span class="n">Gather</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;axis&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Shape_1&#39;</span><span class="p">,</span> <span class="n">Shape</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;end&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Constant_1&#39;</span><span class="p">,</span> <span class="n">Constant</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(())</span><span class="o">*</span><span class="mi">3</span><span class="p">}))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Gather_1&#39;</span><span class="p">,</span> <span class="n">Gather</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;axis&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;Conv&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="o">**</span><span class="p">{</span>
+            <span class="s1">&#39;in_channels&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span>
+            <span class="s1">&#39;out_channels&#39;</span><span class="p">:</span><span class="mi">64</span><span class="p">,</span>
+            <span class="s1">&#39;kernel_size&#39;</span><span class="p">:(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+            <span class="s1">&#39;stride&#39;</span><span class="p">:(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="s1">&#39;padding&#39;</span><span class="p">:(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+            <span class="s1">&#39;dilation&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="s1">&#39;groups&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+            <span class="s1">&#39;padding_mode&#39;</span><span class="p">:</span><span class="s1">&#39;zeros&#39;</span><span class="p">}))</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Forward pass an input through the network &#39;&#39;&#39;</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Shape</span><span class="p">(</span><span class="n">input_1</span><span class="p">)</span>
+        <span class="n">constant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Constant</span><span class="p">()</span>
+        <span class="n">gather</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Gather</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">constant</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
+        <span class="n">shape_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Shape_1</span><span class="p">(</span><span class="n">input_1</span><span class="p">)</span>
+        <span class="n">constant_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Constant_1</span><span class="p">()</span>
+        <span class="n">gather_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Gather_1</span><span class="p">(</span><span class="n">shape_1</span><span class="p">,</span> <span class="n">constant_1</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
+        <span class="n">conv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Conv</span><span class="p">(</span><span class="n">input_1</span><span class="p">)</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<section id="supported-use-cases-1">
+<span id="id1"></span><h4>Supported use cases<a class="headerlink" href="#supported-use-cases-1" title="Link to this heading"></a></h4>
+<p>At the moment we support modalities of <code class="docutils literal notranslate"><span class="pre">images</span></code> and <code class="docutils literal notranslate"><span class="pre">text</span></code>, and
+tasks of <code class="docutils literal notranslate"><span class="pre">classification</span></code>, with more coming soon. As with
+recommendation, use <a class="reference external" href="https://discord.com/invite/m8YDbWDvrF">Discord</a>
+to let us know which modalities and tasks you’d prefer or help make
+these changes on our
+<a class="reference external" href="https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md">Github</a>.</p>
+</section>
+<section id="next-steps-1">
+<span id="id2"></span><h4>Next steps<a class="headerlink" href="#next-steps-1" title="Link to this heading"></a></h4>
+<p>Start implementing Modlee to continue your own model experimentation or
+go through a full documentation example in more detail to learn more:
+<a class="reference external" href="https://docs.modlee.ai/notebooks/document.html">Explore and
+document</a>.</p>
+</section>
+</section>
+</section>
+<section id="roadmap">
+<h2>Roadmap<a class="headerlink" href="#roadmap" title="Link to this heading"></a></h2>
+<section id="open-source">
+<h3>Open source<a class="headerlink" href="#open-source" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>☐ Add more data modalities and ML tasks: a great way to</p></li>
+<li><p>☐ Client-side features needed by the community:</p></li>
+</ul>
+</section>
+<section id="modlee-internal">
+<h3>Modlee internal<a class="headerlink" href="#modlee-internal" title="Link to this heading"></a></h3>
+<p>We’re working hard on exciting new features to help you build better
+together! - <em>(Modlee Silver and Gold)</em></p>
+<ul class="simple">
+<li><p>☐ Improvements to model architecture recommendations</p></li>
+<li><p>☐ Control how you’re connected to Modlee</p></li>
+<li><p>☐ Query and search your own and collaborators experiments backed up
+to Modlee</p></li>
+<li><p>☐ Personalized model architecture recommendations, based on your own
+and collaborators experiments</p></li>
+</ul>
+</section>
+</section>
+<section id="support">
+<h2>Support<a class="headerlink" href="#support" title="Link to this heading"></a></h2>
+<section id="community">
+<h3>Community<a class="headerlink" href="#community" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://discord.com/invite/m8YDbWDvrF">Join our Discord server</a> to
+discuss and contribute with other Modlee users.</p>
+</section>
+<section id="contributing">
+<h3>Contributing<a class="headerlink" href="#contributing" title="Link to this heading"></a></h3>
+<p>Modlee is designed and maintained by developers passionate about AI
+innovation, infrastructure and meta learning. For those like us, we
+welcome contributions of any kind: bug reports, feature requests,
+tutorials, etc.</p>
+<p>Before submitting a pull request, <a class="reference external" href="https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md">please read the contribution
+guidelines</a>.</p>
+</section>
+<section id="issues">
+<h3>Issues<a class="headerlink" href="#issues" title="Link to this heading"></a></h3>
+<p>If you encounter errors, <a class="reference external" href="https://github.com/modlee-ai/modlee/issues">please raise an issue in this
+repository</a>.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="modlee" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules/modlee.html" class="btn btn-neutral float-right" title="modlee package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Modlee, Inc.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

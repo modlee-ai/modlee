@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "modlee"
+version = "0.0.1-17"
+authors = [{ name = "modlee", email = "michael@modlee.ai" }]
+description = "modlee package"
+readme = "docs/README.md"
+license = {file = "docs/LICENSE"}
+requires-python = ">=3.10,<3.12"
+
+dependencies = [
+    "lightning==2.0.7",
+    "mlflow>=2.6.0",
+    "numpy==1.26.4",
+    "pydantic==1.10.12",
+    "setuptools>=68.0.0",
+    "torch>=2.0.1",
+    "torchmetrics>=1.0.0",
+    "torchvision>=0.15.2",
+    "onnx==1.14.1",
+    "torchsummary==1.5.1",
+    "modlee-onnx2torch==1.5.12",
+    "modlee-onnx_graphsurgeon==0.3.27",
+    "pymfe==0.4.2",
+    "pytest==8.1.1",
+    "nbsphinx", "sphinx-rtd-theme",
+]
+
+[project.urls]
+"Homepage" = "https://www.modlee.ai"
+"Source" = "https://www.github.com/modlee-ai/modlee"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -v -k 'not (training or deprecated or server)'"
+markers = ["training", "deprecated", "server"]
+
+[tool.black]
+verbose = true
+
+[tool.pylint]
+output-format = "colorized"
+recursive = true
+reports = true
+source-roots = ["./src/modlee"]
+load-plugins = ["pylint.extensions.docparams"]
+
+[tool.pylint.parameter_documentation]
+accept-no-param-doc = false
+accept-no-raise-doc = false
+accept-no-return-doc = false
+accept-no-yields-doc = false
+# Possible choices: ['sphinx', 'epytext', 'google', 'numpy', 'default']
+default-docstring-type = "google"

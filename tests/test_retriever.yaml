@@ -1,0 +1,7 @@
+mlruns_paths:
+- /Users/modlee/projects/modlee_pypi/examples/mlruns
+run_paths:
+# - /Users/modlee/projects/modlee_api/user_storage/local/c8f9de9b94464c358ec410258653a062
+- /Users/modlee/projects/modlee_pypi/examples/mlruns/0/fabe6fce2ba54d20a4942b64e7618595
+fail_run_paths:
+- /Users/modlee/projects/modlee_pypi/examples/mlruns/0/1942a15973c943a485e04738de628628
