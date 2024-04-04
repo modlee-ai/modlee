@@ -155,7 +155,7 @@ In training a Modlee recommended model, and sharing key information about your e
 
 At the moment we support modalities of `images` & `text`, and tasks of `classification`, with more coming soon. Let us know which modalities and tasks you'd prefer on our [Discord](https://discord.com/invite/m8YDbWDvrF) in the package-feature-brainstorming channel. If you're excited about what we're building, help us support your use case by contributing to our [Github](https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md).
 
-To go through a full recommendation example in more detail, check out [Benchmark with model recommendations](https://docs.modlee.ai/notebooks/recommend.html)
+Build your own Modlee model recommendation pipeline and connect your data today or go through a full recommendation example in more detail: [Benchmark with model recommendations](https://docs.modlee.ai/notebooks/recommend.html).
 
 ### Explore & document
 
@@ -234,7 +234,7 @@ class Model(torch.nn.Module):
 At the moment we support modalities of `images` & `text`, and tasks of `classification`, with more coming soon. As with recommendation, use [Discord](https://discord.com/invite/m8YDbWDvrF) to let us know which modalities and tasks you'd prefer or help make these changes on our [Github](https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md).
 
 
-To go through a full documentation example in more detail, check out [Explore & document](https://docs.modlee.ai/notebooks/document.html)
+Start implementing Modlee to continue your own model experimentation or go through a full documentation example in more detail to learn more: [Explore & document](https://docs.modlee.ai/notebooks/document.html).
 
 
 ## Roadmap
