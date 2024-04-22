@@ -20,14 +20,11 @@ logging.basicConfig(
     format='%(levelname)s:%(message)s',
     level=logging.INFO)
 
+from .api_config import ModleeAPIConfig
+
 import mlflow
 from mlflow import start_run, last_active_run
 
-from .client import ModleeClient
-API_KEY = os.environ.get("MODLEE_API_KEY", 'None')
-if API_KEY is None:
-    logging.warning(f"Modlee API key is not set, functionality will be limited.")
-modlee_client = ModleeClient(api_key=API_KEY)
 from .retriever import *
 from .utils import save_run, last_run_path, save_run_as_json
 from .model_text_converter import get_code_text, get_code_text_for_model
@@ -78,8 +75,7 @@ def suppress_stdout_stderr():
         with redirect_stderr(fnull) as err, redirect_stdout(fnull) as out:
             yield (err, out)
 
-# Try to get an API key
-def init(run_path=None, api_key=API_KEY):
+def init(run_path=None, api_key=None):
     """
     Initialize package.
     Typically called at the beginning of a machine learning pipeline.
@@ -100,22 +96,13 @@ def auth(api_key=None):
 
     :param api_key: The user's API key, if it is not available as an environment variable.
     """
-    # if api_key provided, reset modlee_client and reload API-locked modules
+    config = ModleeAPIConfig()
     if api_key:
-        global modlee_client, get_code_text, \
-            get_code_text_for_model, data_metafeatures, \
-                model_text_converter, exp_loss_logger, \
-                    save_run, save_run_as_json, API_KEY
-        API_KEY = api_key
-        os.environ['MODLEE_API_KEY'] = API_KEY
-        modlee_client = ModleeClient(api_key=api_key)
-        for _module in [data_metafeatures, model_text_converter, exp_loss_logger]:
-            importlib.reload(_module)
-        if model_text_converter.module_available:
-            from modlee.model_text_converter import (
-                get_code_text,
-                get_code_text_for_model,
-            )
+        config.set_api_key(api_key)
+    else:
+        config.ensure_api_key()
+        #logging.warning("API key not provided. Functionality will be limited.")
+
 
 def set_run_path(run_path):
     """
