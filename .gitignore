@@ -18,6 +18,8 @@ examples/tmp
 *.onnx
 *.zip
 *.sqlite*
+*.data*
+.data*
 
 # Assets that get cached
 ./model.py
