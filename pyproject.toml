@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "modlee"
-version = "0.0.1-17"
+version = "0.0.1-18"
 authors = [{ name = "modlee", email = "michael@modlee.ai" }]
 description = "modlee package"
 readme = "docs/README.md"
 license = {file = "docs/LICENSE"}
-requires-python = ">=3.10,<3.12"
+requires-python = ">=3.10,<3.12,!=3.12.*"
 
 dependencies = [
     "lightning==2.0.7",
@@ -20,6 +20,9 @@ dependencies = [
     "torch>=2.0.1",
     "torchmetrics>=1.0.0",
     "torchvision>=0.15.2",
+    "torchtext",
+    "portalocker",
+    "torchdata",
     "onnx==1.14.1",
     "torchsummary==1.5.1",
     "modlee-onnx2torch==1.5.12",
