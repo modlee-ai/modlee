@@ -10,6 +10,13 @@ from torch.utils.data import DataLoader
 from torchvision import models as tvm
 from torchtext import models as ttm
 
+IMAGE_MODELS = [
+    tvm.resnet18(weights="DEFAULT"),
+    tvm.resnet18(),
+    tvm.resnet50(),
+    tvm.resnet152(),
+    tvm.googlenet(),
+]
 
 IMAGE_MODELS = [
     tvm.resnet18(weights="DEFAULT"),
