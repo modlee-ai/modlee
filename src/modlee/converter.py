@@ -32,6 +32,7 @@ from torch import tensor
 """
 
 
+
 class Converter(object):
     """ 
     Base object that holds conversion functions.
@@ -968,3 +969,15 @@ class Model(torch.nn.Module):
         :return: The string with types propery cast.
         """
         return re.sub("(Gather.*), (.*)\)", "\\1, \\2.type(torch.int64))", input_str)
+
+# class FunctionalConverter(Converter):
+
+    # def __init__(self):
+    #     super().__init__()
+    # converter_functions = [func for func in dir(super.__init__()) if '2' in func]
+    # for converter_function in converter_functions:
+        # setattr(self,
+        #     converter_function,
+        #     staticmethod(getattr(super(), converter_function)))
+    # locals().update({func:staticmethod(getattr(Converter, func)) for func in dir(Converter) if '2' in func})
+    # pass

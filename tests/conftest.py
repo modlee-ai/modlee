@@ -24,3 +24,13 @@ def dataloaders(batch_size=64):
         shuffle=True,
     )
     return training_loader, test_loader
+
+def _check_has_metafeatures(mf, metafeature_types): 
+
+    features = {}
+    for metafeature_type in metafeature_types:
+        assert hasattr(mf, metafeature_type), f"{mf} has no attribute {metafeature_type}"
+        assert isinstance(getattr(mf, metafeature_type), dict), f"{mf} {metafeature_type} is not dictionary"
+        # Assert that the attribute is a flat dictionary
+        assert not any([isinstance(v,dict) for v in getattr(mf, metafeature_type).values()]), f"{mf} {metafeature_type} not a flat dictionary"
+        features.update(getattr(mf, metafeature_type))

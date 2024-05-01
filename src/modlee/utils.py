@@ -103,7 +103,7 @@ class image_loaders:
                 torchvision.transforms.Grayscale(num_output_channels=3),
                 torchvision.transforms.ToTensor(),
             ]))
-        print(args, kwargs)
+        # print(args, kwargs)
         return get_dataloader(
             getattr(torchvision.datasets,
                 dataset_module)(
