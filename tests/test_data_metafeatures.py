@@ -1,4 +1,5 @@
 import pytest
+from . import conftest
 import os, re
 
 import torch
@@ -46,16 +47,18 @@ class TestDataMetafeatures:
         self._check_has_metafeatures(text_mf)
 
     def _check_has_metafeatures(self, mf): 
+
         metafeature_types = [
             'embedding',
             'mfe',
             'properties'
         ]
-        features = {}
-        for metafeature_type in metafeature_types:
-            assert hasattr(mf, metafeature_type), f"{mf} has no attribute {metafeature_type}"
-            assert isinstance(getattr(mf, metafeature_type), dict), f"{mf} {metafeature_type} is not dictionary"
-            # Assert that the attribute is a flat dictionary
-            assert not any([isinstance(v,dict) for v in getattr(mf, metafeature_type).values()]), f"{mf} {metafeature_type} not a flat dictionary"
-            features.update(getattr(mf, metafeature_type))
+        conftest._check_has_metafeatures(metafeature_types)
+        # features = {}
+        # for metafeature_type in metafeature_types:
+        #     assert hasattr(mf, metafeature_type), f"{mf} has no attribute {metafeature_type}"
+        #     assert isinstance(getattr(mf, metafeature_type), dict), f"{mf} {metafeature_type} is not dictionary"
+        #     # Assert that the attribute is a flat dictionary
+        #     assert not any([isinstance(v,dict) for v in getattr(mf, metafeature_type).values()]), f"{mf} {metafeature_type} not a flat dictionary"
+        #     features.update(getattr(mf, metafeature_type))
            
