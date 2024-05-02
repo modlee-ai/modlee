@@ -49,8 +49,9 @@ class TestModelMetafeatures:
         image_mf = mmf.ImageModelMetafeatures(
             image_model
         )
-        breakpoint()
+        # breakpoint()
         self._check_has_metafeatures(image_mf)
+        return image_mf
         pass
     
     def test_text_model_metafeatures(self):
