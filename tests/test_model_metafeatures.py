@@ -36,6 +36,7 @@ TEXT_MODELS = [
     # ttm.XLMR_LARGE_ENCODER()
 ]
 # breakpoint()
+@pytest.mark.experimental
 class TestModelMetafeatures:
     
     def test_model_metafeatures(self):

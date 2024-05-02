@@ -1,7 +1,7 @@
 """ 
 Test modlee.converter
 """
-import pytest, re
+import pytest, re, pathlib
 import lightning
 import numpy as np
 import torch, torchvision, random
@@ -337,3 +337,29 @@ def test_conversion_pipeline():
     # convert from onnx graph to torch model
     # onnx_text = converter.torch_model2onnx_text
     # convert
+
+def test_convert_onnx116():
+    """
+    Test converting ONNX graph/text exported with ONNX 1.16 (lowest version compatible with python3.12)
+    """
+    ASSETS_FOLDER = pathlib.Path(os.path.dirname(__file__)) / 'assets'
+    # Working ONNX text, created with Python 3.11 and ONNX 1.14
+    with open(str(ASSETS_FOLDER / 'onnx_model_114.txt'), 'r') as _file:
+        onnx_114 = _file.read()
+
+    with open(str(ASSETS_FOLDER / 'onnx_model_116.txt'), 'r') as _file:
+        onnx_116 = _file.read()
+    
+    onnx_converted = converter.convert_onnx116(onnx_116)
+    
+    onnx_114_lines, onnx_116_lines = onnx_114.splitlines(), onnx_converted.splitlines()
+    graph_start_index = 0
+    while onnx_114_lines[graph_start_index].split()[0] != "main_graph":
+        graph_start_index += 1
+    
+    # Get just the graph parts
+    graph_114 = '\n'.join(onnx_114_lines[graph_start_index:])
+    graph_116 = '\n'.join(onnx_116_lines[graph_start_index:])
+    assert graph_114 == graph_116, f"Text converted from ONNX 1.16 did not convert properly, not equal to ONNX 1.14 model"
+    onnx_graph = converter.onnx_text2onnx_graph('\n'.join(onnx_116_lines))
+    pass

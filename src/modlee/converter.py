@@ -13,13 +13,14 @@ The ONNX formats include:
 - Text, the textual description of the graph that is portable and can be rebuilt into a graph
 """
 from importlib.machinery import SourceFileLoader
-import os, inspect
+import os, inspect, sys
 import numpy as np
 import torchsummary
 import torch
 import onnx2torch
 import onnx_graphsurgeon as gs
 import onnx
+ONNX_MINOR_VERSION = int(onnx.__version__.split(".")[1])
 import re
 from functools import partial
 
@@ -30,7 +31,6 @@ MODEL_CODE_HEADER = """
 import torch, onnx2torch
 from torch import tensor
 """
-
 
 
 class Converter(object):
@@ -82,9 +82,10 @@ class Converter(object):
         torch_model.train()
         # input_dummy.requires_grad = True
         # The model we load will have no parameters initialized
-        onnx_parameterless_model = onnx.load(tmp_onnx_path)
+        onnx_model = onnx.load(tmp_onnx_path)
+        if ONNX_MINOR_VERSION <= 15:
         # Initialize the parameterless model
-        onnx_model = self.onnx_parameterless2onnx(onnx_parameterless_model)
+            onnx_model = self.onnx_parameterless2onnx(onnx_model)
         return onnx_model
 
     torch2onnx = torch_model2onnx_graph
@@ -242,6 +243,9 @@ class Converter(object):
         :param onnx_text: The ONNX Text
         :return onnx_graph: The ONNX Graph
         """
+        # If on Python 3.12, likely using a newer ONNX
+        if ONNX_MINOR_VERSION > 15:
+            onnx_text = self.convert_onnx116(onnx_text)
         return onnx.parser.parse_model(onnx_text)
 
     onnx_text2onnx = onnx_text2onnx_graph
@@ -970,14 +974,21 @@ class Model(torch.nn.Module):
         """
         return re.sub("(Gather.*), (.*)\)", "\\1, \\2.type(torch.int64))", input_str)
 
-# class FunctionalConverter(Converter):
+    def convert_onnx116(self, onnx_text):
+        """
+        Convert ONNX graph text generated with ONNX 1.16, which requires modifications
+        to be parseable by onnx.parser.
 
-    # def __init__(self):
-    #     super().__init__()
-    # converter_functions = [func for func in dir(super.__init__()) if '2' in func]
-    # for converter_function in converter_functions:
-        # setattr(self,
-        #     converter_function,
-        #     staticmethod(getattr(super(), converter_function)))
-    # locals().update({func:staticmethod(getattr(Converter, func)) for func in dir(Converter) if '2' in func})
-    # pass
+        :param onnx_text: The ONNX graph text to parse
+        :return: _description_
+        """
+        return onnx_text.\
+            replace('_ ', ' ').\
+            replace(' ints ',' ').\
+            replace(' int ',' ').\
+            replace(' float ',' ').\
+            replace(' tensor ',' ')
+        ret = ""
+        # Convert layer by layer
+            # Remove type hints e.g.
+        return ret
