@@ -9,7 +9,7 @@ authors = [{ name = "modlee", email = "michael@modlee.ai" }]
 description = "modlee package"
 readme = "docs/README.md"
 license = {file = "docs/LICENSE"}
-requires-python = ">=3.10,<3.12,!=3.12.*"
+requires-python = ">=3.10"
 
 dependencies = [
     "lightning==2.0.7",
@@ -23,7 +23,8 @@ dependencies = [
     "torchtext",
     "portalocker",
     "torchdata",
-    "onnx==1.14.1",
+    "spacy",
+    "onnx>=1.14.1",
     "torchsummary==1.5.1",
     "modlee-onnx2torch==1.5.12",
     "modlee-onnx_graphsurgeon==0.3.27",
@@ -38,8 +39,8 @@ dependencies = [
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -v -k 'not (training or deprecated or server)'"
-markers = ["training", "deprecated", "server"]
+addopts = "-ra -v -k 'not (training or deprecated or server or experimental)'"
+markers = ["training", "deprecated", "server", "experimental"]
 
 [tool.black]
 verbose = true

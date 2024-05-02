@@ -25,7 +25,7 @@ import pandas as pd
 # df = pd.DataFrame()
 df = None
 
-
+@pytest.mark.experimental
 class TestDataMetafeatures:
     
     @pytest.mark.parametrize('get_dataloader_fn', IMAGE_LOADERS.values())
