@@ -1,5 +1,6 @@
 from abc import abstractmethod
 
+import numpy as np
 import pandas as pd
 
 import torch
@@ -96,13 +97,26 @@ class ModelMetafeatures:
     @staticmethod
     def get_layer_counts(df: pd.DataFrame):
         """
-        Get the counts of each layer type
+        Get the counts of each layer type in a dataframe
 
         :param df: _description_
         """
         count_dict = dict(df['operation'].value_counts())
         count_dict = {f"{k}_count":v for k,v in count_dict.items()}
         return count_dict
+
+    @staticmethod
+    def get_parameter_statistics(df: pd.DataFrame | pd.Series):
+        """
+        Get the statistics of a single-column dataframe or series
+
+        :param df: _description_
+        """
+        statistics = ['min', 'max', 'mean', 'median', 'std']
+        return {
+            statistic:getattr(np, statistic)(df) for statistic in statistics
+        }
+        pass
 
 class ImageModelMetafeatures(ModelMetafeatures):
     pass
