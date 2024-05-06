@@ -244,9 +244,19 @@ class Converter(object):
         :param onnx_graph: The ONNX Graph object.
         :return torch_model: The Torch Model.
         """
+        # Handle conversion for newer ONNX versions
+        # TODO - try to remove the try/except block
         if ONNX_MINOR_VERSION >= 16:
-            onnx_graph = self.onnx_parameterless2onnx(onnx_graph)
-        return onnx2torch.convert(onnx_graph, *args, **kwargs)
+            try:
+                onnx_text = self.onnx_graph2onnx_text(onnx_graph)
+                onnx_graph = self.onnx_text2onnx_graph(onnx_text)
+                return onnx2torch.convert(onnx_graph, *args, **kwargs)
+            except:
+                _onnx_graph = self.onnx_parameterless2onnx(onnx_graph)
+                return onnx2torch.convert(_onnx_graph, *args, **kwargs)  
+        else:   
+            return onnx2torch.convert(onnx_graph, *args, **kwargs)  
+
     onnx2torch = onnx_graph2torch_model
 
     def onnx_graph2onnx_text(self, onnx_graph, remove_identity=False):
@@ -870,8 +880,8 @@ class Model(torch.nn.Module):
         Convert ONNX graph text generated with ONNX 1.16, which requires modifications
         to be parseable by onnx.parser.
 
-        :param onnx_text: The ONNX graph text to parse
-        :return: _description_
+        :param onnx_text: The ONNX graph text to convert.
+        :return: The ONNX graph text converted to a format parseable by onnx.parser.
         """
         return onnx_text.\
             replace('_ ', ' ').\
@@ -879,7 +889,3 @@ class Model(torch.nn.Module):
             replace(' int ',' ').\
             replace(' float ',' ').\
             replace(' tensor ',' ')
-        ret = ""
-        # Convert layer by layer
-            # Remove type hints e.g.
-        return ret
