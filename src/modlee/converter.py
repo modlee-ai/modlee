@@ -277,6 +277,8 @@ class Converter(object):
         :param onnx_graph: The ONNX Graph object.
         :return torch_model: The Torch Model.
         """
+        if ONNX_MINOR_VERSION >= 16:
+            onnx_graph = self.onnx_parameterless2onnx(onnx_graph)
         return onnx2torch.convert(onnx_graph, *args, **kwargs)
 
     onnx2torch = onnx_graph2torch_model
