@@ -277,9 +277,18 @@ class Converter(object):
         :param onnx_graph: The ONNX Graph object.
         :return torch_model: The Torch Model.
         """
+        # Handle conversion for newer ONNX versions
+        # TODO - try to remove the try/except block
         if ONNX_MINOR_VERSION >= 16:
-            onnx_graph = self.onnx_parameterless2onnx(onnx_graph)
-        return onnx2torch.convert(onnx_graph, *args, **kwargs)
+            try:
+                onnx_text = self.onnx_graph2onnx_text(onnx_graph)
+                onnx_graph = self.onnx_text2onnx_graph(onnx_text)
+                return onnx2torch.convert(onnx_graph, *args, **kwargs)
+            except:
+                _onnx_graph = self.onnx_parameterless2onnx(onnx_graph)
+                return onnx2torch.convert(_onnx_graph, *args, **kwargs)  
+        else:   
+            return onnx2torch.convert(onnx_graph, *args, **kwargs)  
 
     onnx2torch = onnx_graph2torch_model
 
@@ -302,7 +311,6 @@ class Converter(object):
             return s
 
         onnx_str = onnx.printer.to_text(onnx_graph)
-        # breakpoint()
         onnx_str = onnx_str.split("\n")
         output_var = "None"
         n_lines = len(onnx_str)
@@ -720,10 +728,8 @@ class Converter(object):
         """
         attrs_to_skip = ["bias"]
         attr_kwargs = dict(inspect.signature(model_attr.__init__).parameters)
-        # breakpoint()
         attr_params = {}
 
-        # if 'initializer' in model_attr: breakpoint()
         for attr_key, attr_val in attr_kwargs.items():
             if attr_key in attrs_to_skip:
                 continue
@@ -740,8 +746,6 @@ class Converter(object):
                     )
                 attr_params.update({attr_key: model_attr_value})
         if hasattr(model_attr, "state_dict"):
-            # print(f'adding state dict for {model_attr}')
-            # breakpoint()
             model_state_dict = model_attr.state_dict()
             # Do this only for initializers because the output file could get large
             model_state_dict = {
@@ -749,7 +753,6 @@ class Converter(object):
                 for k, v in model_state_dict.items()
                 if "initial" in k
             }
-            # if len(model_state_dict) > 10: breakpoint()
             if len(model_state_dict) > 0:
                 attr_params.update(model_state_dict)
                 # attr_params.update({'state_dict':model_state_dict})
@@ -788,7 +791,6 @@ class Converter(object):
 
         for model_attr_name, model_attr in model_attrs.items():
             attr_params = self.get_params_for_attr(model_attr)
-            # if 'initializer' in model_attr_name: breakpoint()
             init_attrs.append(
                 (model_attr_name, self.get_type_string(model_attr), attr_params)
             )
@@ -981,8 +983,8 @@ class Model(torch.nn.Module):
         Convert ONNX graph text generated with ONNX 1.16, which requires modifications
         to be parseable by onnx.parser.
 
-        :param onnx_text: The ONNX graph text to parse
-        :return: _description_
+        :param onnx_text: The ONNX graph text to convert.
+        :return: The ONNX graph text converted to a format parseable by onnx.parser.
         """
         return onnx_text.\
             replace('_ ', ' ').\
@@ -990,7 +992,3 @@ class Model(torch.nn.Module):
             replace(' int ',' ').\
             replace(' float ',' ').\
             replace(' tensor ',' ')
-        ret = ""
-        # Convert layer by layer
-            # Remove type hints e.g.
-        return ret

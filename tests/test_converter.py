@@ -2,6 +2,7 @@
 Test modlee.converter
 """
 import pytest, re, pathlib
+from .conftest import IMAGE_MODELS
 import lightning
 import numpy as np
 import torch, torchvision, random
@@ -135,9 +136,7 @@ OUTPUTS = [
 def test_large_tensor_to_init(input_value: torch.Tensor, actual_output_str: str):
     fn_output = converter.tensor2init_code(input_value)
     local_dict = {}
-    # breakpoint()
     exec(f"fn_output_array = {fn_output}", globals(), local_dict)
-    # breakpoint()
     assert torch.all((input_value - local_dict["fn_output_array"]) < 0.0001)
 
     # assert torch.all(torch.eq(local_dict['actual_output_array'], local_dict['fn_output_array']))
@@ -222,7 +221,6 @@ init_state_dict = "{'onnx_initializer_0':torch.randn(torch.Size([32128, 768])),'
 
 
 def test_init_initializer():
-    # breakpoint()
     exec(f"actual_state_dict = {init_state_dict}", globals(), locals())
     # state_keys = re.findall("\'([a-zA-Z0-9_]*)\'",init_state_dict)
     # state_values = re.findall("(torch[a-zA-Z0-9_\[\]\(\)\.,]*)[}\']",init_state_dict.replace(' ',''))
@@ -230,7 +228,6 @@ def test_init_initializer():
     output_str = converter.get_init_module_state_dict_str(
         "init_tensor", init_state_dict, indent_level=0
     )
-    # breakpoint()
     exec(f"{output_str}", globals(), locals())
     init_tensor = locals()["init_tensor"]
     # output_tensor = locals()['output_tensor']
@@ -267,11 +264,9 @@ def _test_converted_onnx_model(onnx_file_path: str, dataloaders):
 
     # create dataloader
     train_loader, val_loader = dataloaders
-    # breakpoint()
     # from .conftest import dataloaders
     # train_loader, val_loader = dataloaders()
     # train_loader, val_loader = get_dataloaders()
-    # breakpoint()
 
     # train for some epochs
     with modlee.start_run() as run:
@@ -304,18 +299,19 @@ def _test_converted_onnx_model(onnx_file_path: str, dataloaders):
         np.array(train_losses_np).reshape(-1, 1),
     )
     assert lin_reg.coef_[0][0] < 1
-    breakpoint()
 
     pass
 
-
-def test_conversion_pipeline():
+@pytest.mark.parametrize("torch_model", IMAGE_MODELS)
+def test_conversion_pipeline(torch_model):
+# def test_conversion_pipeline():
     """ Test converting across several representations, from Torch graphs to ONNX text
     """
     # load a basic resnet model
-    torch_model = torchvision.models.resnet18(weights="DEFAULT")
+    # torch_model = torchvision.models.resnet18(weights="DEFAULT")
     # torch model <-> onnx graph
     onnx_graph = converter.torch_model2onnx_graph(torch_model)
+    # breakpoint()
     torch_model = converter.onnx_graph2torch_model(onnx_graph)
 
     # onnx graph <-> onnx text
@@ -332,7 +328,6 @@ def test_conversion_pipeline():
     input_dummy = torch.randn((batch_size, 3, 30, 30))
     output_dummy = torch_model(input_dummy)
     assert output_dummy.shape[0] == batch_size
-    # breakpoint()
 
     # convert from onnx graph to torch model
     # onnx_text = converter.torch_model2onnx_text
