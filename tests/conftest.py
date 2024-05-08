@@ -6,6 +6,9 @@ from torchvision import datasets as tv_datasets
 from torchvision import models as tvm
 from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader
+from torchvision import models as tvm
+from torchtext import models as ttm
+
 
 IMAGE_MODELS = [
     tvm.resnet18(weights="DEFAULT"),
@@ -14,6 +17,29 @@ IMAGE_MODELS = [
     tvm.resnet152(),
     tvm.googlenet(),
 ]
+IMAGE_SEGMENTATION_MODELS = [
+    tvm.segmentation.fcn_resnet50(),
+    tvm.segmentation.fcn_resnet101(),
+    # tvm.segmentation.lraspp(),
+    tvm.segmentation.lraspp_mobilenet_v3_large(),
+    tvm.segmentation.deeplabv3_resnet50(),
+    tvm.segmentation.deeplabv3_resnet101(),
+]
+TEXT_MODELS = [
+    # ttm.FLAN_T5_BASE,
+    # ttm.FLAN_T5_BASE_ENCODER,
+    # ttm.FLAN_T5_BASE_GENERATION,
+    ttm.ROBERTA_BASE_ENCODER,
+    ttm.ROBERTA_DISTILLED_ENCODER,
+    # ttm.T5_BASE,
+    # ttm.T5_BASE_ENCODER,
+    # ttm.T5_SMALL,
+    # ttm.T5_SMALL_ENCODER,
+    # ttm.T5_SMALL_GENERATION,
+    ttm.XLMR_BASE_ENCODER,
+    # ttm.XLMR_LARGE_ENCODER, # Too large for M2 MacBook Air?
+]
+
 
 @pytest.fixture()
 def dataloaders(batch_size=64):

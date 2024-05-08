@@ -1,6 +1,7 @@
 import os
 import importlib
-
+from . import *
+test = 'test'
 # Get the current directory
 current_dir = os.path.dirname(__file__)
 

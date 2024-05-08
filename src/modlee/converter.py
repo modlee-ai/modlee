@@ -32,6 +32,12 @@ import torch, onnx2torch
 from torch import tensor
 """
 
+TEXT_INPUT_DUMMY = [
+    'hello world',
+    'the quick brown fox jumps over the lazy dog'*10,
+    'the mitochondria is the powerhouse of the cell',
+    ]
+
 
 class Converter(object):
     """ 
@@ -279,11 +285,16 @@ class Converter(object):
         """
         # Handle conversion for newer ONNX versions
         # TODO - try to remove the try/except block
+        try:
+            return onnx2torch.convert(onnx_graph, *args, **kwargs)
+        except:
+            pass
+
         if ONNX_MINOR_VERSION >= 16:
             try:
                 onnx_text = self.onnx_graph2onnx_text(onnx_graph)
-                onnx_graph = self.onnx_text2onnx_graph(onnx_text)
-                return onnx2torch.convert(onnx_graph, *args, **kwargs)
+                _onnx_graph = self.onnx_text2onnx_graph(onnx_text)
+                return onnx2torch.convert(_onnx_graph, *args, **kwargs)
             except:
                 _onnx_graph = self.onnx_parameterless2onnx(onnx_graph)
                 return onnx2torch.convert(_onnx_graph, *args, **kwargs)  
@@ -550,6 +561,7 @@ class Converter(object):
                     continue
             # print(value_shape, type(value_shape))
 
+            
             tensor_value.to_constant(
                 values=tensor_init_fn(
                     size=value_shape,
@@ -988,7 +1000,8 @@ class Model(torch.nn.Module):
         """
         return onnx_text.\
             replace('_ ', ' ').\
-            replace(' ints ',' ').\
-            replace(' int ',' ').\
-            replace(' float ',' ').\
-            replace(' tensor ',' ')
+            replace(' ints =',' =').\
+            replace(' int =',' =').\
+            replace(' float =',' =').\
+            replace(' tensor ',' ').\
+            replace(' string =', ' =')
