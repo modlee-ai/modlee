@@ -5,17 +5,18 @@ import pandas as pd
 
 import torch
 import modlee
+from modlee.utils import get_model_size
 converter = modlee.converter.Converter()
 
 class ModelMetafeatures:
-    @abstractmethod
     def __init__(self, torch_model: torch.nn.Module, *args, **kwargs):
         #  Should work with any of the available model representations
         # Torch model/text, ONNX graph/text
         # Store these different representations
         self.torch_model = torch_model
         self.onnx_graph = converter.torch_model2onnx_graph(
-                    self.torch_model
+                    self.torch_model,
+                    *args, **kwargs,
                 )
         self.onnx_text = converter.onnx_graph2onnx_text(self.onnx_graph)
         self.onnx_graph = converter.init_onnx_tensors(
@@ -25,6 +26,7 @@ class ModelMetafeatures:
         )
         
         self.dataframe = self.get_graph_dataframe(self.onnx_graph)
+        self.properties = self.get_properties()
         pass
     
     @abstractmethod
@@ -40,12 +42,16 @@ class ModelMetafeatures:
         # - Input / output shapes
         # Reference the ModelMFE (metafeature extractor): https://github.com/modlee-ai/recommender/blob/a86eb715c0f8771bbcb20a624eb20bc6f07d6c2b/data_prep/model_mfe.py#L117
         # In that prior implementation, used the ONNX text representation, and regexes
-        pass
 
-    def get_size(self, *args, **kwargs):
-        """
-        Get the size of the model in bytes
-        """
+        return {
+            "size": get_model_size(self.torch_model, as_MB=False),
+            "output_shape": self.get_output_shape(),
+            **self.get_parameter_statistics(self.dataframe),
+            **self.get_layer_counts(self.dataframe),
+        }
+
+    @abstractmethod
+    def get_output_shape(self):
         pass
     
     @staticmethod
@@ -95,7 +101,8 @@ class ModelMetafeatures:
         pass
 
     @staticmethod
-    def get_layer_counts(df: pd.DataFrame):
+    def get_layer_counts(df: pd.DataFrame ):
+    # def get_layer_counts(df=dataframe):
         """
         Get the counts of each layer type in a dataframe
 
@@ -113,13 +120,47 @@ class ModelMetafeatures:
         :param df: _description_
         """
         statistics = ['min', 'max', 'mean', 'median', 'std']
-        return {
-            statistic:getattr(np, statistic)(df) for statistic in statistics
-        }
+    # if isinstance(df, pd.Series) or df.shape[1]==1:
+    #     return {
+    #         statistic:getattr(np, statistic)(df) for statistic in statistics
+    #     }
+    # else:
+        if isinstance(df, pd.DataFrame):
+            df_float = df.select_dtypes(include='float')
+        else:
+            df_float = pd.DataFrame(df)
+        ret = {}
+        for col in df_float.columns:
+            for statistic in statistics:
+                ret.update({
+                    f"{col}_{statistic}":getattr(np, statistic)(df_float[col])
+                })
+                
+        return ret
         pass
 
 class ImageModelMetafeatures(ModelMetafeatures):
+    def get_output_shape(self,):
+        output = self.torch_model(torch.randn([1,3,300,300]))
+        return np.array(output.shape[1:])
     pass
 
+class ImageSegmentationModelMetafeatures(ImageModelMetafeatures):
+    def get_output_shape(self):
+        # breakpoint()
+        output = self.torch_model(torch.randn([10,3,300,300]))
+        # breakpoint()
+        if isinstance(output, dict):
+            output = output['out']
+        return np.array(output.shape[1:])
+
+
 class TextModelMetafeatures(ModelMetafeatures):
-    pass
+    def __init__(self, torch_model, *args, **kwargs):
+        input_dummy = torch_model.transform()(modlee.converter.TEXT_INPUT_DUMMY)
+        torch_model = torch_model.get_model()
+ 
+        super().__init__(
+            torch_model=torch_model,
+            input_dummy=input_dummy,
+            *args, **kwargs)
