@@ -15,9 +15,8 @@ class ModelMetafeatures:
         # Store these different representations
         self.torch_model = torch_model
         self.onnx_graph = converter.torch_model2onnx_graph(
-                    self.torch_model,
-                    *args, **kwargs,
-                )
+            self.torch_model
+        )
         self.onnx_text = converter.onnx_graph2onnx_text(self.onnx_graph)
         self.onnx_graph = converter.init_onnx_tensors(
             converter.init_onnx_params(
@@ -98,7 +97,6 @@ class ModelMetafeatures:
             df[[f"{list_col}_{i}" for i in range(n_cols)]] = list_df
         df = df.drop(columns=list_cols)
         return df
-        pass
 
     @staticmethod
     def get_layer_counts(df: pd.DataFrame ):
