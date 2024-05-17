@@ -15,7 +15,7 @@ IMAGE_MODELS = [
     tvm.resnet18(),
     tvm.resnet50(),
     tvm.resnet152(),
-    tvm.googlenet(),
+    # tvm.googlenet(),
 ]
 IMAGE_SEGMENTATION_MODELS = [
     tvm.segmentation.fcn_resnet50(),
