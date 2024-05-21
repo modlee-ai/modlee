@@ -6,6 +6,9 @@ from .conftest import IMAGE_MODELS, IMAGE_SEGMENTATION_MODELS, TEXT_MODELS
 import lightning
 import numpy as np
 import torch, torchvision, random, onnx2torch
+import networkx as nx
+import karateclub
+g2v = karateclub.graph2vec.Graph2Vec()
 import modlee
 from modlee.converter import Converter
 from modlee.model import RecommendedModel
@@ -367,3 +370,20 @@ def test_convert_onnx116():
     assert graph_114 == graph_116, f"Text converted from ONNX 1.16 did not convert properly, not equal to ONNX 1.14 model"
     onnx_graph = converter.onnx_text2onnx_graph('\n'.join(onnx_116_lines))
     pass
+
+@pytest.mark.parametrize('torch_model', IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
+def test_onnx_graph2onnx_nx(torch_model):
+    # Torch model -> ONNX graph -> ONNX NetworkX
+    onnx_graph = converter.torch_model2onnx_graph(torch_model)
+    onnx_nx = converter.onnx_graph2onnx_nx(onnx_graph)
+    assert isinstance(onnx_nx, nx.graph.Graph)
+    assert len(onnx_nx.nodes())>0
+
+    # Test indexing the graph
+    onnx_nx = converter.index_nx(onnx_nx)
+    assert all([isinstance(node[0], int) for node in onnx_nx.nodes(data=True)])
+    # Test indexing by calling fit to graph2vec,
+    g2v.fit([onnx_nx])
+
+
+    breakpoint()

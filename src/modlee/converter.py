@@ -12,14 +12,17 @@ The ONNX formats include:
 - Graph, the network represented as a graph with layers as nodes
 - Text, the textual description of the graph that is portable and can be rebuilt into a graph
 """
+import copy
 from importlib.machinery import SourceFileLoader
 import os, inspect, sys
 import numpy as np
+import networkx as nx
 import torchsummary
 import torch
 import onnx2torch
 import onnx_graphsurgeon as gs
 import onnx
+from onnx.tools import net_drawer
 ONNX_MINOR_VERSION = int(onnx.__version__.split(".")[1])
 import re
 from functools import partial
@@ -415,6 +418,46 @@ class Converter(object):
 
     onnx2onnx_text = onnx_graph2onnx_text
 
+    def filter_node(self, x):
+        return 'onnx::' in x \
+            or 'Identity' in x \
+            or 'fc.' in x
+            
+    def prune_onnx_nx(self, onnx_nx):
+        nodes_to_prune = [k for k in onnx_nx.nodes.keys() if self.filter_node(k)]
+        # help(onnx_nx.remove_node)
+        onnx_nx_layers_only = copy.deepcopy(onnx_nx)
+        for node in nodes_to_prune:
+            onnx_nx_layers_only.remove_node(node)
+        return onnx_nx_layers_only
+            
+    def onnx_graph2onnx_nx(self, onnx_graph, prune=True):
+        onnx_pydot = onnx.tools.net_drawer.GetPydotGraph(
+            self.onnx_parameterless2onnx(onnx_graph).graph)
+        onnx_pydot.set_name("onnx_graph")
+        onnx_nx = nx.nx_pydot.from_pydot(onnx_pydot)
+        if prune:
+            onnx_nx = self.prune_onnx_nx(onnx_nx)
+        return onnx_nx
+
+    def index_nx(self, onnx_nx):
+        """
+        Index an ONNX NetworkX graph, by replacing the node labels with their indices.
+
+        :param onnx_nx: _description_
+        :return: _description_
+        """
+        relabel_dict = {}
+        for n,node in enumerate(onnx_nx.nodes(data=True)):
+            relabel_dict.update({node[0]:n})
+        for k,v in relabel_dict.items():
+            nx.relabel_nodes(
+                onnx_nx,
+                {k:v},
+                copy=False,
+            )
+        return onnx_nx
+        
     def remove_identity(self, onnx_text):
         """
         Remove identity layers in ONNX Text.
