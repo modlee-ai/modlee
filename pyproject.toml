@@ -39,6 +39,9 @@ dependencies = [
 "Homepage" = "https://www.modlee.ai"
 "Source" = "https://www.github.com/modlee-ai/modlee"
 
+[tool.setuptools.package-data]
+modlee = ["*.pkl"]
+
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -v -k 'not (training or deprecated or server or experimental)'"

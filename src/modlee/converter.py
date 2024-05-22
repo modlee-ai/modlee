@@ -380,11 +380,24 @@ class Converter(object):
     onnx2onnx_text = onnx_graph2onnx_text
 
     def filter_node(self, x):
+        """
+        Returns whether this is a non-layer node to filter out
+        Checks for substrings in the node name that indicate that it is not a layer.
+
+        :param x: The NetworkX node to check.
+        :return: Whether the node contains a substring indicating that it should be filtered as a non-layer.
+        """
         return 'onnx::' in x \
             or 'Identity' in x \
             or 'fc.' in x
             
     def prune_onnx_nx(self, onnx_nx):
+        """
+        Prune an ONNX NetworkX graph to just the layer nodes.
+
+        :param onnx_nx: The ONNX NetworkX graph to prune.
+        :return: The pruned ONNX NetworkX graph.
+        """
         nodes_to_prune = [k for k in onnx_nx.nodes.keys() if self.filter_node(k)]
         # help(onnx_nx.remove_node)
         onnx_nx_layers_only = copy.deepcopy(onnx_nx)
@@ -393,6 +406,13 @@ class Converter(object):
         return onnx_nx_layers_only
             
     def onnx_graph2onnx_nx(self, onnx_graph, prune=True):
+        """
+        Convert an ONNX graph to ONNX NetworkX.
+
+        :param onnx_graph: The ONNX graph.
+        :param prune: Whether to prune the NetworkX to just layer nodes, defaults to True
+        :return: The ONNX NetworkX graph.
+        """
         onnx_pydot = onnx.tools.net_drawer.GetPydotGraph(
             self.onnx_parameterless2onnx(onnx_graph).graph)
         onnx_pydot.set_name("onnx_graph")
@@ -405,8 +425,8 @@ class Converter(object):
         """
         Index an ONNX NetworkX graph, by replacing the node labels with their indices.
 
-        :param onnx_nx: _description_
-        :return: _description_
+        :param onnx_nx: The ONNX NetworkX to index.
+        :return: The ONNX NetworkX ,indexed. The function modifies the graph in-place and the return value should be unnecessary.
         """
         relabel_dict = {}
         for n,node in enumerate(onnx_nx.nodes(data=True)):

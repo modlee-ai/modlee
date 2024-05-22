@@ -2,11 +2,16 @@ from abc import abstractmethod
 
 import numpy as np
 import pandas as pd
+import karateclub
+import pickle
 
 import torch
 import modlee
+from modlee.config import G2V_PKL
 from modlee.utils import get_model_size
 converter = modlee.converter.Converter()
+
+# g2v = ModelEncoder.from()
 
 class ModelMetafeatures:
     def __init__(self, torch_model: torch.nn.Module, *args, **kwargs):
@@ -23,16 +28,20 @@ class ModelMetafeatures:
                 self.onnx_graph
             )
         )
+        self.onnx_nx = converter.index_nx(
+            converter.onnx_graph2onnx_nx(
+                self.onnx_graph
+        ))
         
         self.dataframe = self.get_graph_dataframe(self.onnx_graph)
         self.properties = self.get_properties()
+        self.embedding = self.get_embedding()
         pass
     
-    @abstractmethod
     def get_embedding(self, *args, **kwargs):
-        pass
+        g2v = ModelEncoder.from_pkl(G2V_PKL)
+        return g2v.infer(self.onnx_nx)
     
-    @abstractmethod
     def get_properties(self, *args, **kwargs):
         # These are: 
         # - Layer counts
@@ -137,6 +146,7 @@ class ModelMetafeatures:
         return ret
         pass
 
+
 class ImageModelMetafeatures(ModelMetafeatures):
     def get_output_shape(self,):
         output = self.torch_model(torch.randn([1,3,300,300]))
@@ -162,3 +172,19 @@ class TextModelMetafeatures(ModelMetafeatures):
             torch_model=torch_model,
             input_dummy=input_dummy,
             *args, **kwargs)
+
+            
+class ModelEncoder(karateclub.graph2vec.Graph2Vec):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def save(self, path):
+        with open(path, 'wb') as _file:
+            _file.write(pickle.dumps(self))
+            
+    @classmethod
+    def from_pkl(cls, path):
+        # with open(path, 'rb') as _file:
+            # g2v = pickle.loads(_file.read(path))
+            # return pickle.load(_file)
+        return cls
