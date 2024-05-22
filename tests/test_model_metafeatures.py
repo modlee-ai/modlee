@@ -43,7 +43,7 @@ class TestModelMetafeatures:
             image_model
         )
         # breakpoint() 
-        # self._check_has_metafeatures(image_mf)
+        self._check_has_metafeatures(image_mf)
         return image_mf
         pass
     
@@ -53,7 +53,7 @@ class TestModelMetafeatures:
             image_model
         )
         # breakpoint() 
-        # self._check_has_metafeatures(image_mf)
+        self._check_has_metafeatures(image_mf)
         return image_mf
         pass
     
@@ -69,7 +69,7 @@ class TestModelMetafeatures:
         conftest._check_has_metafeatures(
             mf,
             metafeature_types={
-                # 'embedding', 
+                'embedding', 
                 'properties',        
             }
         )
