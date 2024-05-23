@@ -40,7 +40,7 @@ dependencies = [
 "Source" = "https://www.github.com/modlee-ai/modlee"
 
 [tool.setuptools.package-data]
-modlee = ["*.pkl"]
+modlee = ["*.pkl","*.csv"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
