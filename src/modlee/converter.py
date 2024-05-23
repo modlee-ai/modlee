@@ -452,8 +452,10 @@ class Converter(object):
         :param prune: Whether to prune the NetworkX to just layer nodes, defaults to True
         :return: The ONNX NetworkX graph.
         """
+        if ONNX_MINOR_VERSION<=15:
+            onnx_graph = self.onnx_parameterless2onnx(onnx_graph)
         onnx_pydot = onnx.tools.net_drawer.GetPydotGraph(
-            self.onnx_parameterless2onnx(onnx_graph).graph)
+            onnx_graph.graph)
         onnx_pydot.set_name("onnx_graph")
         onnx_nx = nx.nx_pydot.from_pydot(onnx_pydot)
         if prune:

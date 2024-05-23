@@ -22,16 +22,17 @@ class ModelMetafeatures:
         self.onnx_graph = converter.torch_model2onnx_graph(
             self.torch_model
         )
+        # Must calculate NetworkX before initializing tensors
+        self.onnx_nx = converter.index_nx(
+            converter.onnx_graph2onnx_nx(
+                self.onnx_graph
+        ))
         self.onnx_text = converter.onnx_graph2onnx_text(self.onnx_graph)
         self.onnx_graph = converter.init_onnx_tensors(
             converter.init_onnx_params(
                 self.onnx_graph
             )
         )
-        self.onnx_nx = converter.index_nx(
-            converter.onnx_graph2onnx_nx(
-                self.onnx_graph
-        ))
         
         self.dataframe = self.get_graph_dataframe(self.onnx_graph)
         self.properties = self.get_properties()
@@ -40,7 +41,9 @@ class ModelMetafeatures:
     
     def get_embedding(self, *args, **kwargs):
         g2v = ModelEncoder.from_pkl(G2V_PKL)
-        return g2v.infer(self.onnx_nx)
+        embd = g2v.infer([self.onnx_nx])[0]
+        embd_dict = {f"embd_{i}":e for i,e in enumerate(embd)}
+        return embd_dict
     
     def get_properties(self, *args, **kwargs):
         # These are: 
@@ -184,7 +187,7 @@ class ModelEncoder(karateclub.graph2vec.Graph2Vec):
             
     @classmethod
     def from_pkl(cls, path):
-        # with open(path, 'rb') as _file:
+        with open(path, 'rb') as _file:
             # g2v = pickle.loads(_file.read(path))
-            # return pickle.load(_file)
-        return cls
+            return pickle.load(_file)
+        # return cls
