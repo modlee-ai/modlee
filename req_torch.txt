@@ -1,8 +1,4 @@
---find-links=https://data.pyg.org/whl/torch-{torch.__version__}.html
-torch-scatter 
-torch-sparse
-torch-cluster
-git+https://github.com/pyg-team/pytorch_geometric.git
-transformers 
-pydot
-torch_geometric
+--find-links https://data.pyg.org/whl/torch-2.3.0+cu121.html
+torch-scatter --find-links https://data.pyg.org/whl/torch-2.3.0+cu121.html
+torch-sparse --find-links https://data.pyg.org/whl/torch-2.3.0+cu121.html
+torch-cluster --find-links https://data.pyg.org/whl/torch-2.3.0+cu121.html
