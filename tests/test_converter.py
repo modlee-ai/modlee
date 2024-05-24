@@ -305,10 +305,10 @@ def _test_converted_onnx_model(onnx_file_path: str, dataloaders):
 
     pass
 
-# @pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS+TEXT_MODELS)
+@pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS+TEXT_MODELS)
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS)
 # @pytest.mark.parametrize("torch_model", IMAGE_SEGMENTATION_MODELS)
-@pytest.mark.parametrize("torch_model", TEXT_MODELS)
+# @pytest.mark.parametrize("torch_model", TEXT_MODELS)
 def test_conversion_pipeline(torch_model):
 # def test_conversion_pipeline():
     """ Test converting across several representations, from Torch graphs to ONNX text
@@ -317,10 +317,10 @@ def test_conversion_pipeline(torch_model):
     # torch_model = torchvision.models.resnet18(weights="DEFAULT")
     # torch model <-> onnx graph
     # breakpoint()
-    input_dummy = torch.Tensor(torch_model.transform()(modlee.converter.TEXT_INPUT_DUMMY))
+    # input_dummy = torch.Tensor(torch_model.transform()(modlee.converter.TEXT_INPUT_DUMMY))
     torch_model = torch_model.get_model()
     # breakpoint()
-    # input_dummy = torch.randn([1,3,300,300])
+    input_dummy = torch.randn([1,3,300,300])
     onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy)
     onnx2torch.convert(onnx_graph)
     # breakpoint()
@@ -384,6 +384,3 @@ def test_onnx_graph2onnx_nx(torch_model):
     assert all([isinstance(node[0], int) for node in onnx_nx.nodes(data=True)])
     # Test indexing by calling fit to graph2vec,
     g2v.fit([onnx_nx])
-
-
-    breakpoint()
