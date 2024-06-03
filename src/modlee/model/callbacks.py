@@ -2,25 +2,35 @@ from functools import partial
 import pickle
 from typing import Any, Optional
 import numpy as np
+
 import os
 import pandas as pd
 import torch
 from torch.utils.data import Dataset
+
 import lightning.pytorch as pl
 from lightning.pytorch import LightningModule, Trainer
 from lightning.pytorch.callbacks import Callback
 from lightning.pytorch.utilities.types import STEP_OUTPUT
+
 import modlee
-from modlee import data_metafeatures, save_run, get_code_text_for_model, save_run_as_json
-from modlee import logging, utils as modlee_utils, exp_loss_logger
+from modlee import data_metafeatures, save_run, get_code_text_for_model, save_run_as_json, logging
+from modlee import \
+    utils as modlee_utils, exp_loss_logger, \
+    model_metafeatures as mmf, \
+    data_metafeatures as dmf
 from modlee.converter import Converter
+
+modlee_converter = Converter()
+
 from modlee.config import TMP_DIR, MLRUNS_DIR
+
 import mlflow
 import shutil
 
-modlee_converter = Converter()
 base_lightning_module = LightningModule()
 base_lm_keys = list(LightningModule.__dict__.keys())
+
 
 class ModleeCallback(Callback):
     """ 
@@ -39,25 +49,34 @@ class ModleeCallback(Callback):
         """
         _dataloader = trainer.train_dataloader
         _batch = next(iter(_dataloader))
+        # NOTE - how can we generalize to different input schemes?
+        # e.g. siamese network with multiple inputs
         # Right now, this makes the assumption that that only the network
         # uses only the first element
+        # NOTE - maybe using inspect.signature(pl_module.forward)
+        # could help generalize to different forward() calls
         if type(_batch) in [list, tuple]:
             _input = _batch[0]
         else:
             _input = _batch
+            # print(_batch[0].shape)
+            # _batch = torch.Tensor(_batch[0])
         try:
             _input = _input.to(pl_module.device)
         except:
             pass
         return _input
 
+
 class PushServerCallback(Callback):
     """
     Callback to push run assets to the server at the end of training.
     """
     def on_fit_end(self, trainer: Trainer, pl_module: LightningModule) -> None:
+        #save_run(pl_module.run_path)
         save_run_as_json(pl_module.run_path)
         return super().on_fit_end(trainer, pl_module)
+
 
 class LogParamsCallback(Callback):
     """ 
@@ -66,6 +85,7 @@ class LogParamsCallback(Callback):
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
         mlflow.log_param("batch_size", trainer.train_dataloader.batch_size)
         return super().on_train_start(trainer, pl_module)
+
 
 class LogCodeTextCallback(ModleeCallback):
     """ 
@@ -81,11 +101,14 @@ class LogCodeTextCallback(ModleeCallback):
         self.kwargs_cache = kwargs_to_cache
 
     def setup(self, trainer: Trainer, pl_module: LightningModule, stage: str) -> None:
+        # log the code text as a python file
+        # self._log_code_text(trainer=trainer, pl_module=pl_module)
         return super().setup(trainer, pl_module, stage)
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
         logging.info("Logging model as code (model_graph.py) and text (model_graph.txt)...")
         self._log_code_text(trainer=trainer, pl_module=pl_module)
+
         return super().on_train_start(trainer, pl_module)
 
     def _log_code_text(self, trainer: Trainer, pl_module: LightningModule):
@@ -95,8 +118,10 @@ class LogCodeTextCallback(ModleeCallback):
         :param trainer: The trainer that contains the dataloader.
         :param pl_module: The model as a module.
         """
+        # _get_code_text_for_model = getattr(modlee, "get_code_text_for_model", None)
         _get_code_text_for_model = get_code_text_for_model
         code_text = ""
+        # return
         if _get_code_text_for_model is not None:
             # ==== METHOD 1 ====
             # Save model as code using parsing
@@ -118,6 +143,7 @@ class LogCodeTextCallback(ModleeCallback):
             # Save model size
             model_size = modlee_utils.get_model_size(pl_module, as_MB=False)
             mlflow.log_text(str(model_size), "model_size")
+
         else:
             logging.warning(
                 "Could not access model-text converter, \
@@ -128,30 +154,54 @@ class LogCodeTextCallback(ModleeCallback):
             _extract_loss_functions = getattr(
                 exp_loss_logger, "extract_loss_functions", None
             )
+
             if _extract_loss_functions is not None:
                 loss_calls = exp_loss_logger.extract_loss_functions(code_text)
+                # logging.warning(loss_calls)
+                # mlflow.log_text(code_text, 'model.py')
                 if len(loss_calls) > 0:
 
                     loss_calls_str = str.join("\n", loss_calls)
                     mlflow.log_text(loss_calls_str, "loss_calls.txt")
                 else:
                     pass
+                    # logging.warning("Could not record loss functions explicitly, \
+                    #                 check for usage of custom loss definitions")
             else:
                 logging.warning(
                     "exp_loss_logger has no attribute extract_loss_functions"
                 )
+
         else:
             logging.warning(
                 "Could not access exp_loss_logger, \
                     not logging but continuing experiment"
             )
 
+
+class ModelMetafeaturesCallback(ModleeCallback):
+    def __init__(self, ModelMetafeatures=mmf.ModelMetafeatures,):
+        super().__init__()
+        self.ModelMetafeatures = ModelMetafeatures
+        
+    def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
+        logging.info("Logging model metafeatures...")
+        super().on_train_start(trainer, pl_module)
+        # TODO - need to select the Metafeature module based on modality, task,
+        # Same with data metafeatures
+        model_mf = self.ModelMetafeatures(
+            pl_module
+        )
+        mlflow.log_dict({**model_mf.properties, **model_mf.embedding}, 'model_metafeatures')
+        
+
 class LogONNXCallback(ModleeCallback):
-    """ 
+    """
     Callback for logging the model in its ONNX representations.
     Deprecated, will be combined with LogCodeTextCallback.
     """
     def setup(self, trainer: Trainer, pl_module: LightningModule, stage: str) -> None:
+        # self._log_onnx(trainer, pl_module)
         return super().setup(trainer, pl_module, stage)
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
@@ -159,6 +209,10 @@ class LogONNXCallback(ModleeCallback):
         return super().on_fit_start(trainer, pl_module)
 
     def _log_onnx(self, trainer, pl_module):
+
+        # train_input,_ = next(iter(trainer.train_dataloader))
+        # print(train_input)
+        # NOTE assumes that model input is the first output of a batch
         modlee_utils.safe_mkdir(TMP_DIR)
         data_filename = f"{TMP_DIR}/model.onnx"
 
@@ -167,12 +221,15 @@ class LogONNXCallback(ModleeCallback):
         model_output = pl_module.forward(_input)
         torch.onnx.export(
             pl_module,
+            # train_input,
             _input,
             data_filename,
             export_params=False,
         )
         mlflow.log_artifact(data_filename)
+
         pass
+
 
 class LogOutputCallback(Callback):
     """ 
@@ -219,11 +276,12 @@ class LogOutputCallback(Callback):
             self.outputs[phase].append(outputs)
         return super().on_train_batch_end(trainer, pl_module, outputs, batch, batch_idx)
 
+
 class DataMetafeaturesCallback(ModleeCallback):
     """ 
     Callback to calculate and log data meta-features.
     """
-    def __init__(self, data_snapshot_size=1e7, DataMetafeatures=None, *args, **kwargs):
+    def __init__(self, data_snapshot_size=1e7, DataMetafeatures=dmf.DataMetafeatures, *args, **kwargs):
         """ 
         Constructor for the data metafeature callback.
         
@@ -233,14 +291,19 @@ class DataMetafeaturesCallback(ModleeCallback):
         Callback.__init__(self, *args, **kwargs)
         super().__init__()
         self.data_snapshot_size = data_snapshot_size
-        if not DataMetafeatures:
-            DataMetafeatures = getattr(data_metafeatures, "DataMetafeatures", None)
         self.DataMetafeatures = DataMetafeatures
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
+        # data, targets = self._get_data_targets(trainer)
+        # data_snapshots = self._get_snapshots_batched(trainer.train_dataloader)
+        # self._save_snapshots_batched(data_snapshots)
+        # log the data statistics
+        # self._log_data_metafeatures(data, targets)
         logging.info("Logging data metafeatures...")
         self._log_data_metafeatures_dataloader(trainer.train_dataloader)
+
         self._log_output_size(trainer, pl_module)
+
         return super().on_train_start(trainer, pl_module)
 
     def _log_data_metafeatures(self, data, targets=[]) -> None:
@@ -269,8 +332,13 @@ class DataMetafeaturesCallback(ModleeCallback):
         :param dataloader: The dataloader.
         """
         if self.DataMetafeatures:
-            data_metafeatures = self.DataMetafeatures(dataloader)
+            # TODO - use data batch and model to get output size
+            data_mf = data_metafeatures = self.DataMetafeatures(dataloader)
             mlflow.log_dict(data_metafeatures._serializable_stats_rep, "stats_rep")
+            mlflow.log_dict({
+                **data_mf.properties,
+                **data_mf.embedding,
+                **data_mf.mfe}, "data_metafeatures")
         else:
             logging.warning("Cannot log data statistics, could not access from server")
 
@@ -281,6 +349,7 @@ class DataMetafeaturesCallback(ModleeCallback):
         :param trainer: The trainer.
         :param pl_module: The model as a module.
         """
+    
         _input = self.get_input(trainer, pl_module)
 
         try:
@@ -318,6 +387,7 @@ class DataMetafeaturesCallback(ModleeCallback):
             targets = _dataset.targets
             self._save_snapshot(targets, "targets", max_len=len(data))
         return data, targets
+
 
     def _save_snapshot(self, data, snapshot_name="data", max_len=None):
         """ 
@@ -388,6 +458,7 @@ class DataMetafeaturesCallback(ModleeCallback):
         batch_ctr = 0
         while np.sum([ds.nbytes for ds in data_snapshots]) < data_snapshot_size:
             _batch = next(iter(dataloader))
+
             # If there are multiple elements in the batch,
             # append to respective subbranches
             if type(_batch) in [list, tuple]:
@@ -463,13 +534,16 @@ class LogModelCheckpointCallback(pl.callbacks.ModelCheckpoint):
         :param step: The step ('train' or 'val') that triggered the checkpoint.
         """
         checkpoint_path = self.best_model_path
+
         # Log the checkpoint file to MLflow
         if checkpoint_path:
             mlflow.log_artifact(checkpoint_path, artifact_path=f'checkpoints/{step}')
             # Get the current epoch and metric value
             current_epoch = trainer.current_epoch
             metric_value = trainer.callback_metrics.get(self.monitor)
+
             # Ensure the metric value is a float
+        
             if not isinstance(metric_value, float):
                 metric_value = float(metric_value)
             # Log the epoch and metric value
@@ -477,5 +551,6 @@ class LogModelCheckpointCallback(pl.callbacks.ModelCheckpoint):
 
     def on_fit_end(self, trainer, pl_module):
         super().on_fit_end(trainer, pl_module)
+        
         #Cleaning up temp_directory
         shutil.rmtree(self.temp_dir_path)

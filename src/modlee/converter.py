@@ -27,6 +27,9 @@ ONNX_MINOR_VERSION = int(onnx.__version__.split(".")[1])
 import re
 from functools import partial
 
+# TODO - cache models for "longer" pipelines
+# e.g. torch2code do not need to convert to onnx every time
+
 MODEL_CODE_HEADER = """
 import torch, onnx2torch
 from torch import tensor
@@ -44,6 +47,8 @@ class Converter(object):
     Base object that holds conversion functions.
     """
 
+    # def torch2onnx(self, torch_model, input_dummy=torch.randn([10, 3, 300, 300]), tmp_onnx_path="./tmp_model.onnx"):
+    # From Torch
     def torch_model2onnx_graph(
         self, torch_model, input_dummy=None, tmp_onnx_path="./.tmp_model.onnx", **kwargs
     ):
@@ -61,6 +66,7 @@ class Converter(object):
         if input_dummy is None:
             input_dummy = torch.randn([10, 3, 300, 300])
         input_dummy.requires_grad = False
+        input_dummy = input_dummy.to(device=torch_model.device)
         with torch.no_grad():
             for param in torch_model.parameters():
                 param.requires_grad = False
@@ -73,7 +79,9 @@ class Converter(object):
                 input_names=["input_1"],
                 output_names=["gemm_1"],
                 dynamic_axes={
+                    # "input_1": {0: "batch_size"},
                     "input_1": [0],
+                    # "gemm_1": {0: "batch_size"},
                     "gemm_1": [0],
                 },
                 **kwargs,
@@ -82,12 +90,14 @@ class Converter(object):
             for param in torch_model.parameters():
                 param.requires_grad = True
         torch_model.train()
+        # input_dummy.requires_grad = True
         # The model we load will have no parameters initialized
         onnx_model = onnx.load(tmp_onnx_path)
         if ONNX_MINOR_VERSION <= 15:
         # Initialize the parameterless model
             onnx_model = self.onnx_parameterless2onnx(onnx_model)
         return onnx_model
+
     torch2onnx = torch_model2onnx_graph
 
     def torch_model2torch_code(self, torch_model, *args, **kwargs):
@@ -101,6 +111,7 @@ class Converter(object):
         onnx_text = self.onnx2onnx_text(onnx_model)
         model_code = self.onnx_text2code(onnx_text)
         return model_code
+
     torch2code = torch_model2torch_code
 
     def torch_model2onnx_text(self, torch_model, *args, **kwargs):
@@ -111,6 +122,7 @@ class Converter(object):
         :return onnx_text: The ONNX Text
         """
         return self.onnx2onnx_text(self.torch2onnx(torch_model, *args, **kwargs))
+
     torch2onnx_text = torch_model2onnx_text
 
     def torch_code2torch_model(
@@ -130,6 +142,7 @@ class Converter(object):
         # Hold the text in a temporary file
         self.save_code(torch_code, tmp_model_path)
         return self.torch_file2torch_model(tmp_model_path)
+
     code2torch = torch_code2torch_model
 
     def torch_file2torch_model(self, torch_file):
@@ -143,6 +156,7 @@ class Converter(object):
             fullname="model_module", path=torch_file
         ).load_module()
         return torch_module.Model()
+
     code_path2torch = torch_file2torch_model
 
     def torch_model2torch_model(self, torch_model, *args, **kwargs):
@@ -156,9 +170,11 @@ class Converter(object):
         """
         return self.code2torch(self.torch2code(torch_model, *args, **kwargs))
 
+    # This function name may be more informative
     torch2torch = torch_model2torch_model
     torch2torch_graph = torch_model2torch_model
 
+    # From ONNX
     def onnx_file2torch_model(self, onnx_file, *args, **kwargs):
         """
         Convert an ONNX File to a Torch Model.
@@ -167,6 +183,7 @@ class Converter(object):
         :return torch_model: The Torch Model.
         """
         return onnx2torch.convert(onnx_file, *args, **kwargs)
+
     onnx_path2torch = onnx_file2torch_model
 
     def onnx_file2onnx_graph(self, onnx_file):
@@ -178,6 +195,7 @@ class Converter(object):
         """
         with open(onnx_file, "r") as _file:
             return self.onnx_text2onnx_graph(_file.read())
+
     onnx_text_file2onnx = onnx_file2onnx_graph
 
     def onnx_file2torch_model(self, onnx_file):
@@ -187,9 +205,11 @@ class Converter(object):
         :param onnx_file: The ONNX File as a path
         :return torch_model: The Torch Model
         """
+        # onnx_model = self.onnx_text_file2onnx(onnx_file_path)
         with open(onnx_file, "r") as _file:
             onnx_text = _file.read()
         return self.onnx_text2torch(onnx_text)
+
     onnx_file2torch = onnx_file2torch_model
 
     def onnx_uninit2torch(self, onnx_graph):
@@ -213,6 +233,18 @@ class Converter(object):
         return torch_code
 
     onnx_text2code = onnx_text2torch_code
+    # def code2model(self, code):
+    #     torch_model = self.onnx_text2torch(onnx_text_path)
+    #     torch_code = self.torch_graph2code(torch_model)
+    #     return torch_code
+    # def torch_graph2code(self, torch_graph, *args, **kwargs):
+    #     """
+    #     Convert a graph-defined PyTorch model to a code representation
+
+    #     Args:
+    #         torch_graph (_type_): _description_
+    #     """
+    #     return self.get_model_code(torch_graph,*args,**kwargs)
 
     def onnx_text2onnx_graph(self, onnx_text):
         """
@@ -225,6 +257,7 @@ class Converter(object):
         if ONNX_MINOR_VERSION > 15:
             onnx_text = self.convert_onnx116(onnx_text)
         return onnx.parser.parse_model(onnx_text)
+
     onnx_text2onnx = onnx_text2onnx_graph
 
     def onnx_text2torch_model(self, onnx_text: bytes):
@@ -244,6 +277,7 @@ class Converter(object):
         # Convert to Torch
         torch_model = self.onnx_graph2torch_model(onnx_graph)
         return torch_model
+
     onnx_text2torch = onnx_text2torch_model
 
     def onnx_graph2torch_model(self, onnx_graph, *args, **kwargs):
@@ -281,6 +315,7 @@ class Converter(object):
         :param remove_identity: Whether to remove Identity layers in the output text
         :return: The ONNX Text representation
         """
+
         def get_inner_string(s, _start, _end):
             """
             TODO rewrite the Converter().get_inner_string() to be this simple,
@@ -289,6 +324,7 @@ class Converter(object):
             s = s[s.find(_start) + len(_start) :]
             s = s[: s.rfind(_end)]
             return s
+
         onnx_str = onnx.printer.to_text(onnx_graph)
         onnx_str = onnx_str.split("\n")
         output_var = "None"
@@ -314,6 +350,7 @@ class Converter(object):
 
             # For NASLib models, handle unparseable characters in e.g. makrograph-edge(7,8)_...
             # Handles the dash, comma, and parentheses
+            # TODO -refactor this out into a function
             onnx_uninit_line = re.sub(
                 "makrograph-edge\((\d*),(\d*)\)_",
                 "makrograph_edge_\\1_\\2_",
@@ -370,6 +407,8 @@ class Converter(object):
             for layer_idx, layer_name in enumerate(layer_names):
                 if layer_name.isdigit():
                     continue
+                # NOTE - may break if layer names are substrings of other
+                # layer names, so pad layer_idx with 0's
                 onnx_str = onnx_str.replace(
                     layer_name, f"{layer_type.lower()}_output_{layer_idx:04d}"
                 )
@@ -377,6 +416,7 @@ class Converter(object):
         if remove_identity:
             onnx_str = self.remove_identity(onnx_str)
         return onnx_str
+
     onnx2onnx_text = onnx_graph2onnx_text
 
     def filter_node(self, x):
@@ -472,6 +512,7 @@ class Converter(object):
         onnx_text = re.sub(r" +", " ", onnx_text)
         # Remove chunks of blank space (multiple newlines)
         onnx_text = re.sub(r"\n\s*\n", "\n", onnx_text)
+
         return onnx_text
 
     def refactor_bool_layer(self, input_str):
@@ -485,6 +526,7 @@ class Converter(object):
         constant_output_0005 = Constant <value = bool[1,1,3,3]___> ()
         To:
         constant_output_0005 = Constant <value = bool[1,1,3,3] {0,0,0,0,0,0,0,0,0}> ()
+        
         
         :param input_str: The string with boolean layers.
         :return: The string with boolean layers properly refactored. 
@@ -502,6 +544,7 @@ class Converter(object):
             n_elements = 1
             bool_ending = "bool"
         input_arg_list = f'{{{",".join("0"*n_elements)}}}'
+        # input_str = re.sub('([(bool)\]])(.*)>', f'\\1 {input_arg_list}>', input_str)
         input_str = re.sub(
             f"{bool_ending}(.*)>", f"{bool_ending} {input_arg_list}>", input_str
         )
@@ -520,6 +563,8 @@ class Converter(object):
             large_value = str(large_value)
         if "inf" not in input_str:
             return input_str
+        # return re.sub('float {(-*)inf}',
+        #     f'float {{\\1{str(large_value)}}}',input_str)
         return re.sub("inf", str(large_value), input_str)
 
     def refactor_leading_number(self, input_str):
@@ -574,17 +619,49 @@ class Converter(object):
             else:
                 value_shape = tensor_value.shape
             if value_shape is None:
+                # print(f'{tensor_key} has no value_shape')
                 continue
             if isinstance(value_shape[0], str):
                 if "dynamic_axes" in value_shape[0]:
+                    # print(f'Skipping {value_shape}')
                     continue
+            # print(value_shape, type(value_shape))
+
+            
             tensor_value.to_constant(
                 values=tensor_init_fn(
                     size=value_shape,
+                    # dtype=torch.float
                 ).astype(np.float32)
             )
+            # if 'identity' in tensor_key: print(tensor_key)
         return onnx_gs_graph
 
+    # def init_constant_tensors(graph, constant_tensor_keys: list):
+    #     """
+    #     Given a graph and a list of tensors keys that should be turned constant,
+    #     initialize the tensors with the constant values
+
+    #     Args:
+    #         graph (_type_): _description_
+    #         constant_tensors (list): _description_
+    #     """
+    #     graph_tensors = graph.tensors()
+    #     for tensor_key in constant_tensor_keys:
+    #         tensor_value = graph_tensors.get(tensor_key, None)
+    #         if tensor_value is None:
+    #             continue
+    #         if isinstance(tensor_value, (int, float,)):
+    #             value_shape = (1,)
+    #         else:
+    #             value_shape = tensor_value.shape
+    #         if value_shape is None:
+    #             continue
+    #         graph_tensors[tensor_key].to_constant(
+    #             values=np.random.uniform(size=value_shape))
+    #     return graph
+
+    # def onnx_parameterless2onnx(self, onnx_path):
     def init_onnx_params(self, onnx_graph):
         """
         Initialize a parameterless ONNX Graph
@@ -592,19 +669,26 @@ class Converter(object):
         :param onnx_graph: The ONNX Graph.
         :return onnx_graph: The ONNX Graph with initialized parameters.
         """
+        # graph = gs.import_onnx(
+        #     onnx_model)
+        #     # onnx.load(onnx_path))
+        # graph = self.init_graph_tensors(graph)
         onnx_graph = self.init_onnx_tensors(onnx_graph)
         return gs.export_onnx(onnx_graph)
+
     onnx_parameterless2onnx = init_onnx_params
 
     def init_onnx_tensors(self, onnx_graph):
         """
         Initialize the tensors of an ONNX Graph
+        TODO - refactor above method with this one
         
         :param onnx_graph: The ONNX Graph
         :return onnx_graph: The ONNX Graph with initalized tensors
         """
         onnx_graph = gs.import_onnx(onnx_graph)
         return self.init_graph_tensors(onnx_graph)
+
     onnx2onnx_gs = init_onnx_tensors
 
     def save_torch(self, torch_model, filepath):
@@ -629,6 +713,7 @@ class Converter(object):
     # Helper functions for creating code representations from a model
     def get_inner_string(self, input_str, _start, _end, return_only_single_value=True):
         """
+        TODO - replace this with a sensible regex function.
         Get the inner string between a start and end sequence.
         If there are multiple potential inner strings (e.g. if there are multiple instances
         of the start and/or end sequences), returns the longest valid substring.
@@ -656,6 +741,7 @@ class Converter(object):
 
     def get_attr_name(self, input_str):
         """
+        TODO - replace this with a sensible regex function; write tests first.
         Get the variable name of an object attribute from a string.
         
         The input string to this function should be a line from the forward pass of a model
@@ -669,6 +755,7 @@ class Converter(object):
         attr_name = self.get_inner_string(
             input_str, _start='getattr(self, "', _end='")'
         )
+
         # Catch a case where the attribute is directly accessed,
         # e.g. self.LogSoftmax -> retrieve "LogSoftmax"
         if attr_name is None:
@@ -685,6 +772,7 @@ class Converter(object):
         """
         attr_name = self.get_attr_name(line)
         if attr_name:
+            # print(f"Caught attr {attr_name} on line {line}")
             try:
                 return {attr_name: getattr(model, attr_name)}
             except:
@@ -703,7 +791,9 @@ class Converter(object):
         for fwd_line in fwd_lines[1:]:
             model_attr = self.get_model_attr_on_line(model, fwd_line)
             if model_attr:
+                # model_attrs.append(model_attr)
                 model_attrs.update(model_attr)
+        # print(model_attrs)
         return model_attrs
 
     def get_params_for_attr(self, model_attr):
@@ -721,9 +811,12 @@ class Converter(object):
         for attr_key, attr_val in attr_kwargs.items():
             if attr_key in attrs_to_skip:
                 continue
+            # if attr_val.default==inspect._empty:
+            # if True:
             if hasattr(model_attr, attr_key):
                 model_attr_value = getattr(model_attr, attr_key)
                 # Convert potentially large tensors to constructors to reduce size
+                # if isinstance(model_attr_value, torch.Tensor) or 'tensor' in str(type(model_attr_value)).lower():
                 if isinstance(model_attr_value, torch.Tensor):
                     model_attr_value = self.tensor2init_code(
                         model_attr_value,
@@ -740,6 +833,7 @@ class Converter(object):
             }
             if len(model_state_dict) > 0:
                 attr_params.update(model_state_dict)
+                # attr_params.update({'state_dict':model_state_dict})
         # If the model_attr is a torch module that has a state_dict, add it
         return attr_params
 
@@ -778,6 +872,7 @@ class Converter(object):
             init_attrs.append(
                 (model_attr_name, self.get_type_string(model_attr), attr_params)
             )
+        # init_code = 'def __init__(self):\n'
         spacer = "    "
         spacer = "    "
         init_lines = [
@@ -788,7 +883,13 @@ class Converter(object):
         for init_attr in init_attrs:
             torch.set_printoptions(threshold=np.inf)
             # Convert potentially large tensors to constructors to reduce size
+            # kwarg_strs = []
+            # for attr_key,attr_value in init_attr[2].items():
+            #     if isinstance(attr_value,str):
+            #         if 'tensor.' in attr_value.lower():
             kwarg_str = self.dict2code(init_attr[2])
+
+            # init_line = f"{spacer*2}setattr(self,'{init_attr[0]}', {init_attr[1]}(**{init_attr[2]}))"
             init_line = f"{spacer*2}setattr(self,'{init_attr[0]}', {init_attr[1]}(**{kwarg_str}))"
             init_lines.append(init_line)
 
@@ -825,6 +926,7 @@ class Converter(object):
         ret_str += f"{spacer*indent_level}for k,v in init_state_dict.items():\n"
         ret_str += f"{spacer*(indent_level+1)}{module_name_str}.register_buffer(k,v)\n"
         return ret_str
+        # return f'{module_nam'
 
     def dict2code(self, kwarg_dict):
         """
@@ -833,6 +935,7 @@ class Converter(object):
         :param kwarg_dict: The dictionary to convert.
         :return: A code string to create the dictionary.
         """
+        # ret_str = ''
         kwarg_list = []
         for kwarg_key, kwarg_value in kwarg_dict.items():
             formatted_kwarg_value = kwarg_value
@@ -921,8 +1024,10 @@ class Converter(object):
         model_code = f"""
 import torch, onnx2torch
 from torch import tensor
+
 class Model(torch.nn.Module):
 {spacer}{model_init_code}
+
 {spacer}{model_fwd_code}
 """
         return model_code
