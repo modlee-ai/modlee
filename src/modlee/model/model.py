@@ -36,7 +36,7 @@ base_lm_keys = list(LightningModule.__dict__.keys())
 
 
 class ModleeModel(LightningModule):
-    def __init__(self, data_snapshot_size=10e6, kwargs_cache={}, *args, **kwargs) -> None:
+    def __init__(self, data_snapshot_size=10e6, kwargs_cache={}, modality=None, task=None, *args, **kwargs) -> None:
         """
         ModleeModel constructor.
         
@@ -46,6 +46,8 @@ class ModleeModel(LightningModule):
         LightningModule.__init__(self, *args, **kwargs)
         mlflow.pytorch.autolog(log_datasets=False)
         self.data_snapshot_size = data_snapshot_size
+        self.modality = modality
+        self.task = task
         self.kwargs_cache = kwargs_cache
         self.kwargs_cache.update(kwargs)
 
@@ -195,5 +197,4 @@ class SimpleDataset(Dataset):
     
     def __getitem__(self, index):
         return self.inputs[index], self.outputs[index]
-    
     

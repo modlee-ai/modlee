@@ -66,6 +66,7 @@ class Converter(object):
         if input_dummy is None:
             input_dummy = torch.randn([10, 3, 300, 300])
         input_dummy.requires_grad = False
+        input_dummy = input_dummy.to(device=torch_model.device)
         with torch.no_grad():
             for param in torch_model.parameters():
                 param.requires_grad = False
@@ -80,7 +81,7 @@ class Converter(object):
                 dynamic_axes={
                     # "input_1": {0: "batch_size"},
                     "input_1": [0],
-                    # "gemm_1": {0: "batch_size"}
+                    # "gemm_1": {0: "batch_size"},
                     "gemm_1": [0],
                 },
                 **kwargs,
