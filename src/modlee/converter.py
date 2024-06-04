@@ -66,7 +66,8 @@ class Converter(object):
         if input_dummy is None:
             input_dummy = torch.randn([10, 3, 300, 300])
         input_dummy.requires_grad = False
-        input_dummy = input_dummy.to(device=torch_model.device)
+        if hasattr(torch_model, 'device'):
+            input_dummy = input_dummy.to(device=torch_model.device)
         with torch.no_grad():
             for param in torch_model.parameters():
                 param.requires_grad = False
@@ -300,7 +301,9 @@ class Converter(object):
                 _onnx_graph = self.onnx_text2onnx_graph(onnx_text)
                 return onnx2torch.convert(_onnx_graph, *args, **kwargs)
             except:
-                _onnx_graph = self.onnx_parameterless2onnx(onnx_graph)
+                onnx_text = self.onnx_graph2onnx_text(onnx_graph)
+                _onnx_graph = self.onnx_text2onnx_graph(onnx_text)
+                _onnx_graph = self.onnx_parameterless2onnx(_onnx_graph)
                 return onnx2torch.convert(_onnx_graph, *args, **kwargs)  
         else:   
             return onnx2torch.convert(onnx_graph, *args, **kwargs)  
