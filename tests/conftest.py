@@ -2,6 +2,7 @@
 Configure pytest.
 """
 import pytest
+import inspect
 from torchvision import datasets as tv_datasets
 from torchvision import models as tvm
 from torchvision.transforms import ToTensor
@@ -11,12 +12,30 @@ from torchtext import models as ttm
 
 
 IMAGE_MODELS = [
-    tvm.resnet18(weights="DEFAULT"),
-    tvm.resnet18(),
-    tvm.resnet50(),
-    tvm.resnet152(),
+    # tvm.resnet18(weights="DEFAULT"),
+    # tvm.resnet18(),
+    # tvm.resnet50(),
+    # tvm.resnet152(),
+    tvm.alexnet(),
     # tvm.googlenet(),
 ]
+
+IMAGE_MODELS = []
+for attr in dir(tvm):
+    tvm_attr = getattr(tvm, attr)
+    if not callable(tvm_attr) or isinstance(tvm_attr, type):
+        continue
+    try:
+        inspect.signature(tvm_attr).bind()
+    except TypeError:
+        continue
+    tvm_attr_ret = tvm_attr()
+    if 'forward' in dir(tvm_attr_ret):
+        print(f"Adding {tvm_attr}")
+        IMAGE_MODELS.append(tvm_attr_ret)
+        
+breakpoint()
+
 IMAGE_SEGMENTATION_MODELS = [
     tvm.segmentation.fcn_resnet50(),
     tvm.segmentation.fcn_resnet101(),
