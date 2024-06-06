@@ -37,6 +37,7 @@ from . import (
     data_metafeatures,
     model,
     recommender,
+    config
 )
 
 api_modules = ["model_text_converter", "exp_loss_logger"]

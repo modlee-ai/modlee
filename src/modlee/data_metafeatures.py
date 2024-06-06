@@ -17,6 +17,7 @@ from sklearn.metrics import (
     davies_bouldin_score,
 )
 
+import spacy
 from pymfe.mfe import MFE
 
 import torch
@@ -468,6 +469,28 @@ def sample_dataloader(train_dataloader, num_sample):
 
     return dataset_size, batch_elements, batch_elements_orig_shapes
 
+def get_n_samples(dataloader, n_samples=100):
+    """
+    Get a number of samples from a dataloader
+
+    :param dataloader: The dataloader.
+    :param n_samples: The number of samples, defaults to 100.
+    :return: An iterable of batch elements, each of length n_samples.
+    """
+    batch = next(iter(dataloader))
+    while len(batch[0]) < n_samples:
+        _batch = next(iter(dataloader))
+        # for b,_b in zip(batch, _batch):
+        for i,b in enumerate(_batch):
+            if isinstance(b, torch.Tensor):
+                batch[i] = torch.cat((batch[i],b), dim=0)
+            else:
+                batch[i] = list(batch[i]) + list(b)
+                # batch[i].append(b)
+            batch[i] = batch[i][:n_samples]
+            
+    return batch
+            
 
 class DataMetafeatures(object):
     """
@@ -511,6 +534,7 @@ class DataMetafeatures(object):
         # Features from PyMFE, a meta-feature extraction library
         start_time = time.time()
         self.mfe_features = self.get_mfe_features()
+        self.mfe = self.get_mfe()
         mfe_time = time.time() - start_time
         # print(f"Batch stats: {batch_stats_time}; MFE time: {mfe_time}")
         # for batch_idx,batch_mfe_features in enumerate(self.mfe_features):
@@ -520,9 +544,13 @@ class DataMetafeatures(object):
         #     })
         # for mfe_key,mfe_value in self.mfe_features.items():
         #     self.batch_stats[mfe_key].update(mfe_value)
+        
+        self.properties = self.get_properties()
 
         # general and independent of any data type or ml task
         self.stats_rep = self.get_features()
+        # TODO - deprecated "stats_rep" for "features"
+        self.features = self.stats_rep
         # self.stats_rep.update(self.mfe_features)
         self._serializable_stats_rep = self._make_serializable(self.stats_rep)
 
@@ -553,6 +581,27 @@ class DataMetafeatures(object):
 
         # stats_rep = self._f32_to_f16(stats_rep)
         return stats_rep
+
+    def get_properties(self):
+        """
+        Get properties — features that are not calculated, e.g. shapes
+        """
+        ret = {
+            'dataset_size':self.dataset_size,
+        }
+        samples = get_n_samples(self.dataloader)
+        for i,sample in enumerate(samples):
+            # Get shape
+            if not isinstance(sample, torch.Tensor):
+                sample = np.array(sample)
+            sample_shape = list(sample.shape)
+            sample_dim = len(sample_shape)
+            ret.update({
+                f'elem_{i}_shape':sample_shape,
+                f'elem_{i}_dims':sample_dim,
+                })
+        return ret
+
 
     get_stats_rep = get_features
 
@@ -620,6 +669,8 @@ class DataMetafeatures(object):
         :param batch_element: The batch element to calculate.
         :return: A dictionary of features for the batch element.
         """
+        
+        # If the batch element is a tensor, convert to numpy array
         if isinstance(batch_element, torch.Tensor):
 
             if len(batch_element.shape) > 2:
@@ -641,12 +692,37 @@ class DataMetafeatures(object):
         features = mfe.extract()
         feature_dict = {k: v for k, v in zip(*features)}
         return feature_dict
+    get_mfe_on_element = get_mfe_on_batch
+    
+    def get_mfe(self):
+        """
+        Get PyMFE features for every element in the dataloader
+
+        :return: A dictionary of {mfe_feature : mfe_value}
+        """
+        samples = get_n_samples(self.dataloader)
+        sample_mfes = [self.get_mfe_on_element(sample) for sample in samples]
+        ret = {}
+        for i,sample_mfe in enumerate(sample_mfes):
+            ret.update({f'{k}_{i}':v for k,v in sample_mfe.items()})
+        return ret
+
 
 
 class ImageDataMetafeatures(DataMetafeatures):
     """
     Image-based DataMetafeatures.
     """
+
+    def __init__(self, dataloader, embd_model=None, *args, **kwargs):
+        super().__init__(dataloader, *args, **kwargs)
+        if not embd_model:
+            self.embd_model = torchvision.models.resnet18(
+                weights='IMAGENET1K_V1'
+            )
+            self.embd_model.eval()
+        self.embedding = self.get_embedding()
+        pass
 
     def get_raw_batch_elements(self):
         """
@@ -658,6 +734,56 @@ class ImageDataMetafeatures(DataMetafeatures):
             get_image_features(element, testing=self.testing)
             for element in self.batch_elements
         ]
+    
+    def get_embedding(self, index=0, max_len=100):
+        samples = get_n_samples(self.dataloader)
+        # Assume inputs are the first batch element
+        x = samples[index]
+        with torch.no_grad():
+            embds = self.embd_model(x)
+            embds = embds[:,:max_len]
+       
+        # Return distributions of each embedding axis
+        ret = {f'embd_{index}_mean_{i}':float(v.numpy()) for i,v in enumerate(embds.mean(axis=0))}
+        ret.update({f'embd_{index}_std_{i}':float(v.numpy()) for i,v in enumerate(embds.std(axis=0))}) 
+        return ret
 
+class TextDataMetafeatures(DataMetafeatures):
+    def __init__(self, dataloader, nlp_model=None, *args, **kwargs):
+        super().__init__(dataloader, *args, **kwargs)
+        # self.dataloader = dataloader
+        if not nlp_model:
+            # TODO - consider using a larger model embedding e.g. en_code_web_sm -> 300D
+            # and truncate
+            self.nlp_model = spacy.load('en_core_web_sm')
+        self.embedding = self.get_embedding()
+        pass
 
-# %%
+    def get_embedding(self, index=None, max_len=100, *args, **kwargs):
+        """
+        Get embeddings from the dataloader.
+
+        :param index: The index in a batch of the string elements to embed, defaults to 1
+        :return: A dictionary of {embd_i : embd_value}
+        """
+        samples = get_n_samples(self.dataloader)
+        # Find the index of the first batch of strings
+        if not index:
+            index = 0
+            while not isinstance(samples[index][0], str):
+                index += 1
+                if index == len(samples):
+                    raise IndexError(f"No string elements in {self}, cannot calculate embedding with spaCy")
+        embds = list(map(lambda x: self.nlp_model(x).vector, samples[index]))
+        embds = torch.Tensor(embds)
+        embds = embds[:,:max_len]
+        # Return distributions of each embedding axis
+        # TODO - consider how batch elements are sorted, should they be indexed by the index that the 
+        # string elements appear? at "embd_{INDEX}..."
+        # ret = {f'embd_{index}_mean_{i}':float(v.numpy()) for i,v in enumerate(embds.mean(axis=0))}
+        # ret.update({f'embd_{index}_std_{i}':float(v.numpy()) for i,v in enumerate(embds.std(axis=0))})
+        # TODO - consider this assumption, not indexing the embeddings at all
+        ret = {f'embd_mean_{i}':float(v.numpy()) for i,v in enumerate(embds.mean(axis=0))}
+        ret.update({f'embd_std_{i}':float(v.numpy()) for i,v in enumerate(embds.std(axis=0))})
+        return ret
+        breakpoint()

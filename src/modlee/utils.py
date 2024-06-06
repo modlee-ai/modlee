@@ -2,6 +2,7 @@
 Utility functions.
 """
 import os, sys, time, json, pickle, requests, importlib, pathlib
+from functools import partial
 import json
 from urllib.parse import urlparse, unquote
 from ast import literal_eval
@@ -13,6 +14,7 @@ import numpy as np
 import mlflow
 
 import torch
+import torchtext
 import torchvision
 from torchvision import datasets as tv_datasets
 from torchvision import transforms
@@ -52,21 +54,200 @@ def get_fashion_mnist(batch_size=64, num_output_channels=1):
     ])
     training_loader = DataLoader(
         tv_datasets.FashionMNIST(
-            root="data", train=True, download=True, transform=data_transforms
+            root=".data", train=True, download=True, transform=data_transforms
         ),
         batch_size=batch_size,
         shuffle=True,
     )
     test_loader = DataLoader(
         tv_datasets.FashionMNIST(
-            root="data", train=False, download=True, transform=data_transforms
+            root=".data", train=False, download=True, transform=data_transforms
         ),
         batch_size=batch_size,
         shuffle=True,
     )
     return training_loader, test_loader
 
+def get_imagenette_dataloader():
+    """
+    Get a small validation dataloader for imagenette (https://pytorch.org/vision/stable/generated/torchvision.datasets.Imagenette.html#torchvision.datasets.Imagenette)
+    """
+    return get_dataloader(
+        torchvision.datasets.Imagenette(
+            root=".data",
+            split="val",
+            size="160px",
+            download=not os.path.exists('.data/imagenette2-160'),
+            transform=transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Resize((160,160))
+                ])
+        ),
+    )
+     
+def get_dataloader(dataset, batch_size=16, shuffle=True, *args, **kwargs):
+    return DataLoader(
+        dataset, 
+        batch_size=batch_size,
+        shuffle=shuffle,
+        *args, **kwargs
+    )
 
+class image_loaders:
+    @staticmethod
+    def _get_image_dataloader(dataset_module, root=".data", *args, **kwargs):
+        kwargs['transform'] = kwargs.get(
+            'transform',
+            torchvision.transforms.Compose([
+                torchvision.transforms.Resize((300,300)),
+                torchvision.transforms.Grayscale(num_output_channels=3),
+                torchvision.transforms.ToTensor(),
+            ]))
+        # print(args, kwargs)
+        return get_dataloader(
+            getattr(torchvision.datasets,
+                dataset_module)(
+                    root=root,
+                    # split=split,
+                    # download=True,
+                    **kwargs
+            ))
+        
+    image_modules = {
+        # 'Caltech101'
+        # 'CelebA':{
+        #     'split':'test',
+        #     'download':True,
+        #     },
+        'CIFAR10':dict(             # Passed
+            train=False,
+            download=True
+            ),
+        # 'Country211':dict(
+        #     split='test',
+        #     download=True),
+        'DTD':dict(                 # Passed
+            split='test',
+            download=True),
+        # 'EMNIST':dict(            # File download issues            
+        #     split="byclass",
+        #     train=False,
+        #     download=True),
+        'EuroSAT':dict(             # Passed
+            download=True),
+        'FashionMNIST':dict(        # Passed
+            train=False,
+            download=True),
+        # 'FER2013':dict(             # Cannot download
+        #     split='test',),
+        'FGVCAircraft':dict(        # Passed
+            split='test',
+            download=True),
+        # # 'Flicker8k',
+        'Flowers102':dict(          # Passed
+            split='test',
+            download=True),
+        # 'Food101':dict(             # Took too long to download
+        #     split='test',
+        #     download=True),
+        'GTSRB':dict(               # Passed
+            split='test',
+            download=True),
+        # 'INaturalist':dict(         # Too big — over 8GB for validation
+        #     version='2021_valid',
+        #     download=True),
+        'Imagenette':dict(          # Passed
+            split='val',
+            size='full',
+            # download=True
+            ),
+        'KMNIST':dict(              # Passed
+            train=False,
+            download=True),
+        # 'LFWPeople':dict(         # Corrupt file
+        #     split='test',
+        #     download=True),
+        # 'LSUN':dict(              # Uses deprecated package
+        #     classes='test'),
+        'MNIST':dict(               # Passed
+            train=False,
+            download=True),
+        'Omniglot':dict(            # Passed
+            download=True),
+        'OxfordIIITPet':dict(       # Passed
+            split='test',
+            download=True),
+        'Places365':dict(             # Passed
+            split='val',
+            small=True,
+            # download=True,
+            ),
+        # 'PCAM':dict(                # Took too long to download
+        #     split='test',
+        #     download=True),
+        'QMNIST':dict(              # Passed
+            what='test10k',
+            download=True),
+        'RenderedSST2':dict(        # Passed
+            split='test',
+            download=True),
+        'SEMEION':dict(           # Passed
+            download=True),
+        # 'SBU':dict(               # Took too long to download
+        #     download=True),
+    # 'StanfordCars':dict           # Not available(
+        #     split='test',
+        #     download=True),
+        'STL10':dict(               # Passed
+            split='test',
+            download=True),
+        'SUN397':dict(              # Passed
+            download=True),
+        'SVHN':dict(                # Passed    
+            split='test',
+            download=True),
+        'USPS':dict(                # Passed
+            train=False,
+            download=True),
+    }
+    for image_module,kwargs in image_modules.items():
+        locals()[f'get_{image_module.lower()}_dataloader'] = \
+            partial(_get_image_dataloader, image_module, **kwargs)
+
+class text_loaders:
+    @staticmethod
+    def _get_text_dataloader(dataset_module, dataset_len, root=".data", split="dev"):
+        return get_dataloader(
+            getattr(torchtext.datasets, 
+                dataset_module)(
+                root=root,
+                split=split
+            ).set_length(dataset_len)
+        )
+
+    @staticmethod
+    def get_mnli_dataloader(*args, **kwargs):
+        kwargs['split'] = "dev_matched"
+        return get_dataloader(
+            torchtext.datasets.MNLI(
+                **kwargs
+            ).set_length(9815)
+        )
+
+
+    text_modules_lengths = {
+        'STSB': 1500,
+        'SST2': 872,
+        'RTE': 277,
+        'QNLI': 5463,
+        'CoLA': 527,
+        'WNLI': 71,
+        # 'SQuAD1': 10570,
+        # 'SQuAD2': 11873,
+    }
+    for dataset_module, dataset_len in text_modules_lengths.items():
+        locals()[f"get_{dataset_module.lower()}_dataloader"] = partial(_get_text_dataloader, dataset_module, dataset_len)
+        
 def uri_to_path(uri):
     """
     Convert a URI to a path.

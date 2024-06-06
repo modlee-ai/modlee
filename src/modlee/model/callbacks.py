@@ -14,8 +14,11 @@ from lightning.pytorch.callbacks import Callback
 from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import modlee
-from modlee import data_metafeatures, save_run, get_code_text_for_model, save_run_as_json
-from modlee import logging, utils as modlee_utils, exp_loss_logger
+from modlee import data_metafeatures, save_run, get_code_text_for_model, save_run_as_json, logging
+from modlee import \
+    utils as modlee_utils, exp_loss_logger, \
+    model_metafeatures as mmf, \
+    data_metafeatures as dmf
 from modlee.converter import Converter
 
 modlee_converter = Converter()
@@ -176,8 +179,24 @@ class LogCodeTextCallback(ModleeCallback):
             )
 
 
+class ModelMetafeaturesCallback(ModleeCallback):
+    def __init__(self, ModelMetafeatures=mmf.ModelMetafeatures,):
+        super().__init__()
+        self.ModelMetafeatures = ModelMetafeatures
+        
+    def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
+        logging.info("Logging model metafeatures...")
+        super().on_train_start(trainer, pl_module)
+        # TODO - need to select the Metafeature module based on modality, task,
+        # Same with data metafeatures
+        model_mf = self.ModelMetafeatures(
+            pl_module
+        )
+        mlflow.log_dict({**model_mf.properties, **model_mf.embedding}, 'model_metafeatures')
+        
+
 class LogONNXCallback(ModleeCallback):
-    """ 
+    """
     Callback for logging the model in its ONNX representations.
     Deprecated, will be combined with LogCodeTextCallback.
     """
@@ -262,7 +281,7 @@ class DataMetafeaturesCallback(ModleeCallback):
     """ 
     Callback to calculate and log data meta-features.
     """
-    def __init__(self, data_snapshot_size=1e7, DataMetafeatures=None, *args, **kwargs):
+    def __init__(self, data_snapshot_size=1e7, DataMetafeatures=dmf.DataMetafeatures, *args, **kwargs):
         """ 
         Constructor for the data metafeature callback.
         
@@ -272,8 +291,6 @@ class DataMetafeaturesCallback(ModleeCallback):
         Callback.__init__(self, *args, **kwargs)
         super().__init__()
         self.data_snapshot_size = data_snapshot_size
-        if not DataMetafeatures:
-            DataMetafeatures = getattr(data_metafeatures, "DataMetafeatures", None)
         self.DataMetafeatures = DataMetafeatures
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
@@ -316,8 +333,12 @@ class DataMetafeaturesCallback(ModleeCallback):
         """
         if self.DataMetafeatures:
             # TODO - use data batch and model to get output size
-            data_metafeatures = self.DataMetafeatures(dataloader)
+            data_mf = data_metafeatures = self.DataMetafeatures(dataloader)
             mlflow.log_dict(data_metafeatures._serializable_stats_rep, "stats_rep")
+            mlflow.log_dict({
+                **data_mf.properties,
+                **data_mf.embedding,
+                **data_mf.mfe}, "data_metafeatures")
         else:
             logging.warning("Cannot log data statistics, could not access from server")
 

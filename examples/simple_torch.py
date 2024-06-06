@@ -14,6 +14,7 @@ MODLEE_API_KEY = os.getenv('MODLEE_API_KEY', None)
 modlee.init(api_key=MODLEE_API_KEY)
 from modlee.utils import get_fashion_mnist
 from modlee.model import ModleeModel
+from modlee.model.image_model import ImageClassificationModleeModel
 
 # %% Build models
 
@@ -21,7 +22,7 @@ from modlee.model import ModleeModel
 class Classifier(nn.Module):
     def __init__(self):
         super(Classifier, self).__init__()
-        self.conv1 = nn.Conv2d(1, 6, 5)
+        self.conv1 = nn.Conv2d(3, 6, 5)
         self.pool = nn.MaxPool2d(2, 2)
         self.conv2 = nn.Conv2d(6, 16, 5)
         self.fc1 = nn.Linear(16 * 4 * 4, 120)
@@ -40,6 +41,7 @@ class Classifier(nn.Module):
 
 
 class LightningClassifier(ModleeModel):
+# class LightningClassifier(ImageClassificationModleeModel):
     def __init__(self, classifier=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not classifier:
@@ -68,15 +70,15 @@ class LightningClassifier(ModleeModel):
 
 
 # %% Load data
-training_loader, test_loader = get_fashion_mnist()
+training_loader, test_loader = get_fashion_mnist(num_output_channels=3)
 num_classes = len(training_loader.dataset.classes)
-model = LightningClassifier()
-breakpoint()
+model = LightningClassifier(num_classes=10)
+# breakpoint()
 # %% Run training loop
 with modlee.start_run() as run:
     trainer = pl.Trainer(max_epochs=1)
     trainer.fit(
         model=model, train_dataloaders=training_loader, val_dataloaders=test_loader
     )
-
+    breakpoint()
 # %%

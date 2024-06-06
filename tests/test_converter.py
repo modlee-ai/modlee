@@ -1,10 +1,14 @@
 """ 
 Test modlee.converter
 """
-import pytest, re
+import pytest, re, pathlib
+from .conftest import IMAGE_MODELS, IMAGE_SEGMENTATION_MODELS, TEXT_MODELS
 import lightning
-import numpy as np
-import torch, torchvision, random
+import numpy as n
+import torch, torchvision, random, onnx2torch
+import networkx as nx
+import karateclub
+g2v = karateclub.graph2vec.Graph2Vec()
 import modlee
 from modlee.converter import Converter
 from modlee.model import RecommendedModel
@@ -135,9 +139,7 @@ OUTPUTS = [
 def test_large_tensor_to_init(input_value: torch.Tensor, actual_output_str: str):
     fn_output = converter.tensor2init_code(input_value)
     local_dict = {}
-    # breakpoint()
     exec(f"fn_output_array = {fn_output}", globals(), local_dict)
-    # breakpoint()
     assert torch.all((input_value - local_dict["fn_output_array"]) < 0.0001)
 
     # assert torch.all(torch.eq(local_dict['actual_output_array'], local_dict['fn_output_array']))
@@ -222,7 +224,6 @@ init_state_dict = "{'onnx_initializer_0':torch.randn(torch.Size([32128, 768])),'
 
 
 def test_init_initializer():
-    # breakpoint()
     exec(f"actual_state_dict = {init_state_dict}", globals(), locals())
     # state_keys = re.findall("\'([a-zA-Z0-9_]*)\'",init_state_dict)
     # state_values = re.findall("(torch[a-zA-Z0-9_\[\]\(\)\.,]*)[}\']",init_state_dict.replace(' ',''))
@@ -230,7 +231,6 @@ def test_init_initializer():
     output_str = converter.get_init_module_state_dict_str(
         "init_tensor", init_state_dict, indent_level=0
     )
-    # breakpoint()
     exec(f"{output_str}", globals(), locals())
     init_tensor = locals()["init_tensor"]
     # output_tensor = locals()['output_tensor']
@@ -267,11 +267,9 @@ def _test_converted_onnx_model(onnx_file_path: str, dataloaders):
 
     # create dataloader
     train_loader, val_loader = dataloaders
-    # breakpoint()
     # from .conftest import dataloaders
     # train_loader, val_loader = dataloaders()
     # train_loader, val_loader = get_dataloaders()
-    # breakpoint()
 
     # train for some epochs
     with modlee.start_run() as run:
@@ -304,19 +302,33 @@ def _test_converted_onnx_model(onnx_file_path: str, dataloaders):
         np.array(train_losses_np).reshape(-1, 1),
     )
     assert lin_reg.coef_[0][0] < 1
-    breakpoint()
 
     pass
 
-
-def test_conversion_pipeline():
+# @pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS+TEXT_MODELS)
+@pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
+# @pytest.mark.parametrize("torch_model", IMAGE_MODELS)
+# @pytest.mark.parametrize("torch_model", IMAGE_MODELS[1:2])
+# @pytest.mark.parametrize("torch_model", IMAGE_SEGMENTATION_MODELS)
+# @pytest.mark.parametrize("torch_model", TEXT_MODELS)
+def test_conversion_pipeline(torch_model):
+# def test_conversion_pipeline():
     """ Test converting across several representations, from Torch graphs to ONNX text
     """
     # load a basic resnet model
-    torch_model = torchvision.models.resnet18(weights="DEFAULT")
+    # torch_model = torchvision.models.resnet18(weights="DEFAULT")
     # torch model <-> onnx graph
-    onnx_graph = converter.torch_model2onnx_graph(torch_model)
+    # breakpoint()
+    # input_dummy = torch.Tensor(torch_model.transform()(modlee.converter.TEXT_INPUT_DUMMY))
+    # torch_model = torch_model.get_model()
+    # breakpoint()
+    input_dummy = torch.randn([1,3,300,300])
+    onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy)
+    # breakpoint()
+    # onnx2torch.convert(onnx_graph)
+    # breakpoint()
     torch_model = converter.onnx_graph2torch_model(onnx_graph)
+    # breakpoint()
 
     # onnx graph <-> onnx text
     onnx_text = converter.onnx_graph2onnx_text(onnx_graph)
@@ -332,8 +344,47 @@ def test_conversion_pipeline():
     input_dummy = torch.randn((batch_size, 3, 30, 30))
     output_dummy = torch_model(input_dummy)
     assert output_dummy.shape[0] == batch_size
-    # breakpoint()
 
     # convert from onnx graph to torch model
     # onnx_text = converter.torch_model2onnx_text
     # convert
+
+def test_convert_onnx116():
+    """
+    Test converting ONNX graph/text exported with ONNX 1.16 (lowest version compatible with python3.12)
+    """
+    ASSETS_FOLDER = pathlib.Path(os.path.dirname(__file__)) / 'assets'
+    # Working ONNX text, created with Python 3.11 and ONNX 1.14
+    with open(str(ASSETS_FOLDER / 'onnx_model_114.txt'), 'r') as _file:
+        onnx_114 = _file.read()
+
+    with open(str(ASSETS_FOLDER / 'onnx_model_116.txt'), 'r') as _file:
+        onnx_116 = _file.read()
+    
+    onnx_converted = converter.convert_onnx116(onnx_116)
+    
+    onnx_114_lines, onnx_116_lines = onnx_114.splitlines(), onnx_converted.splitlines()
+    graph_start_index = 0
+    while onnx_114_lines[graph_start_index].split()[0] != "main_graph":
+        graph_start_index += 1
+    
+    # Get just the graph parts
+    graph_114 = '\n'.join(onnx_114_lines[graph_start_index:])
+    graph_116 = '\n'.join(onnx_116_lines[graph_start_index:])
+    assert graph_114 == graph_116, f"Text converted from ONNX 1.16 did not convert properly, not equal to ONNX 1.14 model"
+    onnx_graph = converter.onnx_text2onnx_graph('\n'.join(onnx_116_lines))
+    pass
+
+@pytest.mark.parametrize('torch_model', IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
+def test_onnx_graph2onnx_nx(torch_model):
+    # Torch model -> ONNX graph -> ONNX NetworkX
+    onnx_graph = converter.torch_model2onnx_graph(torch_model)
+    onnx_nx = converter.onnx_graph2onnx_nx(onnx_graph)
+    assert isinstance(onnx_nx, nx.graph.Graph)
+    assert len(onnx_nx.nodes())>0
+
+    # Test indexing the graph
+    onnx_nx = converter.index_nx(onnx_nx)
+    assert all([isinstance(node[0], int) for node in onnx_nx.nodes(data=True)])
+    # Test indexing by calling fit to graph2vec,
+    g2v.fit([onnx_nx])
