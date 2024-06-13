@@ -17,7 +17,7 @@
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../../_static/documentation_options.js?v=8dde47fa"></script>
-        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -115,9 +115,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TextDataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_n_samples"><code class="docutils literal notranslate"><span class="pre">get_n_samples()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
@@ -161,8 +163,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.get_dataloader"><code class="docutils literal notranslate"><span class="pre">get_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.get_imagenette_dataloader"><code class="docutils literal notranslate"><span class="pre">get_imagenette_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.image_loaders"><code class="docutils literal notranslate"><span class="pre">image_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
@@ -170,6 +175,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.text_loaders"><code class="docutils literal notranslate"><span class="pre">text_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
@@ -259,8 +265,11 @@
 <span class="kn">from</span> <span class="nn">lightning.pytorch.utilities.types</span> <span class="kn">import</span> <span class="n">STEP_OUTPUT</span>
 
 <span class="kn">import</span> <span class="nn">modlee</span>
-<span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">data_metafeatures</span><span class="p">,</span> <span class="n">save_run</span><span class="p">,</span> <span class="n">get_code_text_for_model</span><span class="p">,</span> <span class="n">save_run_as_json</span>
-<span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">logging</span><span class="p">,</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">modlee_utils</span><span class="p">,</span> <span class="n">exp_loss_logger</span>
+<span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">data_metafeatures</span><span class="p">,</span> <span class="n">save_run</span><span class="p">,</span> <span class="n">get_code_text_for_model</span><span class="p">,</span> <span class="n">save_run_as_json</span><span class="p">,</span> <span class="n">logging</span>
+<span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> \
+    <span class="n">utils</span> <span class="k">as</span> <span class="n">modlee_utils</span><span class="p">,</span> <span class="n">exp_loss_logger</span><span class="p">,</span> \
+    <span class="n">model_metafeatures</span> <span class="k">as</span> <span class="n">mmf</span><span class="p">,</span> \
+    <span class="n">data_metafeatures</span> <span class="k">as</span> <span class="n">dmf</span>
 <span class="kn">from</span> <span class="nn">modlee.converter</span> <span class="kn">import</span> <span class="n">Converter</span>
 
 <span class="n">modlee_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">()</span>
@@ -448,10 +457,32 @@
 
 
 
+<div class="viewcode-block" id="ModelMetafeaturesCallback">
+<a class="viewcode-back" href="../../../modules/modlee.model.callbacks.html#modlee.model.callbacks.ModelMetafeaturesCallback">[docs]</a>
+<span class="k">class</span> <span class="nc">ModelMetafeaturesCallback</span><span class="p">(</span><span class="n">ModleeCallback</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ModelMetafeatures</span><span class="o">=</span><span class="n">mmf</span><span class="o">.</span><span class="n">ModelMetafeatures</span><span class="p">,):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ModelMetafeatures</span> <span class="o">=</span> <span class="n">ModelMetafeatures</span>
+        
+<div class="viewcode-block" id="ModelMetafeaturesCallback.on_train_start">
+<a class="viewcode-back" href="../../../modules/modlee.model.callbacks.html#modlee.model.callbacks.ModelMetafeaturesCallback.on_train_start">[docs]</a>
+    <span class="k">def</span> <span class="nf">on_train_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">pl_module</span><span class="p">:</span> <span class="n">LightningModule</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Logging model metafeatures...&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">on_train_start</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">pl_module</span><span class="p">)</span>
+        <span class="c1"># TODO - need to select the Metafeature module based on modality, task,</span>
+        <span class="c1"># Same with data metafeatures</span>
+        <span class="n">model_mf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ModelMetafeatures</span><span class="p">(</span>
+            <span class="n">pl_module</span>
+        <span class="p">)</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_dict</span><span class="p">({</span><span class="o">**</span><span class="n">model_mf</span><span class="o">.</span><span class="n">properties</span><span class="p">,</span> <span class="o">**</span><span class="n">model_mf</span><span class="o">.</span><span class="n">embedding</span><span class="p">},</span> <span class="s1">&#39;model_metafeatures&#39;</span><span class="p">)</span></div>
+</div>
+
+        
+
 <div class="viewcode-block" id="LogONNXCallback">
 <a class="viewcode-back" href="../../../modules/modlee.model.callbacks.html#modlee.model.callbacks.LogONNXCallback">[docs]</a>
 <span class="k">class</span> <span class="nc">LogONNXCallback</span><span class="p">(</span><span class="n">ModleeCallback</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Callback for logging the model in its ONNX representations.</span>
 <span class="sd">    Deprecated, will be combined with LogCodeTextCallback.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -548,7 +579,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Callback to calculate and log data meta-features.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_snapshot_size</span><span class="o">=</span><span class="mf">1e7</span><span class="p">,</span> <span class="n">DataMetafeatures</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_snapshot_size</span><span class="o">=</span><span class="mf">1e7</span><span class="p">,</span> <span class="n">DataMetafeatures</span><span class="o">=</span><span class="n">dmf</span><span class="o">.</span><span class="n">DataMetafeatures</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">        Constructor for the data metafeature callback.</span>
 <span class="sd">        </span>
@@ -558,8 +589,6 @@
         <span class="n">Callback</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_snapshot_size</span> <span class="o">=</span> <span class="n">data_snapshot_size</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">DataMetafeatures</span><span class="p">:</span>
-            <span class="n">DataMetafeatures</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data_metafeatures</span><span class="p">,</span> <span class="s2">&quot;DataMetafeatures&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DataMetafeatures</span> <span class="o">=</span> <span class="n">DataMetafeatures</span>
 
 <div class="viewcode-block" id="DataMetafeaturesCallback.on_train_start">
@@ -605,8 +634,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">DataMetafeatures</span><span class="p">:</span>
             <span class="c1"># TODO - use data batch and model to get output size</span>
-            <span class="n">data_metafeatures</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DataMetafeatures</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
+            <span class="n">data_mf</span> <span class="o">=</span> <span class="n">data_metafeatures</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DataMetafeatures</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
             <span class="n">mlflow</span><span class="o">.</span><span class="n">log_dict</span><span class="p">(</span><span class="n">data_metafeatures</span><span class="o">.</span><span class="n">_serializable_stats_rep</span><span class="p">,</span> <span class="s2">&quot;stats_rep&quot;</span><span class="p">)</span>
+            <span class="n">mlflow</span><span class="o">.</span><span class="n">log_dict</span><span class="p">({</span>
+                <span class="o">**</span><span class="n">data_mf</span><span class="o">.</span><span class="n">properties</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">data_mf</span><span class="o">.</span><span class="n">embedding</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">data_mf</span><span class="o">.</span><span class="n">mfe</span><span class="p">},</span> <span class="s2">&quot;data_metafeatures&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cannot log data statistics, could not access from server&quot;</span><span class="p">)</span>
 

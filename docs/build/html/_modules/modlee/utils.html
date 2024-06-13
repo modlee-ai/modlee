@@ -17,7 +17,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=8dde47fa"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -115,9 +115,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TextDataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_n_samples"><code class="docutils literal notranslate"><span class="pre">get_n_samples()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
@@ -161,8 +163,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_dataloader"><code class="docutils literal notranslate"><span class="pre">get_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_imagenette_dataloader"><code class="docutils literal notranslate"><span class="pre">get_imagenette_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.image_loaders"><code class="docutils literal notranslate"><span class="pre">image_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
@@ -170,6 +175,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.text_loaders"><code class="docutils literal notranslate"><span class="pre">text_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
@@ -247,6 +253,7 @@
 <span class="sd">Utility functions.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">pickle</span><span class="o">,</span> <span class="nn">requests</span><span class="o">,</span> <span class="nn">importlib</span><span class="o">,</span> <span class="nn">pathlib</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlparse</span><span class="p">,</span> <span class="n">unquote</span>
 <span class="kn">from</span> <span class="nn">ast</span> <span class="kn">import</span> <span class="n">literal_eval</span>
@@ -258,6 +265,7 @@
 <span class="kn">import</span> <span class="nn">mlflow</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torchtext</span>
 <span class="kn">import</span> <span class="nn">torchvision</span>
 <span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">datasets</span> <span class="k">as</span> <span class="n">tv_datasets</span>
 <span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
@@ -302,14 +310,14 @@
     <span class="p">])</span>
     <span class="n">training_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
         <span class="n">tv_datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
-            <span class="n">root</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">data_transforms</span>
+            <span class="n">root</span><span class="o">=</span><span class="s2">&quot;.data&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">data_transforms</span>
         <span class="p">),</span>
         <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
         <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
         <span class="n">tv_datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
-            <span class="n">root</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">data_transforms</span>
+            <span class="n">root</span><span class="o">=</span><span class="s2">&quot;.data&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">data_transforms</span>
         <span class="p">),</span>
         <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
         <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -317,7 +325,201 @@
     <span class="k">return</span> <span class="n">training_loader</span><span class="p">,</span> <span class="n">test_loader</span></div>
 
 
+<div class="viewcode-block" id="get_imagenette_dataloader">
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.get_imagenette_dataloader">[docs]</a>
+<span class="k">def</span> <span class="nf">get_imagenette_dataloader</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get a small validation dataloader for imagenette (https://pytorch.org/vision/stable/generated/torchvision.datasets.Imagenette.html#torchvision.datasets.Imagenette)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_dataloader</span><span class="p">(</span>
+        <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">Imagenette</span><span class="p">(</span>
+            <span class="n">root</span><span class="o">=</span><span class="s2">&quot;.data&quot;</span><span class="p">,</span>
+            <span class="n">split</span><span class="o">=</span><span class="s2">&quot;val&quot;</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="s2">&quot;160px&quot;</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;.data/imagenette2-160&#39;</span><span class="p">),</span>
+            <span class="n">transform</span><span class="o">=</span><span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">160</span><span class="p">,</span><span class="mi">160</span><span class="p">))</span>
+                <span class="p">])</span>
+        <span class="p">),</span>
+    <span class="p">)</span></div>
 
+     
+<div class="viewcode-block" id="get_dataloader">
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.get_dataloader">[docs]</a>
+<span class="k">def</span> <span class="nf">get_dataloader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">DataLoader</span><span class="p">(</span>
+        <span class="n">dataset</span><span class="p">,</span> 
+        <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="n">shuffle</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="image_loaders">
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.image_loaders">[docs]</a>
+<span class="k">class</span> <span class="nc">image_loaders</span><span class="p">:</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_image_dataloader</span><span class="p">(</span><span class="n">dataset_module</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="s2">&quot;.data&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s1">&#39;transform&#39;</span><span class="p">,</span>
+            <span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+                <span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">)),</span>
+                <span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">Grayscale</span><span class="p">(</span><span class="n">num_output_channels</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                <span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+            <span class="p">]))</span>
+        <span class="c1"># print(args, kwargs)</span>
+        <span class="k">return</span> <span class="n">get_dataloader</span><span class="p">(</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="p">,</span>
+                <span class="n">dataset_module</span><span class="p">)(</span>
+                    <span class="n">root</span><span class="o">=</span><span class="n">root</span><span class="p">,</span>
+                    <span class="c1"># split=split,</span>
+                    <span class="c1"># download=True,</span>
+                    <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">))</span>
+        
+    <span class="n">image_modules</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="c1"># &#39;Caltech101&#39;</span>
+        <span class="c1"># &#39;CelebA&#39;:{</span>
+        <span class="c1">#     &#39;split&#39;:&#39;test&#39;,</span>
+        <span class="c1">#     &#39;download&#39;:True,</span>
+        <span class="c1">#     },</span>
+        <span class="s1">&#39;CIFAR10&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>             <span class="c1"># Passed</span>
+            <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">),</span>
+        <span class="c1"># &#39;Country211&#39;:dict(</span>
+        <span class="c1">#     split=&#39;test&#39;,</span>
+        <span class="c1">#     download=True),</span>
+        <span class="s1">&#39;DTD&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>                 <span class="c1"># Passed</span>
+            <span class="n">split</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="c1"># &#39;EMNIST&#39;:dict(            # File download issues            </span>
+        <span class="c1">#     split=&quot;byclass&quot;,</span>
+        <span class="c1">#     train=False,</span>
+        <span class="c1">#     download=True),</span>
+        <span class="s1">&#39;EuroSAT&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>             <span class="c1"># Passed</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;FashionMNIST&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>        <span class="c1"># Passed</span>
+            <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="c1"># &#39;FER2013&#39;:dict(             # Cannot download</span>
+        <span class="c1">#     split=&#39;test&#39;,),</span>
+        <span class="s1">&#39;FGVCAircraft&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>        <span class="c1"># Passed</span>
+            <span class="n">split</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="c1"># # &#39;Flicker8k&#39;,</span>
+        <span class="s1">&#39;Flowers102&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>          <span class="c1"># Passed</span>
+            <span class="n">split</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="c1"># &#39;Food101&#39;:dict(             # Took too long to download</span>
+        <span class="c1">#     split=&#39;test&#39;,</span>
+        <span class="c1">#     download=True),</span>
+        <span class="s1">&#39;GTSRB&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>               <span class="c1"># Passed</span>
+            <span class="n">split</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="c1"># &#39;INaturalist&#39;:dict(         # Too big — over 8GB for validation</span>
+        <span class="c1">#     version=&#39;2021_valid&#39;,</span>
+        <span class="c1">#     download=True),</span>
+        <span class="s1">&#39;Imagenette&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>          <span class="c1"># Passed</span>
+            <span class="n">split</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span>
+            <span class="c1"># download=True</span>
+            <span class="p">),</span>
+        <span class="s1">&#39;KMNIST&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>              <span class="c1"># Passed</span>
+            <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="c1"># &#39;LFWPeople&#39;:dict(         # Corrupt file</span>
+        <span class="c1">#     split=&#39;test&#39;,</span>
+        <span class="c1">#     download=True),</span>
+        <span class="c1"># &#39;LSUN&#39;:dict(              # Uses deprecated package</span>
+        <span class="c1">#     classes=&#39;test&#39;),</span>
+        <span class="s1">&#39;MNIST&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>               <span class="c1"># Passed</span>
+            <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;Omniglot&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>            <span class="c1"># Passed</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;OxfordIIITPet&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>       <span class="c1"># Passed</span>
+            <span class="n">split</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;Places365&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>             <span class="c1"># Passed</span>
+            <span class="n">split</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">,</span>
+            <span class="n">small</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="c1"># download=True,</span>
+            <span class="p">),</span>
+        <span class="c1"># &#39;PCAM&#39;:dict(                # Took too long to download</span>
+        <span class="c1">#     split=&#39;test&#39;,</span>
+        <span class="c1">#     download=True),</span>
+        <span class="s1">&#39;QMNIST&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>              <span class="c1"># Passed</span>
+            <span class="n">what</span><span class="o">=</span><span class="s1">&#39;test10k&#39;</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;RenderedSST2&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>        <span class="c1"># Passed</span>
+            <span class="n">split</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;SEMEION&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>           <span class="c1"># Passed</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="c1"># &#39;SBU&#39;:dict(               # Took too long to download</span>
+        <span class="c1">#     download=True),</span>
+    <span class="c1"># &#39;StanfordCars&#39;:dict           # Not available(</span>
+        <span class="c1">#     split=&#39;test&#39;,</span>
+        <span class="c1">#     download=True),</span>
+        <span class="s1">&#39;STL10&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>               <span class="c1"># Passed</span>
+            <span class="n">split</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;SUN397&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>              <span class="c1"># Passed</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;SVHN&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>                <span class="c1"># Passed    </span>
+            <span class="n">split</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;USPS&#39;</span><span class="p">:</span><span class="nb">dict</span><span class="p">(</span>                <span class="c1"># Passed</span>
+            <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">image_module</span><span class="p">,</span><span class="n">kwargs</span> <span class="ow">in</span> <span class="n">image_modules</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">locals</span><span class="p">()[</span><span class="sa">f</span><span class="s1">&#39;get_</span><span class="si">{</span><span class="n">image_module</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">_dataloader&#39;</span><span class="p">]</span> <span class="o">=</span> \
+            <span class="n">partial</span><span class="p">(</span><span class="n">_get_image_dataloader</span><span class="p">,</span> <span class="n">image_module</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="text_loaders">
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.text_loaders">[docs]</a>
+<span class="k">class</span> <span class="nc">text_loaders</span><span class="p">:</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_text_dataloader</span><span class="p">(</span><span class="n">dataset_module</span><span class="p">,</span> <span class="n">dataset_len</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="s2">&quot;.data&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;dev&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">get_dataloader</span><span class="p">(</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="n">torchtext</span><span class="o">.</span><span class="n">datasets</span><span class="p">,</span> 
+                <span class="n">dataset_module</span><span class="p">)(</span>
+                <span class="n">root</span><span class="o">=</span><span class="n">root</span><span class="p">,</span>
+                <span class="n">split</span><span class="o">=</span><span class="n">split</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">set_length</span><span class="p">(</span><span class="n">dataset_len</span><span class="p">)</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="text_loaders.get_mnli_dataloader">
+<a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.text_loaders.get_mnli_dataloader">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_mnli_dataloader</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;split&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;dev_matched&quot;</span>
+        <span class="k">return</span> <span class="n">get_dataloader</span><span class="p">(</span>
+            <span class="n">torchtext</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">MNLI</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">set_length</span><span class="p">(</span><span class="mi">9815</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+    <span class="n">text_modules_lengths</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;STSB&#39;</span><span class="p">:</span> <span class="mi">1500</span><span class="p">,</span>
+        <span class="s1">&#39;SST2&#39;</span><span class="p">:</span> <span class="mi">872</span><span class="p">,</span>
+        <span class="s1">&#39;RTE&#39;</span><span class="p">:</span> <span class="mi">277</span><span class="p">,</span>
+        <span class="s1">&#39;QNLI&#39;</span><span class="p">:</span> <span class="mi">5463</span><span class="p">,</span>
+        <span class="s1">&#39;CoLA&#39;</span><span class="p">:</span> <span class="mi">527</span><span class="p">,</span>
+        <span class="s1">&#39;WNLI&#39;</span><span class="p">:</span> <span class="mi">71</span><span class="p">,</span>
+        <span class="c1"># &#39;SQuAD1&#39;: 10570,</span>
+        <span class="c1"># &#39;SQuAD2&#39;: 11873,</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">dataset_module</span><span class="p">,</span> <span class="n">dataset_len</span> <span class="ow">in</span> <span class="n">text_modules_lengths</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">locals</span><span class="p">()[</span><span class="sa">f</span><span class="s2">&quot;get_</span><span class="si">{</span><span class="n">dataset_module</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">_dataloader&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">_get_text_dataloader</span><span class="p">,</span> <span class="n">dataset_module</span><span class="p">,</span> <span class="n">dataset_len</span><span class="p">)</span></div>
+
+        
 <div class="viewcode-block" id="uri_to_path">
 <a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.uri_to_path">[docs]</a>
 <span class="k">def</span> <span class="nf">uri_to_path</span><span class="p">(</span><span class="n">uri</span><span class="p">):</span>

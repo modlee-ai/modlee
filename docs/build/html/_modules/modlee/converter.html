@@ -17,7 +17,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=8dde47fa"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -115,9 +115,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TextDataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_n_samples"><code class="docutils literal notranslate"><span class="pre">get_n_samples()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
@@ -161,8 +163,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_dataloader"><code class="docutils literal notranslate"><span class="pre">get_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_imagenette_dataloader"><code class="docutils literal notranslate"><span class="pre">get_imagenette_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.image_loaders"><code class="docutils literal notranslate"><span class="pre">image_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
@@ -170,6 +175,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.text_loaders"><code class="docutils literal notranslate"><span class="pre">text_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
@@ -257,14 +263,18 @@
 <span class="sd">- Graph, the network represented as a graph with layers as nodes</span>
 <span class="sd">- Text, the textual description of the graph that is portable and can be rebuilt into a graph</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">from</span> <span class="nn">importlib.machinery</span> <span class="kn">import</span> <span class="n">SourceFileLoader</span>
-<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">inspect</span><span class="o">,</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">import</span> <span class="nn">torchsummary</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">onnx2torch</span>
 <span class="kn">import</span> <span class="nn">onnx_graphsurgeon</span> <span class="k">as</span> <span class="nn">gs</span>
 <span class="kn">import</span> <span class="nn">onnx</span>
+<span class="kn">from</span> <span class="nn">onnx.tools</span> <span class="kn">import</span> <span class="n">net_drawer</span>
+<span class="n">ONNX_MINOR_VERSION</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">onnx</span><span class="o">.</span><span class="n">__version__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
@@ -275,6 +285,12 @@
 <span class="s2">import torch, onnx2torch</span>
 <span class="s2">from torch import tensor</span>
 <span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">TEXT_INPUT_DUMMY</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;hello world&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;the quick brown fox jumps over the lazy dog&#39;</span><span class="o">*</span><span class="mi">10</span><span class="p">,</span>
+    <span class="s1">&#39;the mitochondria is the powerhouse of the cell&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
 
 
 <div class="viewcode-block" id="Converter">
@@ -305,6 +321,8 @@
         <span class="k">if</span> <span class="n">input_dummy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">input_dummy</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">])</span>
         <span class="n">input_dummy</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">torch_model</span><span class="p">,</span> <span class="s1">&#39;device&#39;</span><span class="p">):</span>
+            <span class="n">input_dummy</span> <span class="o">=</span> <span class="n">input_dummy</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">torch_model</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">torch_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
                 <span class="n">param</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">False</span>
@@ -319,7 +337,7 @@
                 <span class="n">dynamic_axes</span><span class="o">=</span><span class="p">{</span>
                     <span class="c1"># &quot;input_1&quot;: {0: &quot;batch_size&quot;},</span>
                     <span class="s2">&quot;input_1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                    <span class="c1"># &quot;gemm_1&quot;: {0: &quot;batch_size&quot;}</span>
+                    <span class="c1"># &quot;gemm_1&quot;: {0: &quot;batch_size&quot;},</span>
                     <span class="s2">&quot;gemm_1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="p">},</span>
                 <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
@@ -330,9 +348,10 @@
         <span class="n">torch_model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
         <span class="c1"># input_dummy.requires_grad = True</span>
         <span class="c1"># The model we load will have no parameters initialized</span>
-        <span class="n">onnx_parameterless_model</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">tmp_onnx_path</span><span class="p">)</span>
+        <span class="n">onnx_model</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">tmp_onnx_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ONNX_MINOR_VERSION</span> <span class="o">&lt;=</span> <span class="mi">15</span><span class="p">:</span>
         <span class="c1"># Initialize the parameterless model</span>
-        <span class="n">onnx_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx_parameterless2onnx</span><span class="p">(</span><span class="n">onnx_parameterless_model</span><span class="p">)</span>
+            <span class="n">onnx_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx_parameterless2onnx</span><span class="p">(</span><span class="n">onnx_model</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">onnx_model</span></div>
 
 
@@ -520,6 +539,9 @@
 <span class="sd">        :param onnx_text: The ONNX Text</span>
 <span class="sd">        :return onnx_graph: The ONNX Graph</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># If on Python 3.12, likely using a newer ONNX</span>
+        <span class="k">if</span> <span class="n">ONNX_MINOR_VERSION</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="n">onnx_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_onnx116</span><span class="p">(</span><span class="n">onnx_text</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">onnx</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_model</span><span class="p">(</span><span class="n">onnx_text</span><span class="p">)</span></div>
 
 
@@ -557,7 +579,25 @@
 <span class="sd">        :param onnx_graph: The ONNX Graph object.</span>
 <span class="sd">        :return torch_model: The Torch Model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">onnx2torch</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">onnx_graph</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="c1"># Handle conversion for newer ONNX versions</span>
+        <span class="c1"># TODO - try to remove the try/except block</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">onnx2torch</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">onnx_graph</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="n">ONNX_MINOR_VERSION</span> <span class="o">&gt;=</span> <span class="mi">16</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">onnx_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx_graph2onnx_text</span><span class="p">(</span><span class="n">onnx_graph</span><span class="p">)</span>
+                <span class="n">_onnx_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx_text2onnx_graph</span><span class="p">(</span><span class="n">onnx_text</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">onnx2torch</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">_onnx_graph</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">onnx_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx_graph2onnx_text</span><span class="p">(</span><span class="n">onnx_graph</span><span class="p">)</span>
+                <span class="n">_onnx_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx_text2onnx_graph</span><span class="p">(</span><span class="n">onnx_text</span><span class="p">)</span>
+                <span class="n">_onnx_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx_parameterless2onnx</span><span class="p">(</span><span class="n">_onnx_graph</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">onnx2torch</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">_onnx_graph</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  
+        <span class="k">else</span><span class="p">:</span>   
+            <span class="k">return</span> <span class="n">onnx2torch</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">onnx_graph</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  </div>
 
 
     <span class="n">onnx2torch</span> <span class="o">=</span> <span class="n">onnx_graph2torch_model</span>
@@ -583,7 +623,6 @@
             <span class="k">return</span> <span class="n">s</span>
 
         <span class="n">onnx_str</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">printer</span><span class="o">.</span><span class="n">to_text</span><span class="p">(</span><span class="n">onnx_graph</span><span class="p">)</span>
-        <span class="c1"># breakpoint()</span>
         <span class="n">onnx_str</span> <span class="o">=</span> <span class="n">onnx_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">output_var</span> <span class="o">=</span> <span class="s2">&quot;None&quot;</span>
         <span class="n">n_lines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">onnx_str</span><span class="p">)</span>
@@ -678,6 +717,80 @@
 
     <span class="n">onnx2onnx_text</span> <span class="o">=</span> <span class="n">onnx_graph2onnx_text</span>
 
+<div class="viewcode-block" id="Converter.filter_node">
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.filter_node">[docs]</a>
+    <span class="k">def</span> <span class="nf">filter_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns whether this is a non-layer node to filter out</span>
+<span class="sd">        Checks for substrings in the node name that indicate that it is not a layer.</span>
+
+<span class="sd">        :param x: The NetworkX node to check.</span>
+<span class="sd">        :return: Whether the node contains a substring indicating that it should be filtered as a non-layer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;onnx::&#39;</span> <span class="ow">in</span> <span class="n">x</span> \
+            <span class="ow">or</span> <span class="s1">&#39;Identity&#39;</span> <span class="ow">in</span> <span class="n">x</span> \
+            <span class="ow">or</span> <span class="s1">&#39;fc.&#39;</span> <span class="ow">in</span> <span class="n">x</span></div>
+
+            
+<div class="viewcode-block" id="Converter.prune_onnx_nx">
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.prune_onnx_nx">[docs]</a>
+    <span class="k">def</span> <span class="nf">prune_onnx_nx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_nx</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prune an ONNX NetworkX graph to just the layer nodes.</span>
+
+<span class="sd">        :param onnx_nx: The ONNX NetworkX graph to prune.</span>
+<span class="sd">        :return: The pruned ONNX NetworkX graph.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nodes_to_prune</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">onnx_nx</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_node</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span>
+        <span class="c1"># help(onnx_nx.remove_node)</span>
+        <span class="n">onnx_nx_layers_only</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">onnx_nx</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes_to_prune</span><span class="p">:</span>
+            <span class="n">onnx_nx_layers_only</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">onnx_nx_layers_only</span></div>
+
+            
+<div class="viewcode-block" id="Converter.onnx_graph2onnx_nx">
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.onnx_graph2onnx_nx">[docs]</a>
+    <span class="k">def</span> <span class="nf">onnx_graph2onnx_nx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_graph</span><span class="p">,</span> <span class="n">prune</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert an ONNX graph to ONNX NetworkX.</span>
+
+<span class="sd">        :param onnx_graph: The ONNX graph.</span>
+<span class="sd">        :param prune: Whether to prune the NetworkX to just layer nodes, defaults to True</span>
+<span class="sd">        :return: The ONNX NetworkX graph.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">ONNX_MINOR_VERSION</span><span class="o">&lt;=</span><span class="mi">15</span><span class="p">:</span>
+            <span class="n">onnx_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx_parameterless2onnx</span><span class="p">(</span><span class="n">onnx_graph</span><span class="p">)</span>
+        <span class="n">onnx_pydot</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">net_drawer</span><span class="o">.</span><span class="n">GetPydotGraph</span><span class="p">(</span>
+            <span class="n">onnx_graph</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
+        <span class="n">onnx_pydot</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;onnx_graph&quot;</span><span class="p">)</span>
+        <span class="n">onnx_nx</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">nx_pydot</span><span class="o">.</span><span class="n">from_pydot</span><span class="p">(</span><span class="n">onnx_pydot</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">prune</span><span class="p">:</span>
+            <span class="n">onnx_nx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prune_onnx_nx</span><span class="p">(</span><span class="n">onnx_nx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">onnx_nx</span></div>
+
+
+<div class="viewcode-block" id="Converter.index_nx">
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.index_nx">[docs]</a>
+    <span class="k">def</span> <span class="nf">index_nx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_nx</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Index an ONNX NetworkX graph, by replacing the node labels with their indices.</span>
+
+<span class="sd">        :param onnx_nx: The ONNX NetworkX to index.</span>
+<span class="sd">        :return: The ONNX NetworkX ,indexed. The function modifies the graph in-place and the return value should be unnecessary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">relabel_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">onnx_nx</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)):</span>
+            <span class="n">relabel_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">n</span><span class="p">})</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">relabel_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">nx</span><span class="o">.</span><span class="n">relabel_nodes</span><span class="p">(</span>
+                <span class="n">onnx_nx</span><span class="p">,</span>
+                <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span><span class="p">},</span>
+                <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">onnx_nx</span></div>
+
+        
 <div class="viewcode-block" id="Converter.remove_identity">
 <a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.remove_identity">[docs]</a>
     <span class="k">def</span> <span class="nf">remove_identity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_text</span><span class="p">):</span>
@@ -838,6 +951,7 @@
                     <span class="k">continue</span>
             <span class="c1"># print(value_shape, type(value_shape))</span>
 
+            
             <span class="n">tensor_value</span><span class="o">.</span><span class="n">to_constant</span><span class="p">(</span>
                 <span class="n">values</span><span class="o">=</span><span class="n">tensor_init_fn</span><span class="p">(</span>
                     <span class="n">size</span><span class="o">=</span><span class="n">value_shape</span><span class="p">,</span>
@@ -1043,10 +1157,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">attrs_to_skip</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bias&quot;</span><span class="p">]</span>
         <span class="n">attr_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">model_attr</span><span class="o">.</span><span class="fm">__init__</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
-        <span class="c1"># breakpoint()</span>
         <span class="n">attr_params</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="c1"># if &#39;initializer&#39; in model_attr: breakpoint()</span>
         <span class="k">for</span> <span class="n">attr_key</span><span class="p">,</span> <span class="n">attr_val</span> <span class="ow">in</span> <span class="n">attr_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">attr_key</span> <span class="ow">in</span> <span class="n">attrs_to_skip</span><span class="p">:</span>
                 <span class="k">continue</span>
@@ -1063,8 +1175,6 @@
                     <span class="p">)</span>
                 <span class="n">attr_params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">attr_key</span><span class="p">:</span> <span class="n">model_attr_value</span><span class="p">})</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model_attr</span><span class="p">,</span> <span class="s2">&quot;state_dict&quot;</span><span class="p">):</span>
-            <span class="c1"># print(f&#39;adding state dict for {model_attr}&#39;)</span>
-            <span class="c1"># breakpoint()</span>
             <span class="n">model_state_dict</span> <span class="o">=</span> <span class="n">model_attr</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span>
             <span class="c1"># Do this only for initializers because the output file could get large</span>
             <span class="n">model_state_dict</span> <span class="o">=</span> <span class="p">{</span>
@@ -1072,7 +1182,6 @@
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">model_state_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
                 <span class="k">if</span> <span class="s2">&quot;initial&quot;</span> <span class="ow">in</span> <span class="n">k</span>
             <span class="p">}</span>
-            <span class="c1"># if len(model_state_dict) &gt; 10: breakpoint()</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_state_dict</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">attr_params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">model_state_dict</span><span class="p">)</span>
                 <span class="c1"># attr_params.update({&#39;state_dict&#39;:model_state_dict})</span>
@@ -1117,7 +1226,6 @@
 
         <span class="k">for</span> <span class="n">model_attr_name</span><span class="p">,</span> <span class="n">model_attr</span> <span class="ow">in</span> <span class="n">model_attrs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">attr_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_params_for_attr</span><span class="p">(</span><span class="n">model_attr</span><span class="p">)</span>
-            <span class="c1"># if &#39;initializer&#39; in model_attr_name: breakpoint()</span>
             <span class="n">init_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="p">(</span><span class="n">model_attr_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_type_string</span><span class="p">(</span><span class="n">model_attr</span><span class="p">),</span> <span class="n">attr_params</span><span class="p">)</span>
             <span class="p">)</span>
@@ -1325,6 +1433,25 @@
 <span class="sd">        :return: The string with types propery cast.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;(Gather.*), (.*)\)&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">1, </span><span class="se">\\</span><span class="s2">2.type(torch.int64))&quot;</span><span class="p">,</span> <span class="n">input_str</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Converter.convert_onnx116">
+<a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.convert_onnx116">[docs]</a>
+    <span class="k">def</span> <span class="nf">convert_onnx116</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_text</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert ONNX graph text generated with ONNX 1.16, which requires modifications</span>
+<span class="sd">        to be parseable by onnx.parser.</span>
+
+<span class="sd">        :param onnx_text: The ONNX graph text to convert.</span>
+<span class="sd">        :return: The ONNX graph text converted to a format parseable by onnx.parser.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">onnx_text</span><span class="o">.</span>\
+            <span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_ &#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">replace</span><span class="p">(</span><span class="s1">&#39; ints =&#39;</span><span class="p">,</span><span class="s1">&#39; =&#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">replace</span><span class="p">(</span><span class="s1">&#39; int =&#39;</span><span class="p">,</span><span class="s1">&#39; =&#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">replace</span><span class="p">(</span><span class="s1">&#39; float =&#39;</span><span class="p">,</span><span class="s1">&#39; =&#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">replace</span><span class="p">(</span><span class="s1">&#39; tensor &#39;</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">replace</span><span class="p">(</span><span class="s1">&#39; string =&#39;</span><span class="p">,</span> <span class="s1">&#39; =&#39;</span><span class="p">)</span></div>
 </div>
 
 </pre></div>

@@ -18,7 +18,7 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=8dde47fa"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -118,9 +118,11 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">modlee.data_metafeatures module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modlee.data_metafeatures.TextDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TextDataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modlee.data_metafeatures.get_n_samples"><code class="docutils literal notranslate"><span class="pre">get_n_samples()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
@@ -164,8 +166,11 @@
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.get_dataloader"><code class="docutils literal notranslate"><span class="pre">get_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.get_imagenette_dataloader"><code class="docutils literal notranslate"><span class="pre">get_imagenette_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.image_loaders"><code class="docutils literal notranslate"><span class="pre">image_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
@@ -173,6 +178,7 @@
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.text_loaders"><code class="docutils literal notranslate"><span class="pre">text_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
@@ -264,6 +270,17 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="modlee.data_metafeatures.DataMetafeatures.get_mfe">
+<span class="sig-name descname"><span class="pre">get_mfe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/data_metafeatures.html#DataMetafeatures.get_mfe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.data_metafeatures.DataMetafeatures.get_mfe" title="Link to this definition"></a></dt>
+<dd><p>Get PyMFE features for every element in the dataloader</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary of {mfe_feature : mfe_value}</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="modlee.data_metafeatures.DataMetafeatures.get_mfe_features">
 <span class="sig-name descname"><span class="pre">get_mfe_features</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/data_metafeatures.html#DataMetafeatures.get_mfe_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.data_metafeatures.DataMetafeatures.get_mfe_features" title="Link to this definition"></a></dt>
 <dd><p>Get features for all batch elements with PyMFE.</p>
@@ -286,6 +303,26 @@
 <dd class="field-even"><p>A dictionary of features for the batch element.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.data_metafeatures.DataMetafeatures.get_mfe_on_element">
+<span class="sig-name descname"><span class="pre">get_mfe_on_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_element</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.data_metafeatures.DataMetafeatures.get_mfe_on_element" title="Link to this definition"></a></dt>
+<dd><p>Get features for a batch element with PyMFE.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>batch_element</strong> – The batch element to calculate.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary of features for the batch element.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.data_metafeatures.DataMetafeatures.get_properties">
+<span class="sig-name descname"><span class="pre">get_properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/data_metafeatures.html#DataMetafeatures.get_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.data_metafeatures.DataMetafeatures.get_properties" title="Link to this definition"></a></dt>
+<dd><p>Get properties — features that are not calculated, e.g. shapes</p>
 </dd></dl>
 
 <dl class="py method">
@@ -326,9 +363,14 @@ Includes feature shape, k-means clustering, and time taken to calculate features
 
 <dl class="py class">
 <dt class="sig sig-object py" id="modlee.data_metafeatures.ImageDataMetafeatures">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.data_metafeatures.</span></span><span class="sig-name descname"><span class="pre">ImageDataMetafeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/data_metafeatures.html#ImageDataMetafeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.data_metafeatures.ImageDataMetafeatures" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.data_metafeatures.</span></span><span class="sig-name descname"><span class="pre">ImageDataMetafeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embd_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/data_metafeatures.html#ImageDataMetafeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.data_metafeatures.ImageDataMetafeatures" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#modlee.data_metafeatures.DataMetafeatures" title="modlee.data_metafeatures.DataMetafeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></p>
 <p>Image-based DataMetafeatures.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.data_metafeatures.ImageDataMetafeatures.get_embedding">
+<span class="sig-name descname"><span class="pre">get_embedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/data_metafeatures.html#ImageDataMetafeatures.get_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.data_metafeatures.ImageDataMetafeatures.get_embedding" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.data_metafeatures.ImageDataMetafeatures.get_raw_batch_elements">
 <span class="sig-name descname"><span class="pre">get_raw_batch_elements</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/data_metafeatures.html#ImageDataMetafeatures.get_raw_batch_elements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.data_metafeatures.ImageDataMetafeatures.get_raw_batch_elements" title="Link to this definition"></a></dt>
@@ -336,6 +378,26 @@ Includes feature shape, k-means clustering, and time taken to calculate features
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of image-based features.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modlee.data_metafeatures.TextDataMetafeatures">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.data_metafeatures.</span></span><span class="sig-name descname"><span class="pre">TextDataMetafeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlp_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/data_metafeatures.html#TextDataMetafeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.data_metafeatures.TextDataMetafeatures" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#modlee.data_metafeatures.DataMetafeatures" title="modlee.data_metafeatures.DataMetafeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.data_metafeatures.TextDataMetafeatures.get_embedding">
+<span class="sig-name descname"><span class="pre">get_embedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/data_metafeatures.html#TextDataMetafeatures.get_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.data_metafeatures.TextDataMetafeatures.get_embedding" title="Link to this definition"></a></dt>
+<dd><p>Get embeddings from the dataloader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> – The index in a batch of the string elements to embed, defaults to 1</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary of {embd_i : embd_value}</p>
 </dd>
 </dl>
 </dd></dl>
@@ -390,6 +452,23 @@ Includes feature shape, k-means clustering, and time taken to calculate features
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A dictionary of the features.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modlee.data_metafeatures.get_n_samples">
+<span class="sig-prename descclassname"><span class="pre">modlee.data_metafeatures.</span></span><span class="sig-name descname"><span class="pre">get_n_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/data_metafeatures.html#get_n_samples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.data_metafeatures.get_n_samples" title="Link to this definition"></a></dt>
+<dd><p>Get a number of samples from a dataloader</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataloader</strong> – The dataloader.</p></li>
+<li><p><strong>n_samples</strong> – The number of samples, defaults to 100.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An iterable of batch elements, each of length n_samples.</p>
 </dd>
 </dl>
 </dd></dl>
