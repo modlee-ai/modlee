@@ -18,7 +18,7 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=8dde47fa"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -118,9 +118,11 @@
 <li class="toctree-l3"><a class="reference internal" href="modlee.data_metafeatures.html">modlee.data_metafeatures module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TextDataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.get_n_samples"><code class="docutils literal notranslate"><span class="pre">get_n_samples()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
@@ -164,8 +166,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modlee.utils.get_dataloader"><code class="docutils literal notranslate"><span class="pre">get_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modlee.utils.get_imagenette_dataloader"><code class="docutils literal notranslate"><span class="pre">get_imagenette_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modlee.utils.image_loaders"><code class="docutils literal notranslate"><span class="pre">image_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
@@ -173,6 +178,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modlee.utils.text_loaders"><code class="docutils literal notranslate"><span class="pre">text_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
@@ -308,6 +314,11 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.get_dataloader">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">get_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#get_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.get_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="modlee.utils.get_fashion_mnist">
 <span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">get_fashion_mnist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_output_channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#get_fashion_mnist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.get_fashion_mnist" title="Link to this definition"></a></dt>
 <dd><p>Get the Fashion MNIST dataset from torchvision.</p>
@@ -325,6 +336,12 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="modlee.utils.get_imagenette_dataloader">
+<span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">get_imagenette_dataloader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#get_imagenette_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.get_imagenette_dataloader" title="Link to this definition"></a></dt>
+<dd><p>Get a small validation dataloader for imagenette (<a class="reference external" href="https://pytorch.org/vision/stable/generated/torchvision.datasets.Imagenette.html#torchvision.datasets.Imagenette">https://pytorch.org/vision/stable/generated/torchvision.datasets.Imagenette.html#torchvision.datasets.Imagenette</a>)</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="modlee.utils.get_model_size">
 <span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">get_model_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_MB</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#get_model_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.get_model_size" title="Link to this definition"></a></dt>
 <dd><p>Get the size of a model, as estimated from the number and size of its parameters.</p>
@@ -339,6 +356,127 @@
 <dd class="field-even"><p>The model size.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">image_loaders</span></span><a class="reference internal" href="../_modules/modlee/utils.html#image_loaders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.image_loaders" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_cifar10_dataloader">
+<span class="sig-name descname"><span class="pre">get_cifar10_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_cifar10_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_dtd_dataloader">
+<span class="sig-name descname"><span class="pre">get_dtd_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_dtd_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_eurosat_dataloader">
+<span class="sig-name descname"><span class="pre">get_eurosat_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_eurosat_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_fashionmnist_dataloader">
+<span class="sig-name descname"><span class="pre">get_fashionmnist_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_fashionmnist_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_fgvcaircraft_dataloader">
+<span class="sig-name descname"><span class="pre">get_fgvcaircraft_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_fgvcaircraft_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_flowers102_dataloader">
+<span class="sig-name descname"><span class="pre">get_flowers102_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_flowers102_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_gtsrb_dataloader">
+<span class="sig-name descname"><span class="pre">get_gtsrb_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_gtsrb_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_imagenette_dataloader">
+<span class="sig-name descname"><span class="pre">get_imagenette_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_imagenette_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_kmnist_dataloader">
+<span class="sig-name descname"><span class="pre">get_kmnist_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_kmnist_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_mnist_dataloader">
+<span class="sig-name descname"><span class="pre">get_mnist_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_mnist_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_omniglot_dataloader">
+<span class="sig-name descname"><span class="pre">get_omniglot_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_omniglot_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_oxfordiiitpet_dataloader">
+<span class="sig-name descname"><span class="pre">get_oxfordiiitpet_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_oxfordiiitpet_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_places365_dataloader">
+<span class="sig-name descname"><span class="pre">get_places365_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_places365_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_qmnist_dataloader">
+<span class="sig-name descname"><span class="pre">get_qmnist_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_qmnist_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_renderedsst2_dataloader">
+<span class="sig-name descname"><span class="pre">get_renderedsst2_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_renderedsst2_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_semeion_dataloader">
+<span class="sig-name descname"><span class="pre">get_semeion_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_semeion_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_stl10_dataloader">
+<span class="sig-name descname"><span class="pre">get_stl10_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_stl10_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_sun397_dataloader">
+<span class="sig-name descname"><span class="pre">get_sun397_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_sun397_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_svhn_dataloader">
+<span class="sig-name descname"><span class="pre">get_svhn_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_svhn_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.get_usps_dataloader">
+<span class="sig-name descname"><span class="pre">get_usps_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.image_loaders.get_usps_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.image_module">
+<span class="sig-name descname"><span class="pre">image_module</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'USPS'</span></em><a class="headerlink" href="#modlee.utils.image_loaders.image_module" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.image_modules">
+<span class="sig-name descname"><span class="pre">image_modules</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'CIFAR10':</span> <span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'train':</span> <span class="pre">False},</span> <span class="pre">'DTD':</span> <span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'split':</span> <span class="pre">'test'},</span> <span class="pre">'EuroSAT':</span> <span class="pre">{'download':</span> <span class="pre">True},</span> <span class="pre">'FGVCAircraft':</span> <span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'split':</span> <span class="pre">'test'},</span> <span class="pre">'FashionMNIST':</span> <span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'train':</span> <span class="pre">False},</span> <span class="pre">'Flowers102':</span> <span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'split':</span> <span class="pre">'test'},</span> <span class="pre">'GTSRB':</span> <span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'split':</span> <span class="pre">'test'},</span> <span class="pre">'Imagenette':</span> <span class="pre">{'size':</span> <span class="pre">'full',</span> <span class="pre">'split':</span> <span class="pre">'val'},</span> <span class="pre">'KMNIST':</span> <span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'train':</span> <span class="pre">False},</span> <span class="pre">'MNIST':</span> <span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'train':</span> <span class="pre">False},</span> <span class="pre">'Omniglot':</span> <span class="pre">{'download':</span> <span class="pre">True},</span> <span class="pre">'OxfordIIITPet':</span> <span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'split':</span> <span class="pre">'test'},</span> <span class="pre">'Places365':</span> <span class="pre">{'small':</span> <span class="pre">True,</span> <span class="pre">'split':</span> <span class="pre">'val'},</span> <span class="pre">'QMNIST':</span> <span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'what':</span> <span class="pre">'test10k'},</span> <span class="pre">'RenderedSST2':</span> <span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'split':</span> <span class="pre">'test'},</span> <span class="pre">'SEMEION':</span> <span class="pre">{'download':</span> <span class="pre">True},</span> <span class="pre">'STL10':</span> <span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'split':</span> <span class="pre">'test'},</span> <span class="pre">'SUN397':</span> <span class="pre">{'download':</span> <span class="pre">True},</span> <span class="pre">'SVHN':</span> <span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'split':</span> <span class="pre">'test'},</span> <span class="pre">'USPS':</span> <span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'train':</span> <span class="pre">False}}</span></em><a class="headerlink" href="#modlee.utils.image_loaders.image_modules" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modlee.utils.image_loaders.kwargs">
+<span class="sig-name descname"><span class="pre">kwargs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'download':</span> <span class="pre">True,</span> <span class="pre">'train':</span> <span class="pre">False}</span></em><a class="headerlink" href="#modlee.utils.image_loaders.kwargs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py function">
@@ -428,6 +566,62 @@
 <dd class="field-odd"><p><strong>modlee_client</strong> – The client object that is tracking the current run.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modlee.utils.text_loaders">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.utils.</span></span><span class="sig-name descname"><span class="pre">text_loaders</span></span><a class="reference internal" href="../_modules/modlee/utils.html#text_loaders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.text_loaders" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modlee.utils.text_loaders.dataset_len">
+<span class="sig-name descname"><span class="pre">dataset_len</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">71</span></em><a class="headerlink" href="#modlee.utils.text_loaders.dataset_len" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modlee.utils.text_loaders.dataset_module">
+<span class="sig-name descname"><span class="pre">dataset_module</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'WNLI'</span></em><a class="headerlink" href="#modlee.utils.text_loaders.dataset_module" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.text_loaders.get_cola_dataloader">
+<span class="sig-name descname"><span class="pre">get_cola_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dev'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.text_loaders.get_cola_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.text_loaders.get_mnli_dataloader">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_mnli_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/utils.html#text_loaders.get_mnli_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.utils.text_loaders.get_mnli_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.text_loaders.get_qnli_dataloader">
+<span class="sig-name descname"><span class="pre">get_qnli_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dev'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.text_loaders.get_qnli_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.text_loaders.get_rte_dataloader">
+<span class="sig-name descname"><span class="pre">get_rte_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dev'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.text_loaders.get_rte_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.text_loaders.get_sst2_dataloader">
+<span class="sig-name descname"><span class="pre">get_sst2_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dev'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.text_loaders.get_sst2_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.text_loaders.get_stsb_dataloader">
+<span class="sig-name descname"><span class="pre">get_stsb_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dev'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.text_loaders.get_stsb_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.utils.text_loaders.get_wnli_dataloader">
+<span class="sig-name descname"><span class="pre">get_wnli_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dev'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.utils.text_loaders.get_wnli_dataloader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modlee.utils.text_loaders.text_modules_lengths">
+<span class="sig-name descname"><span class="pre">text_modules_lengths</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'CoLA':</span> <span class="pre">527,</span> <span class="pre">'QNLI':</span> <span class="pre">5463,</span> <span class="pre">'RTE':</span> <span class="pre">277,</span> <span class="pre">'SST2':</span> <span class="pre">872,</span> <span class="pre">'STSB':</span> <span class="pre">1500,</span> <span class="pre">'WNLI':</span> <span class="pre">71}</span></em><a class="headerlink" href="#modlee.utils.text_loaders.text_modules_lengths" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py function">

@@ -17,7 +17,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=8dde47fa"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -115,9 +115,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TextDataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_n_samples"><code class="docutils literal notranslate"><span class="pre">get_n_samples()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
@@ -161,8 +163,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_dataloader"><code class="docutils literal notranslate"><span class="pre">get_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_imagenette_dataloader"><code class="docutils literal notranslate"><span class="pre">get_imagenette_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.image_loaders"><code class="docutils literal notranslate"><span class="pre">image_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
@@ -170,6 +175,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.text_loaders"><code class="docutils literal notranslate"><span class="pre">text_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
@@ -262,6 +268,7 @@
     <span class="n">davies_bouldin_score</span><span class="p">,</span>
 <span class="p">)</span>
 
+<span class="kn">import</span> <span class="nn">spacy</span>
 <span class="kn">from</span> <span class="nn">pymfe.mfe</span> <span class="kn">import</span> <span class="n">MFE</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
@@ -749,6 +756,31 @@
     <span class="k">return</span> <span class="n">dataset_size</span><span class="p">,</span> <span class="n">batch_elements</span><span class="p">,</span> <span class="n">batch_elements_orig_shapes</span></div>
 
 
+<div class="viewcode-block" id="get_n_samples">
+<a class="viewcode-back" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_n_samples">[docs]</a>
+<span class="k">def</span> <span class="nf">get_n_samples</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get a number of samples from a dataloader</span>
+
+<span class="sd">    :param dataloader: The dataloader.</span>
+<span class="sd">    :param n_samples: The number of samples, defaults to 100.</span>
+<span class="sd">    :return: An iterable of batch elements, each of length n_samples.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">batch</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">dataloader</span><span class="p">))</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">n_samples</span><span class="p">:</span>
+        <span class="n">_batch</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">dataloader</span><span class="p">))</span>
+        <span class="c1"># for b,_b in zip(batch, _batch):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">_batch</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+                <span class="n">batch</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">batch</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">b</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">batch</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+                <span class="c1"># batch[i].append(b)</span>
+            <span class="n">batch</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="n">i</span><span class="p">][:</span><span class="n">n_samples</span><span class="p">]</span>
+            
+    <span class="k">return</span> <span class="n">batch</span></div>
+
+            
 
 <div class="viewcode-block" id="DataMetafeatures">
 <a class="viewcode-back" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures">[docs]</a>
@@ -794,6 +826,7 @@
         <span class="c1"># Features from PyMFE, a meta-feature extraction library</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mfe_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_mfe_features</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mfe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_mfe</span><span class="p">()</span>
         <span class="n">mfe_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
         <span class="c1"># print(f&quot;Batch stats: {batch_stats_time}; MFE time: {mfe_time}&quot;)</span>
         <span class="c1"># for batch_idx,batch_mfe_features in enumerate(self.mfe_features):</span>
@@ -803,9 +836,13 @@
         <span class="c1">#     })</span>
         <span class="c1"># for mfe_key,mfe_value in self.mfe_features.items():</span>
         <span class="c1">#     self.batch_stats[mfe_key].update(mfe_value)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_properties</span><span class="p">()</span>
 
         <span class="c1"># general and independent of any data type or ml task</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stats_rep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_features</span><span class="p">()</span>
+        <span class="c1"># TODO - deprecated &quot;stats_rep&quot; for &quot;features&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats_rep</span>
         <span class="c1"># self.stats_rep.update(self.mfe_features)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_serializable_stats_rep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_serializable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats_rep</span><span class="p">)</span>
 
@@ -841,6 +878,30 @@
 
         <span class="c1"># stats_rep = self._f32_to_f16(stats_rep)</span>
         <span class="k">return</span> <span class="n">stats_rep</span></div>
+
+
+<div class="viewcode-block" id="DataMetafeatures.get_properties">
+<a class="viewcode-back" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures.get_properties">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get properties — features that are not calculated, e.g. shapes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;dataset_size&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_size</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">get_n_samples</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">sample</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+            <span class="c1"># Get shape</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+                <span class="n">sample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+            <span class="n">sample_shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">sample_dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_shape</span><span class="p">)</span>
+            <span class="n">ret</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+                <span class="sa">f</span><span class="s1">&#39;elem_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">_shape&#39;</span><span class="p">:</span><span class="n">sample_shape</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s1">&#39;elem_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">_dims&#39;</span><span class="p">:</span><span class="n">sample_dim</span><span class="p">,</span>
+                <span class="p">})</span>
+        <span class="k">return</span> <span class="n">ret</span></div>
+
 
 
     <span class="n">get_stats_rep</span> <span class="o">=</span> <span class="n">get_features</span>
@@ -917,6 +978,8 @@
 <span class="sd">        :param batch_element: The batch element to calculate.</span>
 <span class="sd">        :return: A dictionary of features for the batch element.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># If the batch element is a tensor, convert to numpy array</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch_element</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
 
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch_element</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
@@ -938,7 +1001,25 @@
         <span class="n">features</span> <span class="o">=</span> <span class="n">mfe</span><span class="o">.</span><span class="n">extract</span><span class="p">()</span>
         <span class="n">feature_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">features</span><span class="p">)}</span>
         <span class="k">return</span> <span class="n">feature_dict</span></div>
+
+    <span class="n">get_mfe_on_element</span> <span class="o">=</span> <span class="n">get_mfe_on_batch</span>
+    
+<div class="viewcode-block" id="DataMetafeatures.get_mfe">
+<a class="viewcode-back" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures.get_mfe">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_mfe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get PyMFE features for every element in the dataloader</span>
+
+<span class="sd">        :return: A dictionary of {mfe_feature : mfe_value}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">get_n_samples</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">)</span>
+        <span class="n">sample_mfes</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get_mfe_on_element</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span> <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">]</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">sample_mfe</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sample_mfes</span><span class="p">):</span>
+            <span class="n">ret</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">sample_mfe</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+        <span class="k">return</span> <span class="n">ret</span></div>
 </div>
+
 
 
 
@@ -948,6 +1029,16 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Image-based DataMetafeatures.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="n">embd_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">embd_model</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">embd_model</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span>
+                <span class="n">weights</span><span class="o">=</span><span class="s1">&#39;IMAGENET1K_V1&#39;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">embd_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_embedding</span><span class="p">()</span>
+        <span class="k">pass</span>
 
 <div class="viewcode-block" id="ImageDataMetafeatures.get_raw_batch_elements">
 <a class="viewcode-back" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures.get_raw_batch_elements">[docs]</a>
@@ -961,11 +1052,70 @@
             <span class="n">get_image_features</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">testing</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">testing</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_elements</span>
         <span class="p">]</span></div>
+
+    
+<div class="viewcode-block" id="ImageDataMetafeatures.get_embedding">
+<a class="viewcode-back" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures.get_embedding">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">get_n_samples</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">)</span>
+        <span class="c1"># Assume inputs are the first batch element</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">embds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embd_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">embds</span> <span class="o">=</span> <span class="n">embds</span><span class="p">[:,:</span><span class="n">max_len</span><span class="p">]</span>
+       
+        <span class="c1"># Return distributions of each embedding axis</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s1">&#39;embd_</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s1">_mean_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">embds</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))}</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">f</span><span class="s1">&#39;embd_</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s1">_std_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">embds</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))})</span> 
+        <span class="k">return</span> <span class="n">ret</span></div>
 </div>
 
 
+<div class="viewcode-block" id="TextDataMetafeatures">
+<a class="viewcode-back" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures">[docs]</a>
+<span class="k">class</span> <span class="nc">TextDataMetafeatures</span><span class="p">(</span><span class="n">DataMetafeatures</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="n">nlp_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># self.dataloader = dataloader</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">nlp_model</span><span class="p">:</span>
+            <span class="c1"># TODO - consider using a larger model embedding e.g. en_code_web_sm -&gt; 300D</span>
+            <span class="c1"># and truncate</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nlp_model</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;en_core_web_sm&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_embedding</span><span class="p">()</span>
+        <span class="k">pass</span>
 
-<span class="c1"># %%</span>
+<div class="viewcode-block" id="TextDataMetafeatures.get_embedding">
+<a class="viewcode-back" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures.get_embedding">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get embeddings from the dataloader.</span>
+
+<span class="sd">        :param index: The index in a batch of the string elements to embed, defaults to 1</span>
+<span class="sd">        :return: A dictionary of {embd_i : embd_value}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">get_n_samples</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">)</span>
+        <span class="c1"># Find the index of the first batch of strings</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">index</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No string elements in </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">, cannot calculate embedding with spaCy&quot;</span><span class="p">)</span>
+        <span class="n">embds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nlp_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">vector</span><span class="p">,</span> <span class="n">samples</span><span class="p">[</span><span class="n">index</span><span class="p">]))</span>
+        <span class="n">embds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">embds</span><span class="p">)</span>
+        <span class="n">embds</span> <span class="o">=</span> <span class="n">embds</span><span class="p">[:,:</span><span class="n">max_len</span><span class="p">]</span>
+        <span class="c1"># Return distributions of each embedding axis</span>
+        <span class="c1"># TODO - consider how batch elements are sorted, should they be indexed by the index that the </span>
+        <span class="c1"># string elements appear? at &quot;embd_{INDEX}...&quot;</span>
+        <span class="c1"># ret = {f&#39;embd_{index}_mean_{i}&#39;:float(v.numpy()) for i,v in enumerate(embds.mean(axis=0))}</span>
+        <span class="c1"># ret.update({f&#39;embd_{index}_std_{i}&#39;:float(v.numpy()) for i,v in enumerate(embds.std(axis=0))})</span>
+        <span class="c1"># TODO - consider this assumption, not indexing the embeddings at all</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s1">&#39;embd_mean_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">embds</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))}</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">f</span><span class="s1">&#39;embd_std_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">embds</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))})</span>
+        <span class="k">return</span> <span class="n">ret</span>
+        <span class="nb">breakpoint</span><span class="p">()</span></div>
+</div>
+
 </pre></div>
 
            </div>
