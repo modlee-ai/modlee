@@ -52,6 +52,7 @@ class ImageRecommender(Recommender):
         self.metafeatures.update({"num_classes": num_classes})
         try:
             # breakpoint()
+            # breakpoint()
             self.model_text = self._get_model_text(self.metafeatures)
             if not isinstance(self.model_text, str):
                 self.model_text = self.model_text.decode("utf-8")

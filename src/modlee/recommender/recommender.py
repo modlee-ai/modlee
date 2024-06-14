@@ -7,6 +7,10 @@ import logging
 import modlee
 from modlee.utils import get_model_size, typewriter_print
 from modlee.converter import Converter
+from modlee import dataframes
+
+modlee_converter = Converter()
+
 from datetime import datetime
 import lightning.pytorch as pl
 import torch
@@ -14,6 +18,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.optim import lr_scheduler
 import numpy as np
+import pandas as pd
 import pandas as pd
 
 from time import sleep
@@ -88,7 +93,7 @@ class Recommender(object):
             logging.info("Analyzing dataset based on data metafeatures...")
 
             # return data_metafeature_cls(dataloader, testing=True).stats_rep
-
+            
             ret = data_metafeature_cls(dataloader, testing=True)
             ret = ret.features
             # ret.update({
