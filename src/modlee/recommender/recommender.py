@@ -7,6 +7,10 @@ import logging
 import modlee
 from modlee.utils import get_model_size, typewriter_print
 from modlee.converter import Converter
+from modlee import dataframes
+
+modlee_converter = Converter()
+
 from datetime import datetime
 import lightning.pytorch as pl
 import torch
@@ -88,7 +92,7 @@ class Recommender(object):
             logging.info("Analyzing dataset based on data metafeatures...")
 
             # return data_metafeature_cls(dataloader, testing=True).stats_rep
-
+            
             ret = data_metafeature_cls(dataloader, testing=True)
             ret = ret.features
             # ret.update({
@@ -118,6 +122,7 @@ class Recommender(object):
         assert (
             self.task is not None
         ), "Recommender task is not set (e.g. classification, segmentation)"
+        # breakpoint()
         # breakpoint()
         metafeatures = json.loads(json.dumps(metafeatures))
 

@@ -551,7 +551,15 @@ class DataMetafeatures(object):
         self.stats_rep = self.get_features()
         # TODO - deprecated "stats_rep" for "features"
         self.features = self.stats_rep
-        # self.stats_rep.update(self.mfe_features)
+        # breakpoint()
+        self.features = {
+            # **self.embedding,
+            **self.mfe,
+            **self.properties
+        }
+        # self.features = self._make_serializable(self.features)
+
+       # self.stats_rep.update(self.mfe_features)
         self._serializable_stats_rep = self._make_serializable(self.stats_rep)
 
     def get_raw_batch_elements(self):
@@ -715,6 +723,18 @@ class ImageDataMetafeatures(DataMetafeatures):
             )
             self.embd_model.eval()
         self.embedding = self.get_embedding()
+        self.features.update(self.embedding)
+        self.features = self._make_serializable(self.features)
+        # self.features = {
+        #     **self.embedding,
+        #     **self.mfe,
+        #     **self.properties
+        # }
+        # self.features = self._make_serializable({
+        #     **self.embedding,
+        #     **self.mfe,
+        #     **self.properties
+        # })
         pass
 
     def get_raw_batch_elements(self):
