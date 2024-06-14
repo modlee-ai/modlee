@@ -253,6 +253,7 @@ class Converter(object):
         :param onnx_text: The ONNX Text as bytes.
         :return: The Torch Model.
         """
+        # breakpoint()
         onnx_graph = self.onnx_text2onnx_graph(onnx_text)
         # Load the graph into ONNX Graph Surgeon
         onnx_graph = gs.import_onnx(onnx_graph)

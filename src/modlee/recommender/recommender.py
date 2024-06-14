@@ -8,6 +8,7 @@ import modlee
 from modlee.utils import get_model_size, typewriter_print
 from modlee.converter import Converter
 from modlee import dataframes
+from modlee import dataframes
 
 modlee_converter = Converter()
 
@@ -18,7 +19,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.optim import lr_scheduler
 import numpy as np
-import pandas as pd
 import pandas as pd
 
 from time import sleep
