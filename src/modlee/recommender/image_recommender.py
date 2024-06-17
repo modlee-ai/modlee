@@ -22,7 +22,6 @@ class ImageRecommender(Recommender):
         super().__init__(*args, **kwargs)
         self.modality = "image"
         self.MetafeatureClass = modlee.data_metafeatures.ImageDataMetafeatures
-
     def calculate_metafeatures(self, dataloader, *args, **kwargs):
         return super().calculate_metafeatures(
             dataloader,
