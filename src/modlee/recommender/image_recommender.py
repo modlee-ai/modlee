@@ -22,8 +22,6 @@ class ImageRecommender(Recommender):
         super().__init__(*args, **kwargs)
         self.modality = "image"
         self.MetafeatureClass = modlee.data_metafeatures.ImageDataMetafeatures
-        
->>>>>>> 4c2c589 (Model's data metafeature-logging callback will use model's modality)
     def calculate_metafeatures(self, dataloader, *args, **kwargs):
         return super().calculate_metafeatures(
             dataloader,
