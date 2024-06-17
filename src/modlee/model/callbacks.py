@@ -304,6 +304,7 @@ class DataMetafeaturesCallback(ModleeCallback):
         :param dataloader: The dataloader.
         """
         if self.DataMetafeatures:
+            # breakpoint()
             # TODO - use data batch and model to get output size
             data_mf = data_metafeatures = self.DataMetafeatures(dataloader)
             mlflow.log_dict(data_metafeatures._serializable_stats_rep, "stats_rep")

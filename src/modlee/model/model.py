@@ -94,8 +94,13 @@ class ModleeModel(LightningModule):
 
         :return: A list of callbacks for auto-documentation.
         """
+        if self.modality:
+            dmf_metafeature_cls=\
+                DataMetafeatures=getattr(modlee.data_metafeatures, f"{self.modality.capitalize()}DataMetafeatures")
+        else:
+            dmf_metafeature_cls=getattr(modlee.data_metafeatures, "DataMetafeatures")
         callbacks = [
-            DataMetafeaturesCallback(self.data_snapshot_size),
+            DataMetafeaturesCallback(self.data_snapshot_size, DataMetafeatures=dmf_metafeature_cls),
             LogCodeTextCallback(self.kwargs_cache),
             LogOutputCallback(),
             LogParamsCallback(),

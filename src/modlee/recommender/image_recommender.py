@@ -22,7 +22,11 @@ class ImageRecommender(Recommender):
         super().__init__(*args, **kwargs)
         self.modality = "image"
         self.MetafeatureClass = modlee.data_metafeatures.ImageDataMetafeatures
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 4c2c589 (Model's data metafeature-logging callback will use model's modality)
     def calculate_metafeatures(self, dataloader, *args, **kwargs):
         return super().calculate_metafeatures(
             dataloader,
@@ -62,9 +66,7 @@ class ImageRecommender(Recommender):
                     torch.nn.init.xavier_normal_(param, 1.0)
                 except:
                     torch.nn.init.normal_(param)
-            self.model = RecommendedModel(
-                model, loss_fn=self.loss_fn, modality=self.modality
-            )
+            self.model = RecommendedModel(model, loss_fn=self.loss_fn, modality=self.modality)
 
             self.code_text = self.get_code_text()
             self.model_code = modlee_converter.onnx_text2code(self.model_text)
