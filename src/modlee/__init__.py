@@ -77,8 +77,6 @@ def suppress_stdout_stderr():
         with redirect_stderr(fnull) as err, redirect_stdout(fnull) as out:
             yield (err, out)
 
-
-
 # Try to get an API key
 def init(run_path=None, api_key=API_KEY):
     """
@@ -88,14 +86,12 @@ def init(run_path=None, api_key=API_KEY):
     
     :param run_path: The path to the current run.
     """
-
     # if run_dir not provided, set to the same directory as the calling file
     if run_path is None or os.path.exists(run_path) == False:
         run_path = os.getcwd()
 
     set_run_path(run_path)
     auth(api_key)
-
 
 def auth(api_key=None):
     """
@@ -112,7 +108,6 @@ def auth(api_key=None):
         API_KEY = api_key
         os.environ['MODLEE_API_KEY'] = API_KEY
         modlee_client = ModleeClient(api_key=api_key)
-        # save_run = partial(utils_save_run, modlee_client)
         for _module in [data_metafeatures, model_text_converter, exp_loss_logger]:
             importlib.reload(_module)
         if model_text_converter.module_available:
@@ -120,7 +115,6 @@ def auth(api_key=None):
                 get_code_text,
                 get_code_text_for_model,
             )
-
 
 def set_run_path(run_path):
     """
@@ -151,7 +145,6 @@ def set_run_path(run_path):
     tracking_uri = pathlib.Path(run_path).as_uri()
     mlflow.set_tracking_uri(tracking_uri)
     return tracking_uri
-
 
 def get_run_path():
     """

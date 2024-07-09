@@ -6,7 +6,6 @@ from torchvision import datasets as tv_datasets
 from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader
 
-
 @pytest.fixture()
 def dataloaders(batch_size=64):
     training_loader = DataLoader(

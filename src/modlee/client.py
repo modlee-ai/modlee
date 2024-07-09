@@ -3,15 +3,9 @@ Modlee client for modlee server.
 """
 import os
 import requests
-
-# import pickle
-# import dill as pickle
 import cloudpickle as pickle
 import functools
-
 LOCAL_ORIGIN = "http://127.0.0.1:7070"
-# REMOTE_ORIGIN = "http://modlee.pythonanywhere.com"
-# REMOTE_ORIGIN = "http://ec2-3-84-155-233.compute-1.amazonaws.com:7070"
 from modlee.config import SERVER_ORIGIN as REMOTE_ORIGIN
 import json
 
@@ -78,10 +72,7 @@ class ModleeClient(object):
         :return: The response.
         """
         req_url = f"{self.origin}/{path}"
-
-        # kwargs.update(dict(timeout=self.timeout))
         kwargs['timeout'] = kwargs.get('timeout',self.timeout)
-
         # Set headers only if not already defined 
         kwargs_headers = kwargs.get("headers", {
                     "User-Agent": "Mozilla/5.0",
@@ -100,12 +91,9 @@ class ModleeClient(object):
                 "headers": kwargs_headers,
             }
         )
-        # breakpoint()
- 
+
         try:
-            # if method=='post': breakpoint()
             ret = getattr(requests, method)(req_url, *args, **kwargs)
-            # breakpoint()
             if ret.status_code >= 400:
                 if ret.status_code != 404:
                     pass
@@ -161,7 +149,6 @@ class ModleeClient(object):
         :param path: the server-side path of the module to get, defaults to "".
         :return: The module, or None if not retrievable.
         """
-
         ret = self.get_script(path)
         if ret is not None:
             ret = ret.content
@@ -177,16 +164,13 @@ class ModleeClient(object):
         """
         try:
             with open(file, "rb") as _file:
-                # file_text = _file.read()
                 res = self.post(
                     path="postfile",
                     data={
-                        # 'file_text':file_text,
                         "filepath": filepath
                     },
                     files={
                         "file": _file
-                        # filepath:file
                     },
                 )
                 return res
@@ -238,7 +222,6 @@ class ModleeClient(object):
         if len(error_files) > 0:
             return False
         return True
-
 
     def post_run_as_json(self, run_path):
         """
@@ -309,10 +292,7 @@ class ModleeClient(object):
 
         # Post the file
         run_id = os.path.basename(run_path)
-        
-        
         server_filepath = "/".join([self.api_key, run_id]) #, 'logs.json'])
-
         res = self.post_file(temp_file_path, server_filepath)                
         os.remove(temp_file_path)
         if res is None:

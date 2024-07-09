@@ -6,34 +6,27 @@ import inspect
 import pickle
 from typing import Any, Optional
 import numpy as np
-
 import os
 import pandas as pd
 import torch
 from torch import nn
 from torch.utils.data import Dataset
-
 import lightning.pytorch as pl
 from lightning.pytorch import LightningModule, Trainer
 from lightning.pytorch.callbacks import Callback
 from lightning.pytorch.utilities.types import STEP_OUTPUT
-
 import modlee
 from modlee import data_metafeatures, save_run, get_code_text_for_model, save_run_as_json
 from modlee import logging, utils as modlee_utils, exp_loss_logger
 from modlee.converter import Converter
 from modlee.model.callbacks import *
-
-modlee_converter = Converter()
-
 from modlee.config import TMP_DIR, MLRUNS_DIR
-
 import mlflow
 import json
 
+modlee_converter = Converter()
 base_lightning_module = LightningModule()
 base_lm_keys = list(LightningModule.__dict__.keys())
-
 
 class ModleeModel(LightningModule):
     def __init__(self, data_snapshot_size=10e6, kwargs_cache={}, *args, **kwargs) -> None:
@@ -48,10 +41,7 @@ class ModleeModel(LightningModule):
         self.data_snapshot_size = data_snapshot_size
         self.kwargs_cache = kwargs_cache
         self.kwargs_cache.update(kwargs)
-
         self_keys = list(self.__dict__.keys())
-        # self_dict = self.__dict__.
-        # for self_key in self_keys:
 
     def _update_kwargs_cached(self):
         """ 
@@ -101,30 +91,11 @@ class ModleeModel(LightningModule):
             LogTransformsCallback(),
             LogModelCheckpointCallback(monitor='loss'),
         ]
-            # LogONNXCallback(),
-        #     pl.callbacks.ModelCheckpoint(
-        #         # dirpath='./',
-        #         filename='{epoch}-{loss:.2f}',
-        #         monitor='loss', 
-        #         save_top_k=1,
-        #         mode='min',
-        #         verbose=True),
-        # ]
-        
-        # # If the validation step is defined, add
+        # If the validation step is defined, add
         if self._check_step_defined("validation_step"): 
             callbacks.append(
                 LogModelCheckpointCallback(monitor='val_loss')
             )
-        #     callbacks.append(pl.callbacks.ModelCheckpoint(
-        #         # dirpath='./',
-        #         filename='{epoch}-{val_loss:.2f}',
-        #         monitor='val_loss', 
-        #         save_top_k=1,
-        #         mode='min',
-        #         verbose=True))
-            
-            
         return callbacks
 
 class SimpleModel(ModleeModel):
@@ -195,5 +166,3 @@ class SimpleDataset(Dataset):
     
     def __getitem__(self, index):
         return self.inputs[index], self.outputs[index]
-    
-    

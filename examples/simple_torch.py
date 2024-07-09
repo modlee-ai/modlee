@@ -9,15 +9,12 @@ import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
 import modlee
-
 MODLEE_API_KEY = os.getenv('MODLEE_API_KEY', None)
 modlee.init(api_key=MODLEE_API_KEY)
 from modlee.utils import get_fashion_mnist
 from modlee.model import ModleeModel
 
 # %% Build models
-
-
 class Classifier(nn.Module):
     def __init__(self):
         super(Classifier, self).__init__()
@@ -37,7 +34,6 @@ class Classifier(nn.Module):
         x = self.fc3(x)
         x = F.softmax(x)
         return x
-
 
 class LightningClassifier(ModleeModel):
     def __init__(self, classifier=None, *args, **kwargs):
@@ -66,7 +62,6 @@ class LightningClassifier(ModleeModel):
         optimizer = torch.optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
         return optimizer
 
-
 # %% Load data
 training_loader, test_loader = get_fashion_mnist()
 num_classes = len(training_loader.dataset.classes)
@@ -78,5 +73,4 @@ with modlee.start_run() as run:
     trainer.fit(
         model=model, train_dataloaders=training_loader, val_dataloaders=test_loader
     )
-
 # %%

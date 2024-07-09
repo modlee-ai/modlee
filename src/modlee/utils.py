@@ -9,15 +9,12 @@ import pickle
 import requests
 import math, numbers
 import numpy as np
-
 import mlflow
-
 import torch
 import torchvision
 from torchvision import datasets as tv_datasets
 from torchvision import transforms
 from torch.utils.data import DataLoader
-
 from modlee.client import ModleeClient
 
 def safe_mkdir(target_path):
@@ -27,16 +24,12 @@ def safe_mkdir(target_path):
     :param target_path: The path to the target directory.
     """
     root, ext = os.path.splitext(target_path)
-    # is a file
     if len(ext) > 0:
         target_path = os.path.split(root)
     else:
         target_path = f"{target_path}/"
-    # if os.path.isfile(target_dir):
-    #     target_dir,_ = os.path.split(target_dir.split('.')[0])
     if not os.path.exists(target_path):
         os.makedirs(target_path)
-
 
 def get_fashion_mnist(batch_size=64, num_output_channels=1):
     """
@@ -66,7 +59,6 @@ def get_fashion_mnist(batch_size=64, num_output_channels=1):
     )
     return training_loader, test_loader
 
-
 def uri_to_path(uri):
     """
     Convert a URI to a path.
@@ -77,7 +69,6 @@ def uri_to_path(uri):
     parsed_uri = urlparse(uri)
     path = unquote(parsed_uri.path)
     return path
-
 
 def is_cacheable(x):
     """
@@ -91,7 +82,6 @@ def is_cacheable(x):
         return True
     except:
         return False
-
 
 def get_model_size(model, as_MB=True):
     """
@@ -112,7 +102,6 @@ def get_model_size(model, as_MB=True):
         model_size /= 1024 ** 2
     return model_size
 
-
 def quantize(x):
     """
     Quantize an object.
@@ -120,12 +109,10 @@ def quantize(x):
     :param x: The object to quantize.
     :return: The object, quantized.
     """
-
     if float(x) < 0.1:
         ind = 2
         while str(x)[ind] == "0":
             ind += 1
-        # print(ind)
         c = np.around(float(x), ind - 1)
     elif float(x) < 1.0:
         c = np.around(float(x), 2)
@@ -133,12 +120,9 @@ def quantize(x):
         c = int(x)
     else:
         c = int(2 ** np.round(math.log(float(x)) / math.log(2)))
-
     return c
 
-
 _discretize = quantize
-
 
 def convert_to_scientific(x):
     """
@@ -148,7 +132,6 @@ def convert_to_scientific(x):
     :return: The number in scientific notation as a string.
     """
     return f"{float(x):0.0e}"
-
 
 def closest_power_of_2(x):
     """ 
@@ -168,9 +151,7 @@ def closest_power_of_2(x):
 
     # Calculate the closest power of 2
     closest_value = 2 ** rounded_exponent
-
     return closest_value
-
 
 def _is_number(x):
     """
@@ -179,17 +160,13 @@ def _is_number(x):
     :param x: The object to check.
     :return: Whether the object is a number.
     """
-    # if isinstance(n,list):
-    #     return all([_is_number(num) for num in n])
     try:
         float(x)  # Type-casting the string to `float`.
         # If string is not a valid `float`,
         # it'll raise `ValueError` exception
-    # except ValueError, TypeError:
     except:
         return False
     return True
-
 
 def quantize_dict(base_dict, quantize_fn=quantize):
     """
@@ -206,13 +183,7 @@ def quantize_dict(base_dict, quantize_fn=quantize):
             base_dict.update({k: quantize_fn(v)})
         elif _is_number(v):
             base_dict.update({k: quantize_fn(float(v))})
-
-        # elif 'float' in str(type(v)):
-        #     base_dict.update({k:str(v)})
-        # elif isinstance(v,np.int64):
-        #     base_dict.update({k:int(v)})
     return base_dict
-
 
 def typewriter_print(text, sleep_time=0.001, max_line_length=150, max_lines=20):
     """
@@ -244,10 +215,6 @@ def typewriter_print(text, sleep_time=0.001, max_line_length=150, max_lines=20):
             sys.stdout.flush()
             time.sleep(sleep_time)
 
-
-# ---------------------------------------------
-
-
 def discretize(n: list[float, int]) -> list[float, int]:
     """
     Discretize a list of inputs
@@ -255,9 +222,7 @@ def discretize(n: list[float, int]) -> list[float, int]:
     :param n: The list of inputs to discretize.
     :return: The list of discretized inputs.
     """
-
     try:
-
         if type(n) == str:
             n = literal_eval(n)
 
@@ -270,9 +235,7 @@ def discretize(n: list[float, int]) -> list[float, int]:
             c = _discretize(n)
     except:
         c = n
-
     return c
-
 
 def apply_discretize_to_summary(text, info):
     """
@@ -282,10 +245,6 @@ def apply_discretize_to_summary(text, info):
     :param info: An object that contains different separators.
     :return: The discretized summary.
     """
-
-    # text_split = [ [ p.split(key_val_seperator) for p in l.split(parameter_seperator)] for l in text.split(layer_seperator)]
-    # print(text_split)
-
     text_split = [
         [
             [str(discretize(pp)) for pp in p.split(info.key_val_seperator)]
@@ -293,7 +252,6 @@ def apply_discretize_to_summary(text, info):
         ]
         for l in text.split(info.layer_seperator)
     ]
-    # print(text_split)
 
     text_join = info.layer_seperator.join(
         [
@@ -301,10 +259,7 @@ def apply_discretize_to_summary(text, info):
             for l in text_split
         ]
     )
-    # print(text_join)
-
     return text_join
-
 
 def save_run(*args, **kwargs):
     """
@@ -324,8 +279,6 @@ def save_run_as_json(*args, **kwargs):
     api_key = os.environ.get('MODLEE_API_KEY')
     ModleeClient(api_key=api_key).post_run_as_json(*args, **kwargs)
 
-
-
 def last_run_path(*args, **kwargs):
     """ 
     Return the path to the last / most recent run path
@@ -335,4 +288,3 @@ def last_run_path(*args, **kwargs):
     artifact_uri = mlflow.last_active_run().info.artifact_uri
     artifact_path = urlparse(artifact_uri).path
     return os.path.dirname(artifact_path)
-    

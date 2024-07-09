@@ -4,7 +4,6 @@ Recommender for models.
 from .recommender import *
 from .image_recommender import *
 
-
 def from_modality_task(modality, task, *args, **kwargs):
     """
     Return a Recommender object based on the modality and task.

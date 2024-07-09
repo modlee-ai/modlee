@@ -5,19 +5,16 @@ import torch.nn as nn
 import torch
 import os
 import ssl
-
 import torchmetrics
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
 import modlee
-
 modlee.init(api_key="local")
 from modlee.dev_data import get_fashion_mnist
 from modlee.model import ModleeModel
 
 # %% Build models
-
 
 class Classifier(nn.Module):
     def __init__(self):
@@ -37,7 +34,6 @@ class Classifier(nn.Module):
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
         return x
-
 
 class LightningClassifier(ModleeModel):
     def __init__(self, num_classes, classifier=None, *args, **kwargs):
@@ -71,17 +67,14 @@ class LightningClassifier(ModleeModel):
         optimizer = torch.optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
         return optimizer
 
-
 # %% Load data
 training_loader, test_loader = get_fashion_mnist()
 num_classes = len(training_loader.dataset.classes)
 model = LightningClassifier(num_classes=num_classes)
-
 # %% Run training loop
 with modlee.start_run() as run:
     trainer = pl.Trainer(max_epochs=2)
     trainer.fit(
         model=model, train_dataloaders=training_loader, val_dataloaders=test_loader
     )
-
 # %%

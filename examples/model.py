@@ -111,4 +111,3 @@ class Model(torch.nn.Module):
         gemm = self.Gemm(flatten);  flatten = None
         gemm_1 = self.Gemm_1(gemm);  gemm = None
         return gemm_1
-    
