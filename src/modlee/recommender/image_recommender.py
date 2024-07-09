@@ -1,22 +1,16 @@
-""" 
-Recommender for image models.
-"""
 from modlee.data_metafeatures import DataMetafeatures
 from .recommender import Recommender
 from modlee.model import RecommendedModel
 import logging
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision
-
 import modlee
 from modlee.converter import Converter
 from modlee.utils import get_model_size, typewriter_print
 
 modlee_converter = Converter()
-
 
 class ImageRecommender(Recommender):
     """ 
@@ -40,7 +34,7 @@ class ImageRecommender(Recommender):
         if hasattr(dataloader.dataset, "classes"):
             num_classes = len(dataloader.dataset.classes)
         else:
-            # Ttry to get all unique values
+            # Try to get all unique values
             # Assumes all classes will be represented in several batches
             unique_labels = set()
             n_samples = 0
@@ -69,13 +63,11 @@ class ImageRecommender(Recommender):
             self.write_file(self.model_text, "./model.txt")
             self.write_file(self.model_code, "./model.py")
             logging.info(f"The model is available at the recommender object's `model` attribute.")
-
         except:
             print(
                 "Could not retrieve model, could not access server or data features may be malformed."
             )
             self.model = None
-
 
 class ImageClassificationRecommender(ImageRecommender):
     """ 
@@ -103,4 +95,3 @@ class ImageSegmentationRecommender(ImageRecommender):
 
         def squeeze_entropy_loss(x, *args, **kwargs):
             return torch.nn.CrossEntropyLoss()(x.squeeze)
-

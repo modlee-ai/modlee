@@ -4,47 +4,32 @@ Recommender for models.
 import json
 import requests
 import logging
-
-# logging.basicConfig(level=logging.INFO)
-
 import modlee
 from modlee.utils import get_model_size, typewriter_print
 from modlee.converter import Converter
-
-modlee_converter = Converter()
-
 from datetime import datetime
-
 import lightning.pytorch as pl
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.optim import lr_scheduler
-
 import numpy as np
-
 from time import sleep
 import sys
-
 import os
 from urllib.parse import urlparse
 from modlee import ModleeClient
-API_KEY = os.environ.get("MODLEE_API_KEY", 'None')
 import modlee
 
+API_KEY = os.environ.get("MODLEE_API_KEY", 'None')
+modlee_converter = Converter()
 modlee_client = ModleeClient(api_key=API_KEY)
-# SERVER_ENDPOINT = modlee_client.endpoint
 SERVER_ENDPOINT = modlee_client.origin
-#SERVER_ORIGIN = 'http://127.0.0.1:7070'
-#SERVER_ENDPOINT = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
-#print(SERVER_ENDPOINT)
 
 class Recommender(object):
     """
     Recommender for models conditioned on datasets.
     """
-
     def __init__(
         self, dataloader=None, origin=SERVER_ENDPOINT, *args, **kwargs
     ) -> None:
@@ -82,7 +67,7 @@ class Recommender(object):
         self.metafeatures = self.calculate_metafeatures(dataloader)
         logging.info("Finished analyzing dataset.")
 
-    fit = analyze
+    fit = analyze # Alias for the analyze method
 
     def calculate_metafeatures(self, dataloader, data_metafeature_cls=modlee.data_metafeatures.DataMetafeatures):
         """
@@ -211,7 +196,6 @@ class Recommender(object):
             if i in self.dataloader_input_inds
         ]
         input_torches = [torch.rand(ins) for ins in input_sizes]
-
         return input_torches, input_sizes
 
     def get_code_text(self):
@@ -236,6 +220,4 @@ class Recommender(object):
         except:
             pass
         self.model_code = self.model_code.replace("self, model,", "self,")
-
         return self.model_code
-

@@ -33,5 +33,3 @@ def test_discretize():
     n = 0.0005985885113477707
     n = str(n)
     print("input = {}, discretize(input)= {}".format(n, discretize(n)))
-
-

@@ -30,21 +30,7 @@ from torch.nn import functional as F
 from torchvision import models
 import torchvision
 import torchmetrics
-
-# from torchvision.ops.misc import Conv2dNormActivation, Permute
-# from torchvision.ops.stochastic_depth import StochasticDepth
-# from torchvision.transforms._presets import ImageClassification
-# from torchvision.utils import _log_api_usage_once
-# from torchvision.models._api import register_model, Weights, WeightsEnum
-# from torchvision.models._meta import _IMAGENET_CATEGORIES
-# from torchvision.models._utils import _ovewrite_named_param, handle_legacy_interface
-
-# from torchvision.models.convnext import *
-# from torchvision.models.convnext import CNBlockConfig
-
-# Modlee imports
 import modlee
-
 
 class ModleeModel(modlee.model.ModleeModel):
     def __init__(self, model=None, loss_fn=F.cross_entropy, *args, **kwargs):
