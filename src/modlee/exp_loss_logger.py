@@ -408,7 +408,6 @@ class_header = "class {}({}):\n"
 
 modlee_model_name = "ModleeModel"
 
-
 def extract_loss_functions(code_str: str):
     """
     Extracts unique loss function calls from ModleeModel class definition passed as string
@@ -429,7 +428,6 @@ def extract_loss_functions(code_str: str):
         """ 
         Helper class to determine the loss functions used.
         """
-
         def visit_ClassDef(self, node: ClassDef):
             # Check if this class is a ModleeModel
             if isinstance(node, ast.ClassDef) and node.name == "ModleeModel":
@@ -447,15 +445,11 @@ def extract_loss_functions(code_str: str):
                             )
                         ):
                             loss_function_calls.append(child.func.attr)
-
     # Instantiate the visitor
     visitor = LossFunctionCallVisitor()
-
     # Visit the AST to collect loss function calls
     visitor.visit(tree)
-
     return list(set(loss_function_calls))
-
 
 def get_exp_loss_for_model(module):
     """
@@ -465,7 +459,6 @@ def get_exp_loss_for_model(module):
     :param module: The model to analyze.
     :return: A list of unique loss function calls found in the model.
     """
-
     # Get the current and parent class names
     module_class_name = module.__class__.__name__
     module_parent_class_name = str(module.__class__.__bases__[0]).split("'")[1]

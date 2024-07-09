@@ -6,17 +6,14 @@ from typing import Any, Optional
 import lightning.pytorch as pl
 from lightning.pytorch import Trainer, LightningModule
 from lightning.pytorch.utilities.types import STEP_OUTPUT
-
 import mlflow
 from modlee import data_metafeatures
 from modlee.model import ModleeModel, DataMetafeaturesCallback
 from lightning.pytorch.callbacks import Callback
-
 import torchmetrics
 from torchmetrics import Accuracy
 
 TASK_METRIC = {"classification": "Accuracy", "regression": "MeanSquaredError"}
-
 
 class ModleeImageModel(ModleeModel):
     """
@@ -25,7 +22,6 @@ class ModleeImageModel(ModleeModel):
     - Logs classification accuracy
     - Calculates data-specific data statistics
     """
-
     def __init__(self,
         task="classification",
         num_classes=None, *args, **kwargs):
@@ -41,10 +37,6 @@ class ModleeImageModel(ModleeModel):
             self.num_classes = num_classes
         self.task = task
         vars_cache = {"num_classes": num_classes, "task": task}
-        # self.image_callback = ImageCallback(
-        #     metric = TASK_METRIC[self.task],
-        #     **kwargs
-        # )
         ModleeModel.__init__(self, kwargs_cache=vars_cache, *args, **kwargs)
 
     def configure_callbacks(self):
@@ -52,21 +44,16 @@ class ModleeImageModel(ModleeModel):
         Configure image-specific callbacks.
         """
         base_callbacks = ModleeModel.configure_callbacks(self)
-        # save accuracy
-        # image_callback = self.image_callback
         image_callback = ImageCallback(self.num_classes)
-        # save image-specific datastats
         image_datastats_callback = DataMetafeaturesCallback(
             DataMetafeatures=getattr(modlee.data_metafeatures, "ImageDataMetafeatures", None)
         )
         return [*base_callbacks, image_callback, image_datastats_callback]
 
-
 class ImageCallback(Callback):
     """
     Saves accuracy
     """
-
     def __init__(self, num_classes=2, *args, **kwargs):
         """
         Constructor for ImageCallback.
@@ -105,4 +92,3 @@ class ImageCallback(Callback):
         self.calculate_accuracy.to(device=pl_module.device)
         acc = self.calculate_accuracy(preds, targets)
         mlflow.log_metric("val_acc", acc)
-

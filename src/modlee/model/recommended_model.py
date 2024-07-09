@@ -1,16 +1,13 @@
 from modlee.model import ModleeModel
-
 import torch
 import torch.nn.functional as F
 from torch.optim import lr_scheduler
 
 class RecommendedModel(ModleeModel):
-    # class RecommendedModel(pl.LightningModule):
     """
     A ready-to-train ModleeModel that wraps around a recommended model from the recommender.
     Contains default functions for training.
     """
-
     def __init__(self, model, loss_fn=F.cross_entropy, *args, **kwargs):
         """ 
         Constructor for a recommended model.
@@ -57,4 +54,3 @@ class RecommendedModel(ModleeModel):
     def configure_callbacks(self):
         base_callbacks = super().configure_callbacks()
         return base_callbacks
-

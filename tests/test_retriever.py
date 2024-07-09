@@ -4,12 +4,9 @@ Test retriever.
 import os
 import unittest
 import pathlib
-
-
 import numpy as np
 import torch
 import yaml
-
 import modlee
 import mlflow
 from mlflow.client import MlflowClient
@@ -24,7 +21,6 @@ globals().update(
 
 run_paths = [os.path.join(os.path.dirname(__file__), "test_mlruns")]
 
-
 class _RepTest(unittest.TestCase):
     """
     Deprecated, this functionality is still required on the client side but needs
@@ -33,7 +29,6 @@ class _RepTest(unittest.TestCase):
     :param unittest: _description_
     :return: _description_
     """
-
     locals().update(ret_dict)
 
     def __init__(self, *args, **kwargs):
@@ -50,7 +45,6 @@ class _RepTest(unittest.TestCase):
         """
         Retrieve runs from prior mlruns directories
         """
-        # for run_path in mlruns_paths:
         for run_path in run_paths:
             runs = modlee.get_runs(run_path)
             assert len(runs) > 0, f"No runs found in {run_path}"
