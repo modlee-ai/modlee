@@ -1,3 +1,5 @@
+![](https://github.com/modlee-ai/modlee/raw/main/docs/source/logo_icon.svg){width=50px height=50px}
+
 # modlee
 
 *Until now, ML R&D has been ...*
@@ -18,7 +20,7 @@ You can **use Modlee's Python package** to more easily define high performing ML
 ## Installation
 
 
-We have developed the package in Python 3.10. Please [raise an issue](https://github.com/modlee-ai/modlee/blob/main/issues) if you experience environment errors.
+We have developed the package in Python 3.10. If you experience environment errors, [please raise an issue](https://github.com/modlee-ai/modlee/issues).
 
 ### PyPI
 
@@ -26,6 +28,7 @@ Install `modlee` from PyPI:
 ```shell
 pip install modlee
 ```
+![](https://raw.githubusercontent.com/mansiagr4/gifs/c3842c67ca512440eb8c651441fdc364f4e38395/pip_install.gif)
 
 Our package is built on top of PyTorch, PyTorch-lightning, MLFlow and more to ensure you can continue developing ML with frameworks that you are familiar with.
 
@@ -38,6 +41,7 @@ git clone https://github.com/modlee-ai/modlee
 cd modlee
 pip install .
 ```
+![](https://raw.githubusercontent.com/mansiagr4/gifs/main/git_clone.gif)
 
 ### API key
 
@@ -59,12 +63,16 @@ Either save your API key to an environment variable:
 ```shell
 export MODLEE_API_KEY="my-api-key"
 ```
+![](https://raw.githubusercontent.com/mansiagr4/gifs/main/export%20api.gif)
+
 Or pass directly to the  `modlee.init` function (less recommended):
 ```python
 # your_experiment_script.py
 import modlee
 modlee.init(api_key="my-api-key")
 ```
+
+![](https://raw.githubusercontent.com/mansiagr4/gifs/main/import%20api.gif)
 
 ## Usage
 
