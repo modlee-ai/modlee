@@ -15,39 +15,38 @@ TLDR
 Define example custom dataset objects
 -------------------------------------
 
-.. code:: ipython3
+.. code:: python
 
-    import torch
-    import numpy as np
-    from torch.utils.data import Dataset, DataLoader
-    
-    class CustomDataset(Dataset):
-        def __init__(self, data):
-            self.data = data
-            
-        def __len__(self):
-            return len(self.data)
-        
-        def __getitem__(self, idx):
-            feature1 = torch.tensor(self.data[idx][0], dtype=torch.float32)
-            feature2 = torch.tensor(self.data[idx][1], dtype=torch.float32)
-            feature3 = torch.tensor(self.data[idx][2], dtype=torch.float32)
-            
-            features = [feature1,feature2,feature3]  # This is a simplification
-            
-            target = torch.tensor(self.data[idx][-1], dtype=torch.float32).squeeze()  # Ensure target is a scalar or 1D
-            
-            return features, target
-    
-    def example_text():
-        return np.random.rand(10)  # 1D array of 10 random numbers
-    def example_image():
-        return np.random.rand(5, 3)  # 2D array of shape (5, 3) with random numbers
-    def example_video():
-        return np.random.rand(5, 3, 2)  # 3D array of shape (5, 3, 2) with random numbers
-    def example_target():
-        return np.random.rand(1)  # scalar value
+   import torch
+   import numpy as np
+   from torch.utils.data import Dataset, DataLoader
 
+   class CustomDataset(Dataset):
+       def __init__(self, data):
+           self.data = data
+           
+       def __len__(self):
+           return len(self.data)
+       
+       def __getitem__(self, idx):
+           feature1 = torch.tensor(self.data[idx][0], dtype=torch.float32)
+           feature2 = torch.tensor(self.data[idx][1], dtype=torch.float32)
+           feature3 = torch.tensor(self.data[idx][2], dtype=torch.float32)
+           
+           features = [feature1,feature2,feature3]  # This is a simplification
+           
+           target = torch.tensor(self.data[idx][-1], dtype=torch.float32).squeeze()  # Ensure target is a scalar or 1D
+           
+           return features, target
+
+   def example_text():
+       return np.random.rand(10)  # 1D array of 10 random numbers
+   def example_image():
+       return np.random.rand(5, 3)  # 2D array of shape (5, 3) with random numbers
+   def example_video():
+       return np.random.rand(5, 3, 2)  # 3D array of shape (5, 3, 2) with random numbers
+   def example_target():
+       return np.random.rand(1)  # scalar value
 
 Create dataset and dataloader
 -----------------------------
@@ -73,11 +72,11 @@ environment. The above stated list data structure allows us to easily
 extract the information we need. Check out exactly how we do this on our
 public `Github Repo <https://github.com/modlee-ai/modlee>`__.
 
-.. code:: ipython3
+.. code:: python
 
-    data = [[example_text(),example_image(),example_video(),example_target()] for _ in range(4)]
-    
-    dataset = CustomDataset(data)
+   data = [[example_text(),example_image(),example_video(),example_target()] for _ in range(4)]
+
+   dataset = CustomDataset(data)
 
 Define a PyTorch DataLoader
 ---------------------------
@@ -89,34 +88,17 @@ Pass your dataset to a PyTorch DataLoader, so that Modlee can
 automatically parse it for meta features, allowing you to share it in a
 meaningful way with your colleagues.
 
-.. code:: ipython3
+.. code:: python
 
-    
-    dataloader = DataLoader(dataset, batch_size=2, shuffle=True)
-    
-    # Iterate through dataloader
-    for i,batch in enumerate(dataloader):
-        print(f"- batch_{i}")
-        features, target = batch
-        for j,feature in enumerate(features):
-            print(f"feature_{j}.shape = ", feature.shape)
-        print("target.shape = ", target.shape)
+   dataloader = DataLoader(dataset, batch_size=2, shuffle=True)
 
-
-
-.. parsed-literal::
-
-    - batch_0
-    feature_0.shape =  torch.Size([2, 10])
-    feature_1.shape =  torch.Size([2, 5, 3])
-    feature_2.shape =  torch.Size([2, 5, 3, 2])
-    target.shape =  torch.Size([2])
-    - batch_1
-    feature_0.shape =  torch.Size([2, 10])
-    feature_1.shape =  torch.Size([2, 5, 3])
-    feature_2.shape =  torch.Size([2, 5, 3, 2])
-    target.shape =  torch.Size([2])
-
+   # Iterate through dataloader
+   for i,batch in enumerate(dataloader):
+       print(f"- batch_{i}")
+       features, target = batch
+       for j,feature in enumerate(features):
+           print(f"feature_{j}.shape = ", feature.shape)
+       print("target.shape = ", target.shape)
 
 Modality & task compatibility
 -----------------------------

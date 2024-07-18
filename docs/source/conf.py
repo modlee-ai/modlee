@@ -225,6 +225,7 @@ def skip(app, what, name, obj, would_skip, options):
         return False
     return would_skip
 
+
 # def setup(app):
 #     print(app.__class__)
 #     app.connect("autodoc-skip-member", skip)

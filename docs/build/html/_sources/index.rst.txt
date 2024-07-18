@@ -3,6 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. image:: logo_icon.svg
+   :alt: Alt text
+   :width: 50px
+   :height: 50px
+
 modlee
 ======
 
@@ -51,6 +56,7 @@ modlee
    modlee Dashboard <https://www.dashboard.modlee.ai>
    Discord <https://discord.com/channels/1205271955306192936/1205271956098646087>
 
+
 Modlee is a machine learning tool that **documents** experiments for
 reproduciblity and **recommends** neural network models suited for a
 particular dataset. Modlee bypasses costly machine learning
@@ -62,6 +68,16 @@ metrics) and meta-features for
 Based on these meta-features from prior experiments, Modlee recommends a
 neural network model matched to a new task.
 
+.. raw:: html
+
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/TpeOjdcGaUI" frameborder="0" allowfullscreen>
+
+.. raw:: html
+
+   </iframe>
+
+
+
 `Getting started <README.html>`_
 ======
 Learn about modlee and how to get started.
@@ -72,7 +88,8 @@ Reference the source code and how to use the API.
 
 Examples
 ========
-View starter examples for :ref:`recommendation<notebooks/recommend:Recommendation>` or :ref:`documentation<notebooks/document:Documentation>` .
+
+View starter examples for `model recommendation <notebooks/recommend.html>`_ or `experiment documentation <notebooks/document.html>`_.
 
 Indices and tables
 ==================

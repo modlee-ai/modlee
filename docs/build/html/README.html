@@ -18,7 +18,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=8dde47fa"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -244,7 +244,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="modlee">
+  <a class="reference internal image-reference" href="https://github.com/modlee-ai/modlee/raw/main/docs/source/logo_icon.svg"><img alt="https://github.com/modlee-ai/modlee/raw/main/docs/source/logo_icon.svg" height="50px" src="https://github.com/modlee-ai/modlee/raw/main/docs/source/logo_icon.svg" width="50px" /></a>
+<section id="modlee">
 <h1>modlee<a class="headerlink" href="#modlee" title="Link to this heading"></a></h1>
 <p><em>Until now, ML R&amp;D has been …</em></p>
 <ul class="simple">
@@ -275,15 +276,16 @@ collaborators.</p></li>
 </ul>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
-<p>We have developed the package in Python 3.10. Please <a class="reference external" href="https://github.com/modlee-ai/modlee/blob/main/issues">raise an
-issue</a> if you
-experience environment errors.</p>
+<p>We have developed the package in Python 3.10. If you experience
+environment errors, <a class="reference external" href="https://github.com/modlee-ai/modlee/issues">please raise an
+issue</a>.</p>
 <section id="pypi">
 <h3>PyPI<a class="headerlink" href="#pypi" title="Link to this heading"></a></h3>
 <p>Install <code class="docutils literal notranslate"><span class="pre">modlee</span></code> from PyPI:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>modlee
 </pre></div>
 </div>
+<img alt="https://raw.githubusercontent.com/mansiagr4/gifs/c3842c67ca512440eb8c651441fdc364f4e38395/pip_install.gif" src="https://raw.githubusercontent.com/mansiagr4/gifs/c3842c67ca512440eb8c651441fdc364f4e38395/pip_install.gif" />
 <p>Our package is built on top of PyTorch, PyTorch-lightning, MLFlow and
 more to ensure you can continue developing ML with frameworks that you
 are familiar with.</p>
@@ -298,6 +300,7 @@ file:</p>
 pip<span class="w"> </span>install<span class="w"> </span>.
 </pre></div>
 </div>
+<img alt="https://raw.githubusercontent.com/mansiagr4/gifs/main/git_clone.gif" src="https://raw.githubusercontent.com/mansiagr4/gifs/main/git_clone.gif" />
 </section>
 <section id="api-key">
 <h3>API key<a class="headerlink" href="#api-key" title="Link to this heading"></a></h3>
@@ -324,12 +327,14 @@ up</a> and generate an API Key:
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">MODLEE_API_KEY</span><span class="o">=</span><span class="s2">&quot;my-api-key&quot;</span>
 </pre></div>
 </div>
+<img alt="https://raw.githubusercontent.com/mansiagr4/gifs/main/export%20api.gif" src="https://raw.githubusercontent.com/mansiagr4/gifs/main/export%20api.gif" />
 <p>Or pass directly to the <code class="docutils literal notranslate"><span class="pre">modlee.init</span></code> function (less recommended):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># your_experiment_script.py</span>
 <span class="kn">import</span> <span class="nn">modlee</span>
 <span class="n">modlee</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;my-api-key&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<img alt="https://raw.githubusercontent.com/mansiagr4/gifs/main/import%20api.gif" src="https://raw.githubusercontent.com/mansiagr4/gifs/main/import%20api.gif" />
 </section>
 </section>
 <section id="usage">

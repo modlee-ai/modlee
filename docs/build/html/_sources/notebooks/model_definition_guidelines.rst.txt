@@ -18,68 +18,67 @@ TLDR
 Define example custom ModleeModel
 ---------------------------------
 
-.. code:: ipython3
+.. code:: python
 
-    import torch
-    import torch.nn as nn
-    import torch.optim as optim
-    import modlee
-    
-    # Define custom activation function
-    class CustomActivation(nn.Module):
-        def __init__(self):
-            super(CustomActivation, self).__init__()
-    
-        def forward(self, x):
-            return torch.log(torch.abs(x) + 1)
-    
-    # Define the CNN model with custom activation
-    class CNNModel(nn.Module):
-        def __init__(self):
-            super(CNNModel, self).__init__()
-            self.kernel_size = 3 # --- Hard coded parameter to define network paramters
-            self.conv1 = nn.Conv2d(1, 32, kernel_size=self.kernel_size, padding=1)
-            self.conv2 = nn.Conv2d(32, 64, kernel_size=self.kernel_size, padding=1)
-            self.conv3 = nn.Conv2d(64, 128, kernel_size=self.kernel_size, padding=1)
-            self.pool = nn.MaxPool2d(2, 2)
-            self.activation = CustomActivation()  # Custom activation
-            self.fc1 = nn.Linear(128 * 3 * 3, 512)
-            self.fc2 = nn.Linear(512, 10)
-    
-        def forward(self, x):
-            x = self.activation(self.conv1(x))
-            x = self.pool(x)
-            x = self.activation(self.conv2(x))
-            x = self.pool(x)
-            x = self.activation(self.conv3(x))
-            x = self.pool(x)
-            x = torch.flatten(x, 1)
-            x = self.activation(self.fc1(x))
-            x = self.fc2(x)
-            return x
-    
-    # Define the ModleeModel
-    class CNNModleeModel(modlee.model.ModleeModel):
-        def __init__(self):
-            super(CNNModleeModel, self).__init__()
-            self.cnn = CNNModel()
-    
-        def forward(self, x):
-            return self.cnn(x)
-    
-        def training_step(self, batch, batch_idx):
-            x, y = batch
-            y_hat = self(x)
-            loss = nn.functional.cross_entropy(y_hat, y)
-            self.log('train_loss', loss)
-            return loss
-    
-        def configure_optimizers(self):
-            return optim.Adam(self.parameters(), lr=0.001)
-    
-    # Initialize the ModleeModel
-    model = CNNModleeModel()
+   import torch
+   import torch.nn as nn
+   import torch.optim as optim
+   import modlee
 
+   # Define custom activation function
+   class CustomActivation(nn.Module):
+       def __init__(self):
+           super(CustomActivation, self).__init__()
+
+       def forward(self, x):
+           return torch.log(torch.abs(x) + 1)
+
+   # Define the CNN model with custom activation
+   class CNNModel(nn.Module):
+       def __init__(self):
+           super(CNNModel, self).__init__()
+           self.kernel_size = 3 # --- Hard coded parameter to define network paramters
+           self.conv1 = nn.Conv2d(1, 32, kernel_size=self.kernel_size, padding=1)
+           self.conv2 = nn.Conv2d(32, 64, kernel_size=self.kernel_size, padding=1)
+           self.conv3 = nn.Conv2d(64, 128, kernel_size=self.kernel_size, padding=1)
+           self.pool = nn.MaxPool2d(2, 2)
+           self.activation = CustomActivation()  # Custom activation
+           self.fc1 = nn.Linear(128 * 3 * 3, 512)
+           self.fc2 = nn.Linear(512, 10)
+
+       def forward(self, x):
+           x = self.activation(self.conv1(x))
+           x = self.pool(x)
+           x = self.activation(self.conv2(x))
+           x = self.pool(x)
+           x = self.activation(self.conv3(x))
+           x = self.pool(x)
+           x = torch.flatten(x, 1)
+           x = self.activation(self.fc1(x))
+           x = self.fc2(x)
+           return x
+
+   # Define the ModleeModel
+   class CNNModleeModel(modlee.model.ModleeModel):
+       def __init__(self):
+           super(CNNModleeModel, self).__init__()
+           self.cnn = CNNModel()
+
+       def forward(self, x):
+           return self.cnn(x)
+
+       def training_step(self, batch, batch_idx):
+           x, y = batch
+           y_hat = self(x)
+           loss = nn.functional.cross_entropy(y_hat, y)
+           self.log('train_loss', loss)
+           return loss
+
+       def configure_optimizers(self):
+           return optim.Adam(self.parameters(), lr=0.001)
+
+   # Initialize the ModleeModel
+   model = CNNModleeModel()
 
 MODLEE_GUIDELINE
 ----------------
