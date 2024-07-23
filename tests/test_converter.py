@@ -168,7 +168,6 @@ def test_initializer_tensor_to_typed_init(input_value, actual_output_str, tensor
     # random initializations should be different
     assert torch.any(torch.abs(input_value - local_dict["fn_output_array"]) > 0.1)
 
-
 INPUTS = [
     {"value": "Equal"},
     {"value": "torch.ones((3,3))*3"},
