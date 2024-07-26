@@ -45,7 +45,11 @@ class ImageModleeModel(ModleeModel):
         #     metric = TASK_METRIC[self.task],
         #     **kwargs
         # )
-        ModleeModel.__init__(self, kwargs_cache=vars_cache, *args, **kwargs)
+        ModleeModel.__init__(self,
+            kwargs_cache=vars_cache,
+            modality="image",
+            task="classification",
+            *args, **kwargs)
 
     def configure_callbacks(self):
         """ 

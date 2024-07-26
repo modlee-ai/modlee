@@ -271,7 +271,7 @@ class DataMetafeaturesCallback(ModleeCallback):
         # self._save_snapshots_batched(data_snapshots)
         # log the data statistics
         # self._log_data_metafeatures(data, targets)
-        logging.info("Logging data metafeatures...")
+        logging.info(f"Logging data metafeatures with {self.DataMetafeatures}...")
         self._log_data_metafeatures_dataloader(trainer.train_dataloader)
 
         self._log_output_size(trainer, pl_module)
