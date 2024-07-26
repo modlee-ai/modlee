@@ -40,18 +40,24 @@ class ImageModleeModel(ModleeModel):
             raise AttributeError("Must provide argument for num_classes")
         else:
             self.num_classes = num_classes
-        self.task = task
         vars_cache = {"num_classes": num_classes, "task": task}
         # self.image_callback = ImageCallback(
         #     metric = TASK_METRIC[self.task],
         #     **kwargs
         # )
-        ModleeModel.__init__(self, kwargs_cache=vars_cache, *args, **kwargs)
+        ModleeModel.__init__(self,
+            kwargs_cache=vars_cache,
+            modality="image",
+            task="classification",
+            *args, **kwargs)
 
     def configure_callbacks(self):
         """ 
         Configure image-specific callbacks.
         """
+        return super().configure_callbacks()
+    
+        # Assuming the 
         base_callbacks = ModleeModel.configure_callbacks(self)
         # save accuracy
         # image_callback = self.image_callback
