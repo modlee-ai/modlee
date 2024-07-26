@@ -325,6 +325,8 @@ class DataMetafeaturesCallback(ModleeCallback):
             }
             if hasattr(data_mf, "embedding"):
                 data_mf_dict.update(data_mf.embedding)
+            else:
+                logging.warning("Using base DataMetafeatures, not logging embeddings.")
             mlflow.log_dict(
                 _make_serializable(data_mf_dict), "data_metafeatures")
         else:
