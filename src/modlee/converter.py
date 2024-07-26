@@ -629,6 +629,8 @@ class Converter(object):
                 continue
             if len(value_shape)==0:
                 continue
+            if len(value_shape)==0:
+                continue
             if isinstance(value_shape[0], str):
                 if "dynamic_axes" in value_shape[0]:
                     continue

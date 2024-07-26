@@ -91,7 +91,6 @@ class DataFrameTransforms:
         if scaler is None:
             scaler = StandardScaler()
             scaler.fit(df)
-
         df = scaler.transform(df)
         df = pd.DataFrame(df, columns=columns)
         return df, scaler
