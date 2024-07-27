@@ -18,7 +18,7 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=8dde47fa"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -118,9 +118,11 @@
 <li class="toctree-l3"><a class="reference internal" href="modlee.data_metafeatures.html">modlee.data_metafeatures module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TextDataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.get_n_samples"><code class="docutils literal notranslate"><span class="pre">get_n_samples()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
@@ -164,8 +166,11 @@
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.get_dataloader"><code class="docutils literal notranslate"><span class="pre">get_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.get_imagenette_dataloader"><code class="docutils literal notranslate"><span class="pre">get_imagenette_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.image_loaders"><code class="docutils literal notranslate"><span class="pre">image_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
@@ -173,6 +178,7 @@
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.text_loaders"><code class="docutils literal notranslate"><span class="pre">text_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
@@ -324,6 +330,21 @@ The supported formats include Torch and ONNX.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="modlee.converter.Converter.convert_onnx116">
+<span class="sig-name descname"><span class="pre">convert_onnx116</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.convert_onnx116"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.convert_onnx116" title="Link to this definition"></a></dt>
+<dd><p>Convert ONNX graph text generated with ONNX 1.16, which requires modifications
+to be parseable by onnx.parser.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>onnx_text</strong> – The ONNX graph text to convert.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ONNX graph text converted to a format parseable by onnx.parser.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="modlee.converter.Converter.dict2code">
 <span class="sig-name descname"><span class="pre">dict2code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwarg_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.dict2code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.dict2code" title="Link to this definition"></a></dt>
 <dd><p>Converts a dictionary into a code string that, when called with exec(), rebuilds the dictionary.</p>
@@ -333,6 +354,21 @@ The supported formats include Torch and ONNX.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A code string to create the dictionary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.converter.Converter.filter_node">
+<span class="sig-name descname"><span class="pre">filter_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.filter_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.filter_node" title="Link to this definition"></a></dt>
+<dd><p>Returns whether this is a non-layer node to filter out
+Checks for substrings in the node name that indicate that it is not a layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – The NetworkX node to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Whether the node contains a substring indicating that it should be filtered as a non-layer.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -503,6 +539,20 @@ TODO - refactor this as a regex</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="modlee.converter.Converter.index_nx">
+<span class="sig-name descname"><span class="pre">index_nx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_nx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.index_nx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.index_nx" title="Link to this definition"></a></dt>
+<dd><p>Index an ONNX NetworkX graph, by replacing the node labels with their indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>onnx_nx</strong> – The ONNX NetworkX to index.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ONNX NetworkX ,indexed. The function modifies the graph in-place and the return value should be unnecessary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="modlee.converter.Converter.init_graph_tensors">
 <span class="sig-name descname"><span class="pre">init_graph_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_gs_graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor_init_fn=functools.partial(&lt;built-in</span> <span class="pre">method</span> <span class="pre">normal</span> <span class="pre">of</span> <span class="pre">numpy.random.mtrand.RandomState</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale=0.01)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.init_graph_tensors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.init_graph_tensors" title="Link to this definition"></a></dt>
 <dd><p>Initialize the graph’s tensors, in place (you do not need to use the return value)
@@ -640,6 +690,23 @@ TODO - refactor above method with this one</p>
 </dd>
 <dt class="field-even">Return torch_model<span class="colon">:</span></dt>
 <dd class="field-even"><p>The Torch Model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.converter.Converter.onnx_graph2onnx_nx">
+<span class="sig-name descname"><span class="pre">onnx_graph2onnx_nx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prune</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.onnx_graph2onnx_nx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.onnx_graph2onnx_nx" title="Link to this definition"></a></dt>
+<dd><p>Convert an ONNX graph to ONNX NetworkX.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>onnx_graph</strong> – The ONNX graph.</p></li>
+<li><p><strong>prune</strong> – Whether to prune the NetworkX to just layer nodes, defaults to True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ONNX NetworkX graph.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -816,6 +883,20 @@ TODO - refactor above method with this one</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="modlee.converter.Converter.prune_onnx_nx">
+<span class="sig-name descname"><span class="pre">prune_onnx_nx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_nx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.prune_onnx_nx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.prune_onnx_nx" title="Link to this definition"></a></dt>
+<dd><p>Prune an ONNX NetworkX graph to just the layer nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>onnx_nx</strong> – The ONNX NetworkX graph to prune.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The pruned ONNX NetworkX graph.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="modlee.converter.Converter.refactor_bool_layer">
 <span class="sig-name descname"><span class="pre">refactor_bool_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.refactor_bool_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.refactor_bool_layer" title="Link to this definition"></a></dt>
 <dd><p>Refactor boolean layers to the correct number of input elements
@@ -912,7 +993,7 @@ e.g. 0_model_fc_weight -&gt; model_0_fc_weight</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.converter.Converter.tensor2init_code">
-<span class="sig-name descname"><span class="pre">tensor2init_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.tensor2init_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.tensor2init_code" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tensor2init_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.tensor2init_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.tensor2init_code" title="Link to this definition"></a></dt>
 <dd><p>Converts a monovalue tensor (len(set(tensor))==1) to a string representation of its initialization.
 Minifies potentially large from their explicit definition to simply ‘tensor.ones((x,y))*values’.
 If <cite>tensor_type</cite> is provided, this function will force-convert a non-uniform tensor to an 
