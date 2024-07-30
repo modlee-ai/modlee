@@ -23,8 +23,8 @@ IMAGE_MODELS = [
     tvm.resnet18(),
     tvm.resnet50(),
     tvm.resnet152(),
-    tvm.alexnet(),
-    # tvm.googlenet(),
+    # tvm.alexnet(),
+    tvm.googlenet(),
 ]
 
 # IMAGE_MODELS = []
