@@ -400,3 +400,14 @@ def test_onnx_graph2onnx_nx(torch_model):
 )
 def test_convert_float(in_out):
     assert converter.convert_float(in_out[0]) == in_out[1]
+
+@pytest.mark.parametrize(
+    'in_out',
+    [
+        # ("-3_40282e+38", "-3.40282e+38"),
+        # ("randomtext here -3_40282e+38 and here", "randomtext here -3.40282e+38 and here"),
+        ("constant_output_0017 = Constant <value = float {-3_40282e+38}> ()", "constant_output_0017 = Constant <value = float {-3.40282e+38}> ()")
+    ]
+)
+def test_convert_float(in_out):
+    assert converter.convert_float(in_out[0]) == in_out[1]
