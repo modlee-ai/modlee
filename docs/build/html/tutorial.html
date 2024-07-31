@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>First Project with Modlee &mdash; modlee 0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=4bcfc4e7" />
+
+  
+    <link rel="shortcut icon" href="_static/modlee.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8dde47fa"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Modlee Guides" href="guides.html" />
+    <link rel="prev" title="Quickstart with Modlee" href="README.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            modlee
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">Quickstart with Modlee</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#account-setup">Account Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#python-setup">Python Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="README.html#install-python">1. Install Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#set-up-a-virtual-environment-optional-but-recommended">2. Set Up a Virtual Environment (Optional but Recommended)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#install-the-modlee-package">Install the Modlee Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="README.html#pypi">PyPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#source">Source</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#set-api-key">Set API Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#how-to-use-modlee-quick-example">How to Use Modlee - Quick Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#supported-use-cases">Supported Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#recommended-next-steps">Recommended Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Projects</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">First Project with Modlee</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mnist-image-classification-with-modlee-an-end-to-end-tutorial">MNIST Image Classification with Modlee: An End-to-End Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mnist-dataset">MNIST Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-modlee-to-recommend-and-train-a-model">1. Using Modlee to Recommend and Train a Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-model-implementation">2. Custom Model Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compare-models">3. Compare Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conclusion">Conclusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#recommended-next-steps">Recommended Next Steps</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides.html">Modlee Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides.html#meta-learning-explained">Meta Learning Explained</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#understanding-meta-learning">Understanding Meta Learning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#how-it-works">How It Works</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#significance-of-meta-learning">Significance of Meta Learning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guides.html#overview-of-meta-features">Overview of Meta Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#defining-meta-features">Defining Meta Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#importance-of-standardizing-meta-features">Importance of Standardizing Meta Features</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guides.html#preservation-of-machine-learning-knowledge-with-modlee">Preservation of Machine Learning Knowledge with Modlee</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#automated-experiment-tracking">Automated Experiment Tracking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#benefits">Benefits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#auto-documentation-features">Auto Documentation Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#key-components-of-auto-documentation">Key Components of Auto Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#benefits-of-auto-documentation">Benefits of Auto Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#custom-logging-of-additional-metrics">Custom Logging of Additional Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#data-sharing-with-modlee">Data Sharing with Modlee</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guides.html#model-recommendations-by-modlee">Model Recommendations by Modlee</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#input-to-the-model-recommendation-system">Input to the Model Recommendation System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#output-from-the-model-recommendation-system">Output from the Model Recommendation System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#improving-the-model-recommendation-process">Improving the Model Recommendation Process</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guides.html#visualizing-experiments-with-mlflow">Visualizing Experiments with MLFlow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#introduction-to-mlflow">Introduction to MLFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#steps-to-launch-mlflow">Steps to Launch MLFlow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guides.html#formatting-data-loaders-and-datasets">Formatting Data Loaders and Datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#dataset-guidelines">Dataset Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#proper-data-loader-formatting">Proper Data Loader Formatting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guides.html#defining-models-with-modlee">Defining Models with Modlee</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides.html#choosing-the-right-approach-statistical-ml-deep-learning-or-llms">Choosing the Right Approach: Statistical ML, Deep Learning, or LLMs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#statistical-machine-learning-ml">Statistical Machine Learning (ML)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#deep-learning-dl">Deep Learning (DL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#large-language-models-llms">Large Language Models (LLMs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#real-world-application">Real World Application</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guides.html#recommended-next-steps">Recommended Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/recommend.html">Automate Model Recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/document.html">Automate Experiment Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/modlee.html">modlee package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/modlee.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.model.html">modlee.model package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model.html#module-modlee.model">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.recommender.html">modlee.recommender package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.recommender.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.recommender.html#module-modlee.recommender">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/modlee.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.client.html">modlee.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.config.html">modlee.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.converter.html">modlee.converter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.converter.html#modlee.converter.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_4"><code class="docutils literal notranslate"><span class="pre">manipulate_x_4()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_5"><code class="docutils literal notranslate"><span class="pre">manipulate_x_5()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.pad_image_channels"><code class="docutils literal notranslate"><span class="pre">pad_image_channels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_dataloader"><code class="docutils literal notranslate"><span class="pre">sample_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_channels"><code class="docutils literal notranslate"><span class="pre">sample_image_channels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_from_video"><code class="docutils literal notranslate"><span class="pre">sample_image_from_video()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.exp_loss_logger.html">modlee.exp_loss_logger module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.exp_loss_logger.html#modlee.exp_loss_logger.extract_loss_functions"><code class="docutils literal notranslate"><span class="pre">extract_loss_functions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.exp_loss_logger.html#modlee.exp_loss_logger.get_exp_loss_for_model"><code class="docutils literal notranslate"><span class="pre">get_exp_loss_for_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.loss_sweeper.html">modlee.loss_sweeper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.model_text_converter.html">modlee.model_text_converter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_text_converter.html#modlee.model_text_converter.exhaust_sequence_branch"><code class="docutils literal notranslate"><span class="pre">exhaust_sequence_branch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text"><code class="docutils literal notranslate"><span class="pre">get_code_text()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">get_code_text_for_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_text_converter.html#modlee.model_text_converter.save_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">save_code_text_for_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.modlee_image_model.html">modlee.modlee_image_model module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ImageCallback"><code class="docutils literal notranslate"><span class="pre">ImageCallback</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ModleeImageModel"><code class="docutils literal notranslate"><span class="pre">ModleeImageModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.retriever.html">modlee.retriever module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.get_cached_vars"><code class="docutils literal notranslate"><span class="pre">get_cached_vars()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.get_data_snapshot"><code class="docutils literal notranslate"><span class="pre">get_data_snapshot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.get_model"><code class="docutils literal notranslate"><span class="pre">get_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.get_runs"><code class="docutils literal notranslate"><span class="pre">get_runs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.trainer.html">modlee.trainer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.utils.html">modlee.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.quantize_dict"><code class="docutils literal notranslate"><span class="pre">quantize_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/modlee.html#module-modlee">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Troubleshooting</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Identifying and Solving Issues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#installation-issues">Installation Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-installation-errors">Problem: Installation Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-incompatible-package-versions">Problem: Incompatible Package Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#setup-problems">Setup Problems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-configuration-errors">Problem: Configuration Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-unable-to-access-modlee-api">Problem: Unable to Access Modlee API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#model-issues">Model Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-training-process-fails-or-crashes">Problem: Training Process Fails or Crashes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-none-model-recommended">Problem: None Model Recommended</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#environment-issues">Environment Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-google-colab-environment">Problem: Google Colab Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-run-out-of-gpu-compute">Problem: Run Out of GPU Compute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#still-need-help">Still Need Help?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Additional Resources</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="support.html#community">Community</a></li>
+<li class="toctree-l2"><a class="reference internal" href="support.html#contributing">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="support.html#issues">Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="support.html#more-information">More Information</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.dashboard.modlee.ai">modlee Dashboard</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/modlee-ai/modlee">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">modlee</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">First Project with Modlee</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tutorial.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <a class="reference internal image-reference" href="https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg"><img alt="https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg" height="50px" src="https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg" width="50px" /></a>
+<section id="first-project-with-modlee">
+<h1>First Project with Modlee<a class="headerlink" href="#first-project-with-modlee" title="Link to this heading"></a></h1>
+<p>In this tutorial, we’ll walk through a complete machine learning project
+using the Modlee package.</p>
+<section id="mnist-image-classification-with-modlee-an-end-to-end-tutorial">
+<h2>MNIST Image Classification with Modlee: An End-to-End Tutorial<a class="headerlink" href="#mnist-image-classification-with-modlee-an-end-to-end-tutorial" title="Link to this heading"></a></h2>
+<p>We’ll walk through an end-to-end project using the Modlee package for
+image classification. We’ll use the MNIST dataset to demonstrate how to:</p>
+<ol class="arabic simple">
+<li><p>Use the Modlee recommender to get a recommended model.</p></li>
+<li><p>Train and evaluate the recommended model on the MNIST dataset.</p></li>
+<li><p>Implement a custom model, train, and evaluate it.</p></li>
+<li><p>Compare the performance of the Modlee-recommended model with our
+custom model.</p></li>
+</ol>
+<section id="mnist-dataset">
+<h3>MNIST Dataset<a class="headerlink" href="#mnist-dataset" title="Link to this heading"></a></h3>
+<p>The MNIST dataset is a well-known benchmark in the field of machine
+learning. It consists of:</p>
+<ul class="simple">
+<li><p><strong>Images</strong>: 28x28 grayscale images of handwritten digits (0 through
+9).</p></li>
+<li><p><strong>Labels</strong>: Corresponding labels for each image indicating the digit.</p></li>
+</ul>
+<p>MNIST is used to test and compare classification algorithms. In this
+tutorial, we’ll use it to evaluate the performance of models recommended
+by Modlee and a custom-built model.</p>
+<p><a class="reference external" href="https://colab.research.google.com/drive/1XNr-NXrDhvOjnN5Kwfh2fOB1mkqktgA_#scrollTo=EoHpDb_SFHQS"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+</section>
+<section id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h3>
+<p>Before starting, ensure you have the following packages installed:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">torch</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">torchvision</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytorch_lightning</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">modlee</span></code></p></li>
+</ul>
+<p>You can install them using <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>torch<span class="w"> </span>torchvision<span class="w"> </span>pytorch_lightning<span class="w"> </span>modlee
+</pre></div>
+</div>
+</section>
+<section id="using-modlee-to-recommend-and-train-a-model">
+<h3>1. Using Modlee to Recommend and Train a Model<a class="headerlink" href="#using-modlee-to-recommend-and-train-a-model" title="Link to this heading"></a></h3>
+<p>We’ll start by loading the MNIST dataset, using Modlee to recommend a
+model, and then training and evaluating it.</p>
+<ol class="loweralpha">
+<li><p><strong>Import Required Libraries</strong></p>
+<p>First, we import the necessary libraries.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="nn">transforms</span>
+<span class="kn">from</span> <span class="nn">torchvision.datasets</span> <span class="kn">import</span> <span class="n">MNIST</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">import</span> <span class="nn">pytorch_lightning</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">modlee</span>
+<span class="kn">import</span> <span class="nn">os</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Initialize Modlee</strong></p>
+<p>We initialize the Modlee package with your API key.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">modlee</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;replace-with-your-API-key&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Define Data Transformations</strong></p>
+<p>We preprocess the images to be compatible with our models.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+<span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)),</span>  <span class="c1"># Resize images to 224x224 pixels</span>
+<span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>          <span class="c1"># Convert images to tensors</span>
+<span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,))</span>  <span class="c1"># Normalize images (mean=0.5, std=0.5)</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<p><em>What We Are Doing</em>: We prepare our images for the model by resizing
+them to 224x224 pixels, which ensures consistent input size. We then
+convert the images into tensors for processing with <code class="docutils literal notranslate"><span class="pre">PyTorch</span></code>.
+Finally, we normalize the pixel values to a range of -1 to 1, which
+helps the model learn better by standardizing the data and reducing
+bias.</p>
+<p><em>Why We Are Doing It</em>: We resize images to ensure they are all the
+same size for consistent input to the model. Converting them to
+tensors allows <code class="docutils literal notranslate"><span class="pre">PyTorch</span></code> to process the data, and normalizing pixel
+values helps the model learn effectively by standardizing the data
+range and reducing bias.</p>
+</li>
+<li><p><strong>Load the MNIST Dataset</strong></p>
+<p>We load the training and validation datasets.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_dataset</span> <span class="o">=</span> <span class="n">MNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+<span class="n">val_dataset</span> <span class="o">=</span> <span class="n">MNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>What We Are Doing</em>: We are loading the MNIST dataset by specifying
+the directory to store the data and setting whether we want the
+training or validation data. We also ensure that the dataset is
+downloaded if it’s not already present and apply the previously
+defined transformations.</p>
+<p><em>Why We Are Doing It</em>: Loading the dataset with transformations
+prepares the images for the model by resizing and normalizing them,
+ensuring that the data is ready for training and evaluation. This
+helps in standardizing the data input, which is crucial for effective
+model performance.</p>
+</li>
+<li><p><strong>Create DataLoaders</strong></p>
+<p>We create DataLoaders to handle mini-batch loading.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">val_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>What We Are Doing</em>: We are creating <code class="docutils literal notranslate"><span class="pre">DataLoaders</span></code> for the training
+and validation datasets. The <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> manages how the data is
+batched and shuffled during training. We set the batch size to 4
+samples per batch and enabled shuffling for the training data to
+improve model performance.</p>
+<p><em>Why We Are Doing It</em>: Using <code class="docutils literal notranslate"><span class="pre">DataLoaders</span></code> ensures that data is
+processed in manageable chunks (mini-batches) and shuffled during
+training, which helps the model learn more effectively by exposing it
+to varied data in each training iteration.</p>
+</li>
+<li><p><strong>Initialize the Modlee Recommender</strong></p>
+<p>We use Modlee to get a recommended model for image classification.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">recommender</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">recommender</span><span class="o">.</span><span class="n">from_modality_task</span><span class="p">(</span>
+<span class="n">modality</span><span class="o">=</span><span class="s1">&#39;image&#39;</span><span class="p">,</span>
+<span class="n">task</span><span class="o">=</span><span class="s1">&#39;classification&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><em>What We Are Doing</em>: We are initializing the Modlee recommender to
+obtain a recommended model for image classification. By specifying
+the <code class="docutils literal notranslate"><span class="pre">modality</span></code> as <code class="docutils literal notranslate"><span class="pre">image</span></code> and the <code class="docutils literal notranslate"><span class="pre">task</span></code> as <code class="docutils literal notranslate"><span class="pre">classification</span></code>,
+we use Modlee to select a suitable model for our needs.</p>
+<p><em>Why We Are Doing It</em>: Using Modlee’s recommender simplifies the
+process of choosing a model by automatically selecting one that is
+well-suited for image classification tasks, saving time and ensuring
+a good starting point for our project.</p>
+</li>
+<li><p><strong>Fit the Recommender on Training Data</strong></p>
+<p>We fit the recommender on the training data to get the best model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">recommender</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_loader</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>What We Are Doing</em>: We are training the recommended model by fitting
+the recommender on our training data using the <code class="docutils literal notranslate"><span class="pre">fit</span></code> method.</p>
+<p><em>Why We Are Doing It</em>: Training the model on the training data allows
+it to learn and adapt to the specific patterns in the data, ensuring
+it performs well on the task of image classification.</p>
+</li>
+<li><p><strong>Get and Print the Recommended Model</strong></p>
+<p>We get the model recommended by Modlee and print it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">modlee_model</span> <span class="o">=</span> <span class="n">recommender</span><span class="o">.</span><span class="n">model</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Recommended model: </span><span class="se">\n</span><span class="si">{</span><span class="n">modlee_model</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">recommender.model</span></code> function retrieves the model recommended by
+Modlee.</p>
+</li>
+<li><p><strong>Train the Model</strong></p>
+<p>We train the recommended model using PyTorch Lightning.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">modlee_model</span><span class="p">,</span>
+        <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_loader</span><span class="p">,</span>
+        <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">val_dataloader</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p><em>What We Are Doing</em>: We are training the recommended model using
+<code class="docutils literal notranslate"><span class="pre">PyTorch</span> <span class="pre">Lightning</span></code>. We start a new run for tracking, configure a
+trainer to manage the training process, and fit the model on both the
+training and validation datasets.</p>
+<p><em>Why We Are Doing It</em>: Training the model with <code class="docutils literal notranslate"><span class="pre">PyTorch</span> <span class="pre">Lightning</span></code>
+simplifies and organizes the process, while tracking the run helps
+monitor performance and progress. Setting the number of epochs
+determines how long the model will train, ensuring it learns
+effectively from the data.</p>
+</li>
+<li><p><strong>Evaluate the Model</strong></p>
+<p>We evaluate the trained model on the validation set.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trainer</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">modlee_model</span><span class="p">,</span> <span class="n">dataloaders</span><span class="o">=</span><span class="n">val_dataloader</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>What We Are Doing</em>: We are evaluating the custom model on the
+validation set using the <code class="docutils literal notranslate"><span class="pre">validate</span></code> method of the trainer.</p>
+<p><em>Why We Are Doing It</em>: Running validation helps us assess how well
+the model performs on unseen data, providing insights into its
+accuracy and generalization. This step is crucial for understanding
+the model’s effectiveness and identifying any areas for improvement.</p>
+</li>
+</ol>
+</section>
+<section id="custom-model-implementation">
+<h3>2. Custom Model Implementation<a class="headerlink" href="#custom-model-implementation" title="Link to this heading"></a></h3>
+<p>Now, we’ll define a custom CNN model, train it, and evaluate its
+performance.</p>
+<ol class="loweralpha">
+<li><p><strong>Define the Custom Model</strong></p>
+<p>We define a custom Convolutional Neural Network (CNN).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+
+<span class="c1"># Define a simple Convolutional Neural Network (CNN) for image classification</span>
+<span class="k">class</span> <span class="nc">SimpleCNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SimpleCNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># First convolutional layer: takes 1 input channel (e.g., grayscale image),</span>
+        <span class="c1"># outputs 32 feature maps, with a 3x3 kernel and padding of 1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># MNIST has 1 channel</span>
+        <span class="c1"># Second convolutional layer: takes 32 input channels,</span>
+        <span class="c1"># outputs 64 feature maps, with a 3x3 kernel and padding of 1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Fully connected layer: input size is 64*56*56 (after flattening),</span>
+        <span class="c1"># outputs 128 features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span> <span class="o">*</span> <span class="mi">56</span> <span class="o">*</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>  <span class="c1"># Adjust input size according to image dimensions</span>
+        <span class="c1"># Final fully connected layer: maps 128 features to 10 output classes (for MNIST)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># 10 classes for MNIST</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Apply the first convolutional layer followed by ReLU activation</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="c1"># Apply max pooling with a 2x2 kernel and stride of 2</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">max_pool2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># Apply the second convolutional layer followed by ReLU activation</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="c1"># Apply max pooling with a 2x2 kernel and stride of 2</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">max_pool2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># Flatten the tensor from 4D to 2D (batch size, flattened features)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Flatten</span>
+        <span class="c1"># Apply the first fully connected layer followed by ReLU activation</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="c1"># Apply the second fully connected layer to produce the final output</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p><em>What We Are Doing</em>: We are defining a custom Convolutional Neural
+Network (CNN) model. This model includes convolutional layers to
+extract features from images, followed by fully connected layers for
+classification. The <code class="docutils literal notranslate"><span class="pre">forward</span></code> method specifies how data flows
+through the network, using ReLU activations, max pooling, and
+flattening operations.</p>
+<p><em>Why We Are Doing It</em>: Defining a custom CNN allows us to tailor the
+architecture specifically for our task, in this case, classifying
+MNIST images. The convolutional layers help in extracting important
+features from the images, while the fully connected layers perform
+the final classification, enabling the model to accurately predict
+the digits.</p>
+</li>
+<li><p><strong>Define the PyTorch Lightning Module</strong></p>
+<p>We wrap the CNN model in a PyTorch Lightning module for training and
+validation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytorch_lightning</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">from</span> <span class="nn">torch.optim</span> <span class="kn">import</span> <span class="n">Adam</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+
+<span class="c1"># Define a PyTorch Lightning module for the model</span>
+<span class="k">class</span> <span class="nc">LitModel</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LitModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>  <span class="c1"># The model to be trained</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>  <span class="c1"># Loss function for classification</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Forward pass through the model</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="c1"># Perform a single training step</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>  <span class="c1"># Unpack the input and target labels from the batch</span>
+        <span class="n">y_hat</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Get model predictions</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># Compute the loss</span>
+        <span class="k">return</span> <span class="n">loss</span>  <span class="c1"># Return the loss for optimization</span>
+
+    <span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="c1"># Perform a single validation step</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>  <span class="c1"># Unpack the input and target labels from the batch</span>
+        <span class="n">y_hat</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Get model predictions</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># Compute the loss</span>
+        <span class="c1"># Calculate accuracy</span>
+        <span class="n">acc</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">/</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># Log validation loss and accuracy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;val_loss&#39;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;val_acc&#39;</span><span class="p">,</span> <span class="n">acc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;val_loss&#39;</span><span class="p">:</span> <span class="n">loss</span><span class="p">,</span> <span class="s1">&#39;val_acc&#39;</span><span class="p">:</span> <span class="n">acc</span><span class="p">}</span>  <span class="c1"># Return metrics for logging</span>
+
+    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Configure the optimizer for training</span>
+        <span class="k">return</span> <span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>  <span class="c1"># Adam optimizer with a learning rate of 0.001</span>
+</pre></div>
+</div>
+<p><em>What We Are Doing</em>: We are wrapping our CNN model in a
+<code class="docutils literal notranslate"><span class="pre">PyTorch</span> <span class="pre">Lightning</span> <span class="pre">module</span></code>, <code class="docutils literal notranslate"><span class="pre">LitModel</span></code>, to streamline the
+training and validation processes. This module includes methods for
+forward passes, computing loss during training and validation, and
+configuring the optimizer.</p>
+<p><em>Why We Are Doing It</em>: Using <code class="docutils literal notranslate"><span class="pre">PyTorch</span> <span class="pre">Lightning</span></code> simplifies and
+organizes the training and validation workflows, making the code
+cleaner and easier to manage. The <code class="docutils literal notranslate"><span class="pre">training_step</span></code> method handles
+the computation of loss during training, while <code class="docutils literal notranslate"><span class="pre">validation_step</span></code>
+tracks both loss and accuracy during validation. The
+<code class="docutils literal notranslate"><span class="pre">configure_optimizers</span></code> sets up the optimizer for updating model
+parameters, ensuring efficient training.</p>
+</li>
+<li><p><strong>Create DataLoaders</strong></p>
+<p>We prepare DataLoaders for the custom model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">val_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>What We Are Doing</em>: We are creating <code class="docutils literal notranslate"><span class="pre">DataLoaders</span></code> for our custom
+model to manage how data is batched and shuffled during training and
+validation.</p>
+<p><em>Why We Are Doing It</em>: <code class="docutils literal notranslate"><span class="pre">DataLoaders</span></code> help process the dataset in
+manageable batches and shuffle the training data, which enhances
+model performance by providing varied data each epoch and speeding up
+the training process.</p>
+</li>
+<li><p><strong>Train the Custom Model</strong></p>
+<p>We train the custom model using PyTorch Lightning.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an instance of the LitModel with the given model</span>
+<span class="n">lit_model</span> <span class="o">=</span> <span class="n">LitModel</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="c1"># Initialize the PyTorch Lightning trainer</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Set the number of epochs for training</span>
+
+<span class="c1"># Start the training process</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">lit_model</span><span class="p">,</span>            <span class="c1"># Pass the LitModel instance to the trainer</span>
+    <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_loader</span><span class="p">,</span>  <span class="c1"># Provide the training data loader</span>
+    <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">val_dataloader</span>   <span class="c1"># Provide the validation data loader</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><em>What We Are Doing</em>: We are training the custom CNN model using
+<code class="docutils literal notranslate"><span class="pre">PyTorch</span> <span class="pre">Lightning</span></code>. We initialize the <code class="docutils literal notranslate"><span class="pre">LitModel</span></code> with our custom
+CNN, then configure a trainer to handle the training and validation
+processes, setting it to run for one epoch.</p>
+<p><em>Why We Are Doing It</em>: PyTorch Lightning’s <code class="docutils literal notranslate"><span class="pre">Trainer</span></code> simplifies the
+training and validation workflow, automating many of the repetitive
+tasks. This setup ensures our model is trained efficiently and allows
+for easy monitoring of performance across epochs.</p>
+</li>
+<li><p><strong>Evaluate the Custom Model</strong></p>
+<p>We evaluate the custom model on the validation set.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trainer</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">lit_model</span><span class="p">,</span> <span class="n">dataloaders</span><span class="o">=</span><span class="n">val_dataloader</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>What We Are Doing</em>: We are evaluating the custom model on the
+validation set using the <code class="docutils literal notranslate"><span class="pre">validate</span></code> method of the trainer.</p>
+<p><em>Why We Are Doing It</em>: Running validation helps us assess how well
+the model performs on unseen data, providing insights into its
+accuracy and generalization. This step is crucial for understanding
+the model’s effectiveness and identifying any areas for improvement.</p>
+</li>
+</ol>
+</section>
+<section id="compare-models">
+<h3>3. Compare Models<a class="headerlink" href="#compare-models" title="Link to this heading"></a></h3>
+<p>Finally, compare the performance of the Modlee recommended model with
+the custom model by examining their accuracy on the test set.</p>
+</section>
+<section id="conclusion">
+<h3>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading"></a></h3>
+<p>We have successfully walked through a complete machine learning project
+using the Modlee package for image classification. We demonstrated how
+to:</p>
+<ul class="simple">
+<li><p>Use Modlee to recommend and train a model for MNIST image
+classification.</p></li>
+<li><p>Implement and train a custom CNN model.</p></li>
+<li><p>Evaluate and compare the performance of both models.</p></li>
+</ul>
+<p>By following these steps, you should now have a solid understanding of
+how to leverage Modlee for model recommendation and how to build and
+train custom models. The comparison between the recommended and custom
+models will help you understand the strengths and weaknesses of each
+approach.</p>
+</section>
+<section id="recommended-next-steps">
+<h3>Recommended Next Steps<a class="headerlink" href="#recommended-next-steps" title="Link to this heading"></a></h3>
+<p>To build on your progress, consider these next steps:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://docs.modlee.ai/notebooks/guides.html">Check Out the
+Guides</a>: Explore
+Modlee’s detailed guides to gain deeper insights into advanced
+features and functionalities. These guides offer step-by-step
+instructions and practical examples to enhance your understanding.</p></li>
+<li><p><a class="reference external" href="https://docs.modlee.ai/notebooks/recommend.html">Review
+Examples</a>: Look
+through our collection of examples to see Modlee in action across
+various tasks. These examples can inspire and help you apply Modlee
+to your projects effectively.</p></li>
+<li><p><strong>Experiment with Your Projects</strong>: Use the knowledge you’ve gained to
+experiment with Modlee on new datasets and challenges. This will help
+you refine your skills and develop innovative solutions.</p></li>
+<li><p><a class="reference external" href="https://docs.modlee.ai/support.html">Engage with the Community</a>:
+Join discussions and forums to connect with other users, seek advice,
+and share your experiences.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="README.html" class="btn btn-neutral float-left" title="Quickstart with Modlee" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="guides.html" class="btn btn-neutral float-right" title="Modlee Guides" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Modlee, Inc.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
