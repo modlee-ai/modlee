@@ -31,6 +31,10 @@ rebuild:
 
 md_rst:
 	pandoc -s README.md -o source/README.rst
+	pandoc -s tutorial.md -o source/tutorial.rst
+	pandoc -s guides.md -o source/guides.rst
+	pandoc -s troubleshooting.md -o source/troubleshooting.rst
+	pandoc -s support.md -o source/support.rst
 
 nb_rst:
 	jupyter nbconvert --to rst --output-dir ./source/notebooks/ ../examples/*.ipynb

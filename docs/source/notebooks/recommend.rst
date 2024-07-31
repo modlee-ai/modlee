@@ -1,4 +1,8 @@
-Automate model recommendation
+.. image:: https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg
+   :width: 50px
+   :height: 50px
+
+Automate Model Recommendation
 =============================
 
 This example notebook uses the ``modlee`` package to train a recommended
@@ -105,7 +109,8 @@ automatic documentation of metafeatures.
        trainer = pl.Trainer(max_epochs=1)
        trainer.fit(
            model=modlee_model,
-           train_dataloaders=train_dataloader
+           train_dataloaders=train_dataloader,
+           val_dataloaders=val_dataloader
        )
 
 ::
