@@ -8,7 +8,9 @@ import math
 import time
 
 import numpy as np
-
+import pandas as pd
+from statsmodels.tsa.stattools import acf, pacf
+from statsmodels.tsa.seasonal import seasonal_decompose
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.decomposition import PCA
 from sklearn.metrics import (
@@ -825,3 +827,71 @@ class TabularDataMetafeatures(DataMetafeatures):
             'quantiles_75': df.quantile(0.75).tolist()
         }
         return summary
+
+class TimeSeriesDataMetafeatures(DataMetafeatures):
+    def __init__(self, data_array: np.ndarray):
+        self.data_array = data_array
+
+    def get_raw_batch_elements(self) -> np.ndarray:
+        return self.data_array
+    
+    def calculateMetafeatures(self):
+        """
+        Calculate the following featureset for time series data:
+        - Statistical features: mean, std, median, skewness, kurtosis, quantiles
+        - Temporal features: autocorrelation, partial autocorrelation
+        - Trend and seasonality features
+        - Other features: min, max, range
+        
+        :return: A dictionary of the features for each column.        
+        """
+        data = self.get_raw_batch_elements()
+        
+        # Ensure data is a NumPy array
+        if isinstance(data, pd.DataFrame):
+            data = data.values
+        elif isinstance(data, list):
+            data = np.array(data)
+        
+        df = pd.DataFrame(data)
+        
+        # Extract metafeatures using pymfe
+        mfe = MFE(groups=["statistical", "model-based", "info-theory"])
+        mfe.fit(data)  # Pass NumPy array directly
+        ft = mfe.extract()
+        pymfe_features = dict(zip(ft[0], ft[1]))
+        
+        # Calculate additional features
+        additional_features = {}
+        
+        for col in range(data.shape[1]):
+            col_data = data[:, col]
+            
+            # Calculate quantiles
+            quantiles = np.percentile(col_data, [25, 50, 75])
+            
+            # Calculate autocorrelation and partial autocorrelation
+            autocorr = acf(col_data, nlags=1)[1]  # autocorrelation at lag 1
+            partial_autocorr = pacf(col_data, nlags=1)[1]  # partial autocorrelation at lag 1
+            
+            # Decompose the time series to extract trend and seasonality
+            decomposition = seasonal_decompose(col_data, period=12, model='additive', extrapolate_trend='freq')
+            trend = decomposition.trend
+            seasonal = decomposition.seasonal
+            trend_strength = np.nanmean(trend)
+            seasonal_strength = np.nanmean(seasonal)
+            
+            additional_features.update({
+                f"col_{col}_quantile_25": quantiles[0],
+                f"col_{col}_quantile_50": quantiles[1],
+                f"col_{col}_quantile_75": quantiles[2],
+                f"col_{col}_autocorr_lag1": autocorr,
+                f"col_{col}_partial_autocorr_lag1": partial_autocorr,
+                f"col_{col}_trend_strength": trend_strength,
+                f"col_{col}_seasonal_strength": seasonal_strength,
+            })
+        
+        # Combine pymfe features with additional features
+        combined_features = {**pymfe_features, **additional_features}
+        
+        return combined_features
