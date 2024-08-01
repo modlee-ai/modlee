@@ -727,16 +727,6 @@ class ImageDataMetafeatures(DataMetafeatures):
         self.embedding = self.get_embedding()
         self.features.update(self.embedding)
         self.features = self._make_serializable(self.features)
-        # self.features = {
-        #     **self.embedding,
-        #     **self.mfe,
-        #     **self.properties
-        # }
-        # self.features = self._make_serializable({
-        #     **self.embedding,
-        #     **self.mfe,
-        #     **self.properties
-        # })
         pass
 
     def get_raw_batch_elements(self):
@@ -907,3 +897,12 @@ class TimeSeriesDataMetafeatures(DataMetafeatures):
         for key, value in features.items():
             print(f"{key:<{max_key_length}} : {value}")
         return None
+
+class TabularDataMetafeatures(DataMetafeatures):
+    def __init__(self, dataloader, new_model=None, *args, **kwargs):
+        super().__init__(dataloader, *args, **kwargs)
+        if not new_model:
+            self.new_model = torchvision.models.resnet18(
+                weights='IMAGENET1K_V1'
+            )
+        self.new_model.eval()

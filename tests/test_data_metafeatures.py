@@ -5,12 +5,54 @@ import os, re
 import torch
 from torch.utils.data import DataLoader
 import torchvision
-
+from torch.utils.data import DataLoader, TensorDataset
 import modlee
 from modlee import data_metafeatures as dmf
 from modlee.utils import image_loaders, text_loaders, timeseries_loader
-
+from sklearn.preprocessing import StandardScaler
 import spacy
+
+
+def get_tabular_dataloader(batch_size=32, shuffle=True):
+    df = pd.read_csv('housing.csv')
+    X = df.drop('MEDV', axis=1).values
+    y = df['MEDV'].values
+
+    # Standardize features
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+
+    # Convert to PyTorch tensors
+    X_tensor = torch.tensor(X_scaled, dtype=torch.float32)
+    y_tensor = torch.tensor(y, dtype=torch.float32).unsqueeze(1)
+
+    # Create a TensorDataset
+    dataset = TensorDataset(X_tensor, y_tensor)
+
+    # Return a DataLoader
+    return DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
+
+
+
+def get_tabular_dataloader(batch_size=32, shuffle=True):
+    df = pd.read_csv('housing.csv')
+    X = df.drop('MEDV', axis=1).values
+    y = df['MEDV'].values
+
+    # Standardize features
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+
+    # Convert to PyTorch tensors
+    X_tensor = torch.tensor(X_scaled, dtype=torch.float32)
+    y_tensor = torch.tensor(y, dtype=torch.float32).unsqueeze(1)
+
+    # Create a TensorDataset
+    dataset = TensorDataset(X_tensor, y_tensor)
+
+    # Return a DataLoader
+    return DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
+
 
 def get_finance_data(path: str = 'data/HDFCBANK.csv'):
     dataframe = pd.read_csv('data/HDFCBANK.csv')
@@ -23,16 +65,13 @@ def get_finance_data(path: str = 'data/HDFCBANK.csv'):
 
 modlee.init(api_key="GZ4a6OoXmCXUHDJGnnGWNofsPrK0YF0i")
 DATA_ROOT = os.path.expanduser("~/efs/.data")
-
 IMAGE_DATALOADER = modlee.utils.get_imagenette_dataloader()
-# TEXT_DATALOADER = modlee.utils.get_wnli_dataloader() 
-
 IMAGE_LOADERS = {loader_fn:getattr(image_loaders, loader_fn) for loader_fn in sorted(dir(image_loaders)) if re.match('get_(.*)_dataloader', loader_fn)}
 TEXT_LOADERS = {loader_fn:getattr(text_loaders, loader_fn) for loader_fn in dir(text_loaders) if re.match('get_(.*)_dataloader', loader_fn)}
+TABULAR_LOADERS = {'get_tabular_dataloader': get_tabular_dataloader}
 TIME_SERIES_LOADER = {'finance_data': get_finance_data}
 print('\n'.join(f"image loader{i}: {image_loader}" for i, image_loader in enumerate(IMAGE_LOADERS)))
 import pandas as pd 
-# df = pd.DataFrame()
 df = None
 
 @pytest.mark.experimental
@@ -44,21 +83,16 @@ class TestDataMetafeatures:
             get_dataloader_fn(root=DATA_ROOT), testing=True)
         self._check_has_metafeatures(image_mf)
 
+    @pytest.mark.parametrize('get_dataloader_fn', TABULAR_LOADERS.values())
     def test_tabular_dataloader(self, get_dataloader_fn):
         tabular_mf = dmf.TabularDataMetafeatures(
-            get_dataloader_fn(), testing=True
-        )
+            get_dataloader_fn(root=DATA_ROOT), testing=True)
+        self._check_has_metafeatures_tab(tabular_mf)
 
-    # @pytest.mark.parametrize('get_dataloader_fn', [
-    #     modlee.utils.get_mnli_dataloader,
-    #     modlee.utils.get_cola_dataloader,
-    #     modlee.utils.get_wnli_dataloader,
-    #     ])
-    # @pytest.mark.parametrize('get_dataloader_fn', [modlee.utils.get_wnli_dataloader])
     @pytest.mark.parametrize('get_dataloader_fn', TEXT_LOADERS.values())
     def test_text_dataloader(self, get_dataloader_fn):
         text_mf = dmf.TextDataMetafeatures(
-            get_dataloader_fn(root=DATA_ROOT), testing=True)
+            get_dataloader_fn(), testing=True)
         self._check_has_metafeatures(text_mf)
 
     @pytest.mark.parametrize('get_dataloader_fn', TIME_SERIES_LOADER.values())
