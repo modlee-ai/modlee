@@ -14,7 +14,7 @@ The ONNX formats include:
 """
 import copy
 from importlib.machinery import SourceFileLoader
-import os, inspect, sys
+import os, inspect, sys, logging
 import numpy as np
 import networkx as nx
 import torchsummary
