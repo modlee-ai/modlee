@@ -15,7 +15,12 @@ import torchvision
 from torchvision import datasets as tv_datasets
 from torchvision import transforms
 from torch.utils.data import DataLoader
-from modlee.client import ModleeClient
+#from modlee.client import ModleeClient
+
+from modlee.api_config import ModleeAPIConfig
+
+api_config = ModleeAPIConfig()
+#modlee_client = config.get_client()
 
 def safe_mkdir(target_path):
     """
@@ -265,19 +270,18 @@ def save_run(*args, **kwargs):
     """
     Save the current run.
 
-    :param modlee_client: The client object that is tracking the current run.
+    :param modlee_client from singleton api_config class: The client object that is tracking the current run.
     """
-    api_key = os.environ.get('MODLEE_API_KEY')
-    ModleeClient(api_key=api_key).post_run(*args, **kwargs)
+    api_config.client.post_run(*args, **kwargs)
 
 def save_run_as_json(*args, **kwargs):
     """
     Save the current run as a JSON.
 
-    :param modlee_client: The client object that is tracking the current run.
+    :param modlee_client from singleton api_config class: The client object that is tracking the current run.
     """
-    api_key = os.environ.get('MODLEE_API_KEY')
-    ModleeClient(api_key=api_key).post_run_as_json(*args, **kwargs)
+    api_config.client.post_run(*args, **kwargs)
+
 
 def last_run_path(*args, **kwargs):
     """ 

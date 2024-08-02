@@ -18,13 +18,13 @@ from time import sleep
 import sys
 import os
 from urllib.parse import urlparse
-from modlee import ModleeClient
 import modlee
-
-API_KEY = os.environ.get("MODLEE_API_KEY", 'None')
 modlee_converter = Converter()
-modlee_client = ModleeClient(api_key=API_KEY)
-SERVER_ENDPOINT = modlee_client.origin
+
+from modlee.api_config import ModleeAPIConfig
+
+api_config = ModleeAPIConfig()
+SERVER_ENDPOINT = api_config.client.origin
 
 class Recommender(object):
     """
@@ -101,7 +101,7 @@ class Recommender(object):
         ), "Recommender task is not set (e.g. classification, segmentation)"
         metafeatures = json.loads(json.dumps(metafeatures))
        
-        res = modlee_client.get(
+        res = api_config.client.get(
             path=f"model/{self.modality}/{self.task}",
             data=json.dumps({"data_features": metafeatures}),
             headers={"Content-Type": "application/json",
