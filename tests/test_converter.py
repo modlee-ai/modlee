@@ -161,7 +161,7 @@ def test_initializer_tensor_to_typed_init(input_value, actual_output_str, tensor
     exec(f"fn_output_array = {fn_output}", globals(), local_dict)
     assert input_value.shape == local_dict["fn_output_array"].shape
     # random initializations should be different
-    assert torch.any((input_value - local_dict["fn_output_array"]) > 0.1)
+    assert torch.any(torch.abs(input_value - local_dict["fn_output_array"]) > 0.1)
 
 
 INPUTS = [
@@ -376,6 +376,7 @@ def test_convert_onnx116():
     pass
 
 @pytest.mark.parametrize('torch_model', IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
+# @pytest.mark.parametrize('torch_model', IMAGE_MODELS)
 def test_onnx_graph2onnx_nx(torch_model):
     # Torch model -> ONNX graph -> ONNX NetworkX
     onnx_graph = converter.torch_model2onnx_graph(torch_model)
@@ -388,3 +389,14 @@ def test_onnx_graph2onnx_nx(torch_model):
     assert all([isinstance(node[0], int) for node in onnx_nx.nodes(data=True)])
     # Test indexing by calling fit to graph2vec,
     g2v.fit([onnx_nx])
+
+@pytest.mark.parametrize(
+    'in_out',
+    [
+        # ("-3_40282e+38", "-3.40282e+38"),
+        # ("randomtext here -3_40282e+38 and here", "randomtext here -3.40282e+38 and here"),
+        ("constant_output_0017 = Constant <value = float {-3_40282e+38}> ()", "constant_output_0017 = Constant <value = float {-3.40282e+38}> ()")
+    ]
+)
+def test_convert_float(in_out):
+    assert converter.convert_float(in_out[0]) == in_out[1]

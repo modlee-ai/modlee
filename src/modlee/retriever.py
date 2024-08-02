@@ -12,6 +12,7 @@ from modlee import logging
 import mlflow
 from mlflow.client import MlflowClient
 
+
 def run_path_exists(run_path):
     """
     Chek if a run path exists.
@@ -23,6 +24,7 @@ def run_path_exists(run_path):
         logging.warning(f"Run directory {run_path} does not exist")
         return False
     return True
+
 
 def get_runs(run_path, experiment_id=None, run_id=None, **kwargs):
     """
@@ -57,6 +59,7 @@ def get_runs(run_path, experiment_id=None, run_id=None, **kwargs):
         runs = [*runs, *_exp_runs]
     return runs
 
+
 def get_model(run_path):
     """
     Get the model at a run path.
@@ -69,7 +72,7 @@ def get_model(run_path):
     model = SourceFileLoader(
         "modlee_mod", f"{run_path}/artifacts/model.py"
     ).load_module()
-    
+
     # retrieve the variables for the object signature
     model_kwargs = dict(inspect.signature(model.ModleeModel).parameters)
     model_kwargs.pop("args"), model_kwargs.pop("kwargs")
@@ -88,6 +91,7 @@ def get_model(run_path):
     # recreate the model
     return model.ModleeModel(**model_kwargs)
 
+
 def get_cached_vars(run_path):
     """
     Get the cached variables required to rebuild a model from a run path.
@@ -100,6 +104,7 @@ def get_cached_vars(run_path):
     with open(f"{run_path}/artifacts/cached_vars", "r") as vars_file:
         return json.loads(vars_file.read())
 
+
 def get_data_snapshot(run_path):
     """
     Get the saved data snapshot from a run path.
@@ -111,7 +116,7 @@ def get_data_snapshot(run_path):
         return None
     # Adding new snapshot name to the path following batched processing changes
     data_snapshot_path = f"{run_path}/artifacts/snapshot_0.npy"
-    
+
     if not os.path.exists(data_snapshot_path):
         return None
     return np.load(data_snapshot_path)

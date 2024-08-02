@@ -53,7 +53,7 @@ class TestDataMetafeatures:
             'mfe',
             'properties'
         ]
-        conftest._check_has_metafeatures(metafeature_types)
+        conftest._check_has_metafeatures(mf, metafeature_types)
         # features = {}
         # for metafeature_type in metafeature_types:
         #     assert hasattr(mf, metafeature_type), f"{mf} has no attribute {metafeature_type}"
