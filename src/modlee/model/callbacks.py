@@ -264,8 +264,6 @@ class DataMetafeaturesCallback(ModleeCallback):
         super().__init__()
         self.data_snapshot_size = data_snapshot_size
         self.DataMetafeatures = DataMetafeatures
-        self.TimeSeriesDMF = getattr(dmf, "TimeSeriesDataMetafeatures", None)
-        self.TimeSeriesDMFLog = TimeSeriesDataMetafeatures
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
         # data, targets = self._get_data_targets(trainer)
@@ -298,6 +296,17 @@ class DataMetafeaturesCallback(ModleeCallback):
                 "Could not access data statistics calculation from server, \
                     not logging but continuing experiment"
             )
+
+    def _log_data_timeseriesmetafeatures(self, data) -> None:
+        """
+        Log time series data meta features with a pandas dataframe.
+        :param dataframe: The pandas dataframe.
+        """
+        if self.TimeSeriesDMF:
+            data_mf = self.TimeSeriesDMF(data)
+            mlflow.log_dict(data_mf.properties, "data_metafeatures")
+        else:
+            logging.warning("Cannot log data statistics, could not access from server")
 
     def _log_data_metafeatures_dataloader(self, dataloader) -> None:
         """ 
