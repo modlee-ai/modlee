@@ -933,44 +933,36 @@ class TabularDataMetafeatures(DataMetafeatures):
         }
         return summary
 
-class TimeSeriesDataMetafeatures(DataMetafeatures):
-    def __init__(self, data_array: np.ndarray):
-        self.data_array = data_array
+class TimeSeriesDataMetafeatures:
+    def __init__(self, dataloader: DataLoader):
+        self.dataloader = dataloader
 
     def get_raw_batch_elements(self) -> np.ndarray:
-        return self.data_array
+        data_batches = []
+        for batch in self.dataloader:
+            # Assuming each batch is a tuple (X, y)
+            X, _ = batch
+            data_batches.append(X.numpy())
+        return np.concatenate(data_batches, axis=0)
     
     def calculateMetafeatures(self):
-        """
-        Calculate the following featureset for time series data:
-        - Statistical features: mean, std, median, skewness, kurtosis, quantiles
-        - Temporal features: autocorrelation, partial autocorrelation
-        - Trend and seasonality features
-        - Other features: min, max, range
-        
-        :return: A dictionary of the features for each column.        
-        """
         data = self.get_raw_batch_elements()
         
-        # Ensure data is a NumPy array
-        if isinstance(data, pd.DataFrame):
-            data = data.values
-        elif isinstance(data, list):
-            data = np.array(data)
-        
-        df = pd.DataFrame(data)
+        # Flatten the 3D data to 2D for metafeature calculation
+        num_samples, seq_len, num_features = data.shape
+        data_2d = data.reshape(-1, num_features)
         
         # Extract metafeatures using pymfe
         mfe = MFE(groups=["statistical", "model-based", "info-theory"])
-        mfe.fit(data)  # Pass NumPy array directly
+        mfe.fit(data_2d)  # Pass the flattened NumPy array
         ft = mfe.extract()
         pymfe_features = dict(zip(ft[0], ft[1]))
         
         # Calculate additional features
         additional_features = {}
         
-        for col in range(data.shape[1]):
-            col_data = data[:, col]
+        for col in range(num_features):
+            col_data = data_2d[:, col]
             
             # Calculate quantiles
             quantiles = np.percentile(col_data, [25, 50, 75])
