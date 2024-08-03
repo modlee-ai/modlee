@@ -10,6 +10,7 @@ import modlee
 from modlee import data_metafeatures as dmf
 from modlee.utils import image_loaders, text_loaders, timeseries_loader
 from sklearn.preprocessing import StandardScaler
+
 import spacy
 from pytorch_tabular import TabularModel
 from pytorch_tabular.config import DataConfig, OptimizerConfig, TrainerConfig, ExperimentConfig
@@ -123,7 +124,8 @@ IMAGE_DATALOADER = modlee.utils.get_imagenette_dataloader()
 IMAGE_LOADERS = {loader_fn:getattr(image_loaders, loader_fn) for loader_fn in sorted(dir(image_loaders)) if re.match('get_(.*)_dataloader', loader_fn)}
 TEXT_LOADERS = {loader_fn:getattr(text_loaders, loader_fn) for loader_fn in dir(text_loaders) if re.match('get_(.*)_dataloader', loader_fn)}
 TABULAR_LOADERS = {'housing_dataset': get_housing_dataloader, 'adult_dataset': get_adult_dataloader, 'diabetes_dataset': get_diabetes_dataloader}
-TIME_SERIES_LOADER = {'finance_data': get_finance_data}
+TIME_SERIES_LOADER = {'finance_data': get_finance_data}TIME_SERIES_LOADER = None
+
 print('\n'.join(f"image loader{i}: {image_loader}" for i, image_loader in enumerate(IMAGE_LOADERS)))
 import pandas as pd 
 df = None
