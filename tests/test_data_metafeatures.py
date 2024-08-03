@@ -8,7 +8,7 @@ import torchvision
 
 import modlee
 from modlee import data_metafeatures as dmf
-from modlee.utils import image_loaders, text_loaders
+from modlee.utils import image_loaders, text_loaders, timeseries_loader
 
 import spacy
 
@@ -19,6 +19,7 @@ IMAGE_DATALOADER = modlee.utils.get_imagenette_dataloader()
 
 IMAGE_LOADERS = {loader_fn:getattr(image_loaders, loader_fn) for loader_fn in sorted(dir(image_loaders)) if re.match('get_(.*)_dataloader', loader_fn)}
 TEXT_LOADERS = {loader_fn:getattr(text_loaders, loader_fn) for loader_fn in dir(text_loaders) if re.match('get_(.*)_dataloader', loader_fn)}
+TIME_SERIES_LOADER = None
 
 print('\n'.join(f"image loader{i}: {image_loader}" for i, image_loader in enumerate(IMAGE_LOADERS)))
 import pandas as pd 
