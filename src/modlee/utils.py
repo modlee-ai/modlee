@@ -19,7 +19,7 @@ import torchvision
 from torchvision import datasets as tv_datasets
 from torchvision import transforms
 from torch.utils.data import DataLoader
-
+from timeseries_dataloader import TimeSeriesDataset
 from modlee.client import ModleeClient
 
 def safe_mkdir(target_path):
@@ -93,6 +93,15 @@ def get_dataloader(dataset, batch_size=16, shuffle=True, *args, **kwargs):
         shuffle=shuffle,
         *args, **kwargs
     )
+
+class timeseries_loader:
+    @staticmethod
+    def get_timeseries_dataloader(data, target, input_seq:int, output_seq:int):
+        return get_dataloader(
+            TimeSeriesDataset(
+                data, target, input_seq, output_seq
+            )
+        )
 
 class image_loaders:
     @staticmethod
