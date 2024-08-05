@@ -68,6 +68,7 @@ def get_fashion_mnist(batch_size=64, num_output_channels=1):
     )
     return training_loader, test_loader
 
+
 def get_imagenette_dataloader():
     """
     Get a small validation dataloader for imagenette (https://pytorch.org/vision/stable/generated/torchvision.datasets.Imagenette.html#torchvision.datasets.Imagenette)

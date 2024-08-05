@@ -1,4 +1,0 @@
---find-links https://data.pyg.org/whl/torch-2.3.0+cu121.html
-torch-scatter --find-links https://data.pyg.org/whl/torch-2.3.0+cu121.html
-torch-sparse --find-links https://data.pyg.org/whl/torch-2.3.0+cu121.html
-torch-cluster --find-links https://data.pyg.org/whl/torch-2.3.0+cu121.html

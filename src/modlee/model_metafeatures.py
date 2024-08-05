@@ -9,9 +9,11 @@ import torch
 import modlee
 from modlee.config import G2V_PKL
 from modlee.utils import get_model_size
+
 converter = modlee.converter.Converter()
 
 # g2v = ModelEncoder.from()
+
 
 class ModelMetafeatures:
     def __init__(self, torch_model: torch.nn.Module, *args, **kwargs):
@@ -57,6 +59,7 @@ class ModelMetafeatures:
     @abstractmethod
     def get_output_shape(self):
         pass
+
     @staticmethod
     def get_graph_dataframe(onnx_graph, *args, **kwargs):
         """
@@ -84,6 +87,7 @@ class ModelMetafeatures:
         df = ModelMetafeatures.dataframe_lists_to_columns(df)
         # breakpoint()
         return df
+
     @staticmethod
     def dataframe_lists_to_columns(df: pd.DataFrame):
         """

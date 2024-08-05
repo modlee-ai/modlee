@@ -23,6 +23,7 @@ import onnx2torch
 import onnx_graphsurgeon as gs
 import onnx
 from onnx.tools import net_drawer
+
 ONNX_MINOR_VERSION = int(onnx.__version__.split(".")[1])
 import re
 from functools import partial
@@ -36,10 +37,10 @@ from torch import tensor
 """
 
 TEXT_INPUT_DUMMY = [
-    'hello world',
-    'the quick brown fox jumps over the lazy dog'*10,
-    'the mitochondria is the powerhouse of the cell',
-    ]
+    "hello world",
+    "the quick brown fox jumps over the lazy dog" * 10,
+    "the mitochondria is the powerhouse of the cell",
+]
 
 
 class Converter(object):
@@ -430,10 +431,8 @@ class Converter(object):
         :param x: The NetworkX node to check.
         :return: Whether the node contains a substring indicating that it should be filtered as a non-layer.
         """
-        return 'onnx::' in x \
-            or 'Identity' in x \
-            or 'fc.' in x
-            
+        return "onnx::" in x or "Identity" in x or "fc." in x
+
     def prune_onnx_nx(self, onnx_nx):
         """
         Prune an ONNX NetworkX graph to just the layer nodes.
@@ -447,7 +446,7 @@ class Converter(object):
         for node in nodes_to_prune:
             onnx_nx_layers_only.remove_node(node)
         return onnx_nx_layers_only
-            
+
     def onnx_graph2onnx_nx(self, onnx_graph, prune=True):
         """
         Convert an ONNX graph to ONNX NetworkX.
@@ -456,10 +455,9 @@ class Converter(object):
         :param prune: Whether to prune the NetworkX to just layer nodes, defaults to True
         :return: The ONNX NetworkX graph.
         """
-        if ONNX_MINOR_VERSION<=15:
+        if ONNX_MINOR_VERSION <= 15:
             onnx_graph = self.onnx_parameterless2onnx(onnx_graph)
-        onnx_pydot = onnx.tools.net_drawer.GetPydotGraph(
-            onnx_graph.graph)
+        onnx_pydot = onnx.tools.net_drawer.GetPydotGraph(onnx_graph.graph)
         onnx_pydot.set_name("onnx_graph")
         onnx_nx = nx.nx_pydot.from_pydot(onnx_pydot)
         if prune:
