@@ -15,7 +15,7 @@ Join our [Discord server](https://discord.com/invite/m8YDbWDvrF) to connect with
 Whether you're a beginner or an advanced user, the community is here to support you and help you make the most out of Modlee.
 
 ## Contributing
-Modlee is built and maintained by a team passionate about AI innovation, infrastructure, and meta learning. We welcome contributions from anyone interested in improving Modlee, whether you are a developer, researcher, or enthusiast. Here’s how you can contribute:
+Modlee is built and maintained by a team passionate about AI innovation, infrastructure, and meta-learning. We welcome contributions from anyone interested in improving Modlee, whether you are a developer, researcher, or enthusiast. Here’s how you can contribute:
 
 - **Bug Reports**: If you encounter any bugs or issues, please let us know so we can fix them.
 - **Feature Requests**: Suggest new features or improvements to make Modlee even better.

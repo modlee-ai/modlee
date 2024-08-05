@@ -2,6 +2,7 @@
 Utility functions.
 """
 import os, sys, time, json, pickle, requests, importlib, pathlib
+from functools import partial
 import json
 from urllib.parse import urlparse, unquote
 from ast import literal_eval
@@ -9,18 +10,17 @@ import pickle
 import requests
 import math, numbers
 import numpy as np
+
 import mlflow
+
 import torch
+import torchtext
 import torchvision
 from torchvision import datasets as tv_datasets
 from torchvision import transforms
 from torch.utils.data import DataLoader
-#from modlee.client import ModleeClient
 
-from modlee.api_config import ModleeAPIConfig
-
-api_config = ModleeAPIConfig()
-#modlee_client = config.get_client()
+from modlee.client import ModleeClient
 
 def safe_mkdir(target_path):
     """
@@ -29,12 +29,16 @@ def safe_mkdir(target_path):
     :param target_path: The path to the target directory.
     """
     root, ext = os.path.splitext(target_path)
+    # is a file
     if len(ext) > 0:
         target_path = os.path.split(root)
     else:
         target_path = f"{target_path}/"
+    # if os.path.isfile(target_dir):
+    #     target_dir,_ = os.path.split(target_dir.split('.')[0])
     if not os.path.exists(target_path):
         os.makedirs(target_path)
+
 
 def get_fashion_mnist(batch_size=64, num_output_channels=1):
     """
@@ -50,20 +54,201 @@ def get_fashion_mnist(batch_size=64, num_output_channels=1):
     ])
     training_loader = DataLoader(
         tv_datasets.FashionMNIST(
-            root="data", train=True, download=True, transform=data_transforms
+            root=".data", train=True, download=True, transform=data_transforms
         ),
         batch_size=batch_size,
         shuffle=True,
     )
     test_loader = DataLoader(
         tv_datasets.FashionMNIST(
-            root="data", train=False, download=True, transform=data_transforms
+            root=".data", train=False, download=True, transform=data_transforms
         ),
         batch_size=batch_size,
         shuffle=True,
     )
     return training_loader, test_loader
 
+
+def get_imagenette_dataloader():
+    """
+    Get a small validation dataloader for imagenette (https://pytorch.org/vision/stable/generated/torchvision.datasets.Imagenette.html#torchvision.datasets.Imagenette)
+    """
+    return get_dataloader(
+        torchvision.datasets.Imagenette(
+            root=".data",
+            split="val",
+            size="160px",
+            download=not os.path.exists('.data/imagenette2-160'),
+            transform=transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Resize((160,160))
+                ])
+        ),
+    )
+     
+def get_dataloader(dataset, batch_size=16, shuffle=True, *args, **kwargs):
+    return DataLoader(
+        dataset, 
+        batch_size=batch_size,
+        shuffle=shuffle,
+        *args, **kwargs
+    )
+
+class image_loaders:
+    @staticmethod
+    def _get_image_dataloader(dataset_module, root=".data", *args, **kwargs):
+        kwargs['transform'] = kwargs.get(
+            'transform',
+            torchvision.transforms.Compose([
+                torchvision.transforms.Resize((300,300)),
+                torchvision.transforms.Grayscale(num_output_channels=3),
+                torchvision.transforms.ToTensor(),
+            ]))
+        # print(args, kwargs)
+        return get_dataloader(
+            getattr(torchvision.datasets,
+                dataset_module)(
+                    root=root,
+                    # split=split,
+                    # download=True,
+                    **kwargs
+            ))
+        
+    image_modules = {
+        # 'Caltech101'
+        # 'CelebA':{
+        #     'split':'test',
+        #     'download':True,
+        #     },
+        'CIFAR10':dict(             # Passed
+            train=False,
+            download=True
+            ),
+        # 'Country211':dict(
+        #     split='test',
+        #     download=True),
+        'DTD':dict(                 # Passed
+            split='test',
+            download=True),
+        # 'EMNIST':dict(            # File download issues            
+        #     split="byclass",
+        #     train=False,
+        #     download=True),
+        'EuroSAT':dict(             # Passed
+            download=True),
+        'FashionMNIST':dict(        # Passed
+            train=False,
+            download=True),
+        # 'FER2013':dict(             # Cannot download
+        #     split='test',),
+        'FGVCAircraft':dict(        # Passed
+            split='test',
+            download=True),
+        # # 'Flicker8k',
+        'Flowers102':dict(          # Passed
+            split='test',
+            download=True),
+        # 'Food101':dict(             # Took too long to download
+        #     split='test',
+        #     download=True),
+        'GTSRB':dict(               # Passed
+            split='test',
+            download=True),
+        # 'INaturalist':dict(         # Too big — over 8GB for validation
+        #     version='2021_valid',
+        #     download=True),
+        'Imagenette':dict(          # Passed
+            split='val',
+            size='full',
+            # download=True
+            ),
+        'KMNIST':dict(              # Passed
+            train=False,
+            download=True),
+        # 'LFWPeople':dict(         # Corrupt file
+        #     split='test',
+        #     download=True),
+        # 'LSUN':dict(              # Uses deprecated package
+        #     classes='test'),
+        'MNIST':dict(               # Passed
+            train=False,
+            download=True),
+        'Omniglot':dict(            # Passed
+            download=True),
+        'OxfordIIITPet':dict(       # Passed
+            split='test',
+            download=True),
+        'Places365':dict(             # Passed
+            split='val',
+            small=True,
+            # download=True,
+            ),
+        # 'PCAM':dict(                # Took too long to download
+        #     split='test',
+        #     download=True),
+        'QMNIST':dict(              # Passed
+            what='test10k',
+            download=True),
+        'RenderedSST2':dict(        # Passed
+            split='test',
+            download=True),
+        'SEMEION':dict(           # Passed
+            download=True),
+        # 'SBU':dict(               # Took too long to download
+        #     download=True),
+    # 'StanfordCars':dict           # Not available(
+        #     split='test',
+        #     download=True),
+        'STL10':dict(               # Passed
+            split='test',
+            download=True),
+        'SUN397':dict(              # Passed
+            download=True),
+        'SVHN':dict(                # Passed    
+            split='test',
+            download=True),
+        'USPS':dict(                # Passed
+            train=False,
+            download=True),
+    }
+    for image_module,kwargs in image_modules.items():
+        locals()[f'get_{image_module.lower()}_dataloader'] = \
+            partial(_get_image_dataloader, image_module, **kwargs)
+
+class text_loaders:
+    @staticmethod
+    def _get_text_dataloader(dataset_module, dataset_len, root=".data", split="dev"):
+        return get_dataloader(
+            getattr(torchtext.datasets, 
+                dataset_module)(
+                root=root,
+                split=split
+            ).set_length(dataset_len)
+        )
+
+    @staticmethod
+    def get_mnli_dataloader(*args, **kwargs):
+        kwargs['split'] = "dev_matched"
+        return get_dataloader(
+            torchtext.datasets.MNLI(
+                **kwargs
+            ).set_length(9815)
+        )
+
+
+    text_modules_lengths = {
+        'STSB': 1500,
+        'SST2': 872,
+        'RTE': 277,
+        'QNLI': 5463,
+        'CoLA': 527,
+        'WNLI': 71,
+        # 'SQuAD1': 10570,
+        # 'SQuAD2': 11873,
+    }
+    for dataset_module, dataset_len in text_modules_lengths.items():
+        locals()[f"get_{dataset_module.lower()}_dataloader"] = partial(_get_text_dataloader, dataset_module, dataset_len)
+        
 def uri_to_path(uri):
     """
     Convert a URI to a path.
@@ -74,6 +259,7 @@ def uri_to_path(uri):
     parsed_uri = urlparse(uri)
     path = unquote(parsed_uri.path)
     return path
+
 
 def is_cacheable(x):
     """
@@ -87,6 +273,7 @@ def is_cacheable(x):
         return True
     except:
         return False
+
 
 def get_model_size(model, as_MB=True):
     """
@@ -107,6 +294,7 @@ def get_model_size(model, as_MB=True):
         model_size /= 1024 ** 2
     return model_size
 
+
 def quantize(x):
     """
     Quantize an object.
@@ -114,10 +302,12 @@ def quantize(x):
     :param x: The object to quantize.
     :return: The object, quantized.
     """
+
     if float(x) < 0.1:
         ind = 2
         while str(x)[ind] == "0":
             ind += 1
+        # print(ind)
         c = np.around(float(x), ind - 1)
     elif float(x) < 1.0:
         c = np.around(float(x), 2)
@@ -125,9 +315,12 @@ def quantize(x):
         c = int(x)
     else:
         c = int(2 ** np.round(math.log(float(x)) / math.log(2)))
+
     return c
 
+
 _discretize = quantize
+
 
 def convert_to_scientific(x):
     """
@@ -137,6 +330,7 @@ def convert_to_scientific(x):
     :return: The number in scientific notation as a string.
     """
     return f"{float(x):0.0e}"
+
 
 def closest_power_of_2(x):
     """ 
@@ -156,7 +350,9 @@ def closest_power_of_2(x):
 
     # Calculate the closest power of 2
     closest_value = 2 ** rounded_exponent
+
     return closest_value
+
 
 def _is_number(x):
     """
@@ -165,13 +361,17 @@ def _is_number(x):
     :param x: The object to check.
     :return: Whether the object is a number.
     """
+    # if isinstance(n,list):
+    #     return all([_is_number(num) for num in n])
     try:
         float(x)  # Type-casting the string to `float`.
         # If string is not a valid `float`,
         # it'll raise `ValueError` exception
+    # except ValueError, TypeError:
     except:
         return False
     return True
+
 
 def quantize_dict(base_dict, quantize_fn=quantize):
     """
@@ -188,7 +388,13 @@ def quantize_dict(base_dict, quantize_fn=quantize):
             base_dict.update({k: quantize_fn(v)})
         elif _is_number(v):
             base_dict.update({k: quantize_fn(float(v))})
+
+        # elif 'float' in str(type(v)):
+        #     base_dict.update({k:str(v)})
+        # elif isinstance(v,np.int64):
+        #     base_dict.update({k:int(v)})
     return base_dict
+
 
 def typewriter_print(text, sleep_time=0.001, max_line_length=150, max_lines=20):
     """
@@ -220,6 +426,10 @@ def typewriter_print(text, sleep_time=0.001, max_line_length=150, max_lines=20):
             sys.stdout.flush()
             time.sleep(sleep_time)
 
+
+# ---------------------------------------------
+
+
 def discretize(n: list[float, int]) -> list[float, int]:
     """
     Discretize a list of inputs
@@ -227,7 +437,9 @@ def discretize(n: list[float, int]) -> list[float, int]:
     :param n: The list of inputs to discretize.
     :return: The list of discretized inputs.
     """
+
     try:
+
         if type(n) == str:
             n = literal_eval(n)
 
@@ -240,7 +452,9 @@ def discretize(n: list[float, int]) -> list[float, int]:
             c = _discretize(n)
     except:
         c = n
+
     return c
+
 
 def apply_discretize_to_summary(text, info):
     """
@@ -250,6 +464,10 @@ def apply_discretize_to_summary(text, info):
     :param info: An object that contains different separators.
     :return: The discretized summary.
     """
+
+    # text_split = [ [ p.split(key_val_seperator) for p in l.split(parameter_seperator)] for l in text.split(layer_seperator)]
+    # print(text_split)
+
     text_split = [
         [
             [str(discretize(pp)) for pp in p.split(info.key_val_seperator)]
@@ -257,6 +475,7 @@ def apply_discretize_to_summary(text, info):
         ]
         for l in text.split(info.layer_seperator)
     ]
+    # print(text_split)
 
     text_join = info.layer_seperator.join(
         [
@@ -264,23 +483,29 @@ def apply_discretize_to_summary(text, info):
             for l in text_split
         ]
     )
+    # print(text_join)
+
     return text_join
+
 
 def save_run(*args, **kwargs):
     """
     Save the current run.
 
-    :param modlee_client from singleton api_config class: The client object that is tracking the current run.
+    :param modlee_client: The client object that is tracking the current run.
     """
-    api_config.client.post_run(*args, **kwargs)
+    api_key = os.environ.get('MODLEE_API_KEY')
+    ModleeClient(api_key=api_key).post_run(*args, **kwargs)
 
 def save_run_as_json(*args, **kwargs):
     """
     Save the current run as a JSON.
 
-    :param modlee_client from singleton api_config class: The client object that is tracking the current run.
+    :param modlee_client: The client object that is tracking the current run.
     """
-    api_config.client.post_run(*args, **kwargs)
+    api_key = os.environ.get('MODLEE_API_KEY')
+    ModleeClient(api_key=api_key).post_run_as_json(*args, **kwargs)
+
 
 
 def last_run_path(*args, **kwargs):
@@ -292,3 +517,4 @@ def last_run_path(*args, **kwargs):
     artifact_uri = mlflow.last_active_run().info.artifact_uri
     artifact_path = urlparse(artifact_uri).path
     return os.path.dirname(artifact_path)
+    

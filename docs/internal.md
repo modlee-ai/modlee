@@ -280,3 +280,40 @@ pip3 install ..     # If the package changed, reinstall
 make rebuild        # Wraps make {nb_rst, md_rst, apidoc, clean, and html} together
 make serve          # Serve at localhost:7777
 ```
+
+## 240805
+### Syncing changes between the public and private repos:
+```
+# Clone private repo
+git clone git@github.com:modlee-ai/modlee_pypi
+cd modlee_pypi
+
+# In modlee-ai/modlee_pypi
+git remote add public git@github.com:modlee-ai/modlee
+git remote update
+
+# Switch between different remote branches
+git checkout public/main # This is the public remote
+git checkout origin/main
+
+# Create new branch 
+git checkout -b new_branch
+
+# Merge changes from a branch on the public repo into this private copy
+git merge --allow-unrelated-histories public/some-branch-on-public
+
+# Make edits
+git add *
+git commit -m "Commit message"
+# Push to the remote "origin"
+git push --set-upstream origin new_branch
+
+# Can also rebase across remote
+# Checkout a private branch
+git checkout origin/some_private_branch
+# Rebase against a private branch
+git rebase -i public/some_public_branch
+# Resolve conflicts and push to private branch
+git push -f 
+# NOTE - this might require squashing to maintain a clean history
+```

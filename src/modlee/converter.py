@@ -12,14 +12,18 @@ The ONNX formats include:
 - Graph, the network represented as a graph with layers as nodes
 - Text, the textual description of the graph that is portable and can be rebuilt into a graph
 """
+import copy
 from importlib.machinery import SourceFileLoader
-import os, inspect
+import os, inspect, sys
 import numpy as np
+import networkx as nx
 import torchsummary
 import torch
 import onnx2torch
 import onnx_graphsurgeon as gs
 import onnx
+from onnx.tools import net_drawer
+ONNX_MINOR_VERSION = int(onnx.__version__.split(".")[1])
 import re
 from functools import partial
 
@@ -27,6 +31,13 @@ MODEL_CODE_HEADER = """
 import torch, onnx2torch
 from torch import tensor
 """
+
+TEXT_INPUT_DUMMY = [
+    'hello world',
+    'the quick brown fox jumps over the lazy dog'*10,
+    'the mitochondria is the powerhouse of the cell',
+    ]
+
 
 class Converter(object):
     """ 
@@ -50,6 +61,8 @@ class Converter(object):
         if input_dummy is None:
             input_dummy = torch.randn([10, 3, 300, 300])
         input_dummy.requires_grad = False
+        if hasattr(torch_model, 'device'):
+            input_dummy = input_dummy.to(device=torch_model.device)
         with torch.no_grad():
             for param in torch_model.parameters():
                 param.requires_grad = False
@@ -63,6 +76,7 @@ class Converter(object):
                 output_names=["gemm_1"],
                 dynamic_axes={
                     "input_1": [0],
+                    # "gemm_1": {0: "batch_size"},
                     "gemm_1": [0],
                 },
                 **kwargs,
@@ -72,9 +86,10 @@ class Converter(object):
                 param.requires_grad = True
         torch_model.train()
         # The model we load will have no parameters initialized
-        onnx_parameterless_model = onnx.load(tmp_onnx_path)
+        onnx_model = onnx.load(tmp_onnx_path)
+        if ONNX_MINOR_VERSION <= 15:
         # Initialize the parameterless model
-        onnx_model = self.onnx_parameterless2onnx(onnx_parameterless_model)
+            onnx_model = self.onnx_parameterless2onnx(onnx_model)
         return onnx_model
     torch2onnx = torch_model2onnx_graph
 
@@ -209,6 +224,9 @@ class Converter(object):
         :param onnx_text: The ONNX Text
         :return onnx_graph: The ONNX Graph
         """
+        # If on Python 3.12, likely using a newer ONNX
+        if ONNX_MINOR_VERSION > 15:
+            onnx_text = self.convert_onnx116(onnx_text)
         return onnx.parser.parse_model(onnx_text)
     onnx_text2onnx = onnx_text2onnx_graph
 
@@ -238,7 +256,26 @@ class Converter(object):
         :param onnx_graph: The ONNX Graph object.
         :return torch_model: The Torch Model.
         """
-        return onnx2torch.convert(onnx_graph, *args, **kwargs)
+        # Handle conversion for newer ONNX versions
+        # TODO - try to remove the try/except block
+        try:
+            return onnx2torch.convert(onnx_graph, *args, **kwargs)
+        except:
+            pass
+
+        if ONNX_MINOR_VERSION >= 16:
+            try:
+                onnx_text = self.onnx_graph2onnx_text(onnx_graph)
+                _onnx_graph = self.onnx_text2onnx_graph(onnx_text)
+                return onnx2torch.convert(_onnx_graph, *args, **kwargs)
+            except:
+                onnx_text = self.onnx_graph2onnx_text(onnx_graph)
+                _onnx_graph = self.onnx_text2onnx_graph(onnx_text)
+                _onnx_graph = self.onnx_parameterless2onnx(_onnx_graph)
+                return onnx2torch.convert(_onnx_graph, *args, **kwargs)  
+        else:   
+            return onnx2torch.convert(onnx_graph, *args, **kwargs)  
+
     onnx2torch = onnx_graph2torch_model
 
     def onnx_graph2onnx_text(self, onnx_graph, remove_identity=False):
@@ -309,6 +346,9 @@ class Converter(object):
 
             onnx_uninit_line = " ".join(onnx_uninit_line_as_list)
 
+            if ' Constant ' in onnx_uninit_line:
+                onnx_uninit_line = self.convert_float(onnx_uninit_line)
+
             # Found line with output variable, which must be a non-number
             # e.g. "191" is not valid, so we override it with "output_var"
             if "=>" in onnx_uninit_line:
@@ -347,6 +387,68 @@ class Converter(object):
         return onnx_str
     onnx2onnx_text = onnx_graph2onnx_text
 
+    def filter_node(self, x):
+        """
+        Returns whether this is a non-layer node to filter out
+        Checks for substrings in the node name that indicate that it is not a layer.
+
+        :param x: The NetworkX node to check.
+        :return: Whether the node contains a substring indicating that it should be filtered as a non-layer.
+        """
+        return 'onnx::' in x \
+            or 'Identity' in x \
+            or 'fc.' in x
+            
+    def prune_onnx_nx(self, onnx_nx):
+        """
+        Prune an ONNX NetworkX graph to just the layer nodes.
+
+        :param onnx_nx: The ONNX NetworkX graph to prune.
+        :return: The pruned ONNX NetworkX graph.
+        """
+        nodes_to_prune = [k for k in onnx_nx.nodes.keys() if self.filter_node(k)]
+        # help(onnx_nx.remove_node)
+        onnx_nx_layers_only = copy.deepcopy(onnx_nx)
+        for node in nodes_to_prune:
+            onnx_nx_layers_only.remove_node(node)
+        return onnx_nx_layers_only
+            
+    def onnx_graph2onnx_nx(self, onnx_graph, prune=True):
+        """
+        Convert an ONNX graph to ONNX NetworkX.
+
+        :param onnx_graph: The ONNX graph.
+        :param prune: Whether to prune the NetworkX to just layer nodes, defaults to True
+        :return: The ONNX NetworkX graph.
+        """
+        if ONNX_MINOR_VERSION<=15:
+            onnx_graph = self.onnx_parameterless2onnx(onnx_graph)
+        onnx_pydot = onnx.tools.net_drawer.GetPydotGraph(
+            onnx_graph.graph)
+        onnx_pydot.set_name("onnx_graph")
+        onnx_nx = nx.nx_pydot.from_pydot(onnx_pydot)
+        if prune:
+            onnx_nx = self.prune_onnx_nx(onnx_nx)
+        return onnx_nx
+
+    def index_nx(self, onnx_nx):
+        """
+        Index an ONNX NetworkX graph, by replacing the node labels with their indices.
+
+        :param onnx_nx: The ONNX NetworkX to index.
+        :return: The ONNX NetworkX ,indexed. The function modifies the graph in-place and the return value should be unnecessary.
+        """
+        relabel_dict = {}
+        for n,node in enumerate(onnx_nx.nodes(data=True)):
+            relabel_dict.update({node[0]:n})
+        for k,v in relabel_dict.items():
+            nx.relabel_nodes(
+                onnx_nx,
+                {k:v},
+                copy=False,
+            )
+        return onnx_nx
+        
     def remove_identity(self, onnx_text):
         """
         Remove identity layers in ONNX Text.
@@ -481,9 +583,16 @@ class Converter(object):
                 value_shape = tensor_value.shape
             if value_shape is None:
                 continue
+            if len(value_shape)==0:
+                continue
+            if len(value_shape)==0:
+                continue
             if isinstance(value_shape[0], str):
                 if "dynamic_axes" in value_shape[0]:
                     continue
+            # print(value_shape, type(value_shape))
+
+            
             tensor_value.to_constant(
                 values=tensor_init_fn(
                     size=value_shape,
@@ -856,3 +965,25 @@ class Model(torch.nn.Module):
         :return: The string with types propery cast.
         """
         return re.sub("(Gather.*), (.*)\)", "\\1, \\2.type(torch.int64))", input_str)
+
+    def convert_onnx116(self, onnx_text):
+        """
+        Convert ONNX graph text generated with ONNX 1.16, which requires modifications
+        to be parseable by onnx.parser.
+
+        :param onnx_text: The 
+        ONNX graph text to convert.
+        :return: The ONNX graph text converted to a format parseable by onnx.parser.
+        """
+        if not isinstance(onnx_text, str):
+            onnx_text = str(onnx_text)
+        return onnx_text.\
+            replace('_ ', ' ').\
+            replace(' ints =',' =').\
+            replace(' int =',' =').\
+            replace(' float =',' =').\
+            replace(' tensor ',' ').\
+            replace(' string =', ' =')
+
+    def convert_float(self, onnx_text):
+        return re.sub('(.*)float(.*)_(.*)', '\\1float\\2.\\3', onnx_text)
