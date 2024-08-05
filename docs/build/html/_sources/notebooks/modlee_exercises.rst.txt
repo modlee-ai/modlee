@@ -23,7 +23,7 @@ minutes, so you can `review the
 examples <https://www.documentation.modlee.ai/notebooks/document.html>`__
 while waiting.
 
-**NOTE:** *if you receive a message to “restart the runtime in order to
+**NOTE:**\ *if you receive a message to “restart the runtime in order to
 use newly installed versions,” you can safely “cancel.”*
 
 .. code:: ipython3

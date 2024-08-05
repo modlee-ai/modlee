@@ -1,4 +1,6 @@
-|image1|
+.. image:: https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg
+   :width: 50px
+   :height: 50px
 
 Dataset guidelines
 ==================
@@ -16,10 +18,6 @@ TLDR
 
 Define example custom dataset objects
 -------------------------------------
-
-.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg
-   :width: 50px
-   :height: 50px
 
 .. code:: python
 
