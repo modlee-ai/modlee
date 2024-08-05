@@ -154,6 +154,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../modules/modlee.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.api_config.html">modlee.api_config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.client.html">modlee.client module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
 </ul>
@@ -323,14 +327,11 @@
     <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(levelname)s</span><span class="s1">:</span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">,</span>
     <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 
+<span class="kn">from</span> <span class="nn">.api_config</span> <span class="kn">import</span> <span class="n">ModleeAPIConfig</span>
+
 <span class="kn">import</span> <span class="nn">mlflow</span>
 <span class="kn">from</span> <span class="nn">mlflow</span> <span class="kn">import</span> <span class="n">start_run</span><span class="p">,</span> <span class="n">last_active_run</span>
 
-<span class="kn">from</span> <span class="nn">.client</span> <span class="kn">import</span> <span class="n">ModleeClient</span>
-<span class="n">API_KEY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MODLEE_API_KEY&quot;</span><span class="p">,</span> <span class="s1">&#39;None&#39;</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">API_KEY</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Modlee API key is not set, functionality will be limited.&quot;</span><span class="p">)</span>
-<span class="n">modlee_client</span> <span class="o">=</span> <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">API_KEY</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">.retriever</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">save_run</span><span class="p">,</span> <span class="n">last_run_path</span><span class="p">,</span> <span class="n">save_run_as_json</span>
 <span class="kn">from</span> <span class="nn">.model_text_converter</span> <span class="kn">import</span> <span class="n">get_code_text</span><span class="p">,</span> <span class="n">get_code_text_for_model</span>
@@ -383,10 +384,9 @@
             <span class="k">yield</span> <span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span></div>
 
 
-<span class="c1"># Try to get an API key</span>
 <div class="viewcode-block" id="init">
 <a class="viewcode-back" href="../_autosummary/%3C--%20add%20this%20line/modlee.init.html#modlee.init">[docs]</a>
-<span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="n">run_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="n">API_KEY</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="n">run_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initialize package.</span>
 <span class="sd">    Typically called at the beginning of a machine learning pipeline.</span>
@@ -410,22 +410,13 @@
 
 <span class="sd">    :param api_key: The user&#39;s API key, if it is not available as an environment variable.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># if api_key provided, reset modlee_client and reload API-locked modules</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">ModleeAPIConfig</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">api_key</span><span class="p">:</span>
-        <span class="k">global</span> <span class="n">modlee_client</span><span class="p">,</span> <span class="n">get_code_text</span><span class="p">,</span> \
-            <span class="n">get_code_text_for_model</span><span class="p">,</span> <span class="n">data_metafeatures</span><span class="p">,</span> \
-                <span class="n">model_text_converter</span><span class="p">,</span> <span class="n">exp_loss_logger</span><span class="p">,</span> \
-                    <span class="n">save_run</span><span class="p">,</span> <span class="n">save_run_as_json</span><span class="p">,</span> <span class="n">API_KEY</span>
-        <span class="n">API_KEY</span> <span class="o">=</span> <span class="n">api_key</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">API_KEY</span>
-        <span class="n">modlee_client</span> <span class="o">=</span> <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">_module</span> <span class="ow">in</span> <span class="p">[</span><span class="n">data_metafeatures</span><span class="p">,</span> <span class="n">model_text_converter</span><span class="p">,</span> <span class="n">exp_loss_logger</span><span class="p">]:</span>
-            <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">_module</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">model_text_converter</span><span class="o">.</span><span class="n">module_available</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">modlee.model_text_converter</span> <span class="kn">import</span> <span class="p">(</span>
-                <span class="n">get_code_text</span><span class="p">,</span>
-                <span class="n">get_code_text_for_model</span><span class="p">,</span>
-            <span class="p">)</span></div>
+        <span class="n">config</span><span class="o">.</span><span class="n">set_api_key</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">ensure_api_key</span><span class="p">()</span></div>
+
+        <span class="c1">#logging.warning(&quot;API key not provided. Functionality will be limited.&quot;)</span>
 
 
 <div class="viewcode-block" id="set_run_path">

@@ -154,6 +154,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/modlee.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.api_config.html">modlee.api_config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.client.html">modlee.client module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
 </ul>
@@ -319,7 +323,12 @@
 <span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">datasets</span> <span class="k">as</span> <span class="n">tv_datasets</span>
 <span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
 <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
-<span class="kn">from</span> <span class="nn">modlee.client</span> <span class="kn">import</span> <span class="n">ModleeClient</span>
+<span class="c1">#from modlee.client import ModleeClient</span>
+
+<span class="kn">from</span> <span class="nn">modlee.api_config</span> <span class="kn">import</span> <span class="n">ModleeAPIConfig</span>
+
+<span class="n">api_config</span> <span class="o">=</span> <span class="n">ModleeAPIConfig</span><span class="p">()</span>
+<span class="c1">#modlee_client = config.get_client()</span>
 
 <div class="viewcode-block" id="safe_mkdir">
 <a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.safe_mkdir">[docs]</a>
@@ -607,10 +616,9 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Save the current run.</span>
 
-<span class="sd">    :param modlee_client: The client object that is tracking the current run.</span>
+<span class="sd">    :param modlee_client from singleton api_config class: The client object that is tracking the current run.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">)</span>
-    <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span><span class="o">.</span><span class="n">post_run</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="n">api_config</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post_run</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="save_run_as_json">
@@ -619,10 +627,10 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Save the current run as a JSON.</span>
 
-<span class="sd">    :param modlee_client: The client object that is tracking the current run.</span>
+<span class="sd">    :param modlee_client from singleton api_config class: The client object that is tracking the current run.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">)</span>
-    <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span><span class="o">.</span><span class="n">post_run_as_json</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="n">api_config</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post_run</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="last_run_path">

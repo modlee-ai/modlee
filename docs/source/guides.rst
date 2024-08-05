@@ -1,4 +1,4 @@
-|image1|
+.. image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
 
 Modlee Guides
 =============
@@ -596,7 +596,3 @@ concepts covered, we suggest exploring the following resources:
 These resources will provide you with additional guidance and hands-on
 experience to help you leverage Modlee for your machine learning
 projects.
-
-.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg
-   :width: 50px
-   :height: 50px

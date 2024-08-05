@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../">
 <head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>modlee.auth &mdash; modlee 0 documentation</title>
+  <title>modlee.api_config &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=4bcfc4e7" />
@@ -85,9 +84,9 @@
 <p class="caption" role="heading"><span class="caption-text">Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../guides.html">Modlee Guides</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../guides.html#meta-learning-explained">Meta-Learning Explained</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../guides.html#meta-learning-explained">Meta Learning Explained</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../guides.html#how-it-works">How It Works</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../guides.html#significance-of-meta-learning">Significance of Meta-Learning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guides.html#significance-of-meta-learning">Significance of Meta Learning</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../guides.html#overview-of-meta-features">Overview of Meta Features</a><ul>
@@ -295,9 +294,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">modlee.auth</li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../modlee.html">modlee</a></li>
+      <li class="breadcrumb-item active">modlee.api_config</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/_autosummary/&lt;-- add this line/modlee.auth.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -305,21 +305,101 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="modlee-auth">
-<h1>modlee.auth<a class="headerlink" href="#modlee-auth" title="Link to this heading"></a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="modlee.auth">
-<span class="sig-prename descclassname"><span class="pre">modlee.</span></span><span class="sig-name descname"><span class="pre">auth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/modlee.html#auth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.auth" title="Link to this definition"></a></dt>
-<dd><p>Fetches API functionality if the API key is valid.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>api_key</strong> – The user’s API key, if it is not available as an environment variable.</p>
-</dd>
-</dl>
-</dd></dl>
+  <h1>Source code for modlee.api_config</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">from</span> <span class="nn">.client</span> <span class="kn">import</span> <span class="n">ModleeClient</span>
 
-</section>
+<div class="viewcode-block" id="ModleeAPIConfig">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig">[docs]</a>
+<span class="k">class</span> <span class="nc">ModleeAPIConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Singleton class to manage API configuration and client initialization for Modlee.</span>
+<span class="sd">    Ensures that only one instance of the configuration exists and handles API key validation and client setup.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_instance</span> <span class="o">=</span> <span class="kc">None</span>
 
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a new instance of the class if it doesn&#39;t already exist. </span>
+<span class="sd">        Initializes the API key from the environment variable and sets up the Modlee client.</span>
+
+<span class="sd">        :return: The singleton instance of ModleeAPIConfig.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">ModleeAPIConfig</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MODLEE_API_KEY&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span><span class="o">.</span><span class="n">api_key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
+
+<div class="viewcode-block" id="ModleeAPIConfig.set_api_key">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.set_api_key">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_api_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the API key for the Modlee configuration and updates the client.</span>
+<span class="sd">        Reloads the modules to ensure they are using the updated client.</span>
+
+<span class="sd">        :param api_key: The new API key to be set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reload_modules</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ModleeAPIConfig.reload_modules">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.reload_modules">[docs]</a>
+    <span class="k">def</span> <span class="nf">reload_modules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reloads the Modlee-related modules to ensure they are using the updated client.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">modlee.data_metafeatures</span> <span class="k">as</span> <span class="nn">data_metafeatures</span>
+        <span class="kn">import</span> <span class="nn">modlee.model_text_converter</span> <span class="k">as</span> <span class="nn">model_text_converter</span>
+        <span class="kn">import</span> <span class="nn">modlee.exp_loss_logger</span> <span class="k">as</span> <span class="nn">exp_loss_logger</span>
+        <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">data_metafeatures</span><span class="p">)</span>
+        <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">model_text_converter</span><span class="p">)</span>
+        <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">exp_loss_logger</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">model_text_converter</span><span class="o">.</span><span class="n">module_available</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">modlee.model_text_converter</span> <span class="kn">import</span> <span class="p">(</span>
+                <span class="n">get_code_text</span><span class="p">,</span>
+                <span class="n">get_code_text_for_model</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ModleeAPIConfig.get_client">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.get_client">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the Modlee client after ensuring that the API key is correctly set.</span>
+
+<span class="sd">        :return: The Modlee client.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ensure_api_key</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span></div>
+
+
+<div class="viewcode-block" id="ModleeAPIConfig.ensure_api_key">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.ensure_api_key">[docs]</a>
+    <span class="k">def</span> <span class="nf">ensure_api_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ensures that the API key is set and matches the client&#39;s API key.</span>
+<span class="sd">        Logs warnings if the API key is not set or if there is a mismatch.</span>
+
+<span class="sd">        :return: True if the API key is set and matches the client&#39;s API key, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;API key is not set. Functionality will be limited.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Stale API key identified, Please ensure the API key used in code and one stored as the environment variable are the same.&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">return</span> <span class="kc">True</span></div>
+</div>
+
+</pre></div>
 
            </div>
           </div>

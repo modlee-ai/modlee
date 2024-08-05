@@ -154,6 +154,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../modules/modlee.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../modules/modlee.api_config.html">modlee.api_config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../modules/modlee.client.html">modlee.client module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../modules/modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
 </ul>
@@ -323,13 +327,13 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlparse</span>
-<span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">ModleeClient</span>
 <span class="kn">import</span> <span class="nn">modlee</span>
-
-<span class="n">API_KEY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MODLEE_API_KEY&quot;</span><span class="p">,</span> <span class="s1">&#39;None&#39;</span><span class="p">)</span>
 <span class="n">modlee_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">()</span>
-<span class="n">modlee_client</span> <span class="o">=</span> <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">API_KEY</span><span class="p">)</span>
-<span class="n">SERVER_ENDPOINT</span> <span class="o">=</span> <span class="n">modlee_client</span><span class="o">.</span><span class="n">origin</span>
+
+<span class="kn">from</span> <span class="nn">modlee.api_config</span> <span class="kn">import</span> <span class="n">ModleeAPIConfig</span>
+
+<span class="n">api_config</span> <span class="o">=</span> <span class="n">ModleeAPIConfig</span><span class="p">()</span>
+<span class="n">SERVER_ENDPOINT</span> <span class="o">=</span> <span class="n">api_config</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">origin</span>
 
 <div class="viewcode-block" id="Recommender">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender">[docs]</a>
@@ -414,7 +418,7 @@
         <span class="p">),</span> <span class="s2">&quot;Recommender task is not set (e.g. classification, segmentation)&quot;</span>
         <span class="n">metafeatures</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">metafeatures</span><span class="p">))</span>
        
-        <span class="n">res</span> <span class="o">=</span> <span class="n">modlee_client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">api_config</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
             <span class="n">path</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;model/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">modality</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;data_features&quot;</span><span class="p">:</span> <span class="n">metafeatures</span><span class="p">}),</span>
             <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
