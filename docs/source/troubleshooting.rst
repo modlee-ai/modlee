@@ -36,8 +36,8 @@ Modlee.
       pip install modlee
 
 -  **Dependencies**: Verify that all dependencies are installed. You can
-   find the list of required dependencies in the `Quickstart
-   page <https://docs.modlee.ai/README.html>`__.
+   find the list of required dependencies on our
+   `Github <https://github.com/modlee-ai/modlee/blob/main/requirements.txt>`__.
 
 Problem: Incompatible Package Versions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
