@@ -1,5 +1,10 @@
 # Minimal makefile for Sphinx documentation
-#
+
+# Environment setup
+# 	1)	Setup virtual environment. Ex: python3 -m venv venv, source venv/bin/activate
+# 	2)	from root modlee dir, run: pip3 install .
+# 	3)	cd docs/
+# 	4)	now you can run the following Make commands
 
 # You can set these variables from the command line.
 SPHINXOPTS    =

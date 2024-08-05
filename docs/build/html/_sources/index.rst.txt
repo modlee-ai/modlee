@@ -11,9 +11,9 @@
 modlee
 ======
 
-.. raw:: html
+.. .. raw:: html
 
-   <h2 style="font-size: 0.95em;">ML Knowledge Preservation for the AI Era</h2>
+..    <h2 style="font-size: 0.95em;">ML Knowledge Preservation for the AI Era</h2>
 
 .. toctree::
    :maxdepth: 4
@@ -86,33 +86,45 @@ modlee
    GitHub <https://github.com/modlee-ai/modlee>
 
 
-In the current AI arms race, searching for the right model can be both time-consuming and costly. 
-With Modlee, you can ensure you never lose valuable ML insights again.
+.. In the current AI arms race, searching for the right model can be both time-consuming and costly. 
+.. With Modlee, you can ensure you never lose valuable ML insights again.
 
-Modlee is a powerful machine learning tool designed to streamline ML 
-development by **preserving** and **leveraging** valuable experiment insights. 
-Built on top of MLFlow, Modlee documents traditional experiment assets 
-(model checkpoints, (hyper)parameters, performance metrics) and meta-features 
-for meta-learning. 
+.. Modlee is a powerful machine learning tool designed to streamline ML 
+.. development by **preserving** and **leveraging** valuable experiment insights. 
+.. Built on top of MLFlow, Modlee documents traditional experiment assets 
+.. (model checkpoints, (hyper)parameters, performance metrics) and meta-features 
+.. for meta-learning. 
 
-By using shared 
-experiment metadata, Modlee recommends optimal neural network models tailored 
+
+.. raw:: html
+
+   <div style="display: flex; justify-content: center; align-items: center;">
+      <div style="margin-right: 20px; display: flex; flex-direction: column; justify-content: center;">
+         <h2 style="font-size: 0.95em;">ML Knowledge Preservation for the AI Era</h2>
+         <p>In the current AI arms race, searching for the right model can be both time-consuming and costly. With Modlee, you can ensure you never lose valuable ML insights again.</p>
+         <p>Modlee is a powerful machine learning tool designed to streamline ML development by <b>preserving</b> and <b>leveraging</b> valuable experiment insights. Built on top of MLFlow, Modlee documents traditional experiment assets (model checkpoints, (hyper)parameters, performance metrics) and meta-features for meta-learning.</p>
+      </div>
+      <div>
+         <iframe width="350" height="400" src="https://www.youtube.com/embed/0kBFsj1lyig" frameborder="0" allowfullscreen></iframe>
+      </div>
+   </div>
+   <br>
+
+
+
+By using shared experiment metadata, Modlee recommends optimal neural network models tailored 
 to specific datasets, bypassing costly and time-consuming experimentation. 
 Whether you're an individual developer, an AI startup, or an enterprise, 
 Modlee simplifies your ML R&D process, enabling seamless collaboration 
 and helping you build and scale your ML operations.
 
-.. raw:: html
-
-   <iframe width="560" height="315" src="https://www.youtube.com/embed/TpeOjdcGaUI" frameborder="0" allowfullscreen></iframe>
 
 ======
 
 Your ML Pipeline with Modlee
 ======
-To help you understand how the Modlee package operates, we've outlined the basic workflow in the following diagram. 
-This visual representation illustrates the key steps involved in using the package, from inputting your data to 
-obtaining predictions.
+To help you understand how the Modlee package operates, we've outlined a common machine learning development workflow in the following diagram. 
+This visual representation illustrates the key steps relevant to our package (defining and training your model).
 
 .. image:: https://github.com/mansiagr4/gifs/raw/main/updated_diagram.png
 
@@ -175,9 +187,9 @@ By exploring these sections, you'll gain a comprehensive understanding of how to
 from initial setup to advanced features. Dive in and start enhancing your machine learning projects with 
 Modlee today!
 
-Indices and Tables
+Indices
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
-* :ref:`search`
+.. * :ref:`search`

@@ -328,14 +328,10 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
-<span class="c1"># TODO - cache models for &quot;longer&quot; pipelines</span>
-<span class="c1"># e.g. torch2code do not need to convert to onnx every time</span>
-
 <span class="n">MODEL_CODE_HEADER</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">import torch, onnx2torch</span>
 <span class="s2">from torch import tensor</span>
 <span class="s2">&quot;&quot;&quot;</span>
-
 
 <div class="viewcode-block" id="Converter">
 <a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter">[docs]</a>
@@ -344,8 +340,6 @@
 <span class="sd">    Base object that holds conversion functions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># def torch2onnx(self, torch_model, input_dummy=torch.randn([10, 3, 300, 300]), tmp_onnx_path=&quot;./tmp_model.onnx&quot;):</span>
-    <span class="c1"># From Torch</span>
 <div class="viewcode-block" id="Converter.torch_model2onnx_graph">
 <a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.torch_model2onnx_graph">[docs]</a>
     <span class="k">def</span> <span class="nf">torch_model2onnx_graph</span><span class="p">(</span>
@@ -377,9 +371,7 @@
                 <span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;input_1&quot;</span><span class="p">],</span>
                 <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;gemm_1&quot;</span><span class="p">],</span>
                 <span class="n">dynamic_axes</span><span class="o">=</span><span class="p">{</span>
-                    <span class="c1"># &quot;input_1&quot;: {0: &quot;batch_size&quot;},</span>
                     <span class="s2">&quot;input_1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                    <span class="c1"># &quot;gemm_1&quot;: {0: &quot;batch_size&quot;}</span>
                     <span class="s2">&quot;gemm_1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="p">},</span>
                 <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
@@ -388,13 +380,11 @@
             <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">torch_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
                 <span class="n">param</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">torch_model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
-        <span class="c1"># input_dummy.requires_grad = True</span>
         <span class="c1"># The model we load will have no parameters initialized</span>
         <span class="n">onnx_parameterless_model</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">tmp_onnx_path</span><span class="p">)</span>
         <span class="c1"># Initialize the parameterless model</span>
         <span class="n">onnx_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx_parameterless2onnx</span><span class="p">(</span><span class="n">onnx_parameterless_model</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">onnx_model</span></div>
-
 
     <span class="n">torch2onnx</span> <span class="o">=</span> <span class="n">torch_model2onnx_graph</span>
 
@@ -412,7 +402,6 @@
         <span class="n">model_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx_text2code</span><span class="p">(</span><span class="n">onnx_text</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">model_code</span></div>
 
-
     <span class="n">torch2code</span> <span class="o">=</span> <span class="n">torch_model2torch_code</span>
 
 <div class="viewcode-block" id="Converter.torch_model2onnx_text">
@@ -425,7 +414,6 @@
 <span class="sd">        :return onnx_text: The ONNX Text</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx2onnx_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">torch2onnx</span><span class="p">(</span><span class="n">torch_model</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
-
 
     <span class="n">torch2onnx_text</span> <span class="o">=</span> <span class="n">torch_model2onnx_text</span>
 
@@ -449,7 +437,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">save_code</span><span class="p">(</span><span class="n">torch_code</span><span class="p">,</span> <span class="n">tmp_model_path</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">torch_file2torch_model</span><span class="p">(</span><span class="n">tmp_model_path</span><span class="p">)</span></div>
 
-
     <span class="n">code2torch</span> <span class="o">=</span> <span class="n">torch_code2torch_model</span>
 
 <div class="viewcode-block" id="Converter.torch_file2torch_model">
@@ -465,7 +452,6 @@
             <span class="n">fullname</span><span class="o">=</span><span class="s2">&quot;model_module&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">torch_file</span>
         <span class="p">)</span><span class="o">.</span><span class="n">load_module</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">torch_module</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span></div>
-
 
     <span class="n">code_path2torch</span> <span class="o">=</span> <span class="n">torch_file2torch_model</span>
 
@@ -483,11 +469,9 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">code2torch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">torch2code</span><span class="p">(</span><span class="n">torch_model</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
 
 
-    <span class="c1"># This function name may be more informative</span>
     <span class="n">torch2torch</span> <span class="o">=</span> <span class="n">torch_model2torch_model</span>
     <span class="n">torch2torch_graph</span> <span class="o">=</span> <span class="n">torch_model2torch_model</span>
 
-    <span class="c1"># From ONNX</span>
     <span class="k">def</span> <span class="nf">onnx_file2torch_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_file</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert an ONNX File to a Torch Model.</span>
@@ -496,7 +480,6 @@
 <span class="sd">        :return torch_model: The Torch Model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">onnx2torch</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">onnx_file</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
     <span class="n">onnx_path2torch</span> <span class="o">=</span> <span class="n">onnx_file2torch_model</span>
 
 <div class="viewcode-block" id="Converter.onnx_file2onnx_graph">
@@ -511,7 +494,6 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">onnx_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">_file</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx_text2onnx_graph</span><span class="p">(</span><span class="n">_file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span></div>
 
-
     <span class="n">onnx_text_file2onnx</span> <span class="o">=</span> <span class="n">onnx_file2onnx_graph</span>
 
 <div class="viewcode-block" id="Converter.onnx_file2torch_model">
@@ -523,11 +505,9 @@
 <span class="sd">        :param onnx_file: The ONNX File as a path</span>
 <span class="sd">        :return torch_model: The Torch Model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># onnx_model = self.onnx_text_file2onnx(onnx_file_path)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">onnx_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">_file</span><span class="p">:</span>
             <span class="n">onnx_text</span> <span class="o">=</span> <span class="n">_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx_text2torch</span><span class="p">(</span><span class="n">onnx_text</span><span class="p">)</span></div>
-
 
     <span class="n">onnx_file2torch</span> <span class="o">=</span> <span class="n">onnx_file2torch_model</span>
 
@@ -558,18 +538,6 @@
 
 
     <span class="n">onnx_text2code</span> <span class="o">=</span> <span class="n">onnx_text2torch_code</span>
-    <span class="c1"># def code2model(self, code):</span>
-    <span class="c1">#     torch_model = self.onnx_text2torch(onnx_text_path)</span>
-    <span class="c1">#     torch_code = self.torch_graph2code(torch_model)</span>
-    <span class="c1">#     return torch_code</span>
-    <span class="c1"># def torch_graph2code(self, torch_graph, *args, **kwargs):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     Convert a graph-defined PyTorch model to a code representation</span>
-
-    <span class="c1">#     Args:</span>
-    <span class="c1">#         torch_graph (_type_): _description_</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     return self.get_model_code(torch_graph,*args,**kwargs)</span>
 
 <div class="viewcode-block" id="Converter.onnx_text2onnx_graph">
 <a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.onnx_text2onnx_graph">[docs]</a>
@@ -581,7 +549,6 @@
 <span class="sd">        :return onnx_graph: The ONNX Graph</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">onnx</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_model</span><span class="p">(</span><span class="n">onnx_text</span><span class="p">)</span></div>
-
 
     <span class="n">onnx_text2onnx</span> <span class="o">=</span> <span class="n">onnx_text2onnx_graph</span>
 
@@ -605,7 +572,6 @@
         <span class="n">torch_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx_graph2torch_model</span><span class="p">(</span><span class="n">onnx_graph</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">torch_model</span></div>
 
-
     <span class="n">onnx_text2torch</span> <span class="o">=</span> <span class="n">onnx_text2torch_model</span>
 
 <div class="viewcode-block" id="Converter.onnx_graph2torch_model">
@@ -619,7 +585,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">onnx2torch</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">onnx_graph</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-
     <span class="n">onnx2torch</span> <span class="o">=</span> <span class="n">onnx_graph2torch_model</span>
 
 <div class="viewcode-block" id="Converter.onnx_graph2onnx_text">
@@ -632,7 +597,6 @@
 <span class="sd">        :param remove_identity: Whether to remove Identity layers in the output text</span>
 <span class="sd">        :return: The ONNX Text representation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">def</span> <span class="nf">get_inner_string</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">_start</span><span class="p">,</span> <span class="n">_end</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            TODO rewrite the Converter().get_inner_string() to be this simple,</span>
@@ -641,9 +605,7 @@
             <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">_start</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">_start</span><span class="p">)</span> <span class="p">:]</span>
             <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span> <span class="n">s</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="n">_end</span><span class="p">)]</span>
             <span class="k">return</span> <span class="n">s</span>
-
         <span class="n">onnx_str</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">printer</span><span class="o">.</span><span class="n">to_text</span><span class="p">(</span><span class="n">onnx_graph</span><span class="p">)</span>
-        <span class="c1"># breakpoint()</span>
         <span class="n">onnx_str</span> <span class="o">=</span> <span class="n">onnx_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">output_var</span> <span class="o">=</span> <span class="s2">&quot;None&quot;</span>
         <span class="n">n_lines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">onnx_str</span><span class="p">)</span>
@@ -668,7 +630,6 @@
 
             <span class="c1"># For NASLib models, handle unparseable characters in e.g. makrograph-edge(7,8)_...</span>
             <span class="c1"># Handles the dash, comma, and parentheses</span>
-            <span class="c1"># TODO -refactor this out into a function</span>
             <span class="n">onnx_uninit_line</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
                 <span class="s2">&quot;makrograph-edge\((\d*),(\d*)\)_&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;makrograph_edge_</span><span class="se">\\</span><span class="s2">1_</span><span class="se">\\</span><span class="s2">2_&quot;</span><span class="p">,</span>
@@ -725,8 +686,6 @@
             <span class="k">for</span> <span class="n">layer_idx</span><span class="p">,</span> <span class="n">layer_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">layer_names</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">layer_name</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
                     <span class="k">continue</span>
-                <span class="c1"># NOTE - may break if layer names are substrings of other</span>
-                <span class="c1"># layer names, so pad layer_idx with 0&#39;s</span>
                 <span class="n">onnx_str</span> <span class="o">=</span> <span class="n">onnx_str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
                     <span class="n">layer_name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">layer_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">_output_</span><span class="si">{</span><span class="n">layer_idx</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="p">)</span>
@@ -734,7 +693,6 @@
         <span class="k">if</span> <span class="n">remove_identity</span><span class="p">:</span>
             <span class="n">onnx_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_identity</span><span class="p">(</span><span class="n">onnx_str</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">onnx_str</span></div>
-
 
     <span class="n">onnx2onnx_text</span> <span class="o">=</span> <span class="n">onnx_graph2onnx_text</span>
 
@@ -771,7 +729,6 @@
         <span class="n">onnx_text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot; +&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">onnx_text</span><span class="p">)</span>
         <span class="c1"># Remove chunks of blank space (multiple newlines)</span>
         <span class="n">onnx_text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\n\s*\n&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">onnx_text</span><span class="p">)</span>
-
         <span class="k">return</span> <span class="n">onnx_text</span></div>
 
 
@@ -789,7 +746,6 @@
 <span class="sd">        To:</span>
 <span class="sd">        constant_output_0005 = Constant &lt;value = bool[1,1,3,3] {0,0,0,0,0,0,0,0,0}&gt; ()</span>
 <span class="sd">        </span>
-<span class="sd">        </span>
 <span class="sd">        :param input_str: The string with boolean layers.</span>
 <span class="sd">        :return: The string with boolean layers properly refactored. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -806,7 +762,6 @@
             <span class="n">n_elements</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">bool_ending</span> <span class="o">=</span> <span class="s2">&quot;bool&quot;</span>
         <span class="n">input_arg_list</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="se">{{</span><span class="si">{</span><span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="o">*</span><span class="n">n_elements</span><span class="p">)</span><span class="si">}</span><span class="se">}}</span><span class="s1">&#39;</span>
-        <span class="c1"># input_str = re.sub(&#39;([(bool)\]])(.*)&gt;&#39;, f&#39;\\1 {input_arg_list}&gt;&#39;, input_str)</span>
         <span class="n">input_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bool_ending</span><span class="si">}</span><span class="s2">(.*)&gt;&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bool_ending</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">input_arg_list</span><span class="si">}</span><span class="s2">&gt;&quot;</span><span class="p">,</span> <span class="n">input_str</span>
         <span class="p">)</span>
@@ -828,8 +783,6 @@
             <span class="n">large_value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">large_value</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;inf&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">input_str</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">input_str</span>
-        <span class="c1"># return re.sub(&#39;float {(-*)inf}&#39;,</span>
-        <span class="c1">#     f&#39;float {{\\1{str(large_value)}}}&#39;,input_str)</span>
         <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">large_value</span><span class="p">),</span> <span class="n">input_str</span><span class="p">)</span></div>
 
 
@@ -890,49 +843,18 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">value_shape</span> <span class="o">=</span> <span class="n">tensor_value</span><span class="o">.</span><span class="n">shape</span>
             <span class="k">if</span> <span class="n">value_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="c1"># print(f&#39;{tensor_key} has no value_shape&#39;)</span>
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="k">if</span> <span class="s2">&quot;dynamic_axes&quot;</span> <span class="ow">in</span> <span class="n">value_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-                    <span class="c1"># print(f&#39;Skipping {value_shape}&#39;)</span>
                     <span class="k">continue</span>
-            <span class="c1"># print(value_shape, type(value_shape))</span>
-
             <span class="n">tensor_value</span><span class="o">.</span><span class="n">to_constant</span><span class="p">(</span>
                 <span class="n">values</span><span class="o">=</span><span class="n">tensor_init_fn</span><span class="p">(</span>
                     <span class="n">size</span><span class="o">=</span><span class="n">value_shape</span><span class="p">,</span>
-                    <span class="c1"># dtype=torch.float</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
             <span class="p">)</span>
-            <span class="c1"># if &#39;identity&#39; in tensor_key: print(tensor_key)</span>
         <span class="k">return</span> <span class="n">onnx_gs_graph</span></div>
 
 
-    <span class="c1"># def init_constant_tensors(graph, constant_tensor_keys: list):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     Given a graph and a list of tensors keys that should be turned constant,</span>
-    <span class="c1">#     initialize the tensors with the constant values</span>
-
-    <span class="c1">#     Args:</span>
-    <span class="c1">#         graph (_type_): _description_</span>
-    <span class="c1">#         constant_tensors (list): _description_</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     graph_tensors = graph.tensors()</span>
-    <span class="c1">#     for tensor_key in constant_tensor_keys:</span>
-    <span class="c1">#         tensor_value = graph_tensors.get(tensor_key, None)</span>
-    <span class="c1">#         if tensor_value is None:</span>
-    <span class="c1">#             continue</span>
-    <span class="c1">#         if isinstance(tensor_value, (int, float,)):</span>
-    <span class="c1">#             value_shape = (1,)</span>
-    <span class="c1">#         else:</span>
-    <span class="c1">#             value_shape = tensor_value.shape</span>
-    <span class="c1">#         if value_shape is None:</span>
-    <span class="c1">#             continue</span>
-    <span class="c1">#         graph_tensors[tensor_key].to_constant(</span>
-    <span class="c1">#             values=np.random.uniform(size=value_shape))</span>
-    <span class="c1">#     return graph</span>
-
-    <span class="c1"># def onnx_parameterless2onnx(self, onnx_path):</span>
 <div class="viewcode-block" id="Converter.init_onnx_params">
 <a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.init_onnx_params">[docs]</a>
     <span class="k">def</span> <span class="nf">init_onnx_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_graph</span><span class="p">):</span>
@@ -942,13 +864,8 @@
 <span class="sd">        :param onnx_graph: The ONNX Graph.</span>
 <span class="sd">        :return onnx_graph: The ONNX Graph with initialized parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># graph = gs.import_onnx(</span>
-        <span class="c1">#     onnx_model)</span>
-        <span class="c1">#     # onnx.load(onnx_path))</span>
-        <span class="c1"># graph = self.init_graph_tensors(graph)</span>
         <span class="n">onnx_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_onnx_tensors</span><span class="p">(</span><span class="n">onnx_graph</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">gs</span><span class="o">.</span><span class="n">export_onnx</span><span class="p">(</span><span class="n">onnx_graph</span><span class="p">)</span></div>
-
 
     <span class="n">onnx_parameterless2onnx</span> <span class="o">=</span> <span class="n">init_onnx_params</span>
 
@@ -957,14 +874,12 @@
     <span class="k">def</span> <span class="nf">init_onnx_tensors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_graph</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the tensors of an ONNX Graph</span>
-<span class="sd">        TODO - refactor above method with this one</span>
 <span class="sd">        </span>
 <span class="sd">        :param onnx_graph: The ONNX Graph</span>
 <span class="sd">        :return onnx_graph: The ONNX Graph with initalized tensors</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">onnx_graph</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">import_onnx</span><span class="p">(</span><span class="n">onnx_graph</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_graph_tensors</span><span class="p">(</span><span class="n">onnx_graph</span><span class="p">)</span></div>
-
 
     <span class="n">onnx2onnx_gs</span> <span class="o">=</span> <span class="n">init_onnx_tensors</span>
 
@@ -998,7 +913,6 @@
 <a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.get_inner_string">[docs]</a>
     <span class="k">def</span> <span class="nf">get_inner_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_str</span><span class="p">,</span> <span class="n">_start</span><span class="p">,</span> <span class="n">_end</span><span class="p">,</span> <span class="n">return_only_single_value</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        TODO - replace this with a sensible regex function.</span>
 <span class="sd">        Get the inner string between a start and end sequence.</span>
 <span class="sd">        If there are multiple potential inner strings (e.g. if there are multiple instances</span>
 <span class="sd">        of the start and/or end sequences), returns the longest valid substring.</span>
@@ -1029,7 +943,6 @@
 <a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.get_attr_name">[docs]</a>
     <span class="k">def</span> <span class="nf">get_attr_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        TODO - replace this with a sensible regex function; write tests first.</span>
 <span class="sd">        Get the variable name of an object attribute from a string.</span>
 <span class="sd">        </span>
 <span class="sd">        The input string to this function should be a line from the forward pass of a model</span>
@@ -1043,7 +956,6 @@
         <span class="n">attr_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_inner_string</span><span class="p">(</span>
             <span class="n">input_str</span><span class="p">,</span> <span class="n">_start</span><span class="o">=</span><span class="s1">&#39;getattr(self, &quot;&#39;</span><span class="p">,</span> <span class="n">_end</span><span class="o">=</span><span class="s1">&#39;&quot;)&#39;</span>
         <span class="p">)</span>
-
         <span class="c1"># Catch a case where the attribute is directly accessed,</span>
         <span class="c1"># e.g. self.LogSoftmax -&gt; retrieve &quot;LogSoftmax&quot;</span>
         <span class="k">if</span> <span class="n">attr_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1063,7 +975,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">attr_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_attr_name</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">attr_name</span><span class="p">:</span>
-            <span class="c1"># print(f&quot;Caught attr {attr_name} on line {line}&quot;)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">{</span><span class="n">attr_name</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)}</span>
             <span class="k">except</span><span class="p">:</span>
@@ -1085,9 +996,7 @@
         <span class="k">for</span> <span class="n">fwd_line</span> <span class="ow">in</span> <span class="n">fwd_lines</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
             <span class="n">model_attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_model_attr_on_line</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">fwd_line</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">model_attr</span><span class="p">:</span>
-                <span class="c1"># model_attrs.append(model_attr)</span>
                 <span class="n">model_attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">model_attr</span><span class="p">)</span>
-        <span class="c1"># print(model_attrs)</span>
         <span class="k">return</span> <span class="n">model_attrs</span></div>
 
 
@@ -1103,19 +1012,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">attrs_to_skip</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bias&quot;</span><span class="p">]</span>
         <span class="n">attr_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">model_attr</span><span class="o">.</span><span class="fm">__init__</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
-        <span class="c1"># breakpoint()</span>
         <span class="n">attr_params</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="c1"># if &#39;initializer&#39; in model_attr: breakpoint()</span>
         <span class="k">for</span> <span class="n">attr_key</span><span class="p">,</span> <span class="n">attr_val</span> <span class="ow">in</span> <span class="n">attr_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">attr_key</span> <span class="ow">in</span> <span class="n">attrs_to_skip</span><span class="p">:</span>
                 <span class="k">continue</span>
-            <span class="c1"># if attr_val.default==inspect._empty:</span>
-            <span class="c1"># if True:</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model_attr</span><span class="p">,</span> <span class="n">attr_key</span><span class="p">):</span>
                 <span class="n">model_attr_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model_attr</span><span class="p">,</span> <span class="n">attr_key</span><span class="p">)</span>
                 <span class="c1"># Convert potentially large tensors to constructors to reduce size</span>
-                <span class="c1"># if isinstance(model_attr_value, torch.Tensor) or &#39;tensor&#39; in str(type(model_attr_value)).lower():</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_attr_value</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
                     <span class="n">model_attr_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tensor2init_code</span><span class="p">(</span>
                         <span class="n">model_attr_value</span><span class="p">,</span>
@@ -1123,8 +1027,6 @@
                     <span class="p">)</span>
                 <span class="n">attr_params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">attr_key</span><span class="p">:</span> <span class="n">model_attr_value</span><span class="p">})</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model_attr</span><span class="p">,</span> <span class="s2">&quot;state_dict&quot;</span><span class="p">):</span>
-            <span class="c1"># print(f&#39;adding state dict for {model_attr}&#39;)</span>
-            <span class="c1"># breakpoint()</span>
             <span class="n">model_state_dict</span> <span class="o">=</span> <span class="n">model_attr</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span>
             <span class="c1"># Do this only for initializers because the output file could get large</span>
             <span class="n">model_state_dict</span> <span class="o">=</span> <span class="p">{</span>
@@ -1132,10 +1034,8 @@
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">model_state_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
                 <span class="k">if</span> <span class="s2">&quot;initial&quot;</span> <span class="ow">in</span> <span class="n">k</span>
             <span class="p">}</span>
-            <span class="c1"># if len(model_state_dict) &gt; 10: breakpoint()</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_state_dict</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">attr_params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">model_state_dict</span><span class="p">)</span>
-                <span class="c1"># attr_params.update({&#39;state_dict&#39;:model_state_dict})</span>
         <span class="c1"># If the model_attr is a torch module that has a state_dict, add it</span>
         <span class="k">return</span> <span class="n">attr_params</span></div>
 
@@ -1177,11 +1077,9 @@
 
         <span class="k">for</span> <span class="n">model_attr_name</span><span class="p">,</span> <span class="n">model_attr</span> <span class="ow">in</span> <span class="n">model_attrs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">attr_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_params_for_attr</span><span class="p">(</span><span class="n">model_attr</span><span class="p">)</span>
-            <span class="c1"># if &#39;initializer&#39; in model_attr_name: breakpoint()</span>
             <span class="n">init_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="p">(</span><span class="n">model_attr_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_type_string</span><span class="p">(</span><span class="n">model_attr</span><span class="p">),</span> <span class="n">attr_params</span><span class="p">)</span>
             <span class="p">)</span>
-        <span class="c1"># init_code = &#39;def __init__(self):\n&#39;</span>
         <span class="n">spacer</span> <span class="o">=</span> <span class="s2">&quot;    &quot;</span>
         <span class="n">spacer</span> <span class="o">=</span> <span class="s2">&quot;    &quot;</span>
         <span class="n">init_lines</span> <span class="o">=</span> <span class="p">[</span>
@@ -1192,13 +1090,7 @@
         <span class="k">for</span> <span class="n">init_attr</span> <span class="ow">in</span> <span class="n">init_attrs</span><span class="p">:</span>
             <span class="n">torch</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
             <span class="c1"># Convert potentially large tensors to constructors to reduce size</span>
-            <span class="c1"># kwarg_strs = []</span>
-            <span class="c1"># for attr_key,attr_value in init_attr[2].items():</span>
-            <span class="c1">#     if isinstance(attr_value,str):</span>
-            <span class="c1">#         if &#39;tensor.&#39; in attr_value.lower():</span>
             <span class="n">kwarg_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict2code</span><span class="p">(</span><span class="n">init_attr</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-
-            <span class="c1"># init_line = f&quot;{spacer*2}setattr(self,&#39;{init_attr[0]}&#39;, {init_attr[1]}(**{init_attr[2]}))&quot;</span>
             <span class="n">init_line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">spacer</span><span class="o">*</span><span class="mi">2</span><span class="si">}</span><span class="s2">setattr(self,&#39;</span><span class="si">{</span><span class="n">init_attr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, </span><span class="si">{</span><span class="n">init_attr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">(**</span><span class="si">{</span><span class="n">kwarg_str</span><span class="si">}</span><span class="s2">))&quot;</span>
             <span class="n">init_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">init_line</span><span class="p">)</span>
 
@@ -1239,7 +1131,6 @@
         <span class="n">ret_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">spacer</span><span class="o">*</span><span class="p">(</span><span class="n">indent_level</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="si">}{</span><span class="n">module_name_str</span><span class="si">}</span><span class="s2">.register_buffer(k,v)</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="n">ret_str</span></div>
 
-        <span class="c1"># return f&#39;{module_nam&#39;</span>
 
 <div class="viewcode-block" id="Converter.dict2code">
 <a class="viewcode-back" href="../../modules/modlee.converter.html#modlee.converter.Converter.dict2code">[docs]</a>
@@ -1250,7 +1141,6 @@
 <span class="sd">        :param kwarg_dict: The dictionary to convert.</span>
 <span class="sd">        :return: A code string to create the dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># ret_str = &#39;&#39;</span>
         <span class="n">kwarg_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">kwarg_key</span><span class="p">,</span> <span class="n">kwarg_value</span> <span class="ow">in</span> <span class="n">kwarg_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">formatted_kwarg_value</span> <span class="o">=</span> <span class="n">kwarg_value</span>
@@ -1348,10 +1238,8 @@
         <span class="n">model_code</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">import torch, onnx2torch</span>
 <span class="s2">from torch import tensor</span>
-
 <span class="s2">class Model(torch.nn.Module):</span>
 <span class="si">{</span><span class="n">spacer</span><span class="si">}{</span><span class="n">model_init_code</span><span class="si">}</span>
-
 <span class="si">{</span><span class="n">spacer</span><span class="si">}{</span><span class="n">model_fwd_code</span><span class="si">}</span>
 <span class="s2">&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">model_code</span></div>

@@ -311,34 +311,27 @@
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
-
 <span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
 <span class="kn">from</span> <span class="nn">lightning.pytorch</span> <span class="kn">import</span> <span class="n">LightningModule</span><span class="p">,</span> <span class="n">Trainer</span>
 <span class="kn">from</span> <span class="nn">lightning.pytorch.callbacks</span> <span class="kn">import</span> <span class="n">Callback</span>
 <span class="kn">from</span> <span class="nn">lightning.pytorch.utilities.types</span> <span class="kn">import</span> <span class="n">STEP_OUTPUT</span>
-
 <span class="kn">import</span> <span class="nn">modlee</span>
 <span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">data_metafeatures</span><span class="p">,</span> <span class="n">save_run</span><span class="p">,</span> <span class="n">get_code_text_for_model</span><span class="p">,</span> <span class="n">save_run_as_json</span>
 <span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">logging</span><span class="p">,</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">modlee_utils</span><span class="p">,</span> <span class="n">exp_loss_logger</span>
 <span class="kn">from</span> <span class="nn">modlee.converter</span> <span class="kn">import</span> <span class="n">Converter</span>
 <span class="kn">from</span> <span class="nn">modlee.model.callbacks</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="n">modlee_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">()</span>
-
 <span class="kn">from</span> <span class="nn">modlee.config</span> <span class="kn">import</span> <span class="n">TMP_DIR</span><span class="p">,</span> <span class="n">MLRUNS_DIR</span>
-
 <span class="kn">import</span> <span class="nn">mlflow</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
+<span class="n">modlee_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">()</span>
 <span class="n">base_lightning_module</span> <span class="o">=</span> <span class="n">LightningModule</span><span class="p">()</span>
 <span class="n">base_lm_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">LightningModule</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-
 
 <div class="viewcode-block" id="ModleeModel">
 <a class="viewcode-back" href="../../../modules/modlee.model.model.html#modlee.model.model.ModleeModel">[docs]</a>
@@ -355,10 +348,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data_snapshot_size</span> <span class="o">=</span> <span class="n">data_snapshot_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_cache</span> <span class="o">=</span> <span class="n">kwargs_cache</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_cache</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-
         <span class="n">self_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-        <span class="c1"># self_dict = self.__dict__.</span>
-        <span class="c1"># for self_key in self_keys:</span>
 
     <span class="k">def</span> <span class="nf">_update_kwargs_cached</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
@@ -410,30 +400,11 @@
             <span class="n">LogTransformsCallback</span><span class="p">(),</span>
             <span class="n">LogModelCheckpointCallback</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">),</span>
         <span class="p">]</span>
-            <span class="c1"># LogONNXCallback(),</span>
-        <span class="c1">#     pl.callbacks.ModelCheckpoint(</span>
-        <span class="c1">#         # dirpath=&#39;./&#39;,</span>
-        <span class="c1">#         filename=&#39;{epoch}-{loss:.2f}&#39;,</span>
-        <span class="c1">#         monitor=&#39;loss&#39;, </span>
-        <span class="c1">#         save_top_k=1,</span>
-        <span class="c1">#         mode=&#39;min&#39;,</span>
-        <span class="c1">#         verbose=True),</span>
-        <span class="c1"># ]</span>
-        
-        <span class="c1"># # If the validation step is defined, add</span>
+        <span class="c1"># If the validation step is defined, add</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_step_defined</span><span class="p">(</span><span class="s2">&quot;validation_step&quot;</span><span class="p">):</span> 
             <span class="n">callbacks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">LogModelCheckpointCallback</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s1">&#39;val_loss&#39;</span><span class="p">)</span>
             <span class="p">)</span>
-        <span class="c1">#     callbacks.append(pl.callbacks.ModelCheckpoint(</span>
-        <span class="c1">#         # dirpath=&#39;./&#39;,</span>
-        <span class="c1">#         filename=&#39;{epoch}-{val_loss:.2f}&#39;,</span>
-        <span class="c1">#         monitor=&#39;val_loss&#39;, </span>
-        <span class="c1">#         save_top_k=1,</span>
-        <span class="c1">#         mode=&#39;min&#39;,</span>
-        <span class="c1">#         verbose=True))</span>
-            
-            
         <span class="k">return</span> <span class="n">callbacks</span></div>
 </div>
 
@@ -521,8 +492,6 @@
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="n">index</span><span class="p">]</span></div>
 
-    
-    
 </pre></div>
 
            </div>

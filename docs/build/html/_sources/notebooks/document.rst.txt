@@ -1,4 +1,6 @@
-.. image:: https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg
+|image1|
+
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg
    :width: 50px
    :height: 50px
 

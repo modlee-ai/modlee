@@ -1,6 +1,4 @@
-.. image:: https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg
-   :width: 50px
-   :height: 50px
+|image1|
 
 Additional Resources
 ====================
@@ -81,3 +79,7 @@ For further assistance, explore our
 sections. Join our `community <https://discord.com/invite/m8YDbWDvrF>`__
 or reach out to us directly at `support@modlee.ai <support@modlee.ai>`__
 if you need more help or have specific questions.
+
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg
+   :width: 50px
+   :height: 50px

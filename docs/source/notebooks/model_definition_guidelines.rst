@@ -1,6 +1,4 @@
-.. image:: https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg
-   :width: 50px
-   :height: 50px
+|image1|
 
 Model definition guidelines
 ===========================
@@ -21,6 +19,10 @@ TLDR
 
 Define example custom ModleeModel
 ---------------------------------
+
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg
+   :width: 50px
+   :height: 50px
 
 .. code:: python
 
