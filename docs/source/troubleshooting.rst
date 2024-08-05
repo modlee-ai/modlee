@@ -36,7 +36,7 @@ Modlee.
       pip install modlee
 
 -  **Dependencies**: Verify that all dependencies are installed. You can
-   find the list of required dependencies on our
+   find the list of required dependencies on Modlee’s
    `Github <https://github.com/modlee-ai/modlee/blob/main/requirements.txt>`__.
 
 Problem: Incompatible Package Versions
@@ -204,8 +204,8 @@ environment.
       from google.colab import drive
       drive.mount('/content/drive')
 
-Problem: Run Out of GPU Compute
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Problem: Google Colab, Run Out of GPU Compute
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Issue**: Errors while connecting to GPU on Google Colab.
 
