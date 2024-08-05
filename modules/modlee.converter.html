@@ -400,8 +400,7 @@ The supported formats include Torch and ONNX.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.converter.Converter.get_attr_name">
 <span class="sig-name descname"><span class="pre">get_attr_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.get_attr_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.get_attr_name" title="Link to this definition"></a></dt>
-<dd><p>TODO - replace this with a sensible regex function; write tests first.
-Get the variable name of an object attribute from a string.</p>
+<dd><p>Get the variable name of an object attribute from a string.</p>
 <p>The input string to this function should be a line from the forward pass of a model
 converted from onnx2torch, e.g. :
 model_conv1_conv = getattr(self, “model/conv1/Conv”)(input_1);  input_1 = None
@@ -467,8 +466,7 @@ This uses register_buffer to add unexpected keys to the state dict.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.converter.Converter.get_inner_string">
 <span class="sig-name descname"><span class="pre">get_inner_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_only_single_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.get_inner_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.get_inner_string" title="Link to this definition"></a></dt>
-<dd><p>TODO - replace this with a sensible regex function.
-Get the inner string between a start and end sequence.
+<dd><p>Get the inner string between a start and end sequence.
 If there are multiple potential inner strings (e.g. if there are multiple instances
 of the start and/or end sequences), returns the longest valid substring.</p>
 <dl class="field-list simple">
@@ -604,8 +602,7 @@ Converter().init_graph_tensors(graph)</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.converter.Converter.init_onnx_tensors">
 <span class="sig-name descname"><span class="pre">init_onnx_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_graph</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/converter.html#Converter.init_onnx_tensors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.converter.Converter.init_onnx_tensors" title="Link to this definition"></a></dt>
-<dd><p>Initialize the tensors of an ONNX Graph
-TODO - refactor above method with this one</p>
+<dd><p>Initialize the tensors of an ONNX Graph</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>onnx_graph</strong> – The ONNX Graph</p>
@@ -619,8 +616,7 @@ TODO - refactor above method with this one</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="modlee.converter.Converter.onnx2onnx_gs">
 <span class="sig-name descname"><span class="pre">onnx2onnx_gs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_graph</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modlee.converter.Converter.onnx2onnx_gs" title="Link to this definition"></a></dt>
-<dd><p>Initialize the tensors of an ONNX Graph
-TODO - refactor above method with this one</p>
+<dd><p>Initialize the tensors of an ONNX Graph</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>onnx_graph</strong> – The ONNX Graph</p>

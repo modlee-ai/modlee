@@ -761,7 +761,6 @@
 
 <span class="n">modlee_model_name</span> <span class="o">=</span> <span class="s2">&quot;ModleeModel&quot;</span>
 
-
 <div class="viewcode-block" id="exhaust_sequence_branch">
 <a class="viewcode-back" href="../../modules/modlee.model_text_converter.html#modlee.model_text_converter.exhaust_sequence_branch">[docs]</a>
 <span class="k">def</span> <span class="nf">exhaust_sequence_branch</span><span class="p">(</span><span class="n">root_sequence_module</span><span class="p">,</span> <span class="n">custom_history</span><span class="p">):</span>
@@ -772,7 +771,6 @@
 <span class="sd">    :param custom_history: A list of custom module names.</span>
 <span class="sd">    :return: A tuple of lists ([custom module objects], [custom module names])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">sequences</span> <span class="o">=</span> <span class="p">[</span><span class="n">root_sequence_module</span><span class="p">]</span>
     <span class="n">custom_modules_list</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -782,16 +780,12 @@
         <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">module_list</span><span class="p">:</span>
             <span class="n">module_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">module</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">module_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">OPS_MERGED</span> <span class="ow">and</span> <span class="n">module_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">custom_history</span><span class="p">:</span>
-                <span class="c1"># print(&#39;found custom module: &#39;, module_name)</span>
                 <span class="n">custom_modules_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
                 <span class="n">custom_history</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">module_name</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">module_name</span> <span class="o">==</span> <span class="s2">&quot;Sequential&quot;</span><span class="p">:</span>
-                <span class="c1"># print(&#39;found sequential go as deep as needed&#39;)</span>
                 <span class="n">sequences</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">module</span><span class="p">)</span>
         <span class="n">sequences</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-
     <span class="k">return</span> <span class="n">custom_modules_list</span><span class="p">,</span> <span class="n">custom_history</span></div>
-
 
 
 <div class="viewcode-block" id="get_code_text">
@@ -799,7 +793,6 @@
 <span class="k">def</span> <span class="nf">get_code_text</span><span class="p">(</span><span class="n">code_text</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">custom_history</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get a code text representation of a model as its __init__ and forward functions.</span>
-<span class="sd">    TODO - this only saves a hardcoded subset of functions</span>
 
 <span class="sd">    :param code_text: The current code text if there are other dependencies, can be empty &#39;&#39;.</span>
 <span class="sd">    :param module: The module for which to get the code text.</span>
@@ -828,61 +821,39 @@
         <span class="k">if</span> <span class="n">_function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">functions_to_save</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">function_to_save</span><span class="p">)</span>
             <span class="k">continue</span>
-        <span class="c1"># elif _function==getattr(pl.LightningModule,function_to_save):</span>
-
-        <span class="c1"># elif not pl.utilities.model_helpers.is_overridden(&#39;validation_step&#39;,module):</span>
-        <span class="c1">#     functions_to_save.remove(function_to_save)</span>
-        <span class="c1">#     continue</span>
-
         <span class="n">function_code</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">function_to_save</span><span class="p">:</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">_function</span><span class="p">)})</span>
 
     <span class="k">if</span> <span class="n">code_text</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
         <span class="n">class_header_code</span> <span class="o">=</span> <span class="n">class_header_code</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
             <span class="n">module_class_name</span><span class="p">,</span> <span class="n">modlee_model_name</span>
         <span class="p">)</span>
-        <span class="c1"># init_code = init_code.replace(module_class_name, modlee_model_name)</span>
         <span class="n">function_code</span><span class="p">[</span><span class="s2">&quot;__init__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">function_code</span><span class="p">[</span><span class="s2">&quot;__init__&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
             <span class="n">module_class_name</span><span class="p">,</span> <span class="n">modlee_model_name</span>
         <span class="p">)</span>
 
-    <span class="c1"># exclude modlee_required_packages from training data? if it is the same ...</span>
-    <span class="c1"># code_text = code_text + class_header_code + init_code + forward_code + &#39;\n&#39;</span>
-
-    <span class="c1"># code_text = code_text + class_header</span>
-    <span class="c1"># code</span>
     <span class="n">code_text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
         <span class="p">[</span><span class="n">code_text</span><span class="p">,</span> <span class="n">class_header_code</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">function_code</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span>
     <span class="p">)</span>
 
-    <span class="c1"># -------------</span>
-
     <span class="n">child_module_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;_modules&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-
     <span class="n">custom_child_module_list</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">child_module</span> <span class="ow">in</span> <span class="n">child_module_list</span><span class="p">:</span>
         <span class="n">child_module_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">child_module</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="c1"># print(child_module_name)</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">child_module_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">OPS_MERGED</span>
             <span class="ow">and</span> <span class="n">child_module_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">custom_history</span>
         <span class="p">):</span>
-            <span class="c1"># print(&#39;found custom module: &#39;, child_module_name)</span>
             <span class="n">custom_child_module_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_module</span><span class="p">)</span>
             <span class="n">custom_history</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">child_module_name</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">child_module_name</span> <span class="o">==</span> <span class="s2">&quot;Sequential&quot;</span><span class="p">:</span>
-            <span class="c1"># print(&#39;found sequential go as deep as needed&#39;)</span>
             <span class="n">seq_custom_modules_list</span><span class="p">,</span> <span class="n">custom_history</span> <span class="o">=</span> <span class="n">exhaust_sequence_branch</span><span class="p">(</span>
                 <span class="n">child_module</span><span class="p">,</span> <span class="n">custom_history</span>
             <span class="p">)</span>
             <span class="n">custom_child_module_list</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">custom_child_module_list</span> <span class="o">+</span> <span class="n">seq_custom_modules_list</span>
             <span class="p">)</span>
-
-    <span class="c1"># NOTE THIS DOESN&#39;t solve the problem systematically, just one layer deeper ....</span>
-
     <span class="k">return</span> <span class="n">code_text</span><span class="p">,</span> <span class="n">custom_child_module_list</span><span class="p">,</span> <span class="n">custom_history</span></div>
-
 
 
 <div class="viewcode-block" id="get_code_text_for_model">
@@ -897,7 +868,6 @@
 <span class="sd">    :param model: The model for which to get the code text.</span>
 <span class="sd">    :return: The code text for the model.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">code_text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">custom_history</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="n">module_queue</span> <span class="o">=</span> <span class="p">[</span><span class="n">model</span><span class="p">]</span>
@@ -909,14 +879,9 @@
         <span class="n">module_queue</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
         <span class="n">module_queue</span> <span class="o">=</span> <span class="n">module_queue</span> <span class="o">+</span> <span class="n">custom_child_module_list</span>
 
-        <span class="c1"># print(module_queue)</span>
-
-    <span class="c1"># print(&#39;\n\n---code_text--- \n\n{}\n\n&#39;.format(code_text))</span>
-
     <span class="k">if</span> <span class="n">include_header</span><span class="p">:</span>
         <span class="n">code_text</span> <span class="o">=</span> <span class="n">modlee_required_packages</span> <span class="o">+</span> <span class="n">code_text</span>
     <span class="k">return</span> <span class="n">code_text</span></div>
-
 
 
 <div class="viewcode-block" id="save_code_text_for_model">
@@ -931,7 +896,6 @@
     <span class="k">if</span> <span class="n">include_header</span><span class="p">:</span>
         <span class="n">code_text</span> <span class="o">=</span> <span class="n">modlee_required_packages</span> <span class="o">+</span> <span class="n">code_text</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;modlee_model.py&quot;</span>  <span class="c1"># Specify the file path</span>
-
     <span class="c1"># Open the file in write mode and write the text</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
         <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">code_text</span><span class="p">)</span></div>
