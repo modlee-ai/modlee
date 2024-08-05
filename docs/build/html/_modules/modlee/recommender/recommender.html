@@ -310,41 +310,27 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-
-<span class="c1"># logging.basicConfig(level=logging.INFO)</span>
-
 <span class="kn">import</span> <span class="nn">modlee</span>
 <span class="kn">from</span> <span class="nn">modlee.utils</span> <span class="kn">import</span> <span class="n">get_model_size</span><span class="p">,</span> <span class="n">typewriter_print</span>
 <span class="kn">from</span> <span class="nn">modlee.converter</span> <span class="kn">import</span> <span class="n">Converter</span>
-
-<span class="n">modlee_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">()</span>
-
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-
 <span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
-
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 <span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
 <span class="kn">from</span> <span class="nn">torch.optim</span> <span class="kn">import</span> <span class="n">lr_scheduler</span>
-
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlparse</span>
 <span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">ModleeClient</span>
-<span class="n">API_KEY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MODLEE_API_KEY&quot;</span><span class="p">,</span> <span class="s1">&#39;None&#39;</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">modlee</span>
 
+<span class="n">API_KEY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MODLEE_API_KEY&quot;</span><span class="p">,</span> <span class="s1">&#39;None&#39;</span><span class="p">)</span>
+<span class="n">modlee_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">()</span>
 <span class="n">modlee_client</span> <span class="o">=</span> <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">API_KEY</span><span class="p">)</span>
-<span class="c1"># SERVER_ENDPOINT = modlee_client.endpoint</span>
 <span class="n">SERVER_ENDPOINT</span> <span class="o">=</span> <span class="n">modlee_client</span><span class="o">.</span><span class="n">origin</span>
-<span class="c1">#SERVER_ORIGIN = &#39;http://127.0.0.1:7070&#39;</span>
-<span class="c1">#SERVER_ENDPOINT = &#39;http://ec2-3-84-155-233.compute-1.amazonaws.com:7070&#39;</span>
-<span class="c1">#print(SERVER_ENDPOINT)</span>
 
 <div class="viewcode-block" id="Recommender">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender">[docs]</a>
@@ -352,7 +338,6 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Recommender for models conditioned on datasets.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">SERVER_ENDPOINT</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -393,7 +378,7 @@
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished analyzing dataset.&quot;</span><span class="p">)</span></div>
 
 
-    <span class="n">fit</span> <span class="o">=</span> <span class="n">analyze</span>
+    <span class="n">fit</span> <span class="o">=</span> <span class="n">analyze</span> <span class="c1"># Alias for the analyze method</span>
 
 <div class="viewcode-block" id="Recommender.calculate_metafeatures">
 <a class="viewcode-back" href="../../../modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.calculate_metafeatures">[docs]</a>
@@ -533,7 +518,6 @@
             <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataloader_input_inds</span>
         <span class="p">]</span>
         <span class="n">input_torches</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">ins</span><span class="p">)</span> <span class="k">for</span> <span class="n">ins</span> <span class="ow">in</span> <span class="n">input_sizes</span><span class="p">]</span>
-
         <span class="k">return</span> <span class="n">input_torches</span><span class="p">,</span> <span class="n">input_sizes</span></div>
 
 
@@ -561,10 +545,8 @@
         <span class="k">except</span><span class="p">:</span>
             <span class="k">pass</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_code</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;self, model,&quot;</span><span class="p">,</span> <span class="s2">&quot;self,&quot;</span><span class="p">)</span>
-
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_code</span></div>
 </div>
-
 
 </pre></div>
 

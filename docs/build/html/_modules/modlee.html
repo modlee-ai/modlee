@@ -384,8 +384,6 @@
             <span class="k">yield</span> <span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span></div>
 
 
-
-
 <span class="c1"># Try to get an API key</span>
 <div class="viewcode-block" id="init">
 <a class="viewcode-back" href="../_autosummary/%3C--%20add%20this%20line/modlee.init.html#modlee.init">[docs]</a>
@@ -397,14 +395,12 @@
 <span class="sd">    </span>
 <span class="sd">    :param run_path: The path to the current run.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># if run_dir not provided, set to the same directory as the calling file</span>
     <span class="k">if</span> <span class="n">run_path</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">run_path</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
         <span class="n">run_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
 
     <span class="n">set_run_path</span><span class="p">(</span><span class="n">run_path</span><span class="p">)</span>
     <span class="n">auth</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span></div>
-
 
 
 <div class="viewcode-block" id="auth">
@@ -424,7 +420,6 @@
         <span class="n">API_KEY</span> <span class="o">=</span> <span class="n">api_key</span>
         <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">API_KEY</span>
         <span class="n">modlee_client</span> <span class="o">=</span> <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span>
-        <span class="c1"># save_run = partial(utils_save_run, modlee_client)</span>
         <span class="k">for</span> <span class="n">_module</span> <span class="ow">in</span> <span class="p">[</span><span class="n">data_metafeatures</span><span class="p">,</span> <span class="n">model_text_converter</span><span class="p">,</span> <span class="n">exp_loss_logger</span><span class="p">]:</span>
             <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">_module</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">model_text_converter</span><span class="o">.</span><span class="n">module_available</span><span class="p">:</span>
@@ -432,7 +427,6 @@
                 <span class="n">get_code_text</span><span class="p">,</span>
                 <span class="n">get_code_text_for_model</span><span class="p">,</span>
             <span class="p">)</span></div>
-
 
 
 <div class="viewcode-block" id="set_run_path">
@@ -466,7 +460,6 @@
     <span class="n">tracking_uri</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">run_path</span><span class="p">)</span><span class="o">.</span><span class="n">as_uri</span><span class="p">()</span>
     <span class="n">mlflow</span><span class="o">.</span><span class="n">set_tracking_uri</span><span class="p">(</span><span class="n">tracking_uri</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">tracking_uri</span></div>
-
 
 
 <div class="viewcode-block" id="get_run_path">

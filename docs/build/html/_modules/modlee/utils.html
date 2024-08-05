@@ -314,15 +314,12 @@
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">math</span><span class="o">,</span> <span class="nn">numbers</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
 <span class="kn">import</span> <span class="nn">mlflow</span>
-
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torchvision</span>
 <span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">datasets</span> <span class="k">as</span> <span class="n">tv_datasets</span>
 <span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
 <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
-
 <span class="kn">from</span> <span class="nn">modlee.client</span> <span class="kn">import</span> <span class="n">ModleeClient</span>
 
 <div class="viewcode-block" id="safe_mkdir">
@@ -334,16 +331,12 @@
 <span class="sd">    :param target_path: The path to the target directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">root</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">target_path</span><span class="p">)</span>
-    <span class="c1"># is a file</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">target_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">target_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target_path</span><span class="si">}</span><span class="s2">/&quot;</span>
-    <span class="c1"># if os.path.isfile(target_dir):</span>
-    <span class="c1">#     target_dir,_ = os.path.split(target_dir.split(&#39;.&#39;)[0])</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">target_path</span><span class="p">):</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">target_path</span><span class="p">)</span></div>
-
 
 
 <div class="viewcode-block" id="get_fashion_mnist">
@@ -377,7 +370,6 @@
     <span class="k">return</span> <span class="n">training_loader</span><span class="p">,</span> <span class="n">test_loader</span></div>
 
 
-
 <div class="viewcode-block" id="uri_to_path">
 <a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.uri_to_path">[docs]</a>
 <span class="k">def</span> <span class="nf">uri_to_path</span><span class="p">(</span><span class="n">uri</span><span class="p">):</span>
@@ -390,7 +382,6 @@
     <span class="n">parsed_uri</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">unquote</span><span class="p">(</span><span class="n">parsed_uri</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">path</span></div>
-
 
 
 <div class="viewcode-block" id="is_cacheable">
@@ -407,7 +398,6 @@
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span></div>
-
 
 
 <div class="viewcode-block" id="get_model_size">
@@ -432,7 +422,6 @@
     <span class="k">return</span> <span class="n">model_size</span></div>
 
 
-
 <div class="viewcode-block" id="quantize">
 <a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.quantize">[docs]</a>
 <span class="k">def</span> <span class="nf">quantize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -442,12 +431,10 @@
 <span class="sd">    :param x: The object to quantize.</span>
 <span class="sd">    :return: The object, quantized.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">:</span>
         <span class="n">ind</span> <span class="o">=</span> <span class="mi">2</span>
         <span class="k">while</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="n">ind</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;0&quot;</span><span class="p">:</span>
             <span class="n">ind</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="c1"># print(ind)</span>
         <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">ind</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
         <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
@@ -455,13 +442,10 @@
         <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
-
     <span class="k">return</span> <span class="n">c</span></div>
 
 
-
 <span class="n">_discretize</span> <span class="o">=</span> <span class="n">quantize</span>
-
 
 <div class="viewcode-block" id="convert_to_scientific">
 <a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.convert_to_scientific">[docs]</a>
@@ -473,7 +457,6 @@
 <span class="sd">    :return: The number in scientific notation as a string.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">0.0e</span><span class="si">}</span><span class="s2">&quot;</span></div>
-
 
 
 <div class="viewcode-block" id="closest_power_of_2">
@@ -496,9 +479,7 @@
 
     <span class="c1"># Calculate the closest power of 2</span>
     <span class="n">closest_value</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">rounded_exponent</span>
-
     <span class="k">return</span> <span class="n">closest_value</span></div>
-
 
 
 <span class="k">def</span> <span class="nf">_is_number</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -508,17 +489,13 @@
 <span class="sd">    :param x: The object to check.</span>
 <span class="sd">    :return: Whether the object is a number.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># if isinstance(n,list):</span>
-    <span class="c1">#     return all([_is_number(num) for num in n])</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Type-casting the string to `float`.</span>
         <span class="c1"># If string is not a valid `float`,</span>
         <span class="c1"># it&#39;ll raise `ValueError` exception</span>
-    <span class="c1"># except ValueError, TypeError:</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">return</span> <span class="kc">True</span>
-
 
 <div class="viewcode-block" id="quantize_dict">
 <a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.quantize_dict">[docs]</a>
@@ -537,13 +514,7 @@
             <span class="n">base_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">quantize_fn</span><span class="p">(</span><span class="n">v</span><span class="p">)})</span>
         <span class="k">elif</span> <span class="n">_is_number</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
             <span class="n">base_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">quantize_fn</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">))})</span>
-
-        <span class="c1"># elif &#39;float&#39; in str(type(v)):</span>
-        <span class="c1">#     base_dict.update({k:str(v)})</span>
-        <span class="c1"># elif isinstance(v,np.int64):</span>
-        <span class="c1">#     base_dict.update({k:int(v)})</span>
     <span class="k">return</span> <span class="n">base_dict</span></div>
-
 
 
 <div class="viewcode-block" id="typewriter_print">
@@ -579,10 +550,6 @@
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleep_time</span><span class="p">)</span></div>
 
 
-
-<span class="c1"># ---------------------------------------------</span>
-
-
 <div class="viewcode-block" id="discretize">
 <a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.discretize">[docs]</a>
 <span class="k">def</span> <span class="nf">discretize</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
@@ -592,9 +559,7 @@
 <span class="sd">    :param n: The list of inputs to discretize.</span>
 <span class="sd">    :return: The list of discretized inputs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">try</span><span class="p">:</span>
-
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
             <span class="n">n</span> <span class="o">=</span> <span class="n">literal_eval</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 
@@ -607,9 +572,7 @@
             <span class="n">c</span> <span class="o">=</span> <span class="n">_discretize</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="n">c</span> <span class="o">=</span> <span class="n">n</span>
-
     <span class="k">return</span> <span class="n">c</span></div>
-
 
 
 <div class="viewcode-block" id="apply_discretize_to_summary">
@@ -622,10 +585,6 @@
 <span class="sd">    :param info: An object that contains different separators.</span>
 <span class="sd">    :return: The discretized summary.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="c1"># text_split = [ [ p.split(key_val_seperator) for p in l.split(parameter_seperator)] for l in text.split(layer_seperator)]</span>
-    <span class="c1"># print(text_split)</span>
-
     <span class="n">text_split</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">[</span>
             <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">discretize</span><span class="p">(</span><span class="n">pp</span><span class="p">))</span> <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">key_val_seperator</span><span class="p">)]</span>
@@ -633,7 +592,6 @@
         <span class="p">]</span>
         <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">layer_seperator</span><span class="p">)</span>
     <span class="p">]</span>
-    <span class="c1"># print(text_split)</span>
 
     <span class="n">text_join</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">layer_seperator</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
         <span class="p">[</span>
@@ -641,10 +599,7 @@
             <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">text_split</span>
         <span class="p">]</span>
     <span class="p">)</span>
-    <span class="c1"># print(text_join)</span>
-
     <span class="k">return</span> <span class="n">text_join</span></div>
-
 
 
 <div class="viewcode-block" id="save_run">
@@ -671,8 +626,6 @@
     <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span><span class="o">.</span><span class="n">post_run_as_json</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-
-
 <div class="viewcode-block" id="last_run_path">
 <a class="viewcode-back" href="../../modules/modlee.utils.html#modlee.utils.last_run_path">[docs]</a>
 <span class="k">def</span> <span class="nf">last_run_path</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -685,7 +638,6 @@
     <span class="n">artifact_path</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">artifact_uri</span><span class="p">)</span><span class="o">.</span><span class="n">path</span>
     <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">artifact_path</span><span class="p">)</span></div>
 
-    
 </pre></div>
 
            </div>

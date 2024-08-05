@@ -3,16 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. image:: https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg
+.. image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
    :alt: Alt text
-   :width: 50px
-   :height: 50px
 
 modlee
 ======
 
 .. raw:: html
-
    <h2 style="font-size: 0.95em;">ML Knowledge Preservation for the AI Era</h2>
 
 .. toctree::
@@ -85,15 +82,18 @@ modlee
    Discord <https://discord.com/channels/1205271955306192936/1205271956098646087>
    GitHub <https://github.com/modlee-ai/modlee>
 
+.. raw:: html
 
-In the current AI arms race, searching for the right model can be both time-consuming and costly. 
-With Modlee, you can ensure you never lose valuable ML insights again.
-
-Modlee is a powerful machine learning tool designed to streamline ML 
-development by **preserving** and **leveraging** valuable experiment insights. 
-Built on top of MLFlow, Modlee documents traditional experiment assets 
-(model checkpoints, (hyper)parameters, performance metrics) and meta-features 
-for meta-learning. 
+   <div style = "display: flex; justify-content: center; align-items: center;"> 
+      <div style = "margin-right: 20px; display: flex; flex-direction: column; justify-content: center;"> 
+         <p> In the current AI arms race, searching for the right model can be both time-consuming and costly. With Modlee, you can ensure you never lose valuable ML insights again. </p>
+         <p> Modlee is a powerful machine learning tool designed to streamline ML development by <b>preserving</b> and <b>leveraging</b> valuable experiment insights. Built on top of MLFlow, Modlee documents traditional experiment assets (model checkpoints, (hyper)parameters, performance metrics) and meta-features for meta-learning. </p>
+      </div>
+      <div>
+         <iframe width="350" height="350" src="https://www.youtube.com/embed/0kBFsj1lyig" frameborder="0" allowfullscreen></iframe>
+      </div>
+   </div>
+   <br>
 
 By using shared 
 experiment metadata, Modlee recommends optimal neural network models tailored 
@@ -101,10 +101,6 @@ to specific datasets, bypassing costly and time-consuming experimentation.
 Whether you're an individual developer, an AI startup, or an enterprise, 
 Modlee simplifies your ML R&D process, enabling seamless collaboration 
 and helping you build and scale your ML operations.
-
-.. raw:: html
-
-   <iframe width="560" height="315" src="https://www.youtube.com/embed/TpeOjdcGaUI" frameborder="0" allowfullscreen></iframe>
 
 ======
 
