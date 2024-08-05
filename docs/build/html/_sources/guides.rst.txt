@@ -11,53 +11,57 @@ these guides will help you navigate and utilize Modlee more effectively.
 Meta Learning Explained
 -----------------------
 
-Meta learning, often referred to as “learning to learn,” focuses on
-improving a model’s ability to adapt to new tasks based on previous
-experiments. By leveraging knowledge from a variety of tasks, meta
-learning enables models to quickly and efficiently tackle new problems.
-We will explore meta learning in detail in this section.
-
-Understanding Meta Learning
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Meta learning is an aspect of machine learning where the goal is to
-create models that can learn new tasks more efficiently based on prior
-experiences. Instead of training a model from scratch for each new task,
-meta learning aims to improve the model’s ability to adapt to new
-problems using knowledge gained from previous ones.
+Meta learning, or “learning to learn,” is a key focus at Modlee, aimed
+at enhancing our machine learning development processes. By leveraging
+insights from previous experiments across various data modalities and
+tasks, we reduce the experimentation needed to find quality solutions
+for new datasets. This accelerates development and improves efficiency
+for developers and organizations. This section delves into the details
+of our meta learning approach.
 
 How It Works
 ~~~~~~~~~~~~
 
-1. **Task Exposure**: Meta learning algorithms are exposed to multiple
-   tasks during training. These tasks can vary in nature, such as
-   different types of image classification or regression problems.
+1. **Knowledge Preservation**: To learn from past machine learning
+   experiments, it’s crucial to preserve insights from each one.
+   Establishing documentation standards for datasets, models, and
+   performance metrics ensures that the community’s efforts can be
+   effectively combined and utilized.
 
-2. **Learning Patterns**: The algorithm learns general patterns and
-   strategies from these tasks, rather than just memorizing specific
-   details.
+2. **Dataset & Model Insights**: An “AI for AI” approach, to analyze
+   preserved past experiments to identify the best models for specific
+   tasks, datasets, and solution constraints.
 
-3. **Adaptation**: When presented with a new, unseen task, the model
-   uses the learned patterns to quickly adapt and perform well with
-   minimal data or training.
+3. **Meta Learning Recommended Benchmark Models**: For a given dataset
+   and task, meta learning recommends a benchmark model. This provides a
+   streamlined starting solution, backed by previous work and tailored
+   to your dataset.
+
+4. **Progress & Share**: Continue exploring machine learning solutions
+   to surpass your benchmark. Preserve and share your experiments with a
+   meta learning agent to disseminate insights, facilitating seamless
+   collaboration.
 
 Significance of Meta Learning
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Meta learning is powerful because it allows models to generalize across
-tasks, reducing the need for extensive retraining. This approach is
-particularly useful in scenarios where data is scarce or when rapid
-adaptation to new tasks is required.
+Meta learning significantly enhances machine learning development by
+leveraging past experimental insights to reduce the need for extensive
+trial and error. This approach accelerates solution discovery, making
+the process more efficient and effective for developers and
+organizations.
 
 --------------
 
 Overview of Meta Features
 -------------------------
 
-Meta features are critical attributes that offer insights into datasets
-and models, aiding in their comparison and evaluation. By understanding
-these features, you can better grasp the structure and properties of
-your data and the effectiveness of various machine learning approaches.
+Meta features are essential attributes that provide insights into
+datasets and models, facilitating their comparison and evaluation
+without revealing raw data or model weights. These features help you
+understand data structure and model effectiveness, enhancing your
+ability to choose the best approaches while protecting intellectual
+property and privacy.
 
 Defining Meta Features
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -67,13 +71,12 @@ datasets, meta features might include:
 
 -  **Size**: Number of samples and features.
 -  **Type**: Data types and formats (e.g., images, text).
--  **Distribution**: How data is distributed across different classes or
-   labels.
+-  **Statistics**: Aggregate statistics to distinguish data
 
 For models, meta features can include:
 
 -  **Architecture**: Type of neural network (e.g., CNN, RNN) and its
-   layers.
+   mathematical operations (e.g., layers, activations).
 -  **Hyperparameters**: Settings used during training, such as learning
    rate and batch size.
 -  **Training Methods**: Techniques used for optimization and
@@ -97,9 +100,10 @@ Preservation of Machine Learning Knowledge with Modlee
 ------------------------------------------------------
 
 Modlee enhances the management of machine learning experiments by
-automating the tracking and documentation of various aspects. This
-includes capturing hyperparameters, model details, and training
-processes, which are vital for reproducibility and knowledge sharing.
+automating the tracking and documentation of various aspects, using a
+standardized processes. This includes capturing hyperparameters, model
+details, and training processes, which are vital for reproducibility and
+knowledge sharing.
 
 Automated Experiment Tracking
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -140,6 +144,8 @@ Key Components of Auto Documentation
 Here is what Modlee’s auto documentation feature captures and organizes
 from your experiments:
 
+-  **Experiment Meta Features**: Includes dataset and model meta
+   features.
 -  **Experiment Metadata**: Includes details like experiment name, date,
    and unique identifiers.
 -  **Training Logs**: Logs showing the progress of your training,

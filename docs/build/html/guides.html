@@ -88,7 +88,6 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Modlee Guides</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#meta-learning-explained">Meta Learning Explained</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#understanding-meta-learning">Understanding Meta Learning</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#how-it-works">How It Works</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#significance-of-meta-learning">Significance of Meta Learning</a></li>
 </ul>
@@ -255,7 +254,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#environment-issues">Environment Issues</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-google-colab-environment">Problem: Google Colab Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-run-out-of-gpu-compute">Problem: Run Out of GPU Compute</a></li>
+<li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-google-colab-run-out-of-gpu-compute">Problem: Google Colab, Run Out of GPU Compute</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#still-need-help">Still Need Help?</a></li>
@@ -313,48 +312,52 @@ you’re new to machine learning or looking to deepen your understanding,
 these guides will help you navigate and utilize Modlee more effectively.</p>
 <section id="meta-learning-explained">
 <h2>Meta Learning Explained<a class="headerlink" href="#meta-learning-explained" title="Link to this heading"></a></h2>
-<p>Meta learning, often referred to as “learning to learn,” focuses on
-improving a model’s ability to adapt to new tasks based on previous
-experiments. By leveraging knowledge from a variety of tasks, meta
-learning enables models to quickly and efficiently tackle new problems.
-We will explore meta learning in detail in this section.</p>
-<section id="understanding-meta-learning">
-<h3>Understanding Meta Learning<a class="headerlink" href="#understanding-meta-learning" title="Link to this heading"></a></h3>
-<p>Meta learning is an aspect of machine learning where the goal is to
-create models that can learn new tasks more efficiently based on prior
-experiences. Instead of training a model from scratch for each new task,
-meta learning aims to improve the model’s ability to adapt to new
-problems using knowledge gained from previous ones.</p>
-</section>
+<p>Meta learning, or “learning to learn,” is a key focus at Modlee, aimed
+at enhancing our machine learning development processes. By leveraging
+insights from previous experiments across various data modalities and
+tasks, we reduce the experimentation needed to find quality solutions
+for new datasets. This accelerates development and improves efficiency
+for developers and organizations. This section delves into the details
+of our meta learning approach.</p>
 <section id="how-it-works">
 <h3>How It Works<a class="headerlink" href="#how-it-works" title="Link to this heading"></a></h3>
 <ol class="arabic simple">
-<li><p><strong>Task Exposure</strong>: Meta learning algorithms are exposed to multiple
-tasks during training. These tasks can vary in nature, such as
-different types of image classification or regression problems.</p></li>
-<li><p><strong>Learning Patterns</strong>: The algorithm learns general patterns and
-strategies from these tasks, rather than just memorizing specific
-details.</p></li>
-<li><p><strong>Adaptation</strong>: When presented with a new, unseen task, the model
-uses the learned patterns to quickly adapt and perform well with
-minimal data or training.</p></li>
+<li><p><strong>Knowledge Preservation</strong>: To learn from past machine learning
+experiments, it’s crucial to preserve insights from each one.
+Establishing documentation standards for datasets, models, and
+performance metrics ensures that the community’s efforts can be
+effectively combined and utilized.</p></li>
+<li><p><strong>Dataset &amp; Model Insights</strong>: An “AI for AI” approach, to analyze
+preserved past experiments to identify the best models for specific
+tasks, datasets, and solution constraints.</p></li>
+<li><p><strong>Meta Learning Recommended Benchmark Models</strong>: For a given dataset
+and task, meta learning recommends a benchmark model. This provides a
+streamlined starting solution, backed by previous work and tailored
+to your dataset.</p></li>
+<li><p><strong>Progress &amp; Share</strong>: Continue exploring machine learning solutions
+to surpass your benchmark. Preserve and share your experiments with a
+meta learning agent to disseminate insights, facilitating seamless
+collaboration.</p></li>
 </ol>
 </section>
 <section id="significance-of-meta-learning">
 <h3>Significance of Meta Learning<a class="headerlink" href="#significance-of-meta-learning" title="Link to this heading"></a></h3>
-<p>Meta learning is powerful because it allows models to generalize across
-tasks, reducing the need for extensive retraining. This approach is
-particularly useful in scenarios where data is scarce or when rapid
-adaptation to new tasks is required.</p>
+<p>Meta learning significantly enhances machine learning development by
+leveraging past experimental insights to reduce the need for extensive
+trial and error. This approach accelerates solution discovery, making
+the process more efficient and effective for developers and
+organizations.</p>
 </section>
 </section>
 <hr class="docutils" />
 <section id="overview-of-meta-features">
 <h2>Overview of Meta Features<a class="headerlink" href="#overview-of-meta-features" title="Link to this heading"></a></h2>
-<p>Meta features are critical attributes that offer insights into datasets
-and models, aiding in their comparison and evaluation. By understanding
-these features, you can better grasp the structure and properties of
-your data and the effectiveness of various machine learning approaches.</p>
+<p>Meta features are essential attributes that provide insights into
+datasets and models, facilitating their comparison and evaluation
+without revealing raw data or model weights. These features help you
+understand data structure and model effectiveness, enhancing your
+ability to choose the best approaches while protecting intellectual
+property and privacy.</p>
 <section id="defining-meta-features">
 <h3>Defining Meta Features<a class="headerlink" href="#defining-meta-features" title="Link to this heading"></a></h3>
 <p>Meta features are attributes that describe datasets and models. For
@@ -362,13 +365,12 @@ datasets, meta features might include:</p>
 <ul class="simple">
 <li><p><strong>Size</strong>: Number of samples and features.</p></li>
 <li><p><strong>Type</strong>: Data types and formats (e.g., images, text).</p></li>
-<li><p><strong>Distribution</strong>: How data is distributed across different classes or
-labels.</p></li>
+<li><p><strong>Statistics</strong>: Aggregate statistics to distinguish data</p></li>
 </ul>
 <p>For models, meta features can include:</p>
 <ul class="simple">
 <li><p><strong>Architecture</strong>: Type of neural network (e.g., CNN, RNN) and its
-layers.</p></li>
+mathematical operations (e.g., layers, activations).</p></li>
 <li><p><strong>Hyperparameters</strong>: Settings used during training, such as learning
 rate and batch size.</p></li>
 <li><p><strong>Training Methods</strong>: Techniques used for optimization and
@@ -392,9 +394,10 @@ providing a consistent framework for analysis.</p></li>
 <section id="preservation-of-machine-learning-knowledge-with-modlee">
 <h2>Preservation of Machine Learning Knowledge with Modlee<a class="headerlink" href="#preservation-of-machine-learning-knowledge-with-modlee" title="Link to this heading"></a></h2>
 <p>Modlee enhances the management of machine learning experiments by
-automating the tracking and documentation of various aspects. This
-includes capturing hyperparameters, model details, and training
-processes, which are vital for reproducibility and knowledge sharing.</p>
+automating the tracking and documentation of various aspects, using a
+standardized processes. This includes capturing hyperparameters, model
+details, and training processes, which are vital for reproducibility and
+knowledge sharing.</p>
 <section id="automated-experiment-tracking">
 <h3>Automated Experiment Tracking<a class="headerlink" href="#automated-experiment-tracking" title="Link to this heading"></a></h3>
 <p>Modlee helps preserve your machine learning knowledge by automatically
@@ -433,6 +436,8 @@ and collaborate on your projects.</p>
 <p>Here is what Modlee’s auto documentation feature captures and organizes
 from your experiments:</p>
 <ul class="simple">
+<li><p><strong>Experiment Meta Features</strong>: Includes dataset and model meta
+features.</p></li>
 <li><p><strong>Experiment Metadata</strong>: Includes details like experiment name, date,
 and unique identifiers.</p></li>
 <li><p><strong>Training Logs</strong>: Logs showing the progress of your training,
