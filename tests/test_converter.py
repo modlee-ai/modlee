@@ -146,7 +146,7 @@ def test_initializer_tensor_to_typed_init(input_value, actual_output_str, tensor
     exec(f"fn_output_array = {fn_output}", globals(), local_dict)
     assert input_value.shape == local_dict["fn_output_array"].shape
     # random initializations should be different
-    assert torch.any((input_value - local_dict["fn_output_array"]) > 0.1)
+    assert torch.any(torch.abs(input_value - local_dict["fn_output_array"]) > 0.1)
 
 INPUTS = [
     {"value": "Equal"},
