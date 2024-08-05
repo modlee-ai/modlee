@@ -26,7 +26,7 @@ Encountering problems with Modlee? This page provides solutions to the most comm
     pip install modlee
     ```
   
-- **Dependencies**: Verify that all dependencies are installed. You can find the list of required dependencies in the [Quickstart page](https://docs.modlee.ai/README.html).
+- **Dependencies**: Verify that all dependencies are installed. You can find the list of required dependencies on Modlee's [Github](https://github.com/modlee-ai/modlee/blob/main/requirements.txt).
 
 ### Problem: Incompatible Package Versions
 
@@ -146,7 +146,7 @@ Encountering problems with Modlee? This page provides solutions to the most comm
     drive.mount('/content/drive')
     ```
 
-### Problem: Run Out of GPU Compute
+### Problem: Google Colab, Run Out of GPU Compute
 
 **Issue**: Errors while connecting to GPU on Google Colab.
 
