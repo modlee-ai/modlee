@@ -367,7 +367,7 @@ By following these steps, you should now have a solid understanding of how to le
 
 To build on your progress, consider these next steps:
 
-1. **[Check Out the Guides](https://docs.modlee.ai/notebooks/guides.html)**: Explore Modlee's detailed guides to gain deeper insights into advanced features and functionalities. These guides offer step-by-step instructions and practical examples to enhance your understanding.
+1. **[Check Out the Guides](https://docs.modlee.ai/guides.html)**: Explore Modlee's detailed guides to gain deeper insights into advanced features and functionalities. These guides offer step-by-step instructions and practical examples to enhance your understanding.
 
 2. **[Review Examples](https://docs.modlee.ai/notebooks/recommend.html)**: Look through our collection of examples to see Modlee in action across various tasks. These examples can inspire and help you apply Modlee to your projects effectively.
 

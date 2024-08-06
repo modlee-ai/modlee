@@ -148,9 +148,9 @@ At the moment we support modalities of `images` and `text`, and tasks of `classi
 
 To further develop your expertise, explore the following:
 
-1. [Visit the Projects Page](https://docs.modlee.ai/notebooks/tutorials.html): Browse our projects page for guided examples and step-by-step instructions. These projects are designed to help you get hands-on experience with Modlee and apply it effectively.
+1. [Visit the Projects Page](https://docs.modlee.ai/tutorial.html): Browse our projects page for guided examples and step-by-step instructions. These projects are designed to help you get hands-on experience with Modlee and apply it effectively.
 
-2. [Dive into the Guides](https://docs.modlee.ai/notebooks/guides.html): Explore Modlee’s in-depth guides to discover advanced features and capabilities. These resources offer detailed instructions and practical examples to enhance your proficiency.
+2. [Dive into the Guides](https://docs.modlee.ai/guides.html): Explore Modlee’s in-depth guides to discover advanced features and capabilities. These resources offer detailed instructions and practical examples to enhance your proficiency.
 
 3. [Explore the Examples](https://docs.modlee.ai/notebooks/recommend.html): Check out our collection of examples to see how Modlee is used across various tasks. These examples can spark ideas and show you how to implement Modlee in your projects.
 
