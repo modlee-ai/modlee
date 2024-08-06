@@ -448,11 +448,11 @@ Recommended Next Steps
 
 To build on your progress, consider these next steps:
 
-1. `Check Out the
-   Guides <https://docs.modlee.ai/notebooks/guides.html>`__: Explore
-   Modlee’s detailed guides to gain deeper insights into advanced
-   features and functionalities. These guides offer step-by-step
-   instructions and practical examples to enhance your understanding.
+1. `Check Out the Guides <https://docs.modlee.ai/guides.html>`__:
+   Explore Modlee’s detailed guides to gain deeper insights into
+   advanced features and functionalities. These guides offer
+   step-by-step instructions and practical examples to enhance your
+   understanding.
 
 2. `Review
    Examples <https://docs.modlee.ai/notebooks/recommend.html>`__: Look
