@@ -19,7 +19,7 @@ import torchvision
 from torchvision import datasets as tv_datasets
 from torchvision import transforms
 from torch.utils.data import DataLoader
-from timeseries_dataloader import TimeSeriesDataset
+from modlee.timeseries_dataloader import TimeSeriesDataset
 from modlee.client import ModleeClient
 
 def safe_mkdir(target_path):
