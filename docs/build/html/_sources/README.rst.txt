@@ -207,15 +207,13 @@ Recommended Next Steps
 
 To further develop your expertise, explore the following:
 
-1. `Visit the Projects
-   Page <https://docs.modlee.ai/notebooks/tutorials.html>`__: Browse our
-   projects page for guided examples and step-by-step instructions.
-   These projects are designed to help you get hands-on experience with
-   Modlee and apply it effectively.
+1. `Visit the Projects Page <https://docs.modlee.ai/tutorial.html>`__:
+   Browse our projects page for guided examples and step-by-step
+   instructions. These projects are designed to help you get hands-on
+   experience with Modlee and apply it effectively.
 
-2. `Dive into the
-   Guides <https://docs.modlee.ai/notebooks/guides.html>`__: Explore
-   Modlee’s in-depth guides to discover advanced features and
+2. `Dive into the Guides <https://docs.modlee.ai/guides.html>`__:
+   Explore Modlee’s in-depth guides to discover advanced features and
    capabilities. These resources offer detailed instructions and
    practical examples to enhance your proficiency.
 
