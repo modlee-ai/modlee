@@ -934,23 +934,29 @@ class TabularDataMetafeatures(DataMetafeatures):
         return summary
 
 class TimeSeriesDataMetafeatures:
-    def __init__(self, dataloader: DataLoader):
+    def __init__(self, dataloader):
         self.dataloader = dataloader
 
-    def get_raw_batch_elements(self) -> np.ndarray:
-        data_batches = []
+    def get_single_batch(self):
         for batch in self.dataloader:
-            # Assuming each batch is a tuple (X, y)
-            X, _ = batch
-            data_batches.append(X.numpy())
-        return np.concatenate(data_batches, axis=0)
-    
-    def calculateMetafeatures(self):
-        data = self.get_raw_batch_elements()
+            if isinstance(batch, tuple) and len(batch) == 2:
+                data_dict = batch[0]
+                if 'encoder_cont' in data_dict:
+                    return data_dict['encoder_cont']
+                else:
+                    raise ValueError("Batch is not in expected dictionary format or missing 'encoder_cont' key.")
+        raise ValueError("No valid batch found in dataloader.")
+
+    def calculate_metafeatures(self):
+        data = self.get_single_batch()
+        print(f"Data shape: {data.shape}")
+        
+        if data.size == 0:
+            raise ValueError("No data available in the batch.")
         
         # Flatten the 3D data to 2D for metafeature calculation
         num_samples, seq_len, num_features = data.shape
-        data_2d = data.reshape(-1, num_features)
+        data_2d = data.reshape(-1, num_features).numpy()  # Convert tensor to NumPy array
         
         # Extract metafeatures using pymfe
         mfe = MFE(groups=["statistical", "model-based", "info-theory"])
@@ -962,28 +968,45 @@ class TimeSeriesDataMetafeatures:
         additional_features = {}
         
         for col in range(num_features):
-            col_data = data_2d[:, col]
+            col_data = data_2d[:, col]  # Already a NumPy array
             
             # Calculate quantiles
             quantiles = np.percentile(col_data, [25, 50, 75])
             
             # Calculate autocorrelation and partial autocorrelation
-            autocorr = acf(col_data, nlags=1)[1]  # autocorrelation at lag 1
-            partial_autocorr = pacf(col_data, nlags=1)[1]  # partial autocorrelation at lag 1
+            autocorr = acf(col_data, nlags=1)
+            if len(col_data) > 2:
+                partial_autocorr = pacf(col_data, nlags=min(1, len(col_data) // 2 - 1))
+            else:
+                partial_autocorr = [np.nan]  # or some default value
+            
+            if len(autocorr) > 1:
+                autocorr_lag1 = autocorr[1]
+            else:
+                autocorr_lag1 = np.nan  # or some default value
+            
+            if len(partial_autocorr) > 1:
+                partial_autocorr_lag1 = partial_autocorr[1]
+            else:
+                partial_autocorr_lag1 = np.nan  # or some default value
             
             # Decompose the time series to extract trend and seasonality
-            decomposition = seasonal_decompose(col_data, period=12, model='additive', extrapolate_trend='freq')
-            trend = decomposition.trend
-            seasonal = decomposition.seasonal
-            trend_strength = np.nanmean(trend)
-            seasonal_strength = np.nanmean(seasonal)
+            if len(col_data) >= 24:  # Ensure there are at least 24 observations
+                decomposition = seasonal_decompose(col_data, period=12, model='additive', extrapolate_trend='freq')
+                trend = decomposition.trend
+                seasonal = decomposition.seasonal
+                trend_strength = np.nanmean(trend)
+                seasonal_strength = np.nanmean(seasonal)
+            else:
+                trend_strength = np.nan
+                seasonal_strength = np.nan
             
             additional_features.update({
                 f"col_{col}_quantile_25": quantiles[0],
                 f"col_{col}_quantile_50": quantiles[1],
                 f"col_{col}_quantile_75": quantiles[2],
-                f"col_{col}_autocorr_lag1": autocorr,
-                f"col_{col}_partial_autocorr_lag1": partial_autocorr,
+                f"col_{col}_autocorr_lag1": autocorr_lag1,
+                f"col_{col}_partial_autocorr_lag1": partial_autocorr_lag1,
                 f"col_{col}_trend_strength": trend_strength,
                 f"col_{col}_seasonal_strength": seasonal_strength,
             })
