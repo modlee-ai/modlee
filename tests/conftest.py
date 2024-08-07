@@ -237,6 +237,52 @@ def _check_has_metafeatures(mf, metafeature_types):
         assert not any([isinstance(v,dict) for v in getattr(mf, metafeature_type).values()]), f"{mf} {metafeature_type} not a flat dictionary"
         features.update(getattr(mf, metafeature_type))
 
+def _check_has_metafeatures_tab(mf, metafeature_types): 
+
+    features = {}
+    for metafeature_type in metafeature_types:
+        assert hasattr(mf, metafeature_type), f"{mf} has no attribute {metafeature_type}"
+        assert isinstance(getattr(mf, metafeature_type), dict), f"{mf} {metafeature_type} is not dictionary"
+        # Assert that the attribute is a flat dictionary
+        assert not any([isinstance(v,dict) for v in getattr(mf, metafeature_type).values()]), f"{mf} {metafeature_type} not a flat dictionary"
+        features.update(getattr(mf, metafeature_type))
+
+def _check_statistical_metafeatures(mf):
+    """Check if statistical metafeatures are present in the TabularDataMetafeatures."""
+    assert hasattr(mf, 'features'), "TabularDataMetafeatures does not have 'features' attribute"
+    statistical_metafeatures = ['mean', 'std_dev', 'median', 'min', 'max', 'range']
+    
+    features = getattr(mf, 'features')
+    for feature in statistical_metafeatures:
+        feature_found = any(feature in key for key in features)
+        assert feature_found, f"Statistical metafeature '{feature}' is missing"
+
+    assert not any([isinstance(v, dict) for v in features.values()]), "The 'features' dictionary is not flat"
+
+
+def _check_has_metafeatures_tab(mf, metafeature_types): 
+
+    features = {}
+    for metafeature_type in metafeature_types:
+        assert hasattr(mf, metafeature_type), f"{mf} has no attribute {metafeature_type}"
+        assert isinstance(getattr(mf, metafeature_type), dict), f"{mf} {metafeature_type} is not dictionary"
+        # Assert that the attribute is a flat dictionary
+        assert not any([isinstance(v,dict) for v in getattr(mf, metafeature_type).values()]), f"{mf} {metafeature_type} not a flat dictionary"
+        features.update(getattr(mf, metafeature_type))
+
+def _check_statistical_metafeatures(mf):
+    """Check if statistical metafeatures are present in the TabularDataMetafeatures."""
+    assert hasattr(mf, 'features'), "TabularDataMetafeatures does not have 'features' attribute"
+    statistical_metafeatures = ['mean', 'std_dev', 'median', 'min', 'max', 'range']
+    
+    features = getattr(mf, 'features')
+    for feature in statistical_metafeatures:
+        feature_found = any(feature in key for key in features)
+        assert feature_found, f"Statistical metafeature '{feature}' is missing"
+
+    assert not any([isinstance(v, dict) for v in features.values()]), "The 'features' dictionary is not flat"
+
+
 def _check_metafeatures_timesseries(mf, metafeature_types):
     for metafeature_type in metafeature_types:
         assert metafeature_type in mf, f"{mf} has no key {metafeature_type}"
