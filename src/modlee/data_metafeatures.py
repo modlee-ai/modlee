@@ -792,10 +792,36 @@ class TextDataMetafeatures(DataMetafeatures):
         breakpoint()
 
 class TabularDataMetafeatures(DataMetafeatures):
-    def __init__(self, dataloader, new_model=None, *args, **kwargs):
+    def __init__(self, dataloader, *args, **kwargs):
         super().__init__(dataloader, *args, **kwargs)
-        if not new_model:
-            self.new_model = torchvision.models.resnet18(
-                weights='IMAGENET1K_V1'
-            )
-        self.new_model.eval()
+        self.stats_rep = self.get_features()
+        # Ensure that self.features is flat
+        self.features.update(self.stats_rep)
+        pass
+
+    def get_features(self):
+        stats_rep = {}
+        for idx, element in enumerate(self.batch_elements):
+            if isinstance(element, torch.Tensor):
+                np_element = element.numpy()
+                stats = self.calculate_statistical_summary(np_element)
+                # Add a prefix to each stat key to ensure uniqueness and flat structure
+                for key, value in stats.items():
+                    stats_rep[f'batch_element_{idx}_{key}'] = value
+        return stats_rep
+
+    def calculate_statistical_summary(self, data):
+        df = pd.DataFrame(data)
+        summary = {
+            'mean': df.mean().tolist(),
+            'median': df.median().tolist(),
+            'variance': df.var().tolist(),
+            'std_dev': df.std().tolist(),
+            'min': df.min().tolist(),
+            'max': df.max().tolist(),
+            'range': (df.max() - df.min()).tolist(),  # Add range calculation
+            'quantiles_25': df.quantile(0.25).tolist(),
+            'quantiles_50': df.quantile(0.50).tolist(),
+            'quantiles_75': df.quantile(0.75).tolist()
+        }
+        return summary
