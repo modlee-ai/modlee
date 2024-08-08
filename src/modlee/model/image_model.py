@@ -45,11 +45,7 @@ class ImageModleeModel(ModleeModel):
         #     metric = TASK_METRIC[self.task],
         #     **kwargs
         # )
-        ModleeModel.__init__(self,
-            kwargs_cache=vars_cache,
-            modality="image",
-            task="classification",
-            *args, **kwargs)
+        ModleeModel.__init__(self, modality="image", task=task, kwargs_cache=vars_cache, *args, **kwargs)
 
     def configure_callbacks(self):
         """ 
@@ -90,48 +86,4 @@ class ImageSegmentationModleeModel(ImageModleeModel):
         )
         return [*base_callbacks, image_model_mf_callback]
 
-class ImageCallback(Callback):
-    """
-    Saves accuracy.
-    Deprecated
-    """
-
-    def __init__(self, num_classes=2, *args, **kwargs):
-        """
-        Constructor for ImageCallback.
-
-        :param num_classes: The number of classes, defaults to 2 (binary classification)2 (binary classification)
-        """
-        Callback.__init__(self, *args, **kwargs)
-        self.calculate_accuracy = Accuracy(
-            task="binary" if num_classes == 1 else "multiclass", num_classes=num_classes
-        )
-
-    def on_validation_batch_end(
-        self,
-        trainer: Trainer,
-        pl_module: LightningModule,
-        outputs: STEP_OUTPUT | None,
-        batch: Any,
-        batch_idx: int,
-        dataloader_idx: int = 0,
-    ) -> None:
-        if batch_idx == 0:
-            self._calculate_accuracy(pl_module, batch)
-        return super().on_validation_batch_end(
-            trainer, pl_module, outputs, batch, batch_idx, dataloader_idx
-        )
-
-    def _calculate_accuracy(self, pl_module, batch):
-        """ 
-        Calculate batch accuracy.
-        
-        :param pl_module: The model as a module.
-        :param batch: The data batch.
-        """
-        data, targets = batch
-        preds = pl_module(data)
-        self.calculate_accuracy.to(device=pl_module.device)
-        acc = self.calculate_accuracy(preds, targets)
-        mlflow.log_metric("val_acc", acc)
 
