@@ -4,6 +4,7 @@ from typing import Any, Optional
 import numpy as np
 
 import os
+import inspect
 import pandas as pd
 import torch
 from torch.utils.data import Dataset
@@ -40,7 +41,7 @@ class ModleeCallback(Callback):
     def __init__(self) -> None:
         super().__init__()
 
-    def get_input(self, trainer, pl_module):
+    def get_input(self, trainer, pl_module, _dataloader=None):
         """
         Get an input (one element from a batch) from a trainer's dataloader.  
 
@@ -48,16 +49,17 @@ class ModleeCallback(Callback):
         :param pl_module: The model module, used for loading the data input to the correct device.
         :return: An input from the batch.
         """
-        _dataloader = trainer.train_dataloader
+        if _dataloader is None:
+            _dataloader = trainer.train_dataloader
         _batch = next(iter(_dataloader))
         # NOTE - how can we generalize to different input schemes?
         # e.g. siamese network with multiple inputs
         # Right now, this makes the assumption that that only the network
         # uses only the first element
-        # NOTE - maybe using inspect.signature(pl_module.forward)
-        # could help generalize to different forward() calls
         if type(_batch) in [list, tuple]:
-            _input = _batch[0]
+            # Get the number of inputs based on the model's signature
+            n_inputs = len(inspect.signature(pl_module.forward).parameters)
+            _input = _batch[:n_inputs]
         else:
             _input = _batch
             # print(_batch[0].shape)
@@ -317,6 +319,7 @@ class DataMetafeaturesCallback(ModleeCallback):
         if self.DataMetafeatures:
             # breakpoint()
             # TODO - use data batch and model to get output size
+            logging.info(f"Logging data metafeatures with {self.DataMetafeatures}")
             data_mf = data_metafeatures = self.DataMetafeatures(dataloader)
             mlflow.log_dict(data_metafeatures._serializable_stats_rep, "stats_rep")
             data_mf_dict = {
@@ -327,6 +330,7 @@ class DataMetafeaturesCallback(ModleeCallback):
                 data_mf_dict.update(data_mf.embedding)
             else:
                 logging.warning("Using base DataMetafeatures, not logging embeddings.")
+            logging.info(f"Logged data metafeatures: {','.join(attrs)}")
             mlflow.log_dict(
                 _make_serializable(data_mf_dict), "data_metafeatures")
         else:
