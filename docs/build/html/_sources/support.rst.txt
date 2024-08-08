@@ -30,7 +30,7 @@ Contributing
 ------------
 
 Modlee is built and maintained by a team passionate about AI innovation,
-infrastructure, and meta learning. We welcome contributions from anyone
+infrastructure, and meta-learning. We welcome contributions from anyone
 interested in improving Modlee, whether you are a developer, researcher,
 or enthusiast. Here’s how you can contribute:
 

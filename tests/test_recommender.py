@@ -51,6 +51,7 @@ class TestRecommender:
 
         # Get the model and pass an input through it
         model = recommender.model
+        breakpoint()
 
         x, y_tgt = next(iter(test_dataloader))
         y = model.forward(x)

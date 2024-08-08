@@ -146,7 +146,7 @@ class TestModleeClient:
         """
         Get scripts as raw *.py files
         """
-        scripts_to_get = ["data_metafeatures", "model_text_converter", "exp_loss_logger"]
+        scripts_to_get = ["data_metafeatures", "model_text_converter"]
         script_dict = {}
         for script_to_get in scripts_to_get:
             response = self.client.get_module(script_to_get)

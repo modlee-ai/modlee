@@ -106,9 +106,8 @@ and helping you build and scale your ML operations.
 
 Your ML Pipeline with Modlee
 ======
-To help you understand how the Modlee package operates, we've outlined the basic workflow in the following diagram. 
-This visual representation illustrates the key steps involved in using the package, from inputting your data to 
-obtaining predictions.
+To help you understand how the Modlee package operates, we've outlined a common machine learning development workflow in the following diagram. 
+This visual representation illustrates the key steps relevant to our package (defining and training your model).
 
 .. image:: https://github.com/mansiagr4/gifs/raw/main/updated_diagram.png
 
@@ -171,9 +170,9 @@ By exploring these sections, you'll gain a comprehensive understanding of how to
 from initial setup to advanced features. Dive in and start enhancing your machine learning projects with 
 Modlee today!
 
-Indices and Tables
+Indices
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
-* :ref:`search`
+.. * :ref:`search`

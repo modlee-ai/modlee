@@ -16,6 +16,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   modlee.api_config
    modlee.client
    modlee.config
    modlee.converter

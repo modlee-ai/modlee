@@ -24,7 +24,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="modlee.client module" href="modlee.client.html" />
+    <link rel="next" title="modlee.api_config module" href="modlee.api_config.html" />
     <link rel="prev" title="modlee.recommender.image_recommender module" href="modlee.recommender.image_recommender.html" /> 
 </head>
 
@@ -87,9 +87,9 @@
 <p class="caption" role="heading"><span class="caption-text">Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guides.html">Modlee Guides</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../guides.html#meta-learning-explained">Meta Learning Explained</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#meta-learning-explained">Meta-Learning Explained</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../guides.html#how-it-works">How It Works</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guides.html#significance-of-meta-learning">Significance of Meta Learning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#significance-of-meta-learning">Significance of Meta-Learning</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../guides.html#overview-of-meta-features">Overview of Meta Features</a><ul>
@@ -157,6 +157,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modlee.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modlee.api_config.html">modlee.api_config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.client.html">modlee.client module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
 </ul>
@@ -310,7 +314,7 @@
 <p>Recommender for models.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="modlee.recommender.recommender.Recommender">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.recommender.recommender.</span></span><span class="sig-name descname"><span class="pre">Recommender</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://server.modlee.ai:7070'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#Recommender"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.Recommender" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.recommender.recommender.</span></span><span class="sig-name descname"><span class="pre">Recommender</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'http://127.0.0.1:7070'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/recommender/recommender.html#Recommender"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.recommender.recommender.Recommender" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Recommender for models conditioned on datasets.</p>
 <dl class="py method">
@@ -414,7 +418,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="modlee.recommender.image_recommender.html" class="btn btn-neutral float-left" title="modlee.recommender.image_recommender module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="modlee.client.html" class="btn btn-neutral float-right" title="modlee.client module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="modlee.api_config.html" class="btn btn-neutral float-right" title="modlee.api_config module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
