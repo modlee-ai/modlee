@@ -20,7 +20,7 @@ from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import modlee
 from modlee import data_metafeatures, save_run, get_code_text_for_model, save_run_as_json
-from modlee import logging, utils as modlee_utils, exp_loss_logger
+from modlee import logging, utils as modlee_utils
 from modlee.converter import Converter
 from modlee.model.callbacks import *
 

@@ -75,5 +75,4 @@ with modlee.start_run() as run:
     trainer.fit(
         model=model, train_dataloaders=training_loader, val_dataloaders=test_loader
     )
-    breakpoint()
 # %%

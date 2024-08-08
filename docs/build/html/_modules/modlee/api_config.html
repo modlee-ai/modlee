@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>modlee.retriever &mdash; modlee 0 documentation</title>
+  <title>modlee.api_config &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=4bcfc4e7" />
@@ -154,6 +154,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/modlee.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.api_config.html">modlee.api_config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.client.html">modlee.client module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
 </ul>
@@ -292,7 +296,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../modlee.html">modlee</a></li>
-      <li class="breadcrumb-item active">modlee.retriever</li>
+      <li class="breadcrumb-item active">modlee.api_config</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -301,138 +305,99 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for modlee.retriever</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">Retriever for experiment assets.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">importlib.machinery</span> <span class="kn">import</span> <span class="n">SourceFileLoader</span>
-<span class="kn">import</span> <span class="nn">inspect</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">ast</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">modlee</span>
-<span class="kn">from</span> <span class="nn">modlee</span> <span class="kn">import</span> <span class="n">logging</span>
-<span class="kn">import</span> <span class="nn">mlflow</span>
-<span class="kn">from</span> <span class="nn">mlflow.client</span> <span class="kn">import</span> <span class="n">MlflowClient</span>
+  <h1>Source code for modlee.api_config</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">from</span> <span class="nn">.client</span> <span class="kn">import</span> <span class="n">ModleeClient</span>
 
-<div class="viewcode-block" id="run_path_exists">
-<a class="viewcode-back" href="../../modules/modlee.retriever.html#modlee.retriever.run_path_exists">[docs]</a>
-<span class="k">def</span> <span class="nf">run_path_exists</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
+<div class="viewcode-block" id="ModleeAPIConfig">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig">[docs]</a>
+<span class="k">class</span> <span class="nc">ModleeAPIConfig</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Chek if a run path exists.</span>
-
-<span class="sd">    :param run_path: The run path to check.</span>
-<span class="sd">    :return: Whether the path exists or not.</span>
+<span class="sd">    Singleton class to manage API configuration and client initialization for Modlee.</span>
+<span class="sd">    Ensures that only one instance of the configuration exists and handles API key validation and client setup.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run directory </span><span class="si">{</span><span class="n">run_path</span><span class="si">}</span><span class="s2"> does not exist&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">return</span> <span class="kc">True</span></div>
+    <span class="n">_instance</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a new instance of the class if it doesn&#39;t already exist. </span>
+<span class="sd">        Initializes the API key from the environment variable and sets up the Modlee client.</span>
+
+<span class="sd">        :return: The singleton instance of ModleeAPIConfig.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">ModleeAPIConfig</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MODLEE_API_KEY&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span><span class="o">.</span><span class="n">api_key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
+
+<div class="viewcode-block" id="ModleeAPIConfig.set_api_key">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.set_api_key">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_api_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the API key for the Modlee configuration and updates the client.</span>
+<span class="sd">        Reloads the modules to ensure they are using the updated client.</span>
+
+<span class="sd">        :param api_key: The new API key to be set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reload_modules</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="get_runs">
-<a class="viewcode-back" href="../../modules/modlee.retriever.html#modlee.retriever.get_runs">[docs]</a>
-<span class="k">def</span> <span class="nf">get_runs</span><span class="p">(</span><span class="n">run_path</span><span class="p">,</span> <span class="n">experiment_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">run_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get the runs in a given run path.</span>
-
-<span class="sd">    :param run_path: The path to search.</span>
-<span class="sd">    :param experiment_id: The experiment ID to retrieve, defaults to None and retrieves all experiments.</span>
-<span class="sd">    :param run_id: The run ID to retrieve, defaults to None to retrieves all runs.</span>
-<span class="sd">    :return: A list of runs.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">run_path_exists</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[]</span>
-
-    <span class="n">modlee</span><span class="o">.</span><span class="n">set_run_path</span><span class="p">(</span><span class="n">run_path</span><span class="p">)</span>
-
-    <span class="n">client</span> <span class="o">=</span> <span class="n">MlflowClient</span><span class="p">()</span>
-    <span class="n">experiments</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_experiments</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No experiments found in </span><span class="si">{</span><span class="n">run_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[]</span>
-    <span class="n">runs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="n">experiment_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">experiments</span> <span class="o">=</span> <span class="p">[</span><span class="n">experiments</span><span class="p">[</span><span class="n">experiment_id</span><span class="p">]]</span>
-    <span class="n">filter_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">run_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">filter_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;run_id=&#39;</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-    <span class="k">for</span> <span class="n">experiment</span> <span class="ow">in</span> <span class="n">experiments</span><span class="p">:</span>
-        <span class="n">_exp_runs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_runs</span><span class="p">(</span>
-            <span class="n">experiment</span><span class="o">.</span><span class="n">experiment_id</span><span class="p">,</span> <span class="n">filter_string</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-        <span class="p">)</span>
-        <span class="n">runs</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">runs</span><span class="p">,</span> <span class="o">*</span><span class="n">_exp_runs</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">runs</span></div>
+<div class="viewcode-block" id="ModleeAPIConfig.reload_modules">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.reload_modules">[docs]</a>
+    <span class="k">def</span> <span class="nf">reload_modules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reloads the Modlee-related modules to ensure they are using the updated client.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">modlee.data_metafeatures</span> <span class="k">as</span> <span class="nn">data_metafeatures</span>
+        <span class="kn">import</span> <span class="nn">modlee.model_text_converter</span> <span class="k">as</span> <span class="nn">model_text_converter</span>
+        <span class="kn">import</span> <span class="nn">modlee.exp_loss_logger</span> <span class="k">as</span> <span class="nn">exp_loss_logger</span>
+        <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">data_metafeatures</span><span class="p">)</span>
+        <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">model_text_converter</span><span class="p">)</span>
+        <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">exp_loss_logger</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">model_text_converter</span><span class="o">.</span><span class="n">module_available</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">modlee.model_text_converter</span> <span class="kn">import</span> <span class="p">(</span>
+                <span class="n">get_code_text</span><span class="p">,</span>
+                <span class="n">get_code_text_for_model</span><span class="p">,</span>
+            <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_model">
-<a class="viewcode-back" href="../../modules/modlee.retriever.html#modlee.retriever.get_model">[docs]</a>
-<span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get the model at a run path.</span>
+<div class="viewcode-block" id="ModleeAPIConfig.get_client">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.get_client">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the Modlee client after ensuring that the API key is correctly set.</span>
 
-<span class="sd">    :param run_path: The run path.</span>
-<span class="sd">    :return: The model as a ModleeModel object.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">run_path_exists</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">None</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">SourceFileLoader</span><span class="p">(</span>
-        <span class="s2">&quot;modlee_mod&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run_path</span><span class="si">}</span><span class="s2">/artifacts/model.py&quot;</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">load_module</span><span class="p">()</span>
-    
-    <span class="c1"># retrieve the variables for the object signature</span>
-    <span class="n">model_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">ModleeModel</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
-    <span class="n">model_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;args&quot;</span><span class="p">),</span> <span class="n">model_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;kwargs&quot;</span><span class="p">)</span>
-    <span class="n">cached_vars</span> <span class="o">=</span> <span class="n">get_cached_vars</span><span class="p">(</span><span class="n">run_path</span><span class="p">)</span>
-    <span class="n">keys_to_pop</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">model_key</span><span class="p">,</span> <span class="n">model_val</span> <span class="ow">in</span> <span class="n">model_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">cached_val</span> <span class="o">=</span> <span class="n">cached_vars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">model_key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">cached_val</span><span class="p">:</span>
-            <span class="n">model_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">model_key</span><span class="p">:</span> <span class="n">cached_val</span><span class="p">})</span>
-        <span class="k">elif</span> <span class="n">model_val</span><span class="o">.</span><span class="n">default</span> <span class="o">!=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">_empty</span><span class="p">:</span>
-            <span class="n">model_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">model_key</span><span class="p">:</span> <span class="n">model_val</span><span class="o">.</span><span class="n">default</span><span class="p">})</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">keys_to_pop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model_key</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">key_to_pop</span> <span class="ow">in</span> <span class="n">keys_to_pop</span><span class="p">:</span>
-        <span class="n">model_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key_to_pop</span><span class="p">)</span>
-    <span class="c1"># recreate the model</span>
-    <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">ModleeModel</span><span class="p">(</span><span class="o">**</span><span class="n">model_kwargs</span><span class="p">)</span></div>
+<span class="sd">        :return: The Modlee client.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ensure_api_key</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span></div>
 
 
-<div class="viewcode-block" id="get_cached_vars">
-<a class="viewcode-back" href="../../modules/modlee.retriever.html#modlee.retriever.get_cached_vars">[docs]</a>
-<span class="k">def</span> <span class="nf">get_cached_vars</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get the cached variables required to rebuild a model from a run path.</span>
+<div class="viewcode-block" id="ModleeAPIConfig.ensure_api_key">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.ensure_api_key">[docs]</a>
+    <span class="k">def</span> <span class="nf">ensure_api_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ensures that the API key is set and matches the client&#39;s API key.</span>
+<span class="sd">        Logs warnings if the API key is not set or if there is a mismatch.</span>
 
-<span class="sd">    :param run_path: The run path.</span>
-<span class="sd">    :return: A dictionary of the cached variables.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">run_path_exists</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">{}</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run_path</span><span class="si">}</span><span class="s2">/artifacts/cached_vars&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">vars_file</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">vars_file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span></div>
-
-
-<div class="viewcode-block" id="get_data_snapshot">
-<a class="viewcode-back" href="../../modules/modlee.retriever.html#modlee.retriever.get_data_snapshot">[docs]</a>
-<span class="k">def</span> <span class="nf">get_data_snapshot</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get the saved data snapshot from a run path.</span>
-
-<span class="sd">    :param run_path: The run path.</span>
-<span class="sd">    :return: The data snapshot as a numpy array.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">run_path_exists</span><span class="p">(</span><span class="n">run_path</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">None</span>
-    <span class="c1"># Adding new snapshot name to the path following batched processing changes</span>
-    <span class="n">data_snapshot_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run_path</span><span class="si">}</span><span class="s2">/artifacts/snapshot_0.npy&quot;</span>
-    
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_snapshot_path</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">None</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_snapshot_path</span><span class="p">)</span></div>
+<span class="sd">        :return: True if the API key is set and matches the client&#39;s API key, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;API key is not set. Functionality will be limited.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Stale API key identified, Please ensure the API key used in code and one stored as the environment variable are the same.&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">return</span> <span class="kc">True</span></div>
+</div>
 
 </pre></div>
 

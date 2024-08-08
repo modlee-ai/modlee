@@ -12,7 +12,7 @@ class ModleeAPIConfig:
 
     def __new__(cls):
         """
-        Creates a new instance of the class if it doesn't already exist. 
+        Creates a new instance of the class if it doesn't already exist.
         Initializes the API key from the environment variable and sets up the Modlee client.
 
         :return: The singleton instance of ModleeAPIConfig.
@@ -31,7 +31,7 @@ class ModleeAPIConfig:
         :param api_key: The new API key to be set.
         """
         self.api_key = api_key
-        os.environ['MODLEE_API_KEY'] = self.api_key
+        os.environ["MODLEE_API_KEY"] = self.api_key
         self.client = ModleeClient(api_key=self.api_key)
         self.reload_modules()
 
@@ -41,10 +41,9 @@ class ModleeAPIConfig:
         """
         import modlee.data_metafeatures as data_metafeatures
         import modlee.model_text_converter as model_text_converter
-        import modlee.exp_loss_logger as exp_loss_logger
+
         importlib.reload(data_metafeatures)
         importlib.reload(model_text_converter)
-        importlib.reload(exp_loss_logger)
         if model_text_converter.module_available:
             from modlee.model_text_converter import (
                 get_code_text,
@@ -70,9 +69,11 @@ class ModleeAPIConfig:
         if self.api_key is None:
             logging.warning("API key is not set. Functionality will be limited.")
             return False
-        
+
         if self.api_key != self.client.api_key:
-            logging.warning('Stale API key identified, Please ensure the API key used in code and one stored as the environment variable are the same.')
+            logging.warning(
+                "Stale API key identified, Please ensure the API key used in code and one stored as the environment variable are the same."
+            )
             return False
-        
+
         return True

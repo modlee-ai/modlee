@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "modlee"
-version = "0.0.1-19"
+version = "0.0.2"
 authors = [{ name = "modlee", email = "michael@modlee.ai" }]
 description = "modlee package"
 readme = "docs/README.md"
@@ -12,15 +12,15 @@ license = {file = "docs/LICENSE"}
 requires-python = ">=3.10"
 
 dependencies = [
-    "lightning==2.0.7",
+    "lightning==2.3.3",
     "mlflow>=2.6.0",
     "numpy==1.26.4",
-    "pydantic==1.10.12",
+    "pydantic==2.8.2",
     "setuptools>=68.0.0",
-    "torch>=2.3.0",
+    "torch==2.3.0",
     "torchmetrics>=1.0.0",
-    "torchvision>=0.15.2",
-    "torchtext",
+    "torchvision>=0.17.0",
+    "torchtext==0.18.0",
     "portalocker",
     "torchdata",
     "spacy",
@@ -36,33 +36,6 @@ dependencies = [
     "scipy==1.12.0",
     "pydot==2.0.0",
     "transformers==4.41.0", 
-#     "lightning==2.0.7",
-#     "mlflow>=2.6.0",
-#     "numpy==1.26.4",
-#     "pydantic==1.10.12",
-#     "setuptools>=68.0.0",
-#     "torch>=2.3.0",
-#     "torchmetrics>=1.0.0",
-#     "torchvision>=0.15.2",
-#     "torchtext",
-#     "portalocker",
-#     "torchdata",
-#     "spacy",
-#     "onnx>=1.14.1",
-#     "torchsummary==1.5.1",
-#     "modlee-onnx2torch==1.5.12",
-#     "modlee-onnx_graphsurgeon==0.3.27",
-#     "pymfe==0.4.2",
-#     "pytest==8.1.1",
-#     "nbsphinx", "sphinx-rtd-theme",
-#     "karateclub",
-#     "scipy==1.12.0",
-#     "pydot==2.0.0",
-#     "transformers==4.41.0",
-#     # "torch_geometric==2.6.0 @ git+https://github.com/pyg-team/pytorch_geometric"
-#     # "torch-scatter==2.1.2",
-#     # "torch-sparse==0.6.18",
-#     # "torch-cluster==1.6.3"
 ]
 
 [project.urls]

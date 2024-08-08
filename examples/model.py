@@ -55,8 +55,8 @@ class Model(torch.nn.Module):
         setattr(self,'Relu_16', torch.nn.modules.activation.ReLU(**{'inplace':False}))
         setattr(self,'GlobalAveragePool', onnx2torch.node_converters.global_average_pool.OnnxGlobalAveragePoolWithKnownInputShape(**{'input_shape':[0, 512, 1, 1]}))
         setattr(self,'Flatten', torch.nn.modules.flatten.Flatten(**{'start_dim':1,'end_dim':-1}))
-        setattr(self,'Gemm', torch.nn.modules.linear.Linear(**{'in_features':512,'out_features':1000}))
-        setattr(self,'Gemm_1', torch.nn.modules.linear.Linear(**{'in_features':1000,'out_features':10}))
+        setattr(self,'Gemm', torch.nn.modules.linear.Linear(**{'in_features':512,'out_features':18}))
+        setattr(self,'Gemm_1', torch.nn.modules.linear.Linear(**{'in_features':18,'out_features':10}))
 
     def forward(self, input_1):
         conv = self.Conv(input_1);  input_1 = None
