@@ -20,6 +20,8 @@ from torchvision import datasets as tv_datasets
 from torchvision import transforms
 from torch.utils.data import DataLoader
 from modlee.timeseries_dataloader import TimeSeriesDataset
+
+import modlee
 from modlee.client import ModleeClient
 
 def safe_mkdir(target_path):
@@ -549,3 +551,31 @@ def _make_serializable(base_dict):
         elif isinstance(v, np.int64):
             base_dict.update({k: int(v)})
     return base_dict
+
+def class_from_modality_task(_class, modality, task, *args, **kwargs):
+    """
+    Return a Recommender object based on the modality and task.
+    Currently supports:
+
+    - image
+    --- classification
+    --- segmentation
+    - text
+    --- classification
+
+    :param _class: The class to return, either "Model" or "Recommender"
+    :param modality: The modality as a string, e.g. "image", "text".
+    :param task: The task as a string, e.g. "classification", "segmentation".
+    :return: The RecommenderObject, if it exists.
+    """
+    submodule = getattr(modlee, _class.lower())
+    if _class.lower() == "model":
+        _class = "ModleeModel"
+    else:
+        _class = _class.capitalize()
+    ClassObject = getattr(submodule,
+        f"{modality.capitalize()}{task.capitalize()}{_class}", None
+    )
+ 
+    assert ClassObject is not None, f"No {_class} for {modality} {task}"
+    return ClassObject(*args, **kwargs)

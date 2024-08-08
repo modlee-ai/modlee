@@ -3,6 +3,7 @@ import os, random
 import mlflow
 import lightning.pytorch as pl
 import modlee
+from modlee.model import callbacks
 from modlee.model import ModleeCallback
 from modlee.model import callbacks, ModleeModel, SimpleModel
 import torch
