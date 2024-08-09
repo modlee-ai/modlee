@@ -20,6 +20,7 @@ from modlee import \
     model_metafeatures as mmf, \
     data_metafeatures as dmf
 from modlee.converter import Converter
+from modlee.utils import _make_serializable
 
 modlee_converter = Converter()
 
@@ -313,7 +314,7 @@ class DataMetafeaturesCallback(ModleeCallback):
             if hasattr(data_mf, "embedding"):
                 data_mf_dict.update(data_mf.embedding)
             mlflow.log_dict(
-                data_mf_dict, "data_metafeatures")
+                _make_serializable(data_mf_dict), "data_metafeatures")
         else:
             logging.warning("Cannot log data statistics, could not access from server")
 
