@@ -518,3 +518,20 @@ def last_run_path(*args, **kwargs):
     artifact_path = urlparse(artifact_uri).path
     return os.path.dirname(artifact_path)
     
+
+# def _f32_to_f16(self,base_dict):
+def _make_serializable(base_dict):
+    """
+    Make a dictionary serializable (e.g. by pickle or json) by converting floats to strings.
+
+    :param base_dict: The dictionary to convert.
+    :return: The serializable dict.
+    """
+    for k, v in base_dict.items():
+        if isinstance(v, dict):
+            base_dict.update({k: _make_serializable(v)})
+        elif "float" in str(type(v)):
+            base_dict.update({k: str(v)})
+        elif isinstance(v, np.int64):
+            base_dict.update({k: int(v)})
+    return base_dict
