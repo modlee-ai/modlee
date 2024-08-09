@@ -47,22 +47,19 @@ class ImageModleeModel(ModleeModel):
         # )
         ModleeModel.__init__(self, modality="image", task=task, kwargs_cache=vars_cache, *args, **kwargs)
 
-    def configure_callbacks(self):
-        """ 
-        Configure image-specific callbacks.
-        """
-        return super().configure_callbacks()
-    
-        # Assuming the 
-        base_callbacks = ModleeModel.configure_callbacks(self)
-        # save accuracy
-        # image_callback = self.image_callback
-        # image_callback = ImageCallback(self.num_classes)
-        # save image-specific datastats
-        image_datastats_callback = DataMetafeaturesCallback(
-            DataMetafeatures=dmf.ImageDataMetafeatures,
-        )
-        return [*base_callbacks, image_datastats_callback]
+    # def configure_callbacks(self):
+    #     """ 
+    #     Configure image-specific callbacks.
+    #     """
+    #     base_callbacks = ModleeModel.configure_callbacks(self)
+    #     # save accuracy
+    #     # image_callback = self.image_callback
+    #     # image_callback = ImageCallback(self.num_classes)
+    #     # save image-specific datastats
+    #     image_datastats_callback = DataMetafeaturesCallback(
+    #         DataMetafeatures=dmf.ImageDataMetafeatures,
+    #     )
+    #     return [*base_callbacks, image_datastats_callback]
 
 class ImageClassificationModleeModel(ImageModleeModel):
     def __init__(self, *args, **kwargs):
