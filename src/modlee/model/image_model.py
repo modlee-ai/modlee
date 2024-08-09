@@ -63,6 +63,7 @@ class ImageModleeModel(ModleeModel):
     #     )
     #     return [*base_callbacks, image_datastats_callback]
 
+
 class ImageClassificationModleeModel(ImageModleeModel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -73,6 +74,7 @@ class ImageClassificationModleeModel(ImageModleeModel):
     #     #     ModelMetafeatures=mmf.ImageClassificationMetafeatures
     #     # )
     #     return [*base_callbacks, image_model_mf_callback]
+
 
 
 class ImageSegmentationModleeModel(ImageModleeModel):

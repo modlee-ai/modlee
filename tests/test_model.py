@@ -46,17 +46,3 @@ class TestModel:
         model_mmf = f"{modality.capitalize()}{task.capitalize()}ModelMetafeatures"
         mmf_callback = model.model_metafeatures_callback
         assert mmf_callback.ModelMetafeatures.__name__ == model_mmf
-
-    test_image_modality_task = pytest.mark.parametrize(
-        "modality, task, kwargs", conftest.IMAGE_MODALITY_TASK_KWARGS
-    )(_test_modality_task)
-
-    def test_no_modality_task( self, ):
-        self._test_modality_task("","", {})
-
-    @pytest.mark.parametrize(
-        "model", conftest.IMAGE_MODALITY_TASK_KWARGS, indirect=["model"]
-    )
-    def test_modality_task_indirect(self, model):
-        # breakpoint()
-        pass
