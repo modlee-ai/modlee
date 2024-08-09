@@ -4,11 +4,11 @@ import torch
 import pandas as pd
 
 
-class TimeSeriesDataset1(Dataset):
+class TimeSeriesDataset(Dataset):
     """
     Class to handle data loading of the time series dataset.
     """
-    def __init__(self, data, target, input_seq: int, output_seq: int, time_column: str):
+    def __init__(self, data, target, input_seq: int, output_seq: int, time_column: str, encoder_column: list):
         """
         Params:
         -------
@@ -26,6 +26,7 @@ class TimeSeriesDataset1(Dataset):
         self.data = data
         self.target = target
         self.time_column = time_column
+        self.encoder_columns = encoder_column
 
         # Convert time column to datetime if necessary
         if not pd.api.types.is_datetime64_any_dtype(self.data[self.time_column]):

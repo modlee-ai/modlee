@@ -125,7 +125,6 @@ IMAGE_LOADERS = {loader_fn:getattr(image_loaders, loader_fn) for loader_fn in so
 TEXT_LOADERS = {loader_fn:getattr(text_loaders, loader_fn) for loader_fn in dir(text_loaders) if re.match('get_(.*)_dataloader', loader_fn)}
 TABULAR_LOADERS = {'housing_dataset': get_housing_dataloader, 'adult_dataset': get_adult_dataloader, 'diabetes_dataset': get_diabetes_dataloader}
 TIME_SERIES_LOADER = {'finance_data': get_finance_data}TIME_SERIES_LOADER = None
-
 print('\n'.join(f"image loader{i}: {image_loader}" for i, image_loader in enumerate(IMAGE_LOADERS)))
 import pandas as pd 
 df = None
