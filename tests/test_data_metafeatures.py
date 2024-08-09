@@ -104,5 +104,3 @@ class TestDataMetafeatures:
     def _check_metafeatures(self, mf, metafeature_types):
         for metafeature_type in metafeature_types:
             assert metafeature_type in mf, f"{mf} has no key {metafeature_type}"
-
-           
