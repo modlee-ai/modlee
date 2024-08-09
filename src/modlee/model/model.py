@@ -52,6 +52,10 @@ class ModleeModel(LightningModule):
         self.kwargs_cache.update(kwargs)
 
         self_keys = list(self.__dict__.keys())
+        self.data_metafeatures_callback = DataMetafeaturesCallback(
+            DataMetafeatures=self._get_data_metafeature_class())
+        self.model_metafeatures_callback = ModelMetafeaturesCallback(
+            ModelMetafeatures=self._get_model_metafeature_class())
         # self_dict = self.__dict__.
         # for self_key in self_keys:
 
@@ -87,6 +91,20 @@ class ModleeModel(LightningModule):
         method_params = inspect.signature(getattr(self, method_name)).parameters
         return 'batch' in method_params
         
+    def _get_data_metafeature_class(self):
+        if self.modality is None:
+            dmf_class_name = "DataMetafeatures"
+        else:
+            dmf_class_name = f"{self.modality.capitalize()}DataMetafeatures"
+        dmf = getattr(
+            modlee.data_metafeatures,
+            dmf_class_name,
+            None)
+        if dmf is None:
+            logging.warning(f"No data metafeatures implemented for {self.modality} data")
+        else:
+            return dmf
+
 
     def configure_callbacks(self):
         """ 
@@ -100,7 +118,7 @@ class ModleeModel(LightningModule):
         else:
             dmf_metafeature_cls=getattr(modlee.data_metafeatures, "DataMetafeatures")
         callbacks = [
-            
+            self.data_metafeatures_callback,
             # DataMetafeaturesCallback(self.data_snapshot_size),
             LogCodeTextCallback(self.kwargs_cache),
             LogOutputCallback(),

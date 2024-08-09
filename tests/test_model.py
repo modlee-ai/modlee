@@ -16,10 +16,13 @@ class TestModel:
         assert not self.model._check_step_defined("validation_step")
 
 
-    @pytest.mark.parametrize("modality", ["image"])
-    @pytest.mark.parametrize("task_kwargs", [("classification", {"num_classes":10})])
-    def test_modality_task(self, modality, task_kwargs):
-        task, kwargs = task_kwargs
+    # @pytest.mark.parametrize("modality", ["image"])
+    @pytest.mark.parametrize("modality_task_kwargs", [
+        ("image", "classification", {"num_classes":10}),
+        ("image", "segmentation", {"num_classes":10}),
+        ])
+    def test_modality_task(self, modality_task_kwargs):
+        modality, task, kwargs = modality_task_kwargs
         model = modlee.model.from_modality_task(
             modality=modality,
             task=task, 
@@ -27,3 +30,11 @@ class TestModel:
         )
         assert model.modality == modality
         assert model.task == task
+
+        dmf = model._get_data_metafeature_class()
+        dmf_type = dmf
+        model_dmf = f"{modality.capitalize()}DataMetafeatures"
+        assert dmf_type.__name__ == model_dmf
+
+        dmf_callback = model.data_metafeatures_callback
+        assert dmf_callback.DataMetafeatures.__name__ == model_dmf
