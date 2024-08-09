@@ -1,7 +1,7 @@
 """
 Modlee model class and callbacks. 
 """
-from functools import partial
+from functools import partial, partialmethod
 import inspect
 import pickle
 from typing import Any, Optional
@@ -19,7 +19,12 @@ from lightning.pytorch.callbacks import Callback
 from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import modlee
-from modlee import data_metafeatures, save_run, get_code_text_for_model, save_run_as_json
+from modlee import (
+    data_metafeatures,
+    save_run,
+    get_code_text_for_model,
+    save_run_as_json,
+)
 from modlee import logging, utils as modlee_utils
 from modlee.converter import Converter
 from modlee.model.callbacks import *
@@ -36,10 +41,18 @@ base_lm_keys = list(LightningModule.__dict__.keys())
 
 
 class ModleeModel(LightningModule):
-    def __init__(self, data_snapshot_size=10e6, kwargs_cache={}, modality=None, task=None, *args, **kwargs) -> None:
+    def __init__(
+        self,
+        data_snapshot_size=10e6,
+        kwargs_cache={},
+        modality=None,
+        task=None,
+        *args,
+        **kwargs,
+    ) -> None:
         """
         ModleeModel constructor.
-        
+
         :param data_snapshot_size: The maximum size of the data snapshots saved during meta-feature calculation.
         :param vars_cache: A dictionary of variables to cache for later rebuilding the model.
         """
@@ -53,14 +66,16 @@ class ModleeModel(LightningModule):
 
         self_keys = list(self.__dict__.keys())
         self.data_metafeatures_callback = DataMetafeaturesCallback(
-            DataMetafeatures=self._get_data_metafeature_class())
+            DataMetafeatures=self._get_data_metafeature_class()
+        )
         self.model_metafeatures_callback = ModelMetafeaturesCallback(
-            ModelMetafeatures=self._get_model_metafeature_class())
+            ModelMetafeatures=self._get_model_metafeature_class()
+        )
         # self_dict = self.__dict__.
         # for self_key in self_keys:
 
     def _update_kwargs_cached(self):
-        """ 
+        """
         Update the cached variable dictionary with any custom arguments.
         """
         for self_key, self_val in self.__dict__.items():
@@ -77,37 +92,50 @@ class ModleeModel(LightningModule):
         """
         The path to the current run.
 
-        :return: The path to the current run. 
+        :return: The path to the current run.
         """
         return os.path.dirname(modlee_utils.uri_to_path(mlflow.get_artifact_uri()))
 
     def _check_step_defined(self, method_name):
         """
         Check if a step method (i.e. training_step, validation_step, test_step) is defined.
-        
+
         :param method_name: The name of the method to check.
         :return: Whether the method is defined.
         """
         method_params = inspect.signature(getattr(self, method_name)).parameters
-        return 'batch' in method_params
-        
-    def _get_data_metafeature_class(self):
-        if self.modality is None:
-            dmf_class_name = "DataMetafeatures"
-        else:
-            dmf_class_name = f"{self.modality.capitalize()}DataMetafeatures"
-        dmf = getattr(
-            modlee.data_metafeatures,
-            dmf_class_name,
-            None)
-        if dmf is None:
-            logging.warning(f"No data metafeatures implemented for {self.modality} data")
-        else:
-            return dmf
+        return "batch" in method_params
 
+    def _get_metafeature_class(self, metafeature_type="data"):
+        class_prefix = ""
+        if self.modality is not None:
+            class_prefix = f"{self.modality.capitalize()}"
+        if metafeature_type == "model" and self.task is not None:
+            class_prefix += f"{self.task.capitalize()}"
+
+        class_name = f"{class_prefix}{metafeature_type.capitalize()}Metafeatures"
+
+        mf_class = getattr(
+            getattr(modlee, f"{metafeature_type.lower()}_metafeatures"),
+            class_name,
+            None,
+        )
+        if mf_class is None:
+            logging.warning(
+                f"No {metafeature_type} metafeatures implemented for {self.modality} {self.task}"
+            )
+        else:
+            return mf_class
+
+    _get_data_metafeature_class = partialmethod(
+        _get_metafeature_class, metafeature_type="data"
+    )
+    _get_model_metafeature_class = partialmethod(
+        _get_metafeature_class, metafeature_type="model"
+    )
 
     def configure_callbacks(self):
-        """ 
+        """
         Configure callbacks for auto-documentation.
 
         :return: A list of callbacks for auto-documentation.
@@ -125,39 +153,38 @@ class ModleeModel(LightningModule):
             LogParamsCallback(),
             PushServerCallback(),
             LogTransformsCallback(),
-            LogModelCheckpointCallback(monitor='loss'),
+            LogModelCheckpointCallback(monitor="loss"),
         ]
-            # LogONNXCallback(),
+        # LogONNXCallback(),
         #     pl.callbacks.ModelCheckpoint(
         #         # dirpath='./',
         #         filename='{epoch}-{loss:.2f}',
-        #         monitor='loss', 
+        #         monitor='loss',
         #         save_top_k=1,
         #         mode='min',
         #         verbose=True),
         # ]
-        
+
         # # If the validation step is defined, add
-        if self._check_step_defined("validation_step"): 
-            callbacks.append(
-                LogModelCheckpointCallback(monitor='val_loss')
-            )
+        if self._check_step_defined("validation_step"):
+            callbacks.append(LogModelCheckpointCallback(monitor="val_loss"))
         #     callbacks.append(pl.callbacks.ModelCheckpoint(
         #         # dirpath='./',
         #         filename='{epoch}-{val_loss:.2f}',
-        #         monitor='val_loss', 
+        #         monitor='val_loss',
         #         save_top_k=1,
         #         mode='min',
         #         verbose=True))
-            
-            
+
         return callbacks
+
 
 class SimpleModel(ModleeModel):
     """
     A simple Modlee model.
     """
-    def __init__(self, input_shape=(1,10), output_shape=(1,20)):
+
+    def __init__(self, input_shape=(1, 10), output_shape=(1, 20)):
         """
         Construct the model.
 
@@ -169,7 +196,7 @@ class SimpleModel(ModleeModel):
         self.model = nn.Linear(input_shape[-1], output_shape[-1])
         self.loss = nn.functional.cross_entropy
         self.dataset = SimpleDataset(input_shape, output_shape)
-        
+
     def forward(self, x):
         """
         Forward pass.
@@ -178,7 +205,7 @@ class SimpleModel(ModleeModel):
         :return: The output of the model.
         """
         return self.model(x)
-    
+
     def training_step(self, batch, batch_idx):
         """
         Perform a training step.
@@ -187,28 +214,27 @@ class SimpleModel(ModleeModel):
         :param batch_idx: The index of the batch.
         :return: A dictionary of the loss.
         """
-        x,y = batch
-        return {'loss': self.loss(self(x), y)}
-    
+        x, y = batch
+        return {"loss": self.loss(self(x), y)}
+
     def configure_optimizers(self):
         """
         Configure optimizers for the model.
 
         :return: The optimizer object.
         """
-        return torch.optim.Adam(
-            self.parameters(),
-            lr=0.001
-        )
+        return torch.optim.Adam(self.parameters(), lr=0.001)
+
 
 class SimpleDataset(Dataset):
-    """ 
+    """
     A simple dataset class.
     """
-    def __init__(self, input_shape=(1,10), output_shape=(1,20)):
+
+    def __init__(self, input_shape=(1, 10), output_shape=(1, 20)):
         """
         Construct the simple dataset.
-        
+
         :param input_shape: The shape of the input.
         :param output_shape: The shape of the output.
         """
@@ -218,7 +244,6 @@ class SimpleDataset(Dataset):
 
     def __len__(self):
         return len(self.inputs)
-    
+
     def __getitem__(self, index):
         return self.inputs[index], self.outputs[index]
-    

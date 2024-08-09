@@ -38,3 +38,7 @@ class TestModel:
 
         dmf_callback = model.data_metafeatures_callback
         assert dmf_callback.DataMetafeatures.__name__ == model_dmf
+
+        model_mmf = f"{modality.capitalize()}{task.capitalize()}ModelMetafeatures"
+        mmf_callback = model.model_metafeatures_callback
+        assert mmf_callback.ModelMetafeatures.__name__ == model_mmf

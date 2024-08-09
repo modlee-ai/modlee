@@ -456,6 +456,7 @@ class_header = "class {}({}):\n"
 
 modlee_model_name = "ModleeModel"
 
+
 def exhaust_sequence_branch(root_sequence_module, custom_history):
     """
     Exhaust a module as a tree to find custom modules,
@@ -479,6 +480,7 @@ def exhaust_sequence_branch(root_sequence_module, custom_history):
                 sequences.insert(0, module)
         sequences.pop()
     return custom_modules_list, custom_history
+
 
 def get_code_text(code_text, module, custom_history):
     """
@@ -545,6 +547,7 @@ def get_code_text(code_text, module, custom_history):
             )
     return code_text, custom_child_module_list, custom_history
 
+
 def get_code_text_for_model(
     model: nn.modules.module.Module | pl.core.module.LightningModule,
     include_header=False,
@@ -569,6 +572,7 @@ def get_code_text_for_model(
     if include_header:
         code_text = modlee_required_packages + code_text
     return code_text
+
 
 def save_code_text_for_model(code_text: str, include_header: bool = False):
     """
