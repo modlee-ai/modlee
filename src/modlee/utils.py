@@ -97,11 +97,9 @@ def get_dataloader(dataset, batch_size=16, shuffle=True, *args, **kwargs):
 class timeseries_loader:
     @staticmethod
     def get_timeseries_dataloader(data, target, input_seq:int, output_seq:int, time_column:str, encoder_column:list):
-        return get_dataloader(
-            TimeSeriesDataset(
+        return TimeSeriesDataset(
                 data, target, input_seq, output_seq, time_column, encoder_column, 
-            )
-        )
+            ).to_dataloader(batch_size=32, shuffle = False)
 
 class timeseries_loader:
     @staticmethod
