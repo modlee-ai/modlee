@@ -1,4 +1,4 @@
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, DataLoader
 import numpy as np
 import torch
 import pandas as pd
@@ -6,11 +6,11 @@ import pytorch_forecasting as pf
 import pandas as pd
 
 
-class TimeSeriesDataset1(Dataset):
+class TimeSeriesDataset(Dataset):
     """
     Class to handle data loading of the time series dataset.
     """
-    def __init__(self, data, target, input_seq: int, output_seq: int, time_column: str):
+    def __init__(self, data, target, input_seq: int, output_seq: int, time_column: str, encoder_column: list):
         """
         Params:
         -------
@@ -28,6 +28,7 @@ class TimeSeriesDataset1(Dataset):
         self.data = data
         self.target = target
         self.time_column = time_column
+        self.encoder_columns = encoder_column
 
         # Convert time column to datetime if necessary
         if not pd.api.types.is_datetime64_any_dtype(self.data[self.time_column]):
@@ -59,57 +60,26 @@ class TimeSeriesDataset1(Dataset):
             raise ValueError("The dataset length is non-positive. Check the input and output sequence lengths.")
         print(f"Dataset length: {self._length}")
 
-    def to_dataloader(self, batch_size: int=32, shuffle: bool = False):
-        return self.dataset.to_dataloader(batch_size=batch_size, shuffle=shuffle)
-        
-    
-
-class TimeSeriesDataset(Dataset):
-    """
-    Class to handle data loading of the time series dataset.
-
-    """
-    def __init__(self, data, target, input_seq:int, output_seq:int, time_column:str):
-        """
-        Params:
-        -------
-        data: pands.DataFrame
-            The data to be used for training.
-        target: str
-            The target column name.
-        input_seq: int
-            The number of input sequence.
-        output_seq: int
-            The number of output sequence.
-        """
-        
-        self.data = data
-        self.target = target
-        self.input_seq = input_seq
-        self.output_seq = output_seq if output_seq > 0 else 1
-        self.time_column = time_column
-        # Convert time column to datetime if necessary
-        if not pd.api.types.is_datetime64_any_dtype(self.data[self.time_column]):
-            try:
-                self.data[self.time_column] = pd.to_datetime(self.data[self.time_column])
-            except Exception as e:
-                raise ValueError(f"Could not convert {self.time_column} to datetime. {e}")
-
-        self.data[time_column] = (self.data[self.time_column] - self.data[self.time_column].min()).dt.days
-
     def __len__(self):
-        return len(self.data) - self.input_seq - self.output_seq + 1
-    
+        return self._length
+
     def __getitem__(self, idx):
-        """
-        Params:
-        -------
-        idx: int
-            The index of the data to be loaded.
-        """
-        
-        idx = idx + self.input_seq
-        x = self.data.iloc[idx - self.input_seq:idx].values
-        y = self.data.iloc[idx:idx + self.output_seq][self.target].values
-        
-        return torch.tensor(x, dtype=torch.float32), torch.tensor(y, dtype=torch.float32)
+        encoder_start = idx
+        encoder_end = idx + self.input_seq
+        decoder_start = encoder_end
+        decoder_end = decoder_start + self.output_seq
+
+        encoder_data = self.data.iloc[encoder_start:encoder_end]
+        decoder_data = self.data.iloc[decoder_start:decoder_end]
+
+        # Ensure encoder_cont contains only numeric types
+        encoder_cont = encoder_data[self.encoder_columns].apply(pd.to_numeric, errors='coerce').values
+        decoder_target = decoder_data[self.target].apply(pd.to_numeric, errors='coerce').values
+
+        return {
+            'encoder_cont': torch.tensor(encoder_cont, dtype=torch.float32),
+            'decoder_target': torch.tensor(decoder_target, dtype=torch.float32)
+        }
+
+    def to_dataloader(self, batch_size: int=32, shuffle: bool = False):
+        return DataLoader(self, batch_size=batch_size, shuffle=shuffle)
