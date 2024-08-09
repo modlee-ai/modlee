@@ -306,10 +306,14 @@ class DataMetafeaturesCallback(ModleeCallback):
             # TODO - use data batch and model to get output size
             data_mf = data_metafeatures = self.DataMetafeatures(dataloader)
             mlflow.log_dict(data_metafeatures._serializable_stats_rep, "stats_rep")
-            mlflow.log_dict({
+            data_mf_dict = {
                 **data_mf.properties,
-                **data_mf.embedding,
-                **data_mf.mfe}, "data_metafeatures")
+                **data_mf.mfe,
+            }
+            if hasattr(data_mf, "embedding"):
+                data_mf_dict.update(data_mf.embedding)
+            mlflow.log_dict(
+                data_mf_dict, "data_metafeatures")
         else:
             logging.warning("Cannot log data statistics, could not access from server")
 

@@ -48,3 +48,8 @@ class TestCallback:
             last_run_path, 'artifacts', 'checkpoints','train')
         # Check that a checkpoint was saved
         assert len(os.listdir(checkpoints_path)) > 0
+
+    def test_data_metafeatures_callback(self, ):
+        # TODO - modularize for any type of ModleeModel
+        dmf_callback = callbacks.DataMetafeaturesCallback()
+        dmf_callback._log_data_metafeatures_dataloader(self.dataloader)
