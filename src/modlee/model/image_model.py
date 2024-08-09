@@ -9,7 +9,11 @@ from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import mlflow
 from modlee import data_metafeatures as dmf, model_metafeatures as mmf
-from modlee.model import ModleeModel, DataMetafeaturesCallback, ModelMetafeaturesCallback
+from modlee.model import (
+    ModleeModel,
+    DataMetafeaturesCallback,
+    ModelMetafeaturesCallback,
+)
 from lightning.pytorch.callbacks import Callback
 
 import torchmetrics
@@ -26,13 +30,10 @@ class ImageModleeModel(ModleeModel):
     - Calculates data-specific data statistics
     """
 
-    def __init__(self,
-        task="classification",
-        num_classes=None,
-        *args, **kwargs):
-        """ 
+    def __init__(self, task="classification", num_classes=None, *args, **kwargs):
+        """
         ModleeImageModel constructor.
-        
+
         :param task: The task ('classification','segmentation')
         :param num_classes: The number of classes, defaults to None.
         """
@@ -45,10 +46,12 @@ class ImageModleeModel(ModleeModel):
         #     metric = TASK_METRIC[self.task],
         #     **kwargs
         # )
-        ModleeModel.__init__(self, modality="image", task=task, kwargs_cache=vars_cache, *args, **kwargs)
+        ModleeModel.__init__(
+            self, modality="image", task=task, kwargs_cache=vars_cache, *args, **kwargs
+        )
 
     # def configure_callbacks(self):
-    #     """ 
+    #     """
     #     Configure image-specific callbacks.
     #     """
     #     base_callbacks = ModleeModel.configure_callbacks(self)
@@ -61,9 +64,10 @@ class ImageModleeModel(ModleeModel):
     #     )
     #     return [*base_callbacks, image_datastats_callback]
 
+
 class ImageClassificationModleeModel(ImageModleeModel):
     def __init__(self, *args, **kwargs):
-        super().__init__(task='classification', *args, **kwargs)
+        super().__init__(task="classification", *args, **kwargs)
 
     def configure_callbacks(self):
         base_callbacks = ImageModleeModel.configure_callbacks(self)
@@ -72,9 +76,10 @@ class ImageClassificationModleeModel(ImageModleeModel):
         )
         return [*base_callbacks, image_model_mf_callback]
 
+
 class ImageSegmentationModleeModel(ImageModleeModel):
     def __init__(self, *args, **kwargs):
-        super().__init__(task='segmentation', *args, **kwargs)
+        super().__init__(task="segmentation", *args, **kwargs)
 
     def configure_callbacks(self):
         base_callbacks = ImageModleeModel.configure_callbacks(self)
@@ -82,5 +87,3 @@ class ImageSegmentationModleeModel(ImageModleeModel):
             ModelMetafeatures=mmf.ImageSegmentationMetafeatures
         )
         return [*base_callbacks, image_model_mf_callback]
-
-

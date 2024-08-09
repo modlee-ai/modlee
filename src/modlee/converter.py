@@ -23,7 +23,7 @@ import onnx2torch
 import onnx_graphsurgeon as gs
 import onnx
 from onnx.tools import net_drawer
-import traceback
+
 ONNX_MINOR_VERSION = int(onnx.__version__.split(".")[1])
 import re
 import functools
@@ -35,14 +35,14 @@ from torch import tensor
 """
 
 TEXT_INPUT_DUMMY = [
-    'hello world',
-    'the quick brown fox jumps over the lazy dog'*10,
-    'the mitochondria is the powerhouse of the cell',
-    ]
+    "hello world",
+    "the quick brown fox jumps over the lazy dog" * 10,
+    "the mitochondria is the powerhouse of the cell",
+]
 
 
 class Converter(object):
-    """ 
+    """
     Base object that holds conversion functions.
     """
 
@@ -51,9 +51,9 @@ class Converter(object):
         self, torch_model, input_dummy=None, tmp_onnx_path="./.tmp_model.onnx", modality="tabular", **kwargs
     ):
         """
-        Convert a Torch Model to ONNX Graph. 
+        Convert a Torch Model to ONNX Graph.
         Note that to reduce the size of the output graph, we set `export_params=False`.
-        This and other parameters can be passed as `**kwargs` to `torch.onnx.export`. 
+        This and other parameters can be passed as `**kwargs` to `torch.onnx.export`.
 
         :param torch_model: The Torch Model to convert.
         :param input_dummy: A tensor input to the Torch Model, required for the ONNX parser to determine tensor sizes.
@@ -123,9 +123,10 @@ class Converter(object):
         # The model we load will have no parameters initialized
         onnx_model = onnx.load(tmp_onnx_path)
         if ONNX_MINOR_VERSION <= 15:
-        # Initialize the parameterless model
+            # Initialize the parameterless model
             onnx_model = self.onnx_parameterless2onnx(onnx_model)
         return onnx_model
+
     torch2onnx = torch_model2onnx_graph
 
     
@@ -140,6 +141,7 @@ class Converter(object):
         onnx_text = self.onnx2onnx_text(onnx_model)
         model_code = self.onnx_text2code(onnx_text)
         return model_code
+
     torch2code = torch_model2torch_code
 
     
@@ -151,6 +153,7 @@ class Converter(object):
         :return onnx_text: The ONNX Text
         """
         return self.onnx2onnx_text(self.torch2onnx(torch_model, *args, **kwargs))
+
     torch2onnx_text = torch_model2onnx_text
 
     
@@ -171,13 +174,14 @@ class Converter(object):
         # Hold the text in a temporary file
         self.save_code(torch_code, tmp_model_path)
         return self.torch_file2torch_model(tmp_model_path)
+
     code2torch = torch_code2torch_model
 
     
     def torch_file2torch_model(self, torch_file):
         """
         Convert a Torch File into a Torch Model
-        
+
         :param torch_file: The Torch Code as a path
         :return torch_model: The Torch Model
         """
@@ -185,6 +189,7 @@ class Converter(object):
             fullname="model_module", path=torch_file
         ).load_module()
         return torch_module.Model()
+
     code_path2torch = torch_file2torch_model
 
     
@@ -211,6 +216,7 @@ class Converter(object):
         :return torch_model: The Torch Model.
         """
         return onnx2torch.convert(onnx_file, *args, **kwargs)
+
     onnx_path2torch = onnx_file2torch_model
 
     
@@ -223,19 +229,21 @@ class Converter(object):
         """
         with open(onnx_file, "r") as _file:
             return self.onnx_text2onnx_graph(_file.read())
+
     onnx_text_file2onnx = onnx_file2onnx_graph
 
     
     def onnx_file2torch_model(self, onnx_file):
         """
         Convert an ONNX File to a Torch Model
-        
+
         :param onnx_file: The ONNX File as a path
         :return torch_model: The Torch Model
         """
         with open(onnx_file, "r") as _file:
             onnx_text = _file.read()
         return self.onnx_text2torch(onnx_text)
+
     onnx_file2torch = onnx_file2torch_model
 
     
@@ -305,13 +313,14 @@ class Converter(object):
             onnx_text = self.convert_onnx116(onnx_text)
         #breakpoint()
         return onnx.parser.parse_model(onnx_text)
+
     onnx_text2onnx = onnx_text2onnx_graph
 
     
     def onnx_text2torch_model(self, onnx_text: bytes):
         """
         Convert ONNX Text to Torch Model.
-        
+
         :param onnx_text: The ONNX Text as bytes.
         :return: The Torch Model.
         """
@@ -326,6 +335,7 @@ class Converter(object):
         # Convert to Torch
         torch_model = self.onnx_graph2torch_model(onnx_graph)
         return torch_model
+
     onnx_text2torch = onnx_text2torch_model
 
     
@@ -376,6 +386,7 @@ class Converter(object):
         :param remove_identity: Whether to remove Identity layers in the output text
         :return: The ONNX Text representation
         """
+
         def get_inner_string(s, _start, _end):
             """
             TODO rewrite the Converter().get_inner_string() to be this simple,
@@ -384,6 +395,7 @@ class Converter(object):
             s = s[s.find(_start) + len(_start) :]
             s = s[: s.rfind(_end)]
             return s
+
         onnx_str = onnx.printer.to_text(onnx_graph)
         onnx_str = onnx_str.split("\n")
         output_var = "None"
@@ -436,7 +448,7 @@ class Converter(object):
 
             onnx_uninit_line = " ".join(onnx_uninit_line_as_list)
 
-            if ' Constant ' in onnx_uninit_line:
+            if " Constant " in onnx_uninit_line:
                 onnx_uninit_line = self.convert_float(onnx_uninit_line)
 
             # Found line with output variable, which must be a non-number
@@ -493,6 +505,7 @@ class Converter(object):
             onnx_str = self.remove_identity(onnx_str)
         onnx_str = self.format_onnx_text(onnx_str)
         return onnx_str
+
     onnx2onnx_text = onnx_graph2onnx_text
 
     def filter_node(self, x):
@@ -503,10 +516,8 @@ class Converter(object):
         :param x: The NetworkX node to check.
         :return: Whether the node contains a substring indicating that it should be filtered as a non-layer.
         """
-        return 'onnx::' in x \
-            or 'Identity' in x \
-            or 'fc.' in x
-            
+        return "onnx::" in x or "Identity" in x or "fc." in x
+
     def prune_onnx_nx(self, onnx_nx):
         """
         Prune an ONNX NetworkX graph to just the layer nodes.
@@ -530,10 +541,9 @@ class Converter(object):
         :param prune: Whether to prune the NetworkX to just layer nodes, defaults to True
         :return: The ONNX NetworkX graph.
         """
-        if ONNX_MINOR_VERSION<=15:
+        if ONNX_MINOR_VERSION <= 15:
             onnx_graph = self.onnx_parameterless2onnx(onnx_graph)
-        onnx_pydot = onnx.tools.net_drawer.GetPydotGraph(
-            onnx_graph.graph)
+        onnx_pydot = onnx.tools.net_drawer.GetPydotGraph(onnx_graph.graph)
         onnx_pydot.set_name("onnx_graph")
         onnx_nx = nx.nx_pydot.from_pydot(onnx_pydot)
         if prune:
@@ -548,16 +558,16 @@ class Converter(object):
         :return: The ONNX NetworkX ,indexed. The function modifies the graph in-place and the return value should be unnecessary.
         """
         relabel_dict = {}
-        for n,node in enumerate(onnx_nx.nodes(data=True)):
-            relabel_dict.update({node[0]:n})
-        for k,v in relabel_dict.items():
+        for n, node in enumerate(onnx_nx.nodes(data=True)):
+            relabel_dict.update({node[0]: n})
+        for k, v in relabel_dict.items():
             nx.relabel_nodes(
                 onnx_nx,
-                {k:v},
+                {k: v},
                 copy=False,
             )
         return onnx_nx
-        
+
     def remove_identity(self, onnx_text):
         """
         Remove identity layers in ONNX Text.
@@ -597,14 +607,14 @@ class Converter(object):
         The onnx.printer.to_text() function seems to remove any inputs that the parser would use.
         For example, an int layer is defined like:
         constant_output_0006 = Constant <value = int64[4] {3,12,-1,-1}> ()
-          
+
         From:
         constant_output_0005 = Constant <value = bool[1,1,3,3]___> ()
         To:
         constant_output_0005 = Constant <value = bool[1,1,3,3] {0,0,0,0,0,0,0,0,0}> ()
-        
+
         :param input_str: The string with boolean layers.
-        :return: The string with boolean layers properly refactored. 
+        :return: The string with boolean layers properly refactored.
         """
         if "bool" not in input_str:
             return input_str
@@ -630,8 +640,8 @@ class Converter(object):
 
         :param input_str: The string with 'inf'.
         :param large_value: A suitably large value to replace 'inf' with, defaults to "99999999".
-        :return: The string with 'inf' refactored with a large value. 
-        
+        :return: The string with 'inf' refactored with a large value.
+
         """
         if not isinstance(large_value, str):
             large_value = str(large_value)
@@ -657,10 +667,10 @@ class Converter(object):
         Initialize the graph's tensors, in place (you do not need to use the return value)
         The input should be an ONNX graph exported from torch without parameters, i.e.
         torch.onnx.export(..., export_params=False).
-        
+
         Identity layers get special treatment; they must be initialized for onnx2torch,
         but their target shape is nested within its inputs.
-        
+
         Example usage:
         import onnx_graphsurgeon as gs
         graph = gs.import_onnx(path/to/uninitialized/model.onnx)
@@ -692,14 +702,13 @@ class Converter(object):
                 value_shape = tensor_value.shape
             if value_shape is None:
                 continue
-            if len(value_shape)==0:
+            if len(value_shape) == 0:
                 continue
             if isinstance(value_shape[0], str):
                 if "dynamic_axes" in value_shape[0]:
                     continue
             # print(value_shape, type(value_shape))
 
-            
             tensor_value.to_constant(
                 values=tensor_init_fn(
                     size=value_shape,
@@ -716,17 +725,19 @@ class Converter(object):
         """
         onnx_graph = self.init_onnx_tensors(onnx_graph)
         return gs.export_onnx(onnx_graph)
+
     onnx_parameterless2onnx = init_onnx_params
 
     def init_onnx_tensors(self, onnx_graph):
         """
         Initialize the tensors of an ONNX Graph
-        
+
         :param onnx_graph: The ONNX Graph
         :return onnx_graph: The ONNX Graph with initalized tensors
         """
         onnx_graph = gs.import_onnx(onnx_graph)
         return self.init_graph_tensors(onnx_graph)
+
     onnx2onnx_gs = init_onnx_tensors
 
     def save_torch(self, torch_model, filepath):
@@ -779,7 +790,7 @@ class Converter(object):
     def get_attr_name(self, input_str):
         """
         Get the variable name of an object attribute from a string.
-        
+
         The input string to this function should be a line from the forward pass of a model
         converted from onnx2torch, e.g. :
         model_conv1_conv = getattr(self, "model/conv1/Conv")(input_1);  input_1 = None
@@ -951,7 +962,7 @@ class Converter(object):
     def dict2code(self, kwarg_dict):
         """
         Converts a dictionary into a code string that, when called with exec(), rebuilds the dictionary.
-        
+
         :param kwarg_dict: The dictionary to convert.
         :return: A code string to create the dictionary.
         """
@@ -977,7 +988,7 @@ class Converter(object):
         """
         Converts a monovalue tensor (len(set(tensor))==1) to a string representation of its initialization.
         Minifies potentially large from their explicit definition to simply 'tensor.ones((x,y))*values'.
-        If `tensor_type` is provided, this function will force-convert a non-uniform tensor to an 
+        If `tensor_type` is provided, this function will force-convert a non-uniform tensor to an
         initialization string for a tensor of that type (e.g. 'randn','ones','zeros').
 
         :param input_tensor: The tensor to convert
@@ -988,7 +999,6 @@ class Converter(object):
             return input_tensor
         tensor_set = set(input_tensor.flatten().tolist())
         if len(tensor_set) > 1:
-
             torch.set_printoptions(threshold=torch.inf)
             if tensor_type is None:
                 # If no type override is defined, get the full class of the tensor
@@ -1014,7 +1024,7 @@ class Converter(object):
     def get_forward(self, model) -> str:
         """
         Get a model's forward() pass as code.
-        
+
         :param model: The model.
         :return: The forward() code.
         """
@@ -1033,7 +1043,7 @@ class Converter(object):
         """
         Retrieve the model's string representation, which includes its constructor (__init__) and forward pass.
         The code, when imported as a module or called with exec(), will rebuild the model object.
-        
+
         :param model: The model.
         :return: The code for the entire model module.
         """
@@ -1078,7 +1088,7 @@ class Model(torch.nn.Module):
         Convert ONNX graph text generated with ONNX 1.16, which requires modifications
         to be parseable by onnx.parser.
 
-        :param onnx_text: The 
+        :param onnx_text: The
         ONNX graph text to convert.
         :return: The ONNX graph text converted to a format parseable by onnx.parser.
         """
@@ -1095,4 +1105,4 @@ class Model(torch.nn.Module):
             replace(' string =', ' =')
 
     def convert_float(self, onnx_text):
-        return re.sub('(.*)float(.*)_(.*)', '\\1float\\2.\\3', onnx_text)
+        return re.sub("(.*)float(.*)_(.*)", "\\1float\\2.\\3", onnx_text)

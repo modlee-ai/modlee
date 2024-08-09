@@ -24,6 +24,7 @@ from modlee.timeseries_dataloader import TimeSeriesDataset
 import modlee
 from modlee.client import ModleeClient
 
+
 def safe_mkdir(target_path):
     """
     Safely make a directory.
@@ -50,10 +51,12 @@ def get_fashion_mnist(batch_size=64, num_output_channels=1):
     :param num_output_channels: Passed to torchvision.transforms.Grayscale. 1 = grayscale, 3 = RGB. Defaults to 1.
     :return: A tuple of train and test dataloaders.
     """
-    data_transforms = torchvision.transforms.Compose([
-        transforms.Grayscale(num_output_channels=num_output_channels),
-        transforms.ToTensor(),
-    ])
+    data_transforms = torchvision.transforms.Compose(
+        [
+            transforms.Grayscale(num_output_channels=num_output_channels),
+            transforms.ToTensor(),
+        ]
+    )
     training_loader = DataLoader(
         tv_datasets.FashionMNIST(
             root=".data", train=True, download=True, transform=data_transforms
@@ -80,21 +83,17 @@ def get_imagenette_dataloader():
             root=".data",
             split="val",
             size="160px",
-            download=not os.path.exists('.data/imagenette2-160'),
-            transform=transforms.Compose([
-                transforms.ToTensor(),
-                transforms.Resize((160,160))
-                ])
+            download=not os.path.exists(".data/imagenette2-160"),
+            transform=transforms.Compose(
+                [transforms.ToTensor(), transforms.Resize((160, 160))]
+            ),
         ),
     )
-     
+
+
 def get_dataloader(dataset, batch_size=16, shuffle=True, *args, **kwargs):
-    return DataLoader(
-        dataset, 
-        batch_size=batch_size,
-        shuffle=shuffle,
-        *args, **kwargs
-    )
+    return DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, *args, **kwargs)
+
 
 class timeseries_loader:
     @staticmethod
@@ -113,158 +112,126 @@ class timeseries_loader:
 class image_loaders:
     @staticmethod
     def _get_image_dataloader(dataset_module, root=".data", *args, **kwargs):
-        kwargs['transform'] = kwargs.get(
-            'transform',
-            torchvision.transforms.Compose([
-                torchvision.transforms.Resize((300,300)),
-                torchvision.transforms.Grayscale(num_output_channels=3),
-                torchvision.transforms.ToTensor(),
-            ]))
+        kwargs["transform"] = kwargs.get(
+            "transform",
+            torchvision.transforms.Compose(
+                [
+                    torchvision.transforms.Resize((300, 300)),
+                    torchvision.transforms.Grayscale(num_output_channels=3),
+                    torchvision.transforms.ToTensor(),
+                ]
+            ),
+        )
         # print(args, kwargs)
         return get_dataloader(
-            getattr(torchvision.datasets,
-                dataset_module)(
-                    root=root,
-                    # split=split,
-                    # download=True,
-                    **kwargs
-            ))
-        
+            getattr(torchvision.datasets, dataset_module)(
+                root=root,
+                # split=split,
+                # download=True,
+                **kwargs,
+            )
+        )
+
     image_modules = {
         # 'Caltech101'
         # 'CelebA':{
         #     'split':'test',
         #     'download':True,
         #     },
-        'CIFAR10':dict(             # Passed
-            train=False,
-            download=True
-            ),
+        "CIFAR10": dict(train=False, download=True),  # Passed
         # 'Country211':dict(
         #     split='test',
         #     download=True),
-        'DTD':dict(                 # Passed
-            split='test',
-            download=True),
-        # 'EMNIST':dict(            # File download issues            
+        "DTD": dict(split="test", download=True),  # Passed
+        # 'EMNIST':dict(            # File download issues
         #     split="byclass",
         #     train=False,
         #     download=True),
-        'EuroSAT':dict(             # Passed
-            download=True),
-        'FashionMNIST':dict(        # Passed
-            train=False,
-            download=True),
+        "EuroSAT": dict(download=True),  # Passed
+        "FashionMNIST": dict(train=False, download=True),  # Passed
         # 'FER2013':dict(             # Cannot download
         #     split='test',),
-        'FGVCAircraft':dict(        # Passed
-            split='test',
-            download=True),
+        "FGVCAircraft": dict(split="test", download=True),  # Passed
         # # 'Flicker8k',
-        'Flowers102':dict(          # Passed
-            split='test',
-            download=True),
+        "Flowers102": dict(split="test", download=True),  # Passed
         # 'Food101':dict(             # Took too long to download
         #     split='test',
         #     download=True),
-        'GTSRB':dict(               # Passed
-            split='test',
-            download=True),
+        "GTSRB": dict(split="test", download=True),  # Passed
         # 'INaturalist':dict(         # Too big — over 8GB for validation
         #     version='2021_valid',
         #     download=True),
-        'Imagenette':dict(          # Passed
-            split='val',
-            size='full',
+        "Imagenette": dict(  # Passed
+            split="val",
+            size="full",
             # download=True
-            ),
-        'KMNIST':dict(              # Passed
-            train=False,
-            download=True),
+        ),
+        "KMNIST": dict(train=False, download=True),  # Passed
         # 'LFWPeople':dict(         # Corrupt file
         #     split='test',
         #     download=True),
         # 'LSUN':dict(              # Uses deprecated package
         #     classes='test'),
-        'MNIST':dict(               # Passed
-            train=False,
-            download=True),
-        'Omniglot':dict(            # Passed
-            download=True),
-        'OxfordIIITPet':dict(       # Passed
-            split='test',
-            download=True),
-        'Places365':dict(             # Passed
-            split='val',
+        "MNIST": dict(train=False, download=True),  # Passed
+        "Omniglot": dict(download=True),  # Passed
+        "OxfordIIITPet": dict(split="test", download=True),  # Passed
+        "Places365": dict(  # Passed
+            split="val",
             small=True,
             # download=True,
-            ),
+        ),
         # 'PCAM':dict(                # Took too long to download
         #     split='test',
         #     download=True),
-        'QMNIST':dict(              # Passed
-            what='test10k',
-            download=True),
-        'RenderedSST2':dict(        # Passed
-            split='test',
-            download=True),
-        'SEMEION':dict(           # Passed
-            download=True),
+        "QMNIST": dict(what="test10k", download=True),  # Passed
+        "RenderedSST2": dict(split="test", download=True),  # Passed
+        "SEMEION": dict(download=True),  # Passed
         # 'SBU':dict(               # Took too long to download
         #     download=True),
-    # 'StanfordCars':dict           # Not available(
+        # 'StanfordCars':dict           # Not available(
         #     split='test',
         #     download=True),
-        'STL10':dict(               # Passed
-            split='test',
-            download=True),
-        'SUN397':dict(              # Passed
-            download=True),
-        'SVHN':dict(                # Passed    
-            split='test',
-            download=True),
-        'USPS':dict(                # Passed
-            train=False,
-            download=True),
+        "STL10": dict(split="test", download=True),  # Passed
+        "SUN397": dict(download=True),  # Passed
+        "SVHN": dict(split="test", download=True),  # Passed
+        "USPS": dict(train=False, download=True),  # Passed
     }
-    for image_module,kwargs in image_modules.items():
-        locals()[f'get_{image_module.lower()}_dataloader'] = \
-            partial(_get_image_dataloader, image_module, **kwargs)
+    for image_module, kwargs in image_modules.items():
+        locals()[f"get_{image_module.lower()}_dataloader"] = partial(
+            _get_image_dataloader, image_module, **kwargs
+        )
+
 
 class text_loaders:
     @staticmethod
     def _get_text_dataloader(dataset_module, dataset_len, root=".data", split="dev"):
         return get_dataloader(
-            getattr(torchtext.datasets, 
-                dataset_module)(
-                root=root,
-                split=split
+            getattr(torchtext.datasets, dataset_module)(
+                root=root, split=split
             ).set_length(dataset_len)
         )
 
     @staticmethod
     def get_mnli_dataloader(*args, **kwargs):
-        kwargs['split'] = "dev_matched"
-        return get_dataloader(
-            torchtext.datasets.MNLI(
-                **kwargs
-            ).set_length(9815)
-        )
-
+        kwargs["split"] = "dev_matched"
+        return get_dataloader(torchtext.datasets.MNLI(**kwargs).set_length(9815))
 
     text_modules_lengths = {
-        'STSB': 1500,
-        'SST2': 872,
-        'RTE': 277,
-        'QNLI': 5463,
-        'CoLA': 527,
-        'WNLI': 71,
+        "STSB": 1500,
+        "SST2": 872,
+        "RTE": 277,
+        "QNLI": 5463,
+        "CoLA": 527,
+        "WNLI": 71,
         # 'SQuAD1': 10570,
         # 'SQuAD2': 11873,
     }
     for dataset_module, dataset_len in text_modules_lengths.items():
-        locals()[f"get_{dataset_module.lower()}_dataloader"] = partial(_get_text_dataloader, dataset_module, dataset_len)
-        
+        locals()[f"get_{dataset_module.lower()}_dataloader"] = partial(
+            _get_text_dataloader, dataset_module, dataset_len
+        )
+
+
 def uri_to_path(uri):
     """
     Convert a URI to a path.
@@ -307,7 +274,7 @@ def get_model_size(model, as_MB=True):
         buffer_size += buffer.nelement() * buffer.element_size()
     model_size = param_size + buffer_size
     if as_MB:
-        model_size /= 1024 ** 2
+        model_size /= 1024**2
     return model_size
 
 
@@ -349,9 +316,9 @@ def convert_to_scientific(x):
 
 
 def closest_power_of_2(x):
-    """ 
+    """
     Round a number to its closest power of 2, i.e. y = 2**floor(log_2(x)).
-    
+
     :param x: The number.
     :return: The closest power of 2 of the number.
     """
@@ -365,7 +332,7 @@ def closest_power_of_2(x):
     rounded_exponent = round(exponent)
 
     # Calculate the closest power of 2
-    closest_value = 2 ** rounded_exponent
+    closest_value = 2**rounded_exponent
 
     return closest_value
 
@@ -455,7 +422,6 @@ def discretize(n: list[float, int]) -> list[float, int]:
     """
 
     try:
-
         if type(n) == str:
             n = literal_eval(n)
 
@@ -475,7 +441,7 @@ def discretize(n: list[float, int]) -> list[float, int]:
 def apply_discretize_to_summary(text, info):
     """
     Discretize a summary.
-    
+
     :param text: The text to discretize.
     :param info: An object that contains different separators.
     :return: The discretized summary.
@@ -510,8 +476,9 @@ def save_run(*args, **kwargs):
 
     :param modlee_client: The client object that is tracking the current run.
     """
-    api_key = os.environ.get('MODLEE_API_KEY')
+    api_key = os.environ.get("MODLEE_API_KEY")
     ModleeClient(api_key=api_key).post_run(*args, **kwargs)
+
 
 def save_run_as_json(*args, **kwargs):
     """
@@ -519,21 +486,20 @@ def save_run_as_json(*args, **kwargs):
 
     :param modlee_client: The client object that is tracking the current run.
     """
-    api_key = os.environ.get('MODLEE_API_KEY')
+    api_key = os.environ.get("MODLEE_API_KEY")
     ModleeClient(api_key=api_key).post_run_as_json(*args, **kwargs)
 
 
-
 def last_run_path(*args, **kwargs):
-    """ 
+    """
     Return the path to the last / most recent run path
-    
+
     :return: The path to the last run.
     """
     artifact_uri = mlflow.last_active_run().info.artifact_uri
     artifact_path = urlparse(artifact_uri).path
     return os.path.dirname(artifact_path)
-    
+
 
 # def _f32_to_f16(self,base_dict):
 def _make_serializable(base_dict):
@@ -551,6 +517,7 @@ def _make_serializable(base_dict):
         elif isinstance(v, np.int64):
             base_dict.update({k: int(v)})
     return base_dict
+
 
 def class_from_modality_task(_class, modality, task, *args, **kwargs):
     """
@@ -573,9 +540,9 @@ def class_from_modality_task(_class, modality, task, *args, **kwargs):
         _class = "ModleeModel"
     else:
         _class = _class.capitalize()
-    ClassObject = getattr(submodule,
-        f"{modality.capitalize()}{task.capitalize()}{_class}", None
+    ClassObject = getattr(
+        submodule, f"{modality.capitalize()}{task.capitalize()}{_class}", None
     )
- 
+
     assert ClassObject is not None, f"No {_class} for {modality} {task}"
     return ClassObject(*args, **kwargs)

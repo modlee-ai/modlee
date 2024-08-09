@@ -1,5 +1,10 @@
-from modlee.model import ModleeModel, DataMetafeaturesCallback, ModelMetafeaturesCallback
+from modlee.model import (
+    ModleeModel,
+    DataMetafeaturesCallback,
+    ModelMetafeaturesCallback,
+)
 from modlee import data_metafeatures as dmf, model_metafeatures as mmf
+
 
 class TextModleeModel(ModleeModel):
     def __init__(self, task="classification", num_classes=None, *args, **kwargs):
@@ -17,6 +22,7 @@ class TextModleeModel(ModleeModel):
             DataMetafeatures=dmf.TextClassificationDataMetafeatures
         )
         return [*base_callbacks, text_data_mf_callback]
+
 
 class TextClassificationModleeModel(TextModleeModel):
     def configure_callbacks(self):

@@ -158,17 +158,14 @@ class ImageModelMetafeatures(ModelMetafeatures):
         output = self.torch_model(input_dummy)
         return np.array(output.shape[1:])
 
+
+class ImageClassificationModelMetafeatures(ImageModelMetafeatures):
     pass
-
-
-ImageClassificationMetafeatures = ImageModelMetafeatures
 
 
 class ImageSegmentationModelMetafeatures(ImageModelMetafeatures):
     def get_output_shape(self):
-        # breakpoint()
         output = self.torch_model(torch.randn([10, 3, 300, 300]))
-        # breakpoint()
         if isinstance(output, dict):
             output = output["out"]
         return np.array(output.shape[1:])
