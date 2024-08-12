@@ -42,12 +42,9 @@ class ImageModleeModel(ModleeModel):
         else:
             self.num_classes = num_classes
         vars_cache = {"num_classes": num_classes, "task": task}
-        # self.image_callback = ImageCallback(
-        #     metric = TASK_METRIC[self.task],
-        #     **kwargs
-        # )
         ModleeModel.__init__(
-            self, modality="image", task=task, kwargs_cache=vars_cache, *args, **kwargs
+            self,
+            kwargs_cache=vars_cache, *args, **kwargs
         )
 
     # def configure_callbacks(self):
@@ -64,26 +61,25 @@ class ImageModleeModel(ModleeModel):
     #     )
     #     return [*base_callbacks, image_datastats_callback]
 
-
 class ImageClassificationModleeModel(ImageModleeModel):
     def __init__(self, *args, **kwargs):
-        super().__init__(task="classification", *args, **kwargs)
+        super().__init__(*args, **kwargs)
 
-    def configure_callbacks(self):
-        base_callbacks = ImageModleeModel.configure_callbacks(self)
-        image_model_mf_callback = ModelMetafeaturesCallback(
-            ModelMetafeatures=mmf.ImageClassificationMetafeatures
-        )
-        return [*base_callbacks, image_model_mf_callback]
+    # def configure_callbacks(self):
+    #     base_callbacks = ImageModleeModel.configure_callbacks(self)
+    #     # image_model_mf_callback = ModelMetafeaturesCallback(
+    #     #     ModelMetafeatures=mmf.ImageClassificationMetafeatures
+    #     # )
+    #     return [*base_callbacks, image_model_mf_callback]
 
 
 class ImageSegmentationModleeModel(ImageModleeModel):
     def __init__(self, *args, **kwargs):
-        super().__init__(task="segmentation", *args, **kwargs)
+        super().__init__(*args, **kwargs)
 
-    def configure_callbacks(self):
-        base_callbacks = ImageModleeModel.configure_callbacks(self)
-        image_model_mf_callback = ModelMetafeaturesCallback(
-            ModelMetafeatures=mmf.ImageSegmentationMetafeatures
-        )
-        return [*base_callbacks, image_model_mf_callback]
+    # def configure_callbacks(self):
+    #     base_callbacks = ImageModleeModel.configure_callbacks(self)
+    #     image_model_mf_callback = ModelMetafeaturesCallback(
+    #         ModelMetafeatures=mmf.ImageSegmentationMetafeatures
+    #     )
+    #     return [*base_callbacks, image_model_mf_callback]

@@ -5,6 +5,7 @@ import torch
 import pandas as pd
 import pytest
 import inspect
+import modlee
 from torchvision import datasets as tv_datasets
 from torchvision import models as tvm
 from torchvision.transforms import ToTensor
@@ -415,3 +416,10 @@ def _check_statistical_metafeatures(mf):
 def _check_metafeatures_timesseries(mf, metafeature_types):
     for metafeature_type in metafeature_types:
         assert metafeature_type in mf, f"{mf} has no key {metafeature_type}"
+def model_from_args(modality_task_kwargs):
+    modality, task, kwargs = modality_task_kwargs
+    return modlee.model.from_modality_task(
+        modality=modality,
+        task=task, 
+        **kwargs
+    )

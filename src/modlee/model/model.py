@@ -59,6 +59,7 @@ class ModleeModel(LightningModule):
         LightningModule.__init__(self, *args, **kwargs)
         mlflow.pytorch.autolog(log_datasets=False)
         self.data_snapshot_size = data_snapshot_size
+        modality, task = modlee_utils.get_modality_task(self)
         self.modality = modality
         self.task = task
         self.kwargs_cache = kwargs_cache
@@ -147,7 +148,7 @@ class ModleeModel(LightningModule):
             dmf_metafeature_cls=getattr(modlee.data_metafeatures, "DataMetafeatures")
         callbacks = [
             self.data_metafeatures_callback,
-            # DataMetafeaturesCallback(self.data_snapshot_size),
+            self.model_metafeatures_callback,
             LogCodeTextCallback(self.kwargs_cache),
             LogOutputCallback(),
             LogParamsCallback(),
@@ -155,26 +156,10 @@ class ModleeModel(LightningModule):
             LogTransformsCallback(),
             LogModelCheckpointCallback(monitor="loss"),
         ]
-        # LogONNXCallback(),
-        #     pl.callbacks.ModelCheckpoint(
-        #         # dirpath='./',
-        #         filename='{epoch}-{loss:.2f}',
-        #         monitor='loss',
-        #         save_top_k=1,
-        #         mode='min',
-        #         verbose=True),
-        # ]
 
         # # If the validation step is defined, add
         if self._check_step_defined("validation_step"):
             callbacks.append(LogModelCheckpointCallback(monitor="val_loss"))
-        #     callbacks.append(pl.callbacks.ModelCheckpoint(
-        #         # dirpath='./',
-        #         filename='{epoch}-{val_loss:.2f}',
-        #         monitor='val_loss',
-        #         save_top_k=1,
-        #         mode='min',
-        #         verbose=True))
 
         return callbacks
 
