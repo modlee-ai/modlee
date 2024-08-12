@@ -30,6 +30,7 @@ from modlee.model.tabular_model import TabNetModleeModel, CategoryEmbeddingModle
 from modlee.model.tabular_model import DANetModleeModel, TabTransformerModleeModel
 from pytorch_tabular.models.gandalf import GANDALFModel
 from pytorch_tabular.models.danet import DANetModel
+from pytorch_forecasting import models as pfm
 
 
 tabnet_config = OmegaConf.create({
@@ -221,6 +222,12 @@ TEXT_MODELS = [
     ttm.XLMR_BASE_ENCODER
 ]
 
+TIMESERIES_MODELS = [
+    pfm.TemporalFusionTransformer(),
+    pfm.DeepAR(),
+    pfm.LSTM(),
+    pfm.GRU(),
+]
 
 @pytest.fixture()
 def dataloaders(batch_size=64):
@@ -276,3 +283,6 @@ def _check_statistical_metafeatures(mf):
 
 
 
+def _check_metafeatures_timesseries(mf, metafeature_types):
+    for metafeature_type in metafeature_types:
+        assert metafeature_type in mf, f"{mf} has no key {metafeature_type}"
