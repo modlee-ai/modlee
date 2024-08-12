@@ -322,3 +322,6 @@ def _from_modality_task(request, module="model"):
     return getattr(modlee, module).from_modality_task(
         modality=modality, task=task, **request.param[-1]
     )
+def _check_metafeatures_timesseries(mf, metafeature_types):
+    for metafeature_type in metafeature_types:
+        assert metafeature_type in mf, f"{mf} has no key {metafeature_type}"
