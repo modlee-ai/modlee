@@ -66,6 +66,12 @@ TEXT_MODELS = [
     # ttm.XLMR_LARGE_ENCODER, # Too large for M2 MacBook Air?
 ]
 
+TIMESERIES_MODELS = [
+    pfm.TemporalFusionTransformer(),
+    pfm.DeepAR(),
+    pfm.LSTM(),
+    pfm.GRU(),
+]
 
 @pytest.fixture()
 def dataloaders(batch_size=64):
@@ -94,3 +100,7 @@ def _check_has_metafeatures(mf, metafeature_types):
         # Assert that the attribute is a flat dictionary
         assert not any([isinstance(v,dict) for v in getattr(mf, metafeature_type).values()]), f"{mf} {metafeature_type} not a flat dictionary"
         features.update(getattr(mf, metafeature_type))
+
+def _check_metafeatures_timesseries(mf, metafeature_types):
+    for metafeature_type in metafeature_types:
+        assert metafeature_type in mf, f"{mf} has no key {metafeature_type}"

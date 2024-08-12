@@ -2,7 +2,7 @@
 Test modlee.converter
 """
 import pytest, re, pathlib
-from .conftest import IMAGE_MODELS, IMAGE_SEGMENTATION_MODELS, TEXT_MODELS
+from .conftest import IMAGE_MODELS, IMAGE_SEGMENTATION_MODELS, TEXT_MODELS, TIMESERIES_MODELS
 import lightning
 import numpy as n
 import torch, torchvision, random, onnx2torch
@@ -306,8 +306,8 @@ def _test_converted_onnx_model(onnx_file_path: str, dataloaders):
     pass
 
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS+TEXT_MODELS)
-@pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
-# @pytest.mark.parametrize("torch_model", IMAGE_MODELS)
+# @pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
+@pytest.mark.parametrize("torch_model", IMAGE_MODELS)
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS[1:2])
 # @pytest.mark.parametrize("torch_model", IMAGE_SEGMENTATION_MODELS)
 # @pytest.mark.parametrize("torch_model", TEXT_MODELS)

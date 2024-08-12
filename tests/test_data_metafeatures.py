@@ -99,8 +99,4 @@ class TestDataMetafeatures:
             'combined_partial_autocorr_lag1', 'combined_trend_strength', 
             'combined_seasonal_strength'
         ]
-        self._check_metafeatures(mf, metafeature_types)
-
-    def _check_metafeatures(self, mf, metafeature_types):
-        for metafeature_type in metafeature_types:
-            assert metafeature_type in mf, f"{mf} has no key {metafeature_type}"
+        conftest._check_metafeatures_timesseries(mf, metafeature_types)
