@@ -5,7 +5,7 @@ Test modlee.converter
 """
 
 import pytest, re, pathlib
-from .conftest import IMAGE_MODELS, IMAGE_SEGMENTATION_MODELS, TEXT_MODELS, TABULAR_MODELS, TIMESERIES_MODELS, DATALOADER
+from .conftest import IMAGE_MODELS, IMAGE_SEGMENTATION_MODELS, TEXT_MODELS, TABULAR_MODELS, TIMESERIES_MODELS, TIMESERIES_MODELS, DATALOADER
 import lightning
 import numpy as np
 import torch, torchvision, random, onnx2torch
