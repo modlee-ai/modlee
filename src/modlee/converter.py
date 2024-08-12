@@ -34,6 +34,8 @@ import torch, onnx2torch
 from torch import tensor
 """
 
+IMAGE_INPUT_DUMMY = torch.randn([10,3,300,300])
+
 TEXT_INPUT_DUMMY = [
     "hello world",
     "the quick brown fox jumps over the lazy dog" * 10,

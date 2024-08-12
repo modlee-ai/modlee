@@ -4,6 +4,7 @@ import mlflow
 import lightning.pytorch as pl
 import modlee
 from modlee.model import callbacks, ModleeModel, SimpleModel
+from .conftest import model_from_args
 
 class TestModel:
     model = SimpleModel()
@@ -22,12 +23,9 @@ class TestModel:
         ("image", "segmentation", {"num_classes":10}),
         ])
     def test_modality_task(self, modality_task_kwargs):
+        
         modality, task, kwargs = modality_task_kwargs
-        model = modlee.model.from_modality_task(
-            modality=modality,
-            task=task, 
-            **kwargs
-        )
+        model = model_from_args(modality_task_kwargs)
         assert model.modality == modality
         assert model.task == task
 

@@ -13,7 +13,7 @@ import networkx as nx
 import karateclub
 g2v = karateclub.graph2vec.Graph2Vec()
 import modlee
-from modlee.converter import Converter
+from modlee.converter import Converter, IMAGE_INPUT_DUMMY
 from modlee.model import RecommendedModel
 from sklearn.linear_model import LinearRegression as LinReg
 import onnx_graphsurgeon as gs
@@ -320,6 +320,7 @@ def _test_converted_onnx_model(onnx_file_path: str, dataloaders):
 
     pass
 
+IMAGE_MODELS_INPUTS = [(model, IMAGE_INPUT_DUMMY) for model in IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS]
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS+TEXT_MODELS)
 @pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS)
@@ -328,16 +329,22 @@ def _test_converted_onnx_model(onnx_file_path: str, dataloaders):
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS[1:2])
 # @pytest.mark.parametrize("torch_model", IMAGE_SEGMENTATION_MODELS)
 # @pytest.mark.parametrize("torch_model", TEXT_MODELS)
-
-@pytest.mark.parametrize("torch_model", TABULAR_MODELS)
-def test_conversion_pipeline(torch_model):
+# @pytest.mark.parametrize("torch_model", TIMESERIES_MODELS)
+# @pytest.mark.parametrize("torch_model", TABULAR_MODELS)
+@pytest.mark.parametrize("models_inputs", IMAGE_MODELS_INPUTS)
+def test_conversion_pipeline(models_inputs):
+# def test_conversion_pipeline(torch_model):
 # def test_conversion_pipeline():
     """ Test converting across several representations, from Torch graphs to ONNX text
     """
+    torch_model, input_dummy = models_inputs
+    temp = {
+        "continuous": torch.empty((10, 2)), 
+        "categorical": torch.randint(0, 3, (10, 2))
+    } 
     # load a basic resnet model
     # torch_model = torchvision.models.resnet18(weights="DEFAULT")
     # torch model <-> onnx graph
-    # breakpoint()
     # input_dummy = torch.Tensor(torch_model.transform()(modlee.converter.TEXT_INPUT_DUMMY))
     # torch_model = torch_model.get_model()
     # breakpoint()
@@ -351,6 +358,17 @@ def test_conversion_pipeline(torch_model):
     #print(f"x type: {type(x)}") 
     onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy)
     torch_model = converter.onnx_graph2torch_model(onnx_graph)
+
+ 
+
+    input_dummy = {'x':temp}
+
+    onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy) ##all passed
+
+
+    ###
+
+    #torch_model = converter.onnx_graph2torch_model(onnx_graph) ##failed for tabnet and danet, Dynamic value of min/max is not implemented
 
     # # onnx graph <-> onnx text
     onnx_text = converter.onnx_graph2onnx_text(onnx_graph) ##all passed

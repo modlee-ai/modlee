@@ -2,6 +2,7 @@
 Utility functions.
 """
 import os, sys, time, json, pickle, requests, importlib, pathlib
+import re
 from functools import partial
 import json
 from urllib.parse import urlparse, unquote
@@ -546,3 +547,19 @@ def class_from_modality_task(_class, modality, task, *args, **kwargs):
 
     assert ClassObject is not None, f"No {_class} for {modality} {task}"
     return ClassObject(*args, **kwargs)
+
+
+def get_modality_task(obj):
+    """
+    Get the modality and task of a given object,
+    e.g. "image" and "classification" from an ImageClassificationModleeModel
+
+    :param obj: The item to parse.
+    """
+    obj_name = type(obj).__name__
+    obj_name = obj_name.replace("Recommender","").replace("ModleeModel","")
+    ret = re.match(r"([A-Z]\w+)([A-Z]\w*)", obj_name)
+    if ret:
+        return (r.lower() for r in ret.groups())
+    else:
+        return None
