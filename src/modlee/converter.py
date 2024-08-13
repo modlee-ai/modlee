@@ -25,6 +25,7 @@ import onnx
 from onnx.tools import net_drawer
 ONNX_MINOR_VERSION = int(onnx.__version__.split(".")[1])
 import re
+import functools
 from functools import partial
 
 MODEL_CODE_HEADER = """
@@ -44,6 +45,7 @@ class Converter(object):
     Base object that holds conversion functions.
     """
 
+    
     def torch_model2onnx_graph(
         self, torch_model, input_dummy=None, tmp_onnx_path="./.tmp_model.onnx", **kwargs
     ):
@@ -93,6 +95,7 @@ class Converter(object):
         return onnx_model
     torch2onnx = torch_model2onnx_graph
 
+    
     def torch_model2torch_code(self, torch_model, *args, **kwargs):
         """
         Convert a Torch Model to Torch Code.
@@ -106,6 +109,7 @@ class Converter(object):
         return model_code
     torch2code = torch_model2torch_code
 
+    
     def torch_model2onnx_text(self, torch_model, *args, **kwargs):
         """
         Convert a Torch Model to ONNX Text
@@ -116,6 +120,7 @@ class Converter(object):
         return self.onnx2onnx_text(self.torch2onnx(torch_model, *args, **kwargs))
     torch2onnx_text = torch_model2onnx_text
 
+    
     def torch_code2torch_model(
         self, torch_code: str, tmp_model_path="./.tmp_model.py", *args, **kwargs
     ):
@@ -135,6 +140,7 @@ class Converter(object):
         return self.torch_file2torch_model(tmp_model_path)
     code2torch = torch_code2torch_model
 
+    
     def torch_file2torch_model(self, torch_file):
         """
         Convert a Torch File into a Torch Model
@@ -148,6 +154,7 @@ class Converter(object):
         return torch_module.Model()
     code_path2torch = torch_file2torch_model
 
+    
     def torch_model2torch_model(self, torch_model, *args, **kwargs):
         """
         Convert a PyTorch model into an equivalent PyTorch model,
@@ -162,6 +169,7 @@ class Converter(object):
     torch2torch = torch_model2torch_model
     torch2torch_graph = torch_model2torch_model
 
+    
     def onnx_file2torch_model(self, onnx_file, *args, **kwargs):
         """
         Convert an ONNX File to a Torch Model.
@@ -172,6 +180,7 @@ class Converter(object):
         return onnx2torch.convert(onnx_file, *args, **kwargs)
     onnx_path2torch = onnx_file2torch_model
 
+    
     def onnx_file2onnx_graph(self, onnx_file):
         """
         Convert an ONNX File to an ONNX Graph.
@@ -183,6 +192,7 @@ class Converter(object):
             return self.onnx_text2onnx_graph(_file.read())
     onnx_text_file2onnx = onnx_file2onnx_graph
 
+    
     def onnx_file2torch_model(self, onnx_file):
         """
         Convert an ONNX File to a Torch Model
@@ -195,6 +205,7 @@ class Converter(object):
         return self.onnx_text2torch(onnx_text)
     onnx_file2torch = onnx_file2torch_model
 
+    
     def onnx_uninit2torch(self, onnx_graph):
         """
         Convert an uninitialized ONNX Graph to a Torch Model
@@ -204,6 +215,7 @@ class Converter(object):
         """
         return self.onnx_graph2torch_model(self.onnx_parameterless2onnx(onnx_graph))
 
+    
     def onnx_text2torch_code(self, onnx_text):
         """
         Convert ONNX Text to Torch Code
@@ -213,10 +225,13 @@ class Converter(object):
         """
         torch_model = self.onnx_text2torch_model(onnx_text)
         torch_code = self.torch_graph2code(torch_model)
+        # Deleting model should free some space
+        del torch_model
         return torch_code
 
     onnx_text2code = onnx_text2torch_code
 
+    
     def onnx_text2onnx_graph(self, onnx_text):
         """
         Convert ONNX Text to an ONNX Graph.
@@ -230,6 +245,7 @@ class Converter(object):
         return onnx.parser.parse_model(onnx_text)
     onnx_text2onnx = onnx_text2onnx_graph
 
+    
     def onnx_text2torch_model(self, onnx_text: bytes):
         """
         Convert ONNX Text to Torch Model.
@@ -249,6 +265,7 @@ class Converter(object):
         return torch_model
     onnx_text2torch = onnx_text2torch_model
 
+    
     def onnx_graph2torch_model(self, onnx_graph, *args, **kwargs):
         """
         Convert an ONNX Graph to a Torch Model.
@@ -278,6 +295,7 @@ class Converter(object):
 
     onnx2torch = onnx_graph2torch_model
 
+    
     def onnx_graph2onnx_text(self, onnx_graph, remove_identity=False):
         """
         Convert an ONNX Graph to ONNX Text
@@ -413,6 +431,7 @@ class Converter(object):
             onnx_nx_layers_only.remove_node(node)
         return onnx_nx_layers_only
             
+    
     def onnx_graph2onnx_nx(self, onnx_graph, prune=True):
         """
         Convert an ONNX graph to ONNX NetworkX.
