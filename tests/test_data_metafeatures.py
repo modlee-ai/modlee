@@ -34,6 +34,11 @@ class TestDataMetafeatures:
             get_dataloader_fn(root=DATA_ROOT), testing=True)
         self._check_has_metafeatures(image_mf)
 
+    def test_tabular_dataloader(self, get_dataloader_fn):
+        tabular_mf = dmf.TabularDataMetafeatures(
+            get_dataloader_fn(), testing=True
+        )
+
     # @pytest.mark.parametrize('get_dataloader_fn', [
     #     modlee.utils.get_mnli_dataloader,
     #     modlee.utils.get_cola_dataloader,
