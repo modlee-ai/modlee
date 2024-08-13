@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>modlee.modlee_image_model module &mdash; modlee 0 documentation</title>
+  <title>modlee.api_config module &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=4bcfc4e7" />
@@ -23,7 +23,9 @@
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="modlee.client module" href="modlee.client.html" />
+    <link rel="prev" title="modlee.recommender.recommender module" href="modlee.recommender.recommender.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -139,8 +141,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/document.html">Automate Experiment Documentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modlee.html">modlee package</a><ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modlee.html">modlee package</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="modlee.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.html">modlee.model package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modlee.model.html#submodules">Submodules</a></li>
@@ -154,9 +156,9 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="modlee.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modlee.api_config.html">modlee.api_config module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="modlee.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">modlee.api_config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.client.html">modlee.client module</a><ul>
@@ -309,9 +311,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">modlee.modlee_image_model module</li>
+          <li class="breadcrumb-item"><a href="modlee.html">modlee package</a></li>
+      <li class="breadcrumb-item active">modlee.api_config module</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/modules/modlee.modlee_image_model.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/modules/modlee.api_config.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -319,14 +322,66 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="modlee-modlee-image-model-module">
-<h1>modlee.modlee_image_model module<a class="headerlink" href="#modlee-modlee-image-model-module" title="Link to this heading"></a></h1>
+  <section id="module-modlee.api_config">
+<span id="modlee-api-config-module"></span><h1>modlee.api_config module<a class="headerlink" href="#module-modlee.api_config" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="modlee.api_config.ModleeAPIConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.api_config.</span></span><span class="sig-name descname"><span class="pre">ModleeAPIConfig</span></span><a class="reference internal" href="../_modules/modlee/api_config.html#ModleeAPIConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.api_config.ModleeAPIConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Singleton class to manage API configuration and client initialization for Modlee.
+Ensures that only one instance of the configuration exists and handles API key validation and client setup.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.api_config.ModleeAPIConfig.ensure_api_key">
+<span class="sig-name descname"><span class="pre">ensure_api_key</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/api_config.html#ModleeAPIConfig.ensure_api_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.api_config.ModleeAPIConfig.ensure_api_key" title="Link to this definition"></a></dt>
+<dd><p>Ensures that the API key is set and matches the client’s API key.
+Logs warnings if the API key is not set or if there is a mismatch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the API key is set and matches the client’s API key, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.api_config.ModleeAPIConfig.get_client">
+<span class="sig-name descname"><span class="pre">get_client</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/api_config.html#ModleeAPIConfig.get_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.api_config.ModleeAPIConfig.get_client" title="Link to this definition"></a></dt>
+<dd><p>Returns the Modlee client after ensuring that the API key is correctly set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The Modlee client.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.api_config.ModleeAPIConfig.reload_modules">
+<span class="sig-name descname"><span class="pre">reload_modules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/api_config.html#ModleeAPIConfig.reload_modules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.api_config.ModleeAPIConfig.reload_modules" title="Link to this definition"></a></dt>
+<dd><p>Reloads the Modlee-related modules to ensure they are using the updated client.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.api_config.ModleeAPIConfig.set_api_key">
+<span class="sig-name descname"><span class="pre">set_api_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/api_config.html#ModleeAPIConfig.set_api_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.api_config.ModleeAPIConfig.set_api_key" title="Link to this definition"></a></dt>
+<dd><p>Sets the API key for the Modlee configuration and updates the client.
+Reloads the modules to ensure they are using the updated client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>api_key</strong> – The new API key to be set.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modlee.recommender.recommender.html" class="btn btn-neutral float-left" title="modlee.recommender.recommender module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modlee.client.html" class="btn btn-neutral float-right" title="modlee.client module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

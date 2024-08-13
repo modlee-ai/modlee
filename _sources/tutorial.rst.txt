@@ -1,4 +1,4 @@
-.. image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+|image1|
 
 First Project with Modlee
 =========================
@@ -86,8 +86,9 @@ c. **Define Data Transformations**
 
       transform = transforms.Compose([
       transforms.Resize((224, 224)),  # Resize images to 224x224 pixels
-      transforms.ToTensor(),          # Convert images to tensors
-      transforms.Normalize((0.5,), (0.5,))  # Normalize images (mean=0.5, std=0.5)
+      transforms.Grayscale(num_output_channels=3),  # Convert images to RGB format
+      transforms.ToTensor(),          # Convert images to tensors (PyTorch format)
+      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # Normalize images with mean and std deviation
       ])
 
    *What We Are Doing*: We prepare our images for the model by resizing
@@ -380,7 +381,8 @@ d. **Train the Custom Model**
 
    .. code:: python
 
-      # Create an instance of the LitModel with the given model
+      # Create an instance of the LitModel with an instance of the SimpleCNN model
+      model = SimpleCNN()
       lit_model = LitModel(model)
 
       # Initialize the PyTorch Lightning trainer
@@ -468,5 +470,6 @@ To build on your progress, consider these next steps:
    Join discussions and forums to connect with other users, seek advice,
    and share your experiences.
 
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
 .. |Open in Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/drive/1XNr-NXrDhvOjnN5Kwfh2fOB1mkqktgA_#scrollTo=EoHpDb_SFHQS

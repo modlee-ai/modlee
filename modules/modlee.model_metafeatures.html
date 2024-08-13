@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>modlee.modlee_image_model module &mdash; modlee 0 documentation</title>
+  <title>modlee.model_metafeatures module &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=4bcfc4e7" />
@@ -23,7 +23,9 @@
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="modlee.model_text_converter module" href="modlee.model_text_converter.html" />
+    <link rel="prev" title="modlee.dataframes module" href="modlee.dataframes.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -139,8 +141,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/document.html">Automate Experiment Documentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modlee.html">modlee package</a><ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modlee.html">modlee package</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="modlee.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model.html">modlee.model package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modlee.model.html#submodules">Submodules</a></li>
@@ -154,7 +156,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="modlee.html#submodules">Submodules</a><ul>
+<li class="toctree-l2 current"><a class="reference internal" href="modlee.html#submodules">Submodules</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="modlee.api_config.html">modlee.api_config module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
 </ul>
@@ -198,13 +200,13 @@
 <li class="toctree-l4"><a class="reference internal" href="modlee.model.html#module-modlee.model">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.model_metafeatures.html">modlee.model_metafeatures module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.model_metafeatures.html#modlee.model_metafeatures.ImageClassificationMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageClassificationMetafeatures</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.model_metafeatures.html#modlee.model_metafeatures.ImageModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageModelMetafeatures</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.model_metafeatures.html#modlee.model_metafeatures.ImageSegmentationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageSegmentationModelMetafeatures</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.model_metafeatures.html#modlee.model_metafeatures.ModelEncoder"><code class="docutils literal notranslate"><span class="pre">ModelEncoder</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.model_metafeatures.html#modlee.model_metafeatures.ModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ModelMetafeatures</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.model_metafeatures.html#modlee.model_metafeatures.TextModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TextModelMetafeatures</span></code></a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">modlee.model_metafeatures module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#modlee.model_metafeatures.ImageClassificationMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageClassificationMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modlee.model_metafeatures.ImageModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modlee.model_metafeatures.ImageSegmentationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageSegmentationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modlee.model_metafeatures.ModelEncoder"><code class="docutils literal notranslate"><span class="pre">ModelEncoder</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modlee.model_metafeatures.ModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modlee.model_metafeatures.TextModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TextModelMetafeatures</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.model_text_converter.html">modlee.model_text_converter module</a><ul>
@@ -309,9 +311,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">modlee.modlee_image_model module</li>
+          <li class="breadcrumb-item"><a href="modlee.html">modlee package</a></li>
+      <li class="breadcrumb-item active">modlee.model_metafeatures module</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/modules/modlee.modlee_image_model.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/modules/modlee.model_metafeatures.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -319,14 +322,130 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="modlee-modlee-image-model-module">
-<h1>modlee.modlee_image_model module<a class="headerlink" href="#modlee-modlee-image-model-module" title="Link to this heading"></a></h1>
+  <section id="module-modlee.model_metafeatures">
+<span id="modlee-model-metafeatures-module"></span><h1>modlee.model_metafeatures module<a class="headerlink" href="#module-modlee.model_metafeatures" title="Link to this heading"></a></h1>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ImageClassificationMetafeatures">
+<span class="sig-prename descclassname"><span class="pre">modlee.model_metafeatures.</span></span><span class="sig-name descname"><span class="pre">ImageClassificationMetafeatures</span></span><a class="headerlink" href="#modlee.model_metafeatures.ImageClassificationMetafeatures" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#modlee.model_metafeatures.ImageModelMetafeatures" title="modlee.model_metafeatures.ImageModelMetafeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageModelMetafeatures</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ImageModelMetafeatures">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.model_metafeatures.</span></span><span class="sig-name descname"><span class="pre">ImageModelMetafeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">torch_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ImageModelMetafeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ImageModelMetafeatures" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#modlee.model_metafeatures.ModelMetafeatures" title="modlee.model_metafeatures.ModelMetafeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelMetafeatures</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ImageModelMetafeatures.get_output_shape">
+<span class="sig-name descname"><span class="pre">get_output_shape</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ImageModelMetafeatures.get_output_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ImageModelMetafeatures.get_output_shape" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ImageSegmentationModelMetafeatures">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.model_metafeatures.</span></span><span class="sig-name descname"><span class="pre">ImageSegmentationModelMetafeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">torch_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ImageSegmentationModelMetafeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ImageSegmentationModelMetafeatures" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#modlee.model_metafeatures.ImageModelMetafeatures" title="modlee.model_metafeatures.ImageModelMetafeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageModelMetafeatures</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ImageSegmentationModelMetafeatures.get_output_shape">
+<span class="sig-name descname"><span class="pre">get_output_shape</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ImageSegmentationModelMetafeatures.get_output_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ImageSegmentationModelMetafeatures.get_output_shape" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ModelEncoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.model_metafeatures.</span></span><span class="sig-name descname"><span class="pre">ModelEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ModelEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ModelEncoder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Graph2Vec</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ModelEncoder.from_pkl">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pkl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ModelEncoder.from_pkl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ModelEncoder.from_pkl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ModelEncoder.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ModelEncoder.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ModelEncoder.save" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ModelMetafeatures">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.model_metafeatures.</span></span><span class="sig-name descname"><span class="pre">ModelMetafeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">torch_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ModelMetafeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ModelMetafeatures" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ModelMetafeatures.dataframe_lists_to_columns">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dataframe_lists_to_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ModelMetafeatures.dataframe_lists_to_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ModelMetafeatures.dataframe_lists_to_columns" title="Link to this definition"></a></dt>
+<dd><p>Split dataframe columns that are lists to separate, indexed columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> – _description_</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ModelMetafeatures.get_embedding">
+<span class="sig-name descname"><span class="pre">get_embedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ModelMetafeatures.get_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ModelMetafeatures.get_embedding" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ModelMetafeatures.get_graph_dataframe">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_graph_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_graph</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ModelMetafeatures.get_graph_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ModelMetafeatures.get_graph_dataframe" title="Link to this definition"></a></dt>
+<dd><p>Parse the layers of the model, maybe as a dataframe?
+With columns of layer type, parameters, indices (position in graph)
+Can then calculate parameters e.g. counts, parameter ranges, etc
+This almost seems like a converter function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ModelMetafeatures.get_layer_counts">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_layer_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ModelMetafeatures.get_layer_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ModelMetafeatures.get_layer_counts" title="Link to this definition"></a></dt>
+<dd><p>Get the counts of each layer type in a dataframe</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> – _description_</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ModelMetafeatures.get_output_shape">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_output_shape</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ModelMetafeatures.get_output_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ModelMetafeatures.get_output_shape" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ModelMetafeatures.get_parameter_statistics">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_parameter_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Series</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ModelMetafeatures.get_parameter_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ModelMetafeatures.get_parameter_statistics" title="Link to this definition"></a></dt>
+<dd><p>Get the statistics of a single-column dataframe or series</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> – _description_</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.ModelMetafeatures.get_properties">
+<span class="sig-name descname"><span class="pre">get_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#ModelMetafeatures.get_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.ModelMetafeatures.get_properties" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modlee.model_metafeatures.TextModelMetafeatures">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.model_metafeatures.</span></span><span class="sig-name descname"><span class="pre">TextModelMetafeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">torch_model</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model_metafeatures.html#TextModelMetafeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model_metafeatures.TextModelMetafeatures" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#modlee.model_metafeatures.ModelMetafeatures" title="modlee.model_metafeatures.ModelMetafeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelMetafeatures</span></code></a></p>
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modlee.dataframes.html" class="btn btn-neutral float-left" title="modlee.dataframes module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modlee.model_text_converter.html" class="btn btn-neutral float-right" title="modlee.model_text_converter module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

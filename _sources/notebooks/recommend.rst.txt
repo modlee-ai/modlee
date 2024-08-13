@@ -1,4 +1,6 @@
-.. image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+|image1|
+
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
 
 Automate Model Recommendation
 =============================
