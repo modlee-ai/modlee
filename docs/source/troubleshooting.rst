@@ -1,4 +1,4 @@
-.. image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+|image1|
 
 Identifying and Solving Issues
 ==============================
@@ -235,3 +235,5 @@ email us at `support@modlee.ai <support@modlee.ai>`__ or join our
 also raise an issue on our `GitHub
 repository <https://github.com/modlee-ai/modlee/issues>`__ for
 additional support.
+
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg

@@ -73,8 +73,9 @@ c. **Define Data Transformations**
     ```python
     transform = transforms.Compose([
     transforms.Resize((224, 224)),  # Resize images to 224x224 pixels
-    transforms.ToTensor(),          # Convert images to tensors
-    transforms.Normalize((0.5,), (0.5,))  # Normalize images (mean=0.5, std=0.5)
+    transforms.Grayscale(num_output_channels=3),  # Convert images to RGB format
+    transforms.ToTensor(),          # Convert images to tensors (PyTorch format)
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # Normalize images with mean and std deviation
     ])
     ```
 
@@ -315,7 +316,8 @@ d. **Train the Custom Model**
     We train the custom model using PyTorch Lightning.
 
     ```python
-    # Create an instance of the LitModel with the given model
+    # Create an instance of the LitModel with an instance of the SimpleCNN model
+    model = SimpleCNN()
     lit_model = LitModel(model)
 
     # Initialize the PyTorch Lightning trainer

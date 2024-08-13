@@ -137,7 +137,7 @@ with modlee.start_run() as run:
         val_dataloaders=test_loader
     )
 ```
-You should see a recommended model as an output. If you are running into issues, please refer to our [Troubleshooting Page](https://docs.modlee.ai/notebooks/troubleshooting.html) for more help. 
+You should see a recommended model as an output. If you are running into issues, please refer to our [Troubleshooting Page](https://docs.modlee.ai/troubleshooting.html) for more help. 
 
 ---
 

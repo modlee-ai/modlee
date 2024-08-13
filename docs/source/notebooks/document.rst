@@ -1,4 +1,6 @@
-.. image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+|image1|
+
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
 
 Automate Experiment Documentation
 =================================
@@ -12,11 +14,11 @@ Prerequisites for this tutorial include familiarity with
 `Lightning <https://lightning.ai/docs/pytorch/stable/>`__.
 
 Here is a video explanation of this
-`exercise <https://youtu.be/jVFKSJBrxJ4>`__.
+`exercise <https://www.youtube.com/watch?v=2TE5--ZuFCc>`__.
 
 .. raw:: html
 
-   <iframe width="560" height="315" src="https://www.youtube.com/embed/jVFKSJBrxJ4" frameborder="0" allowfullscreen>
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/2TE5--ZuFCc" frameborder="0" allowfullscreen>
 
 .. raw:: html
 
