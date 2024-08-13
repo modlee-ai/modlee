@@ -589,3 +589,13 @@ class LogModelCheckpointCallback(pl.callbacks.ModelCheckpoint):
 
         # Cleaning up temp_directory
         shutil.rmtree(self.temp_dir_path)
+
+
+class LogModalityTaskCallback(ModleeCallback):
+    """
+    Logs the modality and task
+    """
+    def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
+        mlflow.log_text(pl_module.modality, "modality")
+        mlflow.log_text(pl_module.task, "task")
+        return super().on_train_start(trainer, pl_module)
