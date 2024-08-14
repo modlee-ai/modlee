@@ -230,18 +230,6 @@ def NbeatsInit():
     )
     return model
 
-
-def makeDataloader():
-    data = pd.read_csv('data/HDFCBANK.csv')
-    data.drop(columns=['Series', 'Symbol','Trades', 'Deliverable Volume', 'Deliverble'], inplace=True)
-    encoder_column = data.columns.tolist()
-    dataset = TimeSeriesDataset(data=data, target = 'Close', time_column='Date',
-                                                       encoder_column=encoder_column, input_seq=2,
-                                                       output_seq=1).to_dataloader(batch_size=1)
-    
-    return dataset
-
-
 def makeDataloader():
     data = pd.read_csv("data/HDFCBANK.csv")
     data.drop(
