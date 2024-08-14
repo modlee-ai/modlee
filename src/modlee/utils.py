@@ -513,7 +513,7 @@ def _make_serializable(base_dict):
     return base_dict
 
 
-def class_from_modality_task(_class, modality, task, *args, **kwargs):
+def class_from_modality_task(modality, task, _class, *args, **kwargs):
     """
     Return a Recommender object based on the modality and task.
     Currently supports:

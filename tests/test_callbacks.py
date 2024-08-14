@@ -116,3 +116,5 @@ class TestCallback:
                 trainer, model, model.dataloader
             )
             assert len(callback_input)==n_inputs
+
+    # def test_log_modality_task()

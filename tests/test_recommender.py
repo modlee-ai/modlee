@@ -11,6 +11,7 @@ import torch, torchvision, lightning
 from torchvision import datasets as tv_datasets
 from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader
+from . import conftest
 
 def get_dataloader(batch_size=64):
     training_loader = DataLoader(
@@ -42,19 +43,17 @@ class TestRecommender:
         image_recommender = modlee.recommender.from_modality_task(modality="image", task="classification")
         image_metafeatures = image_recommender.calculate_metafeatures(train_dataloader)
 
+
     @pytest.mark.training
-    @pytest.mark.parametrize("modality", ["image"])
-    @pytest.mark.parametrize("task", ["classification", "segmentation"])
-    def test_image_recommenders(self, modality, task):
-        recommender = modlee.recommender.from_modality_task(modality, task)
+    @pytest.mark.parametrize("modality, task, kwargs", conftest.IMAGE_MODALITY_TASK_KWARGS)
+    def test_image_recommenders(self, modality, task, kwargs):
+        recommender = modlee.recommender.from_modality_task(
+            modality, task, **kwargs)
         recommender.fit(test_dataloader)
-
-        # Get the model and pass an input through it
         model = recommender.model
-        breakpoint()
-
         x, y_tgt = next(iter(test_dataloader))
         y = model.forward(x)
+    
 
     @pytest.mark.training
     def test_recommended_model(self,):
