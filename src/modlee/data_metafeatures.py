@@ -31,7 +31,7 @@ from torchvision.models import (
 )  # , vit_l_32
 import torch.nn.functional as F
 
-from modlee.utils import closest_power_of_2
+from modlee.utils import closest_power_of_2, _make_serializable
 
 fixed_resize = 32
 import logging, warnings
@@ -640,14 +640,7 @@ class DataMetafeatures(object):
         :param base_dict: The dictionary to convert.
         :return: The serializable dict.
         """
-        for k, v in base_dict.items():
-            if isinstance(v, dict):
-                base_dict.update({k: self._make_serializable(v)})
-            elif "float" in str(type(v)):
-                base_dict.update({k: str(v)})
-            elif isinstance(v, np.int64):
-                base_dict.update({k: int(v)})
-        return base_dict
+        return _make_serializable(base_dict)
 
     def get_mfe_features(self):
         """

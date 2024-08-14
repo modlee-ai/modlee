@@ -3,17 +3,13 @@ Modlee client for modlee server.
 """
 import os
 import requests
-
-# import pickle
-# import dill as pickle
 import cloudpickle as pickle
 import functools
 
 LOCAL_ORIGIN = "http://127.0.0.1:7070"
-# REMOTE_ORIGIN = "http://modlee.pythonanywhere.com"
-# REMOTE_ORIGIN = "http://ec2-3-84-155-233.compute-1.amazonaws.com:7070"
 from modlee.config import SERVER_ORIGIN as REMOTE_ORIGIN
 import json
+
 
 class ModleeClient(object):
     """
@@ -23,7 +19,7 @@ class ModleeClient(object):
     def __init__(self, origin=LOCAL_ORIGIN, api_key=None, *args, **kwargs):
         """
         ModleeClient constructor.
-        
+
         :param origin: The server origin (scheme://hostname:port).
         :param api_key: The user's API key for authenticating functionality to the server.
         """
@@ -78,34 +74,31 @@ class ModleeClient(object):
         :return: The response.
         """
         req_url = f"{self.origin}/{path}"
-
-        # kwargs.update(dict(timeout=self.timeout))
-        kwargs['timeout'] = kwargs.get('timeout',self.timeout)
-
-        # Set headers only if not already defined 
-        kwargs_headers = kwargs.get("headers", {
-                    "User-Agent": "Mozilla/5.0",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Headers": "*",
-                    "Access-Control-Allow-Methods": "*",
-                    "X-API-KEY": self.api_key,
-                    },
-                )
-        kwargs_headers.update({
-            "X-API-KEY": self.api_key,
-        })
+        kwargs["timeout"] = kwargs.get("timeout", self.timeout)
+        # Set headers only if not already defined
+        kwargs_headers = kwargs.get(
+            "headers",
+            {
+                "User-Agent": "Mozilla/5.0",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Methods": "*",
+                "X-API-KEY": self.api_key,
+            },
+        )
+        kwargs_headers.update(
+            {
+                "X-API-KEY": self.api_key,
+            }
+        )
         kwargs.update(
             {
                 "auth": (self.api_key, self.api_key),
                 "headers": kwargs_headers,
             }
         )
-        # breakpoint()
- 
         try:
-            # if method=='post': breakpoint()
             ret = getattr(requests, method)(req_url, *args, **kwargs)
-            # breakpoint()
             if ret.status_code >= 400:
                 if ret.status_code != 404:
                     pass
@@ -119,7 +112,7 @@ class ModleeClient(object):
     def login(self, api_key=""):
         """
         Log the user in.
-        
+
         :param api_key: The user's ID
         """
         return self.post(path=f"login", data={"user_id": api_key})
@@ -136,7 +129,7 @@ class ModleeClient(object):
     def get_callable(self, path=""):
         """
         Get a callable function from the server.
-        
+
         :param path: The server-side path of the callable to get, defaults to "".
         :return: The callable, or None if not retrievable.
         """
@@ -161,7 +154,6 @@ class ModleeClient(object):
         :param path: the server-side path of the module to get, defaults to "".
         :return: The module, or None if not retrievable.
         """
-
         ret = self.get_script(path)
         if ret is not None:
             ret = ret.content
@@ -177,17 +169,10 @@ class ModleeClient(object):
         """
         try:
             with open(file, "rb") as _file:
-                # file_text = _file.read()
                 res = self.post(
                     path="postfile",
-                    data={
-                        # 'file_text':file_text,
-                        "filepath": filepath
-                    },
-                    files={
-                        "file": _file
-                        # filepath:file
-                    },
+                    data={"filepath": filepath},
+                    files={"file": _file},
                 )
                 return res
 
@@ -239,18 +224,17 @@ class ModleeClient(object):
             return False
         return True
 
-
     def post_run_as_json(self, run_path):
         """
-        Convert the specified mlruns' directory structure and files to JSON format, 
+        Convert the specified mlruns' directory structure and files to JSON format,
         excluding files that match patterns in ignore_files. Tracks files that could not be processed.
 
         :param run_path: The path of the run to convert to JSON.
-        :return: A dictionary representing the directory structure and files in JSON format, 
+        :return: A dictionary representing the directory structure and files in JSON format,
                  or None if the directory is empty or doesn't exist.
         """
         ignore_files = ["model.pth", ".npy", ".DS_Store", "__pycache__"]
-        ignore_exts = [".ckpt",".pth"]
+        ignore_exts = [".ckpt", ".pth"]
         error_files = []
 
         def skip_file(file_name):
@@ -281,12 +265,14 @@ class ModleeClient(object):
                     result[item] = dir_to_json(item_path)  # Recurse into subdirectories
                 elif not skip_file(item):
                     try:
-                        with open(item_path, 'r') as file:
+                        with open(item_path, "r") as file:
                             result[item] = json.load(file)
                     except (json.JSONDecodeError, UnicodeDecodeError):
                         try:
-                            with open(item_path, 'r') as file:
-                                result[item] = file.read()  # Read file content as plain text
+                            with open(item_path, "r") as file:
+                                result[
+                                    item
+                                ] = file.read()  # Read file content as plain text
                         except Exception as e:
                             print(f"Error reading file {item_path}: {e}")
                             error_files.append(item_path)
@@ -301,19 +287,16 @@ class ModleeClient(object):
         if len(error_files) > 0:
             print(f"Error processing the following files: {error_files}")
             return False
-        
-          # Define the temporary file path
-        temp_file_path = 'logs.json'
-        with open(temp_file_path, 'w') as tmp_file:
+
+        # Define the temporary file path
+        temp_file_path = "logs.json"
+        with open(temp_file_path, "w") as tmp_file:
             json.dump(json_data, tmp_file, indent=4)
 
         # Post the file
         run_id = os.path.basename(run_path)
-        
-        
-        server_filepath = "/".join([self.api_key, run_id]) #, 'logs.json'])
-
-        res = self.post_file(temp_file_path, server_filepath)                
+        server_filepath = "/".join([self.api_key, run_id])  # , 'logs.json'])
+        res = self.post_file(temp_file_path, server_filepath)
         os.remove(temp_file_path)
         if res is None:
             return False

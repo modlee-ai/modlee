@@ -1,5 +1,10 @@
 # Minimal makefile for Sphinx documentation
-#
+
+# Environment setup
+# 	1)	Setup virtual environment. Ex: python3 -m venv venv, source venv/bin/activate
+# 	2)	from root modlee dir, run: pip3 install .
+# 	3)	cd docs/
+# 	4)	now you can run the following Make commands
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
@@ -31,6 +36,10 @@ rebuild:
 
 md_rst:
 	pandoc -s README.md -o source/README.rst
+	pandoc -s tutorial.md -o source/tutorial.rst
+	pandoc -s guides.md -o source/guides.rst
+	pandoc -s troubleshooting.md -o source/troubleshooting.rst
+	pandoc -s support.md -o source/support.rst
 
 nb_rst:
 	jupyter nbconvert --to rst --output-dir ./source/notebooks/ ../examples/*.ipynb

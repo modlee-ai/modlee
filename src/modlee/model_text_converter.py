@@ -456,7 +456,6 @@ class_header = "class {}({}):\n"
 
 modlee_model_name = "ModleeModel"
 
-
 def exhaust_sequence_branch(root_sequence_module, custom_history):
     """
     Exhaust a module as a tree to find custom modules,
@@ -465,7 +464,6 @@ def exhaust_sequence_branch(root_sequence_module, custom_history):
     :param custom_history: A list of custom module names.
     :return: A tuple of lists ([custom module objects], [custom module names])
     """
-
     sequences = [root_sequence_module]
     custom_modules_list = []
 
@@ -475,21 +473,16 @@ def exhaust_sequence_branch(root_sequence_module, custom_history):
         for module in module_list:
             module_name = str(module).split("(")[0]
             if module_name not in OPS_MERGED and module_name not in custom_history:
-                # print('found custom module: ', module_name)
                 custom_modules_list.append(module)
                 custom_history.add(module_name)
             elif module_name == "Sequential":
-                # print('found sequential go as deep as needed')
                 sequences.insert(0, module)
         sequences.pop()
-
     return custom_modules_list, custom_history
-
 
 def get_code_text(code_text, module, custom_history):
     """
     Get a code text representation of a model as its __init__ and forward functions.
-    TODO - this only saves a hardcoded subset of functions
 
     :param code_text: The current code text if there are other dependencies, can be empty ''.
     :param module: The module for which to get the code text.
@@ -518,61 +511,39 @@ def get_code_text(code_text, module, custom_history):
         if _function is None:
             functions_to_save.remove(function_to_save)
             continue
-        # elif _function==getattr(pl.LightningModule,function_to_save):
-
-        # elif not pl.utilities.model_helpers.is_overridden('validation_step',module):
-        #     functions_to_save.remove(function_to_save)
-        #     continue
-
         function_code.update({function_to_save: inspect.getsource(_function)})
 
     if code_text == "":
         class_header_code = class_header_code.replace(
             module_class_name, modlee_model_name
         )
-        # init_code = init_code.replace(module_class_name, modlee_model_name)
         function_code["__init__"] = function_code["__init__"].replace(
             module_class_name, modlee_model_name
         )
 
-    # exclude modlee_required_packages from training data? if it is the same ...
-    # code_text = code_text + class_header_code + init_code + forward_code + '\n'
-
-    # code_text = code_text + class_header
-    # code
     code_text = "\n".join(
         [code_text, class_header_code] + list(function_code.values()) + ["\n"]
     )
 
-    # -------------
-
     child_module_list = list(module.__dict__["_modules"].values())
-
     custom_child_module_list = []
 
     for child_module in child_module_list:
         child_module_name = str(child_module).split("(")[0]
-        # print(child_module_name)
         if (
             child_module_name not in OPS_MERGED
             and child_module_name not in custom_history
         ):
-            # print('found custom module: ', child_module_name)
             custom_child_module_list.append(child_module)
             custom_history.add(child_module_name)
         elif child_module_name == "Sequential":
-            # print('found sequential go as deep as needed')
             seq_custom_modules_list, custom_history = exhaust_sequence_branch(
                 child_module, custom_history
             )
             custom_child_module_list = (
                 custom_child_module_list + seq_custom_modules_list
             )
-
-    # NOTE THIS DOESN't solve the problem systematically, just one layer deeper ....
-
     return code_text, custom_child_module_list, custom_history
-
 
 def get_code_text_for_model(
     model: nn.modules.module.Module | pl.core.module.LightningModule,
@@ -584,7 +555,6 @@ def get_code_text_for_model(
     :param model: The model for which to get the code text.
     :return: The code text for the model.
     """
-
     code_text = ""
     custom_history = set()
     module_queue = [model]
@@ -596,14 +566,9 @@ def get_code_text_for_model(
         module_queue.pop()
         module_queue = module_queue + custom_child_module_list
 
-        # print(module_queue)
-
-    # print('\n\n---code_text--- \n\n{}\n\n'.format(code_text))
-
     if include_header:
         code_text = modlee_required_packages + code_text
     return code_text
-
 
 def save_code_text_for_model(code_text: str, include_header: bool = False):
     """
@@ -615,7 +580,6 @@ def save_code_text_for_model(code_text: str, include_header: bool = False):
     if include_header:
         code_text = modlee_required_packages + code_text
     file_path = "modlee_model.py"  # Specify the file path
-
     # Open the file in write mode and write the text
     with open(file_path, "w") as file:
         file.write(code_text)

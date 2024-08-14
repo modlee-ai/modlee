@@ -4,10 +4,8 @@ Test modlee.
 import os
 import unittest
 import pathlib
-
 import modlee
 import mlflow
-
 
 class ModleeTest(unittest.TestCase):
     def setUp(self) -> None:
@@ -20,7 +18,6 @@ class ModleeTest(unittest.TestCase):
         """
         Tracking URI should change
         """
-        # modlee.set_tracking_uri()
         paths_to_test = [os.path.abspath("."), ".", ".."]
         for path_to_test in paths_to_test:
             modlee.set_run_path(path_to_test)
@@ -37,7 +34,6 @@ class ModleeTest(unittest.TestCase):
         """
         Should not be able to set to track garbage directory
         """
-        # modlee.set_tracking_uri()
         paths_to_test = ["asdfadsfsd"]
         for path_to_test in paths_to_test:
             with self.assertRaises(FileNotFoundError):

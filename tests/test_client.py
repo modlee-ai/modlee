@@ -1,17 +1,13 @@
 """
 Test modlee.client
 """
-#
 import unittest, pytest
 import yaml
-
 import os
 import modlee
 from modlee.client import ModleeClient
 from modlee.config import LOCAL_ORIGIN, SERVER_ORIGIN
 import importlib
-
-#
 import inspect
 
 """
@@ -20,31 +16,23 @@ in modlee_server/modlee_api, run:
 python3 app.py
 """
 
-# local endpoint
-# ENDPOINT = LOCAL_ORIGIN
 ENDPOINT = SERVER_ORIGIN
-# remote endpoint
-# ENDPOINT = "http://modlee.pythonanywhere.com"
 dummy_ORIGIN = "http://9.9.9.9:9999"
-
 modlee_dev_available = False
+
 try:
     importlib.import_module("modlee_dev")
     modlee_dev_available = True
 except ModuleNotFoundError as e:
     modlee_dev_available = False
 
-
 run_paths = [os.path.join(os.path.dirname(__file__), "test_mlruns")]
-
 assert os.environ.get("MODLEE_API_KEY"), "MODLEE_API_KEY environment variable not set, cannot test test_client.py"
 
-# class ModleeClientTest(unittest.TestCase):
 class TestModleeClient:
     client = ModleeClient(
         endpoint=ENDPOINT,
         api_key=os.environ.get("MODLEE_API_KEY")
-        # api_key=''
     )
     unauthorized_client = ModleeClient(endpoint=ENDPOINT, api_key="unauthorized")
     dummy_client = ModleeClient(endpoint=dummy_ORIGIN)
@@ -88,8 +76,7 @@ class TestModleeClient:
             assert (
                 200 <= response.status_code < 400
             ), f"Error retrieving {attrs_to_get}: {response.content}"
-
-    # @unittest.skipIf(modlee_dev_available==False)
+            
     def test_get_attrs_fail(self):
         """
         Trying to get random attributes should return none
@@ -159,18 +146,14 @@ class TestModleeClient:
         """
         Get scripts as raw *.py files
         """
-        scripts_to_get = ["data_metafeatures", "model_text_converter", "exp_loss_logger"]
+        scripts_to_get = ["data_metafeatures", "model_text_converter"]
         script_dict = {}
         for script_to_get in scripts_to_get:
             response = self.client.get_module(script_to_get)
             assert (
                 response is not None
             ), f"Did not receive response, get_module({script_to_get}) returned None"
-            # if modlee_dev_available:
-            # try:
             exec(response, {}, locals())
-            # except:
-            # assert False, "Could not execute callable even though modlee_dev package available"
 
     @pytest.mark.deprecated
     def test_fail_dummy_gets_callable_from_script(self):
@@ -203,7 +186,6 @@ class TestModleeClient:
 
     @pytest.mark.deprecated
     def test_post_run(self):
-
         for run_path in run_paths:
             response = self.client.post_run(run_path)
             assert response, f"Client {self.client.api_key} could not save {run_path}"

@@ -7,7 +7,7 @@
   <title>Dataset guidelines &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=e5dd142c" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=4bcfc4e7" />
 
   
     <link rel="shortcut icon" href="../_static/modlee.ico"/>
@@ -18,13 +18,12 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=8dde47fa"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Model definition guidelines" href="model_definition_guidelines.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,47 +45,98 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../README.html">modlee</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#installation">Installation</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">Quickstart with Modlee</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#account-setup">Account Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#python-setup">Python Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#install-python">1. Install Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#set-up-a-virtual-environment-optional-but-recommended">2. Set Up a Virtual Environment (Optional but Recommended)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#install-the-modlee-package">Install the Modlee Package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#pypi">PyPI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#source">Source</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#api-key">API key</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#features-that-require-an-api-key">Features that require an API key</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#features-that-work-without-an-api-key">Features that work without an API key</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#set-api-key">Set API key</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#model-architecture-recommendations">Model Architecture Recommendations</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#supported-use-cases">Supported use cases</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#next-steps">Next steps</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#automated-experiment-documentation">Automated Experiment Documentation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#supported-use-cases-1">Supported use cases</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#next-steps-1">Next steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#set-api-key">Set API Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#how-to-use-modlee-quick-example">How to Use Modlee - Quick Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#supported-use-cases">Supported Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#recommended-next-steps">Recommended Next Steps</a></li>
 </ul>
 </li>
 </ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#roadmap">Roadmap</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#open-source">Open source</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#modlee-internal">Modlee internal</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#support">Support</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#community">Community</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#contributing">Contributing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#issues">Issues</a></li>
+<p class="caption" role="heading"><span class="caption-text">Projects</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">First Project with Modlee</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#mnist-image-classification-with-modlee-an-end-to-end-tutorial">MNIST Image Classification with Modlee: An End-to-End Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#mnist-dataset">MNIST Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#using-modlee-to-recommend-and-train-a-model">1. Using Modlee to Recommend and Train a Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#custom-model-implementation">2. Custom Model Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#compare-models">3. Compare Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#conclusion">Conclusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#recommended-next-steps">Recommended Next Steps</a></li>
 </ul>
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides.html">Modlee Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#meta-learning-explained">Meta-Learning Explained</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#how-it-works">How It Works</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#significance-of-meta-learning">Significance of Meta-Learning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#overview-of-meta-features">Overview of Meta Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#defining-meta-features">Defining Meta Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#importance-of-standardizing-meta-features">Importance of Standardizing Meta Features</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#preservation-of-machine-learning-knowledge-with-modlee">Preservation of Machine Learning Knowledge with Modlee</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#automated-experiment-tracking">Automated Experiment Tracking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#benefits">Benefits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#auto-documentation-features">Auto Documentation Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#key-components-of-auto-documentation">Key Components of Auto Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#benefits-of-auto-documentation">Benefits of Auto Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#custom-logging-of-additional-metrics">Custom Logging of Additional Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#data-sharing-with-modlee">Data Sharing with Modlee</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#model-recommendations-by-modlee">Model Recommendations by Modlee</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#input-to-the-model-recommendation-system">Input to the Model Recommendation System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#output-from-the-model-recommendation-system">Output from the Model Recommendation System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#improving-the-model-recommendation-process">Improving the Model Recommendation Process</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#visualizing-experiments-with-mlflow">Visualizing Experiments with MLFlow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#introduction-to-mlflow">Introduction to MLFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#steps-to-launch-mlflow">Steps to Launch MLFlow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#formatting-data-loaders-and-datasets">Formatting Data Loaders and Datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#dataset-guidelines">Dataset Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#proper-data-loader-formatting">Proper Data Loader Formatting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#defining-models-with-modlee">Defining Models with Modlee</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#choosing-the-right-approach-statistical-ml-deep-learning-or-llms">Choosing the Right Approach: Statistical ML, Deep Learning, or LLMs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#statistical-machine-learning-ml">Statistical Machine Learning (ML)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#deep-learning-dl">Deep Learning (DL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#large-language-models-llms">Large Language Models (LLMs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#real-world-application">Real World Application</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#recommended-next-steps">Recommended Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="recommend.html">Automate Model Recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="document.html">Automate Experiment Documentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -105,6 +155,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../modules/modlee.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.api_config.html">modlee.api_config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.client.html">modlee.client module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
 </ul>
@@ -182,33 +236,40 @@
 </ul>
 </li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<p class="caption" role="heading"><span class="caption-text">Troubleshooting</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="recommend.html">Automate model recommendation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="document.html">Automate experiment documentation</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="model_definition_guidelines.html">Model definition guidelines</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="model_definition_guidelines.html#tldr">TLDR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="model_definition_guidelines.html#define-example-custom-modleemodel">Define example custom ModleeModel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="model_definition_guidelines.html#modlee-guideline">MODLEE_GUIDELINE</a></li>
-<li class="toctree-l2"><a class="reference internal" href="model_definition_guidelines.html#modality-task-compatibility">Modality &amp; task compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Identifying and Solving Issues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#installation-issues">Installation Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-installation-errors">Problem: Installation Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-incompatible-package-versions">Problem: Incompatible Package Versions</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Dataset guidelines</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#tldr">TLDR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#define-example-custom-dataset-objects">Define example custom dataset objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#create-dataset-and-dataloader">Create dataset and dataloader</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#modlee-guideline">MODLEE_GUIDELINE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#why">Why?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#setup-problems">Setup Problems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-configuration-errors">Problem: Configuration Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-unable-to-access-modlee-api">Problem: Unable to Access Modlee API</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#define-a-pytorch-dataloader">Define a PyTorch DataLoader</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">MODLEE_GUIDELINE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#model-issues">Model Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-training-process-fails-or-crashes">Problem: Training Process Fails or Crashes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-none-model-recommended">Problem: None Model Recommended</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#modality-task-compatibility">Modality &amp; task compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#environment-issues">Environment Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-google-colab-environment">Problem: Google Colab Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-google-colab-run-out-of-gpu-compute">Problem: Google Colab, Run Out of GPU Compute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#still-need-help">Still Need Help?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Additional Resources</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#community">Community</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#contributing">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#issues">Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#more-information">More Information</a></li>
 </ul>
 </li>
 </ul>
@@ -217,6 +278,7 @@
 <li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://www.dashboard.modlee.ai">modlee Dashboard</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/modlee-ai/modlee">GitHub</a></li>
 </ul>
 
         </div>
@@ -243,7 +305,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="dataset-guidelines">
+  <a class="reference internal image-reference" href="https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg"><img alt="https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg" height="50px" src="https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg" width="50px" /></a>
+<section id="dataset-guidelines">
 <h1>Dataset guidelines<a class="headerlink" href="#dataset-guidelines" title="Link to this heading"></a></h1>
 <p>Here we show pseudo code to illustrate building a pytorch data loader
 from a list of data elements in a format that is compatible with
@@ -258,36 +321,36 @@ Modlee Trainer</p></li>
 </section>
 <section id="define-example-custom-dataset-objects">
 <h2>Define example custom dataset objects<a class="headerlink" href="#define-example-custom-dataset-objects" title="Link to this heading"></a></h2>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import torch
-import numpy as np
-from torch.utils.data import Dataset, DataLoader
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
 
-class CustomDataset(Dataset):
-    def __init__(self, data):
-        self.data = data
+<span class="k">class</span> <span class="nc">CustomDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
 
-    def __len__(self):
-        return len(self.data)
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
-    def __getitem__(self, idx):
-        feature1 = torch.tensor(self.data[idx][0], dtype=torch.float32)
-        feature2 = torch.tensor(self.data[idx][1], dtype=torch.float32)
-        feature3 = torch.tensor(self.data[idx][2], dtype=torch.float32)
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="n">feature1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">feature2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">feature3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
-        features = [feature1,feature2,feature3]  # This is a simplification
+        <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">feature1</span><span class="p">,</span><span class="n">feature2</span><span class="p">,</span><span class="n">feature3</span><span class="p">]</span>  <span class="c1"># This is a simplification</span>
 
-        target = torch.tensor(self.data[idx][-1], dtype=torch.float32).squeeze()  # Ensure target is a scalar or 1D
+        <span class="n">target</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>  <span class="c1"># Ensure target is a scalar or 1D</span>
 
-        return features, target
+        <span class="k">return</span> <span class="n">features</span><span class="p">,</span> <span class="n">target</span>
 
-def example_text():
-    return np.random.rand(10)  # 1D array of 10 random numbers
-def example_image():
-    return np.random.rand(5, 3)  # 2D array of shape (5, 3) with random numbers
-def example_video():
-    return np.random.rand(5, 3, 2)  # 3D array of shape (5, 3, 2) with random numbers
-def example_target():
-    return np.random.rand(1)  # scalar value
+<span class="k">def</span> <span class="nf">example_text</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># 1D array of 10 random numbers</span>
+<span class="k">def</span> <span class="nf">example_image</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># 2D array of shape (5, 3) with random numbers</span>
+<span class="k">def</span> <span class="nf">example_video</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 3D array of shape (5, 3, 2) with random numbers</span>
+<span class="k">def</span> <span class="nf">example_target</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># scalar value</span>
 </pre></div>
 </div>
 </section>
@@ -310,9 +373,9 @@ improve Modlee’s model recommendation technology for your connected
 environment. The above stated list data structure allows us to easily
 extract the information we need. Check out exactly how we do this on our
 public <a class="reference external" href="https://github.com/modlee-ai/modlee">Github Repo</a>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>data = [[example_text(),example_image(),example_video(),example_target()] for _ in range(4)]
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="n">example_text</span><span class="p">(),</span><span class="n">example_image</span><span class="p">(),</span><span class="n">example_video</span><span class="p">(),</span><span class="n">example_target</span><span class="p">()]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
 
-dataset = CustomDataset(data)
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">CustomDataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -324,27 +387,15 @@ dataset = CustomDataset(data)
 <p>Pass your dataset to a PyTorch DataLoader, so that Modlee can
 automatically parse it for meta features, allowing you to share it in a
 meaningful way with your colleagues.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dataloader = DataLoader(dataset, batch_size=2, shuffle=True)
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-# Iterate through dataloader
-for i,batch in enumerate(dataloader):
-    print(f&quot;- batch_{i}&quot;)
-    features, target = batch
-    for j,feature in enumerate(features):
-        print(f&quot;feature_{j}.shape = &quot;, feature.shape)
-    print(&quot;target.shape = &quot;, target.shape)
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">batch_0</span>
-<span class="n">feature_0</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span>  <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
-<span class="n">feature_1</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span>  <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-<span class="n">feature_2</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span>  <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-<span class="n">target</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span>  <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">2</span><span class="p">])</span>
-<span class="o">-</span> <span class="n">batch_1</span>
-<span class="n">feature_0</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span>  <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
-<span class="n">feature_1</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span>  <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-<span class="n">feature_2</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span>  <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-<span class="n">target</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span>  <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">2</span><span class="p">])</span>
+<span class="c1"># Iterate through dataloader</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- batch_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">features</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">batch</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">feature</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">features</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;feature_</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">.shape = &quot;</span><span class="p">,</span> <span class="n">feature</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;target.shape = &quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -366,9 +417,7 @@ feedback on these guidelines.</p>
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="model_definition_guidelines.html" class="btn btn-neutral float-left" title="Model definition guidelines" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-    </div>
+          <footer>
 
   <hr/>
 

@@ -1,7 +1,6 @@
 import torch, onnx2torch
 from torch import tensor
 
-
 class Model(torch.nn.Module):
     def __init__(self):
         super().__init__()

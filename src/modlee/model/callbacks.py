@@ -16,10 +16,11 @@ from lightning.pytorch.utilities.types import STEP_OUTPUT
 import modlee
 from modlee import data_metafeatures, save_run, get_code_text_for_model, save_run_as_json, logging
 from modlee import \
-    utils as modlee_utils, exp_loss_logger, \
+    utils as modlee_utils, \
     model_metafeatures as mmf, \
     data_metafeatures as dmf
 from modlee.converter import Converter
+from modlee.utils import _make_serializable
 
 modlee_converter = Converter()
 
@@ -149,35 +150,6 @@ class LogCodeTextCallback(ModleeCallback):
                 "Could not access model-text converter, \
                     not logging but continuing experiment"
             )
-
-        if exp_loss_logger.module_available:
-            _extract_loss_functions = getattr(
-                exp_loss_logger, "extract_loss_functions", None
-            )
-
-            if _extract_loss_functions is not None:
-                loss_calls = exp_loss_logger.extract_loss_functions(code_text)
-                # logging.warning(loss_calls)
-                # mlflow.log_text(code_text, 'model.py')
-                if len(loss_calls) > 0:
-
-                    loss_calls_str = str.join("\n", loss_calls)
-                    mlflow.log_text(loss_calls_str, "loss_calls.txt")
-                else:
-                    pass
-                    # logging.warning("Could not record loss functions explicitly, \
-                    #                 check for usage of custom loss definitions")
-            else:
-                logging.warning(
-                    "exp_loss_logger has no attribute extract_loss_functions"
-                )
-
-        else:
-            logging.warning(
-                "Could not access exp_loss_logger, \
-                    not logging but continuing experiment"
-            )
-
 
 class ModelMetafeaturesCallback(ModleeCallback):
     def __init__(self, ModelMetafeatures=mmf.ModelMetafeatures,):
@@ -335,10 +307,14 @@ class DataMetafeaturesCallback(ModleeCallback):
             # TODO - use data batch and model to get output size
             data_mf = data_metafeatures = self.DataMetafeatures(dataloader)
             mlflow.log_dict(data_metafeatures._serializable_stats_rep, "stats_rep")
-            mlflow.log_dict({
+            data_mf_dict = {
                 **data_mf.properties,
-                **data_mf.embedding,
-                **data_mf.mfe}, "data_metafeatures")
+                **data_mf.mfe,
+            }
+            if hasattr(data_mf, "embedding"):
+                data_mf_dict.update(data_mf.embedding)
+            mlflow.log_dict(
+                _make_serializable(data_mf_dict), "data_metafeatures")
         else:
             logging.warning("Cannot log data statistics, could not access from server")
 

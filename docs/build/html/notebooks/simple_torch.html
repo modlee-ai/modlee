@@ -7,7 +7,7 @@
   <title>Simple Torch &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=e5dd142c" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=4bcfc4e7" />
 
   
     <link rel="shortcut icon" href="../_static/modlee.ico"/>
@@ -18,7 +18,7 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=8dde47fa"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -45,47 +45,98 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../README.html">modlee</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#installation">Installation</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">Quickstart with Modlee</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#account-setup">Account Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#python-setup">Python Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#install-python">1. Install Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#set-up-a-virtual-environment-optional-but-recommended">2. Set Up a Virtual Environment (Optional but Recommended)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#install-the-modlee-package">Install the Modlee Package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#pypi">PyPI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#source">Source</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#api-key">API key</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#features-that-require-an-api-key">Features that require an API key</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#features-that-work-without-an-api-key">Features that work without an API key</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#set-api-key">Set API key</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#model-architecture-recommendations">Model Architecture Recommendations</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#supported-use-cases">Supported use cases</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#next-steps">Next steps</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#automated-experiment-documentation">Automated Experiment Documentation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#supported-use-cases-1">Supported use cases</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../README.html#next-steps-1">Next steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#set-api-key">Set API Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#how-to-use-modlee-quick-example">How to Use Modlee - Quick Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#supported-use-cases">Supported Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#recommended-next-steps">Recommended Next Steps</a></li>
 </ul>
 </li>
 </ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#roadmap">Roadmap</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#open-source">Open source</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#modlee-internal">Modlee internal</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../README.html#support">Support</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#community">Community</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#contributing">Contributing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#issues">Issues</a></li>
+<p class="caption" role="heading"><span class="caption-text">Projects</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">First Project with Modlee</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#mnist-image-classification-with-modlee-an-end-to-end-tutorial">MNIST Image Classification with Modlee: An End-to-End Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#mnist-dataset">MNIST Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#using-modlee-to-recommend-and-train-a-model">1. Using Modlee to Recommend and Train a Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#custom-model-implementation">2. Custom Model Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#compare-models">3. Compare Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#conclusion">Conclusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#recommended-next-steps">Recommended Next Steps</a></li>
 </ul>
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides.html">Modlee Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#meta-learning-explained">Meta-Learning Explained</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#how-it-works">How It Works</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#significance-of-meta-learning">Significance of Meta-Learning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#overview-of-meta-features">Overview of Meta Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#defining-meta-features">Defining Meta Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#importance-of-standardizing-meta-features">Importance of Standardizing Meta Features</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#preservation-of-machine-learning-knowledge-with-modlee">Preservation of Machine Learning Knowledge with Modlee</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#automated-experiment-tracking">Automated Experiment Tracking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#benefits">Benefits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#auto-documentation-features">Auto Documentation Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#key-components-of-auto-documentation">Key Components of Auto Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#benefits-of-auto-documentation">Benefits of Auto Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#custom-logging-of-additional-metrics">Custom Logging of Additional Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#data-sharing-with-modlee">Data Sharing with Modlee</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#model-recommendations-by-modlee">Model Recommendations by Modlee</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#input-to-the-model-recommendation-system">Input to the Model Recommendation System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#output-from-the-model-recommendation-system">Output from the Model Recommendation System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#improving-the-model-recommendation-process">Improving the Model Recommendation Process</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#visualizing-experiments-with-mlflow">Visualizing Experiments with MLFlow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#introduction-to-mlflow">Introduction to MLFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#steps-to-launch-mlflow">Steps to Launch MLFlow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#formatting-data-loaders-and-datasets">Formatting Data Loaders and Datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#dataset-guidelines">Dataset Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#proper-data-loader-formatting">Proper Data Loader Formatting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#defining-models-with-modlee">Defining Models with Modlee</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#choosing-the-right-approach-statistical-ml-deep-learning-or-llms">Choosing the Right Approach: Statistical ML, Deep Learning, or LLMs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#statistical-machine-learning-ml">Statistical Machine Learning (ML)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#deep-learning-dl">Deep Learning (DL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#large-language-models-llms">Large Language Models (LLMs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#real-world-application">Real World Application</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#recommended-next-steps">Recommended Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="recommend.html">Automate Model Recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="document.html">Automate Experiment Documentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -104,6 +155,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../modules/modlee.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.api_config.html">modlee.api_config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.client.html">modlee.client module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
 </ul>
@@ -181,33 +236,40 @@
 </ul>
 </li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<p class="caption" role="heading"><span class="caption-text">Troubleshooting</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="recommend.html">Automate model recommendation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="document.html">Automate experiment documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Identifying and Solving Issues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#installation-issues">Installation Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-installation-errors">Problem: Installation Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-incompatible-package-versions">Problem: Incompatible Package Versions</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#setup-problems">Setup Problems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-configuration-errors">Problem: Configuration Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-unable-to-access-modlee-api">Problem: Unable to Access Modlee API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#model-issues">Model Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-training-process-fails-or-crashes">Problem: Training Process Fails or Crashes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-none-model-recommended">Problem: None Model Recommended</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#environment-issues">Environment Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-google-colab-environment">Problem: Google Colab Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-google-colab-run-out-of-gpu-compute">Problem: Google Colab, Run Out of GPU Compute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#still-need-help">Still Need Help?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="model_definition_guidelines.html">Model definition guidelines</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="model_definition_guidelines.html#tldr">TLDR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="model_definition_guidelines.html#define-example-custom-modleemodel">Define example custom ModleeModel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="model_definition_guidelines.html#modlee-guideline">MODLEE_GUIDELINE</a></li>
-<li class="toctree-l2"><a class="reference internal" href="model_definition_guidelines.html#modality-task-compatibility">Modality &amp; task compatibility</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="dataset_guidelines.html">Dataset guidelines</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#tldr">TLDR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#define-example-custom-dataset-objects">Define example custom dataset objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#create-dataset-and-dataloader">Create dataset and dataloader</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="dataset_guidelines.html#modlee-guideline">MODLEE_GUIDELINE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="dataset_guidelines.html#why">Why?</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#define-a-pytorch-dataloader">Define a PyTorch DataLoader</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="dataset_guidelines.html#id1">MODLEE_GUIDELINE</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="dataset_guidelines.html#modality-task-compatibility">Modality &amp; task compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Additional Resources</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#community">Community</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#contributing">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#issues">Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#more-information">More Information</a></li>
 </ul>
 </li>
 </ul>
@@ -216,6 +278,7 @@
 <li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://www.dashboard.modlee.ai">modlee Dashboard</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/modlee-ai/modlee">GitHub</a></li>
 </ul>
 
         </div>
@@ -244,79 +307,79 @@
              
   <section id="simple-torch">
 <h1>Simple Torch<a class="headerlink" href="#simple-torch" title="Link to this heading"></a></h1>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import lightning.pytorch as pl
-import torch.nn.functional as F
-import torch.nn as nn
-import torch
-import os
-import ssl
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">ssl</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ssl._create_default_https_context = ssl._create_unverified_context
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ssl</span><span class="o">.</span><span class="n">_create_default_https_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">_create_unverified_context</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import modlee
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">modlee</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>modlee.init(api_key=&quot;local&quot;)
-from modlee.utils import get_fashion_mnist
-from modlee.model import ModleeModel
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modlee</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;local&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">modlee.utils</span> <span class="kn">import</span> <span class="n">get_fashion_mnist</span>
+<span class="kn">from</span> <span class="nn">modlee.model</span> <span class="kn">import</span> <span class="n">ModleeModel</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class Classifier(nn.Module):
-    def __init__(self):
-        super(Classifier, self).__init__()
-        self.conv1 = nn.Conv2d(1, 6, 5)
-        self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(6, 16, 5)
-        self.fc1 = nn.Linear(16 * 4 * 4, 120)
-        self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, 10)
-    def forward(self, x):
-        x = self.pool(F.relu(self.conv1(x)))
-        x = self.pool(F.relu(self.conv2(x)))
-        x = x.view(-1, 16 * 4 * 4)
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = self.fc3(x)
-        x = F.softmax(x)
-        return x
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Classifier</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Classifier</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">84</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">84</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class LightningClassifier(ModleeModel):
-    def __init__(self, classifier=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if not classifier:
-            self.classifier = Classifier()
-        else:
-            self.classifier = classifier
-    def forward(self, x):
-        return self.classifier(x)
-    def training_step(self, batch, batch_idx):
-        x, y = batch
-        y_out = self(x)
-        loss = F.cross_entropy(y_out, y)
-        return {&quot;loss&quot;: loss}
-    def validation_step(self, val_batch, batch_idx):
-        x, y = val_batch
-        y_out = self(x)
-        loss = F.cross_entropy(y_out, y)
-        return loss
-    def configure_optimizers(self):
-        optimizer = torch.optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
-        return optimizer
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LightningClassifier</span><span class="p">(</span><span class="n">ModleeModel</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">classifier</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">Classifier</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">classifier</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="n">y_out</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">y_out</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">loss</span><span class="p">}</span>
+    <span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">val_batch</span>
+        <span class="n">y_out</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">y_out</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">loss</span>
+    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">optimizer</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>training_loader, test_loader = get_fashion_mnist()
-num_classes = len(training_loader.dataset.classes)
-model = LightningClassifier()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_loader</span><span class="p">,</span> <span class="n">test_loader</span> <span class="o">=</span> <span class="n">get_fashion_mnist</span><span class="p">()</span>
+<span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">training_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">classes</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LightningClassifier</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>with modlee.start_run() as run:
-    trainer = pl.Trainer(max_epochs=1)
-    trainer.fit(
-        model=model, train_dataloaders=training_loader, val_dataloaders=test_loader
-    )
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">training_loader</span><span class="p">,</span> <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">test_loader</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </section>

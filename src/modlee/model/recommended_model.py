@@ -1,18 +1,17 @@
 from modlee.model import ModleeModel
-
 import torch
 import torch.nn.functional as F
 from torch.optim import lr_scheduler
 
+
 class RecommendedModel(ModleeModel):
-    # class RecommendedModel(pl.LightningModule):
     """
     A ready-to-train ModleeModel that wraps around a recommended model from the recommender.
     Contains default functions for training.
     """
 
     def __init__(self, model, loss_fn=F.cross_entropy, *args, **kwargs):
-        """ 
+        """
         Constructor for a recommended model.
         """
         super().__init__(*args, **kwargs)
@@ -34,8 +33,10 @@ class RecommendedModel(ModleeModel):
         loss = self.loss_fn(y_out, y)
         return {"val_loss": loss}
 
-    def configure_optimizers(self,):
-        """ 
+    def configure_optimizers(
+        self,
+    ):
+        """
         Configure a default AdamW optimizer with learning rate decay.
         """
         optimizer = torch.optim.AdamW(self.parameters(), lr=0.001)
@@ -57,4 +58,3 @@ class RecommendedModel(ModleeModel):
     def configure_callbacks(self):
         base_callbacks = super().configure_callbacks()
         return base_callbacks
-

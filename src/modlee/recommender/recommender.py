@@ -4,41 +4,31 @@ Recommender for models.
 import json
 import requests
 import logging
-
-# logging.basicConfig(level=logging.INFO)
-
 import modlee
 from modlee.utils import get_model_size, typewriter_print
 from modlee.converter import Converter
-
-modlee_converter = Converter()
-
 from datetime import datetime
-
 import lightning.pytorch as pl
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.optim import lr_scheduler
-
 import numpy as np
+import pandas as pd
 
 from time import sleep
 import sys
-
 import os
 from urllib.parse import urlparse
-from modlee import ModleeClient
-API_KEY = os.environ.get("MODLEE_API_KEY", 'None')
 import modlee
 
-modlee_client = ModleeClient(api_key=API_KEY)
-# SERVER_ENDPOINT = modlee_client.endpoint
-SERVER_ENDPOINT = modlee_client.origin
-#SERVER_ORIGIN = 'http://127.0.0.1:7070'
-#SERVER_ENDPOINT = 'http://ec2-3-84-155-233.compute-1.amazonaws.com:7070'
-#print(SERVER_ENDPOINT)
+modlee_converter = Converter()
+
+from modlee.api_config import ModleeAPIConfig
+
+api_config = ModleeAPIConfig()
+SERVER_ENDPOINT = api_config.client.origin
+
 
 class Recommender(object):
     """
@@ -48,17 +38,18 @@ class Recommender(object):
     def __init__(
         self, dataloader=None, origin=SERVER_ENDPOINT, *args, **kwargs
     ) -> None:
-        """ 
+        """
         Constructor for recommender.
-        
+
         :param dataloader: The dataloader to analyze, defaults to None.
-        :param origin: The origin (scheme://hostname:port) for the server, defaults to Modlee's server. 
+        :param origin: The origin (scheme://hostname:port) for the server, defaults to Modlee's server.
         """
         self._model = None
         self.modality = None
         self.task = None
         self.metafeatures = None
         self.origin = origin
+        self.MetafeatureClass = modlee.data_metafeatures.DataMetafeatures
         if dataloader is not None:
             self.analyze(dataloader)
 
@@ -78,13 +69,15 @@ class Recommender(object):
             dataloader = self.dataloader
         self.dataloader = dataloader
         if not dataloader:
-            raise Exception(f'Dataloader not provided and not previously set.')
+            raise Exception(f"Dataloader not provided and not previously set.")
         self.metafeatures = self.calculate_metafeatures(dataloader)
         logging.info("Finished analyzing dataset.")
 
-    fit = analyze
+    fit = analyze  # Alias for the analyze method
 
-    def calculate_metafeatures(self, dataloader, data_metafeature_cls=modlee.data_metafeatures.DataMetafeatures):
+    def calculate_metafeatures(
+        self, dataloader, data_metafeature_cls=modlee.data_metafeatures.DataMetafeatures
+    ):
         """
         Calculate metafeatures.
 
@@ -94,7 +87,18 @@ class Recommender(object):
         if modlee.data_metafeatures.module_available:
             logging.info("Analyzing dataset based on data metafeatures...")
 
-            return data_metafeature_cls(dataloader, testing=True).stats_rep
+            # return data_metafeature_cls(dataloader, testing=True).stats_rep
+
+            ret = data_metafeature_cls(dataloader, testing=True)
+            ret = ret.features
+            # ret.update({
+            #     k:np.prod(v) for k,v in ret.items()
+            # })
+            # ret = pd.DataFrame(ret)
+            # ret = dataframes.default_transforms(ret)
+            # breakpoint()
+            # TODO - might just need to do the data transformations so that this can pass to the vdb lookup
+            return ret
         else:
             print("Could not analyze data (check access to server)")
             return {}
@@ -106,7 +110,7 @@ class Recommender(object):
         and returns a client-parseable text representation of the model.
 
         :param metafeatures: The data metafeatures to send to the server.
-        :return: The model as text that can be parsed into a trainable object. 
+        :return: The model as text that can be parsed into a trainable object.
         """
         assert (
             self.modality is not None
@@ -114,25 +118,27 @@ class Recommender(object):
         assert (
             self.task is not None
         ), "Recommender task is not set (e.g. classification, segmentation)"
+        # breakpoint()
         metafeatures = json.loads(json.dumps(metafeatures))
-       
-        res = modlee_client.get(
+
+        res = api_config.client.get(
             path=f"model/{self.modality}/{self.task}",
             data=json.dumps({"data_features": metafeatures}),
-            headers={"Content-Type": "application/json",
-                    "User-Agent": "Mozilla/5.0",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Headers": "*",
-                    "Access-Control-Allow-Methods": "*",
-                    },
-            timeout=20,
+            headers={
+                "Content-Type": "application/json",
+                "User-Agent": "Mozilla/5.0",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Methods": "*",
+            },
+            timeout=30,
         )
         model_text = res.content
         return model_text
 
     @property
     def model(self):
-        """ 
+        """
         The cached model.
         """
         if self._model is None:
@@ -144,11 +150,11 @@ class Recommender(object):
     @model.setter
     def model(self, model):
         self._model = model
-    
+
     def write_file(self, file_contents, file_path):
-        """ 
+        """
         Helper function to write a file.
-        
+
         :param file_contents: The contents to write.
         :param file_path: The path to the file.
         """
@@ -156,9 +162,9 @@ class Recommender(object):
             _file.write(file_contents)
 
     def train(self, max_epochs=1, val_dataloaders=None):
-        """ 
+        """
         Train the recommended model.
-        
+
         :param max_epochs: The maximum epochs to train for.
         :param val_dataloaders: The validation dataloaders, optional.
         """
@@ -191,9 +197,9 @@ class Recommender(object):
             self.run_folder = self.run_artifact_uri.split("///")[-1].split("artifacts")[
                 0
             ]
-   
+
     def get_input_torch(self):
-        """ 
+        """
         Get an input from the dataloader.
 
         :return: A tuple of the inputs (tensors) and their sizes.
@@ -211,13 +217,12 @@ class Recommender(object):
             if i in self.dataloader_input_inds
         ]
         input_torches = [torch.rand(ins) for ins in input_sizes]
-
         return input_torches, input_sizes
 
     def get_code_text(self):
-        """ 
+        """
         Get the code for a model as text (deprecated?).
-        
+
         :return: The model code as text.
         """
         _get_code_text_for_model = getattr(modlee, "get_code_text_for_model", None)
@@ -236,6 +241,4 @@ class Recommender(object):
         except:
             pass
         self.model_code = self.model_code.replace("self, model,", "self,")
-
         return self.model_code
-

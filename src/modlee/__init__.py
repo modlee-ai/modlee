@@ -16,31 +16,28 @@ from urllib.parse import urlparse
 
 from functools import partial
 import logging, warnings
-logging.basicConfig(
-    format='%(levelname)s:%(message)s',
-    level=logging.INFO)
+
+logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
+
+from .api_config import ModleeAPIConfig
 
 import mlflow
 from mlflow import start_run, last_active_run
 
-from .client import ModleeClient
-API_KEY = os.environ.get("MODLEE_API_KEY", 'None')
-if API_KEY is None:
-    logging.warning(f"Modlee API key is not set, functionality will be limited.")
-modlee_client = ModleeClient(api_key=API_KEY)
 from .retriever import *
 from .utils import save_run, last_run_path, save_run_as_json
 from .model_text_converter import get_code_text, get_code_text_for_model
 from . import (
     model_text_converter,
-    exp_loss_logger,
     data_metafeatures,
     model,
     recommender,
-    config
+    config,
 )
 
-api_modules = ["model_text_converter", "exp_loss_logger"]
+api_modules = [
+    "model_text_converter",
+]
 modules = glob.glob(join(dirname(__file__), "*.py"))
 __all__ = [
     basename(f)[:-3] for f in modules if isfile(f) and not f.endswith("__init__.py")
@@ -63,13 +60,18 @@ warnings.filterwarnings("ignore", ".*The parameter 'pretrained' is deprecated si
 warnings.filterwarnings("ignore", ".*Using a target size.*")
 warnings.filterwarnings("ignore", ".*Implicit dimension choice.*")
 warnings.filterwarnings("ignore", ".*divides the total loss by both.*")
-warnings.filterwarnings("ignore", ".*To copy construct from a tensor, it is recommended.*")
+warnings.filterwarnings(
+    "ignore", ".*To copy construct from a tensor, it is recommended.*"
+)
 warnings.filterwarnings("ignore", ".*NLLLoss2d has been deprecated.*")
 warnings.filterwarnings("ignore", ".*The default value of the antialias parameter.*")
 warnings.filterwarnings("ignore", ".*No names were found for specified dynamic axes.*")
 warnings.filterwarnings("ignore", ".*Starting from v1.9.0.*")
-warnings.filterwarnings("ignore", "Input data has range zero. The results may not be accurate.")
+warnings.filterwarnings(
+    "ignore", "Input data has range zero. The results may not be accurate."
+)
 warnings.filterwarnings("ignore", "scipy.stats.shapiro: Input data has range zero.")
+
 
 @contextmanager
 def suppress_stdout_stderr():
@@ -79,17 +81,14 @@ def suppress_stdout_stderr():
             yield (err, out)
 
 
-
-# Try to get an API key
-def init(run_path=None, api_key=API_KEY):
+def init(run_path=None, api_key=None):
     """
     Initialize package.
     Typically called at the beginning of a machine learning pipeline.
     Sets the run path where experiment assets will be stored.
-    
+
     :param run_path: The path to the current run.
     """
-
     # if run_dir not provided, set to the same directory as the calling file
     if run_path is None or os.path.exists(run_path) == False:
         run_path = os.getcwd()
@@ -104,23 +103,12 @@ def auth(api_key=None):
 
     :param api_key: The user's API key, if it is not available as an environment variable.
     """
-    # if api_key provided, reset modlee_client and reload API-locked modules
+    config = ModleeAPIConfig()
     if api_key:
-        global modlee_client, get_code_text, \
-            get_code_text_for_model, data_metafeatures, \
-                model_text_converter, exp_loss_logger, \
-                    save_run, save_run_as_json, API_KEY
-        API_KEY = api_key
-        os.environ['MODLEE_API_KEY'] = API_KEY
-        modlee_client = ModleeClient(api_key=api_key)
-        # save_run = partial(utils_save_run, modlee_client)
-        for _module in [data_metafeatures, model_text_converter, exp_loss_logger]:
-            importlib.reload(_module)
-        if model_text_converter.module_available:
-            from modlee.model_text_converter import (
-                get_code_text,
-                get_code_text_for_model,
-            )
+        config.set_api_key(api_key)
+    else:
+        config.ensure_api_key()
+        # logging.warning("API key not provided. Functionality will be limited.")
 
 
 def set_run_path(run_path):
@@ -130,7 +118,7 @@ def set_run_path(run_path):
 
     :param run_path: The path to the current run.
     :raises FileNotFoundError: If the path does not exist, will not create the parent directories.
-    :return: The tracking URI for the experiment. 
+    :return: The tracking URI for the experiment.
     """
     # Checking if path is absolute
     if not os.path.isabs(run_path):
@@ -162,6 +150,7 @@ def get_run_path():
     """
     artifact_path = urlparse(mlflow.get_tracking_uri()).path
     return artifact_path
+
 
 def get_api_key():
     """
