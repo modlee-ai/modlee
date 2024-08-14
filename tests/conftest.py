@@ -257,12 +257,19 @@ def makeDataloader():
     
     return dataset
 
+
 IMAGE_MODELS = [
     tvm.resnet18(weights="DEFAULT"),
     tvm.resnet18(),
     tvm.resnet50(),
     tvm.resnet152(),
-    tvm.googlenet()
+    # tvm.alexnet(),
+    tvm.googlenet(),
+]
+
+IMAGE_MODALITY_TASK_KWARGS = [
+    ("image", "classification", {"num_classes":10}),
+    ("image", "segmentation", {"num_classes":10}),
 ]
 
 IMAGE_SEGMENTATION_MODELS = [
@@ -361,6 +368,32 @@ def model_from_args(modality_task_kwargs):
         modality=modality,
         task=task, 
         **kwargs
+    )
+
+# @pytest.mark.parametrize("i", list(range(1)))
+# @pytest.fixture
+# def iter_fix(i):
+#     return i
+
+@pytest.fixture(scope="function")
+def get_i(request):
+    return request.param**2
+
+@pytest.fixture(scope="function")
+def model(request):
+    # breakpoint()
+    return _from_modality_task(request, module="model")
+
+@pytest.fixture(scope="function")
+def recommender(request):
+    return _from_modality_task(request, module="recommender")
+
+def _from_modality_task(request, module="model"):
+    modality, task = request.param[:-1]
+    return getattr(modlee, module).from_modality_task(
+        modality=modality, 
+        task=task,
+        **request.param[-1]
     )
 
 def _check_has_metafeatures_tab(mf, metafeature_types): 

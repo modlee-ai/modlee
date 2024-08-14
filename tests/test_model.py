@@ -5,6 +5,7 @@ import lightning.pytorch as pl
 import modlee
 from modlee.model import callbacks, ModleeModel, SimpleModel
 from .conftest import model_from_args
+from . import conftest
 
 class TestModel:
     model = SimpleModel()
@@ -17,15 +18,10 @@ class TestModel:
         assert not self.model._check_step_defined("validation_step")
 
 
-    # @pytest.mark.parametrize("modality", ["image"])
-    @pytest.mark.parametrize("modality_task_kwargs", [
-        ("image", "classification", {"num_classes":10}),
-        ("image", "segmentation", {"num_classes":10}),
-        ])
-    def test_modality_task(self, modality_task_kwargs):
-        
-        modality, task, kwargs = modality_task_kwargs
-        model = model_from_args(modality_task_kwargs)
+    @pytest.mark.parametrize("modality, task, kwargs", conftest.IMAGE_MODALITY_TASK_KWARGS)
+    def test_modality_task(self, modality, task, kwargs):
+        # model = model_from_args(modality_task_kwargs)
+        model = modlee.model.from_modality_task(modality, task, **kwargs)
         assert model.modality == modality
         assert model.task == task
 
@@ -40,3 +36,10 @@ class TestModel:
         model_mmf = f"{modality.capitalize()}{task.capitalize()}ModelMetafeatures"
         mmf_callback = model.model_metafeatures_callback
         assert mmf_callback.ModelMetafeatures.__name__ == model_mmf
+
+    @pytest.mark.parametrize("model",
+        conftest.IMAGE_MODALITY_TASK_KWARGS,
+        indirect=["model"])
+    def test_modality_task_indirect(self, model):
+        # breakpoint()
+        pass

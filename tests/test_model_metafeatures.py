@@ -39,6 +39,7 @@ class TestModelMetafeatures:
     
     @pytest.mark.parametrize("image_model", conftest.IMAGE_MODELS)
     def test_image_model_metafeatures(self, image_model):
+        breakpoint()
         image_mf = mmf.ImageModelMetafeatures(
             image_model
         )
@@ -51,7 +52,6 @@ class TestModelMetafeatures:
         image_mf = mmf.ImageSegmentationModelMetafeatures(
             image_model
         )
-        # breakpoint() 
         self._check_has_metafeatures(image_mf)
         return image_mf
     
@@ -60,7 +60,6 @@ class TestModelMetafeatures:
         text_mf = mmf.TextModelMetafeatures(
             text_model
         )
-        # breakpoint()
         pass
 
     def _check_has_metafeatures(self, mf):
