@@ -37,6 +37,7 @@ class MIMOModel(ModleeModel):
     
     # def forward(self, *args):
         # return self.model(*args)
+        
 
     def _step(self, batch, batch_idx):
         x, y = batch[:self.n_inputs], batch[self.n_inputs:]

@@ -530,9 +530,10 @@ def class_from_modality_task(modality, task, _class, *args, **kwargs):
     :return: The RecommenderObject, if it exists.
     """
     submodule = getattr(modlee, _class.lower())
+    _class = _class.replace("_","")
     if _class.lower() == "model":
         _class = "ModleeModel"
-    else:
+    elif "Metafeatures" not in _class:
         _class = _class.capitalize()
     ClassObject = getattr(
         submodule, f"{modality.capitalize()}{task.capitalize()}{_class}", None

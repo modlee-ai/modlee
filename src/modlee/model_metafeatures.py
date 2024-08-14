@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from functools import partial
 
 import numpy as np
 import pandas as pd
@@ -8,7 +9,7 @@ import pickle
 import torch
 import modlee
 from modlee.config import G2V_PKL
-from modlee.utils import get_model_size
+from modlee.utils import get_model_size, class_from_modality_task
 
 converter = modlee.converter.Converter()
 
@@ -21,6 +22,7 @@ class ModelMetafeatures:
         # Torch model/text, ONNX graph/text
         # Store these different representations
         self.torch_model = torch_model
+        # self.torch_model.to(device=modlee.DEVICE)
         self.onnx_graph = converter.torch_model2onnx_graph(self.torch_model)
         # Must calculate NetworkX before initializing tensors
         self.onnx_nx = converter.index_nx(converter.onnx_graph2onnx_nx(self.onnx_graph))
@@ -154,7 +156,9 @@ class ImageModelMetafeatures(ModelMetafeatures):
     def get_output_shape(
         self,
     ):
-        input_dummy = torch.randn([1, 3, 300, 300]).to(device=self.torch_model.device)
+        # breakpoint()
+        device = next(self.torch_model.parameters()).device
+        input_dummy = torch.randn([1, 3, 300, 300]).to(device=device)
         output = self.torch_model(input_dummy)
         return np.array(output.shape[1:])
 
@@ -184,6 +188,7 @@ class TextModelMetafeatures(ModelMetafeatures):
 class ModelEncoder(karateclub.graph2vec.Graph2Vec):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # self.attributed = False
 
     def save(self, path):
         with open(path, "wb") as _file:
@@ -193,5 +198,10 @@ class ModelEncoder(karateclub.graph2vec.Graph2Vec):
     def from_pkl(cls, path):
         with open(path, "rb") as _file:
             # g2v = pickle.loads(_file.read(path))
-            return pickle.load(_file)
+            ret = pickle.load(_file)
+            ret.attributed = False
+            return ret
         # return cls
+
+    
+from_modality_task = partial(class_from_modality_task, _class="Model_Metafeatures")
