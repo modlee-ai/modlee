@@ -12,21 +12,27 @@ from modlee.utils import get_model_size, typewriter_print
 
 modlee_converter = Converter()
 
+
 class ImageRecommender(Recommender):
-    """ 
+    """
     Recommender for image models.
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.modality = "image"
-        
+        self.MetafeatureClass = modlee.data_metafeatures.ImageDataMetafeatures
+
     def calculate_metafeatures(self, dataloader, *args, **kwargs):
-        return super().calculate_metafeatures(dataloader, data_metafeature_cls=modlee.data_metafeatures.ImageDataMetafeatures)
+        return super().calculate_metafeatures(
+            dataloader,
+            data_metafeature_cls=modlee.data_metafeatures.ImageDataMetafeatures,
+        )
 
     def fit(self, dataloader, *args, **kwargs):
-        """ 
+        """
         Fit the recommended to an image dataloader.
-        
+
         :param dataloader: The dataloader, should contain images as the first batch element.
         """
         super().fit(dataloader, *args, **kwargs)
@@ -44,50 +50,57 @@ class ImageRecommender(Recommender):
                 n_samples += len(tgt)
             num_classes = len(unique_labels)
         self.metafeatures.update({"num_classes": num_classes})
-
         try:
+            # breakpoint()
             self.model_text = self._get_model_text(self.metafeatures)
+            if not isinstance(self.model_text, str):
+                self.model_text = self.model_text.decode("utf-8")
+            # breakpoint()
             model = modlee_converter.onnx_text2torch(self.model_text)
             for param in model.parameters():
                 try:
                     torch.nn.init.xavier_normal_(param, 1.0)
                 except:
                     torch.nn.init.normal_(param)
-            self.model = RecommendedModel(model, loss_fn=self.loss_fn)
+            self.model = RecommendedModel(
+                model, loss_fn=self.loss_fn, modality=self.modality
+            )
 
             self.code_text = self.get_code_text()
             self.model_code = modlee_converter.onnx_text2code(self.model_text)
-            self.model_text = self.model_text.decode("utf-8")
+            # self.model_text = self.model_text.decode("utf-8")
             clean_model_text = ">".join(self.model_text.split(">")[1:])
-            
+
             self.write_file(self.model_text, "./model.txt")
             self.write_file(self.model_code, "./model.py")
-            logging.info(f"The model is available at the recommender object's `model` attribute.")
+            logging.info(
+                f"The model is available at the recommender object's `model` attribute."
+            )
         except:
             print(
                 "Could not retrieve model, could not access server or data features may be malformed."
             )
             self.model = None
 
+
 class ImageClassificationRecommender(ImageRecommender):
-    """ 
+    """
     Recommender for image classification tasks.
     Uses cross-entropy loss.
     """
-    def __init__(
-        self,
-       *args,
-        **kwargs
-    ):
+
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.task = "classification"
         self.loss_fn = F.cross_entropy
 
+
 class ImageSegmentationRecommender(ImageRecommender):
-    """ 
+    """
     Recommender for image segmentation tasks.
     Uses cross entropy loss.
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.task = "segmentation"

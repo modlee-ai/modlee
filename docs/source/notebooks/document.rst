@@ -12,7 +12,7 @@ Prerequisites for this tutorial include familiarity with
 `Lightning <https://lightning.ai/docs/pytorch/stable/>`__.
 
 Here is a video explanation of this
-`exercise <https://www.youtube.com/watch?v=jVFKSJBrxJ4>`__.
+`exercise <https://youtu.be/jVFKSJBrxJ4>`__.
 
 .. raw:: html
 

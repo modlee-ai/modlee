@@ -1,0 +1,9 @@
+clf49.0
+clf49.0
+clf122.0
+clf360.0
+segment141.0
+segment260.0
+segment182.0
+segment174.0
+segment293.0

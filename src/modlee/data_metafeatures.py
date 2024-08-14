@@ -1,10 +1,14 @@
 #%%
 import ssl
+
 ssl._create_default_https_context = ssl._create_unverified_context
+
 import random
 import math
 import time
+
 import numpy as np
+
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.decomposition import PCA
 from sklearn.metrics import (
@@ -12,7 +16,10 @@ from sklearn.metrics import (
     calinski_harabasz_score,
     davies_bouldin_score,
 )
+
+import spacy
 from pymfe.mfe import MFE
+
 import torch
 import torchvision
 from torchvision.models import (
@@ -21,9 +28,11 @@ from torchvision.models import (
     densenet121,
     alexnet,
     mobilenet_v3_small,
-) 
+)  # , vit_l_32
 import torch.nn.functional as F
-from modlee.utils import closest_power_of_2
+
+from modlee.utils import closest_power_of_2, _make_serializable
+
 fixed_resize = 32
 import logging, warnings
 
@@ -48,6 +57,7 @@ for warning_to_ignore in warnings_to_ignore:
 
 module_available = True
 
+
 def bench_kmeans_unsupervised(batch, n_clusters=[2, 4, 8, 16, 32], testing=False):
     """
     Calculate k-means clusters for a batch of data.
@@ -57,7 +67,6 @@ def bench_kmeans_unsupervised(batch, n_clusters=[2, 4, 8, 16, 32], testing=False
     :param testing: Flag for testing and calculating with a smaller batch, defaults to False,
     :return: A dictionary of {'kmeans':calculated_kmeans_clusters}
     """
-
     if testing == True:
         n_clusters = [2, 4, 8]
 
@@ -70,7 +79,7 @@ def bench_kmeans_unsupervised(batch, n_clusters=[2, 4, 8, 16, 32], testing=False
             continue
         start_time = time.time()
 
-        kmeans = KMeans(n_clusters=nc, init="random", n_init="auto") 
+        kmeans = KMeans(n_clusters=nc, init="random", n_init="auto")  # KMeans
         labels = kmeans.fit_predict(batch)
 
         inertia = kmeans.inertia_
@@ -79,6 +88,7 @@ def bench_kmeans_unsupervised(batch, n_clusters=[2, 4, 8, 16, 32], testing=False
         )  # x is your data, labels are cluster labels
         ch_score = calinski_harabasz_score(batch, labels)
         db_score = davies_bouldin_score(batch, labels)
+
         end_time = time.time()
 
         kmeans_results[nc] = {
@@ -88,7 +98,12 @@ def bench_kmeans_unsupervised(batch, n_clusters=[2, 4, 8, 16, 32], testing=False
             "davies_bouldin_score": db_score,
             "time_taken": end_time - start_time,
         }
+
+    # print(kmeans_results)
+    # STOP
+
     return {"kmeans": kmeans_results}
+
 
 def extract_features_from_model(model, batch):
     """
@@ -101,11 +116,13 @@ def extract_features_from_model(model, batch):
 
     features = []
     with torch.no_grad:
-        input_tensor = batch  
+        input_tensor = batch  # torch.from_numpy(x)
         outputs = model(input_tensor)
         features.append(outputs)
     features = torch.cat(features, dim=0)
+
     return features
+
 
 def pad_image_channels(x, desired_channels=3):
     """
@@ -123,7 +140,9 @@ def pad_image_channels(x, desired_channels=3):
     padding_tensor = torch.zeros((x.shape[0], channels_to_pad, x.shape[2], x.shape[3]))
     # Concatenate the original tensor and the padding tensor along the channel dimension
     padded_tensor = torch.cat((x, padding_tensor), dim=1)
+
     return padded_tensor
+
 
 def sample_image_channels(x, num_sample=3):
     """
@@ -138,7 +157,9 @@ def sample_image_channels(x, num_sample=3):
     random_indices = torch.randperm(x.shape[1])[:num_sample]
     # Select the channels using the random indices
     selected_channels = x[:, random_indices]
+
     return selected_channels
+
 
 def sample_image_from_video(x, num_channels=1):
     """
@@ -151,6 +172,7 @@ def sample_image_from_video(x, num_channels=1):
 
     # Generate random channel indices for each batch element
     random_channel_indices = torch.randint(0, x.shape[1], (x.shape[0], num_channels))
+
     # Use the channel indices to select the channels
     selected_channels = x[
         torch.arange(x.shape[0]),  # Batch indices
@@ -159,9 +181,12 @@ def sample_image_from_video(x, num_channels=1):
         :,
         :,  # All spatial dimensions
     ]
+
     # Add a new dimension to the selected_channels tensor
     selected_channels = selected_channels.squeeze(1)
+
     return selected_channels
+
 
 def manipulate_x_5(x):
     """
@@ -172,6 +197,7 @@ def manipulate_x_5(x):
     """
     x = sample_image_from_video(x)
     return x
+
 
 def manipulate_x_4(x):
     """
@@ -186,10 +212,13 @@ def manipulate_x_4(x):
         x = sample_image_channels(x)
 
     global fixed_resize
+
     resized_tensor = F.interpolate(
         x, size=fixed_resize, mode="bilinear", align_corners=False
     )
+
     return resized_tensor
+
 
 def manipulate_x_3(x):
     """
@@ -200,6 +229,7 @@ def manipulate_x_3(x):
     """
 
     global fixed_resize
+
     try:
         resized_tensor = F.interpolate(
             x.unsqueeze(1), size=fixed_resize, mode="bilinear", align_corners=False
@@ -207,7 +237,9 @@ def manipulate_x_3(x):
         resized_tensor = resized_tensor.squeeze(1)
     except:
         return x
+
     return resized_tensor
+
 
 def manipulate_x_2(x):
     """
@@ -221,6 +253,7 @@ def manipulate_x_2(x):
         x = x[:, :10000]
     return x
 
+
 def manipulate_x_1(x):
     """
     Unsqueeze a 1D tensor.
@@ -230,6 +263,7 @@ def manipulate_x_1(x):
     """
     return x.unsqueeze(1)
 
+
 def get_image_features(x, testing=False):
     """
     Get features for a batch of image data.
@@ -238,7 +272,9 @@ def get_image_features(x, testing=False):
     :param testing: Flag to calculate on a smaller test subsample of the data, defaults to False.
     :return: A dictionary of the features.
     """
+
     # assumptions: x has the following structure (num,ch,h,w), or (num,?,ch,h,w)
+
     # cases
     #   - x shape : (num,3,h,w): all below should work if h&w are compatible
     #   - x shape : (num,h,w): output only raw
@@ -250,7 +286,9 @@ def get_image_features(x, testing=False):
     #   - x shape : (num,>3,h,w): take first 3 ch? randomly sample 3 channels?
     #   - x shape : (num,?,ch,h,w): randomly take a slice of "video", then treat as above case ...
 
+    # print('x shape before manipulation: ',x.shape)
     x_raw = x
+
     if len(x.size()) == 5:
         if x.size()[2] != min(list(x.size())):
             print(
@@ -271,8 +309,10 @@ def get_image_features(x, testing=False):
 
     if len(x.size()) == 3:
         x = manipulate_x_3(x)
+
     if len(x.size()) == 2:
         x = manipulate_x_2(x)
+
     if len(x.size()) == 1:
         x = manipulate_x_1(x)
 
@@ -288,33 +328,61 @@ def get_image_features(x, testing=False):
         x.size()
     )
 
+    # ------------------------------------------------
+
+    # print('x shape after manipulation: ',x.shape)
+    # sleep(5)
+
     if testing == True:
         # Load the pre-trained models
         model_resnet = resnet18(pretrained=True)
         model_resnet.fc = torch.nn.Identity()
+
         # Set the models to evaluation mode
         model_resnet.eval()
+
         name_model_pairs = [["resnet18", model_resnet]]
+
     else:
+        # TODO - Deprectaed, whole function should be refactored or removed
         # Load the pre-trained models
         model_resnet = model_vgg = None
+        # model_resnet = resnet18(pretrained=True)
+        # model_resnet.fc = torch.nn.Identity()
+
+        # model_vgg = vgg16(pretrained=True)
+        # model_vgg.classifier = torch.nn.Sequential(
+        #     *list(model_vgg.classifier.children())[:-1]
+        # )
+        # # Set the models to evaluation mode
+        # model_resnet.eval()
+        # model_vgg.eval()
         name_model_pairs = [
             ["resnet18", model_resnet],
             ["vgg16", model_vgg],
+            # ['densenet121',model_densenet],
+            # ['alexnet',model_alexnet],
+            # ['mobilenet_v3_small',model_mobile_small],
+            # ['vit_l_32',model_vit_l_32],
         ]
 
     feature_dict = {}
 
     for pair in name_model_pairs:
+        # feature_dict[pair[0]] = extract_features(pair[1], x)
         try:
             feature_dict[pair[0]] = torch.zeros(1,1)
+            # feature_dict[pair[0]] = extract_features_from_model(pair[1], x)
         except:
             # if model is not compatible with data, just skip for now
             pass
 
     feature_dict["raw"] = x_raw
+
     return feature_dict
 
+
+# NEED TO UPDATE THIS ON OTHER SIDE
 def sample_dataloader(train_dataloader, num_sample):
     """
     Sample batches from a dataloader.
@@ -323,6 +391,7 @@ def sample_dataloader(train_dataloader, num_sample):
     :param num_sample: The number of samples.
     :return: A tuple of dataset_size, batch_elements, and the original size of the batch.
     """
+
     # goal: take dataloader, sample batches, seperate elements into own arrays for indpendent analysis
 
     # assumptions:
@@ -336,6 +405,7 @@ def sample_dataloader(train_dataloader, num_sample):
     try:
         for i, batch in enumerate(train_dataloader):
             if i == 0:
+                # if type(batch)==list or type(batch)==tuple:
                 if type(batch) in [list, tuple]:
                     _subbatch = batch[0]
                     batch_size = _subbatch.size()[0]
@@ -344,11 +414,14 @@ def sample_dataloader(train_dataloader, num_sample):
                     # assume train_dataloader returns a tensor
                     batch_size = batch.size()[0]
                     num_batch_elements = 1
+                # print(type(batch))
+                # print(batch_size)
             num_batches += 1
     except:
         batch_size = train_dataloader.batch_size
         num_batches = len(train_dataloader.dataset) // batch_size
         num_batch_elements = len(next(iter(train_dataloader)))
+
         pass
 
     assert num_batches != 0, "num_batches={}".format(num_batches)
@@ -393,7 +466,31 @@ def sample_dataloader(train_dataloader, num_sample):
         pass
 
     batch_elements_orig_shapes = [b.shape for b in batch_elements]
+
     return dataset_size, batch_elements, batch_elements_orig_shapes
+
+def get_n_samples(dataloader, n_samples=100):
+    """
+    Get a number of samples from a dataloader
+
+    :param dataloader: The dataloader.
+    :param n_samples: The number of samples, defaults to 100.
+    :return: An iterable of batch elements, each of length n_samples.
+    """
+    batch = next(iter(dataloader))
+    while len(batch[0]) < n_samples:
+        _batch = next(iter(dataloader))
+        # for b,_b in zip(batch, _batch):
+        for i,b in enumerate(_batch):
+            if isinstance(b, torch.Tensor):
+                batch[i] = torch.cat((batch[i],b), dim=0)
+            else:
+                batch[i] = list(batch[i]) + list(b)
+                # batch[i].append(b)
+            batch[i] = batch[i][:n_samples]
+            
+    return batch
+            
 
 class DataMetafeatures(object):
     """
@@ -413,7 +510,11 @@ class DataMetafeatures(object):
             num_sample = 100
 
         self.testing = testing
+
         self.dataloader = dataloader
+
+        # -----------------------------
+
         self.num_sample = num_sample
 
         # general and independent of any data type or ml task
@@ -428,14 +529,29 @@ class DataMetafeatures(object):
         start_time = time.time()
         self.batch_stats = self.get_stats()
         batch_stats_time = time.time() - start_time
+        # self.batch_stats = []
 
         # Features from PyMFE, a meta-feature extraction library
         start_time = time.time()
         self.mfe_features = self.get_mfe_features()
+        self.mfe = self.get_mfe()
         mfe_time = time.time() - start_time
+        # print(f"Batch stats: {batch_stats_time}; MFE time: {mfe_time}")
+        # for batch_idx,batch_mfe_features in enumerate(self.mfe_features):
+        #     print(batch_mfe_features)
+        #     self.batch_stats[batch_idx].update({
+        #         'mfe_features':batch_mfe_features
+        #     })
+        # for mfe_key,mfe_value in self.mfe_features.items():
+        #     self.batch_stats[mfe_key].update(mfe_value)
+        
+        self.properties = self.get_properties()
 
         # general and independent of any data type or ml task
         self.stats_rep = self.get_features()
+        # TODO - deprecated "stats_rep" for "features"
+        self.features = self.stats_rep
+        # self.stats_rep.update(self.mfe_features)
         self._serializable_stats_rep = self._make_serializable(self.stats_rep)
 
     def get_raw_batch_elements(self):
@@ -462,7 +578,30 @@ class DataMetafeatures(object):
             batch_stat["mfe_features"] = self.mfe_features[i]
 
             stats_rep["batch_element_{}".format(i)] = batch_stat
+
+        # stats_rep = self._f32_to_f16(stats_rep)
         return stats_rep
+
+    def get_properties(self):
+        """
+        Get properties — features that are not calculated, e.g. shapes
+        """
+        ret = {
+            'dataset_size':self.dataset_size,
+        }
+        samples = get_n_samples(self.dataloader)
+        for i,sample in enumerate(samples):
+            # Get shape
+            if not isinstance(sample, torch.Tensor):
+                sample = np.array(sample)
+            sample_shape = list(sample.shape)
+            sample_dim = len(sample_shape)
+            ret.update({
+                f'elem_{i}_shape':sample_shape,
+                f'elem_{i}_dims':sample_dim,
+                })
+        return ret
+
 
     get_stats_rep = get_features
 
@@ -488,9 +627,12 @@ class DataMetafeatures(object):
                     "stats": stats,
                     "time_taken": end_time - start_time,
                 }
+
             batch_stats.append(feature_stats)
+
         return batch_stats
 
+    # def _f32_to_f16(self,base_dict):
     def _make_serializable(self, base_dict):
         """
         Make a dictionary serializable (e.g. by pickle or json) by converting floats to strings.
@@ -498,14 +640,7 @@ class DataMetafeatures(object):
         :param base_dict: The dictionary to convert.
         :return: The serializable dict.
         """
-        for k, v in base_dict.items():
-            if isinstance(v, dict):
-                base_dict.update({k: self._make_serializable(v)})
-            elif "float" in str(type(v)):
-                base_dict.update({k: str(v)})
-            elif isinstance(v, np.int64):
-                base_dict.update({k: int(v)})
-        return base_dict
+        return _make_serializable(base_dict)
 
     def get_mfe_features(self):
         """
@@ -513,6 +648,7 @@ class DataMetafeatures(object):
 
         :return: A list of metafeatures.
         """
+        # mfe_features = {}
         mfe_features = []
         for batch_idx, batch_element in enumerate(self.batch_elements):
             feature_dict = self.get_mfe_on_batch(batch_element)
@@ -526,6 +662,8 @@ class DataMetafeatures(object):
         :param batch_element: The batch element to calculate.
         :return: A dictionary of features for the batch element.
         """
+        
+        # If the batch element is a tensor, convert to numpy array
         if isinstance(batch_element, torch.Tensor):
 
             if len(batch_element.shape) > 2:
@@ -533,23 +671,52 @@ class DataMetafeatures(object):
                     batch_element = torchvision.transforms.functional.resize(
                         batch_element, size=(30, 30)
                     )
+                # print(batch_element.shape)
                 batch_element = batch_element.flatten(start_dim=1)
             batch_element = batch_element.numpy()
         mfe = MFE(
+            # groups="all",
             groups="default"
         )
         mfe.fit(
             batch_element,
+            # verbose=2,
         )
         features = mfe.extract()
         feature_dict = {k: v for k, v in zip(*features)}
         return feature_dict
+    get_mfe_on_element = get_mfe_on_batch
+    
+    def get_mfe(self):
+        """
+        Get PyMFE features for every element in the dataloader
+
+        :return: A dictionary of {mfe_feature : mfe_value}
+        """
+        samples = get_n_samples(self.dataloader)
+        sample_mfes = [self.get_mfe_on_element(sample) for sample in samples]
+        ret = {}
+        for i,sample_mfe in enumerate(sample_mfes):
+            ret.update({f'{k}_{i}':v for k,v in sample_mfe.items()})
+        return ret
+
+
 
 class ImageDataMetafeatures(DataMetafeatures):
     """
     Image-based DataMetafeatures.
     """
-    
+
+    def __init__(self, dataloader, embd_model=None, *args, **kwargs):
+        super().__init__(dataloader, *args, **kwargs)
+        if not embd_model:
+            self.embd_model = torchvision.models.resnet18(
+                weights='IMAGENET1K_V1'
+            )
+            self.embd_model.eval()
+        self.embedding = self.get_embedding()
+        pass
+
     def get_raw_batch_elements(self):
         """
         Get the raw batch elements for an image-based dataset.
@@ -560,4 +727,56 @@ class ImageDataMetafeatures(DataMetafeatures):
             get_image_features(element, testing=self.testing)
             for element in self.batch_elements
         ]
-# %%
+    
+    def get_embedding(self, index=0, max_len=100):
+        samples = get_n_samples(self.dataloader)
+        # Assume inputs are the first batch element
+        x = samples[index]
+        with torch.no_grad():
+            embds = self.embd_model(x)
+            embds = embds[:,:max_len]
+       
+        # Return distributions of each embedding axis
+        ret = {f'embd_{index}_mean_{i}':float(v.numpy()) for i,v in enumerate(embds.mean(axis=0))}
+        ret.update({f'embd_{index}_std_{i}':float(v.numpy()) for i,v in enumerate(embds.std(axis=0))}) 
+        return ret
+
+class TextDataMetafeatures(DataMetafeatures):
+    def __init__(self, dataloader, nlp_model=None, *args, **kwargs):
+        super().__init__(dataloader, *args, **kwargs)
+        # self.dataloader = dataloader
+        if not nlp_model:
+            # TODO - consider using a larger model embedding e.g. en_code_web_sm -> 300D
+            # and truncate
+            self.nlp_model = spacy.load('en_core_web_sm')
+        self.embedding = self.get_embedding()
+        pass
+
+    def get_embedding(self, index=None, max_len=100, *args, **kwargs):
+        """
+        Get embeddings from the dataloader.
+
+        :param index: The index in a batch of the string elements to embed, defaults to 1
+        :return: A dictionary of {embd_i : embd_value}
+        """
+        samples = get_n_samples(self.dataloader)
+        # Find the index of the first batch of strings
+        if not index:
+            index = 0
+            while not isinstance(samples[index][0], str):
+                index += 1
+                if index == len(samples):
+                    raise IndexError(f"No string elements in {self}, cannot calculate embedding with spaCy")
+        embds = list(map(lambda x: self.nlp_model(x).vector, samples[index]))
+        embds = torch.Tensor(embds)
+        embds = embds[:,:max_len]
+        # Return distributions of each embedding axis
+        # TODO - consider how batch elements are sorted, should they be indexed by the index that the 
+        # string elements appear? at "embd_{INDEX}..."
+        # ret = {f'embd_{index}_mean_{i}':float(v.numpy()) for i,v in enumerate(embds.mean(axis=0))}
+        # ret.update({f'embd_{index}_std_{i}':float(v.numpy()) for i,v in enumerate(embds.std(axis=0))})
+        # TODO - consider this assumption, not indexing the embeddings at all
+        ret = {f'embd_mean_{i}':float(v.numpy()) for i,v in enumerate(embds.mean(axis=0))}
+        ret.update({f'embd_std_{i}':float(v.numpy()) for i,v in enumerate(embds.std(axis=0))})
+        return ret
+        breakpoint()

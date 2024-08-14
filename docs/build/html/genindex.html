@@ -84,9 +84,9 @@
 <p class="caption" role="heading"><span class="caption-text">Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="guides.html">Modlee Guides</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="guides.html#meta-learning-explained">Meta Learning Explained</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides.html#meta-learning-explained">Meta-Learning Explained</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="guides.html#how-it-works">How It Works</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guides.html#significance-of-meta-learning">Significance of Meta Learning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guides.html#significance-of-meta-learning">Significance of Meta-Learning</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="guides.html#overview-of-meta-features">Overview of Meta Features</a><ul>
@@ -154,6 +154,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modules/modlee.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.api_config.html">modlee.api_config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="modules/modlee.client.html">modlee.client module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
 </ul>
@@ -411,6 +415,8 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.ensure_api_key">ensure_api_key() (modlee.api_config.ModleeAPIConfig method)</a>
+</li>
       <li><a href="modules/modlee.model_text_converter.html#modlee.model_text_converter.exhaust_sequence_branch">exhaust_sequence_branch() (in module modlee.model_text_converter)</a>
 </li>
   </ul></td>
@@ -458,6 +464,8 @@
       <li><a href="modules/modlee.retriever.html#modlee.retriever.get_cached_vars">get_cached_vars() (in module modlee.retriever)</a>
 </li>
       <li><a href="modules/modlee.client.html#modlee.client.ModleeClient.get_callable">get_callable() (modlee.client.ModleeClient method)</a>
+</li>
+      <li><a href="modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.get_client">get_client() (modlee.api_config.ModleeAPIConfig method)</a>
 </li>
       <li><a href="modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text">get_code_text() (in module modlee.model_text_converter)</a>
 
@@ -611,6 +619,13 @@
 </li>
       </ul></li>
       <li>
+    modlee.api_config
+
+      <ul>
+        <li><a href="modules/modlee.api_config.html#module-modlee.api_config">module</a>
+</li>
+      </ul></li>
+      <li>
     modlee.client
 
       <ul>
@@ -738,6 +753,8 @@
         <li><a href="_autosummary/modlee.utils.html#module-modlee.utils">module</a>, <a href="modules/modlee.utils.html#module-modlee.utils">[1]</a>
 </li>
       </ul></li>
+      <li><a href="modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig">ModleeAPIConfig (class in modlee.api_config)</a>
+</li>
       <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.ModleeCallback">ModleeCallback (class in modlee.model.callbacks)</a>
 </li>
       <li><a href="modules/modlee.client.html#modlee.client.ModleeClient">ModleeClient (class in modlee.client)</a>
@@ -755,6 +772,8 @@
 
       <ul>
         <li><a href="_autosummary/modlee.html#module-modlee">modlee</a>, <a href="modules/modlee.html#module-modlee">[1]</a>
+</li>
+        <li><a href="modules/modlee.api_config.html#module-modlee.api_config">modlee.api_config</a>
 </li>
         <li><a href="_autosummary/modlee.client.html#module-modlee.client">modlee.client</a>, <a href="modules/modlee.client.html#module-modlee.client">[1]</a>
 </li>
@@ -917,6 +936,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.refactor_leading_number">refactor_leading_number() (modlee.converter.Converter method)</a>
 </li>
+      <li><a href="modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.reload_modules">reload_modules() (modlee.api_config.ModleeAPIConfig method)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.remove_identity">remove_identity() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.model.model.html#modlee.model.model.ModleeModel.run_path">run_path (modlee.model.model.ModleeModel property)</a>
@@ -943,11 +964,13 @@
 </li>
       <li><a href="modules/modlee.utils.html#modlee.utils.save_run">save_run() (in module modlee.utils)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/modlee.utils.html#modlee.utils.save_run_as_json">save_run_as_json() (in module modlee.utils)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.save_torch">save_torch() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.set_api_key">set_api_key() (modlee.api_config.ModleeAPIConfig method)</a>
 </li>
       <li><a href="_autosummary/%3C--%20add%20this%20line/modlee.set_run_path.html#modlee.set_run_path">set_run_path() (in module modlee)</a>
 </li>

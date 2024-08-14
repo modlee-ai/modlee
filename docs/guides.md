@@ -1,12 +1,12 @@
-![](https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg){width=50px height=50px}
+![](https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg)
 
 # Modlee Guides
 
 This section provides in-depth explanations and insights into various aspects of the Modlee package and key machine learning concepts. Whether you’re new to machine learning or looking to deepen your understanding, these guides will help you navigate and utilize Modlee more effectively.
 
-## Meta Learning Explained
+## Meta-Learning Explained
 
-Meta learning, or "learning to learn," is a key focus at Modlee, aimed at enhancing our machine learning development processes. By leveraging insights from previous experiments across various data modalities and tasks, we reduce the experimentation needed to find quality solutions for new datasets. This accelerates development and improves efficiency for developers and organizations. This section delves into the details of our meta learning approach.
+Meta-learning, or "learning to learn," is a key focus at Modlee, aimed at enhancing our machine learning development processes. By leveraging insights from previous experiments across various data modalities and tasks, we reduce the experimentation needed to find quality solutions for new datasets. This accelerates development and improves efficiency for developers and organizations. This section delves into the details of our meta-learning approach.
 
 ### How It Works
 
@@ -14,13 +14,13 @@ Meta learning, or "learning to learn," is a key focus at Modlee, aimed at enhanc
 
 2. **Dataset & Model Insights**: An "AI for AI" approach, to analyze preserved past experiments to identify the best models for specific tasks, datasets, and solution constraints.
    
-3. **Meta Learning Recommended Benchmark Models**: For a given dataset and task, meta learning recommends a benchmark model. This provides a streamlined starting solution, backed by previous work and tailored to your dataset.
+3. **Meta-Learning Recommended Benchmark Models**: For a given dataset and task, meta-learning recommends a benchmark model. This provides a streamlined starting solution, backed by previous work and tailored to your dataset.
 
-4. **Progress & Share**: Continue exploring machine learning solutions to surpass your benchmark. Preserve and share your experiments with a meta learning agent to disseminate insights, facilitating seamless collaboration.
+4. **Progress & Share**: Continue exploring machine learning solutions to surpass your benchmark. Preserve and share your experiments with a meta-learning agent to disseminate insights, facilitating seamless collaboration.
 
 
-### Significance of Meta Learning
-Meta learning significantly enhances machine learning development by leveraging past experimental insights to reduce the need for extensive trial and error. This approach accelerates solution discovery, making the process more efficient and effective for developers and organizations.
+### Significance of Meta-Learning
+Meta-learning significantly enhances machine learning development by leveraging past experimental insights to reduce the need for extensive trial and error. This approach accelerates solution discovery, making the process more efficient and effective for developers and organizations.
 
 ---
 
