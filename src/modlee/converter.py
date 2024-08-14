@@ -29,6 +29,8 @@ import re
 import functools
 from functools import partial
 
+import modlee
+
 MODEL_CODE_HEADER = """
 import torch, onnx2torch
 from torch import tensor
@@ -101,6 +103,12 @@ class Converter(object):
                 if hasattr(torch_model, 'device'):
                     input_dummy = input_dummy.to(device=torch_model.device)
 
+        if hasattr(torch_model, "device"):
+            device = torch_model.device
+        else:
+            device = next(torch_model.parameters()).device
+            # device = modlee.DEVICE
+        input_dummy.to(device=device)
         with torch.no_grad():
             for param in torch_model.parameters():
                 param.requires_grad = False

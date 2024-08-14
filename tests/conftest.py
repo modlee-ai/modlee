@@ -264,13 +264,34 @@ IMAGE_MODELS = [
     tvm.resnet50(),
     tvm.resnet152(),
     # tvm.alexnet(),
-    tvm.googlenet(),
+    # tvm.googlenet(),
 ]
 
-IMAGE_MODALITY_TASK_KWARGS = [
-    ("image", "classification", {"num_classes":10}),
-    ("image", "segmentation", {"num_classes":10}),
-]
+def get_all_image_models():
+    """
+    Scrapes available easily loadable torchvsion models.
+    As of 240814, 63/80 are passing.
+    Failures are due to wrong output sizes (e.g. 300 instead of 224)
+        and unsupported ONNX operations. 
+
+    :return: _description_
+    """
+    IMAGE_MODELS = []
+    for attr in dir(tvm):
+        tvm_attr = getattr(tvm, attr)
+        if not callable(tvm_attr) or isinstance(tvm_attr, type):
+            continue
+        try:
+            inspect.signature(tvm_attr).bind()
+        except TypeError:
+            continue
+        tvm_attr_ret = tvm_attr()
+        if 'forward' in dir(tvm_attr_ret):
+            print(f"Adding {tvm_attr}")
+            IMAGE_MODELS.append(tvm_attr_ret)
+    return IMAGE_MODELS
+        
+# breakpoint()
 
 IMAGE_SEGMENTATION_MODELS = [
     tvm.segmentation.fcn_resnet50(),
@@ -279,6 +300,24 @@ IMAGE_SEGMENTATION_MODELS = [
     tvm.segmentation.deeplabv3_resnet50(),
     tvm.segmentation.deeplabv3_resnet101()
 ]
+
+
+IMAGE_MODALITY_TASK_KWARGS = [
+    ("image", "classification", {"num_classes":10}),
+    ("image", "segmentation", {"num_classes":10}),
+]
+
+IMAGE_MODALITY_TASK_MODEL = []
+for model in IMAGE_MODELS:
+    IMAGE_MODALITY_TASK_MODEL.append((
+        "image", "classification", model
+    ))
+for model in IMAGE_SEGMENTATION_MODELS:
+    IMAGE_MODALITY_TASK_MODEL.append((
+        "image", "segmentation", model
+    ))
+
+
 TEXT_MODELS = [
     ttm.ROBERTA_BASE_ENCODER,
     ttm.ROBERTA_DISTILLED_ENCODER,

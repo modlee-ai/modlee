@@ -36,14 +36,19 @@ class TestModelMetafeatures:
             MODEL
         ) 
         pass
+
+    @pytest.mark.parametrize("modality, task, model", conftest.IMAGE_MODALITY_TASK_MODEL)
+    def test_modality_task_model(self, modality, task, model):
+        model_metafeature_obj = mmf.from_modality_task(modality, task, torch_model=model)
+        assert type(model_metafeature_obj).__name__ == f"{modality.capitalize()}{task.capitalize()}ModelMetafeatures"
     
     @pytest.mark.parametrize("image_model", conftest.IMAGE_MODELS)
     def test_image_model_metafeatures(self, image_model):
-        breakpoint()
+        # breakpoint()
         image_mf = mmf.ImageModelMetafeatures(
             image_model
         )
-        # self._check_has_metafeatures(image_mf)
+        self._check_has_metafeatures(image_mf)
         return image_mf
         pass
     
@@ -60,6 +65,7 @@ class TestModelMetafeatures:
         text_mf = mmf.TextModelMetafeatures(
             text_model
         )
+        self._check_
         pass
 
     def _check_has_metafeatures(self, mf):
