@@ -38,36 +38,108 @@ def makeDataloader():
                                                        output_seq=1).to_dataloader(batch_size=1)
     
     return dataset
+from pytorch_tabular.models.tabnet import TabNetModelConfig
+from pytorch_tabular.models.tab_transformer import TabTransformerConfig
+from pytorch_tabular.models.category_embedding import CategoryEmbeddingModelConfig, CategoryEmbeddingBackbone
+from pytorch_tabular.models.danet import DANetConfig
+from pytorch_tabular.models.gandalf import GANDALFConfig
+from pytorch_tabular import TabularModel
+from pytorch_tabular.models.tabnet import TabNetModel
+from pytorch_tabnet.tab_model import TabNetClassifier
+from pytorch_tabular.config import DataConfig, OptimizerConfig, TrainerConfig
+import torch.nn as nn
+import torch
+import pandas as pd
+from pytorch_tabular.models.tabnet import TabNetModelConfig, TabNetModel
+from omegaconf import OmegaConf
+from omegaconf import OmegaConf
+from pytorch_tabular.models.category_embedding import CategoryEmbeddingModel
+from modlee.model.tabular_model import TabNetModleeModel, CategoryEmbeddingModleeModel
+
+tabnet_config = OmegaConf.create({
+    'task': 'classification',
+    'embedding_dims': [(3, 2), (5, 3)],
+    'metrics_params': [{'task': 'multiclass'}],
+    'metrics': ['accuracy'],
+    'grouped_features': [
+        ['category1', 'category2'],
+        ['feature1', 'feature2']
+    ],
+    'categorical_cols': ['category1', 'category2'],
+    'continuous_cols': ['feature1', 'feature2'],
+    'continuous_dim': 2,
+    'categorical_dim': 2,
+    'n_d': 16,
+    'n_a': 16,
+    'n_steps': 5,
+    'gamma': 1.5,
+    'n_independent': 3,
+    'n_shared': 3,
+    'virtual_batch_size': 64,
+    'mask_type': 'entmax',
+    'embedding_dropout': 0.1,
+    'batch_norm_continuous_input': True,
+    'learning_rate': 1e-3,
+    'loss': 'CrossEntropyLoss'
+})
+
+category_embedding_config = OmegaConf.create({
+    'task': 'classification',
+    'head': 'LinearHead',
+    'layers': '128-64-32',
+    'activation': 'ReLU',
+    'use_batch_norm': True,
+    'initialization': 'kaiming',
+    'dropout': 0.0,
+    'head_config': {
+        'layers': '128-64-32',
+        'activation': 'ReLU',
+        'use_batch_norm': True,
+        'initialization': 'kaiming',
+        'dropout': 0.0
+    },
+    'embedding_dims': [(10, 5)],  
+    'embedding_dropout': 0.1,
+    'batch_norm_continuous_input': True,
+    'learning_rate': 1e-3,
+    'loss': 'CrossEntropyLoss',
+    'metrics': ['accuracy'],
+    'metrics_params': [{'task': 'multiclass'}],
+    'metrics_prob_input': [False],
+    'target_range': [],
+    'categorical_cols': ['feature1'], 
+    'continuous_cols': [], 
+    'continuous_dim': 0,
+    'categorical_dim': 10,
+    'embedded_cat_dim': 5,  
+    'virtual_batch_size': 32,
+    'seed': 42
+})
+
+inferred_config = OmegaConf.create({
+    "output_dim": 10
+})
+
+tabnet_instance = TabNetModleeModel(config=tabnet_config, inferred_config=inferred_config)
+category_embedding_instance = CategoryEmbeddingModleeModel(config=category_embedding_config, inferred_config=inferred_config)
+TABULAR_MODELS = [tabnet_instance.get_model(), category_embedding_instance.get_model()]
 
 IMAGE_MODELS = [
     tvm.resnet18(weights="DEFAULT"),
     tvm.resnet18(),
     tvm.resnet50(),
     tvm.resnet152(),
-    tvm.googlenet(),
-]
-
-IMAGE_MODELS = [
-    tvm.resnet18(weights="DEFAULT"),
-    tvm.resnet18(),
-    tvm.resnet50(),
-    tvm.resnet152(),
-    # tvm.alexnet(),
-    tvm.googlenet(),
+    tvm.googlenet()
 ]
 
 IMAGE_SEGMENTATION_MODELS = [
     tvm.segmentation.fcn_resnet50(),
     tvm.segmentation.fcn_resnet101(),
-    # tvm.segmentation.lraspp(),
     tvm.segmentation.lraspp_mobilenet_v3_large(),
     tvm.segmentation.deeplabv3_resnet50(),
-    tvm.segmentation.deeplabv3_resnet101(),
+    tvm.segmentation.deeplabv3_resnet101()
 ]
 TEXT_MODELS = [
-    # ttm.FLAN_T5_BASE,
-    # ttm.FLAN_T5_BASE_ENCODER,
-    # ttm.FLAN_T5_BASE_GENERATION,
     ttm.ROBERTA_BASE_ENCODER,
     ttm.ROBERTA_DISTILLED_ENCODER,
     # ttm.T5_BASE,

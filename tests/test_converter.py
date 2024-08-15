@@ -3,7 +3,7 @@
 Test modlee.converter
 """
 import pytest, re, pathlib
-from .conftest import IMAGE_MODELS, IMAGE_SEGMENTATION_MODELS, TEXT_MODELS, TIMESERIES_MODELS, DATALOADER
+from .conftest import IMAGE_MODELS, IMAGE_SEGMENTATION_MODELS, TEXT_MODELS, TABULAR_MODELS, TIMESERIES_MODELS, DATALOADER
 import lightning
 import numpy as np
 import torch, torchvision, random, onnx2torch
@@ -13,6 +13,11 @@ g2v = karateclub.graph2vec.Graph2Vec()
 import modlee
 from modlee.converter import Converter
 from modlee.model import RecommendedModel
+from sklearn.linear_model import LinearRegression as LinReg
+from pytorch_tabular.models.tabnet import TabNetModel
+from pytorch_tabular.models.category_embedding import CategoryEmbeddingModel
+
+
 
 converter = Converter()
 
@@ -317,13 +322,15 @@ def _test_converted_onnx_model(onnx_file_path: str, dataloaders):
     pass
 
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS+TEXT_MODELS)
-# @pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
+@pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS)
 #@pytest.mark.parametrize("torch_model, dataloader", zip(TIMESERIES_MODELS, DATALOADER))
 @pytest.mark.parametrize("torch_model", TIMESERIES_MODELS)
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS[1:2])
 # @pytest.mark.parametrize("torch_model", IMAGE_SEGMENTATION_MODELS)
 # @pytest.mark.parametrize("torch_model", TEXT_MODELS)
+
+@pytest.mark.parametrize("torch_model", TABULAR_MODELS)
 def test_conversion_pipeline(torch_model):
 # def test_conversion_pipeline():
     """ Test converting across several representations, from Torch graphs to ONNX text
@@ -344,11 +351,7 @@ def test_conversion_pipeline(torch_model):
     input_dummy = torch.randn((1,10,10))
     #print(f"x type: {type(x)}") 
     onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy)
-    # breakpoint()
-    # onnx2torch.convert(onnx_graph)
-    # breakpoint()
     torch_model = converter.onnx_graph2torch_model(onnx_graph)
-    # breakpoint()
 
     # onnx graph <-> onnx text
     onnx_text = converter.onnx_graph2onnx_text(onnx_graph)

@@ -60,6 +60,7 @@ class Converter(object):
         :param tmp_onnx_path: A placeholder location to save the ONNX graph
         """
         # Keeping gradients on may cause issues, so turn them off
+
         torch_model.eval()
         '''if input_dummy is None:
             input_dummy = torch.randn([10, 3, 300, 300])
@@ -91,7 +92,6 @@ class Converter(object):
                 output_names=["gemm_1"],
                 dynamic_axes={
                     "input_1": [0],
-                    # "gemm_1": {0: "batch_size"},
                     "gemm_1": [0],
                 },
                 **kwargs,
