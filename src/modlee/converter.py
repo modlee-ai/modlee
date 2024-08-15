@@ -59,12 +59,22 @@ class Converter(object):
         :param tmp_onnx_path: A placeholder location to save the ONNX graph
         """
         # Keeping gradients on may cause issues, so turn them off
+
         torch_model.eval()
         if input_dummy is None:
             input_dummy = torch.randn([10, 3, 300, 300])
-        input_dummy.requires_grad = False
-        if hasattr(torch_model, 'device'):
+        ###
+        if isinstance(input_dummy, dict):
+            input_dummy = {key: value.to(device=torch_model.device) for key, value in input_dummy.items()}
+            for key, value in input_dummy.items():
+                value.requires_grad = False
+        else:
+            input_dummy.requires_grad = False
             input_dummy = input_dummy.to(device=torch_model.device)
+
+        if not isinstance(input_dummy, dict) and hasattr(torch_model, 'device'):
+            input_dummy = input_dummy.to(device=torch_model.device)
+
         with torch.no_grad():
             for param in torch_model.parameters():
                 param.requires_grad = False
@@ -78,7 +88,6 @@ class Converter(object):
                 output_names=["gemm_1"],
                 dynamic_axes={
                     "input_1": [0],
-                    # "gemm_1": {0: "batch_size"},
                     "gemm_1": [0],
                 },
                 **kwargs,

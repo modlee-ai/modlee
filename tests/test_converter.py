@@ -2,9 +2,9 @@
 Test modlee.converter
 """
 import pytest, re, pathlib
-from .conftest import IMAGE_MODELS, IMAGE_SEGMENTATION_MODELS, TEXT_MODELS
+from .conftest import IMAGE_MODELS, IMAGE_SEGMENTATION_MODELS, TEXT_MODELS, TABULAR_MODELS
 import lightning
-import numpy as n
+import numpy as np
 import torch, torchvision, random, onnx2torch
 import networkx as nx
 import karateclub
@@ -12,6 +12,11 @@ g2v = karateclub.graph2vec.Graph2Vec()
 import modlee
 from modlee.converter import Converter
 from modlee.model import RecommendedModel
+from sklearn.linear_model import LinearRegression as LinReg
+from pytorch_tabular.models.tabnet import TabNetModel
+from pytorch_tabular.models.category_embedding import CategoryEmbeddingModel
+
+
 
 converter = Converter()
 
@@ -306,29 +311,24 @@ def _test_converted_onnx_model(onnx_file_path: str, dataloaders):
     pass
 
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS+TEXT_MODELS)
-@pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
+#@pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS)
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS[1:2])
 # @pytest.mark.parametrize("torch_model", IMAGE_SEGMENTATION_MODELS)
 # @pytest.mark.parametrize("torch_model", TEXT_MODELS)
+
+@pytest.mark.parametrize("torch_model", TABULAR_MODELS)
 def test_conversion_pipeline(torch_model):
 # def test_conversion_pipeline():
     """ Test converting across several representations, from Torch graphs to ONNX text
     """
-    # load a basic resnet model
-    # torch_model = torchvision.models.resnet18(weights="DEFAULT")
-    # torch model <-> onnx graph
-    # breakpoint()
-    # input_dummy = torch.Tensor(torch_model.transform()(modlee.converter.TEXT_INPUT_DUMMY))
-    # torch_model = torch_model.get_model()
-    # breakpoint()
-    input_dummy = torch.randn([1,3,300,300])
+    input_dummy = {
+        "continuous": torch.empty((10, 2)), 
+        "categorical": torch.randint(0, 3, (10, 2))
+    } 
+
     onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy)
-    # breakpoint()
-    # onnx2torch.convert(onnx_graph)
-    # breakpoint()
     torch_model = converter.onnx_graph2torch_model(onnx_graph)
-    # breakpoint()
 
     # onnx graph <-> onnx text
     onnx_text = converter.onnx_graph2onnx_text(onnx_graph)
@@ -341,7 +341,8 @@ def test_conversion_pipeline(torch_model):
     torch_model = converter.torch_code2torch_model(torch_code)
 
     batch_size = random.choice(range(1, 33))
-    input_dummy = torch.randn((batch_size, 3, 30, 30))
+    #input_dummy = torch.randn((batch_size, 3, 30, 30))
+    input_dummy = torch.randn((batch_size, 10))
     output_dummy = torch_model(input_dummy)
     assert output_dummy.shape[0] == batch_size
 
