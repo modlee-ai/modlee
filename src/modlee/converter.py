@@ -60,20 +60,21 @@ class Converter(object):
         """
         # Keeping gradients on may cause issues, so turn them off
 
+        
         torch_model.eval()
-        if input_dummy is None:
-            input_dummy = torch.randn([10, 3, 300, 300])
+        if input_dummy['x'] is None:
+            input_dummy['x'] = torch.randn([10, 3, 300, 300])
         ###
-        if isinstance(input_dummy, dict):
-            input_dummy = {key: value.to(device=torch_model.device) for key, value in input_dummy.items()}
-            for key, value in input_dummy.items():
+        if isinstance(input_dummy['x'], dict):
+            input_dummy['x'] = {key: value.to(device=torch_model.device) for key, value in input_dummy['x'].items()}
+            for key, value in input_dummy['x'].items():
                 value.requires_grad = False
         else:
-            input_dummy.requires_grad = False
-            input_dummy = input_dummy.to(device=torch_model.device)
+            input_dummy['x'].requires_grad = False
+            input_dummy['x'] = input_dummy['x'].to(device=torch_model.device)
 
-        if not isinstance(input_dummy, dict) and hasattr(torch_model, 'device'):
-            input_dummy = input_dummy.to(device=torch_model.device)
+        if not isinstance(input_dummy['x'], dict) and hasattr(torch_model, 'device'):
+            input_dummy['x'] = input_dummy['x'].to(device=torch_model.device)
 
         with torch.no_grad():
             for param in torch_model.parameters():
