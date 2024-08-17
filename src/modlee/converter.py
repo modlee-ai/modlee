@@ -61,6 +61,7 @@ class Converter(object):
         """
         # Keeping gradients on may cause issues, so turn them off
 
+        
         torch_model.eval()
         '''if input_dummy is None:
             input_dummy = torch.randn([10, 3, 300, 300])
