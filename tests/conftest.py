@@ -54,7 +54,11 @@ from pytorch_tabular.models.tabnet import TabNetModelConfig, TabNetModel
 from omegaconf import OmegaConf
 from omegaconf import OmegaConf
 from pytorch_tabular.models.category_embedding import CategoryEmbeddingModel
-from modlee.model.tabular_model import TabNetModleeModel, CategoryEmbeddingModleeModel
+from modlee.model.tabular_model import TabNetModleeModel, CategoryEmbeddingModleeModel, GANDALFModleeModel
+from modlee.model.tabular_model import DANetModleeModel, TabTransformerModleeModel
+from pytorch_tabular.models.gandalf import GANDALFModel
+from pytorch_tabular.models.danet import DANetModel
+
 
 tabnet_config = OmegaConf.create({
     'task': 'classification',
@@ -116,13 +120,115 @@ category_embedding_config = OmegaConf.create({
     'seed': 42
 })
 
+gandalf_config = OmegaConf.create({
+    'task': 'classification',
+    'gflu_stages': 2,
+    'gflu_dropout': 0.1,
+    'gflu_feature_init_sparsity': 0.3,
+    'learnable_sparsity': True,
+    'batch_norm_continuous_input': True,
+    'embedding_dims': [(3, 2), (5, 3)],  # (category_size, embedding_dim)
+    'embedding_dropout': 0.1,
+    'virtual_batch_size': 32,
+    'continuous_dim': 2,  # Number of continuous features
+    'output_dim': 10,  # Number of classes for classification
+    'metrics': ['accuracy'],
+    'metrics_params': [{'task': 'multiclass'}],
+    'metrics_prob_input': [False],
+    'seed': 42,
+    'head': 'LinearHead',  # Specify the head type
+    'head_config': {
+        'layers': '128-64-32',  # Example architecture for the head
+        'activation': 'ReLU',
+        'use_batch_norm': True,
+        'initialization': 'kaiming',
+        'dropout': 0.0
+    },
+    'loss': 'CrossEntropyLoss'
+})
+
+danet_config = OmegaConf.create({
+    'task': 'classification',
+    'n_layers': 3,
+    'abstlay_dim_1': 64,
+    'abstlay_dim_2': 32,
+    'k': 4,
+    'dropout_rate': 0.1,
+    'block_activation': 'ReLU',  # Specify the activation function for blocks
+    'virtual_batch_size': 32,
+    'embedding_dropout': 0.1,
+    'batch_norm_continuous_input': True,
+    'embedding_dims': [(3, 2), (5, 3)],  # (category_size, embedding_dim)
+    'continuous_dim': 2,  # Number of continuous features
+    'output_dim': 10,  # Number of classes for classification
+    'metrics': ['accuracy'],
+    'metrics_params': [{'task': 'multiclass'}],
+    'metrics_prob_input': [False],
+    'seed': 42,
+    'loss': 'CrossEntropyLoss',
+    'batch_size': 32,
+    'head': 'LinearHead',
+    'categorical_dim': 2,
+    'embedded_cat_dim': 5,
+    'head_config': {
+        'layers': '128-64-32',
+        'activation': 'ReLU',
+        'use_batch_norm': True,
+        'initialization': 'kaiming',
+        'dropout': 0.0}
+})
+
+tab_transformer_config = OmegaConf.create({
+    'input_embed_dim': 32,  # Embedding dimension for input categorical features
+    'embedding_initialization': 'kaiming_uniform',  # Updated Initialization scheme for embedding layers
+    'embedding_bias': False,  # Flag to turn on embedding bias
+    'share_embedding': False,  # Flag for shared embeddings
+    'share_embedding_strategy': 'fraction',  # Strategy for adding shared embeddings
+    'shared_embedding_fraction': 0.25,  # Fraction reserved for shared embedding
+    'num_heads': 8,  # Number of heads in the Multi-Headed Attention layer
+    'num_attn_blocks': 6,  # Number of layers of stacked Multi-Headed Attention layers
+    'transformer_head_dim': None,  # Number of hidden units in Multi-Headed Attention layers
+    'attn_dropout': 0.1,  # Dropout after Multi-Headed Attention
+    'add_norm_dropout': 0.1,  # Dropout in the AddNorm Layer
+    'ff_dropout': 0.1,  # Dropout in the Positionwise FeedForward Network
+    'ff_hidden_multiplier': 4,  # Multiplier for FF layer scaling
+    'transformer_activation': 'GEGLU',  # Activation type in transformer feed forward layers
+    'task': 'classification',  # Specify the problem type
+    'head': 'LinearHead',  # Type of head used for the model
+    'head_config': {
+        'layers': '128-64-32',  # Architecture for the head
+        'activation': 'ReLU',
+        'use_batch_norm': True,
+        'initialization': 'kaiming',
+        'dropout': 0.0
+    },
+    'embedding_dims': [(3, 2), (5, 3)],  # Dimensions of embedding for each categorical column
+    'embedding_dropout': 0.0,  # Dropout applied to categorical embedding
+    'batch_norm_continuous_input': True,  # Normalize continuous layer by BatchNorm
+    'learning_rate': 1e-3,  # Learning rate of the model
+    'loss': 'CrossEntropyLoss',  # Loss function for classification
+    'metrics': ['accuracy'],  # Metrics to track during training
+    'metrics_params': [{'task': 'multiclass'}],  # Parameters for metrics function
+    'metrics_prob_input': [False],  # Whether input to metrics function is probability or class
+    'target_range': [],  # Range for output variable (ignored for multi-target regression)
+    'seed': 42,
+    'continuous_dim': 2,
+    'virtual_batch_size': 32,
+    'categorical_dim': 2,
+    'categorical_cardinality': [3, 5],
+    'output_dim': 10
+})
+
 inferred_config = OmegaConf.create({
     "output_dim": 10
 })
 
 tabnet_instance = TabNetModleeModel(config=tabnet_config, inferred_config=inferred_config)
 category_embedding_instance = CategoryEmbeddingModleeModel(config=category_embedding_config, inferred_config=inferred_config)
-TABULAR_MODELS = [tabnet_instance.get_model(), category_embedding_instance.get_model()]
+gandalf_instance = GANDALFModleeModel(config=gandalf_config, inferred_config=inferred_config)
+danet_instance = DANetModleeModel(config=danet_config, inferred_config=inferred_config)
+tab_transformer_instance = TabTransformerModleeModel(config=tab_transformer_config, inferred_config=inferred_config)
+TABULAR_MODELS = [tabnet_instance.get_model(), category_embedding_instance.get_model(), gandalf_instance.get_model(), danet_instance.get_model(), tab_transformer_instance.get_model()]
 
 IMAGE_MODELS = [
     tvm.resnet18(weights="DEFAULT"),

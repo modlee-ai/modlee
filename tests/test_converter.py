@@ -352,14 +352,14 @@ def test_conversion_pipeline(torch_model):
     torch_model = converter.onnx_graph2torch_model(onnx_graph)
 
     # # onnx graph <-> onnx text
-    # onnx_text = converter.onnx_graph2onnx_text(onnx_graph) ##both passed
-    # onnx_graph = converter.onnx_text2onnx_graph(onnx_text) ##failed for tabnet
+    #onnx_text = converter.onnx_graph2onnx_text(onnx_graph) ##failed for danet
+    #onnx_graph = converter.onnx_text2onnx_graph(onnx_text) ##failed for tabnet and danet
 
     # # onnx text -> torch code
-    #torch_code = converter.onnx_text2torch_code(onnx_text) ##both failed
+    #torch_code = converter.onnx_text2torch_code(onnx_text) ##all failed
 
     # # torch code -> torch model
-    # torch_model = converter.torch_code2torch_model(torch_code)  ##both failed
+    # torch_model = converter.torch_code2torch_model(torch_code)  ##all failed
 
     batch_size = random.choice(range(1, 33))
     input_dummy = torch.randn((batch_size, 10, 10))
