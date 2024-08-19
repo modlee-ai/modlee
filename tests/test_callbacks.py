@@ -32,7 +32,6 @@ class MIMODataset:
         y = generate_random(self.n_outputs)
         return [*x, *y]
 
-
 class _Model(torch.nn.Module):
     def __init__(self, n_outputs):
         super().__init__()
@@ -52,7 +51,6 @@ class MIMOModel(ModleeModel):
         self.dataloader = DataLoader(MIMODataset(n_inputs, n_outputs))
         # batch = next(iter(self.dataloader))
         self.model = _Model(n_outputs)
-
         input_str = ",".join([f"x{i}" for i in range(n_inputs)])
         exec(f"self.forward = lambda {input_str}: self.model({input_str})")
 

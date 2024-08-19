@@ -216,6 +216,7 @@ CUSTOM_TABULAR_MODELS = [
 from pytorch_forecasting import NBeats, AutoRegressiveBaseModel
 from modlee.timeseries_dataloader import TimeSeriesDataset
 
+from .configs import *
 
 
 def NbeatsInit():
@@ -270,9 +271,16 @@ def dataloaders(batch_size=64):
 def _check_has_metafeatures(mf, metafeature_types):
     features = {}
     for metafeature_type in metafeature_types:
-        assert hasattr(mf, metafeature_type), f"{mf} has no attribute {metafeature_type}"
-        assert isinstance(getattr(mf, metafeature_type), dict), f"{mf} {metafeature_type} is not dictionary"
-        assert not any([isinstance(v,dict) for v in getattr(mf, metafeature_type).values()]), f"{mf} {metafeature_type} not a flat dictionary"
+        assert hasattr(
+            mf, metafeature_type
+        ), f"{mf} has no attribute {metafeature_type}"
+        assert isinstance(
+            getattr(mf, metafeature_type), dict
+        ), f"{mf} {metafeature_type} is not dictionary"
+        # Assert that the attribute is a flat dictionary
+        assert not any(
+            [isinstance(v, dict) for v in getattr(mf, metafeature_type).values()]
+        ), f"{mf} {metafeature_type} not a flat dictionary"
         features.update(getattr(mf, metafeature_type))
 
 
