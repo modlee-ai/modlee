@@ -2,7 +2,7 @@
 import torch
 import torch.onnx
 from pytorch_forecasting import models as pfm
-from pytorch_forecasting import NBeats, AutoRegressiveBaseModel, LSTM,  DecoderMLP
+from pytorch_forecasting import NBeats, AutoRegressiveBaseModel, DecoderMLP
 import pandas as pd
 from lightning.pytorch import Trainer
 from modlee.converter import Converter

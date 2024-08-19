@@ -9,26 +9,11 @@ class TimeSeriesDataset(Dataset):
     Class to handle data loading of the time series dataset.
     """
     def __init__(self, data, target, input_seq: int, output_seq: int, time_column: str, encoder_column: list):
-        """
-        Params:
-        -------
-        data: pandas.DataFrame
-            The data to be used for training.
-        target: str
-            The target column name.
-        input_seq: int
-            The number of input sequences.
-        output_seq: int
-            The number of output sequences.
-        time_column: str
-            The name of the time column.
-        """
         self.data = data
         self.target = target
         self.time_column = time_column
         self.encoder_columns = encoder_column
 
-        # Convert time column to datetime if necessary
         if not pd.api.types.is_datetime64_any_dtype(self.data[self.time_column]):
             try:
                 self.data[self.time_column] = pd.to_datetime(self.data[self.time_column])
