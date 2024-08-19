@@ -1,7 +1,6 @@
 """ 
 Configure pytest.
 """
-
 import torch
 import pandas as pd
 import pytest
@@ -214,6 +213,33 @@ CUSTOM_TABULAR_MODELS = [
     tabnet_model,
     resnet_model
 ]
+from pytorch_forecasting import NBeats, AutoRegressiveBaseModel
+from modlee.timeseries_dataloader import TimeSeriesDataset
+
+
+
+def NbeatsInit():
+    data = pd.read_csv('data/HDFCBANK.csv')
+    data.drop(columns=['Series', 'Symbol','Trades', 'Deliverable Volume', 'Deliverble'], inplace=True)
+    encoder_column = data.columns.tolist()
+    dataset = TimeSeriesDataset(data=data, target = 'Close', time_column='Date',
+                                                       encoder_column=encoder_column, input_seq=2,
+                                                       output_seq=1)
+    model = NBeats.from_dataset(
+        dataset=dataset.get_dataset()
+    )
+    return model
+
+
+def makeDataloader():
+    data = pd.read_csv('data/HDFCBANK.csv')
+    data.drop(columns=['Series', 'Symbol','Trades', 'Deliverable Volume', 'Deliverble'], inplace=True)
+    encoder_column = data.columns.tolist()
+    dataset = TimeSeriesDataset(data=data, target = 'Close', time_column='Date',
+                                                       encoder_column=encoder_column, input_seq=2,
+                                                       output_seq=1).to_dataloader(batch_size=1)
+    
+    return dataset
 
 
 def makeDataloader():

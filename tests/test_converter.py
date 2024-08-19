@@ -334,8 +334,7 @@ IMAGE_MODELS_INPUTS = [
 # @pytest.mark.parametrize("torch_model", IMAGE_SEGMENTATION_MODELS)
 # @pytest.mark.parametrize("torch_model", TEXT_MODELS)
 # @pytest.mark.parametrize("torch_model", TIMESERIES_MODELS)
-# @pytest.mark.parametrize("torch_model", TABULAR_MODELS)
-# @pytest.mark.parametrize("models_inputs", IMAGE_MODELS_INPUTS)
+# @pytest.mark.parametrize("torch_model, input_dummy", TABULAR_MODELS)
 @pytest.mark.parametrize("torch_model, input_dummy", IMAGE_MODELS_INPUTS)
 # def test_conversion_pipeline(models_inputs):
 def test_conversion_pipeline(torch_model, input_dummy):
