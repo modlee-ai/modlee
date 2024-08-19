@@ -2,7 +2,7 @@
 Test modlee.converter
 """
 import pytest, re, pathlib
-from .conftest import IMAGE_MODELS, IMAGE_SEGMENTATION_MODELS, TEXT_MODELS, TIMESERIES_MODELS
+from .conftest import IMAGE_MODELS, IMAGE_SEGMENTATION_MODELS, TEXT_MODELS, TIMESERIES_MODELS, DATALOADER
 import lightning
 import numpy as np
 import torch, torchvision, random, onnx2torch
@@ -307,7 +307,9 @@ def _test_converted_onnx_model(onnx_file_path: str, dataloaders):
 
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS+TEXT_MODELS)
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
-@pytest.mark.parametrize("torch_model", IMAGE_MODELS)
+# @pytest.mark.parametrize("torch_model", IMAGE_MODELS)
+#@pytest.mark.parametrize("torch_model, dataloader", zip(TIMESERIES_MODELS, DATALOADER))
+@pytest.mark.parametrize("torch_model", TIMESERIES_MODELS)
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS[1:2])
 # @pytest.mark.parametrize("torch_model", IMAGE_SEGMENTATION_MODELS)
 # @pytest.mark.parametrize("torch_model", TEXT_MODELS)
@@ -322,7 +324,14 @@ def test_conversion_pipeline(torch_model):
     # input_dummy = torch.Tensor(torch_model.transform()(modlee.converter.TEXT_INPUT_DUMMY))
     # torch_model = torch_model.get_model()
     # breakpoint()
-    input_dummy = torch.randn([1,3,300,300])
+    #input_dummy = torch.randn([1,3,300,300])
+    #if input_dummy is None:
+    torch_model.eval()
+    #input_dummy = next(iter(dataloader))
+    #x = {'x':input_dummy[0]}
+    #x = input_dummy[0]
+    input_dummy = torch.randn((1,10,10))
+    #print(f"x type: {type(x)}") 
     onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy)
     # breakpoint()
     # onnx2torch.convert(onnx_graph)
@@ -341,9 +350,15 @@ def test_conversion_pipeline(torch_model):
     torch_model = converter.torch_code2torch_model(torch_code)
 
     batch_size = random.choice(range(1, 33))
-    input_dummy = torch.randn((batch_size, 3, 30, 30))
+    input_dummy = torch.randn((batch_size, 10, 10))
+    '''if isinstance(input_dummy, dict):
+        for key in input_dummy:
+            input_dummy[key] = input_dummy[key].detach()
+    else:
+        input_dummy = input_dummy.detach()'''
     output_dummy = torch_model(input_dummy)
-    assert output_dummy.shape[0] == batch_size
+    assert output_dummy.shape[0] == input_dummy.shape[0], \
+        f"Expected output batch size {input_dummy.shape[0]}, but got {output_dummy.shape[0]}"
 
     # convert from onnx graph to torch model
     # onnx_text = converter.torch_model2onnx_text

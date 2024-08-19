@@ -60,11 +60,23 @@ class Converter(object):
         """
         # Keeping gradients on may cause issues, so turn them off
         torch_model.eval()
-        if input_dummy is None:
+        '''if input_dummy is None:
             input_dummy = torch.randn([10, 3, 300, 300])
         input_dummy.requires_grad = False
         if hasattr(torch_model, 'device'):
-            input_dummy = input_dummy.to(device=torch_model.device)
+            input_dummy = input_dummy.to(device=torch_model.device)'''
+        #input_dummy = next(iter(input_dummy))
+        if isinstance(input_dummy, dict):
+            for key in input_dummy:
+                if isinstance(input_dummy[key], torch.Tensor):
+                    input_dummy[key].requires_grad = False
+                    if hasattr(torch_model, 'device'):
+                        input_dummy[key] = input_dummy[key].to(device=torch_model.device)
+        else:
+            input_dummy.requires_grad = False
+            if hasattr(torch_model, 'device'):
+                input_dummy = input_dummy.to(device=torch_model.device)
+
         with torch.no_grad():
             for param in torch_model.parameters():
                 param.requires_grad = False

@@ -831,28 +831,35 @@ class TimeSeriesDataMetafeatures(DataMetafeatures):
         # Flatten the 3D data to 2D for metafeature calculation
         num_samples, seq_len, num_features = data.shape
         data_2d = data.reshape(-1, num_features).numpy()  # Convert tensor to NumPy array
+        print(f"Flattened data shape: {data_2d.shape}")
+        print(f"Flattened data: {data_2d}")
         
         # Extract metafeatures using pymfe
         mfe = MFE(groups=["statistical", "model-based", "info-theory"])
         mfe.fit(data_2d)  # Pass the flattened NumPy array
         ft = mfe.extract()
         pymfe_features = dict(zip(ft[0], ft[1]))
+        print(f"Extracted pymfe features: {pymfe_features}")
         
         # Calculate additional features
         additional_features = {}
         
         # Combine all features into a single time series
         combined_series = data_2d.flatten()
+        print(f"Combined series: {combined_series}")
         
         # Calculate quantiles
         quantiles = np.percentile(combined_series, [25, 50, 75])
+        print(f"Quantiles: {quantiles}")
         
         # Calculate autocorrelation and partial autocorrelation
         autocorr = acf(combined_series, nlags=1)
+        print(f"Autocorrelation: {autocorr}")
         if len(combined_series) > 2:
             partial_autocorr = pacf(combined_series, nlags=min(1, len(combined_series) // 2 - 1))
         else:
             partial_autocorr = [np.nan]  # or some default value
+        print(f"Partial Autocorrelation: {partial_autocorr}")
         
         if len(autocorr) > 1:
             autocorr_lag1 = autocorr[1]
@@ -865,12 +872,14 @@ class TimeSeriesDataMetafeatures(DataMetafeatures):
             partial_autocorr_lag1 = np.nan  # or some default value
         
         # Decompose the combined time series to extract trend and seasonality
-        if len(combined_series) >= 10:  
+        if len(combined_series) >= 24:  # Check if we have enough data for a period of 12
             decomposition = seasonal_decompose(combined_series, period=12, model='additive', extrapolate_trend='freq')
             trend = decomposition.trend
             seasonal = decomposition.seasonal
             trend_strength = np.nanmean(trend)
             seasonal_strength = np.nanmean(seasonal)
+            print(f"Trend: {trend}")
+            print(f"Seasonal: {seasonal}")
         else:
             trend_strength = np.nan
             seasonal_strength = np.nan
@@ -887,6 +896,7 @@ class TimeSeriesDataMetafeatures(DataMetafeatures):
         
         # Combine pymfe features with additional features
         combined_features = {**pymfe_features, **additional_features}
+        print(f"Combined features: {combined_features}")
         return combined_features
     
     def print_meta(self, features):
