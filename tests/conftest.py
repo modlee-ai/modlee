@@ -4,10 +4,10 @@ Configure pytest.
 import torch
 import pandas as pd
 import pytest
+import os
 import inspect
 import modlee
 from torchvision import datasets as tv_datasets
-from torchvision import models as tvm
 from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader
 from torchvision import models as tvm
@@ -232,6 +232,7 @@ TABULAR_MODELS = [ danet_instance.get_model(), tab_transformer_instance.get_mode
 from pytorch_forecasting import NBeats, AutoRegressiveBaseModel
 from modlee.timeseries_dataloader import TimeSeriesDataset
 
+from .configs import *
 
 
 def NbeatsInit():
@@ -362,14 +363,21 @@ def dataloaders(batch_size=64):
     )
     return training_loader, test_loader
 
-def _check_has_metafeatures(mf, metafeature_types): 
+
+def _check_has_metafeatures(mf, metafeature_types):
 
     features = {}
     for metafeature_type in metafeature_types:
-        assert hasattr(mf, metafeature_type), f"{mf} has no attribute {metafeature_type}"
-        assert isinstance(getattr(mf, metafeature_type), dict), f"{mf} {metafeature_type} is not dictionary"
+        assert hasattr(
+            mf, metafeature_type
+        ), f"{mf} has no attribute {metafeature_type}"
+        assert isinstance(
+            getattr(mf, metafeature_type), dict
+        ), f"{mf} {metafeature_type} is not dictionary"
         # Assert that the attribute is a flat dictionary
-        assert not any([isinstance(v,dict) for v in getattr(mf, metafeature_type).values()]), f"{mf} {metafeature_type} not a flat dictionary"
+        assert not any(
+            [isinstance(v, dict) for v in getattr(mf, metafeature_type).values()]
+        ), f"{mf} {metafeature_type} not a flat dictionary"
         features.update(getattr(mf, metafeature_type))
 
 def _check_has_metafeatures_tab(mf, metafeature_types): 
@@ -403,36 +411,23 @@ def _check_metafeatures_timesseries(mf, metafeature_types):
         assert metafeature_type in mf, f"{mf} has no key {metafeature_type}"
 def model_from_args(modality_task_kwargs):
     modality, task, kwargs = modality_task_kwargs
-    return modlee.model.from_modality_task(
-        modality=modality,
-        task=task, 
-        **kwargs
-    )
-
-# @pytest.mark.parametrize("i", list(range(1)))
-# @pytest.fixture
-# def iter_fix(i):
-#     return i
-
-@pytest.fixture(scope="function")
-def get_i(request):
-    return request.param**2
+    return modlee.model.from_modality_task(modality=modality, task=task, **kwargs)
 
 @pytest.fixture(scope="function")
 def model(request):
     # breakpoint()
     return _from_modality_task(request, module="model")
 
+
 @pytest.fixture(scope="function")
 def recommender(request):
     return _from_modality_task(request, module="recommender")
 
+
 def _from_modality_task(request, module="model"):
     modality, task = request.param[:-1]
     return getattr(modlee, module).from_modality_task(
-        modality=modality, 
-        task=task,
-        **request.param[-1]
+        modality=modality, task=task, **request.param[-1]
     )
 
 def _check_has_metafeatures_tab(mf, metafeature_types): 

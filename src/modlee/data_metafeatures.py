@@ -6,6 +6,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 import random
 import math
 import time
+from functools import partial
 
 import numpy as np
 import pandas as pd
@@ -33,7 +34,7 @@ from torchvision.models import (
 )  # , vit_l_32
 import torch.nn.functional as F
 
-from modlee.utils import closest_power_of_2, _make_serializable
+from modlee.utils import closest_power_of_2, _make_serializable, class_from_modality_task
 
 fixed_resize = 32
 import logging, warnings
@@ -1051,3 +1052,4 @@ class TimeSeriesDataMetafeatures(DataMetafeatures):
         for key, value in features.items():
             print(f"{key:<{max_key_length}} : {value}")
         return None
+from_modality_task = partial(class_from_modality_task, _class="Data_Metafeatures")

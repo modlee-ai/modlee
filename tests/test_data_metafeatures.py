@@ -2,6 +2,8 @@ import pytest
 from . import conftest
 import os, re
 import pandas as pd
+from functools import partial
+
 import torch
 import torchvision
 from torch.utils.data import DataLoader, TensorDataset
@@ -121,22 +123,35 @@ def get_finance_data(path: str = 'data/HDFCBANK.csv'):
 modlee.init(api_key="GZ4a6OoXmCXUHDJGnnGWNofsPrK0YF0i")
 DATA_ROOT = os.path.expanduser("~/efs/.data")
 IMAGE_DATALOADER = modlee.utils.get_imagenette_dataloader()
+
 IMAGE_LOADERS = {loader_fn:getattr(image_loaders, loader_fn) for loader_fn in sorted(dir(image_loaders)) if re.match('get_(.*)_dataloader', loader_fn)}
 TEXT_LOADERS = {loader_fn:getattr(text_loaders, loader_fn) for loader_fn in dir(text_loaders) if re.match('get_(.*)_dataloader', loader_fn)}
 TABULAR_LOADERS = {'housing_dataset': get_housing_dataloader, 'adult_dataset': get_adult_dataloader, 'diabetes_dataset': get_diabetes_dataloader}
+# TODO - add timeseries to modalities
 TIME_SERIES_LOADER = {'finance_data': get_finance_data}TIME_SERIES_LOADER = {'finance_data': get_finance_data}
 print('\n'.join(f"image loader{i}: {image_loader}" for i, image_loader in enumerate(IMAGE_LOADERS)))
 import pandas as pd 
+"""construct IMAGE_LOADERS, TEXT_LOADERS, etc"""
+globals().update({
+    f"{modality.upper()}_LOADERS": {
+        loader_fn: getattr(globals()[f"{modality}_loaders"], loader_fn)
+        for loader_fn in dir(globals()[f"{modality}_loaders"])
+        if re.match("get_(.*)_dataloader", loader_fn)
+    } for modality in conftest.MODALITIES
+})
+
+print(
+    "\n".join(
+        f"image loader{i}: {image_loader}"
+        for i, image_loader in enumerate(IMAGE_LOADERS)
+    )
+)
+import pandas as pd
+
+# df = pd.DataFrame()
 df = None
 
-@pytest.mark.experimental
 class TestDataMetafeatures:
-    
-    @pytest.mark.parametrize('get_dataloader_fn', IMAGE_LOADERS.values())
-    def test_image_dataloader(self, get_dataloader_fn):
-        image_mf = dmf.ImageDataMetafeatures(
-            get_dataloader_fn(root=DATA_ROOT), testing=True)
-        self._check_has_metafeatures(image_mf)
 
     @pytest.mark.parametrize('get_dataloader_fn', TABULAR_LOADERS.values())
     def test_tabular_dataloader(self, get_dataloader_fn):
@@ -145,11 +160,35 @@ class TestDataMetafeatures:
         self._check_has_metafeatures_tab(tabular_mf)
         self._check_statistical_metafeatures(tabular_mf)
 
-    @pytest.mark.parametrize('get_dataloader_fn', TEXT_LOADERS.values())
-    def test_text_dataloader(self, get_dataloader_fn):
-        text_mf = dmf.TextDataMetafeatures(
-            get_dataloader_fn(), testing=True)
-        self._check_has_metafeatures(text_mf)
+    # @pytest.mark.parametrize('get_dataloader_fn', TEXT_LOADERS.values())
+    # def test_text_dataloader(self, get_dataloader_fn):
+    #     text_mf = dmf.TextDataMetafeatures(
+    #         get_dataloader_fn(), testing=True)
+    #     self._check_has_metafeatures(text_mf)
+        
+    def _test_dataloader(self, modality, get_dataloader_fn):
+        data_mf = dmf.from_modality_task(
+            modality,
+            task="",
+            dataloader=get_dataloader_fn(root=DATA_ROOT), testing=True)
+        assert (
+            type(data_mf).__name__
+            == f"{modality.capitalize()}DataMetafeatures"
+        )
+        self._check_has_metafeatures(data_mf)
+
+    for modality in conftest.MODALITIES:
+        _loaders = list(globals()[f"{modality.upper()}_LOADERS"].values())
+        _loaders = zip([modality]*len(_loaders), _loaders)
+        def _func(self, modality, get_dataloader_fn):
+            return self._test_dataloader(modality, get_dataloader_fn=get_dataloader_fn)
+        _f = pytest.mark.parametrize(
+            "modality, get_dataloader_fn",
+            _loaders
+        )(_func)
+        locals().update({
+            f"test_{modality}_dataloader":_f
+        })
 
     @pytest.mark.parametrize('get_dataloader_fn', TIME_SERIES_LOADER.values())
     def test_timeseries_dataloader(self, get_dataloader_fn):
@@ -190,3 +229,7 @@ class TestDataMetafeatures:
             'combined_seasonal_strength'
         ]
         conftest._check_metafeatures_timesseries(mf, metafeature_types)
+    _check_has_metafeatures = partial(
+        conftest._check_has_metafeatures,
+        metafeature_types=["embedding", "mfe", "properties"]
+    )

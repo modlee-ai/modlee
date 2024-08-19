@@ -1,4 +1,7 @@
 import pytest
+from functools import partial
+import copy
+
 # from . import conftest
 try:
     import conftest
@@ -13,6 +16,7 @@ import torchvision
 import modlee
 from modlee import model_metafeatures as mmf
 
+
 class NeuralNetwork(nn.Module):
     def __init__(self, input_size=10, hidden_size=10, output_size=10):
         super(NeuralNetwork, self).__init__()
@@ -26,58 +30,33 @@ class NeuralNetwork(nn.Module):
         out = self.fc2(out)
         return out
 
+
 MODEL = NeuralNetwork()
-# breakpoint()
-@pytest.mark.experimental
+
 class TestModelMetafeatures:
-    
-    def test_model_metafeatures(self):
-        model_mf = mmf.ModelMetafeatures(
-            MODEL
-        ) 
-        pass
 
-    @pytest.mark.parametrize("modality, task, model", conftest.IMAGE_MODALITY_TASK_MODEL)
-    def test_modality_task_model(self, modality, task, model):
-        model_metafeature_obj = mmf.from_modality_task(modality, task, torch_model=model)
-        assert type(model_metafeature_obj).__name__ == f"{modality.capitalize()}{task.capitalize()}ModelMetafeatures"
-    
-    @pytest.mark.parametrize("image_model", conftest.IMAGE_MODELS)
-    def test_image_model_metafeatures(self, image_model):
-        # breakpoint()
-        image_mf = mmf.ImageModelMetafeatures(
-            image_model
+    def _test_modality_task_model(self, modality, task, model):
+        model_mf = mmf.from_modality_task(
+            modality,
+            task, 
+            torch_model=model)
+        assert (
+            type(model_mf).__name__
+            == f"{modality.capitalize()}{task.capitalize()}ModelMetafeatures"
         )
-        self._check_has_metafeatures(image_mf)
-        return image_mf
-        pass
-    
-    @pytest.mark.parametrize("image_model", conftest.IMAGE_SEGMENTATION_MODELS)
-    def test_image_segmentation_model_metafeatures(self, image_model):
-        image_mf = mmf.ImageSegmentationModelMetafeatures(
-            image_model
-        )
-        self._check_has_metafeatures(image_mf)
-        return image_mf
-    
-    @pytest.mark.parametrize("text_model", conftest.TEXT_MODELS[:2])
-    def test_text_model_metafeatures(self, text_model):
-        text_mf = mmf.TextModelMetafeatures(
-            text_model
-        )
-        self._check_
-        pass
 
-    def _check_has_metafeatures(self, mf):
-        conftest._check_has_metafeatures(
-            mf,
-            metafeature_types={
-                'embedding', 
-                'properties',        
-            }
-        )
-        pass
+        self._check_has_metafeatures(model_mf)
 
-if __name__=="__main__":
-    breakpoint()
-    print('hello')
+    for modality in conftest.MODALITIES:
+        def _func(self, modality, task, model,):
+            return self._test_modality_task_model(modality, task, model,)
+        _f = pytest.mark.parametrize(
+            "modality, task, model",
+            getattr(conftest, f"{modality.upper()}_MODALITY_TASK_MODEL"),
+            )(_func)
+        locals().update({f"test_{modality}_modality_task_model": _f})
+
+    _check_has_metafeatures = partial(
+        conftest._check_has_metafeatures,
+        metafeature_types={"embedding", "properties"}
+    )
