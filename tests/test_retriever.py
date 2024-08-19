@@ -1,6 +1,7 @@
 """ 
 Test retriever.
 """
+
 import os
 import unittest
 import pathlib
@@ -21,6 +22,7 @@ globals().update(
 
 run_paths = [os.path.join(os.path.dirname(__file__), "test_mlruns")]
 
+
 class _RepTest(unittest.TestCase):
     """
     Deprecated, this functionality is still required on the client side but needs
@@ -29,6 +31,7 @@ class _RepTest(unittest.TestCase):
     :param unittest: _description_
     :return: _description_
     """
+
     locals().update(ret_dict)
 
     def __init__(self, *args, **kwargs):

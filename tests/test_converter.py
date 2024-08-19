@@ -10,6 +10,7 @@ import numpy as np
 import torch, torchvision, random, onnx2torch
 import networkx as nx
 import karateclub
+
 g2v = karateclub.graph2vec.Graph2Vec()
 import modlee
 from modlee.converter import Converter, IMAGE_INPUT_DUMMY
@@ -28,6 +29,8 @@ LEADING_NUMBER_STRS = [
     [",1_model_weight_2", ",model_1_weight_2"],
     # [',1_model_weight_1',',model_1_weight_1'],
 ]
+
+
 # Zip this and use list as positional argument, as in the following test
 @pytest.mark.parametrize("input_output", LEADING_NUMBER_STRS)
 def test_refactor_variables_with_leading_numbers(input_output):
@@ -251,6 +254,7 @@ ONNX_GRAPHS = glob.glob(
 )
 random.shuffle(ONNX_GRAPHS)
 
+
 @pytest.mark.training
 @pytest.mark.parametrize("onnx_file_path", ONNX_GRAPHS[:3])
 def _test_converted_onnx_model(onnx_file_path: str, dataloaders):
@@ -309,7 +313,12 @@ def _test_converted_onnx_model(onnx_file_path: str, dataloaders):
 
     pass
 
-IMAGE_MODELS_INPUTS = [(model, IMAGE_INPUT_DUMMY) for model in IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS]
+
+IMAGE_MODELS_INPUTS = [
+    (model, IMAGE_INPUT_DUMMY) for model in IMAGE_MODELS + IMAGE_SEGMENTATION_MODELS
+]
+
+
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS+TEXT_MODELS)
 #@pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS)
@@ -320,10 +329,9 @@ IMAGE_MODELS_INPUTS = [(model, IMAGE_INPUT_DUMMY) for model in IMAGE_MODELS+IMAG
 # @pytest.mark.parametrize("torch_model", TABULAR_MODELS)
 @pytest.mark.parametrize("models_inputs", IMAGE_MODELS_INPUTS)
 def test_conversion_pipeline(models_inputs):
-# def test_conversion_pipeline(torch_model):
-# def test_conversion_pipeline():
-    """ Test converting across several representations, from Torch graphs to ONNX text
-    """
+    # def test_conversion_pipeline(torch_model):
+    # def test_conversion_pipeline():
+    """Test converting across several representations, from Torch graphs to ONNX text"""
     torch_model, input_dummy = models_inputs
     temp = {
         "continuous": torch.empty((10, 2)), 
@@ -381,6 +389,8 @@ def test_conversion_pipeline(models_inputs):
             input_dummy[key] = input_dummy[key].detach()
     else:
         input_dummy = input_dummy.detach()'''
+    # TODO - this needs to be generalized again
+    # input_dummy = torch.randn((batch_size, 3, 30, 30))
     output_dummy = torch_model(input_dummy)
     assert output_dummy.shape[0] == input_dummy.shape[0], \
         f"Expected output batch size {input_dummy.shape[0]}, but got {output_dummy.shape[0]}"
@@ -389,40 +399,44 @@ def test_conversion_pipeline(models_inputs):
     # onnx_text = converter.torch_model2onnx_text
     # convert
 
+
 def test_convert_onnx116():
     """
     Test converting ONNX graph/text exported with ONNX 1.16 (lowest version compatible with python3.12)
     """
-    ASSETS_FOLDER = pathlib.Path(os.path.dirname(__file__)) / 'assets'
+    ASSETS_FOLDER = pathlib.Path(os.path.dirname(__file__)) / "assets"
     # Working ONNX text, created with Python 3.11 and ONNX 1.14
-    with open(str(ASSETS_FOLDER / 'onnx_model_114.txt'), 'r') as _file:
+    with open(str(ASSETS_FOLDER / "onnx_model_114.txt"), "r") as _file:
         onnx_114 = _file.read()
 
-    with open(str(ASSETS_FOLDER / 'onnx_model_116.txt'), 'r') as _file:
+    with open(str(ASSETS_FOLDER / "onnx_model_116.txt"), "r") as _file:
         onnx_116 = _file.read()
-    
+
     onnx_converted = converter.convert_onnx116(onnx_116)
-    
+
     onnx_114_lines, onnx_116_lines = onnx_114.splitlines(), onnx_converted.splitlines()
     graph_start_index = 0
     while onnx_114_lines[graph_start_index].split()[0] != "main_graph":
         graph_start_index += 1
-    
+
     # Get just the graph parts
-    graph_114 = '\n'.join(onnx_114_lines[graph_start_index:])
-    graph_116 = '\n'.join(onnx_116_lines[graph_start_index:])
-    assert graph_114 == graph_116, f"Text converted from ONNX 1.16 did not convert properly, not equal to ONNX 1.14 model"
-    onnx_graph = converter.onnx_text2onnx_graph('\n'.join(onnx_116_lines))
+    graph_114 = "\n".join(onnx_114_lines[graph_start_index:])
+    graph_116 = "\n".join(onnx_116_lines[graph_start_index:])
+    assert (
+        graph_114 == graph_116
+    ), f"Text converted from ONNX 1.16 did not convert properly, not equal to ONNX 1.14 model"
+    onnx_graph = converter.onnx_text2onnx_graph("\n".join(onnx_116_lines))
     pass
 
-@pytest.mark.parametrize('torch_model', IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
+
+@pytest.mark.parametrize("torch_model", IMAGE_MODELS + IMAGE_SEGMENTATION_MODELS)
 # @pytest.mark.parametrize('torch_model', IMAGE_MODELS)
 def test_onnx_graph2onnx_nx(torch_model):
     # Torch model -> ONNX graph -> ONNX NetworkX
     onnx_graph = converter.torch_model2onnx_graph(torch_model)
     onnx_nx = converter.onnx_graph2onnx_nx(onnx_graph)
     assert isinstance(onnx_nx, nx.graph.Graph)
-    assert len(onnx_nx.nodes())>0
+    assert len(onnx_nx.nodes()) > 0
 
     # Test indexing the graph
     onnx_nx = converter.index_nx(onnx_nx)
@@ -430,13 +444,17 @@ def test_onnx_graph2onnx_nx(torch_model):
     # Test indexing by calling fit to graph2vec,
     g2v.fit([onnx_nx])
 
+
 @pytest.mark.parametrize(
-    'in_out',
+    "in_out",
     [
         # ("-3_40282e+38", "-3.40282e+38"),
         # ("randomtext here -3_40282e+38 and here", "randomtext here -3.40282e+38 and here"),
-        ("constant_output_0017 = Constant <value = float {-3_40282e+38}> ()", "constant_output_0017 = Constant <value = float {-3.40282e+38}> ()")
-    ]
+        (
+            "constant_output_0017 = Constant <value = float {-3_40282e+38}> ()",
+            "constant_output_0017 = Constant <value = float {-3.40282e+38}> ()",
+        )
+    ],
 )
 def test_convert_float(in_out):
     assert converter.convert_float(in_out[0]) == in_out[1]

@@ -550,10 +550,33 @@ def get_modality_task(obj):
 
     :param obj: The item to parse.
     """
-    obj_name = type(obj).__name__
-    obj_name = obj_name.replace("Recommender","").replace("ModleeModel","")
+    potential_classes = ["Recommender", "ModleeModel"]
+    # obj_name = ""
+    # obj_name = type(obj).__name__
+    obj_name_q = [obj]
+        
+    while len(obj_name_q):
+        # obj_name = type(obj_name_q.pop(0)).__name__
+
+        _obj = obj_name_q.pop(0)
+        # print(_obj)
+        _obj = type(_obj) if not isinstance(_obj, type) else _obj
+        # _obj_name = type(_obj).__name__ if not isinstance(_obj, type) else _obj.__name__
+        # breakpoint()
+        _obj_name = _obj.__name__
+        if any([potential_class in _obj_name for potential_class in potential_classes]):
+            break
+        else:
+            # obj_name_q.extend(type(_obj).__bases__)
+            obj_name_q.extend(_obj.__bases__)
+
+    # obj_name = type(_obj).__name__.replace("Recommender","").replace("ModleeModel","")
+    obj_name = _obj.__name__.replace("Recommender","").replace("ModleeModel","")
+    # breakpoint()
     ret = re.match(r"([A-Z]\w+)([A-Z]\w*)", obj_name)
     if ret:
         return (r.lower() for r in ret.groups())
     else:
-        return None
+        # TODO handle modality-task-less models
+        return "", ""
+        # return None

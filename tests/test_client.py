@@ -1,6 +1,7 @@
 """
 Test modlee.client
 """
+
 import unittest, pytest
 import yaml
 import os
@@ -27,13 +28,13 @@ except ModuleNotFoundError as e:
     modlee_dev_available = False
 
 run_paths = [os.path.join(os.path.dirname(__file__), "test_mlruns")]
-assert os.environ.get("MODLEE_API_KEY"), "MODLEE_API_KEY environment variable not set, cannot test test_client.py"
+assert os.environ.get(
+    "MODLEE_API_KEY"
+), "MODLEE_API_KEY environment variable not set, cannot test test_client.py"
+
 
 class TestModleeClient:
-    client = ModleeClient(
-        endpoint=ENDPOINT,
-        api_key=os.environ.get("MODLEE_API_KEY")
-    )
+    client = ModleeClient(endpoint=ENDPOINT, api_key=os.environ.get("MODLEE_API_KEY"))
     unauthorized_client = ModleeClient(endpoint=ENDPOINT, api_key="unauthorized")
     dummy_client = ModleeClient(endpoint=dummy_ORIGIN)
 
@@ -70,13 +71,17 @@ class TestModleeClient:
         """
         Test getting functions
         """
-        attrs_to_get = ["get_code_text", "rep.Rep", "data_metafeatures.DataMetafeatures"]
+        attrs_to_get = [
+            "get_code_text",
+            "rep.Rep",
+            "data_metafeatures.DataMetafeatures",
+        ]
         for attr_to_get in attrs_to_get:
             response = self.client.get_attr(attr_to_get)
             assert (
                 200 <= response.status_code < 400
             ), f"Error retrieving {attrs_to_get}: {response.content}"
-            
+
     def test_get_attrs_fail(self):
         """
         Trying to get random attributes should return none
@@ -192,8 +197,7 @@ class TestModleeClient:
 
     @pytest.mark.deprecated
     def test_unauth_post_run(self):
-        """ Unauthorized client should not be able to save runs 
-        """
+        """Unauthorized client should not be able to save runs"""
         for run_path in run_paths:
             response = self.unauthorized_client.post_run(run_path)
             assert (
@@ -210,8 +214,7 @@ class TestModleeClient:
 
     @pytest.mark.server
     def test_unauth_post_run_as_json(self):
-        """ Unauthorized client should not be able to save runs 
-        """
+        """Unauthorized client should not be able to save runs"""
         for run_path in run_paths:
             response = self.unauthorized_client.post_run(run_path)
             assert (

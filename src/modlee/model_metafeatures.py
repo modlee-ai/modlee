@@ -184,6 +184,9 @@ class TextModelMetafeatures(ModelMetafeatures):
             torch_model=torch_model, input_dummy=input_dummy, *args, **kwargs
         )
 
+class TextClassificationModelMetafeatures(TextModelMetafeatures):
+    pass
+
 
 class ModelEncoder(karateclub.graph2vec.Graph2Vec):
     def __init__(self, *args, **kwargs):
