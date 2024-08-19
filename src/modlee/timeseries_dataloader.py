@@ -1,36 +1,18 @@
 from torch.utils.data import Dataset, DataLoader
-import numpy as np
+import pytorch_forecasting as pf
 import torch
 import pandas as pd
-import pytorch_forecasting as pf
-import pandas as pd
-
 
 class TimeSeriesDataset(Dataset):
     """
     Class to handle data loading of the time series dataset.
     """
     def __init__(self, data, target, input_seq: int, output_seq: int, time_column: str, encoder_column: list):
-        """
-        Params:
-        -------
-        data: pandas.DataFrame
-            The data to be used for training.
-        target: str
-            The target column name.
-        input_seq: int
-            The number of input sequences.
-        output_seq: int
-            The number of output sequences.
-        time_column: str
-            The name of the time column.
-        """
         self.data = data
         self.target = target
         self.time_column = time_column
         self.encoder_columns = encoder_column
 
-        # Convert time column to datetime if necessary
         if not pd.api.types.is_datetime64_any_dtype(self.data[self.time_column]):
             try:
                 self.data[self.time_column] = pd.to_datetime(self.data[self.time_column])
@@ -62,24 +44,9 @@ class TimeSeriesDataset(Dataset):
 
     def __len__(self):
         return self._length
-
-    def __getitem__(self, idx):
-        encoder_start = idx
-        encoder_end = idx + self.input_seq
-        decoder_start = encoder_end
-        decoder_end = decoder_start + self.output_seq
-
-        encoder_data = self.data.iloc[encoder_start:encoder_end]
-        decoder_data = self.data.iloc[decoder_start:decoder_end]
-
-        # Ensure encoder_cont contains only numeric types
-        encoder_cont = encoder_data[self.encoder_columns].apply(pd.to_numeric, errors='coerce').values
-        decoder_target = decoder_data[self.target].apply(pd.to_numeric, errors='coerce').values
-
-        return {
-            'encoder_cont': torch.tensor(encoder_cont, dtype=torch.float32),
-            'decoder_target': torch.tensor(decoder_target, dtype=torch.float32)
-        }
+    
+    def get_dataset(self):
+        return self.dataset
 
     def to_dataloader(self, batch_size: int=32, shuffle: bool = False):
-        return DataLoader(self, batch_size=batch_size, shuffle=shuffle)
+        return self.dataset.to_dataloader(batch_size=batch_size, shuffle=shuffle)
