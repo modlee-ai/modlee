@@ -190,6 +190,7 @@ cython_debug/
 #.idea/
 
 src/modlee/housing.csv
+tests/tabular_tests.py
 # Additional ignores
 docs/build/html/_images/
 myenv/

@@ -155,21 +155,18 @@ danet_config = OmegaConf.create({
     'k': 4,
     'dropout_rate': 0.1,
     'block_activation': 'ReLU',  # Specify the activation function for blocks
-    'virtual_batch_size': 32,
+    'virtual_batch_size': 64,
     'embedding_dropout': 0.1,
     'batch_norm_continuous_input': True,
     'embedding_dims': [(3, 2), (5, 3)],  # (category_size, embedding_dim)
     'continuous_dim': 2,  # Number of continuous features
-    'output_dim': 10,  # Number of classes for classification
     'metrics': ['accuracy'],
     'metrics_params': [{'task': 'multiclass'}],
-    'metrics_prob_input': [False],
-    'seed': 42,
     'loss': 'CrossEntropyLoss',
-    'batch_size': 32,
-    'head': 'LinearHead',
+    'batch_size': 64,
+    'head': 'None',
     'categorical_dim': 2,
-    'embedded_cat_dim': 5,
+    'head': 'LinearHead',
     'head_config': {
         'layers': '128-64-32',
         'activation': 'ReLU',
@@ -223,12 +220,13 @@ inferred_config = OmegaConf.create({
     "output_dim": 10
 })
 
+
 tabnet_instance = TabNetModleeModel(config=tabnet_config, inferred_config=inferred_config)
 category_embedding_instance = CategoryEmbeddingModleeModel(config=category_embedding_config, inferred_config=inferred_config)
 gandalf_instance = GANDALFModleeModel(config=gandalf_config, inferred_config=inferred_config)
 danet_instance = DANetModleeModel(config=danet_config, inferred_config=inferred_config)
 tab_transformer_instance = TabTransformerModleeModel(config=tab_transformer_config, inferred_config=inferred_config)
-TABULAR_MODELS = [tabnet_instance.get_model(), category_embedding_instance.get_model(), gandalf_instance.get_model(), danet_instance.get_model(), tab_transformer_instance.get_model()]
+TABULAR_MODELS = [ danet_instance.get_model(), tab_transformer_instance.get_model(), tabnet_instance.get_model(), category_embedding_instance.get_model(), gandalf_instance.get_model()]
 
 IMAGE_MODELS = [
     tvm.resnet18(weights="DEFAULT"),
@@ -436,6 +434,10 @@ def _check_statistical_metafeatures(mf):
         assert feature_found, f"Statistical metafeature '{feature}' is missing"
 
     assert not any([isinstance(v, dict) for v in features.values()]), "The 'features' dictionary is not flat"
+
+
+
+
 
 
 def _check_has_metafeatures_tab(mf, metafeature_types): 
