@@ -250,8 +250,10 @@ class Converter(object):
         :return onnx_graph: The ONNX Graph
         """
         # If on Python 3.12, likely using a newer ONNX
+        #breakpoint()
         if ONNX_MINOR_VERSION > 15:
             onnx_text = self.convert_onnx116(onnx_text)
+        #breakpoint()
         return onnx.parser.parse_model(onnx_text)
     onnx_text2onnx = onnx_text2onnx_graph
 
@@ -263,6 +265,7 @@ class Converter(object):
         :param onnx_text: The ONNX Text as bytes.
         :return: The Torch Model.
         """
+        #breakpoint()
         onnx_graph = self.onnx_text2onnx_graph(onnx_text)
         # Load the graph into ONNX Graph Surgeon
         onnx_graph = gs.import_onnx(onnx_graph)
@@ -285,11 +288,11 @@ class Converter(object):
         """
         # Handle conversion for newer ONNX versions
         # TODO - try to remove the try/except block
+       # breakpoint()
         try:
             return onnx2torch.convert(onnx_graph, *args, **kwargs)
         except:
             pass
-
         if ONNX_MINOR_VERSION >= 16:
             try:
                 onnx_text = self.onnx_graph2onnx_text(onnx_graph)
@@ -299,9 +302,9 @@ class Converter(object):
                 onnx_text = self.onnx_graph2onnx_text(onnx_graph)
                 _onnx_graph = self.onnx_text2onnx_graph(onnx_text)
                 _onnx_graph = self.onnx_parameterless2onnx(_onnx_graph)
-                return onnx2torch.convert(_onnx_graph, *args, **kwargs)  
+                return onnx2torch.convert(_onnx_graph, *args, **kwargs)   
         else:   
-            return onnx2torch.convert(onnx_graph, *args, **kwargs)  
+            return onnx2torch.convert(onnx_graph, *args, **kwargs)   #converter.onnx_graph2torch_model(onnx_graph) fails here
 
     onnx2torch = onnx_graph2torch_model
 
@@ -387,7 +390,15 @@ class Converter(object):
                 )
             elif line_ctr < (n_lines - 1):
                 # Add the layer name to the respective layer type in the "counter" dictionary
-                layer_name, _, layer_type = onnx_uninit_line.split()[:3]
+                layer_name, _, layer_type = onnx_uninit_line.split()[:3]#####
+                # split_line = onnx_uninit_line.split()
+              
+                # if len(split_line) >= 3:
+                #     layer_name, _, layer_type = split_line[:3]
+                # else:
+                #     layer_name = "unknown_layer"
+                #     layer_type = "unknown_type"
+
                 if layer_type not in layer_name_type_dict:
                     layer_name_type_dict.update({layer_type: [layer_name]})
                 else:

@@ -1,6 +1,8 @@
+
 """ 
 Test modlee.converter
 """
+
 import pytest, re, pathlib
 from .conftest import IMAGE_MODELS, IMAGE_SEGMENTATION_MODELS, TEXT_MODELS, TABULAR_MODELS
 import lightning
@@ -13,8 +15,8 @@ import modlee
 from modlee.converter import Converter
 from modlee.model import RecommendedModel
 from sklearn.linear_model import LinearRegression as LinReg
-from pytorch_tabular.models.tabnet import TabNetModel
-from pytorch_tabular.models.category_embedding import CategoryEmbeddingModel
+import onnx_graphsurgeon as gs
+
 
 converter = Converter()
 
@@ -325,15 +327,20 @@ def test_conversion_pipeline(torch_model):
         "categorical": torch.randint(0, 3, (10, 2))
     } 
 
+ 
+
     input_dummy = {'x':temp}
+
     onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy) ##all passed
 
+
     ###
-    torch_model = converter.onnx_graph2torch_model(onnx_graph) ##failed for tabnet and danet
+
+    #torch_model = converter.onnx_graph2torch_model(onnx_graph) ##failed for tabnet and danet, Dynamic value of min/max is not implemented
 
     # # onnx graph <-> onnx text
-    #onnx_text = converter.onnx_graph2onnx_text(onnx_graph) ##failed for danet
-    #onnx_graph = converter.onnx_text2onnx_graph(onnx_text) ##failed for tabnet and danet
+    onnx_text = converter.onnx_graph2onnx_text(onnx_graph) ##all passed
+    onnx_graph = converter.onnx_text2onnx_graph(onnx_text) ##failed for tabnet and danet, onnx.parser.ParseError
 
     # # onnx text -> torch code
     #torch_code = converter.onnx_text2torch_code(onnx_text) ##all failed
@@ -414,3 +421,5 @@ def test_convert_float(in_out):
 )
 def test_convert_float(in_out):
     assert converter.convert_float(in_out[0]) == in_out[1]
+
+
