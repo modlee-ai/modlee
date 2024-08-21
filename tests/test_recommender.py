@@ -5,6 +5,7 @@ Note that the recommender server must be running, either locally, and modify REC
 
 import pytest
 import os, sys
+
 TEST_ROOT = os.path.join(os.path.dirname(__file__), "..")
 sys.path.insert(0, TEST_ROOT)
 from . import conftest
@@ -56,7 +57,7 @@ class TestRecommender:
     @pytest.mark.parametrize("args", conftest.IMAGE_MODALITY_TASK_KWARGS)
     def test_image_modality_task(self, args):
         self._test_modality_task(*args)
-        
+
     def test_calculate_metafeatures_image(
         self,
     ):

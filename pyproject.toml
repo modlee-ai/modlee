@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "modlee"
-version = "0.0.2"
+version = "0.0.2-22"
 authors = [{ name = "modlee", email = "michael@modlee.ai" }]
 description = "modlee package"
 readme = "docs/README.md"
@@ -27,9 +27,10 @@ dependencies = [
     "spacy",
     "onnx>=1.14.1",
     "torchsummary==1.5.1",
-    "modlee-onnx2torch==1.5.12",
+    "modlee-onnx2torch==1.5.15",
     "modlee-onnx_graphsurgeon==0.3.27",
-    "pymfe==0.4.2",
+    # "pymfe==0.4.2",
+    "pymfe",
     "pytest==8.1.1",
     "nbsphinx",
     "sphinx-rtd-theme",
@@ -38,6 +39,9 @@ dependencies = [
     "pydot==2.0.0",
     "transformers==4.41.0", 
 ]
+
+[project.optional-dependencies]
+timeseries = ["pytorch_forecasting"]
 
 [project.urls]
 "Homepage" = "https://www.modlee.ai"

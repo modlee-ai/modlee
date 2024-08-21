@@ -182,6 +182,7 @@ def test_initializer_tensor_to_typed_init(input_value, actual_output_str, tensor
     # random initializations should be different
     assert torch.any(torch.abs(input_value - local_dict["fn_output_array"]) > 0.1)
 
+
 INPUTS = [
     {"value": "Equal"},
     {"value": "torch.ones((3,3))*3"},
@@ -347,59 +348,61 @@ def test_conversion_pipeline(models_inputs):
     """Test converting across several representations, from Torch graphs to ONNX text"""
     torch_model, input_dummy = models_inputs
     temp = {
-        "continuous": torch.empty((10, 2)), 
-        "categorical": torch.randint(0, 3, (10, 2))
-    } 
+        "continuous": torch.empty((10, 2)),
+        "categorical": torch.randint(0, 3, (10, 2)),
+    }
     # load a basic resnet model
     # torch_model = torchvision.models.resnet18(weights="DEFAULT")
     # torch model <-> onnx graph
     # input_dummy = torch.Tensor(torch_model.transform()(modlee.converter.TEXT_INPUT_DUMMY))
     # torch_model = torch_model.get_model()
     # breakpoint()
-    #input_dummy = torch.randn([1,3,300,300])
-    #if input_dummy is None:
+    # input_dummy = torch.randn([1,3,300,300])
+    # if input_dummy is None:
     torch_model.eval()
-    #input_dummy = next(iter(dataloader))
-    #x = {'x':input_dummy[0]}
-    #x = input_dummy[0]
-    input_dummy = torch.randn((1,10,10))
-    #print(f"x type: {type(x)}") 
+    # input_dummy = next(iter(dataloader))
+    # x = {'x':input_dummy[0]}
+    # x = input_dummy[0]
+    input_dummy = torch.randn((1, 10, 10))
+    # print(f"x type: {type(x)}")
     onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy)
     torch_model = converter.onnx_graph2torch_model(onnx_graph)
 
- 
+    input_dummy = {"x": temp}
 
-    input_dummy = {'x':temp}
-
-    onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy) ##all passed
-
+    onnx_graph = converter.torch_model2onnx_graph(
+        torch_model, input_dummy=input_dummy
+    )  ##all passed
 
     ###
 
-    #torch_model = converter.onnx_graph2torch_model(onnx_graph) ##failed for tabnet and danet, Dynamic value of min/max is not implemented
+    # torch_model = converter.onnx_graph2torch_model(onnx_graph) ##failed for tabnet and danet, Dynamic value of min/max is not implemented
 
     # # onnx graph <-> onnx text
-    onnx_text = converter.onnx_graph2onnx_text(onnx_graph) ##all passed
-    onnx_graph = converter.onnx_text2onnx_graph(onnx_text) ##failed for tabnet and danet, onnx.parser.ParseError
+    onnx_text = converter.onnx_graph2onnx_text(onnx_graph)  ##all passed
+    onnx_graph = converter.onnx_text2onnx_graph(
+        onnx_text
+    )  ##failed for tabnet and danet, onnx.parser.ParseError
 
     # # onnx text -> torch code
-    #torch_code = converter.onnx_text2torch_code(onnx_text) ##all failed
+    # torch_code = converter.onnx_text2torch_code(onnx_text) ##all failed
 
     # # torch code -> torch model
     # torch_model = converter.torch_code2torch_model(torch_code)  ##all failed
 
     batch_size = random.choice(range(1, 33))
     input_dummy = torch.randn((batch_size, 10, 10))
-    '''if isinstance(input_dummy, dict):
+    """if isinstance(input_dummy, dict):
         for key in input_dummy:
             input_dummy[key] = input_dummy[key].detach()
     else:
-        input_dummy = input_dummy.detach()'''
+        input_dummy = input_dummy.detach()"""
     # TODO - this needs to be generalized again
     # input_dummy = torch.randn((batch_size, 3, 30, 30))
     output_dummy = torch_model(input_dummy)
-    assert output_dummy.shape[0] == input_dummy.shape[0], \
-        f"Expected output batch size {input_dummy.shape[0]}, but got {output_dummy.shape[0]}"
+    assert (
+        output_dummy.shape[0] == input_dummy.shape[0]
+    ), f"Expected output batch size {input_dummy.shape[0]}, but got {output_dummy.shape[0]}"
 
     # convert from onnx graph to torch model
     # onnx_text = converter.torch_model2onnx_text
@@ -487,15 +490,17 @@ def test_convert_float(in_out):
 def test_convert_float(in_out):
     assert converter.convert_float(in_out[0]) == in_out[1]
 
+
 @pytest.mark.parametrize(
-    'in_out',
+    "in_out",
     [
         # ("-3_40282e+38", "-3.40282e+38"),
         # ("randomtext here -3_40282e+38 and here", "randomtext here -3.40282e+38 and here"),
-        ("constant_output_0017 = Constant <value = float {-3_40282e+38}> ()", "constant_output_0017 = Constant <value = float {-3.40282e+38}> ()")
-    ]
+        (
+            "constant_output_0017 = Constant <value = float {-3_40282e+38}> ()",
+            "constant_output_0017 = Constant <value = float {-3.40282e+38}> ()",
+        )
+    ],
 )
 def test_convert_float(in_out):
     assert converter.convert_float(in_out[0]) == in_out[1]
-
-

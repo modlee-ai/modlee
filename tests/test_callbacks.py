@@ -12,10 +12,10 @@ import torch.nn.functional as F
 
 SIZES = list(range(1, 5))
 
+
 def generate_random(n):
     return [
-        torch.randn(*random.choices(SIZES, k=random.choice(SIZES)))
-        for _ in range(n)
+        torch.randn(*random.choices(SIZES, k=random.choice(SIZES))) for _ in range(n)
     ]
 
 
@@ -32,15 +32,16 @@ class MIMODataset:
         y = generate_random(self.n_outputs)
         return [*x, *y]
 
+
 class _Model(torch.nn.Module):
     def __init__(self, n_outputs):
         super().__init__()
         self.n_outputs = n_outputs
-        
+
     def forward(self, *args, **kwargs):
         y = generate_random(self.n_outputs)
         return y
-        return 
+        return
 
 
 class MIMOModel(ModleeModel):
@@ -51,7 +52,7 @@ class MIMOModel(ModleeModel):
         self.dataloader = DataLoader(MIMODataset(n_inputs, n_outputs))
         # batch = next(iter(self.dataloader))
         self.model = _Model(n_outputs)
-        
+
         input_str = ",".join([f"x{i}" for i in range(n_inputs)])
         exec(f"self.forward = lambda {input_str}: self.model({input_str})")
 
@@ -131,7 +132,8 @@ class TestCallback:
                 trainer, model, model.dataloader
             )
             assert len(callback_input) == n_inputs
-    
+
             y_out = model(*batch[:n_inputs])
             assert len(y_out) == n_outputs
+
     # def test_log_modality_task()

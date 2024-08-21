@@ -33,13 +33,11 @@ class NeuralNetwork(nn.Module):
 
 MODEL = NeuralNetwork()
 
+
 class TestModelMetafeatures:
 
     def _test_modality_task_model(self, modality, task, model):
-        model_mf = mmf.from_modality_task(
-            modality,
-            task, 
-            torch_model=model)
+        model_mf = mmf.from_modality_task(modality, task, torch_model=model)
         assert (
             type(model_mf).__name__
             == f"{modality.capitalize()}{task.capitalize()}ModelMetafeatures"
@@ -48,15 +46,25 @@ class TestModelMetafeatures:
         self._check_has_metafeatures(model_mf)
 
     for modality in conftest.MODALITIES:
-        def _func(self, modality, task, model,):
-            return self._test_modality_task_model(modality, task, model,)
+
+        def _func(
+            self,
+            modality,
+            task,
+            model,
+        ):
+            return self._test_modality_task_model(
+                modality,
+                task,
+                model,
+            )
+
         _f = pytest.mark.parametrize(
             "modality, task, model",
             getattr(conftest, f"{modality.upper()}_MODALITY_TASK_MODEL"),
-            )(_func)
+        )(_func)
         locals().update({f"test_{modality}_modality_task_model": _f})
 
     _check_has_metafeatures = partial(
-        conftest._check_has_metafeatures,
-        metafeature_types={"embedding", "properties"}
+        conftest._check_has_metafeatures, metafeature_types={"embedding", "properties"}
     )

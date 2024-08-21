@@ -54,14 +54,11 @@ def test_get_modality_task(modality_task_kwargs):
     assert modality == parsed_modality
     assert task == parsed_task
 
-@pytest.mark.parametrize(
-    "modality, task, submodel",
-    conftest.IMAGE_SUBMODELS
-)
+
+@pytest.mark.parametrize("modality, task, submodel", conftest.IMAGE_SUBMODELS)
 def test_get_modality_task_for_subclass(modality, task, submodel):
     # breakpoint()
     parsed_modality, parsed_task = modlee.utils.get_modality_task(submodel)
     # breakpoint()
     assert modality == parsed_modality
     assert task == parsed_task
-

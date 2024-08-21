@@ -1,5 +1,6 @@
 import pytest
 import os, sys
+
 TEST_ROOT = os.path.join(os.path.dirname(__file__), "..")
 sys.path.insert(0, TEST_ROOT)
 
@@ -10,6 +11,7 @@ import modlee
 from modlee.model import callbacks, ModleeModel, SimpleModel
 from . import conftest
 from .conftest import model_from_args
+
 
 class TestModel:
     model = SimpleModel()
@@ -26,7 +28,7 @@ class TestModel:
     # )
     # def test_image_modality_task(self, modality, task, kwargs):
     #     self._test_modality_task(modality, task, kwargs)
-       
+
     def _test_modality_task(self, modality, task, kwargs):
         # model = model_from_args(modality_task_kwargs)
         model = modlee.model.from_modality_task(modality, task, **kwargs)
@@ -44,11 +46,11 @@ class TestModel:
         model_mmf = f"{modality.capitalize()}{task.capitalize()}ModelMetafeatures"
         mmf_callback = model.model_metafeatures_callback
         assert mmf_callback.ModelMetafeatures.__name__ == model_mmf
- 
+
     test_image_modality_task = pytest.mark.parametrize(
         "modality, task, kwargs", conftest.IMAGE_MODALITY_TASK_KWARGS
-        )(_test_modality_task)
-        
+    )(_test_modality_task)
+
     @pytest.mark.parametrize(
         "model", conftest.IMAGE_MODALITY_TASK_KWARGS, indirect=["model"]
     )
