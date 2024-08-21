@@ -1,5 +1,6 @@
 import pytest
 import os, sys
+
 TEST_ROOT = os.path.join(os.path.dirname(__file__), "..")
 sys.path.insert(0, TEST_ROOT)
 
@@ -10,6 +11,7 @@ import modlee
 from modlee.model import callbacks, ModleeModel, SimpleModel
 from . import conftest
 from .conftest import model_from_args
+
 
 class TestModel:
     model = SimpleModel()

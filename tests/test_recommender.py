@@ -5,6 +5,7 @@ Note that the recommender server must be running, either locally, and modify REC
 
 import pytest
 import os, sys
+
 TEST_ROOT = os.path.join(os.path.dirname(__file__), "..")
 sys.path.insert(0, TEST_ROOT)
 from . import conftest

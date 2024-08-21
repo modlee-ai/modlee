@@ -32,6 +32,7 @@ class MIMODataset:
         y = generate_random(self.n_outputs)
         return [*x, *y]
 
+
 class _Model(torch.nn.Module):
     def __init__(self, n_outputs):
         super().__init__()
