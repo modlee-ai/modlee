@@ -6,7 +6,6 @@ from .conftest import model_from_args
 
 
 def test_discretize():
-
     n = 0.234
     n = str(n)
     print("input = {}, discretize(input)= {}".format(n, discretize(n)))

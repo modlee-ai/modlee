@@ -35,7 +35,6 @@ MODEL = NeuralNetwork()
 
 
 class TestModelMetafeatures:
-
     def _test_modality_task_model(self, modality, task, model):
         model_mf = mmf.from_modality_task(modality, task, torch_model=model)
         assert (
