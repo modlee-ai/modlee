@@ -65,10 +65,15 @@ for model in IMAGE_CLASSIFICATION_MODELS:
 for model in IMAGE_SEGMENTATION_MODELS:
     IMAGE_MODALITY_TASK_MODEL.append(("image", "segmentation", model))
 
+
 def generate_random_class_name():
-    ret = ''.join([RandomWord().word().capitalize() for _ in range(random.choice(range(4,10)))])
-    ret = ret.replace('-','').replace(' ','')
+    ret = "".join(
+        [RandomWord().word().capitalize() for _ in range(random.choice(range(4, 10)))]
+    )
+    ret = ret.replace("-", "").replace(" ", "")
     return ret
+
+
 # IMAGE_SUBMODELS = [
 #     (modality, task, exec(
 #         f"type({generate_random_class_name()}, (object,), modlee.model.from_modality_task(modality, task, **kwargs))"))
@@ -78,12 +83,11 @@ IMAGE_SUBMODELS = []
 for modality, task, kwargs in IMAGE_MODALITY_TASK_KWARGS:
     _var_name = generate_random_class_name()
     _base_modality_task_class = f"{modality.capitalize()}{task.capitalize()}ModleeModel"
-    _model = modlee.model.from_modality_task(
-            modality, task, **kwargs)
+    _model = modlee.model.from_modality_task(modality, task, **kwargs)
 
     exec(f"class {_var_name}(modlee.model.{_base_modality_task_class}): pass")
     # IMAGE_SUBMODELS.append((
-    #     modality, task, 
+    #     modality, task,
     #     exec(f"{_var_name}(**kwargs)")
     # ))
     exec(f"IMAGE_SUBMODELS.append((modality, task, {_var_name}(**kwargs)))")

@@ -304,6 +304,7 @@ TIMESERIES_MODELS = [
     pfm.DeepAR(),
     pfm.LSTM(),
     pfm.GRU(),
+]
 class simpleModel(torch.nn.Module):
     def __init__(self):
         super(simpleModel, self).__init__()

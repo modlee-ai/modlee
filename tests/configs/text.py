@@ -18,4 +18,3 @@ TEXT_MODELS = [
 TEXT_MODALITY_TASK_MODEL = []
 for model in TEXT_MODELS:
     TEXT_MODALITY_TASK_MODEL.append(("text", "classification", model))
-
