@@ -207,7 +207,6 @@ class TestModleeClient:
     # The 'server' marker excuses the client for known server-related issues
     @pytest.mark.server
     def test_post_run_as_json(self):
-
         for run_path in run_paths:
             response = self.client.post_run_as_json(run_path)
             assert response, f"Client {self.client.api_key} could not save {run_path}"

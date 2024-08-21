@@ -79,7 +79,6 @@ def get_adult_dataloader(batch_size=4, shuffle=True):
 
 
 def get_housing_dataloader(batch_size=4, shuffle=True):
-
     column_names = [
         "CRIM",
         "ZN",
@@ -185,7 +184,6 @@ df = None
 
 
 class TestDataMetafeatures:
-
     @pytest.mark.parametrize("get_dataloader_fn", TABULAR_LOADERS.values())
     def test_tabular_dataloader(self, get_dataloader_fn):
         tabular_mf = dmf.TabularDataMetafeatures(get_dataloader_fn(), testing=True)
@@ -219,7 +217,6 @@ class TestDataMetafeatures:
         locals().update({f"test_{modality}_dataloader": _f})
 
     def _check_has_metafeatures_tab(self, mf):
-
         metafeature_types = ["mfe", "properties", "features"]
         conftest._check_has_metafeatures_tab(mf, metafeature_types)
 
@@ -231,7 +228,6 @@ class TestDataMetafeatures:
         self._check_has_metafeatures_timeseries(timeseries_mf)
 
     def _check_has_metafeatures(self, mf):
-
         metafeature_types = ["embedding", "mfe", "properties"]
         conftest._check_has_metafeatures(mf, metafeature_types)
 
