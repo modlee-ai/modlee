@@ -82,38 +82,40 @@ tabnet_config = OmegaConf.create({
     'target_range': []
 })
 
-category_embedding_config = OmegaConf.create({
-    'task': 'classification',
-    'head': 'LinearHead',
-    'layers': '128-64-32',
-    'activation': 'ReLU',
-    'use_batch_norm': True,
-    'initialization': 'kaiming',
-    'dropout': 0.0,
-    'head_config': {
-        'layers': '128-64-32',
-        'activation': 'ReLU',
-        'use_batch_norm': True,
-        'initialization': 'kaiming',
-        'dropout': 0.0
-    },
-    'embedding_dims': [(3, 2), (5, 3)],  
-    'embedding_dropout': 0.1,
-    'batch_norm_continuous_input': True,
-    'learning_rate': 1e-3,
-    'loss': 'CrossEntropyLoss',
-    'metrics': ['accuracy'],
-    'metrics_params': [{'task': 'multiclass'}],
-    'metrics_prob_input': [False],
-    'target_range': [],
-    'categorical_cols': ['feature1', 'feature2'], 
-    'continuous_cols': ['category1', 'category2'], 
-    'continuous_dim': 2,
-    'categorical_dim': 2,
-    'embedded_cat_dim': 5,  
-    'virtual_batch_size': 32,
-    'seed': 42
-})
+category_embedding_config = OmegaConf.create(
+    {
+        "task": "classification",
+        "head": "LinearHead",
+        "layers": "128-64-32",
+        "activation": "ReLU",
+        "use_batch_norm": True,
+        "initialization": "kaiming",
+        "dropout": 0.0,
+        "head_config": {
+            "layers": "128-64-32",
+            "activation": "ReLU",
+            "use_batch_norm": True,
+            "initialization": "kaiming",
+            "dropout": 0.0,
+        },
+        "embedding_dims": [(3, 2), (5, 3)],
+        "embedding_dropout": 0.1,
+        "batch_norm_continuous_input": True,
+        "learning_rate": 1e-3,
+        "loss": "CrossEntropyLoss",
+        "metrics": ["accuracy"],
+        "metrics_params": [{"task": "multiclass"}],
+        "metrics_prob_input": [False],
+        "target_range": [],
+        "categorical_cols": ["feature1", "feature2"],
+        "continuous_cols": ["category1", "category2"],
+        "continuous_dim": 2,
+        "categorical_dim": 2,
+        "embedded_cat_dim": 5,
+        "virtual_batch_size": 32,
+        "seed": 42,
+    }
+)
 
 gandalf_config = OmegaConf.create({
     'task': 'classification',
@@ -183,9 +185,7 @@ tab_transformer_config = OmegaConf.create({
     'output_dim': 10
 })
 
-inferred_config = OmegaConf.create({
-    "output_dim": 10
-})
+inferred_config = OmegaConf.create({"output_dim": 10})
 
 tabnet_instance = TabNetModleeModel(config=tabnet_config, inferred_config=inferred_config)
 category_embedding_instance = CategoryEmbeddingModleeModel(config=category_embedding_config, inferred_config=inferred_config)
@@ -220,15 +220,21 @@ from .configs import *
 
 
 def NbeatsInit():
-    data = pd.read_csv('data/HDFCBANK.csv')
-    data.drop(columns=['Series', 'Symbol','Trades', 'Deliverable Volume', 'Deliverble'], inplace=True)
-    encoder_column = data.columns.tolist()
-    dataset = TimeSeriesDataset(data=data, target = 'Close', time_column='Date',
-                                                       encoder_column=encoder_column, input_seq=2,
-                                                       output_seq=1)
-    model = NBeats.from_dataset(
-        dataset=dataset.get_dataset()
+    data = pd.read_csv("data/HDFCBANK.csv")
+    data.drop(
+        columns=["Series", "Symbol", "Trades", "Deliverable Volume", "Deliverble"],
+        inplace=True,
     )
+    encoder_column = data.columns.tolist()
+    dataset = TimeSeriesDataset(
+        data=data,
+        target="Close",
+        time_column="Date",
+        encoder_column=encoder_column,
+        input_seq=2,
+        output_seq=1,
+    )
+    model = NBeats.from_dataset(dataset=dataset.get_dataset())
     return model
 
 def makeDataloader():
