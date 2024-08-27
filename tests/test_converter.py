@@ -334,12 +334,14 @@ IMAGE_MODELS_INPUTS = [
 # @pytest.mark.parametrize("torch_model", TEXT_MODELS)
 # @pytest.mark.parametrize("torch_model", TIMESERIES_MODELS)
 # @pytest.mark.parametrize("torch_model", TABULAR_MODELS)
-@pytest.mark.parametrize("models_inputs", IMAGE_MODELS_INPUTS)
-def test_conversion_pipeline(models_inputs):
+# @pytest.mark.parametrize("models_inputs", IMAGE_MODELS_INPUTS)
+@pytest.mark.parametrize("torch_model, input_dummy", IMAGE_MODELS_INPUTS)
+# def test_conversion_pipeline(models_inputs):
+def test_conversion_pipeline(torch_model, input_dummy):
     # def test_conversion_pipeline(torch_model):
     # def test_conversion_pipeline():
     """Test converting across several representations, from Torch graphs to ONNX text"""
-    torch_model, input_dummy = models_inputs
+    # torch_model, input_dummy = models_inputs
     temp = {
         "continuous": torch.empty((10, 2)),
         "categorical": torch.randint(0, 3, (10, 2)),

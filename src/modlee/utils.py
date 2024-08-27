@@ -554,6 +554,8 @@ def get_modality_task(obj):
     # obj_name = ""
     # obj_name = type(obj).__name__
     obj_name_q = [obj]
+    MODALITIES = ["image", "text", "tabular", "timeseries"]
+    TASKS = ["classification", "regression", "segmentation"]
         
     while len(obj_name_q):
         # obj_name = type(obj_name_q.pop(0)).__name__
@@ -565,11 +567,21 @@ def get_modality_task(obj):
         # breakpoint()
         _obj_name = _obj.__name__
         if any([potential_class in _obj_name for potential_class in potential_classes]):
-            break
-        else:
-            # obj_name_q.extend(type(_obj).__bases__)
-            obj_name_q.extend(_obj.__bases__)
+            
+            obj_name = _obj.__name__.replace("Recommender","").replace("ModleeModel","")
 
+            ret = re.match(r"([A-Z]\w+)([A-Z]\w*)", obj_name)
+            if ret is not None:
+                ret = [r.lower() for r in ret.groups()]
+                if ret[0] in MODALITIES and ret[1] in TASKS:
+                    # breakpoint()
+                    break
+            # break
+        # else:
+            # obj_name_q.extend(type(_obj).__bases__)
+        obj_name_q.extend(_obj.__bases__)
+
+    # breakpoint()
     # obj_name = type(_obj).__name__.replace("Recommender","").replace("ModleeModel","")
     obj_name = _obj.__name__.replace("Recommender","").replace("ModleeModel","")
     # breakpoint()

@@ -4,6 +4,7 @@ from torchvision import models as tvm
 import wonderwords
 from wonderwords import RandomWord, Defaults
 import modlee
+from modlee.utils import image_loaders
 
 IMAGE_MODELS = IMAGE_CLASSIFICATION_MODELS = [
     tvm.resnet18(weights="DEFAULT"),
