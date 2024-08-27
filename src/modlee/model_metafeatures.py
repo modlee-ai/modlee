@@ -9,12 +9,16 @@ import pickle
 import torch
 import modlee
 from modlee.config import G2V_PKL
-from modlee.utils import get_model_size, class_from_modality_task
+from modlee.utils import get_model_size, class_from_modality_task, get_modality_task
 
 converter = modlee.converter.Converter()
 
 # g2v = ModelEncoder.from()
-
+INPUT_DUMMY = {
+    "image": torch.randn([10,3,300,300]),
+    "": torch.randn([10,3,300,300]),
+    
+}
 
 class ModelMetafeatures:
     def __init__(self, torch_model: torch.nn.Module, *args, **kwargs):
@@ -22,8 +26,9 @@ class ModelMetafeatures:
         # Torch model/text, ONNX graph/text
         # Store these different representations
         self.torch_model = torch_model
+        self.modality, self.task = get_modality_task(torch_model)
         # self.torch_model.to(device=modlee.DEVICE)
-        self.onnx_graph = converter.torch_model2onnx_graph(self.torch_model)
+        self.onnx_graph = converter.torch_model2onnx_graph(self.torch_model, input_dummy=INPUT_DUMMY[self.modality])
         # Must calculate NetworkX before initializing tensors
         self.onnx_nx = converter.index_nx(converter.onnx_graph2onnx_nx(self.onnx_graph))
         self.onnx_text = converter.onnx_graph2onnx_text(self.onnx_graph)
@@ -39,6 +44,8 @@ class ModelMetafeatures:
     def get_embedding(self, *args, **kwargs):
         g2v = ModelEncoder.from_pkl(G2V_PKL)
         embd = g2v.infer([self.onnx_nx])[0]
+        # breakpoint()
+        # embd = g2v.get_embedding([self.onnx_nx])[0]
         embd_dict = {f"embd_{i}": e for i, e in enumerate(embd)}
         return embd_dict
 
@@ -196,6 +203,9 @@ class ModelEncoder(karateclub.graph2vec.Graph2Vec):
     def save(self, path):
         with open(path, "wb") as _file:
             _file.write(pickle.dumps(self))
+
+    # def infer(self, *args, **kwargs):
+        # return super().get_embedding(*args, **kwargs)
 
     @classmethod
     def from_pkl(cls, path):

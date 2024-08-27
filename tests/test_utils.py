@@ -38,23 +38,32 @@ def test_discretize():
     print("input = {}, discretize(input)= {}".format(n, discretize(n)))
 
 
-@pytest.mark.parametrize(
-    "modality_task_kwargs",
-    [
-        ("image", "classification", {"num_classes": 10}),
-        ("image", "segmentation", {"num_classes": 10}),
-    ],
-)
-def test_get_modality_task(modality_task_kwargs):
-    modality, task, kwargs = modality_task_kwargs
-    model = model_from_args(modality_task_kwargs)
+# @pytest.mark.parametrize(
+#     "modality_task_kwargs",
+#     [
+#         ("image", "classification", {"num_classes": 10}),
+#         ("image", "segmentation", {"num_classes": 10}),
+#     ],
+# )
+# @pytest.mark.parametrize("modality, task, kwargs", conftest.IMAGE_MODALITY_TASK_KWARGS)
+# @pytest.mark.parametrize("modality, task, kwargs", conftest.TIMESERIES_MODALITY_TASK_KWARGS)
+@pytest.mark.parametrize("modality, task, kwargs",
+    conftest.IMAGE_MODALITY_TASK_KWARGS+conftest.TABULAR_MODALITY_TASK_KWARGS+conftest.TIMESERIES_MODALITY_TASK_KWARGS)
+# def test_get_modality_task(modality_task_kwargs):
+def test_get_modality_task(modality, task, kwargs):
+    # modality, task, kwargs = modality_task_kwargs
+    # model = model_from_args(modality_task_kwargs)
+    # breakpoint()
+    model = model_from_args(modality, task, kwargs)
 
     parsed_modality, parsed_task = modlee.utils.get_modality_task(model)
     assert modality == parsed_modality
     assert task == parsed_task
 
 
-@pytest.mark.parametrize("modality, task, submodel", conftest.IMAGE_SUBMODELS)
+# @pytest.mark.parametrize("modality, task, submodel", conftest.IMAGE_SUBMODELS)
+@pytest.mark.parametrize("modality, task, submodel",
+    conftest.IMAGE_SUBMODELS+conftest.TABULAR_SUBMODELS)
 def test_get_modality_task_for_subclass(modality, task, submodel):
     # breakpoint()
     parsed_modality, parsed_task = modlee.utils.get_modality_task(submodel)

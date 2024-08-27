@@ -3,6 +3,7 @@ Modlee model for images.
 """
 import inspect
 from typing import Any, Optional
+import torch
 import lightning.pytorch as pl
 from lightning.pytorch import Trainer, LightningModule
 from lightning.pytorch.utilities.types import STEP_OUTPUT
@@ -46,6 +47,7 @@ class ImageModleeModel(ModleeModel):
             self,
             kwargs_cache=vars_cache, *args, **kwargs
         )
+        self.input_dummy = torch.randn([10,3,300,300])
 
     # def configure_callbacks(self):
     #     """

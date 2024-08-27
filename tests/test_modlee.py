@@ -7,6 +7,7 @@ import unittest
 import pathlib
 import modlee
 import mlflow
+import lightning.pytorch as pl
 
 
 class ModleeTest(unittest.TestCase):
@@ -54,3 +55,15 @@ class ModleeTest(unittest.TestCase):
             assert (
                 run_path == relative_mlruns_path
             ), f"Initialized directory {run_path} does not match expected {relative_mlruns_path}"
+
+
+    def test_training(self):
+        with modlee.start_run() as run:
+            trainer = pl.Trainer(max_epochs=1)
+            breakpoint()
+            trainer.fit(
+                model=modlee_model,
+                train_dataloaders=train_dataloader,
+                val_dataloaders=val_dataloader
+            )
+            

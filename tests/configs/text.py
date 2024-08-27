@@ -1,5 +1,7 @@
 from torchtext import models as ttm
 
+from modlee.utils import text_loaders
+
 TEXT_MODELS = [
     # ttm.FLAN_T5_BASE,
     # ttm.FLAN_T5_BASE_ENCODER,

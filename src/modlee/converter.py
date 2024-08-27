@@ -52,7 +52,7 @@ class Converter(object):
 
     
     def torch_model2onnx_graph(
-        self, torch_model, input_dummy=None, tmp_onnx_path="./.tmp_model.onnx", modality="tabular", **kwargs
+        self, torch_model, input_dummy=None, tmp_onnx_path="./.tmp_model.onnx", modality="timeseries", **kwargs
     ):
         """
         Convert a Torch Model to ONNX Graph.
@@ -64,7 +64,10 @@ class Converter(object):
         :param tmp_onnx_path: A placeholder location to save the ONNX graph
         """
         # Keeping gradients on may cause issues, so turn them off
-
+        # breakpoint()
+        if input_dummy is None and hasattr(torch_model, "input_dummy"):
+            input_dummy = torch_model.input_dummy
+            
         
         torch_model.eval()
         # TODO - refactor the below
@@ -108,7 +111,7 @@ class Converter(object):
         else:
             device = next(torch_model.parameters()).device
             # device = modlee.DEVICE
-        input_dummy.to(device=device)
+        # input_dummy.to(device=device)
         with torch.no_grad():
             for param in torch_model.parameters():
                 param.requires_grad = False
