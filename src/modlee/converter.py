@@ -54,7 +54,6 @@ class Converter(object):
     
     def torch_model2onnx_graph(
         self, torch_model, input_dummy=None, tmp_onnx_path="./.tmp_model.onnx", 
-        # modality="timeseries", 
         modality=None, 
         **kwargs
     ):

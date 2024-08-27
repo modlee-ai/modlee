@@ -43,7 +43,6 @@ DATA_ROOT = os.path.expanduser("./.data")
 # }
 # TODO - add timeseries to modalities
 
-
 """construct IMAGE_LOADERS, TEXT_LOADERS, etc"""
 globals().update(
     {

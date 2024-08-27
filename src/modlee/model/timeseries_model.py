@@ -36,7 +36,6 @@ class conv1dModel(torch.nn.Module):
         x = self.flatten(x)
         return x
 
-
 class simpleModel(torch.nn.Module):
     def __init__(self):
         super(simpleModel, self).__init__()

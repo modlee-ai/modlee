@@ -1,6 +1,7 @@
 """ 
 Configure pytest.
 """
+
 import torch
 import pandas as pd
 import pytest
@@ -213,6 +214,9 @@ CUSTOM_TABULAR_MODELS = [
     tabnet_model,
     resnet_model
 ]
+from pytorch_forecasting import models as pfm
+
+
 from pytorch_forecasting import NBeats, AutoRegressiveBaseModel
 from modlee.timeseries_dataloader import TimeSeriesDataset
 

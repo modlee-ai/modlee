@@ -10,7 +10,6 @@ import mlflow
 import lightning.pytorch as pl
 
 
-
 class ModleeTest(unittest.TestCase):
     def setUp(self) -> None:
         return super().setUp()
