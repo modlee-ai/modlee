@@ -28,6 +28,7 @@ ONNX_MINOR_VERSION = int(onnx.__version__.split(".")[1])
 import re
 import functools
 from functools import partial
+from onnx2torch.node_converters.scatter_nd import ReductionOnnxAttr
 
 import modlee
 
@@ -203,6 +204,8 @@ class Converter(object):
         torch_module = SourceFileLoader(
             fullname="model_module", path=torch_file
         ).load_module()
+
+        torch_module.ReductionOnnxAttr = ReductionOnnxAttr
         return torch_module.Model()
 
     code_path2torch = torch_file2torch_model
@@ -296,10 +299,8 @@ class Converter(object):
         :return onnx_graph: The ONNX Graph
         """
         # If on Python 3.12, likely using a newer ONNX
-        #breakpoint()
         if ONNX_MINOR_VERSION > 15:
             onnx_text = self.convert_onnx116(onnx_text)
-        #breakpoint()
         return onnx.parser.parse_model(onnx_text)
 
     onnx_text2onnx = onnx_text2onnx_graph
@@ -312,16 +313,24 @@ class Converter(object):
         :param onnx_text: The ONNX Text as bytes.
         :return: The Torch Model.
         """
-        #breakpoint()
-        onnx_graph = self.onnx_text2onnx_graph(onnx_text)
-        # Load the graph into ONNX Graph Surgeon
-        onnx_graph = gs.import_onnx(onnx_graph)
-        # Initialize the tensors of the graph
-        onnx_graph = self.init_graph_tensors(onnx_graph)
-        # Re-export the graph
-        onnx_graph = gs.export_onnx(onnx_graph)
-        # Convert to Torch
-        torch_model = self.onnx_graph2torch_model(onnx_graph)
+        try:
+            _onnx_graph = self.onnx_text2onnx_graph(onnx_text)
+            # Load the graph into ONNX Graph Surgeon
+            _onnx_graph = gs.import_onnx(_onnx_graph)
+            # Initialize the tensors of the graph
+            _onnx_graph = self.init_graph_tensors(_onnx_graph) #causes problems
+            # Re-export the graph
+            _onnx_graph = gs.export_onnx(_onnx_graph)
+            # Convert to Torch
+            torch_model = self.onnx_graph2torch_model(_onnx_graph)
+        except:
+            _onnx_graph = self.onnx_text2onnx_graph(onnx_text)
+            # Load the graph into ONNX Graph Surgeon
+            _onnx_graph = gs.import_onnx(_onnx_graph)
+            # Re-export the graph
+            _onnx_graph = gs.export_onnx(_onnx_graph)
+            # Convert to Torch
+            torch_model = self.onnx_graph2torch_model(_onnx_graph)
         return torch_model
 
     onnx_text2torch = onnx_text2torch_model
@@ -336,7 +345,6 @@ class Converter(object):
         """
         # Handle conversion for newer ONNX versions
         # TODO - try to remove the try/except block
-       # breakpoint()
         try:
             return onnx2torch.convert(onnx_graph, *args, **kwargs)
         except:
@@ -352,7 +360,7 @@ class Converter(object):
                 _onnx_graph = self.onnx_parameterless2onnx(_onnx_graph)
                 return onnx2torch.convert(_onnx_graph, *args, **kwargs)   
         else:   
-            return onnx2torch.convert(onnx_graph, *args, **kwargs)   #converter.onnx_graph2torch_model(onnx_graph) fails here
+            return onnx2torch.convert(onnx_graph, *args, **kwargs)   
 
     onnx2torch = onnx_graph2torch_model
 
@@ -380,10 +388,11 @@ class Converter(object):
         output_var = "None"
         n_lines = len(onnx_str)
         layer_name_type_dict = {}
+        flag = 0
 
         # Regex expression to track floating point number calls"
         permitted_onxx_float_pattern = r"^(\{)?-?\d*(_\d*)*(e-?\d*)?(\})?[-\d>](,)?$"
-
+        replacement_done = False
         for line_ctr, onnx_uninit_line in enumerate(onnx_str):
             # Skip header
             if line_ctr < 6:
@@ -422,6 +431,8 @@ class Converter(object):
                 # Only replacing decimal point with string if pattern matches, allows capture of floating point values as parameters
                 if re.match(permitted_onxx_float_pattern, onnx_str_item):
                     onnx_uninit_line_as_list[idx] = onnx_str_item.replace("_", ".")
+                elif '{' in onnx_str_item and '_' in onnx_str_item:
+                    onnx_uninit_line_as_list[idx] = onnx_str_item.replace('_', '.')
                 else:
                     continue
 
@@ -432,30 +443,26 @@ class Converter(object):
 
             # Found line with output variable, which must be a non-number
             # e.g. "191" is not valid, so we override it with "output_var"
-            if "=>" in onnx_uninit_line:
+            if "=>" in onnx_uninit_line and not replacement_done:
                 output_var = get_inner_string(onnx_uninit_line, "=>", "{").strip()
                 output_var = get_inner_string(output_var, "]", ")").strip()
-                onnx_uninit_line = onnx_uninit_line.replace(
-                    f"] {output_var}) {{", f"] output_var) {{"
-                )
+                onnx_uninit_line = onnx_uninit_line.replace(f"] {output_var}) {{", f"] output_var) {{")
+                replacement_done = True
             elif line_ctr < (n_lines - 1):
                 # Add the layer name to the respective layer type in the "counter" dictionary
-                layer_name, _, layer_type = onnx_uninit_line.split()[:3]#####
-                # split_line = onnx_uninit_line.split()
+                split_line = onnx_uninit_line.split()
               
-                # if len(split_line) >= 3:
-                #     layer_name, _, layer_type = split_line[:3]
-                # else:
-                #     layer_name = "unknown_layer"
-                #     layer_type = "unknown_type"
-
+                if len(split_line) >= 3:
+                    layer_name, _, layer_type = split_line[:3]
+                else:
+                    continue
                 if layer_type not in layer_name_type_dict:
                     layer_name_type_dict.update({layer_type: [layer_name]})
                 else:
                     layer_name_type_dict[layer_type].append(layer_name)
 
             onnx_str[line_ctr] = onnx_uninit_line
-
+        
         onnx_str = "\n".join(onnx_str)
         # Replace the output variable with the generic 'output_var'
         onnx_str = onnx_str.replace(f"{output_var} =", f"output_var =")
@@ -467,9 +474,19 @@ class Converter(object):
             for layer_idx, layer_name in enumerate(layer_names):
                 if layer_name.isdigit():
                     continue
-                onnx_str = onnx_str.replace(
-                    layer_name, f"{layer_type.lower()}_output_{layer_idx:04d}"
+                str_ = f"{layer_type.lower()}_output_{layer_idx:04d}"
+                if layer_type == "=":
+                    continue
+                onnx_str = onnx_str.replace(layer_name,str_
                 )
+        
+        modified_onnx_str = onnx_str.split("\n")
+        parts = modified_onnx_str[-2].split('=', 1)
+
+        # Replace the first part with 'output_var'
+        modified_onnx_str[-2] = "output_var =" + parts[1]
+
+        onnx_str = "\n".join(modified_onnx_str)
 
         if remove_identity:
             onnx_str = self.remove_identity(onnx_str)
@@ -495,7 +512,6 @@ class Converter(object):
         :return: The pruned ONNX NetworkX graph.
         """
         nodes_to_prune = [k for k in onnx_nx.nodes.keys() if self.filter_node(k)]
-        # help(onnx_nx.remove_node)
         onnx_nx_layers_only = copy.deepcopy(onnx_nx)
         for node in nodes_to_prune:
             onnx_nx_layers_only.remove_node(node)
@@ -651,6 +667,7 @@ class Converter(object):
         """
         graph_tensors = onnx_gs_graph.tensors()
         for tensor_key, tensor_value in graph_tensors.items():
+            
             # Skip initializing any tensors that are already Constants
             if "constant" in str(type(tensor_value)).lower():
                 if "identity" not in tensor_key.lower():
@@ -676,8 +693,6 @@ class Converter(object):
             if isinstance(value_shape[0], str):
                 if "dynamic_axes" in value_shape[0]:
                     continue
-            # print(value_shape, type(value_shape))
-
             tensor_value.to_constant(
                 values=tensor_init_fn(
                     size=value_shape,
@@ -1061,6 +1076,7 @@ class Model(torch.nn.Module):
         ONNX graph text to convert.
         :return: The ONNX graph text converted to a format parseable by onnx.parser.
         """
+
         if not isinstance(onnx_text, str):
             onnx_text = str(onnx_text)
         return (

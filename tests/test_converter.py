@@ -9,6 +9,7 @@ from .conftest import (
     TEXT_MODELS,
     TABULAR_MODELS,
     TIMESERIES_MODELS,
+    CUSTOM_TABULAR_MODELS,
     # DATALOADER,
 )
 import lightning
@@ -364,33 +365,55 @@ def test_conversion_pipeline(torch_model, input_dummy):
     # onnx2torch.convert(onnx_graph)
     torch_model = converter.onnx_graph2torch_model(onnx_graph)
 
-    input_dummy = {"x": temp}
+    input_dummy = {'x':temp}
 
-    onnx_graph = converter.torch_model2onnx_graph(
-        torch_model, input_dummy=input_dummy
-    )  ##all passed
-
-    ###
-
-    # torch_model = converter.onnx_graph2torch_model(onnx_graph) ##failed for tabnet and danet, Dynamic value of min/max is not implemented
+    onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy) 
+    torch_model = converter.onnx_graph2torch_model(onnx_graph) 
 
     # # onnx graph <-> onnx text
-    onnx_text = converter.onnx_graph2onnx_text(onnx_graph)  ##all passed
-    onnx_graph = converter.onnx_text2onnx_graph(
-        onnx_text
-    )  ##failed for tabnet and danet, onnx.parser.ParseError
-
+    onnx_text = converter.onnx_graph2onnx_text(onnx_graph) 
+    onnx_graph = converter.onnx_text2onnx_graph(onnx_text) 
+    
     # # onnx text -> torch code
-    # torch_code = converter.onnx_text2torch_code(onnx_text) ##all failed
+    torch_code = converter.onnx_text2torch_code(onnx_text) 
+
+    # torch code -> torch model
+    torch_model = converter.torch_code2torch_model(torch_code)  
+
+    # batch_size = random.choice(range(1, 10))
+    # temp = {
+    #     "continuous": torch.empty((batch_size, 2)).float(), 
+    #     "categorical": torch.randint(0, 3, (batch_size, 2)).float()
+    # } 
+
+    # categorical_data = temp["categorical"]
+
+    # output_dummy = torch_model(categorical_data)
+    # assert output_dummy.shape[0] == batch_size
+
+@pytest.mark.parametrize("torch_model", CUSTOM_TABULAR_MODELS)
+def test_conversion_pipeline_custom(torch_model):
+    """ Test converting across several representations, from Torch graphs to ONNX text
+    """
+    input_dummy = torch.randn([1, 10])
+    ###
+    onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy) 
+    torch_model = converter.onnx_graph2torch_model(onnx_graph) 
+
+    # # onnx graph <-> onnx text
+    onnx_text = converter.onnx_graph2onnx_text(onnx_graph) 
+    onnx_graph = converter.onnx_text2onnx_graph(onnx_text) 
+    
+    # # onnx text -> torch code
+    torch_code = converter.onnx_text2torch_code(onnx_text)
 
     # # torch code -> torch model
-    # torch_model = converter.torch_code2torch_model(torch_code)  ##all failed
+    torch_model = converter.torch_code2torch_model(torch_code) 
 
-    # batch_size = random.choice(range(1, 33))
-    # #input_dummy = torch.randn((batch_size, 3, 30, 30))
-    # input_dummy = torch.randn((batch_size, 10))
-    # output_dummy = torch_model(input_dummy)
-    # assert output_dummy.shape[0] == batch_size
+    batch_size = random.choice(range(1, 33))
+    input_dummy = torch.randn((batch_size, 10))
+    output_dummy = torch_model(input_dummy)
+    assert output_dummy.shape[0] == batch_size
     ###
     batch_size = random.choice(range(1, 33))
     input_dummy = torch.randn((batch_size, 10, 10))

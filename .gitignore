@@ -195,3 +195,6 @@ tests/tabular_tests.py
 docs/build/html/_images/
 myenv/
 .gitignore.save
+newenv/
+newfile.txt
+output.txt
