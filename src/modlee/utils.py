@@ -11,16 +11,19 @@ import pickle
 import requests
 import math, numbers
 import numpy as np
+import pandas as pd
 
+from sklearn.preprocessing import StandardScaler
 import mlflow
 
 import torch
+from torch.utils.data import Dataset, DataLoader
 import torchtext
 import torchvision
 from torchvision import datasets as tv_datasets
 from torchvision import transforms
 from torch.utils.data import DataLoader
-from modlee.timeseries_dataloader import TimeSeriesDataset
+from modlee.timeseries_dataloader import TimeseriesDataset
 
 import modlee
 from modlee.client import ModleeClient
@@ -99,7 +102,7 @@ def get_dataloader(dataset, batch_size=16, shuffle=True, *args, **kwargs):
 class timeseries_loader:
     @staticmethod
     def get_timeseries_dataloader(data, target, input_seq:int, output_seq:int, time_column:str, encoder_column:list):
-        return TimeSeriesDataset(
+        return TimeseriesDataset(
                 data, target, input_seq, output_seq, time_column, encoder_column, 
             ).to_dataloader(batch_size=32, shuffle = False)
 
@@ -232,6 +235,131 @@ class text_loaders:
             _get_text_dataloader, dataset_module, dataset_len
         )
 
+class tabular_loaders:
+
+    class TabularDataset(Dataset):
+        def __init__(self, data, target):
+            self.data = torch.tensor(data, dtype=torch.float32)
+            self.target = torch.tensor(target, dtype=torch.float32).unsqueeze(1)
+
+        def __len__(self):
+            return len(self.data)
+
+        def __getitem__(self, idx):
+            return self.data[idx], self.target[idx]
+
+        
+    @staticmethod
+    def get_diabetes_dataloader(batch_size=4, shuffle=True, root=None):
+        if root is None:
+            dataset_path = os.path.join(os.path.dirname(__file__), "csv", "diabetes.csv")
+        else: 
+            dataset_path = os.path.join(root, "diabetes.csv")
+
+        df = pd.read_csv(dataset_path)
+
+        X = df.drop("Outcome", axis=1).values
+        y = df["Outcome"].values
+
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+
+        dataset = tabular_loaders.TabularDataset(X_scaled, y)
+        dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
+
+        return dataloader
+
+
+    @staticmethod
+    def get_adult_dataloader(batch_size=4, shuffle=True, root=None):
+        if root is None:
+            dataset_path = os.path.join(os.path.dirname(__file__), "csv", "adult.csv")
+        else: 
+            dataset_path = os.path.join(root, "adult.csv")
+
+
+        df = pd.read_csv(dataset_path)
+
+        df = df.replace(" ?", pd.NA).dropna()
+
+        X = df.drop("income", axis=1)
+        y = df["income"]
+
+        X_encoded = pd.get_dummies(X, drop_first=True)
+        X_encoded = X_encoded.apply(pd.to_numeric, errors="coerce")
+        X_encoded = X_encoded.fillna(0)
+
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X_encoded)
+
+        y = pd.factorize(y)[0]
+
+        dataset = tabular_loaders.TabularDataset(X_scaled, y)
+        dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
+
+        return dataloader
+
+
+    @staticmethod
+    def get_housing_dataloader(batch_size=4, shuffle=True, root=None):
+
+        column_names = [
+            "CRIM",
+            "ZN",
+            "INDUS",
+            "CHAS",
+            "NOX",
+            "RM",
+            "AGE",
+            "DIS",
+            "RAD",
+            "TAX",
+            "PTRATIO",
+            "B",
+            "LSTAT",
+            "MEDV",
+        ]
+        if root is None:
+            path_name = os.path.join(os.path.dirname(__file__), "csv", "housing.csv")
+        else: 
+            path_name = os.path.join(root, "housing.csv")
+
+
+        df = pd.read_csv(path_name, header=None, names=column_names, delim_whitespace=True)
+
+        X = df.drop("MEDV", axis=1).values
+        y = df["MEDV"].values
+
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+
+        dataset = tabular_loaders.TabularDataset(X_scaled, y)
+        dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
+
+        return dataloader
+
+class timeseries_loaders:
+    @staticmethod
+    def get_finance_dataloader(root=None,):
+        if root is None:
+            data_path = "./data"
+            # data_path = os.path.join("./j")
+        dataframe = pd.read_csv(os.path.join(data_path, "HDFCBANK.csv"))
+        ###normalize the dataset
+        dataframe.drop(
+            columns=["Symbol", "Series", "Trades", "Deliverable Volume", "Deliverble"],
+            inplace=True,
+        )
+        encoder_columns = dataframe.columns.tolist()
+        dataloader = timeseries_loader.get_timeseries_dataloader(
+            data=dataframe,
+            input_seq=2,
+            output_seq=1,
+            encoder_column=encoder_columns,
+            target="Close",
+            time_column="Date",
+        )
+        return dataloader
 
 def uri_to_path(uri):
     """

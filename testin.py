@@ -15,7 +15,7 @@ encoder_column = data.columns.tolist()
 from modlee.timeseries_dataloader import TimeSeriesDataset
 import torch.onnx
 
-dataset = TimeSeriesDataset(data=data, encoder_column=encoder_column, target = 'Close', time_column = 'Date', input_seq=2, output_seq=1)
+dataset = TimeseriesDataset(data=data, encoder_column=encoder_column, target = 'Close', time_column = 'Date', input_seq=2, output_seq=1)
 trainer = Trainer(
     max_epochs=3,
     accelerator="auto",

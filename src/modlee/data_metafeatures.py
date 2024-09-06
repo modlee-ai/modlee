@@ -920,6 +920,8 @@ class TabularDataMetafeatures(DataMetafeatures):
         self.stats_rep = self.get_features()
         # Ensure that self.features is flat
         self.features.update(self.stats_rep)
+        # TODO - replace with actual embedding
+        self.embedding = self.stats_rep
         pass
 
     def get_features(self):
@@ -949,7 +951,7 @@ class TabularDataMetafeatures(DataMetafeatures):
         }
         return summary
 
-class TimeSeriesDataMetafeatures(DataMetafeatures):
+class TimeseriesDataMetafeatures(DataMetafeatures):
     def __init__(self, dataloader):
         self.dataloader = dataloader
 
@@ -968,7 +970,7 @@ class TimeSeriesDataMetafeatures(DataMetafeatures):
 
     def calculate_metafeatures(self):
         data = self.get_single_batch()
-        print(f"Data shape: {data.shape}")
+        logging.debug(f"Data shape: {data.shape}")
         
         if data.size == 0:
             raise ValueError("No data available in the batch.")
@@ -976,35 +978,35 @@ class TimeSeriesDataMetafeatures(DataMetafeatures):
         # Flatten the 3D data to 2D for metafeature calculation
         num_samples, seq_len, num_features = data.shape
         data_2d = data.reshape(-1, num_features).numpy()  # Convert tensor to NumPy array
-        print(f"Flattened data shape: {data_2d.shape}")
-        print(f"Flattened data: {data_2d}")
+        logging.debug(f"Flattened data shape: {data_2d.shape}")
+        logging.debug(f"Flattened data: {data_2d}")
         
         # Extract metafeatures using pymfe
         mfe = MFE(groups=["statistical", "model-based", "info-theory"])
         mfe.fit(data_2d)  # Pass the flattened NumPy array
         ft = mfe.extract()
         pymfe_features = dict(zip(ft[0], ft[1]))
-        print(f"Extracted pymfe features: {pymfe_features}")
+        logging.debug(f"Extracted pymfe features: {pymfe_features}")
         
         # Calculate additional features
         additional_features = {}
         
         # Combine all features into a single time series
         combined_series = data_2d.flatten()
-        print(f"Combined series: {combined_series}")
+        logging.debug(f"Combined series: {combined_series}")
         
         # Calculate quantiles
         quantiles = np.percentile(combined_series, [25, 50, 75])
-        print(f"Quantiles: {quantiles}")
+        logging.debug(f"Quantiles: {quantiles}")
         
         # Calculate autocorrelation and partial autocorrelation
         autocorr = acf(combined_series, nlags=1)
-        print(f"Autocorrelation: {autocorr}")
+        logging.debug(f"Autocorrelation: {autocorr}")
         if len(combined_series) > 2:
             partial_autocorr = pacf(combined_series, nlags=min(1, len(combined_series) // 2 - 1))
         else:
             partial_autocorr = [np.nan]  # or some default value
-        print(f"Partial Autocorrelation: {partial_autocorr}")
+        logging.debug(f"Partial Autocorrelation: {partial_autocorr}")
         
         if len(autocorr) > 1:
             autocorr_lag1 = autocorr[1]
@@ -1023,8 +1025,8 @@ class TimeSeriesDataMetafeatures(DataMetafeatures):
             seasonal = decomposition.seasonal
             trend_strength = np.nanmean(trend)
             seasonal_strength = np.nanmean(seasonal)
-            print(f"Trend: {trend}")
-            print(f"Seasonal: {seasonal}")
+            logging.debug(f"Trend: {trend}")
+            logging.debug(f"Seasonal: {seasonal}")
         else:
             trend_strength = np.nan
             seasonal_strength = np.nan
@@ -1041,7 +1043,7 @@ class TimeSeriesDataMetafeatures(DataMetafeatures):
         
         # Combine pymfe features with additional features
         combined_features = {**pymfe_features, **additional_features}
-        print(f"Combined features: {combined_features}")
+        logging.debug(f"Combined features: {combined_features}")
         return combined_features
     
     def print_meta(self, features):
@@ -1050,6 +1052,6 @@ class TimeSeriesDataMetafeatures(DataMetafeatures):
         
         # Print each key-value pair with the keys aligned
         for key, value in features.items():
-            print(f"{key:<{max_key_length}} : {value}")
+            logging.debug(f"{key:<{max_key_length}} : {value}")
         return None
 from_modality_task = partial(class_from_modality_task, _class="Data_Metafeatures")

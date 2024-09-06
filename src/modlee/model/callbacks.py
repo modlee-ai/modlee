@@ -329,8 +329,8 @@ class DataMetafeaturesCallback(ModleeCallback):
         Log time series data meta features with a pandas dataframe.
         :param dataframe: The pandas dataframe.
         """
-        if self.TimeSeriesDMF:
-            data_mf = self.TimeSeriesDMF(data)
+        if self.TimeseriesDMF:
+            data_mf = self.TimeseriesDMF(data)
             mlflow.log_dict(data_mf.properties, "data_metafeatures")
         else:
             logging.warning("Cannot log data statistics, could not access from server")

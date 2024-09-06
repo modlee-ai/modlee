@@ -1,7 +1,10 @@
 import torch
 from torch.utils.data import DataLoader
-from modlee.timeseries_dataloader import TimeSeriesDataset
+from modlee.timeseries_dataloader import TimeseriesDataset
 import pandas as pd
+from modlee.utils import timeseries_loaders
+from modlee. model.timeseries_model import TimeseriesClassificationModleeModel
+
 
 def makeDataloader():
     data = pd.read_csv("data/HDFCBANK.csv")
@@ -10,7 +13,7 @@ def makeDataloader():
         inplace=True,
     )
     encoder_column = data.columns.tolist()
-    dataset = TimeSeriesDataset(
+    dataset = TimeseriesDataset(
         data=data,
         target="Close",
         time_column="Date",
@@ -29,19 +32,6 @@ def makeDataloader():
 #     pfm.LSTM(),
 #     pfm.GRU(),
 # ]
-class simpleModel(torch.nn.Module):
-    def __init__(self):
-        super(simpleModel, self).__init__()
-        self.model = torch.nn.Sequential(
-            torch.nn.Linear(10, 10), torch.nn.ReLU(), torch.nn.Linear(10, 1)
-        )
-
-    def forward(self, x):
-        # Assuming x is a dictionary with a key 'x' that holds the tensor
-        # x = x['x']
-        # print(x.shape)
-        return self.model(x)
-
 
 class DummyDataset(torch.utils.data.Dataset):
     def __init__(self, num_samples=100, input_channels=10, sequence_length=20):
@@ -99,46 +89,31 @@ class simpleLSTM(torch.nn.Module):
         x = self.fc(x)
         return x
 
-
-class conv1dModel(torch.nn.Module):
-    def __init__(self):
-        super(conv1dModel, self).__init__()
-        self.conv1 = torch.nn.Conv1d(in_channels=10, out_channels=10, kernel_size=3)
-        self.conv2 = torch.nn.Conv1d(in_channels=10, out_channels=1, kernel_size=3)
-        self.relu = torch.nn.ReLU()
-        self.flatten = torch.nn.Flatten()
-
-    def forward(self, x):
-        # x = x['x']
-        x = self.conv1(x)
-        x = self.relu(x)
-        x = self.conv2(x)
-        x = self.relu(x)
-        x = self.flatten(x)
-        return x
-
-
+simpleModel = TimeseriesClassificationModleeModel("simple")
+conv1dModel = TimeseriesClassificationModleeModel("conv1d")
 TIMESERIES_MODELS = [
     # pfm.TemporalFusionTransformer(),
     # pfm.LSTM(input_size=1, hidden_size=10),
     # pfm.GRU(input_size=1, hidden_size=10, num_layers=1),
     # pfm.RecurrentNetwork()
     # simpleLSTM(),
-    simpleModel(),
-    conv1dModel(),
+    simpleModel,
+    conv1dModel,
     # pfm.AutoRegressiveBaseModel(),
     # NbeatsInit(),
 ]
 
 
+# DATALOADER = timeseries_loaders = [
+#     get_input_for_simple_model(),
+#     get_input_for_conv1d_model(),
+#     makeDataloader(),
+# ]
 
-DATALOADER = timeseries_loaders = [
-    get_input_for_simple_model(),
-    get_input_for_conv1d_model(),
-    makeDataloader(),
+TIMESERIES_MODALITY_TASK_MODEL = [    
+    ("timeseries", "classification", simpleModel),
+    ("timeseries", "classification", conv1dModel),
 ]
-
-TIMESERIES_MODALITY_TASK_MODEL = []
 
 TIMESERIES_MODALITY_TASK_KWARGS = [
     ("timeseries", "classification", {"_type": "simple"}),
