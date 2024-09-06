@@ -12,7 +12,7 @@ converter = Converter()
 data = pd.read_csv('data/HDFCBANK.csv')
 data.drop(columns=['Series', 'Symbol','Trades', 'Deliverable Volume', 'Deliverble'], inplace=True)
 encoder_column = data.columns.tolist()
-from modlee.timeseries_dataloader import TimeSeriesDataset
+from modlee.timeseries_dataloader import TimeseriesDataset
 import torch.onnx
 
 dataset = TimeseriesDataset(data=data, encoder_column=encoder_column, target = 'Close', time_column = 'Date', input_seq=2, output_seq=1)

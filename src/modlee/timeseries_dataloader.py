@@ -48,11 +48,11 @@ class TimeseriesDataset(Dataset):
         
     
 
-class TimeSeriesDataset(Dataset):
+class TimeseriesDataset(Dataset):
     """
     Class to handle data loading of the time series dataset.
     """
-    def __init__(self, data, target, input_seq:int, output_seq:int, time_column:str):
+    def __init__(self, data, target, input_seq:int, output_seq:int, time_column:str, encoder_column:list):
         """
         Params:
         -------
