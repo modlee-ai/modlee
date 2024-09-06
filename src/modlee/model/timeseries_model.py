@@ -1,5 +1,7 @@
 import torch
 from modlee.model import ModleeModel
+
+
 class TimeseriesModleeModel(ModleeModel):
     def __init__(self, ):
         pass
@@ -12,6 +14,10 @@ class TimeseriesClassificationModleeModel(ModleeModel):
             self.model = conv1dModel()
         else:
             self.model = simpleModel()
+            
+    def forward(self, x, *args, **kwargs):
+        return self.model(x, *args, **kwargs)
+
 
 class conv1dModel(torch.nn.Module):
     def __init__(self):
@@ -29,6 +35,7 @@ class conv1dModel(torch.nn.Module):
         x = self.relu(x)
         x = self.flatten(x)
         return x
+
 
 class simpleModel(torch.nn.Module):
     def __init__(self):

@@ -17,7 +17,6 @@ import torch
 import pandas as pd
 from pytorch_tabular.models.tabnet import TabNetModelConfig, TabNetModel
 from omegaconf import OmegaConf
-from omegaconf import OmegaConf
 from pytorch_tabular.models.category_embedding import CategoryEmbeddingModel
 from modlee.model.tabular_model import (
     TabNetModleeModel,
@@ -27,6 +26,7 @@ from modlee.model.tabular_model import (
 from modlee.model.tabular_model import DANetModleeModel, TabTransformerModleeModel
 from pytorch_tabular.models.gandalf import GANDALFModel
 from pytorch_tabular.models.danet import DANetModel
+from modlee.utils import tabular_loaders
 
 tabnet_config = OmegaConf.create(
     {
@@ -235,97 +235,11 @@ TABULAR_MODALITY_TASK_MODEL = [
 ]
 TABULAR_SUBMODELS = TABULAR_MODALITY_TASK_MODEL
 
-class TabularDataset(Dataset):
-    def __init__(self, data, target):
-        self.data = torch.tensor(data, dtype=torch.float32)
-        self.target = torch.tensor(target, dtype=torch.float32).unsqueeze(1)
 
-    def __len__(self):
-        return len(self.data)
-
-    def __getitem__(self, idx):
-        return self.data[idx], self.target[idx]
-
-
-def get_diabetes_dataloader(batch_size=4, shuffle=True):
-    dataset_path = os.path.join(os.path.dirname(__file__), "csv", "diabetes.csv")
-
-    df = pd.read_csv(dataset_path)
-
-    X = df.drop("Outcome", axis=1).values
-    y = df["Outcome"].values
-
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-
-    dataset = TabularDataset(X_scaled, y)
-    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
-
-    return dataloader
-
-
-def get_adult_dataloader(batch_size=4, shuffle=True):
-    dataset_path = os.path.join(os.path.dirname(__file__), "csv", "adult.csv")
-
-    df = pd.read_csv(dataset_path)
-
-    df = df.replace(" ?", pd.NA).dropna()
-
-    X = df.drop("income", axis=1)
-    y = df["income"]
-
-    X_encoded = pd.get_dummies(X, drop_first=True)
-    X_encoded = X_encoded.apply(pd.to_numeric, errors="coerce")
-    X_encoded = X_encoded.fillna(0)
-
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X_encoded)
-
-    y = pd.factorize(y)[0]
-
-    dataset = TabularDataset(X_scaled, y)
-    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
-
-    return dataloader
-
-
-def get_housing_dataloader(batch_size=4, shuffle=True):
-
-    column_names = [
-        "CRIM",
-        "ZN",
-        "INDUS",
-        "CHAS",
-        "NOX",
-        "RM",
-        "AGE",
-        "DIS",
-        "RAD",
-        "TAX",
-        "PTRATIO",
-        "B",
-        "LSTAT",
-        "MEDV",
-    ]
-
-    path_name = os.path.join(os.path.dirname(__file__), "csv", "housing.csv")
-    df = pd.read_csv(path_name, header=None, names=column_names, delim_whitespace=True)
-
-    X = df.drop("MEDV", axis=1).values
-    y = df["MEDV"].values
-
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-
-    dataset = TabularDataset(X_scaled, y)
-    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
-
-    return dataloader
-
-TABULAR_LOADERS = {
-    "housing_dataset": get_housing_dataloader,
-    "adult_dataset": get_adult_dataloader,
-    "diabetes_dataset": get_diabetes_dataloader,
-}
-tabular_loaders = list(TABULAR_LOADERS.values())
+# TABULAR_LOADERS = {
+#     "housing_dataset": get_housing_dataloader,
+#     "adult_dataset": get_adult_dataloader,
+#     "diabetes_dataset": get_diabetes_dataloader,
+# }
+# tabular_loaders = list(TABULAR_LOADERS.values())
 

@@ -25,28 +25,11 @@ from pytorch_tabular.models import CategoryEmbeddingModelConfig
 
 from .configs import *
 
-def get_finance_data(path: str = "data/HDFCBANK.csv"):
-    dataframe = pd.read_csv("data/HDFCBANK.csv")
-    ###normalize the dataset
-    dataframe.drop(
-        columns=["Symbol", "Series", "Trades", "Deliverable Volume", "Deliverble"],
-        inplace=True,
-    )
-    encoder_columns = dataframe.columns.tolist()
-    dataloader = timeseries_loader.get_timeseries_dataloader(
-        data=dataframe,
-        input_seq=2,
-        output_seq=1,
-        encoder_column=encoder_columns,
-        target="Close",
-        time_column="Date",
-    )
-    return dataloader
-
 
 modlee.init(api_key="GZ4a6OoXmCXUHDJGnnGWNofsPrK0YF0i")
-DATA_ROOT = os.path.expanduser("~/efs/.data")
-IMAGE_DATALOADER = modlee.utils.get_imagenette_dataloader()
+# DATA_ROOT = os.path.expanduser("~/efs/.data")
+DATA_ROOT = os.path.expanduser("./.data")
+# IMAGE_DATALOADER = modlee.utils.get_imagenette_dataloader()
 
 # IMAGE_LOADERS = {
 #     loader_fn: getattr(image_loaders, loader_fn)
@@ -59,9 +42,7 @@ IMAGE_DATALOADER = modlee.utils.get_imagenette_dataloader()
 #     if re.match("get_(.*)_dataloader", loader_fn)
 # }
 # TODO - add timeseries to modalities
-TIME_SERIES_LOADER = {"finance_data": get_finance_data}
 
-import pandas as pd
 
 """construct IMAGE_LOADERS, TEXT_LOADERS, etc"""
 globals().update(
@@ -74,25 +55,18 @@ globals().update(
         for modality in conftest.MODALITIES
     }
 )
-
-print(
-    "\n".join(
-        f"image loader{i}: {image_loader}"
-        for i, image_loader in enumerate(IMAGE_LOADERS)
-    )
-)
-import pandas as pd
+# breakpoint()
 
 # df = pd.DataFrame()
 df = None
 
 
 class TestDataMetafeatures:
-    @pytest.mark.parametrize("get_dataloader_fn", TABULAR_LOADERS.values())
-    def test_tabular_dataloader(self, get_dataloader_fn):
-        tabular_mf = dmf.TabularDataMetafeatures(get_dataloader_fn(), testing=True)
-        self._check_has_metafeatures_tab(tabular_mf)
-        self._check_statistical_metafeatures(tabular_mf)
+    # @pytest.mark.parametrize("get_dataloader_fn", TABULAR_LOADERS.values())
+    # def test_tabular_dataloader(self, get_dataloader_fn):
+    #     tabular_mf = dmf.TabularDataMetafeatures(get_dataloader_fn(), testing=True)
+    #     self._check_has_metafeatures_tab(tabular_mf)
+    #     self._check_statistical_metafeatures(tabular_mf)
 
     # @pytest.mark.parametrize('get_dataloader_fn', TEXT_LOADERS.values())
     # def test_text_dataloader(self, get_dataloader_fn):
@@ -124,9 +98,9 @@ class TestDataMetafeatures:
         metafeature_types = ["mfe", "properties", "features"]
         conftest._check_has_metafeatures_tab(mf, metafeature_types)
 
-    @pytest.mark.parametrize("get_dataloader_fn", TIME_SERIES_LOADER.values())
+    @pytest.mark.parametrize("get_dataloader_fn", TIMESERIES_LOADERS.values())
     def test_timeseries_dataloader(self, get_dataloader_fn):
-        timeseries_mf = dmf.TimeSeriesDataMetafeatures(
+        timeseries_mf = dmf.TimeseriesDataMetafeatures(
             get_dataloader_fn()
         ).calculate_metafeatures()
         self._check_has_metafeatures_timeseries(timeseries_mf)

@@ -3,7 +3,7 @@ import pytorch_forecasting as pf
 import torch
 import pandas as pd
 
-class TimeSeriesDataset(Dataset):
+class TimeseriesDataset(Dataset):
     """
     Class to handle data loading of the time series dataset.
     """

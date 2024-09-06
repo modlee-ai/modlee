@@ -52,7 +52,10 @@ class Converter(object):
 
     
     def torch_model2onnx_graph(
-        self, torch_model, input_dummy=None, tmp_onnx_path="./.tmp_model.onnx", modality="timeseries", **kwargs
+        self, torch_model, input_dummy=None, tmp_onnx_path="./.tmp_model.onnx", 
+        # modality="timeseries", 
+        modality=None, 
+        **kwargs
     ):
         """
         Convert a Torch Model to ONNX Graph.
@@ -68,7 +71,6 @@ class Converter(object):
         if input_dummy is None and hasattr(torch_model, "input_dummy"):
             input_dummy = torch_model.input_dummy
             
-        
         torch_model.eval()
         # TODO - refactor the below
         # Tabular

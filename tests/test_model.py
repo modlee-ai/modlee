@@ -51,6 +51,9 @@ class TestModel:
         "modality, task, kwargs", conftest.IMAGE_MODALITY_TASK_KWARGS
     )(_test_modality_task)
 
+    def test_no_modality_task( self, ):
+        self._test_modality_task("","", {})
+
     @pytest.mark.parametrize(
         "model", conftest.IMAGE_MODALITY_TASK_KWARGS, indirect=["model"]
     )

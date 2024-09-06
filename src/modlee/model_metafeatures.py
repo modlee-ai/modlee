@@ -13,11 +13,33 @@ from modlee.utils import get_model_size, class_from_modality_task, get_modality_
 
 converter = modlee.converter.Converter()
 
+class DummyDataset(torch.utils.data.Dataset):
+    def __init__(self, num_samples=100, input_channels=10, sequence_length=20):
+        self.num_samples = num_samples
+        self.input_channels = input_channels
+        self.sequence_length = sequence_length
+
+    def __len__(self):
+        return self.num_samples
+
+    def __getitem__(self, idx):
+        # Generate random input data
+        x = torch.randn(self.input_channels, self.sequence_length)  # For conv1dModel
+        # Generate random target data
+        y = torch.randn(1)
+        return {"x": x}, y
+
+
+dummy_data = DummyDataset(num_samples=10, input_channels=10, sequence_length=10)
+
 # g2v = ModelEncoder.from()
 INPUT_DUMMY = {
     "image": torch.randn([10,3,300,300]),
     "": torch.randn([10,3,300,300]),
-    
+    "tabular": {
+        "x": torch.randn([10, 3, 300, 300]),
+    },
+    "timeseries":  next(iter(dummy_data))[0]
 }
 
 class ModelMetafeatures:
@@ -28,7 +50,9 @@ class ModelMetafeatures:
         self.torch_model = torch_model
         self.modality, self.task = get_modality_task(torch_model)
         # self.torch_model.to(device=modlee.DEVICE)
-        self.onnx_graph = converter.torch_model2onnx_graph(self.torch_model, input_dummy=INPUT_DUMMY[self.modality])
+        self.onnx_graph = converter.torch_model2onnx_graph(
+            self.torch_model, 
+            input_dummy=INPUT_DUMMY[self.modality])
         # Must calculate NetworkX before initializing tensors
         self.onnx_nx = converter.index_nx(converter.onnx_graph2onnx_nx(self.onnx_graph))
         self.onnx_text = converter.onnx_graph2onnx_text(self.onnx_graph)
@@ -192,6 +216,13 @@ class TextModelMetafeatures(ModelMetafeatures):
         )
 
 class TextClassificationModelMetafeatures(TextModelMetafeatures):
+    pass
+
+
+class TabularClassificationModelMetafeatures(ModelMetafeatures):
+    pass
+
+class TimeseriesClassificationModelMetafeatures(ModelMetafeatures):
     pass
 
 

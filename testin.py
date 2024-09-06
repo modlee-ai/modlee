@@ -14,10 +14,10 @@ encoder_column = data.columns.tolist()
 print(data.describe())
 print(data.isnull().sum())
 #%%
-from modlee.timeseries_dataloader import TimeSeriesDataset
+from modlee.timeseries_dataloader import TimeseriesDataset
 import torch.onnx
 
-dataset = TimeSeriesDataset(data=data, encoder_column=encoder_column, target = 'Close', time_column = 'Date', input_seq=2, output_seq=1)
+dataset = TimeseriesDataset(data=data, encoder_column=encoder_column, target = 'Close', time_column = 'Date', input_seq=2, output_seq=1)
 trainer = Trainer(
     max_epochs=3,
     accelerator="auto",
@@ -28,9 +28,9 @@ trainer = Trainer(
 model = NBeats.from_dataset(
     dataset=dataset.get_dataset(), 
 )
-from modlee.data_metafeatures import TimeSeriesDataMetafeatures
+from modlee.data_metafeatures import TimeseriesDataMetafeatures
 print(dataset.to_dataloader())
-meta = TimeSeriesDataMetafeatures(dataset.to_dataloader())
+meta = TimeseriesDataMetafeatures(dataset.to_dataloader())
 features = meta.calculate_metafeatures()
 print(features)
 #meta.print_meta(features=features)

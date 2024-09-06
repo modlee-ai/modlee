@@ -9,7 +9,7 @@ from .conftest import (
     TEXT_MODELS,
     TABULAR_MODELS,
     TIMESERIES_MODELS,
-    DATALOADER,
+    # DATALOADER,
 )
 import lightning
 import numpy as np
