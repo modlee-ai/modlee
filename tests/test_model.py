@@ -28,7 +28,6 @@ class TestModel:
     # )
     # def test_image_modality_task(self, modality, task, kwargs):
     #     self._test_modality_task(modality, task, kwargs)
-
     def _test_modality_task(self, modality, task, kwargs):
         # model = model_from_args(modality_task_kwargs)
         model = modlee.model.from_modality_task(modality, task, **kwargs)

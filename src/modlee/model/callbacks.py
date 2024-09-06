@@ -291,6 +291,8 @@ class DataMetafeaturesCallback(ModleeCallback):
         super().__init__()
         self.data_snapshot_size = data_snapshot_size
         self.DataMetafeatures = DataMetafeatures
+        self.TimeSeriesDMF = getattr(dmf, "TimeSeriesDataMetafeatures", None)
+        self.TimeSeriesDMFLog = TimeSeriesDataMetafeatures
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
         # data, targets = self._get_data_targets(trainer)

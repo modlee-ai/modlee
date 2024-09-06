@@ -57,7 +57,6 @@ class TestRecommender:
     @pytest.mark.parametrize("args", conftest.IMAGE_MODALITY_TASK_KWARGS)
     def test_image_modality_task(self, args):
         self._test_modality_task(*args)
-
     def test_calculate_metafeatures_image(
         self,
     ):

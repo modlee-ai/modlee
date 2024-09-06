@@ -5,7 +5,15 @@ Test modlee.converter
 """
 
 import pytest, re, pathlib
-from .conftest import IMAGE_MODELS, IMAGE_SEGMENTATION_MODELS, TEXT_MODELS, TABULAR_MODELS, TIMESERIES_MODELS, TIMESERIES_MODELS, DATALOADER
+from .conftest import (
+    IMAGE_MODELS,
+    IMAGE_SEGMENTATION_MODELS,
+    TEXT_MODELS,
+    TABULAR_MODELS,
+    TIMESERIES_MODELS,
+    CUSTOM_TABULAR_MODELS,
+    # DATALOADER,
+)
 import lightning
 import numpy as np
 import torch, torchvision, random, onnx2torch
@@ -332,7 +340,7 @@ IMAGE_MODELS_INPUTS = [
 
 
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS+TEXT_MODELS)
-@pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
+# @pytest.mark.parametrize("torch_model", IMAGE_MODELS+IMAGE_SEGMENTATION_MODELS)
 # @pytest.mark.parametrize("torch_model", IMAGE_MODELS)
 #@pytest.mark.parametrize("torch_model, dataloader", zip(TIMESERIES_MODELS, DATALOADER))
 @pytest.mark.parametrize("torch_model", TIMESERIES_MODELS)
@@ -340,8 +348,7 @@ IMAGE_MODELS_INPUTS = [
 # @pytest.mark.parametrize("torch_model", IMAGE_SEGMENTATION_MODELS)
 # @pytest.mark.parametrize("torch_model", TEXT_MODELS)
 # @pytest.mark.parametrize("torch_model", TIMESERIES_MODELS)
-# @pytest.mark.parametrize("torch_model", TABULAR_MODELS)
-# @pytest.mark.parametrize("models_inputs", IMAGE_MODELS_INPUTS)
+# @pytest.mark.parametrize("torch_model, input_dummy", TABULAR_MODELS)
 @pytest.mark.parametrize("torch_model, input_dummy", IMAGE_MODELS_INPUTS)
 # def test_conversion_pipeline(models_inputs):
 def test_conversion_pipeline(torch_model, input_dummy):
@@ -368,30 +375,59 @@ def test_conversion_pipeline(torch_model, input_dummy):
     input_dummy = torch.randn((1, 10, 10))
     # print(f"x type: {type(x)}")
     onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy)
+    # onnx2torch.convert(onnx_graph)
     torch_model = converter.onnx_graph2torch_model(onnx_graph)
 
-    input_dummy = {"x": temp}
+    input_dummy = {'x':temp}
 
-    onnx_graph = converter.torch_model2onnx_graph(
-        torch_model, input_dummy=input_dummy
-    )  ##all passed
-
-    ###
-
-    # torch_model = converter.onnx_graph2torch_model(onnx_graph) ##failed for tabnet and danet, Dynamic value of min/max is not implemented
+    onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy) 
+    torch_model = converter.onnx_graph2torch_model(onnx_graph) 
 
     # # onnx graph <-> onnx text
-    onnx_text = converter.onnx_graph2onnx_text(onnx_graph)  ##all passed
-    onnx_graph = converter.onnx_text2onnx_graph(
-        onnx_text
-    )  ##failed for tabnet and danet, onnx.parser.ParseError
-
+    onnx_text = converter.onnx_graph2onnx_text(onnx_graph) 
+    onnx_graph = converter.onnx_text2onnx_graph(onnx_text) 
+    
     # # onnx text -> torch code
-    # torch_code = converter.onnx_text2torch_code(onnx_text) ##all failed
+    torch_code = converter.onnx_text2torch_code(onnx_text) 
+
+    # torch code -> torch model
+    torch_model = converter.torch_code2torch_model(torch_code)  
+
+    # batch_size = random.choice(range(1, 10))
+    # temp = {
+    #     "continuous": torch.empty((batch_size, 2)).float(), 
+    #     "categorical": torch.randint(0, 3, (batch_size, 2)).float()
+    # } 
+
+    # categorical_data = temp["categorical"]
+
+    # output_dummy = torch_model(categorical_data)
+    # assert output_dummy.shape[0] == batch_size
+
+@pytest.mark.parametrize("torch_model", CUSTOM_TABULAR_MODELS)
+def test_conversion_pipeline_custom(torch_model):
+    """ Test converting across several representations, from Torch graphs to ONNX text
+    """
+    input_dummy = torch.randn([1, 10])
+    ###
+    onnx_graph = converter.torch_model2onnx_graph(torch_model, input_dummy=input_dummy) 
+    torch_model = converter.onnx_graph2torch_model(onnx_graph) 
+
+    # # onnx graph <-> onnx text
+    onnx_text = converter.onnx_graph2onnx_text(onnx_graph) 
+    onnx_graph = converter.onnx_text2onnx_graph(onnx_text) 
+    
+    # # onnx text -> torch code
+    torch_code = converter.onnx_text2torch_code(onnx_text)
 
     # # torch code -> torch model
-    # torch_model = converter.torch_code2torch_model(torch_code)  ##all failed
+    torch_model = converter.torch_code2torch_model(torch_code) 
 
+    batch_size = random.choice(range(1, 33))
+    input_dummy = torch.randn((batch_size, 10))
+    output_dummy = torch_model(input_dummy)
+    assert output_dummy.shape[0] == batch_size
+    ###
     batch_size = random.choice(range(1, 33))
     input_dummy = torch.randn((batch_size, 10, 10))
     """if isinstance(input_dummy, dict):
@@ -470,13 +506,17 @@ def test_onnx_graph2onnx_nx(torch_model):
 def test_convert_float(in_out):
     assert converter.convert_float(in_out[0]) == in_out[1]
 
+
 @pytest.mark.parametrize(
-    'in_out',
+    "in_out",
     [
         # ("-3_40282e+38", "-3.40282e+38"),
         # ("randomtext here -3_40282e+38 and here", "randomtext here -3.40282e+38 and here"),
-        ("constant_output_0017 = Constant <value = float {-3_40282e+38}> ()", "constant_output_0017 = Constant <value = float {-3.40282e+38}> ()")
-    ]
+        (
+            "constant_output_0017 = Constant <value = float {-3_40282e+38}> ()",
+            "constant_output_0017 = Constant <value = float {-3.40282e+38}> ()",
+        )
+    ],
 )
 def test_convert_float(in_out):
     assert converter.convert_float(in_out[0]) == in_out[1]

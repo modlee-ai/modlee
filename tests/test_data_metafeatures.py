@@ -23,117 +23,9 @@ from pytorch_tabular.config import (
 )
 from pytorch_tabular.models import CategoryEmbeddingModelConfig
 
-
-class TabularDataset(Dataset):
-    def __init__(self, data, target):
-        self.data = torch.tensor(data, dtype=torch.float32)
-        self.target = torch.tensor(target, dtype=torch.float32).unsqueeze(1)
-
-    def __len__(self):
-        return len(self.data)
-
-    def __getitem__(self, idx):
-        return self.data[idx], self.target[idx]
+from .configs import *
 
 
-def get_diabetes_dataloader(batch_size=4, shuffle=True):
-    dataset_path = os.path.join(os.path.dirname(__file__), "csv", "diabetes.csv")
-
-    df = pd.read_csv(dataset_path)
-
-    X = df.drop("Outcome", axis=1).values
-    y = df["Outcome"].values
-
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-
-    dataset = TabularDataset(X_scaled, y)
-    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
-
-    return dataloader
-
-
-def get_adult_dataloader(batch_size=4, shuffle=True):
-    dataset_path = os.path.join(os.path.dirname(__file__), "csv", "adult.csv")
-
-    df = pd.read_csv(dataset_path)
-
-    df = df.replace(" ?", pd.NA).dropna()
-
-    X = df.drop("income", axis=1)
-    y = df["income"]
-
-    X_encoded = pd.get_dummies(X, drop_first=True)
-    X_encoded = X_encoded.apply(pd.to_numeric, errors="coerce")
-    X_encoded = X_encoded.fillna(0)
-
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X_encoded)
-
-    y = pd.factorize(y)[0]
-
-    dataset = TabularDataset(X_scaled, y)
-    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
-
-    return dataloader
-
-
-def get_housing_dataloader(batch_size=4, shuffle=True):
-    column_names = [
-        "CRIM",
-        "ZN",
-        "INDUS",
-        "CHAS",
-        "NOX",
-        "RM",
-        "AGE",
-        "DIS",
-        "RAD",
-        "TAX",
-        "PTRATIO",
-        "B",
-        "LSTAT",
-        "MEDV",
-    ]
-
-    path_name = os.path.join(os.path.dirname(__file__), "csv", "housing.csv")
-    df = pd.read_csv(path_name, header=None, names=column_names, delim_whitespace=True)
-
-    X = df.drop("MEDV", axis=1).values
-    y = df["MEDV"].values
-
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-
-    dataset = TabularDataset(X_scaled, y)
-    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
-
-    return dataloader
-
-
-
-def get_tabular_dataloader(batch_size=32, shuffle=True):
-    df = pd.read_csv('housing.csv')
-    X = df.drop('MEDV', axis=1).values
-    y = df['MEDV'].values
-
-    # Standardize features
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-
-    # Convert to PyTorch tensors
-    X_tensor = torch.tensor(X_scaled, dtype=torch.float32)
-    y_tensor = torch.tensor(y, dtype=torch.float32).unsqueeze(1)
-
-    # Create a TensorDataset
-    dataset = TensorDataset(X_tensor, y_tensor)
-
-    # Return a DataLoader
-    return DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
-
-
-
-modlee.init(api_key="GZ4a6OoXmCXUHDJGnnGWNofsPrK0YF0i")
 # DATA_ROOT = os.path.expanduser("~/efs/.data")
 DATA_ROOT = os.path.expanduser("./.data")
 # IMAGE_DATALOADER = modlee.utils.get_imagenette_dataloader()
@@ -149,7 +41,6 @@ DATA_ROOT = os.path.expanduser("./.data")
 #     if re.match("get_(.*)_dataloader", loader_fn)
 # }
 # TODO - add timeseries to modalities
-
 
 """construct IMAGE_LOADERS, TEXT_LOADERS, etc"""
 globals().update(

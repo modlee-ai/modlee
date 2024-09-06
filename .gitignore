@@ -156,6 +156,7 @@ venv/
 ENV/
 env.bak/
 myenv/
+myenv/
 venv.bak/
 
 # Spyder project settings
@@ -191,6 +192,8 @@ cython_debug/
 
 src/modlee/housing.csv
 tests/tabular_tests.py
+src/modlee/housing.csv
+tests/tabular_tests.py
 # Additional ignores
 docs/build/html/_images/
 myenv/
@@ -198,3 +201,6 @@ myenv/
 *.txt
 
 modlee_interview_data/
+newenv/
+newfile.txt
+output.txt

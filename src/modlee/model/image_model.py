@@ -4,12 +4,18 @@ Modlee model for images.
 import inspect
 from typing import Any, Optional
 import torch
+import torch
 import lightning.pytorch as pl
 from lightning.pytorch import Trainer, LightningModule
 from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 import mlflow
 from modlee import data_metafeatures as dmf, model_metafeatures as mmf
+from modlee.model import (
+    ModleeModel,
+    DataMetafeaturesCallback,
+    ModelMetafeaturesCallback,
+)
 from modlee.model import (
     ModleeModel,
     DataMetafeaturesCallback,
