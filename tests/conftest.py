@@ -218,7 +218,7 @@ from pytorch_forecasting import models as pfm
 
 
 from pytorch_forecasting import NBeats, AutoRegressiveBaseModel
-from modlee.timeseries_dataloader import TimeSeriesDataset
+from modlee.timeseries_dataloader import TimeseriesDataset
 
 from .configs import *
 
@@ -230,7 +230,7 @@ def NbeatsInit():
         inplace=True,
     )
     encoder_column = data.columns.tolist()
-    dataset = TimeSeriesDataset(
+    dataset = TimeseriesDataset(
         data=data,
         target="Close",
         time_column="Date",
