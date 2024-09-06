@@ -23,6 +23,7 @@ import onnx2torch
 import onnx_graphsurgeon as gs
 import onnx
 from onnx.tools import net_drawer
+import traceback
 ONNX_MINOR_VERSION = int(onnx.__version__.split(".")[1])
 import re
 import functools
@@ -235,6 +236,7 @@ class Converter(object):
         :param onnx_text: The ONNX Text
         :return torch_code: The Torch Code
         """
+        print(onnx_text)
         torch_model = self.onnx_text2torch_model(onnx_text)
         torch_code = self.torch_graph2code(torch_model)
         # Deleting model should free some space
@@ -243,6 +245,31 @@ class Converter(object):
 
     onnx_text2code = onnx_text2torch_code
 
+    def format_onnx_text(self, onnx_text):
+        """
+        Check and format the ONNX Text
+
+        :param onnx_text: The ONNX Text
+        :return onnx_text: The formatted ONNX Text
+        """
+        if "main_graph" in onnx_text:
+            lines = onnx_text.split('\n')
+            formatted_lines = []
+            skip_next = False
+            for i, line in enumerate(lines):
+                if skip_next:
+                    skip_next = False
+                    continue
+                if line.strip() == '{' and i>0 and re.match(r'^\s*=_', lines[i-1]):
+                    formatted_lines.pop()
+                    formatted_lines.append('{')
+                    skip_next=True
+                else:
+                    formatted_lines.append(line)
+
+            onnx_text = '\n'.join(formatted_lines)
+        return onnx_text
+    
     
     def onnx_text2onnx_graph(self, onnx_text):
         """
@@ -253,6 +280,7 @@ class Converter(object):
         """
         # If on Python 3.12, likely using a newer ONNX
         if ONNX_MINOR_VERSION > 15:
+            
             onnx_text = self.convert_onnx116(onnx_text)
         return onnx.parser.parse_model(onnx_text)
     onnx_text2onnx = onnx_text2onnx_graph
@@ -290,18 +318,26 @@ class Converter(object):
         try:
             return onnx2torch.convert(onnx_graph, *args, **kwargs)
         except:
-            pass
+            pass 
 
         if ONNX_MINOR_VERSION >= 16:
             try:
-                onnx_text = self.onnx_graph2onnx_text(onnx_graph)
-                _onnx_graph = self.onnx_text2onnx_graph(onnx_text)
+                print("First test cycle running>>>>")
+                _onnx_text = self.onnx_graph2onnx_text(onnx_graph)
+                ##onnx_text = self.format_onnx_text(onnx_text)
+                print(_onnx_text)
+                #breakpoint()
+                _onnx_graph = self.onnx_text2onnx_graph(_onnx_text)
                 return onnx2torch.convert(_onnx_graph, *args, **kwargs)
-            except:
-                onnx_text = self.onnx_graph2onnx_text(onnx_graph)
-                _onnx_graph = self.onnx_text2onnx_graph(onnx_text)
+            except Exception as e:
+                print("Exception loop running>>>>")
+                _onnx_text_e = self.onnx_graph2onnx_text(onnx_graph)
+                _onnx_text_e = self.format_onnx_text(_onnx_text_e)
+                print(_onnx_text_e)
+                #breakpoint()
+                _onnx_graph = self.onnx_text2onnx_graph(_onnx_text_e)
                 _onnx_graph = self.onnx_parameterless2onnx(_onnx_graph)
-                return onnx2torch.convert(_onnx_graph, *args, **kwargs)  
+                return onnx2torch.convert(_onnx_graph, *args, **kwargs)
         else:   
             return onnx2torch.convert(onnx_graph, *args, **kwargs)  
 
@@ -388,12 +424,29 @@ class Converter(object):
                     f"] {output_var}) {{", f"] output_var) {{"
                 )
             elif line_ctr < (n_lines - 1):
-                # Add the layer name to the respective layer type in the "counter" dictionary
-                layer_name, _, layer_type = onnx_uninit_line.split()[:3]
-                if layer_type not in layer_name_type_dict:
-                    layer_name_type_dict.update({layer_type: [layer_name]})
-                else:
-                    layer_name_type_dict[layer_type].append(layer_name)
+                try:
+                    split_line = onnx_uninit_line.split()
+                    # Attempt to split the line and add to the layer_name_type_dict
+                    #breakpoint()
+                    if len(split_line) < 3:
+                        raise ValueError(f"Unexpected format: {onnx_uninit_line}")
+                    layer_name, _, layer_type = split_line[:3]
+                    if layer_type not in layer_name_type_dict:
+                        layer_name_type_dict.update({layer_type: [layer_name]})
+                    else:
+                        layer_name_type_dict[layer_type].append(layer_name)
+                except ValueError as e:
+                    # Print an error message if there's an issue with unpacking
+                    print(f"Error processing layer at line {line_ctr}: {onnx_uninit_line}")
+                    print(f"Expected format: '<layer_name> <ignored> <layer_type>'")
+                    print("Unable to recreate the model from this ONNX text.")
+                    #print(f"Exception: {e}")
+                    #print("Traceback:")
+                    #breakpoint()
+                    #traceback.print_exc()
+                    continue
+                    
+
 
             onnx_str[line_ctr] = onnx_uninit_line
 
@@ -414,6 +467,7 @@ class Converter(object):
 
         if remove_identity:
             onnx_str = self.remove_identity(onnx_str)
+        onnx_str = self.format_onnx_text(onnx_str)
         return onnx_str
     onnx2onnx_text = onnx_graph2onnx_text
 
@@ -1004,8 +1058,10 @@ class Model(torch.nn.Module):
         ONNX graph text to convert.
         :return: The ONNX graph text converted to a format parseable by onnx.parser.
         """
+        
         if not isinstance(onnx_text, str):
             onnx_text = str(onnx_text)
+        onnx_text = self.format_onnx_text(onnx_text)    
         return onnx_text.\
             replace('_ ', ' ').\
             replace(' ints =',' =').\

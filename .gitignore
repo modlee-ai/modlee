@@ -192,3 +192,6 @@ cython_debug/
 docs/build/html/_images/
 myenv/
 .gitignore.save
+*.txt
+
+modlee_interview_data/

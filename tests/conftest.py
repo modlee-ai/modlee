@@ -110,6 +110,32 @@ class simpleModel(torch.nn.Module):
         #print(x.shape)
         return self.model(x)
     
+class mlp(torch.nn.Module):
+    def __init__(self, input_size, hidden_size, output_size):
+        super(mlp, self).__init__()
+        self.hidden_layers = torch.nn.ModuleList()
+        self.hidden_layers.append(torch.nn.Linear(input_size, hidden_size[0]))
+        for i in range(1, len(hidden_size)):
+            self.hidden_layers.append(torch.nn.Linear(hidden_size[i-1], hidden_size[i]))
+        self.output_layer = torch.nn.Linear(hidden_size[-1], output_size)
+    def forward(self, x, input_2 = None):
+        for layer in self.hidden_layers:
+            x = torch.nn.functional.relu(layer(x))
+        x = self.output_layer(x)
+        return x
+
+class TransformerModel(torch.nn.Module):
+    def __init__(self):
+        super(TransformerModel, self).__init__()
+        self.model = torch.nn.Transformer(d_model=10, nhead=2, num_encoder_layers=6, num_decoder_layers=6)
+        self.fc = torch.nn.Linear(10, 1)
+
+    def forward(self, x):
+        tgt_dummy = x
+        x = self.model(x, tgt_dummy)
+        x = self.fc(x)
+        return x
+
 
 class DummyDataset(torch.utils.data.Dataset):
     def __init__(self, num_samples=100, input_channels=10, sequence_length=20):
@@ -187,6 +213,8 @@ TIMESERIES_MODELS = [
     #simpleLSTM(),
     simpleModel(),
     conv1dModel(),
+    transformerModel(),
+    #mlp(input_size=10, output_size=10, hidden_size=[64, 128, 64])
     #pfm.AutoRegressiveBaseModel(),
     #NbeatsInit(),
 ]

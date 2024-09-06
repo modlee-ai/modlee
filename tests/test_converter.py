@@ -1,3 +1,4 @@
+
 """ 
 Test modlee.converter
 """
@@ -30,6 +31,16 @@ def test_refactor_variables_with_leading_numbers(input_output):
     output_str = converter.refactor_leading_number(input_str)
     assert output_str == actual_output_str
 
+@pytest.mark.parametrize("input_file, output_file", [("input_file1.txt", "output_file1.txt"), ("input_file2.txt", "output_file2.txt")])
+def test_remove_tensor_line_in_onnx_text(input_file, output_file):
+    with open(input_file, 'r') as _f:
+        input_text = _f.read()
+    
+    with open(output_file, 'r') as _f:
+        output_text = _f.read()
+    
+    removed_text = converter.format_onnx_text(input_text)
+    assert removed_text == output_text
 
 INPUT_OUTPUT_STRS = [
     (
