@@ -25,6 +25,7 @@ examples/tmp
 # Assets that get cached
 ./model.py
 ./model.txt
+./model_text.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -192,8 +193,6 @@ cython_debug/
 
 src/modlee/housing.csv
 tests/tabular_tests.py
-src/modlee/housing.csv
-tests/tabular_tests.py
 # Additional ignores
 docs/build/html/_images/
 myenv/
@@ -204,3 +203,6 @@ modlee_interview_data/
 newenv/
 newfile.txt
 output.txt
+
+./input_file*
+./output_file*

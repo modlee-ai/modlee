@@ -1,6 +1,0 @@
-{
-  "training": true,
-  "prepare_data_per_node": true,
-  "allow_zero_length_dataloader_with_multiple_devices": false,
-  "data_snapshot_size": 10000000.0
-}
