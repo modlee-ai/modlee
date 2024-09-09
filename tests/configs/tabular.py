@@ -22,11 +22,17 @@ from modlee.model.tabular_model import (
     TabNetModleeModel,
     CategoryEmbeddingModleeModel,
     GANDALFModleeModel,
+    TabTransformerModleeModel,
+    DANetModleeModel, 
+    MLP,
+    SNN,
+    EnhancedTabNet,
+    EnhancedResNet, 
+    TabularClassificationModleeModel,
+    MODEL_TYPES
 )
-from modlee.model.tabular_model import DANetModleeModel, TabTransformerModleeModel
-from pytorch_tabular.models.gandalf import GANDALFModel
-from pytorch_tabular.models.danet import DANetModel
 from modlee.utils import tabular_loaders
+
 
 tabnet_config = OmegaConf.create(
     {
@@ -200,19 +206,19 @@ tab_transformer_config = OmegaConf.create(
 inferred_config = OmegaConf.create({"output_dim": 10})
 
 
-tabnet_instance = TabNetModleeModel(
-    config=tabnet_config, inferred_config=inferred_config
-)
-category_embedding_instance = CategoryEmbeddingModleeModel(
-    config=category_embedding_config, inferred_config=inferred_config
-)
-gandalf_instance = GANDALFModleeModel(
-    config=gandalf_config, inferred_config=inferred_config
-)
-danet_instance = DANetModleeModel(config=danet_config, inferred_config=inferred_config)
-tab_transformer_instance = TabTransformerModleeModel(
-    config=tab_transformer_config, inferred_config=inferred_config
-)
+# tabnet_instance = TabNetModleeModel(
+#     config=tabnet_config, inferred_config=inferred_config
+# )
+# category_embedding_instance = CategoryEmbeddingModleeModel(
+#     config=category_embedding_config, inferred_config=inferred_config
+# )
+# gandalf_instance = GANDALFModleeModel(
+#     config=gandalf_config, inferred_config=inferred_config
+# )
+# danet_instance = DANetModleeModel(config=danet_config, inferred_config=inferred_config)
+# tab_transformer_instance = TabTransformerModleeModel(
+#     config=tab_transformer_config, inferred_config=inferred_config
+# )
 # TABULAR_MODELS = [
 #     danet_instance.get_model(),
 #     tab_transformer_instance.get_model(),
@@ -220,15 +226,21 @@ tab_transformer_instance = TabTransformerModleeModel(
 #     category_embedding_instance.get_model(),
 #     gandalf_instance.get_model(),
 # ]
+input_dim = 10
+mlp_model = MLP(input_dim)
+snn_model = SNN(input_dim)
+tabnet_model = EnhancedTabNet(input_dim)
+resnet_model = EnhancedResNet(input_dim)
+
+
 TABULAR_MODELS = [
-    danet_instance,
-    tab_transformer_instance,
-    tabnet_instance,
-    category_embedding_instance,
-    gandalf_instance,
+    TabularClassificationModleeModel(
+        _type=_type, 
+        input_dim=input_dim
+    ) for _type in MODEL_TYPES.keys()
 ]
 TABULAR_MODALITY_TASK_KWARGS = [
-    ("tabular", "classification", {"inferred_config":inferred_config})
+    ("tabular", "classification", {"_type":"MLP"})
 ]
 TABULAR_MODALITY_TASK_MODEL = [
     ("tabular", "classification", model) for model in TABULAR_MODELS

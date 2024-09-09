@@ -15,7 +15,6 @@ The ONNX formats include:
 import copy
 from importlib.machinery import SourceFileLoader
 import os, inspect, sys, logging
-import os, inspect, sys, logging
 import numpy as np
 import networkx as nx
 import torchsummary
@@ -29,7 +28,7 @@ ONNX_MINOR_VERSION = int(onnx.__version__.split(".")[1])
 import re
 import functools
 from functools import partial
-
+from onnx2torch.node_converters.scatter_nd import ReductionOnnxAttr
 import modlee
 
 MODEL_CODE_HEADER = """
@@ -39,24 +38,18 @@ from torch import tensor
 
 IMAGE_INPUT_DUMMY = torch.randn([10,3,300,300])
 
-IMAGE_INPUT_DUMMY = torch.randn([10,3,300,300])
-
 TEXT_INPUT_DUMMY = [
     "hello world",
     "the quick brown fox jumps over the lazy dog" * 10,
-    "the mitochondria is the powerhouse of the cell",
-]
-    "hello world",
-    "the quick brown fox jumps over the lazy dog" * 10,
-    "the mitochondria is the powerhouse of the cell",
+    "the mitochondria is the powerhouse of the cell"
 ]
 
+from modlee.utils import INPUT_DUMMY, get_modality_task
 
 class Converter(object):
     """
     Base object that holds conversion functions.
     """
-
     
     def torch_model2onnx_graph(
         self, torch_model, input_dummy=None, tmp_onnx_path="./.tmp_model.onnx", 
@@ -75,28 +68,34 @@ class Converter(object):
         """
         # Keeping gradients on may cause issues, so turn them off
         # breakpoint()
-        if input_dummy is None and hasattr(torch_model, "input_dummy"):
-            input_dummy = torch_model.input_dummy
+        if input_dummy is None:
+            if hasattr(torch_model, "input_dummy"):
+                input_dummy = torch_model.input_dummy
             
+            elif input_dummy is None:
+                modality, _ = get_modality_task(torch_model)
+                # self.torch_model.to(device=modlee.DEVICE)
+                input_dummy=INPUT_DUMMY[modality]
+    
         torch_model.eval()
         # TODO - refactor the below
         # Tabular
-        if modality=="tabular":
-            if input_dummy['x'] is None:
-                input_dummy['x'] = torch.randn([10, 3, 300, 300])
-            ###
-            if isinstance(input_dummy['x'], dict):
-                input_dummy['x'] = {key: value.to(device=torch_model.device) for key, value in input_dummy['x'].items()}
-                for key, value in input_dummy['x'].items():
-                    value.requires_grad = False
-            else:
-                input_dummy['x'].requires_grad = False
-                input_dummy['x'] = input_dummy['x'].to(device=torch_model.device)
+        # if modality=="tabular":
+        #     if input_dummy['x'] is None:
+        #         input_dummy['x'] = torch.randn([10, 3, 300, 300])
+        #     ###
+        #     if isinstance(input_dummy['x'], dict):
+        #         input_dummy['x'] = {key: value.to(device=torch_model.device) for key, value in input_dummy['x'].items()}
+        #         for key, value in input_dummy['x'].items():
+        #             value.requires_grad = False
+        #     else:
+        #         input_dummy['x'].requires_grad = False
+        #         input_dummy['x'] = input_dummy['x'].to(device=torch_model.device)
 
-            if not isinstance(input_dummy['x'], dict) and hasattr(torch_model, 'device'):
-                input_dummy['x'] = input_dummy['x'].to(device=torch_model.device)
+        #     if not isinstance(input_dummy['x'], dict) and hasattr(torch_model, 'device'):
+        #         input_dummy['x'] = input_dummy['x'].to(device=torch_model.device)
         
-        elif modality=="timeseries":
+        if modality=="timeseries":
             # Timeseries
             '''if input_dummy is None:
                 input_dummy = torch.randn([10, 3, 300, 300])

@@ -28,6 +28,40 @@ from modlee.timeseries_dataloader import TimeseriesDataset
 import modlee
 from modlee.client import ModleeClient
 
+class DummyDataset(torch.utils.data.Dataset):
+    def __init__(self, num_samples=100, input_channels=10, sequence_length=20):
+        self.num_samples = num_samples
+        self.input_channels = input_channels
+        self.sequence_length = sequence_length
+
+    def __len__(self):
+        return self.num_samples
+
+    def __getitem__(self, idx):
+        # Generate random input data
+        x = torch.randn(self.input_channels, self.sequence_length)  # For conv1dModel
+        # Generate random target data
+        y = torch.randn(1)
+        return {"x": x}, y
+
+
+dummy_data = DummyDataset(num_samples=10, input_channels=10, sequence_length=10)
+
+# g2v = ModelEncoder.from()
+INPUT_DUMMY = {
+    "image": torch.randn([10,3,300,300]),
+    "": torch.randn([10,3,300,300]),
+    # "tabular": {
+    #     "x": torch.randn([10, 3, 300, 300]),
+    # },
+    "tabular": torch.randn([1,10]),
+    "text": [
+        "hello world",
+        "the quick brown fox jumps over the lazy dog" * 10,
+        "the mitochondria is the powerhouse of the cell"
+    ],
+    "timeseries":  next(iter(dummy_data))[0]
+}
 
 def safe_mkdir(target_path):
     """
@@ -103,13 +137,6 @@ class timeseries_loader:
     @staticmethod
     def get_timeseries_dataloader(data, target, input_seq:int, output_seq:int, time_column:str, encoder_column:list):
         return TimeseriesDataset(
-                data, target, input_seq, output_seq, time_column, encoder_column, 
-            ).to_dataloader(batch_size=32, shuffle = False)
-
-class timeseries_loader:
-    @staticmethod
-    def get_timeseries_dataloader(data, target, input_seq:int, output_seq:int, time_column:str, encoder_column:list):
-        return TimeSeriesDataset(
                 data, target, input_seq, output_seq, time_column, encoder_column, 
             ).to_dataloader(batch_size=32, shuffle = False)
 

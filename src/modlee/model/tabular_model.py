@@ -9,61 +9,7 @@ from pytorch_tabular.models.tab_transformer import TabTransformerModel
 import torch
 import torch.nn as nn
 
-class TabularModleeModel(ModleeModel):
-
-    def __init__(self, config=None, inferred_config=None, task="classification", *args, **kwargs):
-        self.config = config
-        self.inferred_config = inferred_config
-        ModleeModel.__init__(self,
-            # modality="tabular", task=task,
-            *args, **kwargs)
-
-class TabularClassificationModleeModel(TabularModleeModel):
-    pass
-
-
-class TabNetModleeModel(TabularClassificationModleeModel):
-    def __init__(self, config=None, inferred_config=None, *args, **kwargs):
-        super().__init__(config=config, inferred_config=inferred_config, task='classification', *args, **kwargs)
-        self.tabnet_model = TabNetModel(config=config, inferred_config=inferred_config)
-    
-    def get_model(self):
-        return self.tabnet_model
-
-
-
-class CategoryEmbeddingModleeModel(TabularClassificationModleeModel):
-    def __init__(self, config=None, inferred_config=None, *args, **kwargs):
-        super().__init__(config=config, inferred_config=inferred_config, task='classification', *args, **kwargs)
-        self.category_embedding_model = CategoryEmbeddingModel(config=config, inferred_config=inferred_config)
-
-    def get_model(self):
-        return self.category_embedding_model
-    
-class GANDALFModleeModel(TabularClassificationModleeModel):
-    def __init__(self, config=None, inferred_config=None, *args, **kwargs):
-        super().__init__(config=config, inferred_config=inferred_config, task='classification', *args, **kwargs)
-        self.gandalf_model = GANDALFModel(config=config, inferred_config=inferred_config)
-
-    def get_model(self):
-        return self.gandalf_model
-
-class DANetModleeModel(TabularClassificationModleeModel):
-    def __init__(self, config=None, inferred_config=None, *args, **kwargs):
-        super().__init__(config=config, inferred_config=inferred_config, task='classification', *args, **kwargs)
-        self.danet_model = DANetModel(config=config, inferred_config=inferred_config)
-
-    def get_model(self):
-        return self.danet_model
-
-
-class TabTransformerModleeModel(TabularClassificationModleeModel):
-    def __init__(self, config=None, inferred_config=None, *args, **kwargs):
-        super().__init__(config=config, inferred_config=inferred_config, task='classification', *args, **kwargs)
-        self.tab_transformer_model = TabTransformerModel(config=config, inferred_config=inferred_config)
-
-    def get_model(self):
-        return self.tab_transformer_model
+input_dim = 10
 
 class MLP(nn.Module):
     def __init__(self, input_dim):
@@ -187,3 +133,67 @@ class EnhancedResNet(nn.Module):
         x = torch.relu(self.fc4(x))
         x = self.fc5(x)
         return x
+
+MODEL_TYPES = {
+    _type:globals().get(_type) for _type in ["MLP", "SNN", "EnhancedTabNet", "EnhancedResNet"]
+}
+
+class TabularModleeModel(ModleeModel):
+
+    # def __init__(self, config=None, inferred_config=None, task="classification", *args, **kwargs):
+    def __init__(self, _type="MLP", input_dim=10, *args, **kwargs):
+        ModleeModel.__init__(self,
+            # modality="tabular", task=task,
+            *args, **kwargs)
+        self.model = MODEL_TYPES[_type](input_dim)
+
+    def forward(self, x, *args, **kwargs):
+        return self.model(x, *args, **kwargs)
+        
+
+class TabularClassificationModleeModel(TabularModleeModel):
+    pass
+
+
+class TabNetModleeModel(TabularClassificationModleeModel):
+    def __init__(self, config=None, inferred_config=None, *args, **kwargs):
+        super().__init__(config=config, inferred_config=inferred_config, task='classification', *args, **kwargs)
+        self.tabnet_model = TabNetModel(config=config, inferred_config=inferred_config)
+    
+    def get_model(self):
+        return self.tabnet_model
+
+
+
+class CategoryEmbeddingModleeModel(TabularClassificationModleeModel):
+    def __init__(self, config=None, inferred_config=None, *args, **kwargs):
+        super().__init__(config=config, inferred_config=inferred_config, task='classification', *args, **kwargs)
+        self.category_embedding_model = CategoryEmbeddingModel(config=config, inferred_config=inferred_config)
+
+    def get_model(self):
+        return self.category_embedding_model
+    
+class GANDALFModleeModel(TabularClassificationModleeModel):
+    def __init__(self, config=None, inferred_config=None, *args, **kwargs):
+        super().__init__(config=config, inferred_config=inferred_config, task='classification', *args, **kwargs)
+        self.gandalf_model = GANDALFModel(config=config, inferred_config=inferred_config)
+
+    def get_model(self):
+        return self.gandalf_model
+
+class DANetModleeModel(TabularClassificationModleeModel):
+    def __init__(self, config=None, inferred_config=None, *args, **kwargs):
+        super().__init__(config=config, inferred_config=inferred_config, task='classification', *args, **kwargs)
+        self.danet_model = DANetModel(config=config, inferred_config=inferred_config)
+
+    def get_model(self):
+        return self.danet_model
+
+
+class TabTransformerModleeModel(TabularClassificationModleeModel):
+    def __init__(self, config=None, inferred_config=None, *args, **kwargs):
+        super().__init__(config=config, inferred_config=inferred_config, task='classification', *args, **kwargs)
+        self.tab_transformer_model = TabTransformerModel(config=config, inferred_config=inferred_config)
+
+    def get_model(self):
+        return self.tab_transformer_model

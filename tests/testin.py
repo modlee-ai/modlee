@@ -26,8 +26,8 @@ trainer = Trainer(
 model = NBeats.from_dataset(
     dataset=dataset.get_dataset(), 
 )
-from modlee.data_metafeatures import TimeSeriesDataMetafeatures
-meta = TimeSeriesDataMetafeatures(dataset.to_dataloader())
+from modlee.data_metafeatures import TimeseriesDataMetafeatures
+meta = TimeseriesDataMetafeatures(dataset.to_dataloader())
 features = meta.calculate_metafeatures()
 #meta.print_meta(features=features)
 
@@ -69,14 +69,10 @@ x = {'x':sample_data[0]}
 # ### routine of pytest
 onnx_graph = converter.torch_model2onnx_graph(model, input_dummy=x)
 torch_model = converter.onnx_graph2torch_model(onnx_graph)
-breakpoint()
 onnx_text = converter.onnx_graph2onnx_text(onnx_graph)
 onnx_graph = converter.onnx_text2onnx_graph(onnx_text)
-breakpoint()
 onnx_text = converter.format_onnx_text(onnx_text)
 print(onnx_text)
-breakpoint()
 torch_code = converter.onnx_text2torch_code(onnx_text)
 torch_model = converter.torch_code2torch_model(torch_code)
-breakpoint()
 print("Conversion pipeline passed")

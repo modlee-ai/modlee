@@ -13,34 +13,8 @@ from modlee.utils import get_model_size, class_from_modality_task, get_modality_
 
 converter = modlee.converter.Converter()
 
-class DummyDataset(torch.utils.data.Dataset):
-    def __init__(self, num_samples=100, input_channels=10, sequence_length=20):
-        self.num_samples = num_samples
-        self.input_channels = input_channels
-        self.sequence_length = sequence_length
+from modlee.utils import INPUT_DUMMY
 
-    def __len__(self):
-        return self.num_samples
-
-    def __getitem__(self, idx):
-        # Generate random input data
-        x = torch.randn(self.input_channels, self.sequence_length)  # For conv1dModel
-        # Generate random target data
-        y = torch.randn(1)
-        return {"x": x}, y
-
-
-dummy_data = DummyDataset(num_samples=10, input_channels=10, sequence_length=10)
-
-# g2v = ModelEncoder.from()
-INPUT_DUMMY = {
-    "image": torch.randn([10,3,300,300]),
-    "": torch.randn([10,3,300,300]),
-    "tabular": {
-        "x": torch.randn([10, 3, 300, 300]),
-    },
-    "timeseries":  next(iter(dummy_data))[0]
-}
 
 class ModelMetafeatures:
     def __init__(self, torch_model: torch.nn.Module, *args, **kwargs):
@@ -219,10 +193,16 @@ class TextClassificationModelMetafeatures(TextModelMetafeatures):
     pass
 
 
-class TabularClassificationModelMetafeatures(ModelMetafeatures):
+class TabularModelMetafeatures(ModelMetafeatures):
     pass
 
-class TimeseriesClassificationModelMetafeatures(ModelMetafeatures):
+class TabularClassificationModelMetafeatures(TabularModelMetafeatures):
+    pass
+
+class TimeseriesModelMetafeatures(ModelMetafeatures):
+    pass
+    
+class TimeseriesClassificationModelMetafeatures(TimeseriesModelMetafeatures):
     pass
 
 
