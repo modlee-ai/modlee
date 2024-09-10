@@ -2,10 +2,13 @@
 Modlee model for images. 
 """
 from modlee.model import ModleeModel
-from pytorch_tabular.models.tabnet import TabNetModel
-from pytorch_tabular.models.category_embedding import CategoryEmbeddingModel
-from pytorch_tabular.models.gandalf import GANDALFModel
-from pytorch_tabular.models.tab_transformer import TabTransformerModel
+try:
+    from pytorch_tabular.models.tabnet import TabNetModel
+    from pytorch_tabular.models.category_embedding import CategoryEmbeddingModel
+    from pytorch_tabular.models.gandalf import GANDALFModel
+    from pytorch_tabular.models.tab_transformer import TabTransformerModel
+except:
+    pass
 import torch
 import torch.nn as nn
 

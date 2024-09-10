@@ -1,7 +1,7 @@
 """ 
 Test modlee.
 """
-
+import pytest
 import os
 import unittest
 import pathlib
@@ -57,10 +57,10 @@ class ModleeTest(unittest.TestCase):
             ), f"Initialized directory {run_path} does not match expected {relative_mlruns_path}"
 
 
+    @pytest.mark.training
     def test_training(self):
         with modlee.start_run() as run:
             trainer = pl.Trainer(max_epochs=1)
-            breakpoint()
             trainer.fit(
                 model=modlee_model,
                 train_dataloaders=train_dataloader,

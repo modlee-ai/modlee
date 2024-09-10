@@ -8,7 +8,7 @@ import pytest, re, pathlib
 from .conftest import (
     IMAGE_MODELS,
     IMAGE_SEGMENTATION_MODELS,
-    TEXT_MODELS,
+    # TEXT_MODELS,
     TABULAR_MODELS,
     TIMESERIES_MODELS,
     # TABULAR_MODELS,

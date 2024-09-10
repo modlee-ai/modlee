@@ -14,15 +14,17 @@ from modlee import data_metafeatures as dmf
 from sklearn.preprocessing import StandardScaler
 
 import spacy
-from pytorch_tabular import TabularModel
-from pytorch_tabular.config import (
-    DataConfig,
-    OptimizerConfig,
-    TrainerConfig,
-    ExperimentConfig,
-)
-from pytorch_tabular.models import CategoryEmbeddingModelConfig
-
+try:
+    from pytorch_tabular import TabularModel
+    from pytorch_tabular.config import (
+        DataConfig,
+        OptimizerConfig,
+        TrainerConfig,
+        ExperimentConfig,
+    )
+    from pytorch_tabular.models import CategoryEmbeddingModelConfig
+except:
+    pass
 from .configs import *
 
 

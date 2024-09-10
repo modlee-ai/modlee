@@ -13,9 +13,11 @@ from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader
 from torchvision import models as tvm
 from torchtext import models as ttm
-from pytorch_forecasting import models as pfm
-
-from pytorch_forecasting import NBeats, AutoRegressiveBaseModel
+try:
+    from pytorch_forecasting import models as pfm
+    from pytorch_forecasting import NBeats, AutoRegressiveBaseModel
+except:
+    pass
 from modlee.timeseries_dataloader import TimeseriesDataset
 
 from .configs import *
@@ -41,9 +43,7 @@ def NbeatsInit():
 import torch.nn as nn
 import torch
 import pandas as pd
-from omegaconf import OmegaConf
 
-from pytorch_forecasting import models as pfm
 
 def makeDataloader():
     data = pd.read_csv("data/HDFCBANK.csv")

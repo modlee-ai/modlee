@@ -1,5 +1,8 @@
 from torch.utils.data import Dataset, DataLoader
-import pytorch_forecasting as pf
+try:
+    import pytorch_forecasting as pf
+except:
+    pass
 import torch
 import pandas as pd
 

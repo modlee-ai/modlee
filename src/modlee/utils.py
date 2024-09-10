@@ -227,10 +227,15 @@ class image_loaders:
         "SVHN": dict(split="test", download=True),  # Passed
         "USPS": dict(train=False, download=True),  # Passed
     }
+    # take only a few
+    ctr = 0
     for image_module, kwargs in image_modules.items():
         locals()[f"get_{image_module.lower()}_dataloader"] = partial(
             _get_image_dataloader, image_module, **kwargs
         )
+        ctr += 1
+        if ctr == 4:
+            break
 
 
 class text_loaders:

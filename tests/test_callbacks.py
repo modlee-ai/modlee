@@ -86,7 +86,7 @@ class TestCallback:
         cb = callbacks.LogTransformsCallback()
         img_dataloader, _ = modlee.utils.get_fashion_mnist()
         with modlee.start_run() as run:
-            trainer = modlee.Trainer(
+            trainer = pl.Trainer(
                 max_epochs=1, callbacks=self.model.configure_callbacks() + [cb]
             )
             # Training will fail because the dataset is not matched to the model,
