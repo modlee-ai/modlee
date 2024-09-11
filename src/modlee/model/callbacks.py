@@ -66,8 +66,14 @@ class ModleeCallback(Callback):
         # uses only the first element
         if type(_batch) in [list, tuple]:
             # Get the number of inputs based on the model's signature
+            ## Note: this broke in scenario where n_inputs=1
+            ## Edge case: The dataloader returns a list of tensor of length 1 while the model expects a single tensor
+
             n_inputs = len(inspect.signature(pl_module.forward).parameters)
-            _input = _batch[:n_inputs]
+            if len(_batch) == 1 and n_inputs == 1:
+                _input = _batch[0]
+            else:
+                _input = _batch[:n_inputs]
         else:
             _input = _batch
             # print(_batch[0].shape)
@@ -357,6 +363,8 @@ class DataMetafeaturesCallback(ModleeCallback):
                 data_mf_dict.update(data_mf.embedding)
             else:
                 logging.warning("Using base DataMetafeatures, not logging embeddings.")
+            #### Note: follow samit's implementation 
+            attrs = data_mf_dict.keys()
             logging.info(f"Logged data metafeatures: {','.join(attrs)}")
             mlflow.log_dict(
                 _make_serializable(data_mf_dict), "data_metafeatures")
