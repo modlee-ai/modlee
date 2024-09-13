@@ -20,7 +20,7 @@ except:
     pass
 from modlee.timeseries_dataloader import TimeseriesDataset
 
-from .configs import *
+from configs import *
 
 
 def NbeatsInit():

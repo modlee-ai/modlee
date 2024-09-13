@@ -155,6 +155,7 @@ class LogCodeTextCallback(ModleeCallback):
 
             # ==== METHOD 2 ====
             # Save model as code by converting to a graph through ONNX
+            #### Implement the same logic for try and except error from get_input
             input_dummy = self.get_input(trainer, pl_module)
             onnx_model = modlee_converter.torch2onnx(pl_module, input_dummy=input_dummy)
             onnx_text = modlee_converter.onnx2onnx_text(onnx_model)
@@ -186,9 +187,14 @@ class ModelMetafeaturesCallback(ModleeCallback):
         super().on_train_start(trainer, pl_module)
         # TODO - need to select the Metafeature module based on modality, task,
         # Same with data metafeatures
-        model_mf = self.ModelMetafeatures(pl_module)
+        _input = self.get_input(trainer, pl_module)
+
+        model_mf = self.ModelMetafeatures(pl_module, _input)
         mlflow.log_dict(
-            {**model_mf.properties, **model_mf.embedding}, "model_metafeatures"
+            {**model_mf.properties, 
+             #**model_mf.embedding
+             },
+              "model_metafeatures"
         )
 
 
@@ -380,15 +386,21 @@ class DataMetafeaturesCallback(ModleeCallback):
         """
 
         _input = self.get_input(trainer, pl_module)
-
+        
         try:
             _output = pl_module.forward(_input)
             output_shape = list(_output.shape[1:])
             mlflow.log_param("output_shape", output_shape)
         except:
-            logging.warning(
-                "Cannot log output shape, could not pass batch through network"
-            )
+            ### Not: Add another try statement if lenght of input is 1 and model expects a single tensor pass one single tensor
+            try:
+                _output = pl_module.forward(_input[0])
+                output_shape = list(_output.shape[1:])
+                mlflow.log_param("output_shape", output_shape)
+            except:
+                logging.warning(
+                    "Cannot log output shape, could not pass batch through network"
+                )
 
     def _get_data_targets(self, trainer: Trainer):
         """

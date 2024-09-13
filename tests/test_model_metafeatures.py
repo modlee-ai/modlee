@@ -3,10 +3,12 @@ from functools import partial
 import copy
 
 # from . import conftest
-try:
-    import conftest
-except:
-    from . import conftest
+# try:
+#     import conftest
+# except:
+#     from . import conftest
+
+import conftest
 
 IMAGE_MODELS = conftest.IMAGE_MODELS
 

@@ -17,16 +17,21 @@ from modlee.utils import INPUT_DUMMY
 
 
 class ModelMetafeatures:
-    def __init__(self, torch_model: torch.nn.Module, *args, **kwargs):
+    def __init__(self, torch_model: torch.nn.Module, sample_input=None, *args, **kwargs):
         #  Should work with any of the available model representations
         # Torch model/text, ONNX graph/text
         # Store these different representations
         self.torch_model = torch_model
         self.modality, self.task = get_modality_task(torch_model)
         # self.torch_model.to(device=modlee.DEVICE)
+        if sample_input is None:
+            sample_input = INPUT_DUMMY[self.modality]
+            print("Using default sample input")
+        else:
+            sample_input = torch.tensor(sample_input)
         self.onnx_graph = converter.torch_model2onnx_graph(
             self.torch_model, 
-            input_dummy=INPUT_DUMMY[self.modality])
+            input_dummy=sample_input)
         # Must calculate NetworkX before initializing tensors
         self.onnx_nx = converter.index_nx(converter.onnx_graph2onnx_nx(self.onnx_graph))
         self.onnx_text = converter.onnx_graph2onnx_text(self.onnx_graph)
@@ -36,8 +41,8 @@ class ModelMetafeatures:
 
         self.dataframe = self.get_graph_dataframe(self.onnx_graph)
         self.properties = self.get_properties()
-        self.embedding = self.get_embedding()
-        pass
+        #self.embedding = self.get_embedding()
+        #pass
 
     def get_embedding(self, *args, **kwargs):
         g2v = ModelEncoder.from_pkl(G2V_PKL)
