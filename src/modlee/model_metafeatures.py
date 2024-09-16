@@ -18,17 +18,31 @@ from modlee.utils import INPUT_DUMMY
 
 class ModelMetafeatures:
     def __init__(self, torch_model: torch.nn.Module, sample_input=None, *args, **kwargs):
-        #  Should work with any of the available model representations
-        # Torch model/text, ONNX graph/text
-        # Store these different representations
         self.torch_model = torch_model
         self.modality, self.task = get_modality_task(torch_model)
-        # self.torch_model.to(device=modlee.DEVICE)
+        
         if sample_input is None:
             sample_input = INPUT_DUMMY[self.modality]
             print("Using default sample input")
         else:
-            sample_input = torch.tensor(sample_input)
+            # Check the input type
+            self.check_input_type(sample_input)
+
+            # Unpack if it's a list of length 1
+            if isinstance(sample_input, list) and len(sample_input) == 1:
+                sample_input = sample_input[0]
+                print(f"Unpacked sample_input: {type(sample_input)}")
+            print("Test")
+            STOP 
+            # Convert to tensor if it's not already a tensor
+            if not torch.is_tensor(sample_input):
+                try:
+                    sample_input = torch.tensor(sample_input)
+                    
+                except Exception as e:
+                    print(f"Error converting sample_input to tensor: {e}")
+        device = torch.device('cpu')
+        sample_input = sample_input.to(device=device)
         self.onnx_graph = converter.torch_model2onnx_graph(
             self.torch_model, 
             input_dummy=sample_input)
@@ -43,6 +57,18 @@ class ModelMetafeatures:
         self.properties = self.get_properties()
         #self.embedding = self.get_embedding()
         #pass
+
+    def check_input_type(self, sample_input):
+        """Prints the type and shape of the sample_input and breaks for debugging."""
+        print(f"Input type: {type(sample_input)}")
+        if isinstance(sample_input, np.ndarray):
+            print(f"Input shape (NumPy array): {sample_input.shape}")
+        elif isinstance(sample_input, list):
+            print(f"Input is a list with length: {len(sample_input)}")
+        elif torch.is_tensor(sample_input):
+            print(f"Input is a tensor with shape: {sample_input.shape}")
+        else:
+            print("Unknown input type")
 
     def get_embedding(self, *args, **kwargs):
         g2v = ModelEncoder.from_pkl(G2V_PKL)
