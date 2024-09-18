@@ -70,18 +70,23 @@ class ModleeCallback(Callback):
             ## Edge case: The dataloader returns a list of tensor of length 1 while the model expects a single tensor
 
             n_inputs = len(inspect.signature(pl_module.forward).parameters)
-            if len(_batch) == 1 and n_inputs == 1:
+            if n_inputs == 1:
                 _input = _batch[0]
+                _input = _input.to(pl_module.device)
             else:
                 _input = _batch[:n_inputs]
+                _input = [i.to(pl_module.device) for i in _input]
         else:
             _input = _batch
+            _input = [i.to(pl_module.device) for i in _input]
             # print(_batch[0].shape)
             # _batch = torch.Tensor(_batch[0])
-        try:
-            _input = _input.to(pl_module.device)
-        except:
-            pass
+
+        # try:
+        #     _input = _input.to(pl_module.device)
+        # except:
+        #     pass
+        
         return _input
 
 
@@ -189,6 +194,9 @@ class ModelMetafeaturesCallback(ModleeCallback):
         # Same with data metafeatures
         _input = self.get_input(trainer, pl_module)
 
+        print(pl_module.device)
+        print([i.device for i in _input])
+
         model_mf = self.ModelMetafeatures(pl_module, _input)
         mlflow.log_dict(
             {**model_mf.properties, 
@@ -196,6 +204,11 @@ class ModelMetafeaturesCallback(ModleeCallback):
              },
               "model_metafeatures"
         )
+
+        print(pl_module.device)
+        print([i.device for i in _input])
+
+        breakpoint()
 
 
 class LogONNXCallback(ModleeCallback):

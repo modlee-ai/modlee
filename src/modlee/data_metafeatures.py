@@ -722,11 +722,11 @@ class ImageDataMetafeatures(DataMetafeatures):
 
     def __init__(self, dataloader, embd_model=None, *args, **kwargs):
         super().__init__(dataloader, *args, **kwargs)
-        if not embd_model:
-            self.embd_model = torchvision.models.resnet18(weights="IMAGENET1K_V1")
-            self.embd_model.eval()
-        self.embedding = self.get_embedding()
-        self.features.update(self.embedding)
+        # if not embd_model:
+        #     self.embd_model = torchvision.models.resnet18(weights="IMAGENET1K_V1")
+        #     self.embd_model.eval()
+        # self.embedding = self.get_embedding()
+        # self.features.update(self.embedding)
         self.features = self._make_serializable(self.features)
         pass
 
@@ -767,11 +767,11 @@ class TextDataMetafeatures(DataMetafeatures):
     def __init__(self, dataloader, nlp_model=None, *args, **kwargs):
         super().__init__(dataloader, *args, **kwargs)
         # self.dataloader = dataloader
-        if not nlp_model:
-            # TODO - consider using a larger model embedding e.g. en_code_web_sm -> 300D
-            # and truncate
-            self.nlp_model = spacy.load("en_core_web_sm")
-        self.embedding = self.get_embedding()
+        # if not nlp_model:
+        #     # TODO - consider using a larger model embedding e.g. en_code_web_sm -> 300D
+        #     # and truncate
+        #     self.nlp_model = spacy.load("en_core_web_sm")
+        # self.embedding = self.get_embedding()
         pass
 
     def get_embedding(self, index=None, max_len=100, *args, **kwargs):
@@ -816,7 +816,7 @@ class TabularDataMetafeatures(DataMetafeatures):
         # Ensure that self.features is flat
         self.features.update(self.stats_rep)
         # TODO - replace with actual embedding
-        self.embedding = self.stats_rep
+        # self.embedding = self.stats_rep
         pass
 
     def get_features(self):
