@@ -1,13 +1,14 @@
 import torch
 import os, sys
 import modlee
-import pytorch_lightning as pl
+import lightning.pytorch as pl
 from torch.utils.data import DataLoader, TensorDataset
 from pytorch_lightning.loggers import TensorBoardLogger
 import pytest
 
-os.environ['MODLEE_API_KEY'] = "OktSzjtS27JkuFiqpuzzyZCORw88Cz0P"
-modlee.init(api_key=os.environ.get('MODLEE_API_KEY'))
+device = torch.device('cpu')
+api_key = "OktSzjtS27JkuFiqpuzzyZCORw88Cz0P"
+modlee.init(api_key=api_key)
 
 def generate_dummy_segmentation_data(num_samples=100, img_size=(3, 32, 32), mask_size=(32, 32)):
     X = torch.randn(num_samples, *img_size)
@@ -33,34 +34,25 @@ class ImageSegmentation(modlee.model.ImageSegmentationModleeModel):
     def forward(self, x):
         encoded = self.encoder(x)
         decoded = self.decoder(encoded)
-        output_size = x.shape[2:] 
+        output_size = x.shape[2:]  
         decoded = torch.nn.functional.interpolate(decoded, size=output_size, mode='bilinear', align_corners=False)
-
         return decoded
-class LightningImageSegmentation(pl.LightningModule):
-    def __init__(self, num_classes=1, in_channels=3):
-        super().__init__()
-        self.modlee_model = ImageSegmentation(num_classes=num_classes, in_channels=in_channels)
 
-    def forward(self, x):
-        return self.modlee_model(x)
-
-    def training_step(self, batch, batch_idx):
+    def training_step(self, batch):
         x, y = batch
-        logits = self.modlee_model(x)
-        loss = self.modlee_model.loss_fn(logits, y.float())
+        logits = self.forward(x)
+        loss = self.loss_fn(logits, y.float())
         return loss
 
-    def validation_step(self, batch, batch_idx):
+    def validation_step(self, batch):
         x, y = batch
-        logits = self.modlee_model(x)
-        loss = self.modlee_model.loss_fn(logits, y.float())
-        self.log('val_loss', loss, on_epoch=True, prog_bar=True)
+        logits = self.forward(x)
+        loss = self.loss_fn(logits, y.float())
         return loss
 
     def configure_optimizers(self):
-        return torch.optim.Adam(self.modlee_model.parameters(), lr=1e-3)
-
+        return torch.optim.Adam(self.parameters(), lr=1e-3)
+    
 @pytest.mark.parametrize("img_size, mask_size", [
     ((1, 32, 32), (32, 32)),
     ((3, 32, 32), (32, 32)),
@@ -86,7 +78,7 @@ def test_segmentation_model_training(img_size, mask_size):
     test_dataloader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
     in_channels = img_size[0] 
-    lightning_model = LightningImageSegmentation(num_classes=1, in_channels=in_channels)
+    lightning_model = ImageSegmentation(num_classes=1, in_channels=in_channels).to(device)
 
     with modlee.start_run() as run:
         trainer = pl.Trainer(max_epochs=1)
