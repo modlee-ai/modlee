@@ -20,7 +20,8 @@ class ModelMetafeatures:
     def __init__(self, torch_model: torch.nn.Module, sample_input=None, *args, **kwargs):
         self.torch_model = torch_model
         self.modality, self.task = get_modality_task(torch_model)
-        
+        self.sample_input = sample_input
+
         if sample_input is None:
             sample_input = INPUT_DUMMY[self.modality]
             print("Using default sample input")
@@ -32,8 +33,7 @@ class ModelMetafeatures:
             if isinstance(sample_input, list) and len(sample_input) == 1:
                 sample_input = sample_input[0]
                 print(f"Unpacked sample_input: {type(sample_input)}")
-            print("Test")
-            STOP 
+
             # Convert to tensor if it's not already a tensor
             if not torch.is_tensor(sample_input):
                 try:
@@ -41,11 +41,19 @@ class ModelMetafeatures:
                     
                 except Exception as e:
                     print(f"Error converting sample_input to tensor: {e}")
-        device = torch.device('cpu')
-        sample_input = sample_input.to(device=device)
+
+        # model_copy = torch_model
+        # sample_input_copy = sample_input.clone()  # Use clone to create a copy of the tensor
+
+        # # Move both the model and tensor to the CPU
+        # self.model_copy = torch_model# model_copy.to(torch_model.device)
+        # self.sample_input_copy = sample_input_copy#.to(torch_model.device)
+
+
         self.onnx_graph = converter.torch_model2onnx_graph(
-            self.torch_model, 
+            torch_model, 
             input_dummy=sample_input)
+
         # Must calculate NetworkX before initializing tensors
         self.onnx_nx = converter.index_nx(converter.onnx_graph2onnx_nx(self.onnx_graph))
         self.onnx_text = converter.onnx_graph2onnx_text(self.onnx_graph)
@@ -193,9 +201,9 @@ class ImageModelMetafeatures(ModelMetafeatures):
         self,
     ):
         # breakpoint()
-        device = next(self.torch_model.parameters()).device
-        input_dummy = torch.randn([1, 3, 300, 300]).to(device=device)
-        output = self.torch_model(input_dummy)
+        # device = next(self.torch_model.parameters()).device
+        # input_dummy = torch.randn([1, 3, 300, 300]).to(device=device)
+        output = self.torch_model(self.sample_input)
         return np.array(output.shape[1:])
 
 
@@ -205,7 +213,7 @@ class ImageClassificationModelMetafeatures(ImageModelMetafeatures):
 
 class ImageSegmentationModelMetafeatures(ImageModelMetafeatures):
     def get_output_shape(self):
-        output = self.torch_model(torch.randn([10, 3, 300, 300]))
+        output = self.torch_model(self.sample_input)
         if isinstance(output, dict):
             output = output["out"]
         return np.array(output.shape[1:])

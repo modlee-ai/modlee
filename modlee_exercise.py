@@ -55,23 +55,57 @@ class ExampleCNN(nn.Module):
         x = self.fc1(x)  # Final dense layer to produce class scores
         return x
 
-model = ExampleCNN(unzip_train_dataloader.dataset.num_classes)
-model.to('cpu')
+num_classes = unzip_train_dataloader.dataset.num_classes
+model = ExampleCNN(num_classes=num_classes)
+# model.to('cpu')
 # Create the model object
-modlee_model = ModleeImageClassifier(model=model)
 
+class ModleeImageClassifier(modlee.model.ImageClassificationModleeModel):
+    def __init__(self, model, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.model = model
+        self.loss_fn = F.cross_entropy
 
-modlee.mlflow.end_run()
+    def forward(self, x):
+        return self.model(x)
 
-trainer = trainer_for_modality_task(
-    modality=exercise_modality,
-    task=exercise_task,
+    def training_step(self, batch, batch_idx):
+        x, y_target = batch
+        y_pred = self(x)
+        loss = self.loss_fn(y_pred, y_target)
+        return {"loss": loss}
+
+    def validation_step(self, val_batch, batch_idx):
+        x, y_target = val_batch
+        y_pred = self(x)
+        val_loss = self.loss_fn(y_pred, y_target)
+        return {'val_loss': val_loss}
+
+    def configure_optimizers(self):
+        optimizer = torch.optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
+        return optimizer
+
+modlee_model = ModleeImageClassifier(model=model,num_classes=num_classes)
+
+# Train the recommended model
+with modlee.start_run() as run:
+    trainer = pl.Trainer(max_epochs=1)
+    trainer.fit(
+        model=modlee_model,
+        train_dataloaders=unzip_train_dataloader,
+        val_dataloaders=unzip_val_dataloader
     )
 
-trainer.dataloader = unzip_train_dataloader
-trainer.model = modlee_model
 
-trainer.train(max_epochs=1, val_dataloaders=unzip_val_dataloader)
+# trainer = trainer_for_modality_task(
+#     modality=exercise_modality,
+#     task=exercise_task,
+#     )
 
-submit(api_key,exercise_id,trainer.model,example_batch_images,modlee)
-print('As a reminder, your exercises model_size_restriction_MB is ',model_size_restriction_MB)
+# trainer.dataloader = unzip_train_dataloader
+# trainer.model = modlee_model
+
+# trainer.train(max_epochs=1, val_dataloaders=unzip_val_dataloader)
+
+# submit(api_key,exercise_id,trainer.model,example_batch_images,modlee)
+# print('As a reminder, your exercises model_size_restriction_MB is ',model_size_restriction_MB)

@@ -147,7 +147,7 @@ class ModleeModel(LightningModule):
         else:
             dmf_metafeature_cls=getattr(modlee.data_metafeatures, "DataMetafeatures")
         callbacks = [
-            self.data_metafeatures_callback,
+            #self.data_metafeatures_callback,
             self.model_metafeatures_callback,
             LogCodeTextCallback(self.kwargs_cache),
             LogOutputCallback(),
