@@ -27,12 +27,12 @@ class ModelMetafeatures:
             print("Using default sample input")
         else:
             # Check the input type
-            self.check_input_type(sample_input)
+            # self.check_input_type(sample_input)
 
             # Unpack if it's a list of length 1
             if isinstance(sample_input, list) and len(sample_input) == 1:
                 sample_input = sample_input[0]
-                print(f"Unpacked sample_input: {type(sample_input)}")
+                #print(f"Unpacked sample_input: {type(sample_input)}")
 
             # Convert to tensor if it's not already a tensor
             if not torch.is_tensor(sample_input):
@@ -68,7 +68,7 @@ class ModelMetafeatures:
 
     def check_input_type(self, sample_input):
         """Prints the type and shape of the sample_input and breaks for debugging."""
-        print(f"Input type: {type(sample_input)}")
+        #print(f"Input type: {type(sample_input)}")
         if isinstance(sample_input, np.ndarray):
             print(f"Input shape (NumPy array): {sample_input.shape}")
         elif isinstance(sample_input, list):

@@ -861,10 +861,11 @@ class TimeseriesDataMetafeatures(DataMetafeatures):
                 return data_tensor
             else:
                 raise ValueError("Batch is not in expected tuple format with two elements.")
+            
         raise ValueError("No valid batch found in dataloader.")
     
 
-    def calculate_metafeatures(self):
+    def calculate_metafeatures(self,advanced=False):
         data = self.get_single_batch()
         logging.debug(f"Data shape: {data.shape}")
         
@@ -886,56 +887,57 @@ class TimeseriesDataMetafeatures(DataMetafeatures):
         
         # Calculate additional features
         additional_features = {}
+        if advanced == True:
         
-        # Combine all features into a single time series
-        combined_series = data_2d.flatten()
-        logging.debug(f"Combined series: {combined_series}")
-        
-        # Calculate quantiles
-        quantiles = np.percentile(combined_series, [25, 50, 75])
-        logging.debug(f"Quantiles: {quantiles}")
-        
-        # Calculate autocorrelation and partial autocorrelation
-        autocorr = acf(combined_series, nlags=1)
-        logging.debug(f"Autocorrelation: {autocorr}")
-        if len(combined_series) > 2:
-            partial_autocorr = pacf(combined_series, nlags=min(1, len(combined_series) // 2 - 1))
-        else:
-            partial_autocorr = [np.nan]  # or some default value
-        logging.debug(f"Partial Autocorrelation: {partial_autocorr}")
-        
-        if len(autocorr) > 1:
-            autocorr_lag1 = autocorr[1]
-        else:
-            autocorr_lag1 = np.nan  # or some default value
-        
-        if len(partial_autocorr) > 1:
-            partial_autocorr_lag1 = partial_autocorr[1]
-        else:
-            partial_autocorr_lag1 = np.nan  # or some default value
-        
-        # Decompose the combined time series to extract trend and seasonality
-        if len(combined_series) >= 24:  # Check if we have enough data for a period of 12
-            decomposition = seasonal_decompose(combined_series, period=12, model='additive', extrapolate_trend='freq')
-            trend = decomposition.trend
-            seasonal = decomposition.seasonal
-            trend_strength = np.nanmean(trend)
-            seasonal_strength = np.nanmean(seasonal)
-            logging.debug(f"Trend: {trend}")
-            logging.debug(f"Seasonal: {seasonal}")
-        else:
-            trend_strength = np.nan
-            seasonal_strength = np.nan
-        
-        additional_features.update({
-            "combined_quantile_25": quantiles[0],
-            "combined_quantile_50": quantiles[1],
-            "combined_quantile_75": quantiles[2],
-            "combined_autocorr_lag1": autocorr_lag1,
-            "combined_partial_autocorr_lag1": partial_autocorr_lag1,
-            "combined_trend_strength": trend_strength,
-            "combined_seasonal_strength": seasonal_strength,
-        })
+            # Combine all features into a single time series
+            combined_series = data_2d.flatten()
+            logging.debug(f"Combined series: {combined_series}")
+            
+            # Calculate quantiles
+            quantiles = np.percentile(combined_series, [25, 50, 75])
+            logging.debug(f"Quantiles: {quantiles}")
+            
+            # Calculate autocorrelation and partial autocorrelation
+            autocorr = acf(combined_series, nlags=1)
+            logging.debug(f"Autocorrelation: {autocorr}")
+            if len(combined_series) > 2:
+                partial_autocorr = pacf(combined_series, nlags=min(1, len(combined_series) // 2 - 1))
+            else:
+                partial_autocorr = [np.nan]  # or some default value
+            logging.debug(f"Partial Autocorrelation: {partial_autocorr}")
+            
+            if len(autocorr) > 1:
+                autocorr_lag1 = autocorr[1]
+            else:
+                autocorr_lag1 = np.nan  # or some default value
+            
+            if len(partial_autocorr) > 1:
+                partial_autocorr_lag1 = partial_autocorr[1]
+            else:
+                partial_autocorr_lag1 = np.nan  # or some default value
+            
+            # Decompose the combined time series to extract trend and seasonality
+            if len(combined_series) >= 24:  # Check if we have enough data for a period of 12
+                decomposition = seasonal_decompose(combined_series, period=12, model='additive', extrapolate_trend='freq')
+                trend = decomposition.trend
+                seasonal = decomposition.seasonal
+                trend_strength = np.nanmean(trend)
+                seasonal_strength = np.nanmean(seasonal)
+                logging.debug(f"Trend: {trend}")
+                logging.debug(f"Seasonal: {seasonal}")
+            else:
+                trend_strength = np.nan
+                seasonal_strength = np.nan
+            
+            additional_features.update({
+                "combined_quantile_25": quantiles[0],
+                "combined_quantile_50": quantiles[1],
+                "combined_quantile_75": quantiles[2],
+                "combined_autocorr_lag1": autocorr_lag1,
+                "combined_partial_autocorr_lag1": partial_autocorr_lag1,
+                "combined_trend_strength": trend_strength,
+                "combined_seasonal_strength": seasonal_strength,
+            })
         
         # Combine pymfe features with additional features
         combined_features = {**pymfe_features, **additional_features}
@@ -950,4 +952,5 @@ class TimeseriesDataMetafeatures(DataMetafeatures):
         for key, value in features.items():
             logging.debug(f"{key:<{max_key_length}} : {value}")
         return None
+    
 from_modality_task = partial(class_from_modality_task, _class="Data_Metafeatures")

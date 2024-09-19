@@ -194,8 +194,8 @@ class ModelMetafeaturesCallback(ModleeCallback):
         # Same with data metafeatures
         _input = self.get_input(trainer, pl_module)
 
-        print(pl_module.device)
-        print([i.device for i in _input])
+        #print(pl_module.device)
+        #print([i.device for i in _input])
 
         model_mf = self.ModelMetafeatures(pl_module, _input)
         mlflow.log_dict(
@@ -205,8 +205,8 @@ class ModelMetafeaturesCallback(ModleeCallback):
               "model_metafeatures"
         )
 
-        print(pl_module.device)
-        print([i.device for i in _input])
+        #print(pl_module.device)
+        #print([i.device for i in _input])
 
 
 class LogONNXCallback(ModleeCallback):
@@ -323,7 +323,7 @@ class DataMetafeaturesCallback(ModleeCallback):
         # self._save_snapshots_batched(data_snapshots)
         # log the data statistics
         # self._log_data_metafeatures(data, targets)
-        logging.info(f"Logging data metafeatures with {self.DataMetafeatures}...")
+        # logging.info(f"Logging data metafeatures with {self.DataMetafeatures}...")
         self._log_data_metafeatures_dataloader(trainer.train_dataloader)
 
         self._log_output_size(trainer, pl_module)
@@ -380,9 +380,8 @@ class DataMetafeaturesCallback(ModleeCallback):
                 data_mf_dict.update(data_mf.embedding)
             else:
                 logging.warning("Using base DataMetafeatures, not logging embeddings.")
-            #### Note: follow samit's implementation 
             attrs = data_mf_dict.keys()
-            logging.info(f"Logged data metafeatures: {','.join(attrs)}")
+            # logging.info(f"Logged data metafeatures: {','.join(attrs)}")
             mlflow.log_dict(
                 _make_serializable(data_mf_dict), "data_metafeatures")
         else:
@@ -621,8 +620,10 @@ class LogModelCheckpointCallback(pl.callbacks.ModelCheckpoint):
         super().on_fit_end(trainer, pl_module)
 
         # Cleaning up temp_directory
-        shutil.rmtree(self.temp_dir_path)
-
+        if os.path.exists(self.temp_dir_path):
+            shutil.rmtree(self.temp_dir_path)
+        # else:
+        #     print(f"Directory {self.temp_dir_path} does not exist.")
 
 class LogModalityTaskCallback(ModleeCallback):
     """
