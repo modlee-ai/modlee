@@ -76,3 +76,7 @@ def test_tabular_classifier(num_samples, num_features, num_classes):
     last_run_path = modlee.last_run_path()
     artifacts_path = os.path.join(last_run_path, 'artifacts')
     check_artifacts(artifacts_path)
+
+if __name__ == "__main__":
+
+    test_tabular_classifier(100,10,2)
