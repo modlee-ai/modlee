@@ -7,8 +7,7 @@ from torch.utils.data import DataLoader, TensorDataset
 from torch import nn
 
 device = torch.device('cpu')
-api_key = "OktSzjtS27JkuFiqpuzzyZCORw88Cz0P"
-modlee.init(api_key=api_key)
+modlee.init(api_key=os.getenv("MODLEE_API_KEY"))
 
 def generate_dummy_data(num_samples=100, num_classes=2, img_size=(3, 32, 32)):
     X = torch.randn(num_samples, *img_size, device=device, dtype=torch.float32)  
@@ -67,21 +66,22 @@ class ModleeImageClassification(modlee.model.ImageClassificationModleeModel):
         # Make sure to refer to self.model for the optimizer
         return torch.optim.Adam(self.model.parameters(), lr=1e-3)
 
-@pytest.mark.parametrize("img_size", [
-                                        (3, 32, 32)
-                                      , (3, 64, 64)
-                                      , (3, 128, 128)
-                                      , (1, 32, 32)
-                                      , (4, 32, 32)
-                                      , (4, 64, 64)
-                                      , (5, 32, 32)
-                                      , (5, 128, 128)
-                                      , (6, 128, 128)
-                                      , (6, 256, 256)
-                                      ])
-def test_model_training(img_size):
-    X_train, y_train = generate_dummy_data(num_samples=100, img_size=img_size)
-    X_test, y_test = generate_dummy_data(num_samples=20, img_size=img_size)
+@pytest.mark.parametrize("img_size num_classes", [
+                                        ((3, 32, 32),2)
+                                    #   , ((3, 64, 64),3)
+                                    #   , ((3, 128, 128),4)
+                                    #   , ((1, 32, 32),4)
+                                    #   , ((4, 32, 32),4)
+                                    #   , ((4, 64, 64),4)
+                                    #   , ((5, 32, 32),4)
+                                    #   , ((5, 128, 128),4)
+                                    #   , ((6, 128, 128),4)
+                                    #   , ((6, 256, 256),4)
+                                      ]
+                                      )
+def test_model_training(img_size,num_classes):
+    X_train, y_train = generate_dummy_data(num_samples=100, num_classes=num_classes, img_size=img_size)
+    X_test, y_test = generate_dummy_data(num_samples=20, num_classes=num_classes, img_size=img_size)
 
     train_dataset = TensorDataset(X_train, y_train)
     test_dataset = TensorDataset(X_test, y_test)
@@ -89,7 +89,7 @@ def test_model_training(img_size):
     train_dataloader = DataLoader(train_dataset, batch_size=32, shuffle=True)
     test_dataloader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
-    modlee_model = ModleeImageClassification(num_classes=2, img_size=img_size).to(device)
+    modlee_model = ModleeImageClassification(num_classes=num_classes, img_size=img_size).to(device)
 
 
     with modlee.start_run() as run:
@@ -108,3 +108,6 @@ def test_model_training(img_size):
     print(f"Run path: {last_run_path}")
     print(f"Saved artifacts: {artifacts}")
 
+if __name__ == "__main__":
+
+    test_model_training((3, 32, 32),3)

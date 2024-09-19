@@ -7,8 +7,7 @@ from pytorch_lightning.loggers import TensorBoardLogger
 import pytest
 
 device = torch.device('cpu')
-api_key = "OktSzjtS27JkuFiqpuzzyZCORw88Cz0P"
-modlee.init(api_key=api_key)
+modlee.init(api_key=os.getenv("MODLEE_API_KEY"))
 
 def generate_dummy_segmentation_data(num_samples=100, img_size=(3, 32, 32), mask_size=(32, 32)):
     X = torch.randn(num_samples, *img_size)
@@ -16,8 +15,8 @@ def generate_dummy_segmentation_data(num_samples=100, img_size=(3, 32, 32), mask
     return X, y
 
 class ImageSegmentation(modlee.model.ImageSegmentationModleeModel):
-    def __init__(self, num_classes=1, in_channels=3):
-        super().__init__(num_classes=num_classes)
+    def __init__(self, in_channels=3):
+        super().__init__()
         self.encoder = torch.nn.Sequential(
             torch.nn.Conv2d(in_channels, 64, kernel_size=3, padding=1),
             torch.nn.ReLU(),
@@ -27,7 +26,7 @@ class ImageSegmentation(modlee.model.ImageSegmentationModleeModel):
         self.decoder = torch.nn.Sequential(
             torch.nn.ConvTranspose2d(128, 64, kernel_size=2, stride=2),
             torch.nn.ReLU(),
-            torch.nn.Conv2d(64, num_classes, kernel_size=1),
+            torch.nn.Conv2d(64, 1, kernel_size=1),
         )
         self.loss_fn = torch.nn.BCEWithLogitsLoss()  
 
@@ -78,7 +77,7 @@ def test_segmentation_model_training(img_size, mask_size):
     test_dataloader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
     in_channels = img_size[0] 
-    lightning_model = ImageSegmentation(num_classes=1, in_channels=in_channels).to(device)
+    lightning_model = ImageSegmentation(in_channels=in_channels).to(device)
 
     with modlee.start_run() as run:
         trainer = pl.Trainer(max_epochs=1)
@@ -97,3 +96,6 @@ def test_segmentation_model_training(img_size, mask_size):
     print(f"Run path: {last_run_path}")
     print(f"Saved artifacts: {artifacts}")
 
+if __name__ == "__main__":
+
+    test_segmentation_model_training((3, 32, 32),(32, 32))

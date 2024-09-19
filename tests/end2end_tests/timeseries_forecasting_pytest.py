@@ -7,8 +7,7 @@ from sklearn.model_selection import train_test_split
 import pytest
 
 device = torch.device('cpu')
-api_key = "OktSzjtS27JkuFiqpuzzyZCORw88Cz0P"
-modlee.init(api_key=api_key)
+modlee.init(api_key=os.getenv("MODLEE_API_KEY"))
 
 def generate_dummy_time_series_data(num_samples=1000, seq_length=20, num_features=10):
     X = torch.randn(num_samples, seq_length, num_features)

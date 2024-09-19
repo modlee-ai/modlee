@@ -7,8 +7,7 @@ from sklearn.model_selection import train_test_split
 import pytest
 
 device = torch.device('cpu')
-api_key = "OktSzjtS27JkuFiqpuzzyZCORw88Cz0P"
-modlee.init(api_key=api_key)
+modlee.init(api_key=os.getenv("MODLEE_API_KEY"))
 
 def generate_dummy_tabular_data(num_samples=100, num_features=10, num_classes=2):
     """Generate dummy tabular data."""
