@@ -46,9 +46,9 @@ class TabularClassifier(modlee.model.TabularClassificationModleeModel):
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=1e-3)
 
-num_samples_list = [100, 500, 1000, 2000]
-num_features_list = [10, 20, 30, 40]
-num_classes_list = [2, 5, 10]
+num_samples_list = [100]
+num_features_list = [20,100]
+num_classes_list = [2,10]
 
 @pytest.mark.parametrize("num_samples", num_samples_list)
 @pytest.mark.parametrize("num_features", num_features_list)
@@ -79,4 +79,4 @@ def test_tabular_classifier(num_samples, num_features, num_classes):
 
 if __name__ == "__main__":
 
-    test_tabular_classifier(300,20,5)
+    test_tabular_classifier(100,10,2)

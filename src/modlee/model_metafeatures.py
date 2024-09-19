@@ -104,7 +104,8 @@ class ModelMetafeatures:
 
     @abstractmethod
     def get_output_shape(self):
-        pass
+        output = self.torch_model(self.sample_input)
+        return np.array(output.shape[1:])
 
     @staticmethod
     def get_graph_dataframe(onnx_graph, *args, **kwargs):

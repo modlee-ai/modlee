@@ -55,17 +55,9 @@ class ImageSegmentation(modlee.model.ImageSegmentationModleeModel):
     
 @pytest.mark.parametrize("img_size, mask_size", [
     ((1, 32, 32), (32, 32)),
-    # ((3, 32, 32), (32, 32)),
-    # ((3, 64, 64), (64, 64)),
-    # ((4, 32, 32), (32, 32)),
-    # ((5, 32, 32), (32, 32)),
-    # ((6, 32, 32), (32, 32)),
-    # ((1, 64, 64), (64, 64)),
-    # ((3, 64, 64), (64, 64)),
-    # ((4, 64, 64), (64, 64)),
-    # ((5, 128, 128), (128, 128)),
-    # ((6, 128, 128), (128, 128)),
-    # ((3, 128, 128), (128, 128))
+    ((3, 32, 32), (32, 32)),
+    ((4, 16, 16), (16, 16)),
+    ((5, 128, 128), (128, 128)),
 ])
 def test_segmentation_model_training(img_size, mask_size):
     X_train, y_train = generate_dummy_segmentation_data(num_samples=100, img_size=img_size, mask_size=mask_size)

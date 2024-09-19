@@ -81,14 +81,14 @@ def generate_random_class_name():
 #     for modality, task, kwargs in IMAGE_MODALITY_TASK_KWARGS
 # ]
 IMAGE_SUBMODELS = []
-for modality, task, kwargs in IMAGE_MODALITY_TASK_KWARGS:
+for modality, task in IMAGE_MODALITY_TASK_KWARGS:
     _var_name = generate_random_class_name()
     _base_modality_task_class = f"{modality.capitalize()}{task.capitalize()}ModleeModel"
-    _model = modlee.model.from_modality_task(modality, task, **kwargs)
+    _model = modlee.model.from_modality_task(modality, task)
     _var_name = _var_name.replace("'", "\\'")
     exec(f"class {_var_name}(modlee.model.{_base_modality_task_class}): pass")
     # IMAGE_SUBMODELS.append((
     #     modality, task,
     #     exec(f"{_var_name}(**kwargs)")
     # ))
-    exec(f"IMAGE_SUBMODELS.append((modality, task, {_var_name}(**kwargs)))")
+    exec(f"IMAGE_SUBMODELS.append((modality, task, {_var_name}()))")

@@ -67,28 +67,22 @@ class ModleeImageClassification(modlee.model.ImageClassificationModleeModel):
         # Make sure to refer to self.model for the optimizer
         return torch.optim.Adam(self.model.parameters(), lr=1e-3)
 
-@pytest.mark.parametrize("img_size num_classes", [
-                                        ((3, 32, 32),2)
-                                    #   , ((3, 64, 64),3)
-                                    #   , ((3, 128, 128),4)
-                                    #   , ((1, 32, 32),4)
-                                    #   , ((4, 32, 32),4)
-                                    #   , ((4, 64, 64),4)
-                                    #   , ((5, 32, 32),4)
-                                    #   , ((5, 128, 128),4)
-                                    #   , ((6, 128, 128),4)
-                                    #   , ((6, 256, 256),4)
-                                      ]
-                                      )
-def test_model_training(img_size,num_classes):
-    X_train, y_train = generate_dummy_data(num_samples=100, num_classes=num_classes, img_size=img_size)
-    X_test, y_test = generate_dummy_data(num_samples=20, num_classes=num_classes, img_size=img_size)
+num_samples_list = [100]
+img_size_list = [(3, 32, 32),(1, 16, 16),(6, 16, 16)]
+num_classes_list = [2,10]
+
+@pytest.mark.parametrize("num_samples", num_samples_list)
+@pytest.mark.parametrize("img_size", img_size_list)
+@pytest.mark.parametrize("num_classes", num_classes_list)
+def test_model_training(num_samples,img_size,num_classes):
+    X_train, y_train = generate_dummy_data(num_samples=num_samples, num_classes=num_classes, img_size=img_size)
+    X_test, y_test = generate_dummy_data(num_samples=num_samples, num_classes=num_classes, img_size=img_size)
 
     train_dataset = TensorDataset(X_train, y_train)
     test_dataset = TensorDataset(X_test, y_test)
 
-    train_dataloader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-    test_dataloader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+    train_dataloader = DataLoader(train_dataset, batch_size=8, shuffle=True)
+    test_dataloader = DataLoader(test_dataset, batch_size=8, shuffle=False)
 
     modlee_model = ModleeImageClassification(num_classes=num_classes, img_size=img_size).to(device)
 
@@ -108,4 +102,4 @@ def test_model_training(img_size,num_classes):
 
 if __name__ == "__main__":
 
-    test_model_training((3, 32, 32),3)
+    test_model_training(100,(3, 32, 32),3)
