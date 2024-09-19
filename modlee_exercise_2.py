@@ -64,8 +64,9 @@ class cnnModel(ImageClassificationModleeModel):
         
         # If the shape is `[2, 32, 3, 32, 32]`, reshape it correctly
         if x.dim() == 5 and x.size(1) == 32:
+            x_shape = x.shape
             # Reshape to collapse the second dimension (32) into the batch dimension
-            x = x.view(-1, 3, 32, 32)  # Adjust to correct shape: [batch_size, channels, height, width]
+            x = x.view(-1, *x_shape)  # Adjust to correct shape: [batch_size, channels, height, width]
             print(f"Reshaped input shape: {x.shape}")
 
         # Forward pass through the model
@@ -116,7 +117,8 @@ class ModleeImageClassification(modlee.model.ImageClassificationModleeModel):
         # If the shape is `[2, 32, 3, 32, 32]`, reshape it correctly
         if x.dim() == 5 and x.size(1) == 32:
             # Reshape to collapse the second dimension (32) into the batch dimension
-            x = x.view(-1, 3, 32, 32)  # Adjust to correct shape: [batch_size, channels, height, width]
+            shape = x.shape
+            x = x.view(-1, *shape)  # Adjust to correct shape: [batch_size, channels, height, width]
             print(f"Reshaped input shape: {x.shape}")
 
         # Forward pass through the model

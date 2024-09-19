@@ -849,17 +849,18 @@ class TabularDataMetafeatures(DataMetafeatures):
 class TimeseriesDataMetafeatures(DataMetafeatures):
     def __init__(self, dataloader):
         self.dataloader = dataloader
+        self.stats_rep = self.calculate_metafeatures()
 
     def get_single_batch(self):
         for batch in self.dataloader:
-            if isinstance(batch, dict) and 'encoder_cont' in batch:
-                return batch['encoder_cont']
-            elif isinstance(batch, tuple) and len(batch) == 2:
-                data_dict = batch[0]
-                if 'encoder_cont' in data_dict:
-                    return data_dict['encoder_cont']
-                else:
-                    raise ValueError("Batch is not in expected dictionary format or missing 'encoder_cont' key.")
+            print(f"Batch type: {type(batch)}")
+            print(f"Batch content: {batch}")
+
+            if isinstance(batch, tuple) and len(batch) == 2:
+                data_tensor = batch[0]
+                return data_tensor
+            else:
+                raise ValueError("Batch is not in expected tuple format with two elements.")
         raise ValueError("No valid batch found in dataloader.")
     
 

@@ -8,8 +8,8 @@ import copy
 # except:
 #     from . import conftest
 
-import conftest
-
+#import conftest
+from . import conftest
 IMAGE_MODELS = conftest.IMAGE_MODELS
 
 import torch

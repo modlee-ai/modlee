@@ -65,6 +65,15 @@ def test_time_series_forecaster(num_features, seq_length):
     train_dataloader = DataLoader(train_dataset, batch_size=32, shuffle=True)
     test_dataloader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
+    for batch in train_dataloader:
+        print(f"Train batch X shape: {batch[0].shape}, y shape: {batch[1].shape}")
+        break
+
+    # Debugging: Print the first batch of the test dataloader
+    for batch in test_dataloader:
+        print(f"Test batch X shape: {batch[0].shape}, y shape: {batch[1].shape}")
+        break
+
     lightning_model = TimeSeriesForecaster(input_dim=num_features, hidden_dim=64, output_dim=1).to(device)
 
     with modlee.start_run() as run:

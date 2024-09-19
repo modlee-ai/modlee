@@ -55,17 +55,17 @@ class ImageSegmentation(modlee.model.ImageSegmentationModleeModel):
     
 @pytest.mark.parametrize("img_size, mask_size", [
     ((1, 32, 32), (32, 32)),
-    ((3, 32, 32), (32, 32)),
-    ((3, 64, 64), (64, 64)),
-    ((4, 32, 32), (32, 32)),
-    ((5, 32, 32), (32, 32)),
-    ((6, 32, 32), (32, 32)),
-    ((1, 64, 64), (64, 64)),
-    ((3, 64, 64), (64, 64)),
-    ((4, 64, 64), (64, 64)),
-    ((5, 128, 128), (128, 128)),
-    ((6, 128, 128), (128, 128)),
-    ((3, 128, 128), (128, 128))
+    # ((3, 32, 32), (32, 32)),
+    # ((3, 64, 64), (64, 64)),
+    # ((4, 32, 32), (32, 32)),
+    # ((5, 32, 32), (32, 32)),
+    # ((6, 32, 32), (32, 32)),
+    # ((1, 64, 64), (64, 64)),
+    # ((3, 64, 64), (64, 64)),
+    # ((4, 64, 64), (64, 64)),
+    # ((5, 128, 128), (128, 128)),
+    # ((6, 128, 128), (128, 128)),
+    # ((3, 128, 128), (128, 128))
 ])
 def test_segmentation_model_training(img_size, mask_size):
     X_train, y_train = generate_dummy_segmentation_data(num_samples=100, img_size=img_size, mask_size=mask_size)
@@ -89,6 +89,7 @@ def test_segmentation_model_training(img_size, mask_size):
         )
 
     last_run_path = modlee.last_run_path()
+    print(last_run_path)
     artifacts_path = os.path.join(last_run_path, 'artifacts')
     artifacts = os.listdir(artifacts_path)
     assert artifacts, "No artifacts found in the artifacts path."

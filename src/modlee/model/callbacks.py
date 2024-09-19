@@ -208,8 +208,6 @@ class ModelMetafeaturesCallback(ModleeCallback):
         print(pl_module.device)
         print([i.device for i in _input])
 
-        breakpoint()
-
 
 class LogONNXCallback(ModleeCallback):
     """
