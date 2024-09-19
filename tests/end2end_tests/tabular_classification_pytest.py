@@ -5,6 +5,7 @@ import lightning.pytorch as pl
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
 import pytest
+from utils import check_artifacts
 
 device = torch.device('cpu')
 modlee.init(api_key=os.getenv("MODLEE_API_KEY"))
@@ -74,9 +75,4 @@ def test_tabular_classifier(num_samples, num_features, num_classes):
 
     last_run_path = modlee.last_run_path()
     artifacts_path = os.path.join(last_run_path, 'artifacts')
-    artifacts = os.listdir(artifacts_path)
-
-    assert artifacts, f"No artifacts found in the path: {artifacts_path}"
-
-    print(f"Run path: {last_run_path}")
-    print(f"Saved artifacts: {artifacts}")
+    check_artifacts(artifacts_path)

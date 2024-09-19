@@ -853,8 +853,8 @@ class TimeseriesDataMetafeatures(DataMetafeatures):
 
     def get_single_batch(self):
         for batch in self.dataloader:
-            print(f"Batch type: {type(batch)}")
-            print(f"Batch content: {batch}")
+            #print(f"Batch type: {type(batch)}")
+            #print(f"Batch content: {batch}")
 
             if isinstance(batch, tuple) and len(batch) == 2:
                 data_tensor = batch[0]

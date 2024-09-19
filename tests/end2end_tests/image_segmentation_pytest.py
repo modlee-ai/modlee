@@ -5,6 +5,7 @@ import lightning.pytorch as pl
 from torch.utils.data import DataLoader, TensorDataset
 from pytorch_lightning.loggers import TensorBoardLogger
 import pytest
+from utils import check_artifacts
 
 device = torch.device('cpu')
 modlee.init(api_key=os.getenv("MODLEE_API_KEY"))
@@ -88,13 +89,9 @@ def test_segmentation_model_training(img_size, mask_size):
         )
 
     last_run_path = modlee.last_run_path()
-    print(last_run_path)
     artifacts_path = os.path.join(last_run_path, 'artifacts')
-    artifacts = os.listdir(artifacts_path)
-    assert artifacts, "No artifacts found in the artifacts path."
+    check_artifacts(artifacts_path)
 
-    print(f"Run path: {last_run_path}")
-    print(f"Saved artifacts: {artifacts}")
 
 if __name__ == "__main__":
 

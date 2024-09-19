@@ -5,6 +5,7 @@ import pytest
 import lightning.pytorch as pl
 from torch.utils.data import DataLoader, TensorDataset
 from torch import nn
+from utils import check_artifacts
 
 device = torch.device('cpu')
 modlee.init(api_key=os.getenv("MODLEE_API_KEY"))
@@ -17,7 +18,7 @@ def generate_dummy_data(num_samples=100, num_classes=2, img_size=(3, 32, 32)):
 
 class ModleeImageClassification(modlee.model.ImageClassificationModleeModel):
     def __init__(self, num_classes=2, img_size=(3, 32, 32)):
-        super().__init__(num_classes=num_classes)
+        super().__init__()
         self.num_classes = num_classes
         self.img_size = img_size
         input_dim = img_size[0] * img_size[1] * img_size[2]  # 3 * 32 * 32 = 3072
@@ -102,11 +103,8 @@ def test_model_training(img_size,num_classes):
 
     last_run_path = modlee.last_run_path()
     artifacts_path = os.path.join(last_run_path, 'artifacts')
-    artifacts = os.listdir(artifacts_path)
-    assert artifacts, "No artifacts found in the artifacts path."
+    check_artifacts(artifacts_path)
 
-    print(f"Run path: {last_run_path}")
-    print(f"Saved artifacts: {artifacts}")
 
 if __name__ == "__main__":
 
