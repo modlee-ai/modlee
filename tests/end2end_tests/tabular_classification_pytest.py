@@ -79,4 +79,4 @@ def test_tabular_classifier(num_samples, num_features, num_classes):
 
 if __name__ == "__main__":
 
-    test_tabular_classifier(100,10,2)
+    test_tabular_classifier(300,20,5)

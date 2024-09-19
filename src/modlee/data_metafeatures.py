@@ -846,24 +846,48 @@ class TabularDataMetafeatures(DataMetafeatures):
         }
         return summary
 
+# class TimeseriesDataMetafeatures(DataMetafeatures):
+#     def __init__(self, dataloader):
+#         self.dataloader = dataloader
+#         self.stats_rep = self.calculate_metafeatures()
+
+#     def get_single_batch(self):
+#         for batch in self.dataloader:
+#             #print(f"Batch type: {type(batch)}")
+#             #print(f"Batch content: {batch}")
+
+#             if isinstance(batch, tuple) and len(batch) == 2:
+#                 data_tensor = batch[0]
+#                 return data_tensor
+#             else:
+#                 raise ValueError("Batch is not in expected tuple format with two elements.")
+            
+#         raise ValueError("No valid batch found in dataloader.")
+    
 class TimeseriesDataMetafeatures(DataMetafeatures):
     def __init__(self, dataloader):
-        self.dataloader = dataloader
+        super().__init__(dataloader=dataloader)  # Make sure parent class is called with dataloader
         self.stats_rep = self.calculate_metafeatures()
 
     def get_single_batch(self):
         for batch in self.dataloader:
-            #print(f"Batch type: {type(batch)}")
-            #print(f"Batch content: {batch}")
-
-            if isinstance(batch, tuple) and len(batch) == 2:
+            print(f"Batch type: {type(batch)}")
+            
+            # If batch is a list of tensors
+            if isinstance(batch, list) and all(isinstance(item, torch.Tensor) for item in batch):
+                # Assuming you want the first tensor from the list as the data tensor
+                data_tensor = batch[0]
+                return data_tensor
+            # If batch is a single tensor
+            elif isinstance(batch, torch.Tensor):
+                return batch
+            # If batch is a tuple with two elements (data and label)
+            elif isinstance(batch, tuple) and len(batch) == 2:
                 data_tensor = batch[0]
                 return data_tensor
             else:
-                raise ValueError("Batch is not in expected tuple format with two elements.")
-            
+                raise ValueError("Batch is not in expected format (list of tensors, tuple with two elements, or a tensor).")
         raise ValueError("No valid batch found in dataloader.")
-    
 
     def calculate_metafeatures(self,advanced=False):
         data = self.get_single_batch()

@@ -15,16 +15,94 @@ def generate_dummy_time_series_data(num_samples=1000, seq_length=20, num_feature
     y = torch.randn(num_samples, seq_length)
     return X, y
 
+# class TimeSeriesForecaster(modlee.model.TimeseriesClassificationModleeModel):
+#     def __init__(self, input_dim, hidden_dim=64, output_dim=1):
+#         super().__init__()
+#         self.lstm = torch.nn.LSTM(input_dim, hidden_dim, batch_first=True)
+#         self.fc = torch.nn.Linear(hidden_dim, output_dim)
+#         self.loss_fn = torch.nn.MSELoss()
+
+#     def forward(self, x):
+#         lstm_out, _ = self.lstm(x)
+#         predictions = self.fc(lstm_out[:, -1, :]) 
+#         return predictions
+
+#     def training_step(self, batch):
+#         x, y = batch
+#         preds = self.forward(x)
+#         loss = self.loss_fn(preds, y)
+#         return loss
+
+#     def validation_step(self, batch):
+#         x, y = batch
+#         preds = self.forward(x)
+#         loss = self.loss_fn(preds, y)
+#         return loss
+
+#     def configure_optimizers(self):
+#         return torch.optim.Adam(self.parameters(), lr=1e-3)
+
+# parameter_combinations = [
+#     (5, 10),
+#     (5, 20),
+#     (5, 30),
+#     (10, 10),
+#     (10, 20),
+#     (10, 30),
+#     (20, 10),
+#     (20, 20),
+#     (20, 30)
+# ]
+
+# @pytest.mark.parametrize("num_features, seq_length", parameter_combinations)
+# def test_time_series_forecaster(num_features, seq_length):
+#     X, y = generate_dummy_time_series_data(num_samples=1000, seq_length=seq_length, num_features=num_features)
+#     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+#     train_dataset = TensorDataset(X_train, y_train)
+#     test_dataset = TensorDataset(X_test, y_test)
+
+#     train_dataloader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+#     test_dataloader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+
+#     for batch in train_dataloader:
+#         print(f"Train batch X shape: {batch[0].shape}, y shape: {batch[1].shape}")
+#         break
+
+#     # Debugging: Print the first batch of the test dataloader
+#     for batch in test_dataloader:
+#         print(f"Test batch X shape: {batch[0].shape}, y shape: {batch[1].shape}")
+#         break
+
+#     lightning_model = TimeSeriesForecaster(input_dim=num_features, hidden_dim=64, output_dim=1).to(device)
+
+#     with modlee.start_run() as run:
+#         trainer = pl.Trainer(max_epochs=1)
+#         trainer.fit(
+#             model=lightning_model,
+#             train_dataloaders=train_dataloader,
+#             val_dataloaders=test_dataloader
+#         )
+
+#     last_run_path = modlee.last_run_path()
+#     artifacts_path = os.path.join(last_run_path, 'artifacts')
+#     check_artifacts(artifacts_path)
+
 class TimeSeriesForecaster(modlee.model.TimeseriesClassificationModleeModel):
-    def __init__(self, input_dim, hidden_dim=64, output_dim=1):
+    def __init__(self, input_dim, seq_length, hidden_dim=64, output_dim=1):
         super().__init__()
-        self.lstm = torch.nn.LSTM(input_dim, hidden_dim, batch_first=True)
-        self.fc = torch.nn.Linear(hidden_dim, output_dim)
+        self.seq_length = seq_length
+        # Calculate the flattened input dimension
+        self.flattened_input_dim = input_dim * seq_length
+        self.fc1 = torch.nn.Linear(self.flattened_input_dim, hidden_dim)
+        self.fc2 = torch.nn.Linear(hidden_dim, output_dim)
         self.loss_fn = torch.nn.MSELoss()
 
     def forward(self, x):
-        lstm_out, _ = self.lstm(x)
-        predictions = self.fc(lstm_out[:, -1, :]) 
+        # Flatten the input tensor except the batch dimension
+        x = x.view(x.size(0), -1)
+        x = torch.relu(self.fc1(x))
+        predictions = self.fc2(x)
         return predictions
 
     def training_step(self, batch):
@@ -74,7 +152,7 @@ def test_time_series_forecaster(num_features, seq_length):
         print(f"Test batch X shape: {batch[0].shape}, y shape: {batch[1].shape}")
         break
 
-    lightning_model = TimeSeriesForecaster(input_dim=num_features, hidden_dim=64, output_dim=1).to(device)
+    lightning_model = TimeSeriesForecaster(input_dim=num_features, seq_length=seq_length,hidden_dim=64, output_dim=1).to(device)
 
     with modlee.start_run() as run:
         trainer = pl.Trainer(max_epochs=1)
@@ -87,3 +165,7 @@ def test_time_series_forecaster(num_features, seq_length):
     last_run_path = modlee.last_run_path()
     artifacts_path = os.path.join(last_run_path, 'artifacts')
     check_artifacts(artifacts_path)
+
+if __name__ == "__main__":
+
+    test_time_series_forecaster(5,10)
