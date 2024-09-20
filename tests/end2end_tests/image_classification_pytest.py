@@ -90,7 +90,7 @@ def test_model_training(num_samples,img_size,num_classes,recommended_model):
         recommender = modlee.recommender.ImageClassificationRecommender(num_classes=num_classes)
         recommender.fit(train_dataloader)
         modlee_model = recommender.model
-        # print(f"\nRecommended model: \n{modlee_model}")
+        print(f"\nRecommended model: \n{modlee_model}")
     else:
         modlee_model = ModleeImageClassification(num_classes=num_classes, img_size=img_size).to(device)
     
@@ -109,4 +109,4 @@ def test_model_training(num_samples,img_size,num_classes,recommended_model):
 
 if __name__ == "__main__":
 
-    test_model_training(100,(3, 32, 32),3,False)
+    test_model_training(100,(3, 32, 32),3,True)

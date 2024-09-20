@@ -102,6 +102,7 @@ class ModleeClient(object):
             }
         )
 
+        # breakpoint()
         try:
             # Make the request dynamically using the provided method
             ret = getattr(requests, method)(req_url, *args, **kwargs)
@@ -123,7 +124,6 @@ class ModleeClient(object):
             elif ret.status_code >= 300:
                 logger.warning(f"Redirection detected (status {ret.status_code}) - {req_url}")
                 ret = None
-
         # Handle common exceptions and log them
         except requests.Timeout as e:
             logger.warning(f"Timeout occurred for request to {req_url}: {str(e)}")
@@ -134,7 +134,6 @@ class ModleeClient(object):
         except requests.RequestException as e:
             logger.warning(f"General request exception for {req_url}: {str(e)}")
             ret = None
-
 
         return ret
 

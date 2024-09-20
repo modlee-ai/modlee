@@ -40,9 +40,9 @@ class ImageRecommender(Recommender):
         if hasattr(self, 'num_classes'):
             self.metafeatures.update({"num_classes": self.num_classes})
 
-        try:
-            # breakpoint()
+        try:            
             self.model_text = self._get_model_text(self.metafeatures)
+
             if not isinstance(self.model_text, str):
                 self.model_text = self.model_text.decode("utf-8")
             model = modlee_converter.onnx_text2torch(self.model_text)
@@ -51,22 +51,18 @@ class ImageRecommender(Recommender):
                     torch.nn.init.xavier_normal_(param, 1.0)
                 except:
                     torch.nn.init.normal_(param)
+
             self.model = RecommendedModel(model, loss_fn=self.loss_fn, modality=self.modality)
 
             self.code_text = self.get_code_text()
             self.model_code = modlee_converter.onnx_text2code(self.model_text)
-            self.model_text = self.model_text.decode("utf-8")
-            # clean_model_text = ">".join(self.model_text.split(">")[1:])
 
             self.write_file(self.model_text, "./model.txt")
             self.write_file(self.model_code, "./model.py")
-            logging.info(
-                f"The model is available at the recommender object's `model` attribute."
-            )
 
         except:
-            print(
-                "Error with ImageRecommender: Could not retrieve model, could not access server or data features may be malformed."
+            logging.error(
+                f"ImageReccomender.fit failed, could  not return a recommended model, defaulting model to None"
             )
             self.model = None
 
