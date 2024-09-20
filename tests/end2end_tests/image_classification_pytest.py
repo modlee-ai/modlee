@@ -15,7 +15,6 @@ def generate_dummy_data(num_samples=100, num_classes=2, img_size=(3, 32, 32)):
     y = torch.randint(0, num_classes, (num_samples,), device=device, dtype=torch.long) 
     return X, y
 
-
 class ModleeImageClassification(modlee.model.ImageClassificationModleeModel):
     def __init__(self, num_classes=2, img_size=(3, 32, 32)):
         super().__init__()
@@ -70,11 +69,14 @@ class ModleeImageClassification(modlee.model.ImageClassificationModleeModel):
 num_samples_list = [100]
 img_size_list = [(3, 32, 32),(1, 16, 16),(6, 16, 16)]
 num_classes_list = [2,10]
+recommended_model_list = [True,False]
 
 @pytest.mark.parametrize("num_samples", num_samples_list)
 @pytest.mark.parametrize("img_size", img_size_list)
 @pytest.mark.parametrize("num_classes", num_classes_list)
-def test_model_training(num_samples,img_size,num_classes):
+@pytest.mark.parametrize("recommended_model", recommended_model_list)
+def test_model_training(num_samples,img_size,num_classes,recommended_model):
+
     X_train, y_train = generate_dummy_data(num_samples=num_samples, num_classes=num_classes, img_size=img_size)
     X_test, y_test = generate_dummy_data(num_samples=num_samples, num_classes=num_classes, img_size=img_size)
 
@@ -84,9 +86,14 @@ def test_model_training(num_samples,img_size,num_classes):
     train_dataloader = DataLoader(train_dataset, batch_size=8, shuffle=True)
     test_dataloader = DataLoader(test_dataset, batch_size=8, shuffle=False)
 
-    modlee_model = ModleeImageClassification(num_classes=num_classes, img_size=img_size).to(device)
-
-
+    if recommended_model == True:
+        recommender = modlee.recommender.ImageClassificationRecommender(num_classes=num_classes)
+        recommender.fit(train_dataloader)
+        modlee_model = recommender.model
+        # print(f"\nRecommended model: \n{modlee_model}")
+    else:
+        modlee_model = ModleeImageClassification(num_classes=num_classes, img_size=img_size).to(device)
+    
     with modlee.start_run() as run:
         trainer = pl.Trainer(max_epochs=1)
         trainer.fit(
@@ -102,4 +109,4 @@ def test_model_training(num_samples,img_size,num_classes):
 
 if __name__ == "__main__":
 
-    test_model_training(100,(3, 32, 32),3)
+    test_model_training(100,(3, 32, 32),3,False)

@@ -9,7 +9,11 @@ import functools
 LOCAL_ORIGIN = "http://127.0.0.1:7070"
 from modlee.config import SERVER_ORIGIN as REMOTE_ORIGIN
 import json
+import logging
 
+# Set up logging
+logging.basicConfig(level=logging.WARNING)
+logger = logging.getLogger(__name__)
 
 class ModleeClient(object):
     """
@@ -97,16 +101,41 @@ class ModleeClient(object):
                 "headers": kwargs_headers,
             }
         )
+
         try:
+            # Make the request dynamically using the provided method
             ret = getattr(requests, method)(req_url, *args, **kwargs)
-            if ret.status_code >= 400:
-                if ret.status_code != 404:
-                    pass
+            
+            # Check the status code and log appropriate warnings
+            if ret.status_code >= 500:
+                logger.warning(f"Server error {ret.status_code}: {ret.reason} - {req_url}")
                 ret = None
+            elif ret.status_code >= 400:
+                if ret.status_code == 404:
+                    logger.warning(f"Resource not found (404) - {req_url}")
+                elif ret.status_code == 403:
+                    logger.warning(f"Forbidden (403) - Access denied to {req_url}. Please check your API Key is correct, look to https://docs.modlee.ai/troubleshooting.html#problem-unable-to-access-modlee-api for more information, then contact support@modlee.ai for additional assistence if needed")
+                elif ret.status_code == 401:
+                    logger.warning(f"Unauthorized (401) - Authentication required for {req_url}")
+                else:
+                    logger.warning(f"Client error {ret.status_code}: {ret.reason} - {req_url}")
+                ret = None
+            elif ret.status_code >= 300:
+                logger.warning(f"Redirection detected (status {ret.status_code}) - {req_url}")
+                ret = None
+
+        # Handle common exceptions and log them
         except requests.Timeout as e:
+            logger.warning(f"Timeout occurred for request to {req_url}: {str(e)}")
             ret = None
         except requests.ConnectionError as e:
+            logger.warning(f"Connection error occurred for request to {req_url}: {str(e)}")
             ret = None
+        except requests.RequestException as e:
+            logger.warning(f"General request exception for {req_url}: {str(e)}")
+            ret = None
+
+
         return ret
 
     def login(self, api_key=""):

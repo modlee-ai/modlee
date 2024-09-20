@@ -315,16 +315,9 @@ class DataMetafeaturesCallback(ModleeCallback):
         self.data_snapshot_size = data_snapshot_size
         self.DataMetafeatures = DataMetafeatures
         self.dataloader = None
-        # self.TimeSeriesDMF = getattr(dmf, "TimeSeriesDataMetafeatures", None)
-        # self.TimeSeriesDMFLog = TimeSeriesDataMetafeatures
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
-        # data, targets = self._get_data_targets(trainer)
-        # data_snapshots = self._get_snapshots_batched(trainer.train_dataloader)
-        # self._save_snapshots_batched(data_snapshots)
-        # log the data statistics
-        # self._log_data_metafeatures(data, targets)
-        # logging.info(f"Logging data metafeatures with {self.DataMetafeatures}...")
+
         self._log_data_metafeatures_dataloader(trainer.train_dataloader)
 
         self._log_output_size(trainer, pl_module)
@@ -360,33 +353,6 @@ class DataMetafeaturesCallback(ModleeCallback):
             mlflow.log_dict(data_mf.properties, "data_metafeatures")
         else:
             logging.warning("Cannot log data statistics, could not access from server")
-
-    # def _log_data_metafeatures_dataloader(self, dataloader) -> None:
-    #     """
-    #     Log data metafeatures with a dataloader.
-
-    #     :param dataloader: The dataloader.
-    #     """
-    #     if self.DataMetafeatures:
-    #         # breakpoint()
-    #         # TODO - use data batch and model to get output size
-    #         logging.info(f"Logging data metafeatures with {self.DataMetafeatures}")
-    #         data_mf = data_metafeatures = self.DataMetafeatures(dataloader)
-    #         mlflow.log_dict(data_metafeatures._serializable_stats_rep, "stats_rep")
-    #         data_mf_dict = {
-    #             **data_mf.properties,
-    #             **data_mf.mfe,
-    #         }
-    #         if hasattr(data_mf, "embedding"):
-    #             data_mf_dict.update(data_mf.embedding)
-    #         else:
-    #             logging.warning("Using base DataMetafeatures, not logging embeddings.")
-    #         attrs = data_mf_dict.keys()
-    #         # logging.info(f"Logged data metafeatures: {','.join(attrs)}")
-    #         mlflow.log_dict(
-    #             _make_serializable(data_mf_dict), "data_metafeatures")
-    #     else:
-    #         logging.warning("Cannot log data statistics, could not access from server")
 
     def _log_data_metafeatures_dataloader(self, dataloader) -> None:
         """

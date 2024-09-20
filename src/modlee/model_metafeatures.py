@@ -195,7 +195,7 @@ class TabularClassificationModelMetafeatures(TabularModelMetafeatures):
 class TimeseriesModelMetafeatures(ModelMetafeatures):
     pass
     
-class TimeseriesClassificationModelMetafeatures(TimeseriesModelMetafeatures):
+class TimeseriesForecastingModelMetafeatures(TimeseriesModelMetafeatures):
     pass
     
 from_modality_task = partial(class_from_modality_task, _class="Model_Metafeatures")
