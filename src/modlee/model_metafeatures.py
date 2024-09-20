@@ -3,18 +3,15 @@ from functools import partial
 
 import numpy as np
 import pandas as pd
-import karateclub
-import pickle
 
 import torch
+
 import modlee
-from modlee.config import G2V_PKL
 from modlee.utils import get_model_size, class_from_modality_task, get_modality_task
 
 converter = modlee.converter.Converter()
 
 from modlee.utils import INPUT_DUMMY
-
 
 class ModelMetafeatures:
     def __init__(self, torch_model: torch.nn.Module, sample_input=None, *args, **kwargs):
@@ -42,14 +39,6 @@ class ModelMetafeatures:
                 except Exception as e:
                     print(f"Error converting sample_input to tensor: {e}")
 
-        # model_copy = torch_model
-        # sample_input_copy = sample_input.clone()  # Use clone to create a copy of the tensor
-
-        # # Move both the model and tensor to the CPU
-        # self.model_copy = torch_model# model_copy.to(torch_model.device)
-        # self.sample_input_copy = sample_input_copy#.to(torch_model.device)
-
-
         self.onnx_graph = converter.torch_model2onnx_graph(
             torch_model, 
             input_dummy=sample_input)
@@ -63,8 +52,6 @@ class ModelMetafeatures:
 
         self.dataframe = self.get_graph_dataframe(self.onnx_graph)
         self.properties = self.get_properties()
-        #self.embedding = self.get_embedding()
-        #pass
 
     def check_input_type(self, sample_input):
         """Prints the type and shape of the sample_input and breaks for debugging."""
@@ -78,23 +65,17 @@ class ModelMetafeatures:
         else:
             print("Unknown input type")
 
-    def get_embedding(self, *args, **kwargs):
-        g2v = ModelEncoder.from_pkl(G2V_PKL)
-        embd = g2v.infer([self.onnx_nx])[0]
-        # breakpoint()
-        # embd = g2v.get_embedding([self.onnx_nx])[0]
-        embd_dict = {f"embd_{i}": e for i, e in enumerate(embd)}
-        return embd_dict
-
     def get_properties(self, *args, **kwargs):
-        # These are:
-        # - Layer counts
-        # - Layer parameter stats, e.g. min/max/mean conv sizes
-        # - Size
-        # - Input / output shapes
-        # Reference the ModelMFE (metafeature extractor): https://github.com/modlee-ai/recommender/blob/a86eb715c0f8771bbcb20a624eb20bc6f07d6c2b/data_prep/model_mfe.py#L117
-        # In that prior implementation, used the ONNX text representation, and regexes
-
+        '''
+        These are:
+            - Layer counts
+            - Layer parameter stats, e.g. min/max/mean conv sizes
+            - Size
+            - Input / output shapes
+        Reference the ModelMFE (metafeature extractor): https://github.com/modlee-ai/recommender/blob/a86eb715c0f8771bbcb20a624eb20bc6f07d6c2b/data_prep/model_mfe.py#L117
+        In that prior implementation, used the ONNX text representation, and regexes
+        '''
+        
         return {
             "size": get_model_size(self.torch_model, as_MB=False),
             "output_shape": self.get_output_shape(),
@@ -132,7 +113,6 @@ class ModelMetafeatures:
 
         df = pd.DataFrame(nodes)
         df = ModelMetafeatures.dataframe_lists_to_columns(df)
-        # breakpoint()
         return df
 
     @staticmethod
@@ -159,7 +139,6 @@ class ModelMetafeatures:
 
     @staticmethod
     def get_layer_counts(df: pd.DataFrame):
-        # def get_layer_counts(df=dataframe):
         """
         Get the counts of each layer type in a dataframe
 
@@ -177,11 +156,6 @@ class ModelMetafeatures:
         :param df: _description_
         """
         statistics = ["min", "max", "mean", "median", "std"]
-        # if isinstance(df, pd.Series) or df.shape[1]==1:
-        #     return {
-        #         statistic:getattr(np, statistic)(df) for statistic in statistics
-        #     }
-        # else:
         if isinstance(df, pd.DataFrame):
             df_float = df.select_dtypes(include="float")
         else:
@@ -194,23 +168,16 @@ class ModelMetafeatures:
                 )
 
         return ret
-        pass
-
 
 class ImageModelMetafeatures(ModelMetafeatures):
     def get_output_shape(
         self,
     ):
-        # breakpoint()
-        # device = next(self.torch_model.parameters()).device
-        # input_dummy = torch.randn([1, 3, 300, 300]).to(device=device)
         output = self.torch_model(self.sample_input)
         return np.array(output.shape[1:])
 
-
 class ImageClassificationModelMetafeatures(ImageModelMetafeatures):
     pass
-
 
 class ImageSegmentationModelMetafeatures(ImageModelMetafeatures):
     def get_output_shape(self):
@@ -218,20 +185,6 @@ class ImageSegmentationModelMetafeatures(ImageModelMetafeatures):
         if isinstance(output, dict):
             output = output["out"]
         return np.array(output.shape[1:])
-
-
-class TextModelMetafeatures(ModelMetafeatures):
-    def __init__(self, torch_model, *args, **kwargs):
-        input_dummy = torch_model.transform()(modlee.converter.TEXT_INPUT_DUMMY)
-        torch_model = torch_model.get_model()
-
-        super().__init__(
-            torch_model=torch_model, input_dummy=input_dummy, *args, **kwargs
-        )
-
-class TextClassificationModelMetafeatures(TextModelMetafeatures):
-    pass
-
 
 class TabularModelMetafeatures(ModelMetafeatures):
     pass
@@ -244,28 +197,5 @@ class TimeseriesModelMetafeatures(ModelMetafeatures):
     
 class TimeseriesClassificationModelMetafeatures(TimeseriesModelMetafeatures):
     pass
-
-
-class ModelEncoder(karateclub.graph2vec.Graph2Vec):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # self.attributed = False
-
-    def save(self, path):
-        with open(path, "wb") as _file:
-            _file.write(pickle.dumps(self))
-
-    # def infer(self, *args, **kwargs):
-        # return super().get_embedding(*args, **kwargs)
-
-    @classmethod
-    def from_pkl(cls, path):
-        with open(path, "rb") as _file:
-            # g2v = pickle.loads(_file.read(path))
-            ret = pickle.load(_file)
-            ret.attributed = False
-            return ret
-        # return cls
-
     
 from_modality_task = partial(class_from_modality_task, _class="Model_Metafeatures")

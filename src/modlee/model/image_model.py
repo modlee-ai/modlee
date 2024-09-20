@@ -19,8 +19,9 @@ class ImageClassificationModleeModel(ModleeModel):
         ImageClassificationModleeModel constructor.
 
         """
+        modality = "image"
         task = "classification"
-        vars_cache = {"task": task}
+        vars_cache = {"modality":modality,"task": task}
         ModleeModel.__init__(
             self,
             kwargs_cache=vars_cache, *args, **kwargs
@@ -37,8 +38,9 @@ class ImageSegmentationModleeModel(ModleeModel):
         ImageSegmentationModleeModel constructor.
 
         """
+        modality = 'image'
         task = "segmentation"
-        vars_cache = {"task": task}
+        vars_cache = {"modality":modality,"task": task}
         ModleeModel.__init__(
             self,
             kwargs_cache=vars_cache, *args, **kwargs

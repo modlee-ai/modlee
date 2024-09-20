@@ -18,7 +18,7 @@ def generate_dummy_tabular_data(num_samples=100, num_features=10, num_classes=2)
 
 class TabularClassifier(modlee.model.TabularClassificationModleeModel):
     def __init__(self, input_dim, num_classes=2):
-        super().__init__(input_dim=input_dim)
+        super().__init__()
         self.model = torch.nn.Sequential(
             torch.nn.Linear(input_dim, 128),
             torch.nn.ReLU(),

@@ -405,14 +405,8 @@ class DataMetafeaturesCallback(ModleeCallback):
                 **data_mf.properties,
                 **data_mf.mfe,
             }
-            
-            if hasattr(data_mf, "embedding"):
-                data_mf_dict.update(data_mf.embedding)
-            else:
-                logging.warning("Using base DataMetafeatures, not logging embeddings.")
-            
-            attrs = data_mf_dict.keys()
-            logging.info(f"Logged data metafeatures: {','.join(attrs)}")
+            # attrs = data_mf_dict.keys()
+            # logging.info(f"Logged data metafeatures: {','.join(attrs)}")
             mlflow.log_dict(_make_serializable(data_mf_dict), "data_metafeatures")
         else:
             logging.warning("Cannot log data statistics, could not access from server")
