@@ -39,14 +39,20 @@ modlee
 
 
    guides
+   optimizing_ml_guide
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Examples
    :hidden:
 
    notebooks/recommend
    notebooks/document
+   notebooks/tabular_classification_example
+   notebooks/image_embeddings
+   notebooks/text_embeddings
+   notebooks/audio_embeddings
+   
 
 .. toctree::
    :maxdepth: 10
@@ -175,4 +181,3 @@ Indices
 
 * :ref:`genindex`
 * :ref:`modindex`
-.. * :ref:`search`
