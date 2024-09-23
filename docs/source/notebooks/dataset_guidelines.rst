@@ -1,4 +1,4 @@
-|image1|
+|image0|
 
 Dataset guidelines
 ==================
@@ -17,7 +17,7 @@ TLDR
 Define example custom dataset objects
 -------------------------------------
 
-.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg
+.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/logo%20only%20(2).svg
    :width: 50px
    :height: 50px
 

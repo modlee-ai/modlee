@@ -1,4 +1,4 @@
-|image1|
+|image0|
 
 Identifying and Solving Issues
 ==============================
@@ -150,14 +150,13 @@ Problem: None Model Recommended
 
 -  **Check Input Parameters**: Ensure that the parameters passed to the
    recommender function are correct. For example, verify that the
-   ``modality`` and ``task`` parameters are properly specified and
-   supported by Modlee.
+   ``num_classes`` parameter is properly specified and supported by
+   Modlee.
 
    .. code:: python
 
-      recommender = modlee.recommender.from_modality_task(
-          modality='image',
-          task='classification'
+      recommender = modlee.recommender.ImageClassificationRecommender(
+        num_classes=10 
       )
 
 -  **Verify Dataset Compatibility**: Ensure that the dataset you are
@@ -220,7 +219,6 @@ Problem: Google Colab, Run Out of GPU Compute
 
 -  **Free Up GPU Memory**: Clear unused variables and force garbage
    collection to free up GPU memory
-
 -  **Upgrade Runtime**: If possible, upgrade your Colab environment to a
    higher tier with more GPU resources.
 
@@ -236,4 +234,4 @@ also raise an issue on our `GitHub
 repository <https://github.com/modlee-ai/modlee/issues>`__ for
 additional support.
 
-.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg

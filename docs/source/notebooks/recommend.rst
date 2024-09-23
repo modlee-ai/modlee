@@ -1,6 +1,6 @@
-|image1|
+|image0|
 
-.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
 
 Image Classification Model Recommendation
 =========================================

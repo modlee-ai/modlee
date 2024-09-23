@@ -1,4 +1,4 @@
-|image1|
+|image0|
 
 Modlee Guides
 =============
@@ -597,4 +597,4 @@ These resources will provide you with additional guidance and hands-on
 experience to help you leverage Modlee for your machine learning
 projects.
 
-.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
