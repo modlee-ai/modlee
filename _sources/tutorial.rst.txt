@@ -1,4 +1,4 @@
-|image1|
+|image0|
 
 First Project with Modlee
 =========================
@@ -469,6 +469,6 @@ To build on your progress, consider these next steps:
    Join discussions and forums to connect with other users, seek advice,
    and share your experiences.
 
-.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
 .. |Open in Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/drive/1XNr-NXrDhvOjnN5Kwfh2fOB1mkqktgA_#scrollTo=EoHpDb_SFHQS

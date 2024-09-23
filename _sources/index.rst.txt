@@ -70,6 +70,14 @@ modlee
    troubleshooting
 
 .. toctree::
+   :maxdepth: 2
+   :caption: Careers
+   :hidden:
+
+
+   careers
+
+.. toctree::
    :maxdepth: 4
    :caption: Support
    :hidden:

@@ -1,4 +1,4 @@
-|image1|
+|image0|
 
 Additional Resources
 ====================
@@ -80,4 +80,4 @@ sections. Join our `community <https://discord.com/invite/m8YDbWDvrF>`__
 or reach out to us directly at `support@modlee.ai <support@modlee.ai>`__
 if you need more help or have specific questions.
 
-.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
