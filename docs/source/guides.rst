@@ -1,4 +1,4 @@
-.. image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+|image0|
 
 Modlee Guides
 =============
@@ -8,16 +8,16 @@ aspects of the Modlee package and key machine learning concepts. Whether
 you’re new to machine learning or looking to deepen your understanding,
 these guides will help you navigate and utilize Modlee more effectively.
 
-Meta Learning Explained
+Meta-Learning Explained
 -----------------------
 
-Meta learning, or “learning to learn,” is a key focus at Modlee, aimed
+Meta-learning, or “learning to learn,” is a key focus at Modlee, aimed
 at enhancing our machine learning development processes. By leveraging
 insights from previous experiments across various data modalities and
 tasks, we reduce the experimentation needed to find quality solutions
 for new datasets. This accelerates development and improves efficiency
 for developers and organizations. This section delves into the details
-of our meta learning approach.
+of our meta-learning approach.
 
 How It Works
 ~~~~~~~~~~~~
@@ -32,20 +32,20 @@ How It Works
    preserved past experiments to identify the best models for specific
    tasks, datasets, and solution constraints.
 
-3. **Meta Learning Recommended Benchmark Models**: For a given dataset
-   and task, meta learning recommends a benchmark model. This provides a
+3. **Meta-Learning Recommended Benchmark Models**: For a given dataset
+   and task, meta-learning recommends a benchmark model. This provides a
    streamlined starting solution, backed by previous work and tailored
    to your dataset.
 
 4. **Progress & Share**: Continue exploring machine learning solutions
    to surpass your benchmark. Preserve and share your experiments with a
-   meta learning agent to disseminate insights, facilitating seamless
+   meta-learning agent to disseminate insights, facilitating seamless
    collaboration.
 
-Significance of Meta Learning
+Significance of Meta-Learning
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Meta learning significantly enhances machine learning development by
+Meta-learning significantly enhances machine learning development by
 leveraging past experimental insights to reduce the need for extensive
 trial and error. This approach accelerates solution discovery, making
 the process more efficient and effective for developers and
@@ -596,3 +596,5 @@ concepts covered, we suggest exploring the following resources:
 These resources will provide you with additional guidance and hands-on
 experience to help you leverage Modlee for your machine learning
 projects.
+
+.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg

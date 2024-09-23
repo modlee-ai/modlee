@@ -615,6 +615,7 @@ class DataMetafeatures(object):
                     f"elem_{i}_dims": sample_dim,
                 }
             )
+
         return ret
 
     get_stats_rep = get_features
@@ -722,11 +723,11 @@ class ImageDataMetafeatures(DataMetafeatures):
 
     def __init__(self, dataloader, embd_model=None, *args, **kwargs):
         super().__init__(dataloader, *args, **kwargs)
-        if not embd_model:
-            self.embd_model = torchvision.models.resnet18(weights="IMAGENET1K_V1")
-            self.embd_model.eval()
-        self.embedding = self.get_embedding()
-        self.features.update(self.embedding)
+        # if not embd_model:
+        #     self.embd_model = torchvision.models.resnet18(weights="IMAGENET1K_V1")
+        #     self.embd_model.eval()
+        # self.embedding = self.get_embedding()
+        # self.features.update(self.embedding)
         self.features = self._make_serializable(self.features)
         pass
 
@@ -767,11 +768,11 @@ class TextDataMetafeatures(DataMetafeatures):
     def __init__(self, dataloader, nlp_model=None, *args, **kwargs):
         super().__init__(dataloader, *args, **kwargs)
         # self.dataloader = dataloader
-        if not nlp_model:
-            # TODO - consider using a larger model embedding e.g. en_code_web_sm -> 300D
-            # and truncate
-            self.nlp_model = spacy.load("en_core_web_sm")
-        self.embedding = self.get_embedding()
+        # if not nlp_model:
+        #     # TODO - consider using a larger model embedding e.g. en_code_web_sm -> 300D
+        #     # and truncate
+        #     self.nlp_model = spacy.load("en_core_web_sm")
+        # self.embedding = self.get_embedding()
         pass
 
     def get_embedding(self, index=None, max_len=100, *args, **kwargs):
@@ -816,7 +817,7 @@ class TabularDataMetafeatures(DataMetafeatures):
         # Ensure that self.features is flat
         self.features.update(self.stats_rep)
         # TODO - replace with actual embedding
-        self.embedding = self.stats_rep
+        # self.embedding = self.stats_rep
         pass
 
     def get_features(self):
@@ -846,24 +847,50 @@ class TabularDataMetafeatures(DataMetafeatures):
         }
         return summary
 
+# class TimeseriesDataMetafeatures(DataMetafeatures):
+#     def __init__(self, dataloader):
+#         self.dataloader = dataloader
+#         self.stats_rep = self.calculate_metafeatures()
+
+#     def get_single_batch(self):
+#         for batch in self.dataloader:
+#             #print(f"Batch type: {type(batch)}")
+#             #print(f"Batch content: {batch}")
+
+#             if isinstance(batch, tuple) and len(batch) == 2:
+#                 data_tensor = batch[0]
+#                 return data_tensor
+#             else:
+#                 raise ValueError("Batch is not in expected tuple format with two elements.")
+            
+#         raise ValueError("No valid batch found in dataloader.")
+    
 class TimeseriesDataMetafeatures(DataMetafeatures):
     def __init__(self, dataloader):
-        self.dataloader = dataloader
+        super().__init__(dataloader=dataloader)  # Make sure parent class is called with dataloader
+        self.stats_rep = self.calculate_metafeatures()
 
     def get_single_batch(self):
         for batch in self.dataloader:
-            if isinstance(batch, dict) and 'encoder_cont' in batch:
-                return batch['encoder_cont']
+            print(f"Batch type: {type(batch)}")
+            
+            # If batch is a list of tensors
+            if isinstance(batch, list) and all(isinstance(item, torch.Tensor) for item in batch):
+                # Assuming you want the first tensor from the list as the data tensor
+                data_tensor = batch[0]
+                return data_tensor
+            # If batch is a single tensor
+            elif isinstance(batch, torch.Tensor):
+                return batch
+            # If batch is a tuple with two elements (data and label)
             elif isinstance(batch, tuple) and len(batch) == 2:
-                data_dict = batch[0]
-                if 'encoder_cont' in data_dict:
-                    return data_dict['encoder_cont']
-                else:
-                    raise ValueError("Batch is not in expected dictionary format or missing 'encoder_cont' key.")
+                data_tensor = batch[0]
+                return data_tensor
+            else:
+                raise ValueError("Batch is not in expected format (list of tensors, tuple with two elements, or a tensor).")
         raise ValueError("No valid batch found in dataloader.")
-    
 
-    def calculate_metafeatures(self):
+    def calculate_metafeatures(self,advanced=False):
         data = self.get_single_batch()
         logging.debug(f"Data shape: {data.shape}")
         
@@ -885,56 +912,57 @@ class TimeseriesDataMetafeatures(DataMetafeatures):
         
         # Calculate additional features
         additional_features = {}
+        if advanced == True:
         
-        # Combine all features into a single time series
-        combined_series = data_2d.flatten()
-        logging.debug(f"Combined series: {combined_series}")
-        
-        # Calculate quantiles
-        quantiles = np.percentile(combined_series, [25, 50, 75])
-        logging.debug(f"Quantiles: {quantiles}")
-        
-        # Calculate autocorrelation and partial autocorrelation
-        autocorr = acf(combined_series, nlags=1)
-        logging.debug(f"Autocorrelation: {autocorr}")
-        if len(combined_series) > 2:
-            partial_autocorr = pacf(combined_series, nlags=min(1, len(combined_series) // 2 - 1))
-        else:
-            partial_autocorr = [np.nan]  # or some default value
-        logging.debug(f"Partial Autocorrelation: {partial_autocorr}")
-        
-        if len(autocorr) > 1:
-            autocorr_lag1 = autocorr[1]
-        else:
-            autocorr_lag1 = np.nan  # or some default value
-        
-        if len(partial_autocorr) > 1:
-            partial_autocorr_lag1 = partial_autocorr[1]
-        else:
-            partial_autocorr_lag1 = np.nan  # or some default value
-        
-        # Decompose the combined time series to extract trend and seasonality
-        if len(combined_series) >= 24:  # Check if we have enough data for a period of 12
-            decomposition = seasonal_decompose(combined_series, period=12, model='additive', extrapolate_trend='freq')
-            trend = decomposition.trend
-            seasonal = decomposition.seasonal
-            trend_strength = np.nanmean(trend)
-            seasonal_strength = np.nanmean(seasonal)
-            logging.debug(f"Trend: {trend}")
-            logging.debug(f"Seasonal: {seasonal}")
-        else:
-            trend_strength = np.nan
-            seasonal_strength = np.nan
-        
-        additional_features.update({
-            "combined_quantile_25": quantiles[0],
-            "combined_quantile_50": quantiles[1],
-            "combined_quantile_75": quantiles[2],
-            "combined_autocorr_lag1": autocorr_lag1,
-            "combined_partial_autocorr_lag1": partial_autocorr_lag1,
-            "combined_trend_strength": trend_strength,
-            "combined_seasonal_strength": seasonal_strength,
-        })
+            # Combine all features into a single time series
+            combined_series = data_2d.flatten()
+            logging.debug(f"Combined series: {combined_series}")
+            
+            # Calculate quantiles
+            quantiles = np.percentile(combined_series, [25, 50, 75])
+            logging.debug(f"Quantiles: {quantiles}")
+            
+            # Calculate autocorrelation and partial autocorrelation
+            autocorr = acf(combined_series, nlags=1)
+            logging.debug(f"Autocorrelation: {autocorr}")
+            if len(combined_series) > 2:
+                partial_autocorr = pacf(combined_series, nlags=min(1, len(combined_series) // 2 - 1))
+            else:
+                partial_autocorr = [np.nan]  # or some default value
+            logging.debug(f"Partial Autocorrelation: {partial_autocorr}")
+            
+            if len(autocorr) > 1:
+                autocorr_lag1 = autocorr[1]
+            else:
+                autocorr_lag1 = np.nan  # or some default value
+            
+            if len(partial_autocorr) > 1:
+                partial_autocorr_lag1 = partial_autocorr[1]
+            else:
+                partial_autocorr_lag1 = np.nan  # or some default value
+            
+            # Decompose the combined time series to extract trend and seasonality
+            if len(combined_series) >= 24:  # Check if we have enough data for a period of 12
+                decomposition = seasonal_decompose(combined_series, period=12, model='additive', extrapolate_trend='freq')
+                trend = decomposition.trend
+                seasonal = decomposition.seasonal
+                trend_strength = np.nanmean(trend)
+                seasonal_strength = np.nanmean(seasonal)
+                logging.debug(f"Trend: {trend}")
+                logging.debug(f"Seasonal: {seasonal}")
+            else:
+                trend_strength = np.nan
+                seasonal_strength = np.nan
+            
+            additional_features.update({
+                "combined_quantile_25": quantiles[0],
+                "combined_quantile_50": quantiles[1],
+                "combined_quantile_75": quantiles[2],
+                "combined_autocorr_lag1": autocorr_lag1,
+                "combined_partial_autocorr_lag1": partial_autocorr_lag1,
+                "combined_trend_strength": trend_strength,
+                "combined_seasonal_strength": seasonal_strength,
+            })
         
         # Combine pymfe features with additional features
         combined_features = {**pymfe_features, **additional_features}
@@ -949,4 +977,5 @@ class TimeseriesDataMetafeatures(DataMetafeatures):
         for key, value in features.items():
             logging.debug(f"{key:<{max_key_length}} : {value}")
         return None
+    
 from_modality_task = partial(class_from_modality_task, _class="Data_Metafeatures")

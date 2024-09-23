@@ -1,4 +1,4 @@
-.. image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+|image0|
 
 Quickstart with Modlee
 ======================
@@ -80,7 +80,7 @@ terminal/command line:
 
    pip install modlee
 
-.. image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/trimmed_pip_install.gif
+|image1|
 
 Our package is built on top of PyTorch, PyTorch-lightning, MLFlow, and
 more to ensure you can continue developing ML with frameworks that you
@@ -99,7 +99,7 @@ file:
    cd modlee
    pip install .
 
-.. image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/trimmed_git_clone.gif
+|image2|
 
 --------------
 
@@ -113,7 +113,7 @@ key to an environment variable:
 
    export MODLEE_API_KEY="my-api-key"
 
-.. image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/export%20api.gif
+|image3|
 
 Or pass directly to the ``modlee.init`` function (less recommended):
 
@@ -123,7 +123,7 @@ Or pass directly to the ``modlee.init`` function (less recommended):
    import modlee
    modlee.init(api_key="my-api-key")
 
-.. image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/import%20api.gif
+|image4|
 
 --------------
 
@@ -167,7 +167,9 @@ process with a simple end-to-end example.
    test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
 
    # Create a recommender for image classification tasks
-   recommender = modlee.recommender.from_modality_task(modality='image', task='classification')
+   recommender = modlee.recommender.ImageClassificationRecommender(
+       num_classes=10  
+   )
 
    # Fit the recommender with the training DataLoader
    recommender.fit(training_loader)
@@ -187,8 +189,7 @@ process with a simple end-to-end example.
 
 You should see a recommended model as an output. If you are running into
 issues, please refer to our `Troubleshooting
-Page <https://docs.modlee.ai/notebooks/troubleshooting.html>`__ for more
-help.
+Page <https://docs.modlee.ai/troubleshooting.html>`__ for more help.
 
 --------------
 
@@ -207,15 +208,13 @@ Recommended Next Steps
 
 To further develop your expertise, explore the following:
 
-1. `Visit the Projects
-   Page <https://docs.modlee.ai/notebooks/tutorials.html>`__: Browse our
-   projects page for guided examples and step-by-step instructions.
-   These projects are designed to help you get hands-on experience with
-   Modlee and apply it effectively.
+1. `Visit the Projects Page <https://docs.modlee.ai/tutorial.html>`__:
+   Browse our projects page for guided examples and step-by-step
+   instructions. These projects are designed to help you get hands-on
+   experience with Modlee and apply it effectively.
 
-2. `Dive into the
-   Guides <https://docs.modlee.ai/notebooks/guides.html>`__: Explore
-   Modlee’s in-depth guides to discover advanced features and
+2. `Dive into the Guides <https://docs.modlee.ai/guides.html>`__:
+   Explore Modlee’s in-depth guides to discover advanced features and
    capabilities. These resources offer detailed instructions and
    practical examples to enhance your proficiency.
 
@@ -229,3 +228,9 @@ To further develop your expertise, explore the following:
    Participate in discussions and forums to connect with other users,
    seek advice, and share your experiences. Engaging with the community
    can provide additional support and insights.
+
+.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+.. |image1| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/trimmed_pip_install.gif
+.. |image2| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/trimmed_git_clone.gif
+.. |image3| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/export%20api.gif
+.. |image4| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/import%20api.gif

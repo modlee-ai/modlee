@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modlee Exercise &mdash; modlee 0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=4bcfc4e7" />
+
+  
+    <link rel="shortcut icon" href="../_static/modlee.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=8dde47fa"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            modlee
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">Quickstart with Modlee</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#account-setup">Account Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#python-setup">Python Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#install-python">1. Install Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#set-up-a-virtual-environment-optional-but-recommended">2. Set Up a Virtual Environment (Optional but Recommended)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#install-the-modlee-package">Install the Modlee Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#pypi">PyPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#source">Source</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#set-api-key">Set API Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#how-to-use-modlee-quick-example">How to Use Modlee - Quick Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#supported-use-cases">Supported Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#recommended-next-steps">Recommended Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Projects</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">First Project with Modlee</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#mnist-image-classification-with-modlee-an-end-to-end-tutorial">MNIST Image Classification with Modlee: An End-to-End Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#mnist-dataset">MNIST Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#using-modlee-to-recommend-and-train-a-model">1. Using Modlee to Recommend and Train a Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#custom-model-implementation">2. Custom Model Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#compare-models">3. Compare Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#conclusion">Conclusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#recommended-next-steps">Recommended Next Steps</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides.html">Modlee Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#meta-learning-explained">Meta-Learning Explained</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#how-it-works">How It Works</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#significance-of-meta-learning">Significance of Meta-Learning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#overview-of-meta-features">Overview of Meta Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#defining-meta-features">Defining Meta Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#importance-of-standardizing-meta-features">Importance of Standardizing Meta Features</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#preservation-of-machine-learning-knowledge-with-modlee">Preservation of Machine Learning Knowledge with Modlee</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#automated-experiment-tracking">Automated Experiment Tracking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#benefits">Benefits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#auto-documentation-features">Auto Documentation Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#key-components-of-auto-documentation">Key Components of Auto Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#benefits-of-auto-documentation">Benefits of Auto Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#custom-logging-of-additional-metrics">Custom Logging of Additional Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#data-sharing-with-modlee">Data Sharing with Modlee</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#model-recommendations-by-modlee">Model Recommendations by Modlee</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#input-to-the-model-recommendation-system">Input to the Model Recommendation System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#output-from-the-model-recommendation-system">Output from the Model Recommendation System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#improving-the-model-recommendation-process">Improving the Model Recommendation Process</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#visualizing-experiments-with-mlflow">Visualizing Experiments with MLFlow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#introduction-to-mlflow">Introduction to MLFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#steps-to-launch-mlflow">Steps to Launch MLFlow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#formatting-data-loaders-and-datasets">Formatting Data Loaders and Datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#dataset-guidelines">Dataset Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#proper-data-loader-formatting">Proper Data Loader Formatting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#defining-models-with-modlee">Defining Models with Modlee</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#choosing-the-right-approach-statistical-ml-deep-learning-or-llms">Choosing the Right Approach: Statistical ML, Deep Learning, or LLMs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#statistical-machine-learning-ml">Statistical Machine Learning (ML)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#deep-learning-dl">Deep Learning (DL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#large-language-models-llms">Large Language Models (LLMs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#real-world-application">Real World Application</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#recommended-next-steps">Recommended Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../optimizing_ml_guide.html">Optimizing Your ML Model Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#why-optimization-matters">Why Optimization Matters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#understanding-model-components">Understanding Model Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#layers-and-architecture">Layers and Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#activation-functions">Activation Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#common-optimization-techniques">Common Optimization Techniques</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#hyperparameter-tuning">1. <strong>Hyperparameter Tuning</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#regularization-techniques">2. <strong>Regularization Techniques</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#architecture-adjustments">3. <strong>Architecture Adjustments</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#practical-tips-for-optimization">Practical Tips for Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#interpreting-performance-metrics">Interpreting Performance Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#identifying-overfitting-underfitting">Identifying Overfitting/Underfitting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#using-tools-for-optimization">Using Tools for Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#mlflow-integration">MLFlow Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#case-study-and-example">Case Study and Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#example-1-improving-a-convolutional-neural-network-cnn">Example 1: Improving a Convolutional Neural Network (CNN)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#basic-cnn">Basic CNN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#improved-cnn">Improved CNN</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="recommend.html">Image Classification Model Recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="document.html">Automate Experiment Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tabular_classification_example.html">Tabular Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image_embeddings.html">Image Embeddings With Tabular Classification Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="text_embeddings.html">Text Embeddings With Tabular Classification Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio_embeddings.html">Audio Embeddings With Tabular Classification Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modlee.html">modlee package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../modules/modlee.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.model.html">modlee.model package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.recommender.html">modlee.recommender package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.recommender.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.recommender.html#module-modlee.recommender">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/modlee.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.api_config.html">modlee.api_config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.client.html">modlee.client module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.config.html">modlee.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.converter.html">modlee.converter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.converter.html#modlee.converter.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.dataframes.html">modlee.dataframes module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.model_metafeatures.html">modlee.model_metafeatures module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.model_text_converter.html">modlee.model_text_converter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.retriever.html">modlee.retriever module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_cached_vars"><code class="docutils literal notranslate"><span class="pre">get_cached_vars()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_data_snapshot"><code class="docutils literal notranslate"><span class="pre">get_data_snapshot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_model"><code class="docutils literal notranslate"><span class="pre">get_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_runs"><code class="docutils literal notranslate"><span class="pre">get_runs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.run_dir_exists"><code class="docutils literal notranslate"><span class="pre">run_dir_exists()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.utils.html">modlee.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.quantize_dict"><code class="docutils literal notranslate"><span class="pre">quantize_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/modlee.html#module-modlee">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Troubleshooting</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Identifying and Solving Issues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#installation-issues">Installation Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-installation-errors">Problem: Installation Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-incompatible-package-versions">Problem: Incompatible Package Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#setup-problems">Setup Problems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-configuration-errors">Problem: Configuration Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-unable-to-access-modlee-api">Problem: Unable to Access Modlee API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#model-issues">Model Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-training-process-fails-or-crashes">Problem: Training Process Fails or Crashes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-none-model-recommended">Problem: None Model Recommended</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#environment-issues">Environment Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-google-colab-environment">Problem: Google Colab Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-google-colab-run-out-of-gpu-compute">Problem: Google Colab, Run Out of GPU Compute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#still-need-help">Still Need Help?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Careers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html">Grow Your ML Career with Modlee</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html#real-world-ml-challenges">Real-World ML Challenges</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html#join-the-talent-pool">Join the Talent Pool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html#curated-ml-job-board">Curated ML Job Board</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html#next-steps">Next Steps</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Additional Resources</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#community">Community</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#contributing">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#issues">Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#more-information">More Information</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.dashboard.modlee.ai">modlee Dashboard</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/modlee-ai/modlee">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">modlee</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>Modlee Exercise</strong></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/Modlee_Exercise.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="modlee-exercise">
+<h1><strong>Modlee Exercise</strong><a class="headerlink" href="#modlee-exercise" title="Link to this heading"></a></h1>
+<p>In this exercise, we will be assesing your ability to define a custom
+neural network for optimizing performance on a dataset.</p>
+<p>You will use the <code class="docutils literal notranslate"><span class="pre">modlee</span></code> package to: - Obtain your interview dataset
+and solution requirements - Define custom neural networks (~10) - Use
+Modlee to train neural networks and preserve your experimentation -
+Submit trained neural networks for evaluation</p>
+<section id="expectations">
+<h2>Expectations<a class="headerlink" href="#expectations" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Candidates typically experiment with at least <strong>10</strong> different model
+architectures during this exercise: defining the model, training, and
+submitting for evaluation</p></li>
+</ul>
+</section>
+<section id="tips">
+<h2>Tips<a class="headerlink" href="#tips" title="Link to this heading"></a></h2>
+<p>For best performance, ensure that the runtime is set to use a GPU
+(<code class="docutils literal notranslate"><span class="pre">Runtime</span> <span class="pre">&gt;</span> <span class="pre">Change</span> <span class="pre">runtime</span> <span class="pre">type</span> <span class="pre">&gt;</span> <span class="pre">T4</span> <span class="pre">GPU</span></code>).</p>
+</section>
+<section id="help-questions">
+<h2>Help &amp; Questions<a class="headerlink" href="#help-questions" title="Link to this heading"></a></h2>
+<p>If you have any questions about the interview, please reachout on our
+<a class="reference external" href="https://discord.gg/dncQwFdN9m">Discord</a> #help-exercise channel.</p>
+<p>You can also use our
+<a class="reference external" href="https://docs.modlee.ai/README.html">documenation</a> as a reference for
+using our package.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">modlee</span> <span class="n">torch</span> <span class="n">torchvision</span> <span class="n">pytorch</span><span class="o">-</span><span class="n">lightning</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="environment-setup">
+<h1><strong>Environment setup</strong><a class="headerlink" href="#environment-setup" title="Link to this heading"></a></h1>
+<section id="step-1">
+<h2>Step 1<a class="headerlink" href="#step-1" title="Link to this heading"></a></h2>
+<p>We need to install <code class="docutils literal notranslate"><span class="pre">modlee</span></code> and its related packages. Make sure that
+you have a Modlee account and API key <a class="reference external" href="https://www.dashboard.modlee.ai/">from the
+dashboard</a>.</p>
+<p><strong>NOTE: if you are completing a Modlee Screening Exercise for a job
+interview, make sure that you sign up for a Modlee Account with the same
+email that your invite was sent to.</strong></p>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">&quot;replace-with-your-api-key&quot;</span></code> with your API key. Run the
+following two cells; they will execute successively. This process may
+take a few minutes, so you can <a class="reference external" href="https://docs.modlee.ai/notebooks/document.html">review the
+examples</a> while
+waiting.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+
+<span class="c1"># Set your API key</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="c1">#simulate setting environment variable</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;GZ4a6OoXmCXUHDJGnnGWNofsPrK0YF0i&quot;</span>
+<span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">api_key</span> <span class="o">!=</span> <span class="s2">&quot;replace-with-your-api-key&quot;</span><span class="p">,</span> <span class="s2">&quot;Please update the placeholder for your Modlee API key. See above Installation instructions.&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">autoreload</span> <span class="n">extension</span> <span class="ow">is</span> <span class="n">already</span> <span class="n">loaded</span><span class="o">.</span> <span class="n">To</span> <span class="n">reload</span> <span class="n">it</span><span class="p">,</span> <span class="n">use</span><span class="p">:</span>
+  <span class="o">%</span><span class="n">reload_ext</span> <span class="n">autoreload</span>
+</pre></div>
+</div>
+</section>
+<section id="step-2">
+<h2>Step 2<a class="headerlink" href="#step-2" title="Link to this heading"></a></h2>
+<p>Time to import our packages for this exercise.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span><span class="nn">zipfile</span><span class="o">,</span><span class="nn">shutil</span><span class="o">,</span><span class="nn">requests</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">import</span> <span class="nn">torch.jit</span> <span class="k">as</span> <span class="nn">jit</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">import</span> <span class="nn">modlee</span>
+<span class="kn">from</span> <span class="nn">modlee.recommender</span> <span class="kn">import</span> <span class="n">from_modality_task</span> <span class="k">as</span> <span class="n">trainer_for_modality_task</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">tarushsingh</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">Python</span><span class="o">/</span><span class="n">Modlee</span><span class="o">/</span><span class="n">modlee_pypi</span><span class="o">/</span><span class="n">venv</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">tqdm</span><span class="o">/</span><span class="n">auto</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">21</span><span class="p">:</span> <span class="n">TqdmWarning</span><span class="p">:</span> <span class="n">IProgress</span> <span class="ow">not</span> <span class="n">found</span><span class="o">.</span> <span class="n">Please</span> <span class="n">update</span> <span class="n">jupyter</span> <span class="ow">and</span> <span class="n">ipywidgets</span><span class="o">.</span> <span class="n">See</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">ipywidgets</span><span class="o">.</span><span class="n">readthedocs</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">en</span><span class="o">/</span><span class="n">stable</span><span class="o">/</span><span class="n">user_install</span><span class="o">.</span><span class="n">html</span>
+  <span class="kn">from</span> <span class="nn">.autonotebook</span> <span class="kn">import</span> <span class="n">tqdm</span> <span class="k">as</span> <span class="n">notebook_tqdm</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="exercise-setup">
+<h1><strong>Exercise setup</strong><a class="headerlink" href="#exercise-setup" title="Link to this heading"></a></h1>
+<p>Please update <code class="docutils literal notranslate"><span class="pre">exercise_id</span></code>, <code class="docutils literal notranslate"><span class="pre">exercise_modality</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">exercise_task</span></code> below.</p>
+<p>If you are completing a Screening Exercise for an organization please
+copy the <code class="docutils literal notranslate"><span class="pre">exercise_id</span></code>, <code class="docutils literal notranslate"><span class="pre">exercise_modality</span></code>, and <code class="docutils literal notranslate"><span class="pre">exercise_task</span></code>
+given to you in your invite email and paste below.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exercise_id</span> <span class="o">=</span> <span class="s1">&#39;TS-M4_GM_A_E_H__323565277395&#39;</span>
+<span class="n">exercise_modality</span> <span class="o">=</span> <span class="s1">&#39;time_series&#39;</span>
+<span class="n">exercise_task</span> <span class="o">=</span> <span class="s1">&#39;prediction&#39;</span>
+<span class="n">model_size_restriction_MB</span> <span class="o">=</span> <span class="s1">&#39;10&#39;</span>
+
+<span class="k">assert</span> <span class="n">exercise_id</span> <span class="o">!=</span> <span class="s2">&quot;replace-with-your-exercise-id&quot;</span><span class="p">,</span> <span class="s2">&quot;Please update the placeholder for your Modlee Exercise ID. See above Installation instructions.&quot;</span>
+<span class="k">assert</span> <span class="n">exercise_modality</span> <span class="o">!=</span> <span class="s2">&quot;replace-with-your-modality&quot;</span><span class="p">,</span> <span class="s2">&quot;Please update the placeholder for your Modlee Exercise ID. See above Installation instructions.&quot;</span>
+<span class="k">assert</span> <span class="n">exercise_task</span> <span class="o">!=</span> <span class="s2">&quot;replace-with-your-exercise-task&quot;</span><span class="p">,</span> <span class="s2">&quot;Please update the placeholder for your Modlee Exercise Task. See above Installation instructions.&quot;</span>
+<span class="k">assert</span> <span class="n">model_size_restriction_MB</span> <span class="o">!=</span> <span class="s2">&quot;replace-with-your-model_size_restriction_MB&quot;</span><span class="p">,</span> <span class="s2">&quot;Please update the placeholder for your Modlee Exercise model_size_restriction_MB. See above Installation instructions.&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="dataset-setup">
+<h1><strong>Dataset setup</strong><a class="headerlink" href="#dataset-setup" title="Link to this heading"></a></h1>
+<p><strong>Please do not make changes to the following cell</strong></p>
+<p>For the machine learning interview exercise, the dataset has already
+been prepared for you. Please utilize the provided code snippet below to
+configure your environment appropriately. This dataset is a carefully
+curated blend of publicly available datasets, designed to assess
+specific competencies in model development and performance evaluation.
+As the focus of this exercise is not on data manipulation, you are
+requested not to make any modifications to the dataloader settings. This
+ensures that you can direct your efforts towards strategic model
+building and analysis tasks.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">root_url</span> <span class="o">=</span> <span class="s1">&#39;https://evalserver.modlee.ai:6060&#39;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">root_url</span><span class="si">}</span><span class="s2">/get-interview-utils&quot;</span>  <span class="c1"># Change the port if your Flask app is running on a different one</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;api_key&#39;</span><span class="p">:</span> <span class="n">api_key</span><span class="p">,</span><span class="s1">&#39;exercise_id&#39;</span><span class="p">:</span><span class="n">exercise_id</span><span class="p">})</span>
+
+<span class="c1"># Check if the request was successful</span>
+<span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;interview_utils.py&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">8192</span><span class="p">):</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;File downloaded and saved as interview_utils.py&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to download file:&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">interview_utils</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">interview_utils</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span><span class="n">submit</span>
+
+<span class="n">train_dataloader</span><span class="p">,</span> <span class="n">val_dataloader</span><span class="p">,</span> <span class="n">train_dataloader_shape</span><span class="p">,</span> <span class="n">val_dataloader_shape</span> <span class="o">=</span> <span class="n">setup</span><span class="p">(</span><span class="n">api_key</span><span class="p">,</span><span class="n">exercise_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">File</span> <span class="n">downloaded</span> <span class="ow">and</span> <span class="n">saved</span> <span class="k">as</span> <span class="n">interview_utils</span><span class="o">.</span><span class="n">py</span>
+<span class="n">File</span> <span class="n">downloaded</span> <span class="n">successfully</span><span class="p">:</span> <span class="o">./</span><span class="n">modlee_interview_data</span><span class="o">/</span><span class="n">modlee_interview_data</span><span class="o">.</span><span class="n">zip</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># DO NOT MODIFY</span>
+<span class="n">input_size</span> <span class="o">=</span> <span class="n">train_dataloader_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">output_size</span> <span class="o">=</span> <span class="n">train_dataloader_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">output_seq_len</span> <span class="o">=</span> <span class="n">val_dataloader_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># 7 time steps for prediction</span>
+</pre></div>
+</div>
+</section>
+<section id="define-your-models">
+<h1><strong>Define your models</strong><a class="headerlink" href="#define-your-models" title="Link to this heading"></a></h1>
+<p><strong>Critical segment of your machine learning interview</strong></p>
+<p>Please define and experiment with various deep neural network
+architectures. Your task is to identify and implement a model structure
+that will perform optimally on the provided interview dataset. It is
+essential that your model design adheres to the specified solution
+requirements previously stated. This exercise aims to showcase your
+ability to innovate and apply your ML knowledge effectively in
+developing custom neural network based solutions.</p>
+<p>Please follow our <a class="reference external" href="https://docs.modlee.ai/notebooks/model_definition_guidelines.html">Custom Model Definition
+Guidelines</a>
+throughout your experimentation to ensure your submitions are evaluated
+properly.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">------------------------------------------------</span>
+<span class="sd">TODO: Make Changes Here</span>
+<span class="sd">------------------------------------------------</span>
+<span class="sd">   ExampleLSTM is defined just to get you started.</span>
+<span class="sd">   Please experiment with many models searching for the best.</span>
+<span class="sd">   We recommend experimenting with at least 10 different models in this exercise.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="k">class</span> <span class="nc">ExampleLSTM</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">output_size</span><span class="p">,</span> <span class="n">output_seq_len</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ExampleLSTM</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lstm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_seq_len</span> <span class="o">=</span> <span class="n">output_seq_len</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># x: [batch_size, seq_len, input_size] where seq_len=10</span>
+        <span class="n">lstm_out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lstm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="c1"># Initialize an empty list to store the outputs for each of the 5 future time steps</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Use the hidden state from the last time step to predict each future time step</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_seq_len</span><span class="p">):</span>
+            <span class="n">out_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">lstm_out</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span>  <span class="c1"># Use the last hidden state to predict each step</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out_step</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Concatenate all time steps to form the output sequence</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">-------------------------------------------------</span>
+<span class="sd">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+<pre class="literal-block">'n-------------------------------------------------n'</pre>
+</section>
+<section id="train-your-models">
+<h1><strong>Train your models</strong><a class="headerlink" href="#train-your-models" title="Link to this heading"></a></h1>
+<p><strong>Please do not make changes to the following cell</strong></p>
+<p>In this phase of your machine learning interview exercise, you are
+tasked with training your previously defined model using Modlee’s
+advanced training infrastructure. Our trainers, specifically the
+trainer_for_modality_task instances, are equipped with robust
+out-of-the-box training features such as learning rate decay, early
+stopping, and more. Please utilize these settings to train your model.
+This approach is not only designed to streamline the training process
+but also allows us to assess your proficiency in optimizing and refining
+deep learning models through architectural adjustments. This step is
+crucial in demonstrating your ability to enhance model performance
+within given constraints.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">  ------------------------------------------------</span>
+<span class="sd">  TODO: Make Changes Here</span>
+<span class="sd">  ------------------------------------------------</span>
+<span class="sd">  Define parameters, training loop validation step</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="c1"># JUST FOR CONTEXT - Since this is not supported in the package just yet,</span>
+<span class="c1"># we need to train manually, when it is supported, we will train like this</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      modlee.mlflow.end_run()</span>
+
+<span class="sd">      trainer = trainer_for_modality_task(</span>
+<span class="sd">          modality=exercise_modality,</span>
+<span class="sd">          task=exercise_task,</span>
+<span class="sd">          )</span>
+
+<span class="sd">      trainer.dataloader = unzip_train_dataloader</span>
+<span class="sd">      trainer.model = modlee_model</span>
+
+<span class="sd">      trainer.train(max_epochs=10, val_dataloaders=unzip_val_dataloader)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Define parameters</span>
+<span class="n">hidden_size</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">num_layers</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.001</span>
+
+<span class="c1"># Create an instance of the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ExampleLSTM</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">output_size</span><span class="p">,</span> <span class="n">output_seq_len</span><span class="p">)</span>
+
+<span class="c1"># Define loss function and optimizer</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">)</span>
+
+<span class="c1"># Training Loop</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">):</span>
+        <span class="c1"># Forward pass</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+
+        <span class="c1"># Backward and optimize</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s1">], Step [</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">)</span><span class="si">}</span><span class="s1">], Loss: </span><span class="si">{</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Validation</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span> <span class="ow">in</span> <span class="n">val_dataloader</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+            <span class="n">val_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s1">], Val Loss: </span><span class="si">{</span><span class="n">val_loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Epoch</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.5550</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.9454</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">2</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.4752</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">2</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.6373</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">3</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.3340</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">3</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.5580</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">4</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2816</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">4</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.3125</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">5</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2822</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">5</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.2786</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">6</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.3097</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">6</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.3103</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">7</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.3074</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">7</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.5317</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">8</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2729</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">8</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.6105</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">9</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2711</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">9</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.6285</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">10</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2772</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">10</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.6405</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">11</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2452</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">11</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.7388</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">12</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2896</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">12</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.7312</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">13</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2271</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">13</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.7014</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">14</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2480</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">14</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.6967</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">15</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2435</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">15</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.7675</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">16</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2585</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">16</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.7752</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">17</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1967</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">17</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.8271</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">18</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2871</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">18</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.8210</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">19</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2446</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">19</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.7889</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">20</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2468</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">20</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.8230</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">21</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2217</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">21</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.8947</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">22</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2478</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">22</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.8540</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">23</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1834</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">23</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.8605</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">24</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2072</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">24</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.9674</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">25</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2195</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">25</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.9576</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">26</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1978</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">26</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.9416</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">27</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2229</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">27</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0165</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">28</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1985</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">28</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.9364</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">29</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2005</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">29</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.8886</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">30</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2291</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">30</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.9716</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">31</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2135</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">31</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0643</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">32</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1961</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">32</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0557</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">33</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2152</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">33</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0090</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">34</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2292</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">34</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.9589</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">35</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1944</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">35</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0709</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">36</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1860</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">36</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0415</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">37</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1790</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">37</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0340</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">38</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2028</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">38</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.9581</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">39</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2544</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">39</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.9778</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">40</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2133</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">40</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0251</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">41</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2286</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">41</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0224</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">42</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2776</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">42</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0671</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">43</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2283</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">43</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0078</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">44</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2175</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">44</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">2.9865</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">45</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2282</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">45</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0143</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">46</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1744</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">46</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0430</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">47</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2246</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">47</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0490</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">48</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2155</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">48</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0196</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">49</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2282</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">49</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0399</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">50</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2742</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">50</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0428</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">51</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2597</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">51</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0952</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">52</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2356</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">52</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0977</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">53</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2149</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">53</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0633</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">54</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2004</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">54</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0569</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">55</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2017</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">55</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1382</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">56</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2279</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">56</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1224</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">57</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1634</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">57</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1832</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">58</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1819</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">58</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0691</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">59</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2077</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">59</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0989</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">60</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2611</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">60</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1244</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">61</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2280</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">61</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1470</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">62</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2210</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">62</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1471</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">63</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1612</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">63</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1180</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">64</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1810</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">64</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1014</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">65</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2091</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">65</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1247</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">66</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2179</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">66</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1365</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">67</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1915</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">67</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1776</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">68</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1709</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">68</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1189</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">69</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2128</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">69</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1786</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">70</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2307</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">70</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1153</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">71</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2230</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">71</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0782</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">72</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2456</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">72</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1329</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">73</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2187</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">73</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0342</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">74</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1891</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">74</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1082</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">75</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2005</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">75</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0965</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">76</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1799</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">76</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1355</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">77</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2688</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">77</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0981</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">78</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2098</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">78</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1766</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">79</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2357</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">79</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0939</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">80</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1836</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">80</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1668</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">81</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1851</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">81</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.0961</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">82</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2273</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">82</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1469</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">83</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1792</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">83</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1658</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">84</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2357</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">84</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1158</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">85</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2358</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">85</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1836</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">86</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2012</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">86</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1276</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">87</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2197</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">87</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1249</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">88</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2392</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">88</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1583</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">89</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2356</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">89</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1232</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">90</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2009</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">90</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.2113</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">91</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2516</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">91</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1574</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">92</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1560</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">92</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1261</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">93</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1669</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">93</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1279</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">94</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2275</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">94</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1300</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">95</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1971</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">95</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1420</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">96</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1913</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">96</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1417</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">97</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2140</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">97</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1123</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">98</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2357</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">98</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1433</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">99</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.1988</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">99</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1658</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.2057</span>
+<span class="n">Epoch</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Val</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">3.1937</span>
+</pre></div>
+</div>
+</section>
+<section id="evaluate-your-models">
+<h1><strong>Evaluate your models</strong><a class="headerlink" href="#evaluate-your-models" title="Link to this heading"></a></h1>
+<p><strong>Please do not make changes to the following cell</strong></p>
+<p>Please submit your model experiment to Modlee for evaluation. We will
+provide you with detailed feedback including accuracy, model size, and
+additional metrics. Keep in mind that <strong>there are no penalties for
+submitting suboptimal solutions</strong>, so feel free to submit multiple
+models as needed.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">submit</span><span class="p">(</span><span class="n">api_key</span><span class="p">,</span><span class="n">exercise_id</span><span class="p">,</span><span class="n">model</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="n">modlee</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;As a reminder, your exercises model_size_restriction_MB is &#39;</span><span class="p">,</span><span class="n">model_size_restriction_MB</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Request</span> <span class="n">was</span> <span class="n">successful</span><span class="o">.</span>
+<span class="n">Response</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;mean_square_error&#39;</span><span class="p">:</span> <span class="s1">&#39;1.0811&#39;</span><span class="p">,</span> <span class="s1">&#39;model_size (MB)&#39;</span><span class="p">:</span> <span class="s1">&#39;0.26&#39;</span><span class="p">,</span> <span class="s1">&#39;submission_id&#39;</span><span class="p">:</span> <span class="s1">&#39;TS-E-2024-08-25T19:24:48.179727_70738853129&#39;</span><span class="p">}</span>
+<span class="n">As</span> <span class="n">a</span> <span class="n">reminder</span><span class="p">,</span> <span class="n">your</span> <span class="n">exercises</span> <span class="n">model_size_restriction_MB</span> <span class="ow">is</span>  <span class="mi">10</span>
+</pre></div>
+</div>
+</section>
+<section id="great-work-now-keep-exploring-more-models">
+<h1><strong>Great work, now keep exploring more models!</strong><a class="headerlink" href="#great-work-now-keep-exploring-more-models" title="Link to this heading"></a></h1>
+<p>Use the insights gained from each evaluation to iteratively refine your
+model’s architecture. This process is designed to help you optimize your
+solution effectively, utilizing real-world feedback to enhance your
+approach.</p>
+<section id="solution-requirements">
+<h2>Solution Requirements<a class="headerlink" href="#solution-requirements" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Maximize evaluation accuracy</p></li>
+<li><p>Ensure your models don’t go over model size restrictions</p></li>
+</ul>
+</section>
+<section id="id1">
+<h2>Expectations<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Candidates typically experiment with at least <strong>10</strong> different model
+architectures during this exercise: defining the model, training, and
+submitting for evaluation</p></li>
+</ul>
+</section>
+<section id="evaluating-your-performance">
+<h2>Evaluating your performance<a class="headerlink" href="#evaluating-your-performance" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>We want to see your experimenation process so just work as you
+normally would</p></li>
+<li><p>We will take your best model as your final submission, and do not
+penalize sub-optimal submissions. Feel free to submit as many models
+as you want to for evaluation.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Modlee, Inc.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

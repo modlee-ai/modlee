@@ -22,6 +22,7 @@ examples/tmp
 .data*
 .scratch
 
+
 # Assets that get cached
 ./model.py
 ./model.txt
@@ -199,7 +200,7 @@ myenv/
 .gitignore.save
 *.txt
 
-modlee_interview_data/
+*modlee_interview_data/
 newenv/
 newfile.txt
 output.txt

@@ -73,8 +73,9 @@ c. **Define Data Transformations**
     ```python
     transform = transforms.Compose([
     transforms.Resize((224, 224)),  # Resize images to 224x224 pixels
-    transforms.ToTensor(),          # Convert images to tensors
-    transforms.Normalize((0.5,), (0.5,))  # Normalize images (mean=0.5, std=0.5)
+    transforms.Grayscale(num_output_channels=3),  # Convert images to RGB format
+    transforms.ToTensor(),          # Convert images to tensors (PyTorch format)
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # Normalize images with mean and std deviation
     ])
     ```
 
@@ -119,14 +120,13 @@ f. **Initialize the Modlee Recommender**
     We use Modlee to get a recommended model for image classification.
 
     ```python
-    recommender = modlee.recommender.from_modality_task(
-    modality='image',
-    task='classification'
+    recommender = modlee.recommender.ImageClassificationRecommender(
+        num_classes=10  # MNIST has 10 classes (digits 0 to 9)
     )
     ```
 
     *What We Are Doing*:
-    We are initializing the Modlee recommender to obtain a recommended model for image classification. By specifying the `modality` as `image` and the `task` as `classification`, we use Modlee to select a suitable model for our needs.
+    We are initializing the Modlee recommender to obtain a recommended model for image classification. By specifying the number of classes, we use Modlee to select a suitable model for our needs.
 
     *Why We Are Doing It*:
     Using Modlee's recommender simplifies the process of choosing a model by automatically selecting one that is well-suited for image classification tasks, saving time and ensuring a good starting point for our project.
@@ -315,7 +315,8 @@ d. **Train the Custom Model**
     We train the custom model using PyTorch Lightning.
 
     ```python
-    # Create an instance of the LitModel with the given model
+    # Create an instance of the LitModel with an instance of the SimpleCNN model
+    model = SimpleCNN()
     lit_model = LitModel(model)
 
     # Initialize the PyTorch Lightning trainer
@@ -367,7 +368,7 @@ By following these steps, you should now have a solid understanding of how to le
 
 To build on your progress, consider these next steps:
 
-1. **[Check Out the Guides](https://docs.modlee.ai/notebooks/guides.html)**: Explore Modlee's detailed guides to gain deeper insights into advanced features and functionalities. These guides offer step-by-step instructions and practical examples to enhance your understanding.
+1. **[Check Out the Guides](https://docs.modlee.ai/guides.html)**: Explore Modlee's detailed guides to gain deeper insights into advanced features and functionalities. These guides offer step-by-step instructions and practical examples to enhance your understanding.
 
 2. **[Review Examples](https://docs.modlee.ai/notebooks/recommend.html)**: Look through our collection of examples to see Modlee in action across various tasks. These examples can inspire and help you apply Modlee to your projects effectively.
 
