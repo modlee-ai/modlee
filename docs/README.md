@@ -119,7 +119,9 @@ training_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
 
 # Create a recommender for image classification tasks
-recommender = modlee.recommender.from_modality_task(modality='image', task='classification')
+recommender = modlee.recommender.ImageClassificationRecommender(
+    num_classes=10  
+)
 
 # Fit the recommender with the training DataLoader
 recommender.fit(training_loader)
@@ -137,7 +139,7 @@ with modlee.start_run() as run:
         val_dataloaders=test_loader
     )
 ```
-You should see a recommended model as an output. If you are running into issues, please refer to our [Troubleshooting Page](https://docs.modlee.ai/notebooks/troubleshooting.html) for more help. 
+You should see a recommended model as an output. If you are running into issues, please refer to our [Troubleshooting Page](https://docs.modlee.ai/troubleshooting.html) for more help. 
 
 ---
 
@@ -148,11 +150,10 @@ At the moment we support modalities of `images` and `text`, and tasks of `classi
 
 To further develop your expertise, explore the following:
 
-1. [Visit the Projects Page](https://docs.modlee.ai/notebooks/tutorials.html): Browse our projects page for guided examples and step-by-step instructions. These projects are designed to help you get hands-on experience with Modlee and apply it effectively.
+1. [Visit the Projects Page](https://docs.modlee.ai/tutorial.html): Browse our projects page for guided examples and step-by-step instructions. These projects are designed to help you get hands-on experience with Modlee and apply it effectively.
 
-2. [Dive into the Guides](https://docs.modlee.ai/notebooks/guides.html): Explore Modlee’s in-depth guides to discover advanced features and capabilities. These resources offer detailed instructions and practical examples to enhance your proficiency.
+2. [Dive into the Guides](https://docs.modlee.ai/guides.html): Explore Modlee’s in-depth guides to discover advanced features and capabilities. These resources offer detailed instructions and practical examples to enhance your proficiency.
 
 3. [Explore the Examples](https://docs.modlee.ai/notebooks/recommend.html): Check out our collection of examples to see how Modlee is used across various tasks. These examples can spark ideas and show you how to implement Modlee in your projects.
 
 4. [Join the Community](https://docs.modlee.ai/support.html): Participate in discussions and forums to connect with other users, seek advice, and share your experiences. Engaging with the community can provide additional support and insights.
-
