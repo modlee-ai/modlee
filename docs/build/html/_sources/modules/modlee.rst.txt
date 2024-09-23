@@ -21,12 +21,10 @@ Submodules
    modlee.config
    modlee.converter
    modlee.data_metafeatures
-   modlee.exp_loss_logger
-   modlee.loss_sweeper
+   modlee.dataframes
+   modlee.model_metafeatures
    modlee.model_text_converter
-   modlee.modlee_image_model
    modlee.retriever
-   modlee.trainer
    modlee.utils
 
 Module contents
