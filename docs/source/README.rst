@@ -1,4 +1,4 @@
-.. image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+|image1|
 
 Quickstart with Modlee
 ======================
@@ -80,7 +80,7 @@ terminal/command line:
 
    pip install modlee
 
-.. image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/trimmed_pip_install.gif
+|image2|
 
 Our package is built on top of PyTorch, PyTorch-lightning, MLFlow, and
 more to ensure you can continue developing ML with frameworks that you
@@ -99,7 +99,7 @@ file:
    cd modlee
    pip install .
 
-.. image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/trimmed_git_clone.gif
+|image3|
 
 --------------
 
@@ -113,7 +113,7 @@ key to an environment variable:
 
    export MODLEE_API_KEY="my-api-key"
 
-.. image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/export%20api.gif
+|image4|
 
 Or pass directly to the ``modlee.init`` function (less recommended):
 
@@ -123,7 +123,7 @@ Or pass directly to the ``modlee.init`` function (less recommended):
    import modlee
    modlee.init(api_key="my-api-key")
 
-.. image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/import%20api.gif
+|image5|
 
 --------------
 
@@ -229,3 +229,9 @@ To further develop your expertise, explore the following:
    Participate in discussions and forums to connect with other users,
    seek advice, and share your experiences. Engaging with the community
    can provide additional support and insights.
+
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+.. |image2| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/trimmed_pip_install.gif
+.. |image3| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/trimmed_git_clone.gif
+.. |image4| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/export%20api.gif
+.. |image5| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/import%20api.gif

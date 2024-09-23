@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text Embeddings With Tabular Classification Model &mdash; modlee 0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=4bcfc4e7" />
+
+  
+    <link rel="shortcut icon" href="../_static/modlee.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=8dde47fa"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Audio Embeddings With Tabular Classification Model" href="audio_embeddings.html" />
+    <link rel="prev" title="Image Embeddings With Tabular Classification Model" href="image_embeddings.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            modlee
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">Quickstart with Modlee</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#account-setup">Account Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#python-setup">Python Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#install-python">1. Install Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#set-up-a-virtual-environment-optional-but-recommended">2. Set Up a Virtual Environment (Optional but Recommended)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#install-the-modlee-package">Install the Modlee Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#pypi">PyPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#source">Source</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#set-api-key">Set API Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#how-to-use-modlee-quick-example">How to Use Modlee - Quick Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#supported-use-cases">Supported Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#recommended-next-steps">Recommended Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Projects</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">First Project with Modlee</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#mnist-image-classification-with-modlee-an-end-to-end-tutorial">MNIST Image Classification with Modlee: An End-to-End Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#mnist-dataset">MNIST Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#using-modlee-to-recommend-and-train-a-model">1. Using Modlee to Recommend and Train a Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#custom-model-implementation">2. Custom Model Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#compare-models">3. Compare Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#conclusion">Conclusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#recommended-next-steps">Recommended Next Steps</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides.html">Modlee Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#meta-learning-explained">Meta-Learning Explained</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#how-it-works">How It Works</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#significance-of-meta-learning">Significance of Meta-Learning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#overview-of-meta-features">Overview of Meta Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#defining-meta-features">Defining Meta Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#importance-of-standardizing-meta-features">Importance of Standardizing Meta Features</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#preservation-of-machine-learning-knowledge-with-modlee">Preservation of Machine Learning Knowledge with Modlee</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#automated-experiment-tracking">Automated Experiment Tracking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#benefits">Benefits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#auto-documentation-features">Auto Documentation Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#key-components-of-auto-documentation">Key Components of Auto Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#benefits-of-auto-documentation">Benefits of Auto Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#custom-logging-of-additional-metrics">Custom Logging of Additional Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#data-sharing-with-modlee">Data Sharing with Modlee</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#model-recommendations-by-modlee">Model Recommendations by Modlee</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#input-to-the-model-recommendation-system">Input to the Model Recommendation System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#output-from-the-model-recommendation-system">Output from the Model Recommendation System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#improving-the-model-recommendation-process">Improving the Model Recommendation Process</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#visualizing-experiments-with-mlflow">Visualizing Experiments with MLFlow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#introduction-to-mlflow">Introduction to MLFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#steps-to-launch-mlflow">Steps to Launch MLFlow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#formatting-data-loaders-and-datasets">Formatting Data Loaders and Datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#dataset-guidelines">Dataset Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#proper-data-loader-formatting">Proper Data Loader Formatting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#defining-models-with-modlee">Defining Models with Modlee</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#choosing-the-right-approach-statistical-ml-deep-learning-or-llms">Choosing the Right Approach: Statistical ML, Deep Learning, or LLMs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#statistical-machine-learning-ml">Statistical Machine Learning (ML)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#deep-learning-dl">Deep Learning (DL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#large-language-models-llms">Large Language Models (LLMs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides.html#real-world-application">Real World Application</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides.html#recommended-next-steps">Recommended Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../optimizing_ml_guide.html">Optimizing Your ML Model Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#why-optimization-matters">Why Optimization Matters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#understanding-model-components">Understanding Model Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#layers-and-architecture">Layers and Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#activation-functions">Activation Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#common-optimization-techniques">Common Optimization Techniques</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#hyperparameter-tuning">1. <strong>Hyperparameter Tuning</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#regularization-techniques">2. <strong>Regularization Techniques</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#architecture-adjustments">3. <strong>Architecture Adjustments</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#practical-tips-for-optimization">Practical Tips for Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#interpreting-performance-metrics">Interpreting Performance Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#identifying-overfitting-underfitting">Identifying Overfitting/Underfitting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#using-tools-for-optimization">Using Tools for Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#mlflow-integration">MLFlow Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#case-study-and-example">Case Study and Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#example-1-improving-a-convolutional-neural-network-cnn">Example 1: Improving a Convolutional Neural Network (CNN)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#basic-cnn">Basic CNN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#improved-cnn">Improved CNN</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="recommend.html">Image Classification Model Recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="document.html">Automate Experiment Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tabular_classification_example.html">Tabular Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image_embeddings.html">Image Embeddings With Tabular Classification Model</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Text Embeddings With Tabular Classification Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio_embeddings.html">Audio Embeddings With Tabular Classification Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modlee.html">modlee package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../modules/modlee.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.model.html">modlee.model package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model.html#module-modlee.model">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.recommender.html">modlee.recommender package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.recommender.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.recommender.html#module-modlee.recommender">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/modlee.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.api_config.html">modlee.api_config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.client.html">modlee.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.config.html">modlee.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.converter.html">modlee.converter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.converter.html#modlee.converter.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TabularDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TextDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TimeseriesDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_n_samples"><code class="docutils literal notranslate"><span class="pre">get_n_samples()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_4"><code class="docutils literal notranslate"><span class="pre">manipulate_x_4()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_5"><code class="docutils literal notranslate"><span class="pre">manipulate_x_5()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.pad_image_channels"><code class="docutils literal notranslate"><span class="pre">pad_image_channels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_dataloader"><code class="docutils literal notranslate"><span class="pre">sample_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_channels"><code class="docutils literal notranslate"><span class="pre">sample_image_channels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_from_video"><code class="docutils literal notranslate"><span class="pre">sample_image_from_video()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.dataframes.html">modlee.dataframes module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.dataframes.html#modlee.dataframes.DataFrameTransforms"><code class="docutils literal notranslate"><span class="pre">DataFrameTransforms</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.dataframes.html#modlee.dataframes.ModleeDataFrame"><code class="docutils literal notranslate"><span class="pre">ModleeDataFrame</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.dataframes.html#modlee.dataframes.default_transforms"><code class="docutils literal notranslate"><span class="pre">default_transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.model_metafeatures.html">modlee.model_metafeatures module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageClassificationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageClassificationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageSegmentationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageSegmentationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TabularClassificationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularClassificationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TabularModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TimeseriesForecastingModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesForecastingModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TimeseriesModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesModelMetafeatures</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.model_text_converter.html">modlee.model_text_converter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_text_converter.html#modlee.model_text_converter.exhaust_sequence_branch"><code class="docutils literal notranslate"><span class="pre">exhaust_sequence_branch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text"><code class="docutils literal notranslate"><span class="pre">get_code_text()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">get_code_text_for_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_text_converter.html#modlee.model_text_converter.save_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">save_code_text_for_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.retriever.html">modlee.retriever module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_cached_vars"><code class="docutils literal notranslate"><span class="pre">get_cached_vars()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_model"><code class="docutils literal notranslate"><span class="pre">get_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_runs"><code class="docutils literal notranslate"><span class="pre">get_runs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.utils.html">modlee.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.DummyDataset"><code class="docutils literal notranslate"><span class="pre">DummyDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.TimeseriesDataset"><code class="docutils literal notranslate"><span class="pre">TimeseriesDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.class_from_modality_task"><code class="docutils literal notranslate"><span class="pre">class_from_modality_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_dataloader"><code class="docutils literal notranslate"><span class="pre">get_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_imagenette_dataloader"><code class="docutils literal notranslate"><span class="pre">get_imagenette_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_modality_task"><code class="docutils literal notranslate"><span class="pre">get_modality_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.image_loaders"><code class="docutils literal notranslate"><span class="pre">image_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.quantize_dict"><code class="docutils literal notranslate"><span class="pre">quantize_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.tabular_loaders"><code class="docutils literal notranslate"><span class="pre">tabular_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.text_loaders"><code class="docutils literal notranslate"><span class="pre">text_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.timeseries_loader"><code class="docutils literal notranslate"><span class="pre">timeseries_loader</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.timeseries_loaders"><code class="docutils literal notranslate"><span class="pre">timeseries_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/modlee.html#module-modlee">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Troubleshooting</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Identifying and Solving Issues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#installation-issues">Installation Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-installation-errors">Problem: Installation Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-incompatible-package-versions">Problem: Incompatible Package Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#setup-problems">Setup Problems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-configuration-errors">Problem: Configuration Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-unable-to-access-modlee-api">Problem: Unable to Access Modlee API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#model-issues">Model Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-training-process-fails-or-crashes">Problem: Training Process Fails or Crashes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-none-model-recommended">Problem: None Model Recommended</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#environment-issues">Environment Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-google-colab-environment">Problem: Google Colab Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-google-colab-run-out-of-gpu-compute">Problem: Google Colab, Run Out of GPU Compute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#still-need-help">Still Need Help?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Additional Resources</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#community">Community</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#contributing">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#issues">Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support.html#more-information">More Information</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://www.modlee.ai">modlee.ai</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.dashboard.modlee.ai">modlee Dashboard</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.com/channels/1205271955306192936/1205271956098646087">Discord</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/modlee-ai/modlee">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">modlee</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Text Embeddings With Tabular Classification Model</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/text_embeddings.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p><img alt="image1" src="https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg" /></p>
+<section id="text-embeddings-with-tabular-classification-model">
+<h1>Text Embeddings With Tabular Classification Model<a class="headerlink" href="#text-embeddings-with-tabular-classification-model" title="Link to this heading"></a></h1>
+<p>This tutorial will guide you through a step-by-step breakdown of using a
+Multilayer Perceptron (MLP) with embeddings from a pre-trained
+<code class="docutils literal notranslate"><span class="pre">DistilBERT</span></code> model to classify text sentiment from the IMDB movie
+reviews dataset. We’ll cover everything from dataset preprocessing to
+model evaluation, explaining each part in detail.</p>
+<p><a class="reference external" href="https://colab.research.google.com/drive/1oXsl5RtlZFJ6nFu6brGfn639YdYF6PCu?usp=sharing"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>In this section, we import the necessary libraries from <code class="docutils literal notranslate"><span class="pre">PyTorch</span></code> and
+<code class="docutils literal notranslate"><span class="pre">Torchvision</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">DistilBertTokenizer</span><span class="p">,</span> <span class="n">DistilBertModel</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">TensorDataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">import</span> <span class="nn">modlee</span>
+</pre></div>
+</div>
+<p>Now we will set our Modlee API key and initialize the Modlee package.
+Make sure that you have a Modlee account and an API key <a class="reference external" href="https://www.dashboard.modlee.ai/">from the
+dashboard</a>. Replace
+<code class="docutils literal notranslate"><span class="pre">replace-with-your-api-key</span></code> with your API key.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the API key to an environment variable,</span>
+<span class="c1"># to simulate setting this in your shell profile</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;replace-with-your-api-key&quot;</span>
+<span class="n">modlee</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The MLP (Multilayer Perceptron) model is defined here as a neural
+network with three fully connected linear layers. Each layer is followed
+by a <code class="docutils literal notranslate"><span class="pre">ReLU</span></code> activation function.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MLP</span><span class="p">(</span><span class="n">modlee</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">TabularClassificationModleeModel</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>  <span class="c1"># First fully connected layer</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>                   <span class="c1"># ReLU activation</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>          <span class="c1"># Second fully connected layer</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>                   <span class="c1"># ReLU activation</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>   <span class="c1"># Output layer</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Pass input through the model defined in nn.Sequential</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span> <span class="c1"># Calculate the loss</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">loss</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="n">val_batch</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">val_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>  <span class="c1"># Calculate validation loss</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;val_loss&#39;</span><span class="p">:</span> <span class="n">val_loss</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>  <span class="c1"># Define the optimizer</span>
+        <span class="k">return</span> <span class="n">optimizer</span>
+</pre></div>
+</div>
+<p>In this step, we load <code class="docutils literal notranslate"><span class="pre">DistilBERT</span></code>, which is a more compact version of
+<code class="docutils literal notranslate"><span class="pre">BERT</span></code>. The tokenizer is responsible for converting raw text into a
+format that the <code class="docutils literal notranslate"><span class="pre">DistilBERT</span></code> model can understand.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+
+<span class="c1"># Load the pre-trained DistilBERT tokenizer and model</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">DistilBertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;distilbert-base-uncased&#39;</span><span class="p">)</span>
+<span class="n">bert</span> <span class="o">=</span> <span class="n">DistilBertModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;distilbert-base-uncased&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We load the IMDB dataset using the Hugging Face datasets library.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;imdb&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Since processing the entire dataset can be slow, we sample a subset of
+1000 examples from the dataset to speed up computation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sample_subset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">subset_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="c1"># Randomly shuffle dataset indices and select a subset</span>
+    <span class="n">sample_indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randperm</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">))[:</span><span class="n">subset_size</span><span class="p">]</span>
+    <span class="c1"># Select the sampled data based on the shuffled indices</span>
+    <span class="n">sampled_data</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">sample_indices</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">sampled_data</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">DistilBERT</span></code> turns text into numerical embeddings that the model can
+understand. We first preprocess the text by tokenizing and padding it.
+Then, <code class="docutils literal notranslate"><span class="pre">DistilBERT</span></code> generates embeddings for each sentence.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_text_embeddings</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">bert</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
+
+    <span class="c1"># Tokenize the input texts, with padding and truncation to a fixed max length</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">max_length</span><span class="o">=</span><span class="n">max_length</span><span class="p">)</span>
+    <span class="n">input_ids</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;attention_mask&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Get the embeddings from BERT without calculating gradients</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="c1"># Average over the last hidden states to get sentence-level embeddings</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="n">bert</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span>
+                        <span class="n">attention_mask</span><span class="o">=</span><span class="n">attention_mask</span><span class="p">)</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">embeddings</span>
+
+
+<span class="c1"># Precompute embeddings for the entire dataset</span>
+<span class="k">def</span> <span class="nf">precompute_embeddings</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">bert</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
+    <span class="n">texts</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>  <span class="c1"># Extract texts from the dataset</span>
+    <span class="n">embeddings</span> <span class="o">=</span> <span class="n">get_text_embeddings</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">bert</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">max_length</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">embeddings</span>
+</pre></div>
+</div>
+<p>We use <code class="docutils literal notranslate"><span class="pre">train_test_split</span></code> to split the precomputed embeddings and
+their corresponding labels into training and validation sets.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">split_data</span><span class="p">(</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+    <span class="c1"># Split the embeddings and labels into training and validation sets</span>
+    <span class="n">train_embeddings</span><span class="p">,</span> <span class="n">val_embeddings</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">val_labels</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+        <span class="n">embeddings</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">train_embeddings</span><span class="p">,</span> <span class="n">val_embeddings</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">val_labels</span>
+</pre></div>
+</div>
+<p>The training and validation data are batched using the
+<code class="docutils literal notranslate"><span class="pre">PyTorch</span> <span class="pre">DataLoader</span></code>, which ensures efficient processing during
+training.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_dataloaders</span><span class="p">(</span><span class="n">train_embeddings</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">val_embeddings</span><span class="p">,</span> <span class="n">val_labels</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+    <span class="c1"># Create TensorDataset objects for training and validation data</span>
+    <span class="n">train_dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">train_embeddings</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+    <span class="n">val_dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">val_embeddings</span><span class="p">,</span> <span class="n">val_labels</span><span class="p">)</span>
+
+    <span class="c1"># Create DataLoader objects to handle batching and shuffling of data</span>
+    <span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">train_model</span></code> function defines the training loop.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="c1"># Define the loss function and optimizer</span>
+    <span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>  <span class="c1"># Loss function for classification</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>  <span class="c1"># Optimizer to update model weights</span>
+
+    <span class="c1"># Iterate over epochs</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>  <span class="c1"># Set the model to training mode</span>
+        <span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="c1"># Iterate over batches of data</span>
+        <span class="k">for</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+            <span class="n">embeddings</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">embeddings</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">labels</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+            <span class="c1"># Forward pass: compute predictions and loss</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+            <span class="c1"># Backward pass and optimization</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>  <span class="c1"># Clear previous gradients</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>  <span class="c1"># Compute gradients</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>  <span class="c1"># Update model weights</span>
+
+            <span class="n">running_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">embeddings</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Accumulate loss</span>
+
+        <span class="c1"># Print average loss for the epoch</span>
+        <span class="n">epoch_loss</span> <span class="o">=</span> <span class="n">running_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s1">], Loss: </span><span class="si">{</span><span class="n">epoch_loss</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After training, the model is evaluated on the validation set.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>  <span class="c1"># Set the model to evaluation mode</span>
+    <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>  <span class="c1"># Disable gradient calculation for evaluation</span>
+        <span class="c1"># Iterate over validation data</span>
+        <span class="k">for</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">val_loader</span><span class="p">:</span>
+            <span class="n">embeddings</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">embeddings</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">labels</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>  <span class="c1"># Get model predictions</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Get the predicted class labels</span>
+
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">labels</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Update total count</span>
+            <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>  <span class="c1"># Count correct predictions</span>
+
+    <span class="c1"># Calculate and print accuracy</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="p">(</span><span class="n">correct</span> <span class="o">/</span> <span class="n">total</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Accuracy: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, we run the script, which follows these steps: loading and
+sampling the dataset, precomputing embeddings, training the MLP, and
+evaluating the model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="c1"># Load and preprocess a subset of the IMDB dataset</span>
+    <span class="n">train_data</span> <span class="o">=</span> <span class="n">sample_subset</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">],</span> <span class="n">subset_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">test_data</span> <span class="o">=</span> <span class="n">sample_subset</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">],</span> <span class="n">subset_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+    <span class="c1"># Precompute BERT embeddings to speed up training</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Precomputing embeddings for training and testing data...&quot;</span><span class="p">)</span>
+    <span class="n">train_embeddings</span> <span class="o">=</span> <span class="n">precompute_embeddings</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">bert</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+    <span class="n">test_embeddings</span> <span class="o">=</span> <span class="n">precompute_embeddings</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">bert</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Convert labels from lists to tensors</span>
+    <span class="n">train_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+    <span class="n">test_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">test_data</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+
+    <span class="c1"># Split the training data into training and validation sets</span>
+    <span class="n">train_embeddings</span><span class="p">,</span> <span class="n">val_embeddings</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">val_labels</span> <span class="o">=</span> <span class="n">split_data</span><span class="p">(</span><span class="n">train_embeddings</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+
+    <span class="c1"># Create DataLoader instances for batching data</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">32</span>  <span class="c1"># Define batch size</span>
+    <span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span> <span class="o">=</span> <span class="n">create_dataloaders</span><span class="p">(</span><span class="n">train_embeddings</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">val_embeddings</span><span class="p">,</span> <span class="n">val_labels</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+
+    <span class="c1"># Initialize and train the MLP model</span>
+    <span class="n">input_size</span> <span class="o">=</span> <span class="mi">768</span>  <span class="c1"># Output size of BERT embeddings</span>
+    <span class="n">num_classes</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">mlp_text</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">input_size</span><span class="o">=</span><span class="n">input_size</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">num_classes</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Train the model</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Starting training...&quot;</span><span class="p">)</span>
+    <span class="n">train_model</span><span class="p">(</span><span class="n">mlp_text</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="c1"># Evaluate the model&#39;s performance</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Evaluating model...&quot;</span><span class="p">)</span>
+    <span class="n">evaluate_model</span><span class="p">(</span><span class="n">mlp_text</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="image_embeddings.html" class="btn btn-neutral float-left" title="Image Embeddings With Tabular Classification Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="audio_embeddings.html" class="btn btn-neutral float-right" title="Audio Embeddings With Tabular Classification Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Modlee, Inc.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -40,6 +40,7 @@ md_rst:
 	pandoc -s guides.md -o source/guides.rst
 	pandoc -s troubleshooting.md -o source/troubleshooting.rst
 	pandoc -s support.md -o source/support.rst
+	pandoc -s optimizing_ml_guide.md -o source/optimizing_ml_guide.rst
 
 nb_rst:
 	jupyter nbconvert --to rst --output-dir ./source/notebooks/ ../examples/*.ipynb
