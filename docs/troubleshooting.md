@@ -109,13 +109,12 @@ Encountering problems with Modlee? This page provides solutions to the most comm
 
 **Solutions**:
 
-- **Check Input Parameters**: Ensure that the parameters passed to the recommender function are correct. For example, verify that the `modality` and `task` parameters are properly specified and supported by Modlee.
+- **Check Input Parameters**: Ensure that the parameters passed to the recommender function are correct. For example, verify that the `num_classes` parameter is properly specified and supported by Modlee.
   
     ```python
-    recommender = modlee.recommender.from_modality_task(
-        modality='image',
-        task='classification'
-    )
+  recommender = modlee.recommender.ImageClassificationRecommender(
+      num_classes=10 
+  )
     ```
 - **Verify Dataset Compatibility**: Ensure that the dataset you are using is compatible with the recommender's modality and task. The recommender might not be able to suggest a model if the dataset or task does not align with available models.
   

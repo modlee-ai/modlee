@@ -66,16 +66,27 @@ class ModleeCallback(Callback):
         # uses only the first element
         if type(_batch) in [list, tuple]:
             # Get the number of inputs based on the model's signature
+            ## Note: this broke in scenario where n_inputs=1
+            ## Edge case: The dataloader returns a list of tensor of length 1 while the model expects a single tensor
+
             n_inputs = len(inspect.signature(pl_module.forward).parameters)
-            _input = _batch[:n_inputs]
+            if n_inputs == 1:
+                _input = _batch[0]
+                _input = _input.to(pl_module.device)
+            else:
+                _input = _batch[:n_inputs]
+                _input = [i.to(pl_module.device) for i in _input]
         else:
             _input = _batch
+            _input = [i.to(pl_module.device) for i in _input]
             # print(_batch[0].shape)
             # _batch = torch.Tensor(_batch[0])
-        try:
-            _input = _input.to(pl_module.device)
-        except:
-            pass
+
+        # try:
+        #     _input = _input.to(pl_module.device)
+        # except:
+        #     pass
+        
         return _input
 
 
@@ -149,6 +160,7 @@ class LogCodeTextCallback(ModleeCallback):
 
             # ==== METHOD 2 ====
             # Save model as code by converting to a graph through ONNX
+            #### Implement the same logic for try and except error from get_input
             input_dummy = self.get_input(trainer, pl_module)
             onnx_model = modlee_converter.torch2onnx(pl_module, input_dummy=input_dummy)
             onnx_text = modlee_converter.onnx2onnx_text(onnx_model)
@@ -180,10 +192,21 @@ class ModelMetafeaturesCallback(ModleeCallback):
         super().on_train_start(trainer, pl_module)
         # TODO - need to select the Metafeature module based on modality, task,
         # Same with data metafeatures
-        model_mf = self.ModelMetafeatures(pl_module)
+        _input = self.get_input(trainer, pl_module)
+
+        #print(pl_module.device)
+        #print([i.device for i in _input])
+
+        model_mf = self.ModelMetafeatures(pl_module, _input)
         mlflow.log_dict(
-            {**model_mf.properties, **model_mf.embedding}, "model_metafeatures"
+            {**model_mf.properties, 
+             #**model_mf.embedding
+             },
+              "model_metafeatures"
         )
+
+        #print(pl_module.device)
+        #print([i.device for i in _input])
 
 
 class LogONNXCallback(ModleeCallback):
@@ -291,16 +314,10 @@ class DataMetafeaturesCallback(ModleeCallback):
         super().__init__()
         self.data_snapshot_size = data_snapshot_size
         self.DataMetafeatures = DataMetafeatures
-        # self.TimeSeriesDMF = getattr(dmf, "TimeSeriesDataMetafeatures", None)
-        # self.TimeSeriesDMFLog = TimeSeriesDataMetafeatures
+        self.dataloader = None
 
     def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
-        # data, targets = self._get_data_targets(trainer)
-        # data_snapshots = self._get_snapshots_batched(trainer.train_dataloader)
-        # self._save_snapshots_batched(data_snapshots)
-        # log the data statistics
-        # self._log_data_metafeatures(data, targets)
-        logging.info(f"Logging data metafeatures with {self.DataMetafeatures}...")
+
         self._log_data_metafeatures_dataloader(trainer.train_dataloader)
 
         self._log_output_size(trainer, pl_module)
@@ -344,22 +361,19 @@ class DataMetafeaturesCallback(ModleeCallback):
         :param dataloader: The dataloader.
         """
         if self.DataMetafeatures:
-            # breakpoint()
-            # TODO - use data batch and model to get output size
             logging.info(f"Logging data metafeatures with {self.DataMetafeatures}")
-            data_mf = data_metafeatures = self.DataMetafeatures(dataloader)
-            mlflow.log_dict(data_metafeatures._serializable_stats_rep, "stats_rep")
+            
+            # Pass the dataloader to the TimeseriesDataMetafeatures
+            data_mf = self.DataMetafeatures(dataloader=dataloader)  # Ensure dataloader is passed
+            
+            mlflow.log_dict(data_mf.stats_rep, "stats_rep")
             data_mf_dict = {
                 **data_mf.properties,
                 **data_mf.mfe,
             }
-            if hasattr(data_mf, "embedding"):
-                data_mf_dict.update(data_mf.embedding)
-            else:
-                logging.warning("Using base DataMetafeatures, not logging embeddings.")
-            logging.info(f"Logged data metafeatures: {','.join(attrs)}")
-            mlflow.log_dict(
-                _make_serializable(data_mf_dict), "data_metafeatures")
+            # attrs = data_mf_dict.keys()
+            # logging.info(f"Logged data metafeatures: {','.join(attrs)}")
+            mlflow.log_dict(_make_serializable(data_mf_dict), "data_metafeatures")
         else:
             logging.warning("Cannot log data statistics, could not access from server")
 
@@ -372,15 +386,21 @@ class DataMetafeaturesCallback(ModleeCallback):
         """
 
         _input = self.get_input(trainer, pl_module)
-
+        
         try:
             _output = pl_module.forward(_input)
             output_shape = list(_output.shape[1:])
             mlflow.log_param("output_shape", output_shape)
         except:
-            logging.warning(
-                "Cannot log output shape, could not pass batch through network"
-            )
+            ### Not: Add another try statement if lenght of input is 1 and model expects a single tensor pass one single tensor
+            try:
+                _output = pl_module.forward(_input[0])
+                output_shape = list(_output.shape[1:])
+                mlflow.log_param("output_shape", output_shape)
+            except:
+                logging.warning(
+                    "Cannot log output shape, could not pass batch through network"
+                )
 
     def _get_data_targets(self, trainer: Trainer):
         """
@@ -590,8 +610,10 @@ class LogModelCheckpointCallback(pl.callbacks.ModelCheckpoint):
         super().on_fit_end(trainer, pl_module)
 
         # Cleaning up temp_directory
-        shutil.rmtree(self.temp_dir_path)
-
+        if os.path.exists(self.temp_dir_path):
+            shutil.rmtree(self.temp_dir_path)
+        # else:
+        #     print(f"Directory {self.temp_dir_path} does not exist.")
 
 class LogModalityTaskCallback(ModleeCallback):
     """

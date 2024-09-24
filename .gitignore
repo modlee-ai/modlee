@@ -22,10 +22,16 @@ examples/tmp
 .data*
 .scratch
 
+
 # Assets that get cached
 ./model.py
 ./model.txt
 ./model_text.txt
+./examples/model.py
+./examples/model.txt
+./tests/end2end_tests/model.py
+./tests/end2end_tests/model.txt
+./tests/scratch
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -199,7 +205,7 @@ myenv/
 .gitignore.save
 *.txt
 
-modlee_interview_data/
+*modlee_interview_data/
 newenv/
 newfile.txt
 output.txt

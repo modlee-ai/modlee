@@ -24,7 +24,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="modlee.recommender package" href="modlee.recommender.html" />
+    <link rel="next" title="modlee.model.tabular_model module" href="modlee.model.tabular_model.html" />
     <link rel="prev" title="modlee.model.model module" href="modlee.model.model.html" /> 
 </head>
 
@@ -134,11 +134,48 @@
 <li class="toctree-l2"><a class="reference internal" href="../guides.html#recommended-next-steps">Recommended Next Steps</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../optimizing_ml_guide.html">Optimizing Your ML Model Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#why-optimization-matters">Why Optimization Matters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#understanding-model-components">Understanding Model Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#layers-and-architecture">Layers and Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#activation-functions">Activation Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#common-optimization-techniques">Common Optimization Techniques</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#hyperparameter-tuning">1. <strong>Hyperparameter Tuning</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#regularization-techniques">2. <strong>Regularization Techniques</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#architecture-adjustments">3. <strong>Architecture Adjustments</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#practical-tips-for-optimization">Practical Tips for Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#interpreting-performance-metrics">Interpreting Performance Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#identifying-overfitting-underfitting">Identifying Overfitting/Underfitting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#using-tools-for-optimization">Using Tools for Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#mlflow-integration">MLFlow Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#case-study-and-example">Case Study and Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#example-1-improving-a-convolutional-neural-network-cnn">Example 1: Improving a Convolutional Neural Network (CNN)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#basic-cnn">Basic CNN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#improved-cnn">Improved CNN</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/recommend.html">Automate Model Recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/recommend.html">Image Classification Model Recommendation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/document.html">Automate Experiment Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/tabular_classification_example.html">Tabular Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/image_embeddings.html">Image Embeddings With Tabular Classification Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/text_embeddings.html">Text Embeddings With Tabular Classification Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/audio_embeddings.html">Audio Embeddings With Tabular Classification Model</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current">
@@ -146,7 +183,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="modlee.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="modlee.model.html">modlee.model package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="modlee.model.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.model.html#module-modlee.model">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.model.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.recommender.html">modlee.recommender package</a><ul>
@@ -157,78 +194,34 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modlee.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modlee.api_config.html">modlee.api_config module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.client.html">modlee.client module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.api_config.html">modlee.api_config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.client.html">modlee.client module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.config.html">modlee.config module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.converter.html">modlee.converter module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modlee.converter.html#modlee.converter.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.data_metafeatures.html">modlee.data_metafeatures module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_4"><code class="docutils literal notranslate"><span class="pre">manipulate_x_4()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_5"><code class="docutils literal notranslate"><span class="pre">manipulate_x_5()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.pad_image_channels"><code class="docutils literal notranslate"><span class="pre">pad_image_channels()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.sample_dataloader"><code class="docutils literal notranslate"><span class="pre">sample_dataloader()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_channels"><code class="docutils literal notranslate"><span class="pre">sample_image_channels()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_from_video"><code class="docutils literal notranslate"><span class="pre">sample_image_from_video()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.exp_loss_logger.html">modlee.exp_loss_logger module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.exp_loss_logger.html#modlee.exp_loss_logger.extract_loss_functions"><code class="docutils literal notranslate"><span class="pre">extract_loss_functions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.exp_loss_logger.html#modlee.exp_loss_logger.get_exp_loss_for_model"><code class="docutils literal notranslate"><span class="pre">get_exp_loss_for_model()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.loss_sweeper.html">modlee.loss_sweeper module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.model_text_converter.html">modlee.model_text_converter module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.model_text_converter.html#modlee.model_text_converter.exhaust_sequence_branch"><code class="docutils literal notranslate"><span class="pre">exhaust_sequence_branch()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.model_text_converter.html#modlee.model_text_converter.get_code_text"><code class="docutils literal notranslate"><span class="pre">get_code_text()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.model_text_converter.html#modlee.model_text_converter.get_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">get_code_text_for_model()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.model_text_converter.html#modlee.model_text_converter.save_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">save_code_text_for_model()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.modlee_image_model.html">modlee.modlee_image_model module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.modlee_image_model.html#modlee.modlee_image_model.ImageCallback"><code class="docutils literal notranslate"><span class="pre">ImageCallback</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.modlee_image_model.html#modlee.modlee_image_model.ModleeImageModel"><code class="docutils literal notranslate"><span class="pre">ModleeImageModel</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.data_metafeatures.html">modlee.data_metafeatures module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.dataframes.html">modlee.dataframes module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.model_metafeatures.html">modlee.model_metafeatures module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modlee.model_text_converter.html">modlee.model_text_converter module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.retriever.html">modlee.retriever module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modlee.retriever.html#modlee.retriever.get_cached_vars"><code class="docutils literal notranslate"><span class="pre">get_cached_vars()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.retriever.html#modlee.retriever.get_data_snapshot"><code class="docutils literal notranslate"><span class="pre">get_data_snapshot()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.retriever.html#modlee.retriever.get_model"><code class="docutils literal notranslate"><span class="pre">get_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.retriever.html#modlee.retriever.get_runs"><code class="docutils literal notranslate"><span class="pre">get_runs()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modlee.retriever.html#modlee.retriever.run_dir_exists"><code class="docutils literal notranslate"><span class="pre">run_dir_exists()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="modlee.trainer.html">modlee.trainer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modlee.utils.html">modlee.utils module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.quantize_dict"><code class="docutils literal notranslate"><span class="pre">quantize_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
 </li>
@@ -264,6 +257,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#still-need-help">Still Need Help?</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Careers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html">Grow Your ML Career with Modlee</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html#real-world-ml-challenges">Real-World ML Challenges</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html#join-the-talent-pool">Join the Talent Pool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html#curated-ml-job-board">Curated ML Job Board</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html#next-steps">Next Steps</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Support</span></p>
 <ul>
@@ -309,181 +310,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-modlee.model.recommended_model">
-<span id="modlee-model-recommended-model-module"></span><h1>modlee.model.recommended_model module<a class="headerlink" href="#module-modlee.model.recommended_model" title="Link to this heading"></a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="modlee.model.recommended_model.RecommendedModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modlee.model.recommended_model.</span></span><span class="sig-name descname"><span class="pre">RecommendedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_fn=&lt;function</span> <span class="pre">cross_entropy&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/recommended_model.html#RecommendedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.recommended_model.RecommendedModel" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="modlee.model.model.html#modlee.model.model.ModleeModel" title="modlee.model.model.ModleeModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModleeModel</span></code></a></p>
-<p>A ready-to-train ModleeModel that wraps around a recommended model from the recommender.
-Contains default functions for training.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.model.recommended_model.RecommendedModel.configure_callbacks">
-<span class="sig-name descname"><span class="pre">configure_callbacks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/recommended_model.html#RecommendedModel.configure_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.recommended_model.RecommendedModel.configure_callbacks" title="Link to this definition"></a></dt>
-<dd><p>Configure callbacks for auto-documentation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list of callbacks for auto-documentation.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.model.recommended_model.RecommendedModel.configure_optimizers">
-<span class="sig-name descname"><span class="pre">configure_optimizers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/recommended_model.html#RecommendedModel.configure_optimizers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.recommended_model.RecommendedModel.configure_optimizers" title="Link to this definition"></a></dt>
-<dd><p>Configure a default AdamW optimizer with learning rate decay.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.model.recommended_model.RecommendedModel.forward">
-<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/recommended_model.html#RecommendedModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.recommended_model.RecommendedModel.forward" title="Link to this definition"></a></dt>
-<dd><p>Same as <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.nn.Module.forward()</span></code>.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p><a href="#id1"><span class="problematic" id="id2">*</span></a>args: Whatever you decide to pass into the forward method.
-<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Keyword arguments are also possible.</p>
-</dd>
-<dt>Return:</dt><dd><p>Your model’s output</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.model.recommended_model.RecommendedModel.on_train_epoch_end">
-<span class="sig-name descname"><span class="pre">on_train_epoch_end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/modlee/model/recommended_model.html#RecommendedModel.on_train_epoch_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.recommended_model.RecommendedModel.on_train_epoch_end" title="Link to this definition"></a></dt>
-<dd><p>Update the learning rate scheduler.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.model.recommended_model.RecommendedModel.training_step">
-<span class="sig-name descname"><span class="pre">training_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/recommended_model.html#RecommendedModel.training_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.recommended_model.RecommendedModel.training_step" title="Link to this definition"></a></dt>
-<dd><p>Here you compute and return the training loss and some additional metrics for e.g. the progress bar or
-logger.</p>
-<dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>batch (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code> | (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>, …) | [<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>, …]):</dt><dd><p>The output of your <code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code>. A tensor, tuple or list.</p>
-</dd>
-</dl>
-<p>batch_idx (<code class="docutils literal notranslate"><span class="pre">int</span></code>): Integer displaying index of this batch</p>
-</dd>
-<dt>Return:</dt><dd><p>Any of.</p>
-<ul class="simple">
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code> - The loss tensor</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">dict</span></code> - A dictionary. Can include any keys, but must include the key <code class="docutils literal notranslate"><span class="pre">'loss'</span></code></p></li>
-<li><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">None</span></code> - Training will skip to the next batch. This is only for automatic optimization.</dt><dd><p>This is not supported for multi-GPU, TPU, IPU, or DeepSpeed.</p>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-<p>In this step you’d normally do the forward pass and calculate the loss for a batch.
-You can also do fancier things like multiple forward passes or something model specific.</p>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">batch</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">loss</span>
-</pre></div>
-</div>
-<p>To use multiple optimizers, you can switch to ‘manual optimization’ and control their stepping:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">automatic_optimization</span> <span class="o">=</span> <span class="kc">False</span>
-
-
-<span class="c1"># Multiple optimizers (e.g.: GANs)</span>
-<span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
-    <span class="n">opt1</span><span class="p">,</span> <span class="n">opt2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizers</span><span class="p">()</span>
-
-    <span class="c1"># do training_step with encoder</span>
-    <span class="o">...</span>
-    <span class="n">opt1</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-    <span class="c1"># do training_step with decoder</span>
-    <span class="o">...</span>
-    <span class="n">opt2</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-</pre></div>
-</div>
-<dl class="simple">
-<dt>Note:</dt><dd><p>When <code class="docutils literal notranslate"><span class="pre">accumulate_grad_batches</span></code> &gt; 1, the loss returned here will be automatically
-normalized by <code class="docutils literal notranslate"><span class="pre">accumulate_grad_batches</span></code> internally.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="modlee.model.recommended_model.RecommendedModel.validation_step">
-<span class="sig-name descname"><span class="pre">validation_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val_batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/modlee/model/recommended_model.html#RecommendedModel.validation_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modlee.model.recommended_model.RecommendedModel.validation_step" title="Link to this definition"></a></dt>
-<dd><p>Operates on a single batch of data from the validation set. In this step you’d might generate examples or
-calculate anything of interest like accuracy.</p>
-<dl>
-<dt>Args:</dt><dd><p>batch: The output of your <code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code>.
-batch_idx: The index of this batch.
-dataloader_idx: The index of the dataloader that produced this batch.</p>
-<blockquote>
-<div><p>(only if multiple val dataloaders used)</p>
-</div></blockquote>
-</dd>
-<dt>Return:</dt><dd><ul class="simple">
-<li><p>Any object or value</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> - Validation will skip to the next batch</p></li>
-</ul>
-</dd>
-</dl>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># if you have one val dataloader:</span>
-<span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
-    <span class="o">...</span>
-
-
-<span class="c1"># if you have multiple val dataloaders:</span>
-<span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">dataloader_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="o">...</span>
-</pre></div>
-</div>
-<p>Examples:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># CASE 1: A single validation dataset</span>
-<span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>
-
-    <span class="c1"># implement your own</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-
-    <span class="c1"># log 6 example images</span>
-    <span class="c1"># or generated text... or whatever</span>
-    <span class="n">sample_imgs</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span>
-    <span class="n">grid</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">sample_imgs</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span><span class="s1">&#39;example_images&#39;</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-
-    <span class="c1"># calculate acc</span>
-    <span class="n">labels_hat</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">val_acc</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">labels_hat</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.0</span><span class="p">)</span>
-
-    <span class="c1"># log the outputs!</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">log_dict</span><span class="p">({</span><span class="s1">&#39;val_loss&#39;</span><span class="p">:</span> <span class="n">loss</span><span class="p">,</span> <span class="s1">&#39;val_acc&#39;</span><span class="p">:</span> <span class="n">val_acc</span><span class="p">})</span>
-</pre></div>
-</div>
-<p>If you pass in multiple val dataloaders, <a class="reference internal" href="#modlee.model.recommended_model.RecommendedModel.validation_step" title="modlee.model.recommended_model.RecommendedModel.validation_step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">validation_step()</span></code></a> will have an additional argument. We recommend
-setting the default value of 0 so that you can quickly switch between single and multiple dataloaders.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># CASE 2: multiple validation dataloaders</span>
-<span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">dataloader_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="c1"># dataloader_idx tells you which dataset this is.</span>
-    <span class="o">...</span>
-</pre></div>
-</div>
-<dl class="simple">
-<dt>Note:</dt><dd><p>If you don’t need to validate you don’t need to implement this method.</p>
-</dd>
-<dt>Note:</dt><dd><p>When the <a class="reference internal" href="#modlee.model.recommended_model.RecommendedModel.validation_step" title="modlee.model.recommended_model.RecommendedModel.validation_step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">validation_step()</span></code></a> is called, the model has been put in eval mode
-and PyTorch gradients have been disabled. At the end of validation,
-the model goes back to training mode and gradients are enabled.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+  <section id="modlee-model-recommended-model-module">
+<h1>modlee.model.recommended_model module<a class="headerlink" href="#modlee-model-recommended-model-module" title="Link to this heading"></a></h1>
 </section>
 
 
@@ -491,7 +319,7 @@ the model goes back to training mode and gradients are enabled.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="modlee.model.model.html" class="btn btn-neutral float-left" title="modlee.model.model module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="modlee.recommender.html" class="btn btn-neutral float-right" title="modlee.recommender package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="modlee.model.tabular_model.html" class="btn btn-neutral float-right" title="modlee.model.tabular_model module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

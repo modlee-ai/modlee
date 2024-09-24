@@ -1,7 +1,9 @@
-.. image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+|image0|
 
-Automate Model Recommendation
-=============================
+.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+
+Image Classification Model Recommendation
+=========================================
 
 This example notebook uses the ``modlee`` package to train a recommended
 model. We will perform image classification on CIFAR10 from
@@ -33,14 +35,14 @@ First, import ``torch``- and ``modlee``-related packages.
    import torch, torchvision
    import torchvision.transforms as transforms
 
-First, initialize the package.
+Next, initialize the package.
 
 .. code:: python
 
    import modlee
    modlee.init(api_key=os.environ.get('MODLEE_API_KEY'))
 
-Next, we create a dataloader from CIFAR10.
+Now, we can create a dataloader from CIFAR10.
 
 .. code:: python
 
@@ -67,10 +69,11 @@ The server will return a recommended model for the dataset assigned to
 
 .. code:: python
 
-   recommender = modlee.recommender.from_modality_task(
-       modality='image',
-       task='classification',
-       )
+
+   recommender = modlee.recommender.ImageClassificationRecommender(
+       num_classes=10  
+   )
+
    recommender.fit(train_dataloader)
    modlee_model = recommender.model 
    print(f"\nRecommended model: \n{modlee_model}")

@@ -104,19 +104,3 @@ def get_cached_vars(run_path):
     with open(f"{run_path}/artifacts/cached_vars", "r") as vars_file:
         return json.loads(vars_file.read())
 
-
-def get_data_snapshot(run_path):
-    """
-    Get the saved data snapshot from a run path.
-
-    :param run_path: The run path.
-    :return: The data snapshot as a numpy array.
-    """
-    if not run_path_exists(run_path):
-        return None
-    # Adding new snapshot name to the path following batched processing changes
-    data_snapshot_path = f"{run_path}/artifacts/snapshot_0.npy"
-
-    if not os.path.exists(data_snapshot_path):
-        return None
-    return np.load(data_snapshot_path)
