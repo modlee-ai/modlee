@@ -5,7 +5,7 @@ class Model(torch.nn.Module):
     
     def __init__(self):
         super().__init__()
-        setattr(self,'Conv', torch.nn.modules.conv.Conv2d(**{'in_channels':1,'out_channels':3,'kernel_size':(1, 1),'stride':(1, 1),'padding':(0, 0),'dilation':(1, 1),'groups':1,'padding_mode':'zeros'}))
+        setattr(self,'Conv', torch.nn.modules.conv.Conv2d(**{'in_channels':3,'out_channels':3,'kernel_size':(1, 1),'stride':(1, 1),'padding':(0, 0),'dilation':(1, 1),'groups':1,'padding_mode':'zeros'}))
         setattr(self,'Conv_1', torch.nn.modules.conv.Conv2d(**{'in_channels':3,'out_channels':64,'kernel_size':(7, 7),'stride':(2, 2),'padding':(3, 3),'dilation':(1, 1),'groups':1,'padding_mode':'zeros'}))
         setattr(self,'Relu', torch.nn.modules.activation.ReLU(**{'inplace':False}))
         setattr(self,'MaxPool', torch.nn.modules.pooling.MaxPool2d(**{'kernel_size':[3, 3],'stride':[2, 2],'padding':[1, 1],'dilation':[1, 1],'return_indices':False,'ceil_mode':False}))
@@ -55,7 +55,7 @@ class Model(torch.nn.Module):
         setattr(self,'GlobalAveragePool', onnx2torch.node_converters.global_average_pool.OnnxGlobalAveragePoolWithKnownInputShape(**{'input_shape':[0, 512, 1, 1]}))
         setattr(self,'Flatten', torch.nn.modules.flatten.Flatten(**{'start_dim':1,'end_dim':-1}))
         setattr(self,'Gemm', torch.nn.modules.linear.Linear(**{'in_features':512,'out_features':1000}))
-        setattr(self,'Gemm_1', torch.nn.modules.linear.Linear(**{'in_features':1000,'out_features':2}))
+        setattr(self,'Gemm_1', torch.nn.modules.linear.Linear(**{'in_features':1000,'out_features':10}))
     def forward(self, input_1):
         conv = self.Conv(input_1);  input_1 = None
         conv_1 = self.Conv_1(conv);  conv = None
