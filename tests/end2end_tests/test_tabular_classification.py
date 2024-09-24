@@ -63,12 +63,12 @@ def test_tabular_classifier(num_samples, num_features, num_classes):
     train_dataloader = DataLoader(train_dataset, batch_size=32, shuffle=True)
     test_dataloader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
-    lightning_model = TabularClassifier(input_dim=num_features, num_classes=num_classes).to(device)
+    modlee_model = TabularClassifier(input_dim=num_features, num_classes=num_classes).to(device)
 
     with modlee.start_run() as run:
         trainer = pl.Trainer(max_epochs=1)
         trainer.fit(
-            model=lightning_model,
+            model=modlee_model,
             train_dataloaders=train_dataloader,
             val_dataloaders=test_dataloader
         )
