@@ -27,6 +27,11 @@ examples/tmp
 ./model.py
 ./model.txt
 ./model_text.txt
+./examples/model.py
+./examples/model.txt
+./tests/end2end_tests/model.py
+./tests/end2end_tests/model.txt
+./tests/scratch
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

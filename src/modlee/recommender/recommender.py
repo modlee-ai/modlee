@@ -125,7 +125,7 @@ class Recommender(object):
                 "Access-Control-Allow-Headers": "*",
                 "Access-Control-Allow-Methods": "*",
             },
-            timeout=30,
+            timeout=120,
         )
         #debug this in modlee.client ModleeClient._request
         model_text = res.content
