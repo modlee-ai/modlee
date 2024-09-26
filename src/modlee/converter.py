@@ -287,6 +287,7 @@ class Converter(object):
         :param onnx_text: The ONNX Text
         :return torch_code: The Torch Code
         """
+        # print(onnx_text)
         torch_model = self.onnx_text2torch_model(onnx_text)
         torch_code = self.torch_graph2code(torch_model)
         # Deleting model should free some space
