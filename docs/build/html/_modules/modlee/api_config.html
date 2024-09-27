@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>modlee.recommender &mdash; modlee 0 documentation</title>
+  <title>modlee.api_config &mdash; modlee 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=4bcfc4e7" />
@@ -74,6 +74,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#using-modlee-to-recommend-and-train-a-model">1. Using Modlee to Recommend and Train a Model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#custom-model-implementation">2. Custom Model Implementation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#compare-models">3. Compare Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#view-saved-training-assets">4. View Saved Training Assets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#conclusion">Conclusion</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#recommended-next-steps">Recommended Next Steps</a></li>
 </ul>
@@ -168,6 +169,7 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/recommend.html">Image Classification Model Recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/image_segmentation.html">Image Segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/document.html">Automate Experiment Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/tabular_classification_example.html">Tabular Classification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/image_embeddings.html">Image Embeddings With Tabular Classification Model</a></li>
@@ -180,7 +182,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../modules/modlee.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.model.html">modlee.model package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model.html#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model.html#module-modlee.model">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.recommender.html">modlee.recommender package</a><ul>
@@ -191,34 +193,97 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/modlee.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.api_config.html">modlee.api_config module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.client.html">modlee.client module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.api_config.html">modlee.api_config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.client.html">modlee.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.config.html">modlee.config module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.converter.html">modlee.converter module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.converter.html#modlee.converter.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.dataframes.html">modlee.dataframes module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.model_metafeatures.html">modlee.model_metafeatures module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.model_text_converter.html">modlee.model_text_converter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TabularDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TextDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TimeseriesDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_n_samples"><code class="docutils literal notranslate"><span class="pre">get_n_samples()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_4"><code class="docutils literal notranslate"><span class="pre">manipulate_x_4()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_5"><code class="docutils literal notranslate"><span class="pre">manipulate_x_5()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.pad_image_channels"><code class="docutils literal notranslate"><span class="pre">pad_image_channels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_dataloader"><code class="docutils literal notranslate"><span class="pre">sample_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_channels"><code class="docutils literal notranslate"><span class="pre">sample_image_channels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_from_video"><code class="docutils literal notranslate"><span class="pre">sample_image_from_video()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.dataframes.html">modlee.dataframes module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.dataframes.html#modlee.dataframes.DataFrameTransforms"><code class="docutils literal notranslate"><span class="pre">DataFrameTransforms</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.dataframes.html#modlee.dataframes.ModleeDataFrame"><code class="docutils literal notranslate"><span class="pre">ModleeDataFrame</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.dataframes.html#modlee.dataframes.default_transforms"><code class="docutils literal notranslate"><span class="pre">default_transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.model_metafeatures.html">modlee.model_metafeatures module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageClassificationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageClassificationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageSegmentationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageSegmentationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TabularClassificationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularClassificationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TabularModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TimeseriesForecastingModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesForecastingModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TimeseriesModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesModelMetafeatures</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.model_text_converter.html">modlee.model_text_converter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model_text_converter.html#modlee.model_text_converter.exhaust_sequence_branch"><code class="docutils literal notranslate"><span class="pre">exhaust_sequence_branch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text"><code class="docutils literal notranslate"><span class="pre">get_code_text()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">get_code_text_for_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.model_text_converter.html#modlee.model_text_converter.save_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">save_code_text_for_model()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.retriever.html">modlee.retriever module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.retriever.html#modlee.retriever.get_cached_vars"><code class="docutils literal notranslate"><span class="pre">get_cached_vars()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.retriever.html#modlee.retriever.get_data_snapshot"><code class="docutils literal notranslate"><span class="pre">get_data_snapshot()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.retriever.html#modlee.retriever.get_model"><code class="docutils literal notranslate"><span class="pre">get_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.retriever.html#modlee.retriever.get_runs"><code class="docutils literal notranslate"><span class="pre">get_runs()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.retriever.html#modlee.retriever.run_dir_exists"><code class="docutils literal notranslate"><span class="pre">run_dir_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules/modlee.utils.html">modlee.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.DummyDataset"><code class="docutils literal notranslate"><span class="pre">DummyDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.TimeseriesDataset"><code class="docutils literal notranslate"><span class="pre">TimeseriesDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.class_from_modality_task"><code class="docutils literal notranslate"><span class="pre">class_from_modality_task()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_dataloader"><code class="docutils literal notranslate"><span class="pre">get_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_imagenette_dataloader"><code class="docutils literal notranslate"><span class="pre">get_imagenette_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_modality_task"><code class="docutils literal notranslate"><span class="pre">get_modality_task()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.image_loaders"><code class="docutils literal notranslate"><span class="pre">image_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.quantize_dict"><code class="docutils literal notranslate"><span class="pre">quantize_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.tabular_loaders"><code class="docutils literal notranslate"><span class="pre">tabular_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.text_loaders"><code class="docutils literal notranslate"><span class="pre">text_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.timeseries_loader"><code class="docutils literal notranslate"><span class="pre">timeseries_loader</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.timeseries_loaders"><code class="docutils literal notranslate"><span class="pre">timeseries_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
 </li>
@@ -247,8 +312,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../troubleshooting.html#environment-issues">Environment Issues</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../troubleshooting.html#problem-google-colab-environment">Problem: Google Colab Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../troubleshooting.html#problem-google-colab-run-out-of-gpu-compute">Problem: Google Colab, Run Out of GPU Compute</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../troubleshooting.html#problem-kaggle-notebook-environment">Problem: Kaggle Notebook Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../troubleshooting.html#problem-kaggle-notebook-run-out-of-gpu-compute">Problem: Kaggle Notebook, Run Out of GPU Compute</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../troubleshooting.html#still-need-help">Still Need Help?</a></li>
@@ -297,7 +362,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../modlee.html">modlee</a></li>
-      <li class="breadcrumb-item active">modlee.recommender</li>
+      <li class="breadcrumb-item active">modlee.api_config</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -306,210 +371,101 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for modlee.recommender</h1><div class="highlight"><pre>
-<span></span>
-<span class="kn">from</span> <span class="nn">torchvision.models</span> <span class="kn">import</span> \
-    <span class="n">resnet34</span><span class="p">,</span> <span class="n">ResNet34_Weights</span><span class="p">,</span> \
-    <span class="n">resnet18</span><span class="p">,</span> <span class="n">ResNet18_Weights</span><span class="p">,</span> \
-    <span class="n">resnet152</span><span class="p">,</span> <span class="n">ResNet152_Weights</span>
-<span class="kn">import</span> <span class="nn">torchvision</span>
-<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">functional</span> <span class="k">as</span> <span class="n">F</span>
-<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
-<span class="kn">import</span> <span class="nn">torch</span>
+  <h1>Source code for modlee.api_config</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">modlee</span>
-<span class="kn">from</span> <span class="nn">modlee.converter</span> <span class="kn">import</span> <span class="n">Converter</span>
-<span class="n">modlee_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">()</span>
-<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">from</span> <span class="nn">.client</span> <span class="kn">import</span> <span class="n">ModleeClient</span>
 
 
-<div class="viewcode-block" id="Recommender">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.Recommender">[docs]</a>
-<span class="k">class</span> <span class="nc">Recommender</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="ModleeAPIConfig">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig">[docs]</a>
+<span class="k">class</span> <span class="nc">ModleeAPIConfig</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Recommends models given a dataset</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        object (_type_): _description_</span>
+<span class="sd">    Singleton class to manage API configuration and client initialization for Modlee.</span>
+<span class="sd">    Ensures that only one instance of the configuration exists and handles API key validation and client setup.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">meta_features</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_instance</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Wrapper to analyze</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="sd">        Creates a new instance of the class if it doesn&#39;t already exist.</span>
+<span class="sd">        Initializes the API key from the environment variable and sets up the Modlee client.</span>
 
-<div class="viewcode-block" id="Recommender.analyze">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.Recommender.analyze">[docs]</a>
-    <span class="k">def</span> <span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="sd">        :return: The singleton instance of ModleeAPIConfig.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">ModleeAPIConfig</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MODLEE_API_KEY&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span><span class="o">.</span><span class="n">api_key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
+
+<div class="viewcode-block" id="ModleeAPIConfig.set_api_key">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.set_api_key">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_api_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set dataloader and calculate meta features</span>
+<span class="sd">        Sets the API key for the Modlee configuration and updates the client.</span>
+<span class="sd">        Reloads the modules to ensure they are using the updated client.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            dataloader (torch.utils.data.DataLoader): The dataloader</span>
+<span class="sd">        :param api_key: The new API key to be set.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span> <span class="o">=</span> <span class="n">dataloader</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">meta_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_meta_features</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;MODLEE_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">ModleeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reload_modules</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="Recommender.calculate_meta_features">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.Recommender.calculate_meta_features">[docs]</a>
-    <span class="k">def</span> <span class="nf">calculate_meta_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">modlee</span><span class="o">.</span><span class="n">data_stats</span><span class="o">.</span><span class="n">module_available</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data fingerprinting...&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">modlee</span><span class="o">.</span><span class="n">data_stats</span><span class="o">.</span><span class="n">DataStats</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">testing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">stats_rep</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Could not fingerprint data (check access to server)&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">{}</span></div>
-
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s1">&#39;No model recommendation, call .analyze on a dataloader first.&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span>
-
-    <span class="nd">@model</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model</span></div>
-
-
-
-<div class="viewcode-block" id="DumbRecommender">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.DumbRecommender">[docs]</a>
-<span class="k">class</span> <span class="nc">DumbRecommender</span><span class="p">(</span><span class="n">Recommender</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
-
-
-
-<div class="viewcode-block" id="ActualRecommender">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.ActualRecommender">[docs]</a>
-<span class="k">class</span> <span class="nc">ActualRecommender</span><span class="p">(</span><span class="n">Recommender</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
-
-
-
-<div class="viewcode-block" id="ImageRecommender">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.ImageRecommender">[docs]</a>
-<span class="k">class</span> <span class="nc">ImageRecommender</span><span class="p">(</span><span class="n">Recommender</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
-
-
-
-<div class="viewcode-block" id="ImageClassificationRecommender">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.ImageClassificationRecommender">[docs]</a>
-<span class="k">class</span> <span class="nc">ImageClassificationRecommender</span><span class="p">(</span><span class="n">ImageRecommender</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-
-<div class="viewcode-block" id="ImageClassificationRecommender.analyze">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.ImageClassificationRecommender.analyze">[docs]</a>
-    <span class="k">def</span> <span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ModleeAPIConfig.reload_modules">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.reload_modules">[docs]</a>
+    <span class="k">def</span> <span class="nf">reload_modules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a ready-to-train Lightning model given a dataloader</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            dataloader (_type_): The dataloader to analyze</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            _type_: The Lightning model</span>
+<span class="sd">        Reloads the Modlee-related modules to ensure they are using the updated client.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">classes</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">meta_features</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-            <span class="s1">&#39;num_classes&#39;</span><span class="p">:</span> <span class="n">num_classes</span>
-        <span class="p">})</span>
-        <span class="n">rec_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meta_features</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model_code</span> <span class="o">=</span> <span class="n">modlee_converter</span><span class="o">.</span><span class="n">torch2code</span><span class="p">(</span><span class="n">rec_model</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">raw_model</span> <span class="o">=</span> <span class="n">modlee_converter</span><span class="o">.</span><span class="n">code2torch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_code</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">RecommendedModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_model</span><span class="p">)</span></div>
+        <span class="kn">import</span> <span class="nn">modlee.data_metafeatures</span> <span class="k">as</span> <span class="nn">data_metafeatures</span>
+        <span class="kn">import</span> <span class="nn">modlee.model_text_converter</span> <span class="k">as</span> <span class="nn">model_text_converter</span>
+
+        <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">data_metafeatures</span><span class="p">)</span>
+        <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">model_text_converter</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">model_text_converter</span><span class="o">.</span><span class="n">module_available</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">modlee.model_text_converter</span> <span class="kn">import</span> <span class="p">(</span>
+                <span class="n">get_code_text</span><span class="p">,</span>
+                <span class="n">get_code_text_for_model</span><span class="p">,</span>
+            <span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meta_features</span><span class="p">):</span>
+<div class="viewcode-block" id="ModleeAPIConfig.get_client">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.get_client">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Recommend a model based on meta-features</span>
+<span class="sd">        Returns the Modlee client after ensuring that the API key is correctly set.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            meta_features (_type_): A dictionary of meta-features</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            torch.nn.Module: The recommended model</span>
+<span class="sd">        :return: The Modlee client.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">num_classes</span> <span class="o">=</span> <span class="n">meta_features</span><span class="p">[</span><span class="s1">&#39;num_classes&#39;</span><span class="p">]</span>
-
-        <span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-            <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-                <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span>
-                    <span class="n">weights</span><span class="o">=</span><span class="n">ResNet18_Weights</span><span class="o">.</span><span class="n">IMAGENET1K_V1</span><span class="p">,</span>
-                    <span class="n">progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">model_clf_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
-
-            <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_clf_layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">x</span>
-        <span class="k">return</span> <span class="n">Model</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ensure_api_key</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span></div>
 
 
+<div class="viewcode-block" id="ModleeAPIConfig.ensure_api_key">
+<a class="viewcode-back" href="../../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.ensure_api_key">[docs]</a>
+    <span class="k">def</span> <span class="nf">ensure_api_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ensures that the API key is set and matches the client&#39;s API key.</span>
+<span class="sd">        Logs warnings if the API key is not set or if there is a mismatch.</span>
 
-<div class="viewcode-block" id="RecommendedModel">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.RecommendedModel">[docs]</a>
-<span class="k">class</span> <span class="nc">RecommendedModel</span><span class="p">(</span><span class="n">modlee</span><span class="o">.</span><span class="n">modlee_model</span><span class="o">.</span><span class="n">ModleeModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A ready-to-train ModleeModel that wraps around a recommended model</span>
-<span class="sd">    Defines a basic training pipeline</span>
+<span class="sd">        :return: True if the API key is set and matches the client&#39;s API key, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;API key is not set. Functionality will be limited.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        modlee (_type_): _description_</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="o">=</span><span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">loss_fn</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Stale API key identified, Please ensure the API key used in code and one stored as the environment variable are the same.&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
 
-<div class="viewcode-block" id="RecommendedModel.forward">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.RecommendedModel.forward">[docs]</a>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="RecommendedModel.training_step">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.RecommendedModel.training_step">[docs]</a>
-    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>
-        <span class="n">y_out</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">y_out</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;loss&#39;</span><span class="p">:</span> <span class="n">loss</span><span class="p">}</span></div>
-
-
-<div class="viewcode-block" id="RecommendedModel.validation_step">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.RecommendedModel.validation_step">[docs]</a>
-    <span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">val_batch</span>
-        <span class="n">y_out</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">y_out</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">loss</span></div>
-
-
-<div class="viewcode-block" id="RecommendedModel.configure_optimizers">
-<a class="viewcode-back" href="../../modules/modlee.recommender.html#modlee.recommender.RecommendedModel.configure_optimizers">[docs]</a>
-    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span>
-            <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
-            <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">optimizer</span></div>
+        <span class="k">return</span> <span class="kc">True</span></div>
 </div>
 
 </pre></div>

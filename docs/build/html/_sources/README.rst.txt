@@ -1,4 +1,4 @@
-|image0|
+|image1|
 
 Quickstart with Modlee
 ======================
@@ -80,7 +80,7 @@ terminal/command line:
 
    pip install modlee
 
-|image1|
+|image2|
 
 Our package is built on top of PyTorch, PyTorch-lightning, MLFlow, and
 more to ensure you can continue developing ML with frameworks that you
@@ -99,7 +99,7 @@ file:
    cd modlee
    pip install .
 
-|image2|
+|image3|
 
 --------------
 
@@ -113,7 +113,7 @@ key to an environment variable:
 
    export MODLEE_API_KEY="my-api-key"
 
-|image3|
+|image4|
 
 Or pass directly to the ``modlee.init`` function (less recommended):
 
@@ -123,7 +123,7 @@ Or pass directly to the ``modlee.init`` function (less recommended):
    import modlee
    modlee.init(api_key="my-api-key")
 
-|image4|
+|image5|
 
 --------------
 
@@ -137,23 +137,23 @@ process with a simple end-to-end example.
 .. code:: shell
 
 
-   !pip install --upgrade numpy modlee lightning torch torchvision
+   pip install modlee
 
 .. code:: python
 
 
    import modlee
-   import lightning as pl
+   import lightning.pytorch as pl
    import torch
    import torchvision
    from torch.utils.data import DataLoader
-   from torchvision import transforms
+   from torchvision import datasets, transforms
 
    # Initialize Modlee with your API key
-   modlee.init(api_key="you-api-key")
+   modlee.init(api_key="your-api-key")
 
    transform = transforms.Compose([
-       transforms.Grayscale(num_output_channels=1), 
+       transforms.Grayscale(num_output_channels=1),
        transforms.ToTensor(),
        transforms.Normalize((0.5,), (0.5,))
    ])
@@ -168,7 +168,7 @@ process with a simple end-to-end example.
 
    # Create a recommender for image classification tasks
    recommender = modlee.recommender.ImageClassificationRecommender(
-       num_classes=10  
+       num_classes=10
    )
 
    # Fit the recommender with the training DataLoader
@@ -196,11 +196,11 @@ Page <https://docs.modlee.ai/troubleshooting.html>`__ for more help.
 Supported Use Cases
 -------------------
 
-At the moment we support modalities of ``images`` and ``text``, and
-tasks of ``classification``, with more coming soon. As with
-recommendation, use `Discord <https://discord.com/invite/m8YDbWDvrF>`__
-to let us know which modalities and tasks you’d prefer or help make
-these changes on our
+At the moment we support modalities of ``images``, ``tabular``,
+``time-series``, and ``text``, and tasks of ``classification`` and
+``segmentation``, with more coming soon. As with recommendation, use
+`Discord <https://discord.com/invite/m8YDbWDvrF>`__ to let us know which
+modalities and tasks you’d prefer or help make these changes on our
 `GitHub <https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md>`__.
 
 Recommended Next Steps
@@ -229,8 +229,8 @@ To further develop your expertise, explore the following:
    seek advice, and share your experiences. Engaging with the community
    can provide additional support and insights.
 
-.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
-.. |image1| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/trimmed_pip_install.gif
-.. |image2| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/trimmed_git_clone.gif
-.. |image3| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/export%20api.gif
-.. |image4| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/import%20api.gif
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+.. |image2| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/trimmed_pip_install.gif
+.. |image3| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/trimmed_git_clone.gif
+.. |image4| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/export%20api.gif
+.. |image5| image:: https://raw.githubusercontent.com/mansiagr4/gifs/main/import%20api.gif
