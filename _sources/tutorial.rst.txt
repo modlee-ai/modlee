@@ -1,4 +1,4 @@
-|image0|
+|image1|
 
 First Project with Modlee
 =========================
@@ -32,23 +32,17 @@ MNIST is used to test and compare classification algorithms. In this
 tutorial, we’ll use it to evaluate the performance of models recommended
 by Modlee and a custom-built model.
 
-|Open in Colab|
+|Open in Kaggle|
 
 Prerequisites
 ~~~~~~~~~~~~~
 
-Before starting, ensure you have the following packages installed:
-
--  ``torch``
--  ``torchvision``
--  ``pytorch_lightning``
--  ``modlee``
-
-You can install them using ``pip``:
+Before starting, ensure you have the ``modlee`` package installed. You
+can install it using ``pip``:
 
 .. code:: shell
 
-   pip install torch torchvision pytorch_lightning modlee
+   pip install modlee
 
 1. Using Modlee to Recommend and Train a Model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -62,13 +56,13 @@ a. **Import Required Libraries**
 
    .. code:: python
 
+      import os
+      import lightning.pytorch as pl
       import torchvision.transforms as transforms
       from torchvision.datasets import MNIST
       from torch.utils.data import DataLoader
-      import pytorch_lightning as pl
       import torch
       import modlee
-      import os
 
 b. **Initialize Modlee**
 
@@ -76,7 +70,8 @@ b. **Initialize Modlee**
 
    .. code:: python
 
-      modlee.init(api_key='replace-with-your-API-key')
+      os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
+      modlee.init(api_key=os.environ.get('MODLEE_API_KEY'))
 
 c. **Define Data Transformations**
 
@@ -85,11 +80,11 @@ c. **Define Data Transformations**
    .. code:: python
 
       transform = transforms.Compose([
-      transforms.Resize((224, 224)),  # Resize images to 224x224 pixels
-      transforms.Grayscale(num_output_channels=3),  # Convert images to RGB format
-      transforms.ToTensor(),          # Convert images to tensors (PyTorch format)
-      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # Normalize images with mean and std deviation
-      ])
+      transforms.Resize((224, 224)),  
+      transforms.Grayscale(num_output_channels=3),  
+      transforms.ToTensor(),    
+      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)) 
+      ])  
 
    *What We Are Doing*: We prepare our images for the model by resizing
    them to 224x224 pixels, which ensures consistent input size. We then
@@ -110,8 +105,17 @@ d. **Load the MNIST Dataset**
 
    .. code:: python
 
-      train_dataset = MNIST(root='./data', train=True, download=True, transform=transform)
-      val_dataset = MNIST(root='./data', train=False, download=True, transform=transform)
+      train_dataset = MNIST( 
+      root='./data',
+      train=True, 
+      download=True,
+      transform=transform) 
+
+      val_dataset = MNIST(
+      root='./data',
+      train=False, 
+      download=True,
+      transform=transform)
 
    *What We Are Doing*: We are loading the MNIST dataset by specifying
    the directory to store the data and setting whether we want the
@@ -131,8 +135,14 @@ e. **Create DataLoaders**
 
    .. code:: python
 
-      train_loader = DataLoader(train_dataset, batch_size=4, shuffle=True)
-      val_dataloader = DataLoader(val_dataset, batch_size=4)
+      train_loader = DataLoader( 
+          train_dataset,
+          batch_size=4, 
+          shuffle=True)
+
+      val_dataloader = DataLoader(
+          val_dataset,
+          batch_size=4)
 
    *What We Are Doing*: We are creating ``DataLoaders`` for the training
    and validation datasets. The ``DataLoader`` manages how the data is
@@ -253,10 +263,10 @@ a. **Define the Custom Model**
       class SimpleCNN(nn.Module):
           def __init__(self):
               super(SimpleCNN, self).__init__()
-              # First convolutional layer: takes 1 input channel (e.g., grayscale image), 
+              # First convolutional layer: takes 1 input channel (e.g., grayscale image),
               # outputs 32 feature maps, with a 3x3 kernel and padding of 1
-              self.conv1 = nn.Conv2d(1, 32, kernel_size=3, padding=1)  # MNIST has 1 channel
-              # Second convolutional layer: takes 32 input channels, 
+              self.conv1 = nn.Conv2d(3, 32, kernel_size=3, padding=1)  # MNIST has 1 channel
+              # Second convolutional layer: takes 32 input channels,
               # outputs 64 feature maps, with a 3x3 kernel and padding of 1
               self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
               # Fully connected layer: input size is 64*56*56 (after flattening),
@@ -298,8 +308,8 @@ a. **Define the Custom Model**
 
 b. **Define the PyTorch Lightning Module**
 
-   We wrap the CNN model in a PyTorch Lightning module for training and
-   validation.
+   We wrap the CNN model in a ``PyTorch Lightning`` module for training
+   and validation.
 
    .. code:: python
 
@@ -343,7 +353,7 @@ b. **Define the PyTorch Lightning Module**
               return Adam(self.model.parameters(), lr=1e-3)  # Adam optimizer with a learning rate of 0.001
 
    *What We Are Doing*: We are wrapping our CNN model in a
-   ``PyTorch Lightning module``, ``LitModel``, to streamline the
+   ``PyTorch Lightning`` module, ``LitModel``, to streamline the
    training and validation processes. This module includes methods for
    forward passes, computing loss during training and validation, and
    configuring the optimizer.
@@ -385,13 +395,13 @@ d. **Train the Custom Model**
       lit_model = LitModel(model)
 
       # Initialize the PyTorch Lightning trainer
-      trainer = pl.Trainer(max_epochs=1)  # Set the number of epochs for training
+      trainer = pl.Trainer(max_epochs=1)  
 
       # Start the training process
       trainer.fit(
-          model=lit_model,            # Pass the LitModel instance to the trainer
-          train_dataloaders=train_loader,  # Provide the training data loader
-          val_dataloaders=val_dataloader   # Provide the validation data loader
+          model=lit_model,            
+          train_dataloaders=train_loader,
+          val_dataloaders=val_dataloader   
       )
 
    *What We Are Doing*: We are training the custom CNN model using
@@ -425,6 +435,21 @@ e. **Evaluate the Custom Model**
 
 Finally, compare the performance of the Modlee recommended model with
 the custom model by examining their accuracy on the test set.
+
+4. View Saved Training Assets
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We can view the saved assets from training. With Modlee, your training
+assets are automatically saved, preserving valuable insights for future
+reference and collaboration.
+
+.. code:: python
+
+   last_run_path = modlee.last_run_path()
+   print(f"Run path: {last_run_path}")
+   artifacts_path = os.path.join(last_run_path, 'artifacts')
+   artifacts = sorted(os.listdir(artifacts_path))
+   print(f"Saved artifacts: {artifacts}")
 
 Conclusion
 ~~~~~~~~~~
@@ -469,6 +494,6 @@ To build on your progress, consider these next steps:
    Join discussions and forums to connect with other users, seek advice,
    and share your experiences.
 
-.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
-.. |Open in Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
-   :target: https://colab.research.google.com/drive/1XNr-NXrDhvOjnN5Kwfh2fOB1mkqktgA_#scrollTo=EoHpDb_SFHQS
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+.. |Open in Kaggle| image:: https://kaggle.com/static/images/open-in-kaggle.svg
+   :target: https://www.kaggle.com/code/modlee/modlee-mnist-image-classification
