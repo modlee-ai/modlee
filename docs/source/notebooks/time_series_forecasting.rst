@@ -15,6 +15,8 @@ We’ll use the ``Air Passengers`` dataset to show you how to:
 3. Evaluate Model: Assess the performance of the trained model on the
    test data.
 
+Note: currently `TimeseriesForecastingModleeModel` does not support PyTorch Recurrent Layers.
+
 |Open in Kaggle|
 
 First, we will import the the necessary libraries and set up the

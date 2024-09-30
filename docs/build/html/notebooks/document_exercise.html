@@ -377,74 +377,74 @@
 <p>In this exercise, you will implement the <code class="docutils literal notranslate"><span class="pre">modlee</span></code> package to document
 an image segmentation experiment with a pretrained model from
 <code class="docutils literal notranslate"><span class="pre">torchvision</span></code>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Boilerplate imports</span>
-<span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
-<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
-<span class="kn">import</span> <span class="nn">torchvision</span>
-<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
-<span class="kn">from</span> <span class="nn">torchvision.transforms.functional</span> <span class="kn">import</span> <span class="n">InterpolationMode</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">ssl</span>
-<span class="n">ssl</span><span class="o">.</span><span class="n">_create_default_https_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">_create_unverified_context</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Boilerplate imports
+import lightning.pytorch as pl
+import torch.nn.functional as F
+import torch.nn as nn
+import torch
+from torch.utils.data import DataLoader
+import torchvision
+from torchvision import transforms
+from torchvision.transforms.functional import InterpolationMode
+import os
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 </pre></div>
 </div>
 <p>In the next cell, import <code class="docutils literal notranslate"><span class="pre">modlee</span></code> and initialize with an API key.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Your code goes here. Import the modlee package and initialize with your API key.</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;replace-with-your-api-key&quot;</span>
-<span class="kn">import</span> <span class="nn">modlee</span>
-<span class="n">modlee</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;modleemichael&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Your code goes here. Import the modlee package and initialize with your API key.
+os.environ[&#39;MODLEE_API_KEY&#39;] = &quot;replace-with-your-api-key&quot;
+import modlee
+modlee.init(api_key=&quot;modleemichael&quot;)
 </pre></div>
 </div>
 <p>Load the training data.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">imagenet_mean</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">]</span>  <span class="c1"># mean of the imagenet dataset for normalizing</span>
-<span class="n">imagenet_std</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">]</span>  <span class="c1"># std of the imagenet dataset for normalizing</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>imagenet_mean = [0.485, 0.456, 0.406]  # mean of the imagenet dataset for normalizing
+imagenet_std = [0.229, 0.224, 0.225]  # std of the imagenet dataset for normalizing
 
-<span class="k">def</span> <span class="nf">replace_tensor_value_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="n">tensor</span><span class="p">[</span><span class="n">tensor</span> <span class="o">==</span> <span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span>
-    <span class="k">return</span> <span class="n">tensor</span>
+def replace_tensor_value_(tensor, a, b):
+    tensor[tensor == a] = b
+    return tensor
 
-<span class="n">input_resize</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
-<span class="n">input_transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="n">input_resize</span><span class="p">,</span>
-        <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
-        <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">imagenet_mean</span><span class="p">,</span> <span class="n">imagenet_std</span><span class="p">),</span>
-    <span class="p">]</span>
-<span class="p">)</span>
+input_resize = transforms.Resize((224, 224))
+input_transform = transforms.Compose(
+    [
+        input_resize,
+        transforms.ToTensor(),
+        transforms.Normalize(imagenet_mean, imagenet_std),
+    ]
+)
 
-<span class="n">target_resize</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">InterpolationMode</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">)</span>
-<span class="n">target_transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="n">target_resize</span><span class="p">,</span>
-        <span class="n">transforms</span><span class="o">.</span><span class="n">PILToTensor</span><span class="p">(),</span>
-        <span class="n">transforms</span><span class="o">.</span><span class="n">Lambda</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">replace_tensor_value_</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">(),</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">21</span><span class="p">)),</span>
-    <span class="p">]</span>
-<span class="p">)</span>
+target_resize = transforms.Resize((224, 224), interpolation=InterpolationMode.NEAREST)
+target_transform = transforms.Compose(
+    [
+        target_resize,
+        transforms.PILToTensor(),
+        transforms.Lambda(lambda x: replace_tensor_value_(x.squeeze(0).long(), 255, 21)),
+    ]
+)
 
-<span class="c1"># Creating the dataset</span>
-<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">VOCSegmentation</span><span class="p">(</span>
-    <span class="s1">&#39;./datasets/&#39;</span><span class="p">,</span>
-    <span class="n">year</span><span class="o">=</span><span class="s1">&#39;2007&#39;</span><span class="p">,</span>
-    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">image_set</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">,</span>
-    <span class="n">transform</span><span class="o">=</span><span class="n">input_transform</span><span class="p">,</span>
-    <span class="n">target_transform</span><span class="o">=</span><span class="n">target_transform</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">val_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">VOCSegmentation</span><span class="p">(</span>
-    <span class="s1">&#39;./datasets/&#39;</span><span class="p">,</span>
-    <span class="n">year</span><span class="o">=</span><span class="s1">&#39;2007&#39;</span><span class="p">,</span>
-    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">image_set</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">,</span>
-    <span class="n">transform</span><span class="o">=</span><span class="n">input_transform</span><span class="p">,</span>
-    <span class="n">target_transform</span><span class="o">=</span><span class="n">target_transform</span><span class="p">,</span>
-<span class="p">)</span>
+# Creating the dataset
+train_dataset = torchvision.datasets.VOCSegmentation(
+    &#39;./datasets/&#39;,
+    year=&#39;2007&#39;,
+    download=True,
+    image_set=&#39;val&#39;,
+    transform=input_transform,
+    target_transform=target_transform,
+)
+val_dataset = torchvision.datasets.VOCSegmentation(
+    &#39;./datasets/&#39;,
+    year=&#39;2007&#39;,
+    download=True,
+    image_set=&#39;val&#39;,
+    transform=input_transform,
+    target_transform=target_transform,
+)
 
-<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+BATCH_SIZE = 16
+train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=True)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Using</span> <span class="n">downloaded</span> <span class="ow">and</span> <span class="n">verified</span> <span class="n">file</span><span class="p">:</span> <span class="o">./</span><span class="n">datasets</span><span class="o">/</span><span class="n">VOCtrainval_06</span><span class="o">-</span><span class="n">Nov</span><span class="o">-</span><span class="mf">2007.</span><span class="n">tar</span>
@@ -455,7 +455,7 @@ an image segmentation experiment with a pretrained model from
 </div>
 <p>Create the image segmentation model using a <a class="reference external" href="https://pytorch.org/vision/main/models/generated/torchvision.models.segmentation.fcn_resnet50.html#torchvision.models.segmentation.fcn_resnet50">pretrained fully connected
 network</a>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">segmentation</span><span class="o">.</span><span class="n">fcn_resnet50</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = torchvision.models.segmentation.fcn_resnet50(num_classes=22)
 </pre></div>
 </div>
 <p>In the next cell, wrap the model defined above in a
@@ -464,37 +464,37 @@ network</a>.</p>
 <code class="docutils literal notranslate"><span class="pre">configure_optimizers()</span></code> functions. Refer to the <a class="reference external" href="https://lightning.ai/docs/pytorch/stable/starter/introduction.html">Lightning
 documentation</a>
 for a refresher.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ModleeFCN</span><span class="p">(</span><span class="n">modlee</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">ModleeModel</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>                <span class="c1"># Fill out the constructor</span>
-        <span class="c1"># Fill out the constructor</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-        <span class="k">pass</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class ModleeFCN(modlee.model.ModleeModel):
+    def __init__(self):                # Fill out the constructor
+        # Fill out the constructor
+        super().__init__()
+        self.model = model
+        pass
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="c1"># Fill out the forward pass</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">pass</span>
+    def forward(self, x):
+        # Fill out the forward pass
+        return self.model(x)
+        pass
 
-    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
-        <span class="c1"># Fill out the training step</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="n">batch</span>
+    def training_step(self, batch, batch_idx):
+        # Fill out the training step
+        x, y_target = batch
 
-        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="s1">&#39;out&#39;</span><span class="p">]</span>
-        <span class="c1"># print(y_pred)</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">loss</span>
-        <span class="k">pass</span>
+        y_pred = self(x)[&#39;out&#39;]
+        # print(y_pred)
+        loss = F.cross_entropy(y_pred, y_target)
+        return loss
+        pass
 
-    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># Fill out the optimizer configuration</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span>
-            <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">pass</span>
+    def configure_optimizers(self):
+        # Fill out the optimizer configuration
+        return torch.optim.Adam(
+            self.parameters(),
+            lr=0.001,
+        )
+        pass
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">ModleeFCN</span><span class="p">()</span>
+model = ModleeFCN()
 </pre></div>
 </div>
 <p>In the next cell, start training within a <code class="docutils literal notranslate"><span class="pre">modlee.start_run()</span></code>
@@ -502,13 +502,13 @@ for a refresher.</p>
 Refer to <code class="docutils literal notranslate"><span class="pre">`mlflow</span></code>’s
 implementation &lt;<a class="reference external" href="https://mlflow.org/docs/latest/python_api/mlflow.html">https://mlflow.org/docs/latest/python_api/mlflow.html</a>&gt;`__
 as a refresher.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Your code goes here. Star training within a modlee.start_run() context manager</span>
-<span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
-    <span class="n">trainer</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
-        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-        <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_loader</span><span class="p">,</span>
-    <span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Your code goes here. Star training within a modlee.start_run() context manager
+with modlee.start_run() as run:
+    trainer = modlee.Trainer(max_epochs=1)
+    trainer.fit(
+        model=model,
+        train_dataloaders=train_loader,
+    )
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Missing</span> <span class="n">logger</span> <span class="n">folder</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">modlee_pypi</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">mlruns</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mi">7</span><span class="n">a47086681324d0e924f9076a1262de9</span><span class="o">/</span><span class="n">artifacts</span><span class="o">/</span><span class="n">lightning_logs</span>
@@ -534,10 +534,10 @@ as a refresher.</p>
 </div>
 <p>Rebuild the saved model. First, determine the path to the most recent
 run.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_run_path</span> <span class="o">=</span> <span class="n">modlee</span><span class="o">.</span><span class="n">last_run_path</span><span class="p">()</span>
-<span class="n">artifacts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">,</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">,</span><span class="s1">&#39;model_graph.py&#39;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>last_run_path = modlee.last_run_path()
+artifacts_path = os.path.join(last_run_path, &#39;artifacts&#39;)
+print(os.listdir(artifacts_path))
+print(os.path.join(artifacts_path,&#39;model_graph.py&#39;))
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;transforms.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.py&#39;</span><span class="p">,</span> <span class="s1">&#39;model_graph.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_size&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;cached_vars&#39;</span><span class="p">,</span> <span class="s1">&#39;stats_rep&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_1.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;lightning_logs&#39;</span><span class="p">,</span> <span class="s1">&#39;snapshot_0.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;model.py&#39;</span><span class="p">,</span> <span class="s1">&#39;loss_calls.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;model_summary.txt&#39;</span><span class="p">]</span>
@@ -546,18 +546,18 @@ run.</p>
 </div>
 <p>Next, import the model from the assets saved in the <code class="docutils literal notranslate"><span class="pre">artifacts/</span></code>
 directory.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exercise_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>exercise_dir = os.path.abspath(os.getcwd())
+os.chdir(artifacts_path)
 
-<span class="kn">import</span> <span class="nn">model_graph</span>
-<span class="n">rebuilt_model</span> <span class="o">=</span> <span class="n">model_graph</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
-<span class="n">rebuilt_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+import model_graph
+rebuilt_model = model_graph.Model()
+rebuilt_model.eval()
 
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">exercise_dir</span><span class="p">)</span>
-<span class="c1"># Pass an input through the model</span>
-<span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_loader</span><span class="p">))</span>
-<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-    <span class="n">y_rebuilt</span> <span class="o">=</span> <span class="n">rebuilt_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+os.chdir(exercise_dir)
+# Pass an input through the model
+x, _ = next(iter(train_loader))
+with torch.no_grad():
+    y_rebuilt = rebuilt_model(x)
 </pre></div>
 </div>
 <p>You’ve reached the end of the tutorial and can now implement <code class="docutils literal notranslate"><span class="pre">modlee</span></code>
