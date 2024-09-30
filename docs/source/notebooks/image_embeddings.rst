@@ -1,17 +1,17 @@
-|image0|
+|image1|
 
-.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
 
 Image Embeddings With Tabular Classification Model
 ==================================================
 
 In this example, we will walk through the process of building an image
-classifier using embeddings from a pre-trained ResNet model combined
+classifier using embeddings from a pre-trained ``ResNet`` model combined
 with a custom Multi-Layer Perceptron (MLP). We’ll train the MLP on
-embeddings extracted from ResNet, which will handle feature extraction
-from the CIFAR-10 dataset.
+embeddings extracted from ``ResNet``, which will handle feature
+extraction from the ``CIFAR-10`` dataset.
 
-|Open in Colab|
+|Open in Kaggle|
 
 First, we import the necessary libraries from ``PyTorch`` and
 ``Torchvision``.
@@ -21,16 +21,11 @@ First, we import the necessary libraries from ``PyTorch`` and
    import torch
    import torch.nn as nn
    import torch.optim as optim
-   from torchvision import models, transforms, datasets
-   from torch.utils.data import DataLoader
    import os
    import cv2
-   import torch
-   import torch.nn as nn
-   import torch.optim as optim
-   from torch.utils.data import DataLoader, Subset, random_split
    from torchvision import datasets, models, transforms
    import modlee
+   import lightning.pytorch as pl
    from torch.utils.data import DataLoader, Subset, random_split, TensorDataset
    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -41,8 +36,6 @@ dashboard <https://www.dashboard.modlee.ai/>`__. Replace
 
 .. code:: python
 
-   # Set the API key to an environment variable,
-   # to simulate setting this in your shell profile
    os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
    modlee.init(api_key=os.environ['MODLEE_API_KEY'])
 
@@ -67,8 +60,7 @@ validation (20%) datasets using ``random_split``.
 .. code:: python
 
    # Load the CIFAR-10 dataset with the specified transformations
-   train_dataset = datasets.CIFAR10(root='./data', train=True, download=True, 
-                                   transform=transform)
+   train_dataset = datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
 
    # Create a subset of the dataset for quicker experimentation
    subset_size = 1000
@@ -85,10 +77,7 @@ setting the batch size to 64.
 
 .. code:: python
 
-   # Create a DataLoader for the training dataset with shuffling enabled
    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
-
-   # Create a DataLoader for the validation dataset without shuffling
    val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
 
 We load a pre-trained ``ResNet-50`` model from ``torchvision.models``
@@ -108,11 +97,9 @@ connected layers, batch normalization, and dropout for regularization.
 
 .. code:: python
 
-
    class MLP(modlee.model.TabularClassificationModleeModel):
        def __init__(self, input_size, num_classes):
            super().__init__()
-           # Define the layers of the MLP model
            self.model = nn.Sequential(
                nn.Linear(input_size, 256),
                nn.BatchNorm1d(256),
@@ -126,18 +113,18 @@ connected layers, batch normalization, and dropout for regularization.
            self.loss_fn = nn.CrossEntropyLoss()
 
        def forward(self, x):
-           return self.model(x)  # Forward pass through the MLP
+           return self.model(x)  
 
        def training_step(self, batch):
            embeddings, labels = batch
-           logits = self.forward(embeddings)  # Forward pass
-           loss = self.loss_fn(logits, labels)  # Compute loss
+           logits = self.forward(embeddings)  
+           loss = self.loss_fn(logits, labels)  
            return loss
 
        def validation_step(self, batch):
            embeddings, labels = batch
-           logits = self.forward(embeddings)  # Forward pass
-           loss = self.loss_fn(logits, labels)  # Compute validation loss
+           logits = self.forward(embeddings)  
+           loss = self.loss_fn(logits, labels)  
            return loss
 
        def configure_optimizers(self):
@@ -193,76 +180,36 @@ which extracts high-level features from each image.
    val_embedding_loader = DataLoader(val_embedding_dataset, batch_size=64, shuffle=False)
 
 We define the ``train_model`` function, which handles the training loop.
+We also evaluate the model’s performance on the validation set.
 
 .. code:: python
 
-   def train_model(model, dataloader, num_epochs=5):
-       # Define the loss function and optimizer
-       criterion = nn.CrossEntropyLoss()
-       optimizer = optim.Adam(model.parameters(), lr=0.0001)
+   def train_model(modlee_model, train_dataloader, val_dataloader, num_epochs=1):
+       with modlee.start_run() as run:
+           # Create a PyTorch Lightning trainer 
+           trainer = pl.Trainer(max_epochs=num_epochs)
 
-       for epoch in range(num_epochs):
-           model.train()
-           total_loss = 0
-           correct = 0
-           total = 0
-
-           for embeddings, labels in dataloader:
-               embeddings = embeddings.to(device)
-               labels = labels.to(device)
-
-               # Forward pass through the MLP model
-               outputs = model(embeddings)
-               loss = criterion(outputs, labels)
-
-               # Perform backward pass and optimization
-               optimizer.zero_grad()
-               loss.backward()
-               optimizer.step()
-
-               total_loss += loss.item()
-               _, predicted = torch.max(outputs.data, 1)
-               total += labels.size(0)
-               correct += (predicted == labels).sum().item()
-
-           # Print average loss and accuracy for the epoch
-           print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {total_loss/len(dataloader):.4f}, 
-                   Accuracy: {100 * correct / total:.2f}%')
-
-We define an ``evaluate_model`` function to evaluate the model’s
-performance on the validation set.
-
-.. code:: python
-
-   def evaluate_model(model, dataloader):
-       # Set the model to evaluation mode
-       model.eval()
-       with torch.no_grad():
-           correct = 0
-           total = 0
-
-           for embeddings, labels in dataloader:
-               embeddings = embeddings.to(device)
-               labels = labels.to(device)
-
-               # Forward pass through the MLP model
-               outputs = model(embeddings)
-               _, predicted = torch.max(outputs.data, 1)
-               total += labels.size(0)
-               correct += (predicted == labels).sum().item()
-
-           # Print the accuracy of the model on the dataset
-           print(f'Accuracy: {100 * correct / total:.2f}%')
-
-After defining the model architecture and setting up the data loaders,
-the final step involves training the model on the training dataset and
-evaluating its performance on the validation set.
-
-.. code:: python
+           # Train the model using the training and validation data loaders
+           trainer.fit(
+               model=modlee_model,
+               train_dataloaders=train_dataloader,
+               val_dataloaders=val_dataloader
+           )
 
    # Train and evaluate the model
-   train_model(mlp_image, train_embedding_loader, num_epochs=5)
-   evaluate_model(mlp_image, val_embedding_loader)
+   train_model(mlp_image, train_embedding_loader, val_embedding_loader, num_epochs=5)
 
-.. |Open in Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
-   :target: https://colab.research.google.com/drive/1ELBe98KV1uy0eHk1cL3rSiqEms0szAZe?usp=sharing&authuser=3
+Finally, we can view the saved assets from training. With Modlee, your
+training assets are automatically saved, preserving valuable insights
+for future reference and collaboration.
+
+.. code:: python
+
+   last_run_path = modlee.last_run_path()
+   print(f"Run path: {last_run_path}")
+   artifacts_path = os.path.join(last_run_path, 'artifacts')
+   artifacts = sorted(os.listdir(artifacts_path))
+   print(f"Saved artifacts: {artifacts}")
+
+.. |Open in Kaggle| image:: https://kaggle.com/static/images/open-in-kaggle.svg
+   :target: https://www.kaggle.com/code/modlee/modlee-image-embeddings

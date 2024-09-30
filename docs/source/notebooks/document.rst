@@ -1,6 +1,6 @@
-|image0|
+|image1|
 
-.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
 
 Automate Experiment Documentation
 =================================
@@ -24,10 +24,10 @@ Here is a video explanation of this
 
    </iframe>
 
-|Open in Colab|
+|Open in Kaggle|
 
-.. |Open in Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
-   :target: https://colab.research.google.com/drive/105yLGrdlqZeIFELNUAEKNmHNCQFJx9pe#scrollTo=NuJ4wSp6cshn
+.. |Open in Kaggle| image:: https://kaggle.com/static/images/open-in-kaggle.svg
+   :target: https://www.kaggle.com/code/modlee/modlee-experiment-documentation
 
 .. code:: python
 
@@ -45,11 +45,13 @@ Import ``modlee`` and initialize with an API key.
 
 .. code:: python
 
-   # Set the API key to an environment variable,
-   # to simulate setting this in your shell profile
+   # Set the API key to an environment variable
    os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
+
    # Modlee-specific imports
    import modlee
+
+   # Initialize Modlee with the API key
    modlee.init(api_key=os.environ['MODLEE_API_KEY'])
 
 Load the training data; we’ll use ``torch``\ ’s Fashion MNIST dataset.
@@ -60,8 +62,8 @@ Load the training data; we’ll use ``torch``\ ’s Fashion MNIST dataset.
    train_dataloader, val_dataloader = modlee.utils.get_fashion_mnist(num_output_channels=3)
    num_classes = len(train_dataloader.dataset.classes)
 
-Next, we build the model from a pretrained torchvision ResNet model. To
-enable automatic documentation, wrap the model in the
+Next, we build the model from a pretrained torchvision ``ResNet`` model.
+To enable automatic documentation, wrap the model in the
 ``modlee.model.ImageClassificationModleeModel`` class.
 ``ImageClassificationModleeModel`` subclasses
 ``lightning.pytorch.LightningModule`` and uses the same structure for
@@ -74,12 +76,11 @@ contains the callbacks to document the experiment metafeatures.
    # Use a pretrained torchvision ResNet
    classifier_model = torchvision.models.resnet18(num_classes=10)
 
-   # Subclass the ModleeModel class to enable automatic documentation
+   # Subclass the ImageClassificationModleeModel class to enable automatic documentation
    class ModleeClassifier(modlee.model.ImageClassificationModleeModel):
        def __init__(self, *args, **kwargs):
            super().__init__(*args, **kwargs)
            self.model = classifier_model
-           # Define the loss function as cross-entropy loss
            self.loss_fn = F.cross_entropy
 
        def forward(self, x):
@@ -112,7 +113,7 @@ Run the training loop, just for one epoch.
 .. code:: python
 
    with modlee.start_run() as run:
-       # Create a PyTorch Lightning trainer and set it to train for 1 epoch
+       # Create a PyTorch Lightning trainer 
        trainer = pl.Trainer(max_epochs=1)
 
        # Train the model using the training and validation data loaders
@@ -135,7 +136,9 @@ Run the training loop, just for one epoch.
    Epoch 0: 100%|██████████| 938/938 [00:16<00:00, 57.47it/s, v_num=0]  
 
 ``modlee`` with ``mlflow`` underneath will document the experiment in an
-automatically generated ``assets`` folder.
+automatically generated ``assets`` folder. With Modlee, your training
+assets are automatically saved, preserving valuable insights for future
+reference and collaboration.
 
 .. code:: python
 
@@ -273,6 +276,8 @@ it directly from the cached ``model.pth``.
    # Reloading from the checkpoint
    reloaded_model = torch.load(os.path.join(artifacts_path, 'model', 'data','model.pth'))
    y_reloaded = reloaded_model(x)
+
+   #Ensure the output shapes match
    assert y_original.shape == y_reloaded.shape
    print(f"Output shape from checkpoint-reloaded model: {y_reloaded.shape}")
 

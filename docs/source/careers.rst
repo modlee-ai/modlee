@@ -54,7 +54,7 @@ Our exercises don’t just prep you for technical interviews—they equip you fo
         </style>
     </head>
     <body>
-        <h2>Image Classification <a href="https://colab.research.google.com/drive/1GpZe783uDKrdEB6E30LzpUM0QkOW-gr1?usp=sharing#scrollTo=Jy3ZaU0_bkfy" target="_blank" class="colab-link"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a></h2>
+        <h2>Image Classification <a href="https://www.kaggle.com/code/modlee/modlee-eval-image-classification" target="_blank" class="colab-link"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle"></a></h2>
         <table id="imageTable">
             <tr>
                 <th>Exercise ID</th>
@@ -63,7 +63,7 @@ Our exercises don’t just prep you for technical interviews—they equip you fo
             <!-- Image classification exercise IDs will be inserted here -->
         </table>
 
-        <h2>Time Series Forecasting <a href="https://colab.research.google.com/drive/1zxx102WW877wGGTz4MnCSntPVFUr1KZv?usp=sharing#scrollTo=9g_ACcV2_OdF" target="_blank" class="colab-link"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a></h2>
+        <h2>Time Series Forecasting <a href="https://www.kaggle.com/code/modlee/modlee-eval-timeseries-forecasting" target="_blank" class="colab-link"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle"></a></h2>
         <table id="timeSeriesTable">
             <tr>
                 <th>Exercise ID</th>
@@ -72,7 +72,7 @@ Our exercises don’t just prep you for technical interviews—they equip you fo
             <!-- Time series forecasting exercise IDs will be inserted here -->
         </table>
 
-        <h2>Tabular Classification <a href="https://colab.research.google.com/drive/11A0ba7UGcuvF7T5JbQkxXGDI2alqC1k2?usp=sharing" target="_blank" class="colab-link"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a></h2>
+        <h2>Tabular Classification <a href="https://www.kaggle.com/code/modlee/modlee-eval-tabular-classification" target="_blank" class="colab-link"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle"></a></h2>
         <table id="tabularTable">
             <tr>
                 <th>Exercise ID</th>

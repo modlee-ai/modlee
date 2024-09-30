@@ -1,4 +1,4 @@
-|image0|
+|image1|
 
 Optimizing Your ML Model Architecture
 =====================================
@@ -301,6 +301,7 @@ MLFlow Integration
 
 -  **Visualizing Learning Curves**: Plot loss and accuracy curves for
    both training and validation sets to monitor progress.
+
 -  **Comparing Models**: Easily compare different model versions to see
    which architecture works best.
 
@@ -375,4 +376,4 @@ Improved CNN
    # Optimizer with tuned learning rate
    optimizer = optim.Adam(model.parameters(), lr=0.0005)
 
-.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
