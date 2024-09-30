@@ -693,6 +693,7 @@
 <span class="sd">        :param onnx_text: The ONNX Text</span>
 <span class="sd">        :return torch_code: The Torch Code</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># print(onnx_text)</span>
         <span class="n">torch_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">onnx_text2torch_model</span><span class="p">(</span><span class="n">onnx_text</span><span class="p">)</span>
         <span class="n">torch_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">torch_graph2code</span><span class="p">(</span><span class="n">torch_model</span><span class="p">)</span>
         <span class="c1"># Deleting model should free some space</span>
