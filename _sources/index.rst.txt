@@ -50,6 +50,7 @@ modlee
    notebooks/image_segmentation
    notebooks/document
    notebooks/tabular_classification_example
+   notebooks/time_series_forecasting
    notebooks/image_embeddings
    notebooks/text_embeddings
    notebooks/audio_embeddings

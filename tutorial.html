@@ -175,6 +175,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notebooks/image_segmentation.html">Image Segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/document.html">Automate Experiment Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/tabular_classification_example.html">Tabular Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/time_series_forecasting.html">Time Series Forecasting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/image_embeddings.html">Image Embeddings With Tabular Classification Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/text_embeddings.html">Text Embeddings With Tabular Classification Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/audio_embeddings.html">Audio Embeddings With Tabular Classification Model</a></li>
@@ -401,7 +402,7 @@ learning. It consists of:</p>
 <p>MNIST is used to test and compare classification algorithms. In this
 tutorial, we’ll use it to evaluate the performance of models recommended
 by Modlee and a custom-built model.</p>
-<p><a class="reference external" href="https://www.kaggle.com/code/modlee/modlee-mnist-image-classification"><img alt="Open in Kaggle" src="https://kaggle.com/static/images/open-in-kaggle.svg" /></a></p>
+<p><a class="reference external" href="https://www.kaggle.com/code/modlee/modlee-mnist-image-classification-example"><img alt="Open in Kaggle" src="https://kaggle.com/static/images/open-in-kaggle.svg" /></a></p>
 </section>
 <section id="prerequisites">
 <h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h3>
@@ -578,117 +579,73 @@ the model’s effectiveness and identifying any areas for improvement.</p>
 </section>
 <section id="custom-model-implementation">
 <h3>2. Custom Model Implementation<a class="headerlink" href="#custom-model-implementation" title="Link to this heading"></a></h3>
-<p>Now, we’ll define a custom CNN model, train it, and evaluate its
-performance.</p>
+<p>Now, we’ll define a custom CNN model with Modlee’s framework, train it,
+and evaluate its performance.</p>
 <ol class="loweralpha">
 <li><p><strong>Define the Custom Model</strong></p>
-<p>We define a custom Convolutional Neural Network (CNN).</p>
+<p>We define a custom Convolutional Neural Network (CNN) with Modlee.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 <span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">torch.optim</span> <span class="kn">import</span> <span class="n">Adam</span>
+<span class="kn">import</span> <span class="nn">modlee</span>
 
-<span class="c1"># Define a simple Convolutional Neural Network (CNN) for image classification</span>
-<span class="k">class</span> <span class="nc">SimpleCNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">SimpleCNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="c1"># First convolutional layer: takes 1 input channel (e.g., grayscale image),</span>
-        <span class="c1"># outputs 32 feature maps, with a 3x3 kernel and padding of 1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># MNIST has 1 channel</span>
-        <span class="c1"># Second convolutional layer: takes 32 input channels,</span>
-        <span class="c1"># outputs 64 feature maps, with a 3x3 kernel and padding of 1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="c1"># Fully connected layer: input size is 64*56*56 (after flattening),</span>
-        <span class="c1"># outputs 128 features</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span> <span class="o">*</span> <span class="mi">56</span> <span class="o">*</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>  <span class="c1"># Adjust input size according to image dimensions</span>
-        <span class="c1"># Final fully connected layer: maps 128 features to 10 output classes (for MNIST)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># 10 classes for MNIST</span>
+<span class="c1"># Subclass the ImageClassificationModleeModel class to enable automatic documentation</span>
+<span class="k">class</span> <span class="nc">SimpleCNNModleeModel</span><span class="p">(</span><span class="n">modlee</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">ImageClassificationModleeModel</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># Define model architecture</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>  <span class="c1"># First convolutional layer</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>  <span class="c1"># Max pooling</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>  <span class="c1"># Second convolutional layer</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>  <span class="c1"># Max pooling</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>  <span class="c1"># Flatten the tensor for fully connected layers</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span> <span class="o">*</span> <span class="mi">56</span> <span class="o">*</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>  <span class="c1"># Fully connected layer</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># Output layer with 10 classes</span>
+        <span class="p">)</span>
+        <span class="c1"># Define the loss function as cross-entropy loss</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span>
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="c1"># Apply the first convolutional layer followed by ReLU activation</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="c1"># Apply max pooling with a 2x2 kernel and stride of 2</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">max_pool2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="c1"># Apply the second convolutional layer followed by ReLU activation</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="c1"># Apply max pooling with a 2x2 kernel and stride of 2</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">max_pool2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="c1"># Flatten the tensor from 4D to 2D (batch size, flattened features)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Flatten</span>
-        <span class="c1"># Apply the first fully connected layer followed by ReLU activation</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="c1"># Apply the second fully connected layer to produce the final output</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span>
+        <span class="c1"># Forward pass through the CNN model</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Define the training step</span>
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="n">batch</span>  <span class="c1"># Get input data and targets</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Model predictions</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>  <span class="c1"># Calculate the loss</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">loss</span><span class="p">}</span>
+
+    <span class="c1"># Define the validation step</span>
+    <span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="n">val_batch</span>  <span class="c1"># Get validation data and targets</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Model predictions</span>
+        <span class="n">val_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>  <span class="c1"># Calculate the validation loss</span>
+        <span class="c1"># Calculate accuracy</span>
+        <span class="n">acc</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y_target</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">/</span> <span class="n">y_target</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;val_loss&#39;</span><span class="p">:</span> <span class="n">val_loss</span><span class="p">,</span> <span class="s1">&#39;val_acc&#39;</span><span class="p">:</span> <span class="n">acc</span><span class="p">}</span>
+
+    <span class="c1"># Set up the optimizer for training</span>
+    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>  <span class="c1"># Adam optimizer</span>
+        <span class="k">return</span> <span class="n">optimizer</span>
 </pre></div>
 </div>
 <p><em>What We Are Doing</em>: We are defining a custom Convolutional Neural
 Network (CNN) model. This model includes convolutional layers to
 extract features from images, followed by fully connected layers for
-classification. The <code class="docutils literal notranslate"><span class="pre">forward</span></code> method specifies how data flows
-through the network, using ReLU activations, max pooling, and
-flattening operations.</p>
+classification.</p>
 <p><em>Why We Are Doing It</em>: Defining a custom CNN allows us to tailor the
 architecture specifically for our task, in this case, classifying
 MNIST images. The convolutional layers help in extracting important
 features from the images, while the fully connected layers perform
 the final classification, enabling the model to accurately predict
 the digits.</p>
-</li>
-<li><p><strong>Define the PyTorch Lightning Module</strong></p>
-<p>We wrap the CNN model in a <code class="docutils literal notranslate"><span class="pre">PyTorch</span> <span class="pre">Lightning</span></code> module for training
-and validation.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytorch_lightning</span> <span class="k">as</span> <span class="nn">pl</span>
-<span class="kn">from</span> <span class="nn">torch.optim</span> <span class="kn">import</span> <span class="n">Adam</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-
-<span class="c1"># Define a PyTorch Lightning module for the model</span>
-<span class="k">class</span> <span class="nc">LitModel</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">LitModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>  <span class="c1"># The model to be trained</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>  <span class="c1"># Loss function for classification</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="c1"># Forward pass through the model</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
-        <span class="c1"># Perform a single training step</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>  <span class="c1"># Unpack the input and target labels from the batch</span>
-        <span class="n">y_hat</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Get model predictions</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># Compute the loss</span>
-        <span class="k">return</span> <span class="n">loss</span>  <span class="c1"># Return the loss for optimization</span>
-
-    <span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
-        <span class="c1"># Perform a single validation step</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>  <span class="c1"># Unpack the input and target labels from the batch</span>
-        <span class="n">y_hat</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Get model predictions</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># Compute the loss</span>
-        <span class="c1"># Calculate accuracy</span>
-        <span class="n">acc</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">/</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="c1"># Log validation loss and accuracy</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;val_loss&#39;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;val_acc&#39;</span><span class="p">,</span> <span class="n">acc</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;val_loss&#39;</span><span class="p">:</span> <span class="n">loss</span><span class="p">,</span> <span class="s1">&#39;val_acc&#39;</span><span class="p">:</span> <span class="n">acc</span><span class="p">}</span>  <span class="c1"># Return metrics for logging</span>
-
-    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># Configure the optimizer for training</span>
-        <span class="k">return</span> <span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>  <span class="c1"># Adam optimizer with a learning rate of 0.001</span>
-</pre></div>
-</div>
-<p><em>What We Are Doing</em>: We are wrapping our CNN model in a
-<code class="docutils literal notranslate"><span class="pre">PyTorch</span> <span class="pre">Lightning</span></code> module, <code class="docutils literal notranslate"><span class="pre">LitModel</span></code>, to streamline the
-training and validation processes. This module includes methods for
-forward passes, computing loss during training and validation, and
-configuring the optimizer.</p>
-<p><em>Why We Are Doing It</em>: Using <code class="docutils literal notranslate"><span class="pre">PyTorch</span> <span class="pre">Lightning</span></code> simplifies and
-organizes the training and validation workflows, making the code
-cleaner and easier to manage. The <code class="docutils literal notranslate"><span class="pre">training_step</span></code> method handles
-the computation of loss during training, while <code class="docutils literal notranslate"><span class="pre">validation_step</span></code>
-tracks both loss and accuracy during validation. The
-<code class="docutils literal notranslate"><span class="pre">configure_optimizers</span></code> sets up the optimizer for updating model
-parameters, ensuring efficient training.</p>
 </li>
 <li><p><strong>Create DataLoaders</strong></p>
 <p>We prepare DataLoaders for the custom model.</p>
@@ -706,24 +663,22 @@ the training process.</p>
 </li>
 <li><p><strong>Train the Custom Model</strong></p>
 <p>We train the custom model using PyTorch Lightning.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an instance of the LitModel with an instance of the SimpleCNN model</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">SimpleCNN</span><span class="p">()</span>
-<span class="n">lit_model</span> <span class="o">=</span> <span class="n">LitModel</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-
-<span class="c1"># Initialize the PyTorch Lightning trainer</span>
-<span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an instance of the SimpleCNNModleeModel model</span>
+<span class="n">modlee_model</span> <span class="o">=</span> <span class="n">SimpleCNNModleeModel</span><span class="p">()</span>
 
 <span class="c1"># Start the training process</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="n">lit_model</span><span class="p">,</span>
-    <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_loader</span><span class="p">,</span>
-    <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">val_dataloader</span>
-<span class="p">)</span>
+<span class="k">with</span> <span class="n">modlee</span><span class="o">.</span><span class="n">start_run</span><span class="p">()</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">modlee_model</span><span class="p">,</span>
+        <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_loader</span><span class="p">,</span>
+        <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">val_dataloader</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 <p><em>What We Are Doing</em>: We are training the custom CNN model using
-<code class="docutils literal notranslate"><span class="pre">PyTorch</span> <span class="pre">Lightning</span></code>. We initialize the <code class="docutils literal notranslate"><span class="pre">LitModel</span></code> with our custom
-CNN, then configure a trainer to handle the training and validation
+<code class="docutils literal notranslate"><span class="pre">PyTorch</span> <span class="pre">Lightning</span></code>. We initialize the <code class="docutils literal notranslate"><span class="pre">SimpleCNNModleeModel</span></code>
+model, then configure a trainer to handle the training and validation
 processes, setting it to run for one epoch.</p>
 <p><em>Why We Are Doing It</em>: PyTorch Lightning’s <code class="docutils literal notranslate"><span class="pre">Trainer</span></code> simplifies the
 training and validation workflow, automating many of the repetitive
@@ -732,7 +687,7 @@ for easy monitoring of performance across epochs.</p>
 </li>
 <li><p><strong>Evaluate the Custom Model</strong></p>
 <p>We evaluate the custom model on the validation set.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trainer</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">lit_model</span><span class="p">,</span> <span class="n">dataloaders</span><span class="o">=</span><span class="n">val_dataloader</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trainer</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">modlee_model</span><span class="p">,</span> <span class="n">dataloaders</span><span class="o">=</span><span class="n">val_dataloader</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><em>What We Are Doing</em>: We are evaluating the custom model on the
