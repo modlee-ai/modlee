@@ -1,7 +1,9 @@
-.. image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+|image1|
 
-Automate Model Recommendation
-=============================
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+
+Image Classification Model Recommendation
+=========================================
 
 This example notebook uses the ``modlee`` package to train a recommended
 model. We will perform image classification on CIFAR10 from
@@ -18,10 +20,10 @@ Here is a video explanation of this
 
    </iframe>
 
-|Open in Colab|
+|Open in Kaggle|
 
-.. |Open in Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
-   :target: https://colab.research.google.com/drive/1oA9p6_Tm50beZC8_BPkKA44Gsx35Vzb5#scrollTo=lGmrerY-7OlO
+.. |Open in Kaggle| image:: https://kaggle.com/static/images/open-in-kaggle.svg
+   :target: https://www.kaggle.com/code/modlee/modlee-image-recommender
 
 First, import ``torch``- and ``modlee``-related packages.
 
@@ -29,32 +31,49 @@ First, import ``torch``- and ``modlee``-related packages.
 
    import os
    import lightning.pytorch as pl
+
+   # Set your API key
+
    os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
+
    import torch, torchvision
    import torchvision.transforms as transforms
 
-First, initialize the package.
+Next, initialize the package.
 
 .. code:: python
 
    import modlee
+
+   # Initialize the Modlee package
    modlee.init(api_key=os.environ.get('MODLEE_API_KEY'))
 
-Next, we create a dataloader from CIFAR10.
+Now, we can create a dataloader from CIFAR10.
 
 .. code:: python
 
-   transforms = transforms.Compose([transforms.ToTensor(),transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+   transforms = transforms.Compose([
+       transforms.ToTensor(), #converts images to PyTorch tensors
+       transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)) #adjusts the color values 
+       ])
 
-   train_dataset = torchvision.datasets.CIFAR10(
-       root='./data', train=True, download=True, transform=transforms)
+   train_dataset = torchvision.datasets.CIFAR10( #this command gets the CIFAR-10 images
+       root='./data',
+       train=True, #loading the training split of the dataset
+       download=True,
+       transform=transforms) #applies transformations defined earlier
+
    val_dataset = torchvision.datasets.CIFAR10(
-       root='./data', train=False, download=True, transform=transforms)
+       root='./data',
+       train=False, #loading the validation split of the dataset
+       download=True,
+       transform=transforms)
 
-   train_dataloader = torch.utils.data.DataLoader(
+   train_dataloader = torch.utils.data.DataLoader( #this tool loads the data
        train_dataset,
-       batch_size=16,
+       batch_size=16, #we will load the images in groups of 16
       )
+
    val_dataloader = torch.utils.data.DataLoader(
        val_dataset,
        batch_size=16
@@ -67,12 +86,16 @@ The server will return a recommended model for the dataset assigned to
 
 .. code:: python
 
-   recommender = modlee.recommender.from_modality_task(
-       modality='image',
-       task='classification',
-       )
+   # create a Modlee recommender object
+   recommender = modlee.recommender.ImageClassificationRecommender(
+       num_classes=10
+   )
+
+   # recommender analyzes training data to suggest best model
    recommender.fit(train_dataloader)
-   modlee_model = recommender.model 
+
+   #retrieves the recommended model
+   modlee_model = recommender.model
    print(f"\nRecommended model: \n{modlee_model}")
 
 ::
@@ -98,14 +121,13 @@ The server will return a recommended model for the dataset assigned to
        (Conv_5): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
        ...
 
-We can train the model as we would a basic ``ModleeModel``, with
-automatic documentation of metafeatures.
+We can train the model, with automatic documentation of metafeatures.
 
 .. code:: python
 
    with modlee.start_run() as run:
        trainer = pl.Trainer(max_epochs=1)
-       trainer.fit(
+       trainer.fit( 
            model=modlee_model,
            train_dataloaders=train_dataloader,
            val_dataloaders=val_dataloader
@@ -123,7 +145,9 @@ automatic documentation of metafeatures.
    46.779    Total estimated model params size (MB)
    Epoch 0: 100%|██████████| 3125/3125 [01:14<00:00, 41.86it/s, v_num=0]
 
-Finally, we can view the saved assets from training.
+Finally, we can view the saved assets from training. With Modlee, your
+training assets are automatically saved, preserving valuable insights
+for future reference and collaboration.
 
 .. code:: python
 

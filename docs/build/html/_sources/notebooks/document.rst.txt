@@ -1,4 +1,6 @@
-.. image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+|image1|
+
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
 
 Automate Experiment Documentation
 =================================
@@ -12,27 +14,27 @@ Prerequisites for this tutorial include familiarity with
 `Lightning <https://lightning.ai/docs/pytorch/stable/>`__.
 
 Here is a video explanation of this
-`exercise <https://youtu.be/jVFKSJBrxJ4>`__.
+`exercise <https://www.youtube.com/watch?v=jVFKSJBrxJ4>`__.
 
 .. raw:: html
 
-   <iframe width="560" height="315" src="https://www.youtube.com/embed/jVFKSJBrxJ4" frameborder="0" allowfullscreen>
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/jVFKSJBrxJ4\" frameborder="0" allowfullscreen>
 
 .. raw:: html
 
    </iframe>
 
-|Open in Colab|
+|Open in Kaggle|
 
-.. |Open in Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
-   :target: https://colab.research.google.com/drive/105yLGrdlqZeIFELNUAEKNmHNCQFJx9pe#scrollTo=NuJ4wSp6cshn
+.. |Open in Kaggle| image:: https://kaggle.com/static/images/open-in-kaggle.svg
+   :target: https://www.kaggle.com/code/modlee/modlee-experiment-documentation
 
 .. code:: python
 
    # Boilerplate imports
    import os, sys
    import ssl
-   ssl._create_default_https_context = ssl._create_unverified_context
+   ssl._create_default_https_context = ssl._create_unverified_context # Disable SSL verification
    import lightning.pytorch as pl
    import torch
    import torch.nn as nn
@@ -43,11 +45,13 @@ Import ``modlee`` and initialize with an API key.
 
 .. code:: python
 
-   # Set the API key to an environment variable,
-   # to simulate setting this in your shell profile
+   # Set the API key to an environment variable
    os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
+
    # Modlee-specific imports
    import modlee
+
+   # Initialize Modlee with the API key
    modlee.init(api_key=os.environ['MODLEE_API_KEY'])
 
 Load the training data; we’ll use ``torch``\ ’s Fashion MNIST dataset.
@@ -58,21 +62,22 @@ Load the training data; we’ll use ``torch``\ ’s Fashion MNIST dataset.
    train_dataloader, val_dataloader = modlee.utils.get_fashion_mnist(num_output_channels=3)
    num_classes = len(train_dataloader.dataset.classes)
 
-Next, we build the model from a pretrained torchvision ResNet model. To
-enable automatic documentation, wrap the model in the
-``modlee.model.ModleeModel`` class. ``ModleeModel`` subclasses
+Next, we build the model from a pretrained torchvision ``ResNet`` model.
+To enable automatic documentation, wrap the model in the
+``modlee.model.ImageClassificationModleeModel`` class.
+``ImageClassificationModleeModel`` subclasses
 ``lightning.pytorch.LightningModule`` and uses the same structure for
 the ``training_step``, ``validation_step``, and ``configure_optimizers``
-functions. Under the hood, ``ModleeModel`` also contains the callbacks
-to document the experiment metafeatures.
+functions. Under the hood, ``ImageClassificationModleeModel`` also
+contains the callbacks to document the experiment metafeatures.
 
 .. code:: python
 
    # Use a pretrained torchvision ResNet
    classifier_model = torchvision.models.resnet18(num_classes=10)
 
-   # Subclass the ModleeModel class to enable automatic documentation
-   class ModleeClassifier(modlee.model.ModleeModel):
+   # Subclass the ImageClassificationModleeModel class to enable automatic documentation
+   class ModleeClassifier(modlee.model.ImageClassificationModleeModel):
        def __init__(self, *args, **kwargs):
            super().__init__(*args, **kwargs)
            self.model = classifier_model
@@ -81,23 +86,26 @@ to document the experiment metafeatures.
        def forward(self, x):
            return self.model(x)
 
+       # Define the training step
        def training_step(self, batch, batch_idx):
            x, y_target = batch
            y_pred = self(x)
            loss = self.loss_fn(y_pred, y_target)
            return {"loss": loss}
 
+       # Define the validation step
        def validation_step(self, val_batch, batch_idx):
            x, y_target = val_batch
            y_pred = self(x)
            val_loss = self.loss_fn(y_pred, y_target)
            return {'val_loss': val_loss}
-           
+
+       # Set up the optimizer for training
        def configure_optimizers(self):
            optimizer = torch.optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
            return optimizer
 
-   # Create the model object
+   # Create an instance of the model wrapped in Modlee's documentation class
    modlee_model = ModleeClassifier()
 
 Run the training loop, just for one epoch.
@@ -105,7 +113,10 @@ Run the training loop, just for one epoch.
 .. code:: python
 
    with modlee.start_run() as run:
+       # Create a PyTorch Lightning trainer 
        trainer = pl.Trainer(max_epochs=1)
+
+       # Train the model using the training and validation data loaders
        trainer.fit(
            model=modlee_model,
            train_dataloaders=train_dataloader,
@@ -125,20 +136,25 @@ Run the training loop, just for one epoch.
    Epoch 0: 100%|██████████| 938/938 [00:16<00:00, 57.47it/s, v_num=0]  
 
 ``modlee`` with ``mlflow`` underneath will document the experiment in an
-automatically generated ``assets`` folder.
+automatically generated ``assets`` folder. With Modlee, your training
+assets are automatically saved, preserving valuable insights for future
+reference and collaboration.
 
 .. code:: python
 
+   # Get the path to the last run's saved data
    last_run_path = modlee.last_run_path()
    print(f"Run path: {last_run_path}")
 
+   # Get the path to the saved artifacts
    artifacts_path = os.path.join(last_run_path, 'artifacts')
    artifacts = os.listdir(artifacts_path)
    print(f"Saved artifacts: {artifacts}")
 
+   # Set the artifacts path as an environment variable
    os.environ['ARTIFACTS_PATH'] = artifacts_path
-   # Add the artifacts directory to the path, 
-   # so we can import the model
+
+   # Add the artifacts directory to the system path
    sys.path.insert(0, artifacts_path)
 
 ::
@@ -243,6 +259,7 @@ network and check that the output shape is equal to the original data.
 
    # Get a batch from the training loader
    x, y = next(iter(train_dataloader))
+
    with torch.no_grad():
        y_original = modlee_model(x)
        y_rebuilt = rebuilt_model(x)
@@ -259,6 +276,8 @@ it directly from the cached ``model.pth``.
    # Reloading from the checkpoint
    reloaded_model = torch.load(os.path.join(artifacts_path, 'model', 'data','model.pth'))
    y_reloaded = reloaded_model(x)
+
+   #Ensure the output shapes match
    assert y_original.shape == y_reloaded.shape
    print(f"Output shape from checkpoint-reloaded model: {y_reloaded.shape}")
 

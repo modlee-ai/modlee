@@ -75,6 +75,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../tutorial.html#using-modlee-to-recommend-and-train-a-model">1. Using Modlee to Recommend and Train a Model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tutorial.html#custom-model-implementation">2. Custom Model Implementation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tutorial.html#compare-models">3. Compare Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#view-saved-training-assets">4. View Saved Training Assets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tutorial.html#conclusion">Conclusion</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tutorial.html#recommended-next-steps">Recommended Next Steps</a></li>
 </ul>
@@ -132,11 +133,50 @@
 <li class="toctree-l2"><a class="reference internal" href="../guides.html#recommended-next-steps">Recommended Next Steps</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../optimizing_ml_guide.html">Optimizing Your ML Model Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#why-optimization-matters">Why Optimization Matters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#understanding-model-components">Understanding Model Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#layers-and-architecture">Layers and Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#activation-functions">Activation Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#common-optimization-techniques">Common Optimization Techniques</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#hyperparameter-tuning">1. <strong>Hyperparameter Tuning</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#regularization-techniques">2. <strong>Regularization Techniques</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#architecture-adjustments">3. <strong>Architecture Adjustments</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#practical-tips-for-optimization">Practical Tips for Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#interpreting-performance-metrics">Interpreting Performance Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#identifying-overfitting-underfitting">Identifying Overfitting/Underfitting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#using-tools-for-optimization">Using Tools for Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#mlflow-integration">MLFlow Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimizing_ml_guide.html#case-study-and-example">Case Study and Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#example-1-improving-a-convolutional-neural-network-cnn">Example 1: Improving a Convolutional Neural Network (CNN)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#basic-cnn">Basic CNN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimizing_ml_guide.html#improved-cnn">Improved CNN</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="recommend.html">Automate Model Recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="recommend.html">Image Classification Model Recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image_segmentation.html">Image Segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="document.html">Automate Experiment Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tabular_classification_example.html">Tabular Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_series_forecasting.html">Time Series Forecasting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image_embeddings.html">Image Embeddings With Tabular Classification Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="text_embeddings.html">Text Embeddings With Tabular Classification Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio_embeddings.html">Audio Embeddings With Tabular Classification Model</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -171,9 +211,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TabularDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TextDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TimeseriesDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesDataMetafeatures</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_n_samples"><code class="docutils literal notranslate"><span class="pre">get_n_samples()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
@@ -185,12 +229,23 @@
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_from_video"><code class="docutils literal notranslate"><span class="pre">sample_image_from_video()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.exp_loss_logger.html">modlee.exp_loss_logger module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.exp_loss_logger.html#modlee.exp_loss_logger.extract_loss_functions"><code class="docutils literal notranslate"><span class="pre">extract_loss_functions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.exp_loss_logger.html#modlee.exp_loss_logger.get_exp_loss_for_model"><code class="docutils literal notranslate"><span class="pre">get_exp_loss_for_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.dataframes.html">modlee.dataframes module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.dataframes.html#modlee.dataframes.DataFrameTransforms"><code class="docutils literal notranslate"><span class="pre">DataFrameTransforms</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.dataframes.html#modlee.dataframes.ModleeDataFrame"><code class="docutils literal notranslate"><span class="pre">ModleeDataFrame</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.dataframes.html#modlee.dataframes.default_transforms"><code class="docutils literal notranslate"><span class="pre">default_transforms()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.loss_sweeper.html">modlee.loss_sweeper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.model_metafeatures.html">modlee.model_metafeatures module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageClassificationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageClassificationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageSegmentationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageSegmentationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TabularClassificationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularClassificationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TabularModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TimeseriesForecastingModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesForecastingModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TimeseriesModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesModelMetafeatures</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.model_text_converter.html">modlee.model_text_converter module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_text_converter.html#modlee.model_text_converter.exhaust_sequence_branch"><code class="docutils literal notranslate"><span class="pre">exhaust_sequence_branch()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text"><code class="docutils literal notranslate"><span class="pre">get_code_text()</span></code></a></li>
@@ -198,27 +253,27 @@
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_text_converter.html#modlee.model_text_converter.save_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">save_code_text_for_model()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.modlee_image_model.html">modlee.modlee_image_model module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ImageCallback"><code class="docutils literal notranslate"><span class="pre">ImageCallback</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ModleeImageModel"><code class="docutils literal notranslate"><span class="pre">ModleeImageModel</span></code></a></li>
-</ul>
-</li>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.retriever.html">modlee.retriever module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_cached_vars"><code class="docutils literal notranslate"><span class="pre">get_cached_vars()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_data_snapshot"><code class="docutils literal notranslate"><span class="pre">get_data_snapshot()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_model"><code class="docutils literal notranslate"><span class="pre">get_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_runs"><code class="docutils literal notranslate"><span class="pre">get_runs()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.trainer.html">modlee.trainer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.utils.html">modlee.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.DummyDataset"><code class="docutils literal notranslate"><span class="pre">DummyDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.TimeseriesDataset"><code class="docutils literal notranslate"><span class="pre">TimeseriesDataset</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.class_from_modality_task"><code class="docutils literal notranslate"><span class="pre">class_from_modality_task()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_dataloader"><code class="docutils literal notranslate"><span class="pre">get_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_imagenette_dataloader"><code class="docutils literal notranslate"><span class="pre">get_imagenette_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_modality_task"><code class="docutils literal notranslate"><span class="pre">get_modality_task()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.image_loaders"><code class="docutils literal notranslate"><span class="pre">image_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
@@ -226,6 +281,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.tabular_loaders"><code class="docutils literal notranslate"><span class="pre">tabular_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.text_loaders"><code class="docutils literal notranslate"><span class="pre">text_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.timeseries_loader"><code class="docutils literal notranslate"><span class="pre">timeseries_loader</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.timeseries_loaders"><code class="docutils literal notranslate"><span class="pre">timeseries_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
@@ -255,13 +314,21 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#environment-issues">Environment Issues</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-google-colab-environment">Problem: Google Colab Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-google-colab-run-out-of-gpu-compute">Problem: Google Colab, Run Out of GPU Compute</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-kaggle-notebook-environment">Problem: Kaggle Notebook Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-kaggle-notebook-run-out-of-gpu-compute">Problem: Kaggle Notebook, Run Out of GPU Compute</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#still-need-help">Still Need Help?</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Careers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html">Grow Your ML Career with Modlee</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html#real-world-ml-challenges">Real-World ML Challenges</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html#join-the-talent-pool">Join the Talent Pool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html#curated-ml-job-board">Curated ML Job Board</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../careers.html#next-steps">Next Steps</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Support</span></p>
 <ul>
@@ -327,10 +394,10 @@ examples</a>
 while waiting.</p>
 <p><strong>NOTE:</strong><em>if you receive a message to “restart the runtime in order to
 use newly installed versions,” you can safely “cancel.”</em></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;replace-with-your-api-key&quot;</span>
-<span class="o">!</span>curl<span class="w"> </span>-H<span class="w"> </span>X-API-KEY:<span class="nv">$MODLEE_API_KEY</span><span class="w"> </span>https://server.modlee.ai:7070/get_wheel/requirements.txt<span class="w"> </span>-O
-<span class="o">!</span>pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
+os.environ[&#39;MODLEE_API_KEY&#39;] = &quot;replace-with-your-api-key&quot;
+!curl -H X-API-KEY:$MODLEE_API_KEY https://server.modlee.ai:7070/get_wheel/requirements.txt -O
+!pip3 install -r requirements.txt
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -668,29 +735,29 @@ tensorflow-metadata 1.14.0 requires protobuf&lt;4.21,&gt;=3.20.3, but you have p
 [0mSuccessfully installed GitPython-3.1.42 Mako-1.3.2 PyJWT-2.8.0 Pygments-2.17.2 SQLAlchemy-2.0.28 alembic-1.13.1 anyio-4.3.0 arrow-1.3.0 backoff-2.2.1 blessed-1.20.0 boto3-1.34.66 botocore-1.34.66 cmake-3.28.3 croniter-1.4.1 databricks-cli-0.18.0 deepdiff-6.7.1 docker-6.1.3 editor-1.6.6 fastapi-0.110.0 filelock-3.13.1 fsspec-2024.3.1 gitdb-4.0.11 gower-0.1.2 gunicorn-21.2.0 h11-0.14.0 igraph-0.11.4 importlib-metadata-6.11.0 inquirer-3.2.4 jmespath-1.0.1 lit-18.1.1 mlflow-2.6.0 onnx-1.14.1 ordered-set-4.1.0 packaging-23.2 pandas-2.2.1 protobuf-4.25.3 psutil-5.9.8 pyarrow-12.0.1 pydantic-1.10.12 pydantic_core-2.4.0 pymfe-0.4.2 pytest-8.1.1 python-dateutil-2.9.0.post0 python-multipart-0.0.9 querystring-parser-1.2.4 readchar-4.0.6 runs-1.2.2 s3transfer-0.10.1 scikit-learn-1.4.1.post1 smmap-5.0.1 starlette-0.36.3 starsessions-1.3.0 texttable-1.7.0 traitlets-5.14.2 types-python-dateutil-2.9.0.20240316 tzdata-2024.1 urllib3-2.2.1 uvicorn-0.29.0 websockets-12.0 xmod-1.8.1
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>curl<span class="w"> </span>-H<span class="w"> </span>X-API-KEY:<span class="nv">$MODLEE_API_KEY</span><span class="w"> </span>https://server.modlee.ai:7070/get_wheel/modlee-0.0.1.post6-py3-none-any.whl<span class="w"> </span>-O
-<span class="o">!</span>curl<span class="w"> </span>-H<span class="w"> </span>X-API-KEY:<span class="nv">$MODLEE_API_KEY</span><span class="w"> </span>https://server.modlee.ai:7070/get_wheel/onnx2torch-1.5.11-py3-none-any.whl<span class="w"> </span>-O
-<span class="o">!</span>curl<span class="w"> </span>-H<span class="w"> </span>X-API-KEY:<span class="nv">$MODLEE_API_KEY</span><span class="w"> </span>https://server.modlee.ai:7070/get_wheel/onnx_graphsurgeon-0.3.27-py2.py3-none-any.whl<span class="w"> </span>-O
-<span class="o">!</span>pip3<span class="w"> </span>install<span class="w"> </span>--force-reinstall<span class="w"> </span>--no-deps<span class="w"> </span>modlee-0.0.1.post6-py3-none-any.whl<span class="w"> </span>onnx2torch-1.5.11-py3-none-any.whl<span class="w"> </span>onnx_graphsurgeon-0.3.27-py2.py3-none-any.whl<span class="w"> </span><span class="err">\</span>
-    <span class="n">lightning</span><span class="o">==</span><span class="mf">2.0.7</span> <span class="n">pytorch</span><span class="o">-</span><span class="n">lightning</span><span class="o">==</span><span class="mf">2.0.7</span> <span class="n">lightning</span><span class="o">-</span><span class="n">utilities</span> <span class="n">lightning</span><span class="o">-</span><span class="n">cloud</span> <span class="n">torchmetrics</span><span class="o">==</span><span class="mf">1.3.2</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>!curl -H X-API-KEY:$MODLEE_API_KEY https://server.modlee.ai:7070/get_wheel/modlee-0.0.1.post6-py3-none-any.whl -O
+!curl -H X-API-KEY:$MODLEE_API_KEY https://server.modlee.ai:7070/get_wheel/onnx2torch-1.5.11-py3-none-any.whl -O
+!curl -H X-API-KEY:$MODLEE_API_KEY https://server.modlee.ai:7070/get_wheel/onnx_graphsurgeon-0.3.27-py2.py3-none-any.whl -O
+!pip3 install --force-reinstall --no-deps modlee-0.0.1.post6-py3-none-any.whl onnx2torch-1.5.11-py3-none-any.whl onnx_graphsurgeon-0.3.27-py2.py3-none-any.whl \
+    lightning==2.0.7 pytorch-lightning==2.0.7 lightning-utilities lightning-cloud torchmetrics==1.3.2
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Boilerplate imports</span>
-<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">ssl</span>
-<span class="n">ssl</span><span class="o">.</span><span class="n">_create_default_https_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">_create_unverified_context</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Boilerplate imports
+import os, sys
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
-<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
-<span class="kn">import</span> <span class="nn">torchvision</span>
-<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
-<span class="kn">from</span> <span class="nn">torchvision.transforms.functional</span> <span class="kn">import</span> <span class="n">InterpolationMode</span>
-<span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.utils.data import DataLoader
+import torchvision
+from torchvision import transforms
+from torchvision.transforms.functional import InterpolationMode
+import lightning.pytorch as pl
 
-<span class="c1"># Cache the current directory</span>
-<span class="n">exercise_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+# Cache the current directory
+exercise_dir = os.path.abspath(os.getcwd())
 </pre></div>
 </div>
 </section>
@@ -701,66 +768,66 @@ experiment. Please <a class="reference external" href="https://www.documentation
 example</a>
 before continuing.</p>
 <p>In the next cell, import <code class="docutils literal notranslate"><span class="pre">modlee</span></code> and initialize with an API key.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Your code goes here. Import the modlee package and initialize with your API key.</span>
-<span class="c1"># Import</span>
-<span class="kn">import</span>
-<span class="c1"># Initialize</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Your code goes here. Import the modlee package and initialize with your API key.
+# Import
+import
+# Initialize
 </pre></div>
 </div>
 <p>Download the training and validation datasets. This cell requires no
 modifications.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Normalization parameters for ImageNet</span>
-<span class="n">imagenet_mean</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">]</span>  <span class="c1"># mean of the imagenet dataset for normalizing</span>
-<span class="n">imagenet_std</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">]</span>  <span class="c1"># std of the imagenet dataset for normalizing</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Normalization parameters for ImageNet
+imagenet_mean = [0.485, 0.456, 0.406]  # mean of the imagenet dataset for normalizing
+imagenet_std = [0.229, 0.224, 0.225]  # std of the imagenet dataset for normalizing
 
-<span class="k">def</span> <span class="nf">replace_tensor_value_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="n">tensor</span><span class="p">[</span><span class="n">tensor</span> <span class="o">==</span> <span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span>
-    <span class="k">return</span> <span class="n">tensor</span>
+def replace_tensor_value_(tensor, a, b):
+    tensor[tensor == a] = b
+    return tensor
 
-<span class="n">input_resize</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
-<span class="n">input_transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="n">input_resize</span><span class="p">,</span>
-        <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
-        <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">imagenet_mean</span><span class="p">,</span> <span class="n">imagenet_std</span><span class="p">),</span>
-    <span class="p">]</span>
-<span class="p">)</span>
+input_resize = transforms.Resize((224, 224))
+input_transform = transforms.Compose(
+    [
+        input_resize,
+        transforms.ToTensor(),
+        transforms.Normalize(imagenet_mean, imagenet_std),
+    ]
+)
 
-<span class="n">target_resize</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">InterpolationMode</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">)</span>
-<span class="n">target_transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="n">target_resize</span><span class="p">,</span>
-        <span class="n">transforms</span><span class="o">.</span><span class="n">PILToTensor</span><span class="p">(),</span>
-        <span class="n">transforms</span><span class="o">.</span><span class="n">Lambda</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">replace_tensor_value_</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">(),</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">21</span><span class="p">)),</span>
-    <span class="p">]</span>
-<span class="p">)</span>
+target_resize = transforms.Resize((224, 224), interpolation=InterpolationMode.NEAREST)
+target_transform = transforms.Compose(
+    [
+        target_resize,
+        transforms.PILToTensor(),
+        transforms.Lambda(lambda x: replace_tensor_value_(x.squeeze(0).long(), 255, 21)),
+    ]
+)
 
-<span class="c1"># Creating the dataset</span>
-<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">VOCSegmentation</span><span class="p">(</span>
-    <span class="s1">&#39;./datasets/&#39;</span><span class="p">,</span>
-    <span class="n">year</span><span class="o">=</span><span class="s1">&#39;2007&#39;</span><span class="p">,</span>
-    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">image_set</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">,</span>
-    <span class="n">transform</span><span class="o">=</span><span class="n">input_transform</span><span class="p">,</span>
-    <span class="n">target_transform</span><span class="o">=</span><span class="n">target_transform</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">val_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">VOCSegmentation</span><span class="p">(</span>
-    <span class="s1">&#39;./datasets/&#39;</span><span class="p">,</span>
-    <span class="n">year</span><span class="o">=</span><span class="s1">&#39;2007&#39;</span><span class="p">,</span>
-    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">image_set</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">,</span>
-    <span class="n">transform</span><span class="o">=</span><span class="n">input_transform</span><span class="p">,</span>
-    <span class="n">target_transform</span><span class="o">=</span><span class="n">target_transform</span><span class="p">,</span>
-<span class="p">)</span>
+# Creating the dataset
+train_dataset = torchvision.datasets.VOCSegmentation(
+    &#39;./datasets/&#39;,
+    year=&#39;2007&#39;,
+    download=True,
+    image_set=&#39;val&#39;,
+    transform=input_transform,
+    target_transform=target_transform,
+)
+val_dataset = torchvision.datasets.VOCSegmentation(
+    &#39;./datasets/&#39;,
+    year=&#39;2007&#39;,
+    download=True,
+    image_set=&#39;val&#39;,
+    transform=input_transform,
+    target_transform=target_transform,
+)
 </pre></div>
 </div>
 <p>Load the datasets into data loaders. This cell requires no modification.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">val_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>BATCH_SIZE = 16
+train_dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
+val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=True)
 
-<span class="c1"># Cache an input to pass through the model later</span>
-<span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">))</span>
+# Cache an input to pass through the model later
+x, _ = next(iter(train_dataloader))
 </pre></div>
 </div>
 <p>In the next cell, we will construct the model. We initialize the model
@@ -770,91 +837,91 @@ We subclass the <code class="docutils literal notranslate"><span class="pre">mod
 experiment will automatically document. At minimum, you must define the
 <code class="docutils literal notranslate"><span class="pre">__init__()</span></code>, <code class="docutils literal notranslate"><span class="pre">forward()</span></code>, <code class="docutils literal notranslate"><span class="pre">training_step()</span></code>, and
 <code class="docutils literal notranslate"><span class="pre">configure_optimizers()</span></code> functions.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use a prerained torchvision Fully Connected Network</span>
-<span class="n">fcn_model</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">segmentation</span><span class="o">.</span><span class="n">fcn_resnet50</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Use a prerained torchvision Fully Connected Network
+fcn_model = torchvision.models.segmentation.fcn_resnet50(num_classes=22)
 
-<span class="c1"># Subclass the correct modlee class</span>
-<span class="k">class</span> <span class="nc">ModleeFCN</span><span class="p">(</span> <span class="s1">&#39;&#39;&#39; Replace this with the correct modlee parent class &#39;&#39;&#39;</span><span class="p">):</span>
+# Subclass the correct modlee class
+class ModleeFCN( &#39;&#39;&#39; Replace this with the correct modlee parent class &#39;&#39;&#39;):
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="c1"># Set the above fcn object to self.model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span>
-        <span class="k">pass</span>
+    def __init__(self, *args, **kwargs):
+        super().__init__()
+        self.model = # Set the above fcn object to self.model
+        self.loss_fn = F.cross_entropy
+        pass
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="c1"># Fill out the forward pass</span>
-        <span class="c1"># Should return a tensor after it has passed through the model</span>
-        <span class="k">pass</span>
+    def forward(self, x):
+        # Fill out the forward pass
+        # Should return a tensor after it has passed through the model
+        pass
 
-    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
-        <span class="c1"># Fill out the training step</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="c1"># Get the input and output from the batch</span>
+    def training_step(self, batch, batch_idx):
+        # Fill out the training step
+        x, y_target = # Get the input and output from the batch
 
-        <span class="c1"># The segmentation dataset returns a dictionary,</span>
-        <span class="c1"># so extract the output tensor at &#39;out&#39;</span>
-        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="s1">&#39;out&#39;</span><span class="p">]</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="c1"># Calculate the loss between the prediction and target</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;loss&#39;</span><span class="p">:</span> <span class="n">loss</span><span class="p">}</span>
+        # The segmentation dataset returns a dictionary,
+        # so extract the output tensor at &#39;out&#39;
+        y_pred = self(x)[&#39;out&#39;]
+        loss = # Calculate the loss between the prediction and target
+        return {&#39;loss&#39;: loss}
 
-    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># Fill out the optimizer configuration</span>
-        <span class="k">pass</span>
+    def configure_optimizers(self):
+        # Fill out the optimizer configuration
+        pass
 
-<span class="c1"># Create the model object</span>
-<span class="n">modlee_model</span> <span class="o">=</span> <span class="n">ModleeFCN</span><span class="p">()</span>
+# Create the model object
+modlee_model = ModleeFCN()
 </pre></div>
 </div>
 <p>In the next cell, start training within a <code class="docutils literal notranslate"><span class="pre">modlee.start_run()</span></code> context
 manager.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Your code goes here. Start training within a modlee.start_run() context manager</span>
-<span class="c1"># Create the context manager (with ... as ... :)</span>
-<span class="k">with</span> <span class="c1"># Fill in the context manager (with ... as ...)</span>
-    <span class="c1"># Create the trainer object</span>
-    <span class="n">trainer</span> <span class="o">=</span>
-    <span class="c1"># Fit the trainer to the model and the training dataloader</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
-        <span class="c1"># Fill in the arguments for training</span>
-    <span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Your code goes here. Start training within a modlee.start_run() context manager
+# Create the context manager (with ... as ... :)
+with # Fill in the context manager (with ... as ...)
+    # Create the trainer object
+    trainer =
+    # Fit the trainer to the model and the training dataloader
+    trainer.fit(
+        # Fill in the arguments for training
+    )
 </pre></div>
 </div>
 <p>Rebuild the saved model. First, determine the path to the most recent
 run.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_run_path</span> <span class="o">=</span> <span class="c1"># Get the last run path</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run path: </span><span class="si">{</span><span class="n">last_run_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">artifacts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">,</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">)</span>
-<span class="n">artifacts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved artifacts: </span><span class="si">{</span><span class="n">artifacts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;ARTIFACTS_PATH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">artifacts_path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>last_run_path = # Get the last run path
+print(f&quot;Run path: {last_run_path}&quot;)
+artifacts_path = os.path.join(last_run_path, &#39;artifacts&#39;)
+artifacts = os.listdir(artifacts_path)
+print(f&quot;Saved artifacts: {artifacts}&quot;)
+os.environ[&#39;ARTIFACTS_PATH&#39;] = artifacts_path
 </pre></div>
 </div>
 <p>Next, reload the model from the assets saved in the <code class="docutils literal notranslate"><span class="pre">artifacts/</span></code>
 directory.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add the artifacts directory to the path,</span>
-<span class="c1"># so we can import the model</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">artifacts_path</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Add the artifacts directory to the path,
+# so we can import the model
+sys.path.insert(0, artifacts_path)
 
-<span class="c1"># Print out the first few lines of the model</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model graph:&quot;</span><span class="p">)</span>
-<span class="o">!</span>head<span class="w"> </span><span class="nv">$ARTIFACTS_PATH</span>/model_graph.py
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data metafeatures:&quot;</span><span class="p">)</span>
-<span class="o">!</span>head<span class="w"> </span><span class="nv">$ARTIFACTS_PATH</span>/stats_rep
+# Print out the first few lines of the model
+print(&quot;Model graph:&quot;)
+!head $ARTIFACTS_PATH/model_graph.py
+print(&quot;\n&quot;)
+print(&quot;Data metafeatures:&quot;)
+!head $ARTIFACTS_PATH/stats_rep
 
-<span class="c1"># Import the model graph:</span>
-<span class="kn">import</span>
-<span class="nn">rebuilt_model</span> <span class="o">=</span> <span class="c1"># Construct the model from the model graph module</span>
-<span class="c1"># Set the model to evaluation mode to turn off gradients</span>
-<span class="n">rebuilt_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+# Import the model graph:
+import
+rebuilt_model = # Construct the model from the model graph module
+# Set the model to evaluation mode to turn off gradients
+rebuilt_model.eval()
 </pre></div>
 </div>
 <p>Next, we pass an input from the train dataloader (which we cached
 earlier) through the model.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pass an input through the model</span>
-<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-    <span class="n">y_rebuilt</span> <span class="o">=</span> <span class="n">rebuilt_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Pass an input through the model
+with torch.no_grad():
+    y_rebuilt = rebuilt_model(x)
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rebuilt output shape: </span><span class="si">{</span><span class="n">y_rebuilt</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+print(f&quot;Rebuilt output shape: {y_rebuilt.shape}&quot;)
 </pre></div>
 </div>
 <p>You have completed the documentation example.</p>
@@ -868,49 +935,49 @@ before continuing.</p>
 <p>We can skip the <code class="docutils literal notranslate"><span class="pre">modlee</span></code> initialization steps assuming we did so in
 the documentation example. First, we create a dataloader from CIFAR10.
 This cell does not need any modifications.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transforms</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span><span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>transforms = transforms.Compose([transforms.ToTensor(),transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span>
-    <span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transforms</span><span class="p">)</span>
-<span class="n">val_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span>
-    <span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transforms</span><span class="p">)</span>
+train_dataset = torchvision.datasets.CIFAR10(
+    root=&#39;./data&#39;, train=True, download=True, transform=transforms)
+val_dataset = torchvision.datasets.CIFAR10(
+    root=&#39;./data&#39;, train=False, download=True, transform=transforms)
 
-<span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
-    <span class="n">train_dataset</span><span class="p">,</span>
-    <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">val_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
-    <span class="n">val_dataset</span><span class="p">,</span>
-    <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span>
-<span class="p">)</span>
+train_dataloader = torch.utils.data.DataLoader(
+    train_dataset,
+    batch_size=16,
+)
+val_dataloader = torch.utils.data.DataLoader(
+    val_dataset,
+    batch_size=16
+)
 </pre></div>
 </div>
 <p>Create a <code class="docutils literal notranslate"><span class="pre">modlee</span></code> recommender object for an image classification task
 and fit to the dataset. This process will calculate the dataset
 metafeatures to send to the server. The server will return a recommended
 model for the dataset assigned to <code class="docutils literal notranslate"><span class="pre">recommender.model</span></code>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recommender</span> <span class="o">=</span> <span class="c1"># Create a recommender object for Image Classification</span>
-<span class="n">recommender</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">)</span>
-<span class="n">modlee_model</span> <span class="o">=</span> <span class="c1"># Extract the model from the recommender</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>recommender = # Create a recommender object for Image Classification
+recommender.fit(train_dataloader)
+modlee_model = # Extract the model from the recommender
 </pre></div>
 </div>
 <p><strong>TODO</strong> Convert modlee model to graph text, print the first few lines</p>
 <p>We can train the model as we would a basic <code class="docutils literal notranslate"><span class="pre">ModleeModel</span></code>, with
 automatic documentation of metafeatures.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create and train the trainer</span>
-<span class="k">with</span> <span class="c1"># ... as ...:</span>
-    <span class="n">trainer</span> <span class="o">=</span> <span class="c1"># Create the trainer</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
-        <span class="c1"># Fill in the arguments</span>
-    <span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create and train the trainer
+with # ... as ...:
+    trainer = # Create the trainer
+    trainer.fit(
+        # Fill in the arguments
+    )
 </pre></div>
 </div>
 <p>Finally, we can view the saved assets from training.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_run_path</span> <span class="o">=</span> <span class="c1"># Get the last run path</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run path: </span><span class="si">{</span><span class="n">last_run_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">artifacts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">last_run_path</span><span class="p">,</span> <span class="s1">&#39;artifacts&#39;</span><span class="p">)</span>
-<span class="n">artifacts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">artifacts_path</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved artifacts: </span><span class="si">{</span><span class="n">artifacts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>last_run_path = # Get the last run path
+print(f&quot;Run path: {last_run_path}&quot;)
+artifacts_path = os.path.join(last_run_path, &#39;artifacts&#39;)
+artifacts = os.listdir(artifacts_path)
+print(f&quot;Saved artifacts: {artifacts}&quot;)
 </pre></div>
 </div>
 </section>

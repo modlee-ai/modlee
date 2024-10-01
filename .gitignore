@@ -22,9 +22,16 @@ examples/tmp
 .data*
 .scratch
 
+
 # Assets that get cached
 ./model.py
 ./model.txt
+./model_text.txt
+./examples/model.py
+./examples/model.txt
+./tests/end2end_tests/model.py
+./tests/end2end_tests/model.txt
+./tests/scratch
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -155,6 +162,8 @@ env/
 venv/
 ENV/
 env.bak/
+myenv/
+myenv/
 venv.bak/
 
 # Spyder project settings
@@ -188,7 +197,18 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+src/modlee/housing.csv
+tests/tabular_tests.py
 # Additional ignores
 docs/build/html/_images/
 myenv/
 .gitignore.save
+*.txt
+
+*modlee_interview_data/
+newenv/
+newfile.txt
+output.txt
+
+./input_file*
+./output_file*

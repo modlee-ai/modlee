@@ -7,6 +7,11 @@ import logging
 import modlee
 from modlee.utils import get_model_size, typewriter_print
 from modlee.converter import Converter
+from modlee import dataframes
+from modlee import dataframes
+
+modlee_converter = Converter()
+
 from datetime import datetime
 import lightning.pytorch as pl
 import torch
@@ -50,8 +55,6 @@ class Recommender(object):
         self.metafeatures = None
         self.origin = origin
         self.MetafeatureClass = modlee.data_metafeatures.DataMetafeatures
-        if dataloader is not None:
-            self.analyze(dataloader)
 
     def __call__(self, *args, **kwargs):
         """
@@ -86,18 +89,10 @@ class Recommender(object):
         """
         if modlee.data_metafeatures.module_available:
             logging.info("Analyzing dataset based on data metafeatures...")
-
-            # return data_metafeature_cls(dataloader, testing=True).stats_rep
-
+            
             ret = data_metafeature_cls(dataloader, testing=True)
             ret = ret.features
-            # ret.update({
-            #     k:np.prod(v) for k,v in ret.items()
-            # })
-            # ret = pd.DataFrame(ret)
-            # ret = dataframes.default_transforms(ret)
-            # breakpoint()
-            # TODO - might just need to do the data transformations so that this can pass to the vdb lookup
+
             return ret
         else:
             print("Could not analyze data (check access to server)")
@@ -118,7 +113,6 @@ class Recommender(object):
         assert (
             self.task is not None
         ), "Recommender task is not set (e.g. classification, segmentation)"
-        # breakpoint()
         metafeatures = json.loads(json.dumps(metafeatures))
 
         res = api_config.client.get(
@@ -131,8 +125,9 @@ class Recommender(object):
                 "Access-Control-Allow-Headers": "*",
                 "Access-Control-Allow-Methods": "*",
             },
-            timeout=30,
+            timeout=120,
         )
+        #debug this in modlee.client ModleeClient._request
         model_text = res.content
         return model_text
 

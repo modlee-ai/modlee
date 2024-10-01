@@ -39,14 +39,22 @@ modlee
 
 
    guides
+   optimizing_ml_guide
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Examples
    :hidden:
 
    notebooks/recommend
+   notebooks/image_segmentation
    notebooks/document
+   notebooks/tabular_classification_example
+   notebooks/time_series_forecasting
+   notebooks/image_embeddings
+   notebooks/text_embeddings
+   notebooks/audio_embeddings
+   
 
 .. toctree::
    :maxdepth: 10
@@ -62,6 +70,14 @@ modlee
 
 
    troubleshooting
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Careers
+   :hidden:
+
+
+   careers
 
 .. toctree::
    :maxdepth: 4
@@ -161,6 +177,12 @@ capabilities in your code and customizing it to fit your needs.
 If you encounter issues or have questions, our troubleshooting guides are here to help. This section 
 addresses common problems and provides solutions to ensure a smooth experience with Modlee.
 
+`Grow Your ML Career with Modlee <careers.html>`_
+------------
+This section helps you advance your machine learning career by providing real-world challenges, job 
+opportunities, and access to the Modlee Talent Pool. Work through ML exercises, benchmark your skills, 
+and join top AI companies with support from Modlee.
+
 `Support <support.html>`_
 ------------
 For additional assistance, visit our support page. Here, you can find resources for getting help, 
@@ -175,4 +197,3 @@ Indices
 
 * :ref:`genindex`
 * :ref:`modindex`
-.. * :ref:`search`

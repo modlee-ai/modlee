@@ -91,7 +91,7 @@ class DataFrameTransforms:
         if scaler is None:
             scaler = StandardScaler()
             scaler.fit(df)
-
+            
         df = scaler.transform(df)
         df = pd.DataFrame(df, columns=columns)
         return df, scaler
@@ -104,11 +104,11 @@ class DataFrameTransforms:
             return df
 
         return apply_transforms
-
-
+    
 DEFAULT_TRANSFORMS = [
     DataFrameTransforms.list_cols2item,
     DataFrameTransforms.drop_nonnum,
     DataFrameTransforms.dropna,
+    # DataFrameTransforms.normalize,
 ]
 default_transforms = DataFrameTransforms.compose(DEFAULT_TRANSFORMS)

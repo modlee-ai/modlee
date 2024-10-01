@@ -1,4 +1,4 @@
-#%%
+# %%
 import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -6,9 +6,12 @@ ssl._create_default_https_context = ssl._create_unverified_context
 import random
 import math
 import time
+from functools import partial
 
 import numpy as np
-
+import pandas as pd
+from statsmodels.tsa.stattools import acf, pacf
+from statsmodels.tsa.seasonal import seasonal_decompose
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.decomposition import PCA
 from sklearn.metrics import (
@@ -16,7 +19,7 @@ from sklearn.metrics import (
     calinski_harabasz_score,
     davies_bouldin_score,
 )
-
+from torch.utils.data import DataLoader
 import spacy
 from pymfe.mfe import MFE
 
@@ -31,7 +34,7 @@ from torchvision.models import (
 )  # , vit_l_32
 import torch.nn.functional as F
 
-from modlee.utils import closest_power_of_2, _make_serializable
+from modlee.utils import closest_power_of_2, _make_serializable, class_from_modality_task
 
 fixed_resize = 32
 import logging, warnings
@@ -371,7 +374,7 @@ def get_image_features(x, testing=False):
     for pair in name_model_pairs:
         # feature_dict[pair[0]] = extract_features(pair[1], x)
         try:
-            feature_dict[pair[0]] = torch.zeros(1,1)
+            feature_dict[pair[0]] = torch.zeros(1, 1)
             # feature_dict[pair[0]] = extract_features_from_model(pair[1], x)
         except:
             # if model is not compatible with data, just skip for now
@@ -460,14 +463,15 @@ def sample_dataloader(train_dataloader, num_sample):
     try:
         for i in range(num_batch_elements):
             batch_elements.append(
-                torch.concat([torch.Tensor(b[i]).cpu() for b in sampled_batches])
+                torch.cat([b[i].cpu() if b[i].is_cuda else b[i] for b in sampled_batches])
             )
-    except:
-        pass
+    except Exception as e:
+        print(f"Error processing batches: {e}")
 
     batch_elements_orig_shapes = [b.shape for b in batch_elements]
 
     return dataset_size, batch_elements, batch_elements_orig_shapes
+
 
 def get_n_samples(dataloader, n_samples=100):
     """
@@ -481,16 +485,21 @@ def get_n_samples(dataloader, n_samples=100):
     while len(batch[0]) < n_samples:
         _batch = next(iter(dataloader))
         # for b,_b in zip(batch, _batch):
-        for i,b in enumerate(_batch):
+        for i, b in enumerate(_batch):
             if isinstance(b, torch.Tensor):
-                batch[i] = torch.cat((batch[i],b), dim=0)
+                batch[i] = torch.cat((batch[i], b), dim=0)
             else:
                 batch[i] = list(batch[i]) + list(b)
                 # batch[i].append(b)
             batch[i] = batch[i][:n_samples]
-            
+
+    # Ensure the entire batch is on the CPU
+    for i, b in enumerate(batch):
+        if isinstance(b, torch.Tensor):
+            batch[i] = b.cpu() if b.is_cuda else b
+
     return batch
-            
+
 
 class DataMetafeatures(object):
     """
@@ -518,9 +527,11 @@ class DataMetafeatures(object):
         self.num_sample = num_sample
 
         # general and independent of any data type or ml task
-        self.dataset_size, self.batch_elements, self.batch_elements_orig_shapes = sample_dataloader(
-            dataloader, num_sample
-        )
+        (
+            self.dataset_size,
+            self.batch_elements,
+            self.batch_elements_orig_shapes,
+        ) = sample_dataloader(dataloader, num_sample)
 
         # needs to be defined in child classes based on data type, still ml task independent
         self.batch_features = self.get_raw_batch_elements()
@@ -544,21 +555,29 @@ class DataMetafeatures(object):
         #     })
         # for mfe_key,mfe_value in self.mfe_features.items():
         #     self.batch_stats[mfe_key].update(mfe_value)
-        
+
         self.properties = self.get_properties()
 
         # general and independent of any data type or ml task
         self.stats_rep = self.get_features()
         # TODO - deprecated "stats_rep" for "features"
         self.features = self.stats_rep
-        # self.stats_rep.update(self.mfe_features)
+        # breakpoint()
+        self.features = {
+            # **self.embedding,
+            **self.mfe,
+            **self.properties
+        }
+        # self.features = self._make_serializable(self.features)
+
+       # self.stats_rep.update(self.mfe_features)
         self._serializable_stats_rep = self._make_serializable(self.stats_rep)
 
     def get_raw_batch_elements(self):
         """
         Convert features to a list of dictionaries.
 
-        :return: A list of {'raw': feature} 
+        :return: A list of {'raw': feature}
         """
         return [{"raw": element} for element in self.batch_elements]
 
@@ -572,7 +591,6 @@ class DataMetafeatures(object):
         stats_rep = {"dataset_size": self.dataset_size, "num_sample": self.num_sample}
 
         for i in range(len(self.batch_elements)):
-
             batch_stat = self.batch_stats[i]
             batch_stat["orig_shape"] = self.batch_elements_orig_shapes[i]
             batch_stat["mfe_features"] = self.mfe_features[i]
@@ -587,21 +605,23 @@ class DataMetafeatures(object):
         Get properties — features that are not calculated, e.g. shapes
         """
         ret = {
-            'dataset_size':self.dataset_size,
+            "dataset_size": self.dataset_size,
         }
         samples = get_n_samples(self.dataloader)
-        for i,sample in enumerate(samples):
+        for i, sample in enumerate(samples):
             # Get shape
             if not isinstance(sample, torch.Tensor):
                 sample = np.array(sample)
             sample_shape = list(sample.shape)
             sample_dim = len(sample_shape)
-            ret.update({
-                f'elem_{i}_shape':sample_shape,
-                f'elem_{i}_dims':sample_dim,
-                })
-        return ret
+            ret.update(
+                {
+                    f"elem_{i}_shape": sample_shape,
+                    f"elem_{i}_dims": sample_dim,
+                }
+            )
 
+        return ret
 
     get_stats_rep = get_features
 
@@ -662,10 +682,9 @@ class DataMetafeatures(object):
         :param batch_element: The batch element to calculate.
         :return: A dictionary of features for the batch element.
         """
-        
+
         # If the batch element is a tensor, convert to numpy array
         if isinstance(batch_element, torch.Tensor):
-
             if len(batch_element.shape) > 2:
                 if len(batch_element.shape) >= 3:
                     batch_element = torchvision.transforms.functional.resize(
@@ -685,8 +704,9 @@ class DataMetafeatures(object):
         features = mfe.extract()
         feature_dict = {k: v for k, v in zip(*features)}
         return feature_dict
+
     get_mfe_on_element = get_mfe_on_batch
-    
+
     def get_mfe(self):
         """
         Get PyMFE features for every element in the dataloader
@@ -696,10 +716,9 @@ class DataMetafeatures(object):
         samples = get_n_samples(self.dataloader)
         sample_mfes = [self.get_mfe_on_element(sample) for sample in samples]
         ret = {}
-        for i,sample_mfe in enumerate(sample_mfes):
-            ret.update({f'{k}_{i}':v for k,v in sample_mfe.items()})
+        for i, sample_mfe in enumerate(sample_mfes):
+            ret.update({f"{k}_{i}": v for k, v in sample_mfe.items()})
         return ret
-
 
 
 class ImageDataMetafeatures(DataMetafeatures):
@@ -709,12 +728,12 @@ class ImageDataMetafeatures(DataMetafeatures):
 
     def __init__(self, dataloader, embd_model=None, *args, **kwargs):
         super().__init__(dataloader, *args, **kwargs)
-        if not embd_model:
-            self.embd_model = torchvision.models.resnet18(
-                weights='IMAGENET1K_V1'
-            )
-            self.embd_model.eval()
-        self.embedding = self.get_embedding()
+        # if not embd_model:
+        #     self.embd_model = torchvision.models.resnet18(weights="IMAGENET1K_V1")
+        #     self.embd_model.eval()
+        # self.embedding = self.get_embedding()
+        # self.features.update(self.embedding)
+        self.features = self._make_serializable(self.features)
         pass
 
     def get_raw_batch_elements(self):
@@ -727,29 +746,38 @@ class ImageDataMetafeatures(DataMetafeatures):
             get_image_features(element, testing=self.testing)
             for element in self.batch_elements
         ]
-    
+
     def get_embedding(self, index=0, max_len=100):
         samples = get_n_samples(self.dataloader)
         # Assume inputs are the first batch element
         x = samples[index]
         with torch.no_grad():
             embds = self.embd_model(x)
-            embds = embds[:,:max_len]
-       
+            embds = embds[:, :max_len]
+
         # Return distributions of each embedding axis
-        ret = {f'embd_{index}_mean_{i}':float(v.numpy()) for i,v in enumerate(embds.mean(axis=0))}
-        ret.update({f'embd_{index}_std_{i}':float(v.numpy()) for i,v in enumerate(embds.std(axis=0))}) 
+        ret = {
+            f"embd_{index}_mean_{i}": float(v.numpy())
+            for i, v in enumerate(embds.mean(axis=0))
+        }
+        ret.update(
+            {
+                f"embd_{index}_std_{i}": float(v.numpy())
+                for i, v in enumerate(embds.std(axis=0))
+            }
+        )
         return ret
+
 
 class TextDataMetafeatures(DataMetafeatures):
     def __init__(self, dataloader, nlp_model=None, *args, **kwargs):
         super().__init__(dataloader, *args, **kwargs)
         # self.dataloader = dataloader
-        if not nlp_model:
-            # TODO - consider using a larger model embedding e.g. en_code_web_sm -> 300D
-            # and truncate
-            self.nlp_model = spacy.load('en_core_web_sm')
-        self.embedding = self.get_embedding()
+        # if not nlp_model:
+        #     # TODO - consider using a larger model embedding e.g. en_code_web_sm -> 300D
+        #     # and truncate
+        #     self.nlp_model = spacy.load("en_core_web_sm")
+        # self.embedding = self.get_embedding()
         pass
 
     def get_embedding(self, index=None, max_len=100, *args, **kwargs):
@@ -766,17 +794,187 @@ class TextDataMetafeatures(DataMetafeatures):
             while not isinstance(samples[index][0], str):
                 index += 1
                 if index == len(samples):
-                    raise IndexError(f"No string elements in {self}, cannot calculate embedding with spaCy")
+                    raise IndexError(
+                        f"No string elements in {self}, cannot calculate embedding with spaCy"
+                    )
         embds = list(map(lambda x: self.nlp_model(x).vector, samples[index]))
         embds = torch.Tensor(embds)
-        embds = embds[:,:max_len]
+        embds = embds[:, :max_len]
         # Return distributions of each embedding axis
-        # TODO - consider how batch elements are sorted, should they be indexed by the index that the 
+        # TODO - consider how batch elements are sorted, should they be indexed by the index that the
         # string elements appear? at "embd_{INDEX}..."
         # ret = {f'embd_{index}_mean_{i}':float(v.numpy()) for i,v in enumerate(embds.mean(axis=0))}
         # ret.update({f'embd_{index}_std_{i}':float(v.numpy()) for i,v in enumerate(embds.std(axis=0))})
         # TODO - consider this assumption, not indexing the embeddings at all
-        ret = {f'embd_mean_{i}':float(v.numpy()) for i,v in enumerate(embds.mean(axis=0))}
-        ret.update({f'embd_std_{i}':float(v.numpy()) for i,v in enumerate(embds.std(axis=0))})
+        ret = {
+            f"embd_mean_{i}": float(v.numpy()) for i, v in enumerate(embds.mean(axis=0))
+        }
+        ret.update(
+            {f"embd_std_{i}": float(v.numpy()) for i, v in enumerate(embds.std(axis=0))}
+        )
         return ret
         breakpoint()
+
+class TabularDataMetafeatures(DataMetafeatures):
+    def __init__(self, dataloader, *args, **kwargs):
+        super().__init__(dataloader, *args, **kwargs)
+        self.stats_rep = self.get_features()
+        # Ensure that self.features is flat
+        self.features.update(self.stats_rep)
+        # TODO - replace with actual embedding
+        # self.embedding = self.stats_rep
+        pass
+
+    def get_features(self):
+        stats_rep = {}
+        for idx, element in enumerate(self.batch_elements):
+            if isinstance(element, torch.Tensor):
+                np_element = element.numpy()
+                stats = self.calculate_statistical_summary(np_element)
+                # Add a prefix to each stat key to ensure uniqueness and flat structure
+                for key, value in stats.items():
+                    stats_rep[f'batch_element_{idx}_{key}'] = value
+        return stats_rep
+
+    def calculate_statistical_summary(self, data):
+        df = pd.DataFrame(data)
+        summary = {
+            'mean': df.mean().tolist(),
+            'median': df.median().tolist(),
+            'variance': df.var().tolist(),
+            'std_dev': df.std().tolist(),
+            'min': df.min().tolist(),
+            'max': df.max().tolist(),
+            'range': (df.max() - df.min()).tolist(),  # Add range calculation
+            'quantiles_25': df.quantile(0.25).tolist(),
+            'quantiles_50': df.quantile(0.50).tolist(),
+            'quantiles_75': df.quantile(0.75).tolist()
+        }
+        return summary
+
+    
+class TimeseriesDataMetafeatures(DataMetafeatures):
+    def __init__(self, dataloader):
+        super().__init__(dataloader=dataloader)  # Make sure parent class is called with dataloader
+        self.stats_rep = self.calculate_metafeatures()
+
+    def get_single_batch(self):
+        """
+        Retrieves a single batch from the dataloader and returns the data tensor,
+        ensuring that the tensor is moved to the CPU if it is on a different device (e.g., GPU).
+        """
+        for batch in self.dataloader:
+            print(f"Batch type: {type(batch)}")
+            
+            # If batch is a list of tensors
+            if isinstance(batch, list) and all(isinstance(item, torch.Tensor) for item in batch):
+                # Assuming you want the first tensor from the list as the data tensor
+                data_tensor = batch[0]
+                # Move to CPU if necessary
+                return data_tensor.cpu() if data_tensor.is_cuda else data_tensor
+            
+            # If batch is a single tensor
+            elif isinstance(batch, torch.Tensor):
+                # Move to CPU if necessary
+                return batch.cpu() if batch.is_cuda else batch
+            
+            # If batch is a tuple with two elements (data and label)
+            elif isinstance(batch, tuple) and len(batch) == 2:
+                data_tensor = batch[0]
+                # Move to CPU if necessary
+                return data_tensor.cpu() if data_tensor.is_cuda else data_tensor
+            
+            else:
+                raise ValueError("Batch is not in expected format (list of tensors, tuple with two elements, or a tensor).")
+        
+        raise ValueError("No valid batch found in dataloader.")
+
+    def calculate_metafeatures(self,advanced=False):
+        data = self.get_single_batch()
+        logging.debug(f"Data shape: {data.shape}")
+        
+        if data.size == 0:
+            raise ValueError("No data available in the batch.")
+        
+        # Flatten the 3D data to 2D for metafeature calculation
+        num_samples, seq_len, num_features = data.shape
+        data_2d = data.reshape(-1, num_features).numpy()  # Convert tensor to NumPy array
+        logging.debug(f"Flattened data shape: {data_2d.shape}")
+        logging.debug(f"Flattened data: {data_2d}")
+        
+        # Extract metafeatures using pymfe
+        mfe = MFE(groups=["statistical", "model-based", "info-theory"])
+        mfe.fit(data_2d)  # Pass the flattened NumPy array
+        ft = mfe.extract()
+        pymfe_features = dict(zip(ft[0], ft[1]))
+        logging.debug(f"Extracted pymfe features: {pymfe_features}")
+        
+        # Calculate additional features
+        additional_features = {}
+        if advanced == True:
+        
+            # Combine all features into a single time series
+            combined_series = data_2d.flatten()
+            logging.debug(f"Combined series: {combined_series}")
+            
+            # Calculate quantiles
+            quantiles = np.percentile(combined_series, [25, 50, 75])
+            logging.debug(f"Quantiles: {quantiles}")
+            
+            # Calculate autocorrelation and partial autocorrelation
+            autocorr = acf(combined_series, nlags=1)
+            logging.debug(f"Autocorrelation: {autocorr}")
+            if len(combined_series) > 2:
+                partial_autocorr = pacf(combined_series, nlags=min(1, len(combined_series) // 2 - 1))
+            else:
+                partial_autocorr = [np.nan]  # or some default value
+            logging.debug(f"Partial Autocorrelation: {partial_autocorr}")
+            
+            if len(autocorr) > 1:
+                autocorr_lag1 = autocorr[1]
+            else:
+                autocorr_lag1 = np.nan  # or some default value
+            
+            if len(partial_autocorr) > 1:
+                partial_autocorr_lag1 = partial_autocorr[1]
+            else:
+                partial_autocorr_lag1 = np.nan  # or some default value
+            
+            # Decompose the combined time series to extract trend and seasonality
+            if len(combined_series) >= 24:  # Check if we have enough data for a period of 12
+                decomposition = seasonal_decompose(combined_series, period=12, model='additive', extrapolate_trend='freq')
+                trend = decomposition.trend
+                seasonal = decomposition.seasonal
+                trend_strength = np.nanmean(trend)
+                seasonal_strength = np.nanmean(seasonal)
+                logging.debug(f"Trend: {trend}")
+                logging.debug(f"Seasonal: {seasonal}")
+            else:
+                trend_strength = np.nan
+                seasonal_strength = np.nan
+            
+            additional_features.update({
+                "combined_quantile_25": quantiles[0],
+                "combined_quantile_50": quantiles[1],
+                "combined_quantile_75": quantiles[2],
+                "combined_autocorr_lag1": autocorr_lag1,
+                "combined_partial_autocorr_lag1": partial_autocorr_lag1,
+                "combined_trend_strength": trend_strength,
+                "combined_seasonal_strength": seasonal_strength,
+            })
+        
+        # Combine pymfe features with additional features
+        combined_features = {**pymfe_features, **additional_features}
+        logging.debug(f"Combined features: {combined_features}")
+        return combined_features
+    
+    def print_meta(self, features):
+        # Calculate the maximum length of the keys
+        max_key_length = max(len(key) for key in features.keys())
+        
+        # Print each key-value pair with the keys aligned
+        for key, value in features.items():
+            logging.debug(f"{key:<{max_key_length}} : {value}")
+        return None
+    
+from_modality_task = partial(class_from_modality_task, _class="Data_Metafeatures")

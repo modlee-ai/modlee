@@ -1,4 +1,4 @@
-.. image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+|image1|
 
 Additional Resources
 ====================
@@ -30,7 +30,7 @@ Contributing
 ------------
 
 Modlee is built and maintained by a team passionate about AI innovation,
-infrastructure, and meta learning. We welcome contributions from anyone
+infrastructure, and meta-learning. We welcome contributions from anyone
 interested in improving Modlee, whether you are a developer, researcher,
 or enthusiast. Here’s how you can contribute:
 
@@ -79,3 +79,5 @@ For further assistance, explore our
 sections. Join our `community <https://discord.com/invite/m8YDbWDvrF>`__
 or reach out to us directly at `support@modlee.ai <support@modlee.ai>`__
 if you need more help or have specific questions.
+
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg

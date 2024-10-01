@@ -35,4 +35,3 @@ Your feedback is invaluable in helping us improve Modlee. By participating in is
 
 ## More Information
 For further assistance, explore our [Projects](https://docs.modlee.ai/tutorial.html), [Guides](https://docs.modlee.ai/guides.html), and [Troubleshooting](https://docs.modlee.ai/troubleshooting.html) sections. Join our [community](https://discord.com/invite/m8YDbWDvrF) or reach out to us directly at [support@modlee.ai](support@modlee.ai) if you need more help or have specific questions.
-

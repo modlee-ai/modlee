@@ -109,12 +109,11 @@ Encountering problems with Modlee? This page provides solutions to the most comm
 
 **Solutions**:
 
-- **Check Input Parameters**: Ensure that the parameters passed to the recommender function are correct. For example, verify that the `modality` and `task` parameters are properly specified and supported by Modlee.
+- **Check Input Parameters**: Ensure that the parameters passed to the recommender function are correct. For example, verify that the `num_classes` parameter is properly specified and supported by Modlee.
   
     ```python
-    recommender = modlee.recommender.from_modality_task(
-        modality='image',
-        task='classification'
+    recommender = modlee.recommender.ImageClassificationRecommender(
+        num_classes=10 
     )
     ```
 - **Verify Dataset Compatibility**: Ensure that the dataset you are using is compatible with the recommender's modality and task. The recommender might not be able to suggest a model if the dataset or task does not align with available models.
@@ -125,30 +124,29 @@ Encountering problems with Modlee? This page provides solutions to the most comm
 
 ## Environment Issues
 
-### Problem: Google Colab Environment 
+### Problem: Kaggle Notebook Environment
 
-**Issue**: Encountering problems while using Modlee in a Google Colab environment.
+**Issue**: Encountering problems while using Modlee in a Kaggle Notebook environment.
 
 **Solutions**:
 
-- **Check Runtime Type**: Ensure that the runtime type in Google Colab is set correctly. Go to `Runtime` > `Change runtime type` and select the appropriate hardware accelerator (e.g., GPU or CPU) based on your needs.
+- **Check Accelerator Type**: Ensure that the accelerator type in the Kaggle Notebook is set correctly. Go to the notebook’s Session Options and select the appropriate accelerator (e.g., GPU, TPU, or CPU) depending on your project requirements.
 
 - **Install Dependencies**: Verify that all necessary packages and dependencies are installed. You might need to install or update the libraries using:
   
     ```shell
-    !pip install modlee torch torchvision pytorch-lightning
+    pip install modlee
     ```
   
-- **Check File Paths**: Ensure that file paths for data and models are correctly specified, especially when using Google Drive. Use Colab-specific code to mount Google Drive if needed:
+- **Check File Paths**: Make sure the file paths for data and models are correctly specified, especially when accessing datasets stored in Kaggle's input directory. If needed, load datasets directly from the Kaggle datasets:
   
     ```python
-    from google.colab import drive
-    drive.mount('/content/drive')
+    dataset = pd.read_csv('/kaggle/input/your-dataset/your-dataset.csv')
     ```
 
-### Problem: Google Colab, Run Out of GPU Compute
+### Problem: Kaggle Notebook, Run Out of GPU Compute
 
-**Issue**: Errors while connecting to GPU on Google Colab.
+**Issue**: Errors while connecting to GPU on Kaggle Notebooks.
 
 **Solutions**:
 
@@ -158,7 +156,7 @@ Encountering problems with Modlee? This page provides solutions to the most comm
     train_loader = DataLoader(dataset, batch_size=4, shuffle=True)
     ```
 - **Free Up GPU Memory**: Clear unused variables and force garbage collection to free up GPU memory
-- **Upgrade Runtime**: If possible, upgrade your Colab environment to a higher tier with more GPU resources.
+- **Upgrade Runtime**: If possible, upgrade your Kaggle account to a Pro tier for more GPU resources.
 
 ---
 
