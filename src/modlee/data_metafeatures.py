@@ -463,10 +463,10 @@ def sample_dataloader(train_dataloader, num_sample):
     try:
         for i in range(num_batch_elements):
             batch_elements.append(
-                torch.concat([torch.Tensor(b[i]).cpu() for b in sampled_batches])
+                torch.cat([b[i].cpu() if b[i].is_cuda else b[i] for b in sampled_batches])
             )
-    except:
-        pass
+    except Exception as e:
+        print(f"Error processing batches: {e}")
 
     batch_elements_orig_shapes = [b.shape for b in batch_elements]
 
@@ -492,6 +492,11 @@ def get_n_samples(dataloader, n_samples=100):
                 batch[i] = list(batch[i]) + list(b)
                 # batch[i].append(b)
             batch[i] = batch[i][:n_samples]
+
+    # Ensure the entire batch is on the CPU
+    for i, b in enumerate(batch):
+        if isinstance(b, torch.Tensor):
+            batch[i] = b.cpu() if b.is_cuda else b
 
     return batch
 
@@ -847,23 +852,6 @@ class TabularDataMetafeatures(DataMetafeatures):
         }
         return summary
 
-# class TimeseriesDataMetafeatures(DataMetafeatures):
-#     def __init__(self, dataloader):
-#         self.dataloader = dataloader
-#         self.stats_rep = self.calculate_metafeatures()
-
-#     def get_single_batch(self):
-#         for batch in self.dataloader:
-#             #print(f"Batch type: {type(batch)}")
-#             #print(f"Batch content: {batch}")
-
-#             if isinstance(batch, tuple) and len(batch) == 2:
-#                 data_tensor = batch[0]
-#                 return data_tensor
-#             else:
-#                 raise ValueError("Batch is not in expected tuple format with two elements.")
-            
-#         raise ValueError("No valid batch found in dataloader.")
     
 class TimeseriesDataMetafeatures(DataMetafeatures):
     def __init__(self, dataloader):
@@ -871,6 +859,10 @@ class TimeseriesDataMetafeatures(DataMetafeatures):
         self.stats_rep = self.calculate_metafeatures()
 
     def get_single_batch(self):
+        """
+        Retrieves a single batch from the dataloader and returns the data tensor,
+        ensuring that the tensor is moved to the CPU if it is on a different device (e.g., GPU).
+        """
         for batch in self.dataloader:
             print(f"Batch type: {type(batch)}")
             
@@ -878,16 +870,23 @@ class TimeseriesDataMetafeatures(DataMetafeatures):
             if isinstance(batch, list) and all(isinstance(item, torch.Tensor) for item in batch):
                 # Assuming you want the first tensor from the list as the data tensor
                 data_tensor = batch[0]
-                return data_tensor
+                # Move to CPU if necessary
+                return data_tensor.cpu() if data_tensor.is_cuda else data_tensor
+            
             # If batch is a single tensor
             elif isinstance(batch, torch.Tensor):
-                return batch
+                # Move to CPU if necessary
+                return batch.cpu() if batch.is_cuda else batch
+            
             # If batch is a tuple with two elements (data and label)
             elif isinstance(batch, tuple) and len(batch) == 2:
                 data_tensor = batch[0]
-                return data_tensor
+                # Move to CPU if necessary
+                return data_tensor.cpu() if data_tensor.is_cuda else data_tensor
+            
             else:
                 raise ValueError("Batch is not in expected format (list of tensors, tuple with two elements, or a tensor).")
+        
         raise ValueError("No valid batch found in dataloader.")
 
     def calculate_metafeatures(self,advanced=False):

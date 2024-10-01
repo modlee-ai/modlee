@@ -75,6 +75,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../tutorial.html#using-modlee-to-recommend-and-train-a-model">1. Using Modlee to Recommend and Train a Model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tutorial.html#custom-model-implementation">2. Custom Model Implementation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tutorial.html#compare-models">3. Compare Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#view-saved-training-assets">4. View Saved Training Assets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tutorial.html#conclusion">Conclusion</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tutorial.html#recommended-next-steps">Recommended Next Steps</a></li>
 </ul>
@@ -169,8 +170,10 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="recommend.html">Image Classification Model Recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image_segmentation.html">Image Segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="document.html">Automate Experiment Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tabular_classification_example.html">Tabular Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_series_forecasting.html">Time Series Forecasting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="image_embeddings.html">Image Embeddings With Tabular Classification Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text_embeddings.html">Text Embeddings With Tabular Classification Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio_embeddings.html">Audio Embeddings With Tabular Classification Model</a></li>
@@ -181,7 +184,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../modules/modlee.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.model.html">modlee.model package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model.html#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model.html#module-modlee.model">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.recommender.html">modlee.recommender package</a><ul>
@@ -192,34 +195,97 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../modules/modlee.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.api_config.html">modlee.api_config module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.client.html">modlee.client module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.api_config.html">modlee.api_config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.client.html">modlee.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.config.html">modlee.config module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.converter.html">modlee.converter module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.converter.html#modlee.converter.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.dataframes.html">modlee.dataframes module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.model_metafeatures.html">modlee.model_metafeatures module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.model_text_converter.html">modlee.model_text_converter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TabularDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TextDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TimeseriesDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_n_samples"><code class="docutils literal notranslate"><span class="pre">get_n_samples()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_4"><code class="docutils literal notranslate"><span class="pre">manipulate_x_4()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_5"><code class="docutils literal notranslate"><span class="pre">manipulate_x_5()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.pad_image_channels"><code class="docutils literal notranslate"><span class="pre">pad_image_channels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_dataloader"><code class="docutils literal notranslate"><span class="pre">sample_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_channels"><code class="docutils literal notranslate"><span class="pre">sample_image_channels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_from_video"><code class="docutils literal notranslate"><span class="pre">sample_image_from_video()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.dataframes.html">modlee.dataframes module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.dataframes.html#modlee.dataframes.DataFrameTransforms"><code class="docutils literal notranslate"><span class="pre">DataFrameTransforms</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.dataframes.html#modlee.dataframes.ModleeDataFrame"><code class="docutils literal notranslate"><span class="pre">ModleeDataFrame</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.dataframes.html#modlee.dataframes.default_transforms"><code class="docutils literal notranslate"><span class="pre">default_transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.model_metafeatures.html">modlee.model_metafeatures module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageClassificationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageClassificationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageSegmentationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageSegmentationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TabularClassificationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularClassificationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TabularModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TimeseriesForecastingModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesForecastingModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TimeseriesModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesModelMetafeatures</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/modlee.model_text_converter.html">modlee.model_text_converter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_text_converter.html#modlee.model_text_converter.exhaust_sequence_branch"><code class="docutils literal notranslate"><span class="pre">exhaust_sequence_branch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text"><code class="docutils literal notranslate"><span class="pre">get_code_text()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">get_code_text_for_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.model_text_converter.html#modlee.model_text_converter.save_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">save_code_text_for_model()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.retriever.html">modlee.retriever module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_cached_vars"><code class="docutils literal notranslate"><span class="pre">get_cached_vars()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_data_snapshot"><code class="docutils literal notranslate"><span class="pre">get_data_snapshot()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_model"><code class="docutils literal notranslate"><span class="pre">get_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.get_runs"><code class="docutils literal notranslate"><span class="pre">get_runs()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.run_dir_exists"><code class="docutils literal notranslate"><span class="pre">run_dir_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../modules/modlee.utils.html">modlee.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.DummyDataset"><code class="docutils literal notranslate"><span class="pre">DummyDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.TimeseriesDataset"><code class="docutils literal notranslate"><span class="pre">TimeseriesDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.class_from_modality_task"><code class="docutils literal notranslate"><span class="pre">class_from_modality_task()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_dataloader"><code class="docutils literal notranslate"><span class="pre">get_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_imagenette_dataloader"><code class="docutils literal notranslate"><span class="pre">get_imagenette_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_modality_task"><code class="docutils literal notranslate"><span class="pre">get_modality_task()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.image_loaders"><code class="docutils literal notranslate"><span class="pre">image_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.quantize_dict"><code class="docutils literal notranslate"><span class="pre">quantize_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.tabular_loaders"><code class="docutils literal notranslate"><span class="pre">tabular_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.text_loaders"><code class="docutils literal notranslate"><span class="pre">text_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.timeseries_loader"><code class="docutils literal notranslate"><span class="pre">timeseries_loader</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.timeseries_loaders"><code class="docutils literal notranslate"><span class="pre">timeseries_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
 </li>
@@ -248,8 +314,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#environment-issues">Environment Issues</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-google-colab-environment">Problem: Google Colab Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-google-colab-run-out-of-gpu-compute">Problem: Google Colab, Run Out of GPU Compute</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-kaggle-notebook-environment">Problem: Kaggle Notebook Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../troubleshooting.html#problem-kaggle-notebook-run-out-of-gpu-compute">Problem: Kaggle Notebook, Run Out of GPU Compute</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../troubleshooting.html#still-need-help">Still Need Help?</a></li>
@@ -334,8 +400,8 @@ submitting for evaluation</p></li>
 <p>You can also use our
 <a class="reference external" href="https://docs.modlee.ai/README.html">documenation</a> as a reference for
 using our package.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">modlee</span> <span class="n">torch</span> <span class="n">torchvision</span> <span class="n">pytorch</span><span class="o">-</span><span class="n">lightning</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
+!pip install modlee torch torchvision pytorch-lightning
 </pre></div>
 </div>
 </section>
@@ -355,15 +421,15 @@ following two cells; they will execute successively. This process may
 take a few minutes, so you can <a class="reference external" href="https://docs.modlee.ai/notebooks/document.html">review the
 examples</a> while
 waiting.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
-<span class="o">%</span><span class="k">autoreload</span> 2
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%load_ext autoreload
+%autoreload 2
 
-<span class="c1"># Set your API key</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="c1">#simulate setting environment variable</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;GZ4a6OoXmCXUHDJGnnGWNofsPrK0YF0i&quot;</span>
-<span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODLEE_API_KEY&#39;</span><span class="p">]</span>
-<span class="k">assert</span> <span class="n">api_key</span> <span class="o">!=</span> <span class="s2">&quot;replace-with-your-api-key&quot;</span><span class="p">,</span> <span class="s2">&quot;Please update the placeholder for your Modlee API key. See above Installation instructions.&quot;</span>
+# Set your API key
+import os
+#simulate setting environment variable
+os.environ[&#39;MODLEE_API_KEY&#39;] = &quot;GZ4a6OoXmCXUHDJGnnGWNofsPrK0YF0i&quot;
+api_key = os.environ[&#39;MODLEE_API_KEY&#39;]
+assert api_key != &quot;replace-with-your-api-key&quot;, &quot;Please update the placeholder for your Modlee API key. See above Installation instructions.&quot;
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">autoreload</span> <span class="n">extension</span> <span class="ow">is</span> <span class="n">already</span> <span class="n">loaded</span><span class="o">.</span> <span class="n">To</span> <span class="n">reload</span> <span class="n">it</span><span class="p">,</span> <span class="n">use</span><span class="p">:</span>
@@ -374,19 +440,19 @@ waiting.</p>
 <section id="step-2">
 <h2>Step 2<a class="headerlink" href="#step-2" title="Link to this heading"></a></h2>
 <p>Time to import our packages for this exercise.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span><span class="nn">zipfile</span><span class="o">,</span><span class="nn">shutil</span><span class="o">,</span><span class="nn">requests</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os,zipfile,shutil,requests
 
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
-<span class="kn">import</span> <span class="nn">torch.jit</span> <span class="k">as</span> <span class="nn">jit</span>
-<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+import torch
+from torch.utils.data import DataLoader
+import torch.nn as nn
+import torch.optim as optim
+import torch.jit as jit
+import torch.nn.functional as F
+import numpy as np
 
-<span class="kn">import</span> <span class="nn">lightning.pytorch</span> <span class="k">as</span> <span class="nn">pl</span>
-<span class="kn">import</span> <span class="nn">modlee</span>
-<span class="kn">from</span> <span class="nn">modlee.recommender</span> <span class="kn">import</span> <span class="n">from_modality_task</span> <span class="k">as</span> <span class="n">trainer_for_modality_task</span>
+import lightning.pytorch as pl
+import modlee
+from modlee.recommender import from_modality_task as trainer_for_modality_task
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">tarushsingh</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">Python</span><span class="o">/</span><span class="n">Modlee</span><span class="o">/</span><span class="n">modlee_pypi</span><span class="o">/</span><span class="n">venv</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">tqdm</span><span class="o">/</span><span class="n">auto</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">21</span><span class="p">:</span> <span class="n">TqdmWarning</span><span class="p">:</span> <span class="n">IProgress</span> <span class="ow">not</span> <span class="n">found</span><span class="o">.</span> <span class="n">Please</span> <span class="n">update</span> <span class="n">jupyter</span> <span class="ow">and</span> <span class="n">ipywidgets</span><span class="o">.</span> <span class="n">See</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">ipywidgets</span><span class="o">.</span><span class="n">readthedocs</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">en</span><span class="o">/</span><span class="n">stable</span><span class="o">/</span><span class="n">user_install</span><span class="o">.</span><span class="n">html</span>
@@ -402,15 +468,15 @@ waiting.</p>
 <p>If you are completing a Screening Exercise for an organization please
 copy the <code class="docutils literal notranslate"><span class="pre">exercise_id</span></code>, <code class="docutils literal notranslate"><span class="pre">exercise_modality</span></code>, and <code class="docutils literal notranslate"><span class="pre">exercise_task</span></code>
 given to you in your invite email and paste below.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exercise_id</span> <span class="o">=</span> <span class="s1">&#39;TS-M4_GM_A_E_H__323565277395&#39;</span>
-<span class="n">exercise_modality</span> <span class="o">=</span> <span class="s1">&#39;time_series&#39;</span>
-<span class="n">exercise_task</span> <span class="o">=</span> <span class="s1">&#39;prediction&#39;</span>
-<span class="n">model_size_restriction_MB</span> <span class="o">=</span> <span class="s1">&#39;10&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>exercise_id = &#39;TS-M4_GM_A_E_H__323565277395&#39;
+exercise_modality = &#39;time_series&#39;
+exercise_task = &#39;prediction&#39;
+model_size_restriction_MB = &#39;10&#39;
 
-<span class="k">assert</span> <span class="n">exercise_id</span> <span class="o">!=</span> <span class="s2">&quot;replace-with-your-exercise-id&quot;</span><span class="p">,</span> <span class="s2">&quot;Please update the placeholder for your Modlee Exercise ID. See above Installation instructions.&quot;</span>
-<span class="k">assert</span> <span class="n">exercise_modality</span> <span class="o">!=</span> <span class="s2">&quot;replace-with-your-modality&quot;</span><span class="p">,</span> <span class="s2">&quot;Please update the placeholder for your Modlee Exercise ID. See above Installation instructions.&quot;</span>
-<span class="k">assert</span> <span class="n">exercise_task</span> <span class="o">!=</span> <span class="s2">&quot;replace-with-your-exercise-task&quot;</span><span class="p">,</span> <span class="s2">&quot;Please update the placeholder for your Modlee Exercise Task. See above Installation instructions.&quot;</span>
-<span class="k">assert</span> <span class="n">model_size_restriction_MB</span> <span class="o">!=</span> <span class="s2">&quot;replace-with-your-model_size_restriction_MB&quot;</span><span class="p">,</span> <span class="s2">&quot;Please update the placeholder for your Modlee Exercise model_size_restriction_MB. See above Installation instructions.&quot;</span>
+assert exercise_id != &quot;replace-with-your-exercise-id&quot;, &quot;Please update the placeholder for your Modlee Exercise ID. See above Installation instructions.&quot;
+assert exercise_modality != &quot;replace-with-your-modality&quot;, &quot;Please update the placeholder for your Modlee Exercise ID. See above Installation instructions.&quot;
+assert exercise_task != &quot;replace-with-your-exercise-task&quot;, &quot;Please update the placeholder for your Modlee Exercise Task. See above Installation instructions.&quot;
+assert model_size_restriction_MB != &quot;replace-with-your-model_size_restriction_MB&quot;, &quot;Please update the placeholder for your Modlee Exercise model_size_restriction_MB. See above Installation instructions.&quot;
 </pre></div>
 </div>
 </section>
@@ -426,33 +492,33 @@ As the focus of this exercise is not on data manipulation, you are
 requested not to make any modifications to the dataloader settings. This
 ensures that you can direct your efforts towards strategic model
 building and analysis tasks.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">root_url</span> <span class="o">=</span> <span class="s1">&#39;https://evalserver.modlee.ai:6060&#39;</span>
-<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">root_url</span><span class="si">}</span><span class="s2">/get-interview-utils&quot;</span>  <span class="c1"># Change the port if your Flask app is running on a different one</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;api_key&#39;</span><span class="p">:</span> <span class="n">api_key</span><span class="p">,</span><span class="s1">&#39;exercise_id&#39;</span><span class="p">:</span><span class="n">exercise_id</span><span class="p">})</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>root_url = &#39;https://evalserver.modlee.ai:6060&#39;
+url = f&quot;{root_url}/get-interview-utils&quot;  # Change the port if your Flask app is running on a different one
+response = requests.get(url, params={&#39;api_key&#39;: api_key,&#39;exercise_id&#39;:exercise_id})
 
-<span class="c1"># Check if the request was successful</span>
-<span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;interview_utils.py&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">8192</span><span class="p">):</span>
-            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;File downloaded and saved as interview_utils.py&quot;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to download file:&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+# Check if the request was successful
+if response.status_code == 200:
+    with open(&#39;interview_utils.py&#39;, &#39;wb&#39;) as file:
+        for chunk in response.iter_content(chunk_size=8192):
+            file.write(chunk)
+    print(&quot;File downloaded and saved as interview_utils.py&quot;)
+else:
+    print(&quot;Failed to download file:&quot;, response.status_code)
 
-<span class="kn">from</span> <span class="nn">interview_utils</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">interview_utils</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span><span class="n">submit</span>
+from interview_utils import *
+from interview_utils import setup,submit
 
-<span class="n">train_dataloader</span><span class="p">,</span> <span class="n">val_dataloader</span><span class="p">,</span> <span class="n">train_dataloader_shape</span><span class="p">,</span> <span class="n">val_dataloader_shape</span> <span class="o">=</span> <span class="n">setup</span><span class="p">(</span><span class="n">api_key</span><span class="p">,</span><span class="n">exercise_id</span><span class="p">)</span>
+train_dataloader, val_dataloader, train_dataloader_shape, val_dataloader_shape = setup(api_key,exercise_id)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">File</span> <span class="n">downloaded</span> <span class="ow">and</span> <span class="n">saved</span> <span class="k">as</span> <span class="n">interview_utils</span><span class="o">.</span><span class="n">py</span>
 <span class="n">File</span> <span class="n">downloaded</span> <span class="n">successfully</span><span class="p">:</span> <span class="o">./</span><span class="n">modlee_interview_data</span><span class="o">/</span><span class="n">modlee_interview_data</span><span class="o">.</span><span class="n">zip</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># DO NOT MODIFY</span>
-<span class="n">input_size</span> <span class="o">=</span> <span class="n">train_dataloader_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">output_size</span> <span class="o">=</span> <span class="n">train_dataloader_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">output_seq_len</span> <span class="o">=</span> <span class="n">val_dataloader_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># 7 time steps for prediction</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># DO NOT MODIFY
+input_size = train_dataloader_shape[2]
+output_size = train_dataloader_shape[2]
+output_seq_len = val_dataloader_shape[1]  # 7 time steps for prediction
 </pre></div>
 </div>
 </section>
@@ -470,39 +536,39 @@ developing custom neural network based solutions.</p>
 Guidelines</a>
 throughout your experimentation to ensure your submitions are evaluated
 properly.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">------------------------------------------------</span>
-<span class="sd">TODO: Make Changes Here</span>
-<span class="sd">------------------------------------------------</span>
-<span class="sd">   ExampleLSTM is defined just to get you started.</span>
-<span class="sd">   Please experiment with many models searching for the best.</span>
-<span class="sd">   We recommend experimenting with at least 10 different models in this exercise.</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>&#39;&#39;&#39;
+------------------------------------------------
+TODO: Make Changes Here
+------------------------------------------------
+   ExampleLSTM is defined just to get you started.
+   Please experiment with many models searching for the best.
+   We recommend experimenting with at least 10 different models in this exercise.
+&#39;&#39;&#39;
 
-<span class="k">class</span> <span class="nc">ExampleLSTM</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">output_size</span><span class="p">,</span> <span class="n">output_seq_len</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">ExampleLSTM</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lstm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_seq_len</span> <span class="o">=</span> <span class="n">output_seq_len</span>
+class ExampleLSTM(nn.Module):
+    def __init__(self, input_size, hidden_size, num_layers, output_size, output_seq_len):
+        super(ExampleLSTM, self).__init__()
+        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
+        self.fc = nn.Linear(hidden_size, output_size)
+        self.output_seq_len = output_seq_len
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="c1"># x: [batch_size, seq_len, input_size] where seq_len=10</span>
-        <span class="n">lstm_out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lstm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="c1"># Initialize an empty list to store the outputs for each of the 5 future time steps</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c1"># Use the hidden state from the last time step to predict each future time step</span>
-        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_seq_len</span><span class="p">):</span>
-            <span class="n">out_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">lstm_out</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span>  <span class="c1"># Use the last hidden state to predict each step</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out_step</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    def forward(self, x):
+        # x: [batch_size, seq_len, input_size] where seq_len=10
+        lstm_out, _ = self.lstm(x)
+        # Initialize an empty list to store the outputs for each of the 5 future time steps
+        out = []
+        # Use the hidden state from the last time step to predict each future time step
+        for t in range(self.output_seq_len):
+            out_step = self.fc(lstm_out[:, -1, :])  # Use the last hidden state to predict each step
+            out.append(out_step.unsqueeze(1))
 
-        <span class="n">out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Concatenate all time steps to form the output sequence</span>
-        <span class="k">return</span> <span class="n">out</span>
+        out = torch.cat(out, dim=1)  # Concatenate all time steps to form the output sequence
+        return out
 
 
-<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">-------------------------------------------------</span>
-<span class="sd">&#39;&#39;&#39;</span>
+&#39;&#39;&#39;
+-------------------------------------------------
+&#39;&#39;&#39;
 </pre></div>
 </div>
 <pre class="literal-block">'n-------------------------------------------------n'</pre>
@@ -521,68 +587,68 @@ but also allows us to assess your proficiency in optimizing and refining
 deep learning models through architectural adjustments. This step is
 crucial in demonstrating your ability to enhance model performance
 within given constraints.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">  ------------------------------------------------</span>
-<span class="sd">  TODO: Make Changes Here</span>
-<span class="sd">  ------------------------------------------------</span>
-<span class="sd">  Define parameters, training loop validation step</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>&#39;&#39;&#39;
+  ------------------------------------------------
+  TODO: Make Changes Here
+  ------------------------------------------------
+  Define parameters, training loop validation step
 
-<span class="sd">&#39;&#39;&#39;</span>
+&#39;&#39;&#39;
 
-<span class="c1"># JUST FOR CONTEXT - Since this is not supported in the package just yet,</span>
-<span class="c1"># we need to train manually, when it is supported, we will train like this</span>
+# JUST FOR CONTEXT - Since this is not supported in the package just yet,
+# we need to train manually, when it is supported, we will train like this
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">      modlee.mlflow.end_run()</span>
+&quot;&quot;&quot;
+      modlee.mlflow.end_run()
 
-<span class="sd">      trainer = trainer_for_modality_task(</span>
-<span class="sd">          modality=exercise_modality,</span>
-<span class="sd">          task=exercise_task,</span>
-<span class="sd">          )</span>
+      trainer = trainer_for_modality_task(
+          modality=exercise_modality,
+          task=exercise_task,
+          )
 
-<span class="sd">      trainer.dataloader = unzip_train_dataloader</span>
-<span class="sd">      trainer.model = modlee_model</span>
+      trainer.dataloader = unzip_train_dataloader
+      trainer.model = modlee_model
 
-<span class="sd">      trainer.train(max_epochs=10, val_dataloaders=unzip_val_dataloader)</span>
-<span class="sd">&quot;&quot;&quot;</span>
+      trainer.train(max_epochs=10, val_dataloaders=unzip_val_dataloader)
+&quot;&quot;&quot;
 
-<span class="c1"># Define parameters</span>
-<span class="n">hidden_size</span> <span class="o">=</span> <span class="mi">64</span>
-<span class="n">num_layers</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.001</span>
+# Define parameters
+hidden_size = 64
+num_layers = 2
+num_epochs = 100
+learning_rate = 0.001
 
-<span class="c1"># Create an instance of the model</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">ExampleLSTM</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">output_size</span><span class="p">,</span> <span class="n">output_seq_len</span><span class="p">)</span>
+# Create an instance of the model
+model = ExampleLSTM(input_size, hidden_size, num_layers, output_size, output_seq_len)
 
-<span class="c1"># Define loss function and optimizer</span>
-<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">)</span>
+# Define loss function and optimizer
+criterion = nn.MSELoss()
+optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
-<span class="c1"># Training Loop</span>
+# Training Loop
 
-<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">):</span>
-        <span class="c1"># Forward pass</span>
-        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+for epoch in range(num_epochs):
+    for i, (inputs, targets) in enumerate(train_dataloader):
+        # Forward pass
+        outputs = model(inputs)
+        loss = criterion(outputs, targets)
 
-        <span class="c1"># Backward and optimize</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        # Backward and optimize
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
 
-        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s1">], Step [</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">)</span><span class="si">}</span><span class="s1">], Loss: </span><span class="si">{</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        if (i + 1) % 100 == 0:
+            print(f&#39;Epoch [{epoch + 1}/{num_epochs}], Step [{i + 1}/{len(train_dataloader)}], Loss: {loss.item():.4f}&#39;)
 
-    <span class="c1"># Validation</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span> <span class="ow">in</span> <span class="n">val_dataloader</span><span class="p">:</span>
-            <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-            <span class="n">val_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s1">], Val Loss: </span><span class="si">{</span><span class="n">val_loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    # Validation
+    model.eval()
+    with torch.no_grad():
+        for inputs, targets in val_dataloader:
+            outputs = model(inputs)
+            val_loss = criterion(outputs, targets)
+        print(f&#39;Epoch [{epoch + 1}/{num_epochs}], Val Loss: {val_loss.item():.4f}&#39;)
+    model.train()
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Epoch</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">100</span><span class="p">],</span> <span class="n">Step</span> <span class="p">[</span><span class="mi">100</span><span class="o">/</span><span class="mi">105</span><span class="p">],</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">0.5550</span>
@@ -796,8 +862,8 @@ provide you with detailed feedback including accuracy, model size, and
 additional metrics. Keep in mind that <strong>there are no penalties for
 submitting suboptimal solutions</strong>, so feel free to submit multiple
 models as needed.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">submit</span><span class="p">(</span><span class="n">api_key</span><span class="p">,</span><span class="n">exercise_id</span><span class="p">,</span><span class="n">model</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="n">modlee</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;As a reminder, your exercises model_size_restriction_MB is &#39;</span><span class="p">,</span><span class="n">model_size_restriction_MB</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>submit(api_key,exercise_id,model,None,modlee)
+print(&#39;As a reminder, your exercises model_size_restriction_MB is &#39;,model_size_restriction_MB)
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Request</span> <span class="n">was</span> <span class="n">successful</span><span class="o">.</span>

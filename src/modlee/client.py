@@ -1,7 +1,7 @@
 """ 
 Modlee client for modlee server.
 """
-import os
+import os,time
 import requests
 import cloudpickle as pickle
 import functools
@@ -106,6 +106,12 @@ class ModleeClient(object):
         try:
             # Make the request dynamically using the provided method
             ret = getattr(requests, method)(req_url, *args, **kwargs)
+
+            if ret.status_code != 200:
+                #try again
+                logger.warning(f"Issue with server request, attempting again")
+                time.sleep(10)
+                ret = getattr(requests, method)(req_url, *args, **kwargs)
             
             # Check the status code and log appropriate warnings
             if ret.status_code >= 500:

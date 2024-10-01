@@ -1,4 +1,4 @@
-|image0|
+|image1|
 
 First Project with Modlee
 =========================
@@ -32,23 +32,17 @@ MNIST is used to test and compare classification algorithms. In this
 tutorial, we’ll use it to evaluate the performance of models recommended
 by Modlee and a custom-built model.
 
-|Open in Colab|
+|Open in Kaggle|
 
 Prerequisites
 ~~~~~~~~~~~~~
 
-Before starting, ensure you have the following packages installed:
-
--  ``torch``
--  ``torchvision``
--  ``pytorch_lightning``
--  ``modlee``
-
-You can install them using ``pip``:
+Before starting, ensure you have the ``modlee`` package installed. You
+can install it using ``pip``:
 
 .. code:: shell
 
-   pip install torch torchvision pytorch_lightning modlee
+   pip install modlee
 
 1. Using Modlee to Recommend and Train a Model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -62,13 +56,13 @@ a. **Import Required Libraries**
 
    .. code:: python
 
+      import os
+      import lightning.pytorch as pl
       import torchvision.transforms as transforms
       from torchvision.datasets import MNIST
       from torch.utils.data import DataLoader
-      import pytorch_lightning as pl
       import torch
       import modlee
-      import os
 
 b. **Initialize Modlee**
 
@@ -76,7 +70,8 @@ b. **Initialize Modlee**
 
    .. code:: python
 
-      modlee.init(api_key='replace-with-your-API-key')
+      os.environ['MODLEE_API_KEY'] = "replace-with-your-api-key"
+      modlee.init(api_key=os.environ.get('MODLEE_API_KEY'))
 
 c. **Define Data Transformations**
 
@@ -85,11 +80,11 @@ c. **Define Data Transformations**
    .. code:: python
 
       transform = transforms.Compose([
-      transforms.Resize((224, 224)),  # Resize images to 224x224 pixels
-      transforms.Grayscale(num_output_channels=3),  # Convert images to RGB format
-      transforms.ToTensor(),          # Convert images to tensors (PyTorch format)
-      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # Normalize images with mean and std deviation
-      ])
+      transforms.Resize((224, 224)),  
+      transforms.Grayscale(num_output_channels=3),  
+      transforms.ToTensor(),    
+      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)) 
+      ])  
 
    *What We Are Doing*: We prepare our images for the model by resizing
    them to 224x224 pixels, which ensures consistent input size. We then
@@ -110,8 +105,17 @@ d. **Load the MNIST Dataset**
 
    .. code:: python
 
-      train_dataset = MNIST(root='./data', train=True, download=True, transform=transform)
-      val_dataset = MNIST(root='./data', train=False, download=True, transform=transform)
+      train_dataset = MNIST( 
+      root='./data',
+      train=True, 
+      download=True,
+      transform=transform) 
+
+      val_dataset = MNIST(
+      root='./data',
+      train=False, 
+      download=True,
+      transform=transform)
 
    *What We Are Doing*: We are loading the MNIST dataset by specifying
    the directory to store the data and setting whether we want the
@@ -131,8 +135,14 @@ e. **Create DataLoaders**
 
    .. code:: python
 
-      train_loader = DataLoader(train_dataset, batch_size=4, shuffle=True)
-      val_dataloader = DataLoader(val_dataset, batch_size=4)
+      train_loader = DataLoader( 
+          train_dataset,
+          batch_size=4, 
+          shuffle=True)
+
+      val_dataloader = DataLoader(
+          val_dataset,
+          batch_size=4)
 
    *What We Are Doing*: We are creating ``DataLoaders`` for the training
    and validation datasets. The ``DataLoader`` manages how the data is
@@ -236,58 +246,70 @@ j. **Evaluate the Model**
 2. Custom Model Implementation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now, we’ll define a custom CNN model, train it, and evaluate its
-performance.
+Now, we’ll define a custom CNN model with Modlee’s framework, train it,
+and evaluate its performance.
 
 a. **Define the Custom Model**
 
-   We define a custom Convolutional Neural Network (CNN).
+   We define a custom Convolutional Neural Network (CNN) with Modlee.
 
    .. code:: python
 
       import torch
       import torch.nn as nn
       import torch.nn.functional as F
+      from torch.optim import Adam
+      import modlee
 
-      # Define a simple Convolutional Neural Network (CNN) for image classification
-      class SimpleCNN(nn.Module):
-          def __init__(self):
-              super(SimpleCNN, self).__init__()
-              # First convolutional layer: takes 1 input channel (e.g., grayscale image), 
-              # outputs 32 feature maps, with a 3x3 kernel and padding of 1
-              self.conv1 = nn.Conv2d(1, 32, kernel_size=3, padding=1)  # MNIST has 1 channel
-              # Second convolutional layer: takes 32 input channels, 
-              # outputs 64 feature maps, with a 3x3 kernel and padding of 1
-              self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
-              # Fully connected layer: input size is 64*56*56 (after flattening),
-              # outputs 128 features
-              self.fc1 = nn.Linear(64 * 56 * 56, 128)  # Adjust input size according to image dimensions
-              # Final fully connected layer: maps 128 features to 10 output classes (for MNIST)
-              self.fc2 = nn.Linear(128, 10)  # 10 classes for MNIST
+      # Subclass the ImageClassificationModleeModel class to enable automatic documentation
+      class SimpleCNNModleeModel(modlee.model.ImageClassificationModleeModel):
+          def __init__(self, *args, **kwargs):
+              super().__init__(*args, **kwargs)
+              # Define model architecture 
+              self.model = nn.Sequential(
+                  nn.Conv2d(3, 32, kernel_size=3, padding=1),  # First convolutional layer
+                  nn.ReLU(),
+                  nn.MaxPool2d(kernel_size=2, stride=2),  # Max pooling
+                  nn.Conv2d(32, 64, kernel_size=3, padding=1),  # Second convolutional layer
+                  nn.ReLU(),
+                  nn.MaxPool2d(kernel_size=2, stride=2),  # Max pooling
+                  nn.Flatten(),  # Flatten the tensor for fully connected layers
+                  nn.Linear(64 * 56 * 56, 128),  # Fully connected layer
+                  nn.ReLU(),
+                  nn.Linear(128, 10)  # Output layer with 10 classes
+              )
+              # Define the loss function as cross-entropy loss
+              self.loss_fn = F.cross_entropy
 
           def forward(self, x):
-              # Apply the first convolutional layer followed by ReLU activation
-              x = F.relu(self.conv1(x))
-              # Apply max pooling with a 2x2 kernel and stride of 2
-              x = F.max_pool2d(x, kernel_size=2, stride=2)
-              # Apply the second convolutional layer followed by ReLU activation
-              x = F.relu(self.conv2(x))
-              # Apply max pooling with a 2x2 kernel and stride of 2
-              x = F.max_pool2d(x, kernel_size=2, stride=2)
-              # Flatten the tensor from 4D to 2D (batch size, flattened features)
-              x = x.view(x.size(0), -1)  # Flatten
-              # Apply the first fully connected layer followed by ReLU activation
-              x = F.relu(self.fc1(x))
-              # Apply the second fully connected layer to produce the final output
-              x = self.fc2(x)
-              return x
+              # Forward pass through the CNN model
+              return self.model(x)
+
+          # Define the training step
+          def training_step(self, batch, batch_idx):
+              x, y_target = batch  # Get input data and targets
+              y_pred = self(x)  # Model predictions
+              loss = self.loss_fn(y_pred, y_target)  # Calculate the loss
+              return {"loss": loss}
+
+          # Define the validation step
+          def validation_step(self, val_batch, batch_idx):
+              x, y_target = val_batch  # Get validation data and targets
+              y_pred = self(x)  # Model predictions
+              val_loss = self.loss_fn(y_pred, y_target)  # Calculate the validation loss
+              # Calculate accuracy
+              acc = torch.sum(torch.argmax(y_pred, dim=1) == y_target).float() / y_target.size(0)
+              return {'val_loss': val_loss, 'val_acc': acc}
+
+          # Set up the optimizer for training
+          def configure_optimizers(self):
+              optimizer = Adam(self.parameters(), lr=0.001)  # Adam optimizer
+              return optimizer
 
    *What We Are Doing*: We are defining a custom Convolutional Neural
    Network (CNN) model. This model includes convolutional layers to
    extract features from images, followed by fully connected layers for
-   classification. The ``forward`` method specifies how data flows
-   through the network, using ReLU activations, max pooling, and
-   flattening operations.
+   classification.
 
    *Why We Are Doing It*: Defining a custom CNN allows us to tailor the
    architecture specifically for our task, in this case, classifying
@@ -296,67 +318,7 @@ a. **Define the Custom Model**
    the final classification, enabling the model to accurately predict
    the digits.
 
-b. **Define the PyTorch Lightning Module**
-
-   We wrap the CNN model in a PyTorch Lightning module for training and
-   validation.
-
-   .. code:: python
-
-      import pytorch_lightning as pl
-      from torch.optim import Adam
-      import torch
-      import torch.nn as nn
-
-      # Define a PyTorch Lightning module for the model
-      class LitModel(pl.LightningModule):
-          def __init__(self, model):
-              super(LitModel, self).__init__()
-              self.model = model  # The model to be trained
-              self.loss_fn = nn.CrossEntropyLoss()  # Loss function for classification
-
-          def forward(self, x):
-              # Forward pass through the model
-              return self.model(x)
-
-          def training_step(self, batch, batch_idx):
-              # Perform a single training step
-              x, y = batch  # Unpack the input and target labels from the batch
-              y_hat = self(x)  # Get model predictions
-              loss = self.loss_fn(y_hat, y)  # Compute the loss
-              return loss  # Return the loss for optimization
-
-          def validation_step(self, batch, batch_idx):
-              # Perform a single validation step
-              x, y = batch  # Unpack the input and target labels from the batch
-              y_hat = self(x)  # Get model predictions
-              loss = self.loss_fn(y_hat, y)  # Compute the loss
-              # Calculate accuracy
-              acc = torch.sum(torch.argmax(y_hat, dim=1) == y).float() / y.size(0)
-              # Log validation loss and accuracy
-              self.log('val_loss', loss)
-              self.log('val_acc', acc)
-              return {'val_loss': loss, 'val_acc': acc}  # Return metrics for logging
-
-          def configure_optimizers(self):
-              # Configure the optimizer for training
-              return Adam(self.model.parameters(), lr=1e-3)  # Adam optimizer with a learning rate of 0.001
-
-   *What We Are Doing*: We are wrapping our CNN model in a
-   ``PyTorch Lightning module``, ``LitModel``, to streamline the
-   training and validation processes. This module includes methods for
-   forward passes, computing loss during training and validation, and
-   configuring the optimizer.
-
-   *Why We Are Doing It*: Using ``PyTorch Lightning`` simplifies and
-   organizes the training and validation workflows, making the code
-   cleaner and easier to manage. The ``training_step`` method handles
-   the computation of loss during training, while ``validation_step``
-   tracks both loss and accuracy during validation. The
-   ``configure_optimizers`` sets up the optimizer for updating model
-   parameters, ensuring efficient training.
-
-c. **Create DataLoaders**
+b. **Create DataLoaders**
 
    We prepare DataLoaders for the custom model.
 
@@ -374,29 +336,27 @@ c. **Create DataLoaders**
    model performance by providing varied data each epoch and speeding up
    the training process.
 
-d. **Train the Custom Model**
+c. **Train the Custom Model**
 
    We train the custom model using PyTorch Lightning.
 
    .. code:: python
 
-      # Create an instance of the LitModel with an instance of the SimpleCNN model
-      model = SimpleCNN()
-      lit_model = LitModel(model)
-
-      # Initialize the PyTorch Lightning trainer
-      trainer = pl.Trainer(max_epochs=1)  # Set the number of epochs for training
+      # Create an instance of the SimpleCNNModleeModel model
+      modlee_model = SimpleCNNModleeModel()
 
       # Start the training process
-      trainer.fit(
-          model=lit_model,            # Pass the LitModel instance to the trainer
-          train_dataloaders=train_loader,  # Provide the training data loader
-          val_dataloaders=val_dataloader   # Provide the validation data loader
-      )
+      with modlee.start_run() as run:
+          trainer = pl.Trainer(max_epochs=1)
+          trainer.fit( 
+              model=modlee_model,
+              train_dataloaders=train_loader,
+              val_dataloaders=val_dataloader
+          )
 
    *What We Are Doing*: We are training the custom CNN model using
-   ``PyTorch Lightning``. We initialize the ``LitModel`` with our custom
-   CNN, then configure a trainer to handle the training and validation
+   ``PyTorch Lightning``. We initialize the ``SimpleCNNModleeModel``
+   model, then configure a trainer to handle the training and validation
    processes, setting it to run for one epoch.
 
    *Why We Are Doing It*: PyTorch Lightning’s ``Trainer`` simplifies the
@@ -404,13 +364,13 @@ d. **Train the Custom Model**
    tasks. This setup ensures our model is trained efficiently and allows
    for easy monitoring of performance across epochs.
 
-e. **Evaluate the Custom Model**
+d. **Evaluate the Custom Model**
 
    We evaluate the custom model on the validation set.
 
    .. code:: python
 
-      trainer.validate(model=lit_model, dataloaders=val_dataloader)
+      trainer.validate(model=modlee_model, dataloaders=val_dataloader)
 
    *What We Are Doing*: We are evaluating the custom model on the
    validation set using the ``validate`` method of the trainer.
@@ -425,6 +385,21 @@ e. **Evaluate the Custom Model**
 
 Finally, compare the performance of the Modlee recommended model with
 the custom model by examining their accuracy on the test set.
+
+4. View Saved Training Assets
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We can view the saved assets from training. With Modlee, your training
+assets are automatically saved, preserving valuable insights for future
+reference and collaboration.
+
+.. code:: python
+
+   last_run_path = modlee.last_run_path()
+   print(f"Run path: {last_run_path}")
+   artifacts_path = os.path.join(last_run_path, 'artifacts')
+   artifacts = sorted(os.listdir(artifacts_path))
+   print(f"Saved artifacts: {artifacts}")
 
 Conclusion
 ~~~~~~~~~~
@@ -469,6 +444,6 @@ To build on your progress, consider these next steps:
    Join discussions and forums to connect with other users, seek advice,
    and share your experiences.
 
-.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
-.. |Open in Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
-   :target: https://colab.research.google.com/drive/1XNr-NXrDhvOjnN5Kwfh2fOB1mkqktgA_#scrollTo=EoHpDb_SFHQS
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+.. |Open in Kaggle| image:: https://kaggle.com/static/images/open-in-kaggle.svg
+   :target: https://www.kaggle.com/code/modlee/modlee-mnist-image-classification-example

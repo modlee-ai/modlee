@@ -1,13 +1,9 @@
-|image0|
+|image1|
 
-.. |image0| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
+.. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
 
 Tabular Classification
 ======================
-
-This example notebook uses the ``modlee`` package to train a recommended
-model. We will perform image classification on CIFAR10 from
-``torchvision``.
 
 This examples uses the ``modlee`` package for tabular data
 classification. We’ll use a diabetes dataset to show you how to:
@@ -17,7 +13,7 @@ classification. We’ll use a diabetes dataset to show you how to:
 3. Implement and train a custom model.
 4. Evaluate the model.
 
-|Open in Colab|
+|Open in Kaggle|
 
 First, we will import the the necessary libraries and set up the
 environment.
@@ -55,8 +51,10 @@ page <https://www.kaggle.com/datasets/saurabh00007/diabetescsv>`__ on
 Kaggle and click the **Download** button to save the dataset
 ``diabetes.csv`` to your local machine.
 
-Copy the path to that donwloaded file, which will be used later. Define
-a custom dataset class ``TabularDataset`` for handling our tabular data.
+Copy the path to that donwloaded file, which will be used later.
+
+Define a custom dataset class ``TabularDataset`` for handling our
+tabular data.
 
 .. code:: python
 
@@ -76,9 +74,8 @@ dataloaders.
 
 .. code:: python
 
-
    def get_diabetes_dataloaders(batch_size=32, val_split=0.2, shuffle=True):
-       dataset_path = "/Users/mansiagrawal/Downloads/diabetes.csv"
+       dataset_path = "path-to-dataset"
        df = pd.read_csv(dataset_path) # Load the CSV file into a DataFrame
        X = df.drop('Outcome', axis=1).values # Features (X) - drop the target column
        y = df['Outcome'].values # Labels (y) - the target column
@@ -110,56 +107,57 @@ integtated with Modlee’s framework.
    class TabularClassifier(modlee.model.TabularClassificationModleeModel):
        def __init__(self, input_dim, num_classes=2):
            super().__init__()
-           self.fc1 = torch.nn.Linear(input_dim, 128)  # First hidden layer
-           self.dropout1 = torch.nn.AlphaDropout(0.1)  # Dropout to prevent overfitting
+           self.fc1 = torch.nn.Linear(input_dim, 128)  
+           self.dropout1 = torch.nn.AlphaDropout(0.1) 
 
-           self.fc2 = torch.nn.Linear(128, 64)  # Second hidden layer
-           self.dropout2 = torch.nn.AlphaDropout(0.1)  # Dropout to prevent overfitting
+           self.fc2 = torch.nn.Linear(128, 64)  
+           self.dropout2 = torch.nn.AlphaDropout(0.1)  
 
-           self.fc3 = torch.nn.Linear(64, 32)  # Third hidden layer
-           self.dropout3 = torch.nn.AlphaDropout(0.1)  # Dropout to prevent overfitting
+           self.fc3 = torch.nn.Linear(64, 32) 
+           self.dropout3 = torch.nn.AlphaDropout(0.1) 
 
-           self.fc4 = torch.nn.Linear(32, num_classes)  # Output layer
+           self.fc4 = torch.nn.Linear(32, num_classes)  
 
            self.loss_fn = torch.nn.CrossEntropyLoss()
 
        def forward(self, x):
-           x = torch.selu(self.fc1(x))  # Apply SELU activation to the first layer
-           x = self.dropout1(x)  # Apply dropout
+           x = torch.selu(self.fc1(x))  
+           x = self.dropout1(x) 
 
-           x = torch.selu(self.fc2(x))  # Apply SELU activation to the second layer
-           x = self.dropout2(x)  # Apply dropout
+           x = torch.selu(self.fc2(x))  
+           x = self.dropout2(x)  
 
-           x = torch.selu(self.fc3(x))  # Apply SELU activation to the third layer
-           x = self.dropout3(x)  # Apply dropout
+           x = torch.selu(self.fc3(x))  
+           x = self.dropout3(x)  
 
-           x = self.fc4(x)  # Output layer without activation (for binary classification)
+           x = self.fc4(x)  
            return x
-       
+
        def training_step(self, batch, batch_idx):
            x, y_target = batch
            y_pred = self(x)
-           loss = self.loss_fn(y_pred, y_target.squeeze()) # Calculate the loss
+           loss = self.loss_fn(y_pred, y_target.squeeze())
            return {"loss": loss}
 
        def validation_step(self, val_batch, batch_idx):
            x, y_target = val_batch
            y_pred = self(x)
-           val_loss = self.loss_fn(y_pred, y_target.squeeze()) # Calculate validation loss
+           val_loss = self.loss_fn(y_pred, y_target.squeeze()) 
            return {'val_loss': val_loss}
 
        def configure_optimizers(self):
-           optimizer = torch.optim.SGD(self.parameters(), lr=0.001, momentum=0.9)  # Define the optimizer
+           optimizer = torch.optim.SGD(self.parameters(), lr=0.001, momentum=0.9)  
            return optimizer
 
-Next, we can train our model using ``PyTorch Lightning`` for one epoch.
+Next, we can train and evaluate our model using ``PyTorch Lightning``
+for one epoch.
 
 .. code:: python
 
    # Get the input dimension
-   original_train_dataset = train_dataloader.dataset.dataset # Access the original dataset
+   original_train_dataset = train_dataloader.dataset.dataset 
    input_dim = len(original_train_dataset[0][0])
-   num_classes = 2  # Binary classification
+   num_classes = 2  
 
    # Initialize the Modlee model
    modlee_model = TabularClassifier(input_dim=input_dim, num_classes=num_classes)
@@ -173,31 +171,10 @@ Next, we can train our model using ``PyTorch Lightning`` for one epoch.
            val_dataloaders=val_dataloader
        )
 
-We will evaluate the model now by predicting on the validation set and
-calculating the accuracy.
-
-.. code:: python
-
-   from sklearn.metrics import accuracy_score
-
-   # Evaluate the model's performance
-   modlee_model.eval() # Set the model to evaluation mode
-   y_pred = []
-   y_true = []
-   with torch.no_grad(): # Disable gradient computation
-       for batch in val_dataloader:
-           X_batch, y_batch = batch
-           outputs = modlee_model(X_batch) # Get model predictions
-           predictions = torch.argmax(outputs, dim=1)  # Round predictions to get binary output
-           y_pred.extend(predictions.numpy()) # Store predictions
-           y_true.extend(y_batch.numpy()) # Store true labels
-
-   # Calculate accuracy
-   accuracy = accuracy_score(y_true, y_pred)
-   print(f"Model accuracy: {accuracy:.2f}")
-
-After training, we inspect the artifacts saved by Modlee, including the
-model graph and various statistics.
+Now, we inspect the artifacts saved by Modlee, including the model graph
+and various statistics. With Modlee, your training assets are
+automatically saved, preserving valuable insights for future reference
+and collaboration.
 
 .. code:: python
 
@@ -239,5 +216,5 @@ model graph and various statistics.
 
    !head -20 $ARTIFACTS_PATH/stats_rep
 
-.. |Open in Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
-   :target: https://colab.research.google.com/drive/1rf9BOCFADV2BtyY6xCDIu2JGz-na96t1?authuser=1#scrollTo=Qx9LuWnomG_5
+.. |Open in Kaggle| image:: https://kaggle.com/static/images/open-in-kaggle.svg
+   :target: https://www.kaggle.com/code/modlee/modlee-tabular-classification

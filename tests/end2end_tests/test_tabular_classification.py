@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 import pytest
 from utils import check_artifacts
 
-device = torch.device('cpu')
+device = torch.device('mps')
 modlee.init(api_key=os.getenv("MODLEE_API_KEY"))
 
 def generate_dummy_tabular_data(num_samples=100, num_features=10, num_classes=2):

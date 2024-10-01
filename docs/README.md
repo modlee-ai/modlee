@@ -89,23 +89,23 @@ Get started with Modlee by following these steps to set up and train a model usi
 
 ```shell
 
-!pip install --upgrade numpy modlee lightning torch torchvision
+pip install modlee
 ```
 
 ```python
 
 import modlee
-import lightning as pl
+import lightning.pytorch as pl
 import torch
 import torchvision
 from torch.utils.data import DataLoader
-from torchvision import transforms
+from torchvision import datasets, transforms
 
 # Initialize Modlee with your API key
-modlee.init(api_key="you-api-key")
+modlee.init(api_key="your-api-key")
 
 transform = transforms.Compose([
-    transforms.Grayscale(num_output_channels=1), 
+    transforms.Grayscale(num_output_channels=1),
     transforms.ToTensor(),
     transforms.Normalize((0.5,), (0.5,))
 ])
@@ -120,7 +120,7 @@ test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
 
 # Create a recommender for image classification tasks
 recommender = modlee.recommender.ImageClassificationRecommender(
-    num_classes=10  
+    num_classes=10
 )
 
 # Fit the recommender with the training DataLoader
@@ -144,7 +144,7 @@ You should see a recommended model as an output. If you are running into issues,
 ---
 
 ### Supported Use Cases
-At the moment we support modalities of `images` and `text`, and tasks of `classification`, with more coming soon. As with recommendation, use [Discord](https://discord.com/invite/m8YDbWDvrF) to let us know which modalities and tasks you'd prefer or help make these changes on our [GitHub](https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md).
+At the moment we support modalities of `images`, `tabular`, `time-series`, and `text`, and tasks of `classification` and `segmentation`, with more coming soon. As with recommendation, use [Discord](https://discord.com/invite/m8YDbWDvrF) to let us know which modalities and tasks you'd prefer or help make these changes on our [GitHub](https://github.com/modlee-ai/modlee/blob/main/docs/CONTRIBUTING.md).
 
 ### Recommended Next Steps
 

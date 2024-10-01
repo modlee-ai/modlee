@@ -74,6 +74,7 @@
 <li class="toctree-l3"><a class="reference internal" href="tutorial.html#using-modlee-to-recommend-and-train-a-model">1. Using Modlee to Recommend and Train a Model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorial.html#custom-model-implementation">2. Custom Model Implementation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorial.html#compare-models">3. Compare Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#view-saved-training-assets">4. View Saved Training Assets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorial.html#conclusion">Conclusion</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorial.html#recommended-next-steps">Recommended Next Steps</a></li>
 </ul>
@@ -168,8 +169,10 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/recommend.html">Image Classification Model Recommendation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/image_segmentation.html">Image Segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/document.html">Automate Experiment Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/tabular_classification_example.html">Tabular Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/time_series_forecasting.html">Time Series Forecasting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/image_embeddings.html">Image Embeddings With Tabular Classification Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/text_embeddings.html">Text Embeddings With Tabular Classification Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/audio_embeddings.html">Audio Embeddings With Tabular Classification Model</a></li>
@@ -180,7 +183,7 @@
 <li class="toctree-l2"><a class="reference internal" href="modules/modlee.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modules/modlee.model.html">modlee.model package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.model.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model.html#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model.html#module-modlee.model">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="modules/modlee.recommender.html">modlee.recommender package</a><ul>
@@ -191,34 +194,97 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modules/modlee.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modules/modlee.api_config.html">modlee.api_config module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/modlee.client.html">modlee.client module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.api_config.html">modlee.api_config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig"><code class="docutils literal notranslate"><span class="pre">ModleeAPIConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.client.html">modlee.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.client.html#modlee.client.ModleeClient"><code class="docutils literal notranslate"><span class="pre">ModleeClient</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="modules/modlee.config.html">modlee.config module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/modlee.converter.html">modlee.converter module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.converter.html#modlee.converter.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/modlee.dataframes.html">modlee.dataframes module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/modlee.model_metafeatures.html">modlee.model_metafeatures module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/modlee.model_text_converter.html">modlee.model_text_converter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.data_metafeatures.html">modlee.data_metafeatures module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures"><code class="docutils literal notranslate"><span class="pre">DataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TabularDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TextDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TimeseriesDataMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesDataMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised"><code class="docutils literal notranslate"><span class="pre">bench_kmeans_unsupervised()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model"><code class="docutils literal notranslate"><span class="pre">extract_features_from_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features"><code class="docutils literal notranslate"><span class="pre">get_image_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_n_samples"><code class="docutils literal notranslate"><span class="pre">get_n_samples()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1"><code class="docutils literal notranslate"><span class="pre">manipulate_x_1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2"><code class="docutils literal notranslate"><span class="pre">manipulate_x_2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3"><code class="docutils literal notranslate"><span class="pre">manipulate_x_3()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_4"><code class="docutils literal notranslate"><span class="pre">manipulate_x_4()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_5"><code class="docutils literal notranslate"><span class="pre">manipulate_x_5()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.pad_image_channels"><code class="docutils literal notranslate"><span class="pre">pad_image_channels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_dataloader"><code class="docutils literal notranslate"><span class="pre">sample_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_channels"><code class="docutils literal notranslate"><span class="pre">sample_image_channels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_from_video"><code class="docutils literal notranslate"><span class="pre">sample_image_from_video()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.dataframes.html">modlee.dataframes module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.dataframes.html#modlee.dataframes.DataFrameTransforms"><code class="docutils literal notranslate"><span class="pre">DataFrameTransforms</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.dataframes.html#modlee.dataframes.ModleeDataFrame"><code class="docutils literal notranslate"><span class="pre">ModleeDataFrame</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.dataframes.html#modlee.dataframes.default_transforms"><code class="docutils literal notranslate"><span class="pre">default_transforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.model_metafeatures.html">modlee.model_metafeatures module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageClassificationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageClassificationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageSegmentationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ImageSegmentationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">ModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TabularClassificationModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularClassificationModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TabularModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TabularModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TimeseriesForecastingModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesForecastingModelMetafeatures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TimeseriesModelMetafeatures"><code class="docutils literal notranslate"><span class="pre">TimeseriesModelMetafeatures</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules/modlee.model_text_converter.html">modlee.model_text_converter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_text_converter.html#modlee.model_text_converter.exhaust_sequence_branch"><code class="docutils literal notranslate"><span class="pre">exhaust_sequence_branch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text"><code class="docutils literal notranslate"><span class="pre">get_code_text()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">get_code_text_for_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.model_text_converter.html#modlee.model_text_converter.save_code_text_for_model"><code class="docutils literal notranslate"><span class="pre">save_code_text_for_model()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="modules/modlee.retriever.html">modlee.retriever module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.get_cached_vars"><code class="docutils literal notranslate"><span class="pre">get_cached_vars()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.get_data_snapshot"><code class="docutils literal notranslate"><span class="pre">get_data_snapshot()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.get_model"><code class="docutils literal notranslate"><span class="pre">get_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.get_runs"><code class="docutils literal notranslate"><span class="pre">get_runs()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.run_dir_exists"><code class="docutils literal notranslate"><span class="pre">run_dir_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.retriever.html#modlee.retriever.run_path_exists"><code class="docutils literal notranslate"><span class="pre">run_path_exists()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="modules/modlee.utils.html">modlee.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.DummyDataset"><code class="docutils literal notranslate"><span class="pre">DummyDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.TimeseriesDataset"><code class="docutils literal notranslate"><span class="pre">TimeseriesDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary"><code class="docutils literal notranslate"><span class="pre">apply_discretize_to_summary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.class_from_modality_task"><code class="docutils literal notranslate"><span class="pre">class_from_modality_task()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.closest_power_of_2"><code class="docutils literal notranslate"><span class="pre">closest_power_of_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.convert_to_scientific"><code class="docutils literal notranslate"><span class="pre">convert_to_scientific()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.discretize"><code class="docutils literal notranslate"><span class="pre">discretize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.get_dataloader"><code class="docutils literal notranslate"><span class="pre">get_dataloader()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.get_fashion_mnist"><code class="docutils literal notranslate"><span class="pre">get_fashion_mnist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.get_imagenette_dataloader"><code class="docutils literal notranslate"><span class="pre">get_imagenette_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.get_modality_task"><code class="docutils literal notranslate"><span class="pre">get_modality_task()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.get_model_size"><code class="docutils literal notranslate"><span class="pre">get_model_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.image_loaders"><code class="docutils literal notranslate"><span class="pre">image_loaders</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.is_cacheable"><code class="docutils literal notranslate"><span class="pre">is_cacheable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.last_run_path"><code class="docutils literal notranslate"><span class="pre">last_run_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.quantize_dict"><code class="docutils literal notranslate"><span class="pre">quantize_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.safe_mkdir"><code class="docutils literal notranslate"><span class="pre">safe_mkdir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.save_run"><code class="docutils literal notranslate"><span class="pre">save_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.save_run_as_json"><code class="docutils literal notranslate"><span class="pre">save_run_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.tabular_loaders"><code class="docutils literal notranslate"><span class="pre">tabular_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.text_loaders"><code class="docutils literal notranslate"><span class="pre">text_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.timeseries_loader"><code class="docutils literal notranslate"><span class="pre">timeseries_loader</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.timeseries_loaders"><code class="docutils literal notranslate"><span class="pre">timeseries_loaders</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.typewriter_print"><code class="docutils literal notranslate"><span class="pre">typewriter_print()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="modules/modlee.utils.html#modlee.utils.uri_to_path"><code class="docutils literal notranslate"><span class="pre">uri_to_path()</span></code></a></li>
 </ul>
 </li>
@@ -247,8 +313,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#environment-issues">Environment Issues</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-google-colab-environment">Problem: Google Colab Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-google-colab-run-out-of-gpu-compute">Problem: Google Colab, Run Out of GPU Compute</a></li>
+<li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-kaggle-notebook-environment">Problem: Kaggle Notebook Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="troubleshooting.html#problem-kaggle-notebook-run-out-of-gpu-compute">Problem: Kaggle Notebook, Run Out of GPU Compute</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#still-need-help">Still Need Help?</a></li>
@@ -309,41 +375,72 @@
 
 <div class="genindex-jumpbox">
  <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
  | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/modlee.recommender.html#modlee.recommender.ActualRecommender">ActualRecommender (class in modlee.recommender)</a>
+      <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.analyze">analyze() (modlee.recommender.recommender.Recommender method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.apply_discretize_to_summary">apply_discretize_to_summary() (in module modlee.utils)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/modlee.recommender.html#modlee.recommender.ImageClassificationRecommender.analyze">analyze() (modlee.recommender.ImageClassificationRecommender method)</a>
-
-      <ul>
-        <li><a href="modules/modlee.recommender.html#modlee.recommender.Recommender.analyze">(modlee.recommender.Recommender method)</a>
+      <li><a href="_autosummary/%3C--%20add%20this%20line/modlee.auth.html#modlee.auth">auth() (in module modlee)</a>
 </li>
-      </ul></li>
+      <li><a href="modules/modlee.client.html#modlee.client.ModleeClient.available">available (modlee.client.ModleeClient property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.bench_kmeans_unsupervised">bench_kmeans_unsupervised() (in module modlee.data_metafeatures)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/modlee.recommender.html#modlee.recommender.Recommender.calculate_meta_features">calculate_meta_features() (modlee.recommender.Recommender method)</a>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TimeseriesDataMetafeatures.calculate_metafeatures">calculate_metafeatures() (modlee.data_metafeatures.TimeseriesDataMetafeatures method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.recommender.image_recommender.html#modlee.recommender.image_recommender.ImageRecommender.calculate_metafeatures">(modlee.recommender.image_recommender.ImageRecommender method)</a>
+</li>
+        <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.calculate_metafeatures">(modlee.recommender.recommender.Recommender method)</a>
+</li>
+      </ul></li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TabularDataMetafeatures.calculate_statistical_summary">calculate_statistical_summary() (modlee.data_metafeatures.TabularDataMetafeatures method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.cast_gather_layer">cast_gather_layer() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.cast_tile_layer">cast_tile_layer() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ModelMetafeatures.check_input_type">check_input_type() (modlee.model_metafeatures.ModelMetafeatures method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.class_from_modality_task">class_from_modality_task() (in module modlee.utils)</a>
 </li>
       <li><a href="modules/modlee.utils.html#modlee.utils.closest_power_of_2">closest_power_of_2() (in module modlee.utils)</a>
 </li>
@@ -351,13 +448,27 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ModleeImageModel.configure_callbacks">configure_callbacks() (modlee.modlee_image_model.ModleeImageModel method)</a>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.code_path2torch">code_path2torch() (modlee.converter.Converter method)</a>
 </li>
-      <li><a href="modules/modlee.recommender.html#modlee.recommender.RecommendedModel.configure_optimizers">configure_optimizers() (modlee.recommender.RecommendedModel method)</a>
+      <li><a href="modules/modlee.dataframes.html#modlee.dataframes.DataFrameTransforms.compose">compose() (modlee.dataframes.DataFrameTransforms static method)</a>
+</li>
+      <li><a href="modules/modlee.model.model.html#modlee.model.model.ModleeModel.configure_callbacks">configure_callbacks() (modlee.model.model.ModleeModel method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.model.recommended_model.html#modlee.model.recommended_model.RecommendedModel.configure_callbacks">(modlee.model.recommended_model.RecommendedModel method)</a>
+</li>
+      </ul></li>
+      <li><a href="modules/modlee.model.recommended_model.html#modlee.model.recommended_model.RecommendedModel.configure_optimizers">configure_optimizers() (modlee.model.recommended_model.RecommendedModel method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.convert_float">convert_float() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.convert_onnx116">convert_onnx116() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.utils.html#modlee.utils.convert_to_scientific">convert_to_scientific() (in module modlee.utils)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter">Converter (class in modlee.converter)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.image_loaders.ctr">ctr (modlee.utils.image_loaders attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -365,7 +476,45 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/modlee.recommender.html#modlee.recommender.DumbRecommender">DumbRecommender (class in modlee.recommender)</a>
+      <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ModelMetafeatures.dataframe_lists_to_columns">dataframe_lists_to_columns() (modlee.model_metafeatures.ModelMetafeatures static method)</a>
+</li>
+      <li><a href="modules/modlee.dataframes.html#modlee.dataframes.DataFrameTransforms">DataFrameTransforms (class in modlee.dataframes)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures">DataMetafeatures (class in modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.DataMetafeaturesCallback">DataMetafeaturesCallback (class in modlee.model.callbacks)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.text_loaders.dataset_len">dataset_len (modlee.utils.text_loaders attribute)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.text_loaders.dataset_module">dataset_module (modlee.utils.text_loaders attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.dataframes.html#modlee.dataframes.default_transforms">default_transforms() (in module modlee.dataframes)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.dict2code">dict2code() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.discretize">discretize() (in module modlee.utils)</a>
+</li>
+      <li><a href="modules/modlee.dataframes.html#modlee.dataframes.DataFrameTransforms.drop_nonnum">drop_nonnum() (modlee.dataframes.DataFrameTransforms static method)</a>
+</li>
+      <li><a href="modules/modlee.dataframes.html#modlee.dataframes.DataFrameTransforms.dropna">dropna() (modlee.dataframes.DataFrameTransforms static method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.DummyDataset">DummyDataset (class in modlee.utils)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.ensure_api_key">ensure_api_key() (modlee.api_config.ModleeAPIConfig method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.model_text_converter.html#modlee.model_text_converter.exhaust_sequence_branch">exhaust_sequence_branch() (in module modlee.model_text_converter)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.extract_features_from_model">extract_features_from_model() (in module modlee.data_metafeatures)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -373,7 +522,21 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/modlee.recommender.html#modlee.recommender.RecommendedModel.forward">forward() (modlee.recommender.RecommendedModel method)</a>
+      <li><a href="modules/modlee.dataframes.html#modlee.dataframes.DataFrameTransforms.fillna">fillna() (modlee.dataframes.DataFrameTransforms static method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.filter_node">filter_node() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.recommender.image_recommender.html#modlee.recommender.image_recommender.ImageRecommender.fit">fit() (modlee.recommender.image_recommender.ImageRecommender method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.fit">(modlee.recommender.recommender.Recommender method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.format_onnx_text">format_onnx_text() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.model.recommended_model.html#modlee.model.recommended_model.RecommendedModel.forward">forward() (modlee.model.recommended_model.RecommendedModel method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -381,22 +544,98 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.client.html#modlee.client.ModleeClient.get">get() (modlee.client.ModleeClient method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.tabular_loaders.get_adult_dataloader">get_adult_dataloader() (modlee.utils.tabular_loaders static method)</a>
+</li>
+      <li><a href="_autosummary/%3C--%20add%20this%20line/modlee.get_api_key.html#modlee.get_api_key">get_api_key() (in module modlee)</a>
+</li>
+      <li><a href="modules/modlee.client.html#modlee.client.ModleeClient.get_attr">get_attr() (modlee.client.ModleeClient method)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.get_attr_name">get_attr_name() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.retriever.html#modlee.retriever.get_cached_vars">get_cached_vars() (in module modlee.retriever)</a>
 </li>
-      <li><a href="modules/modlee.retriever.html#modlee.retriever.get_data_snapshot">get_data_snapshot() (in module modlee.retriever)</a>
+      <li><a href="modules/modlee.client.html#modlee.client.ModleeClient.get_callable">get_callable() (modlee.client.ModleeClient method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.image_loaders.get_cifar10_dataloader">get_cifar10_dataloader() (modlee.utils.image_loaders method)</a>
+</li>
+      <li><a href="modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.get_client">get_client() (modlee.api_config.ModleeAPIConfig method)</a>
+</li>
+      <li><a href="modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text">get_code_text() (in module modlee.model_text_converter)</a>
+
+      <ul>
+        <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.get_code_text">(modlee.recommender.recommender.Recommender method)</a>
+</li>
+      </ul></li>
+      <li><a href="modules/modlee.model_text_converter.html#modlee.model_text_converter.get_code_text_for_model">get_code_text_for_model() (in module modlee.model_text_converter)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.text_loaders.get_cola_dataloader">get_cola_dataloader() (modlee.utils.text_loaders method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.get_dataloader">get_dataloader() (in module modlee.utils)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.TimeseriesDataset.get_dataset">get_dataset() (modlee.utils.TimeseriesDataset method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.tabular_loaders.get_diabetes_dataloader">get_diabetes_dataloader() (modlee.utils.tabular_loaders static method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.image_loaders.get_dtd_dataloader">get_dtd_dataloader() (modlee.utils.image_loaders method)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures.get_embedding">get_embedding() (modlee.data_metafeatures.ImageDataMetafeatures method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures.get_embedding">(modlee.data_metafeatures.TextDataMetafeatures method)</a>
+</li>
+      </ul></li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.image_loaders.get_eurosat_dataloader">get_eurosat_dataloader() (modlee.utils.image_loaders method)</a>
 </li>
       <li><a href="modules/modlee.utils.html#modlee.utils.get_fashion_mnist">get_fashion_mnist() (in module modlee.utils)</a>
 </li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.image_loaders.get_fashionmnist_dataloader">get_fashionmnist_dataloader() (modlee.utils.image_loaders method)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures.get_features">get_features() (modlee.data_metafeatures.DataMetafeatures method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TabularDataMetafeatures.get_features">(modlee.data_metafeatures.TabularDataMetafeatures method)</a>
+</li>
+      </ul></li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.timeseries_loaders.get_finance_dataloader">get_finance_dataloader() (modlee.utils.timeseries_loaders static method)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.get_forward">get_forward() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ModelMetafeatures.get_graph_dataframe">get_graph_dataframe() (modlee.model_metafeatures.ModelMetafeatures static method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.tabular_loaders.get_housing_dataloader">get_housing_dataloader() (modlee.utils.tabular_loaders static method)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_image_features">get_image_features() (in module modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.get_imagenette_dataloader">get_imagenette_dataloader() (in module modlee.utils)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.get_init">get_init() (modlee.converter.Converter method)</a>
 </li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.get_init_module_state_dict_str">get_init_module_state_dict_str() (modlee.converter.Converter method)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.get_inner_string">get_inner_string() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.ModleeCallback.get_input">get_input() (modlee.model.callbacks.ModleeCallback method)</a>
+</li>
+      <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.get_input_torch">get_input_torch() (modlee.recommender.recommender.Recommender method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ModelMetafeatures.get_layer_counts">get_layer_counts() (modlee.model_metafeatures.ModelMetafeatures static method)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures.get_mfe">get_mfe() (modlee.data_metafeatures.DataMetafeatures method)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures.get_mfe_features">get_mfe_features() (modlee.data_metafeatures.DataMetafeatures method)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures.get_mfe_on_batch">get_mfe_on_batch() (modlee.data_metafeatures.DataMetafeatures method)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures.get_mfe_on_element">get_mfe_on_element() (modlee.data_metafeatures.DataMetafeatures method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.text_loaders.get_mnli_dataloader">get_mnli_dataloader() (modlee.utils.text_loaders static method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.get_modality_task">get_modality_task() (in module modlee.utils)</a>
+</li>
       <li><a href="modules/modlee.retriever.html#modlee.retriever.get_model">get_model() (in module modlee.retriever)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.get_model_attr_on_line">get_model_attr_on_line() (modlee.converter.Converter method)</a>
@@ -407,11 +646,59 @@
 </li>
       <li><a href="modules/modlee.utils.html#modlee.utils.get_model_size">get_model_size() (in module modlee.utils)</a>
 </li>
+      <li><a href="modules/modlee.client.html#modlee.client.ModleeClient.get_module">get_module() (modlee.client.ModleeClient method)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.get_n_samples">get_n_samples() (in module modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageModelMetafeatures.get_output_shape">get_output_shape() (modlee.model_metafeatures.ImageModelMetafeatures method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageSegmentationModelMetafeatures.get_output_shape">(modlee.model_metafeatures.ImageSegmentationModelMetafeatures method)</a>
+</li>
+        <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ModelMetafeatures.get_output_shape">(modlee.model_metafeatures.ModelMetafeatures method)</a>
+</li>
+      </ul></li>
+      <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ModelMetafeatures.get_parameter_statistics">get_parameter_statistics() (modlee.model_metafeatures.ModelMetafeatures static method)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.get_params_for_attr">get_params_for_attr() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures.get_properties">get_properties() (modlee.data_metafeatures.DataMetafeatures method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ModelMetafeatures.get_properties">(modlee.model_metafeatures.ModelMetafeatures method)</a>
+</li>
+      </ul></li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.text_loaders.get_qnli_dataloader">get_qnli_dataloader() (modlee.utils.text_loaders method)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures.get_raw_batch_elements">get_raw_batch_elements() (modlee.data_metafeatures.DataMetafeatures method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures.get_raw_batch_elements">(modlee.data_metafeatures.ImageDataMetafeatures method)</a>
+</li>
+      </ul></li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.text_loaders.get_rte_dataloader">get_rte_dataloader() (modlee.utils.text_loaders method)</a>
+</li>
+      <li><a href="_autosummary/%3C--%20add%20this%20line/modlee.get_run_path.html#modlee.get_run_path">get_run_path() (in module modlee)</a>
 </li>
       <li><a href="modules/modlee.retriever.html#modlee.retriever.get_runs">get_runs() (in module modlee.retriever)</a>
 </li>
+      <li><a href="modules/modlee.client.html#modlee.client.ModleeClient.get_script">get_script() (modlee.client.ModleeClient method)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TimeseriesDataMetafeatures.get_single_batch">get_single_batch() (modlee.data_metafeatures.TimeseriesDataMetafeatures method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.text_loaders.get_sst2_dataloader">get_sst2_dataloader() (modlee.utils.text_loaders method)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures.get_stats">get_stats() (modlee.data_metafeatures.DataMetafeatures method)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.DataMetafeatures.get_stats_rep">get_stats_rep() (modlee.data_metafeatures.DataMetafeatures method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.text_loaders.get_stsb_dataloader">get_stsb_dataloader() (modlee.utils.text_loaders method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.timeseries_loader.get_timeseries_dataloader">get_timeseries_dataloader() (modlee.utils.timeseries_loader static method)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.get_type_string">get_type_string() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.text_loaders.get_wnli_dataloader">get_wnli_dataloader() (modlee.utils.text_loaders method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -419,21 +706,79 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ImageCallback">ImageCallback (class in modlee.modlee_image_model)</a>
+      <li><a href="modules/modlee.utils.html#modlee.utils.image_loaders">image_loaders (class in modlee.utils)</a>
 </li>
-      <li><a href="modules/modlee.recommender.html#modlee.recommender.ImageClassificationRecommender">ImageClassificationRecommender (class in modlee.recommender)</a>
+      <li><a href="modules/modlee.utils.html#modlee.utils.image_loaders.image_module">image_module (modlee.utils.image_loaders attribute)</a>
 </li>
-      <li><a href="modules/modlee.recommender.html#modlee.recommender.ImageRecommender">ImageRecommender (class in modlee.recommender)</a>
+      <li><a href="modules/modlee.utils.html#modlee.utils.image_loaders.image_modules">image_modules (modlee.utils.image_loaders attribute)</a>
+</li>
+      <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageClassificationModelMetafeatures">ImageClassificationModelMetafeatures (class in modlee.model_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.model.image_model.html#modlee.model.image_model.ImageClassificationModleeModel">ImageClassificationModleeModel (class in modlee.model.image_model)</a>
+</li>
+      <li><a href="modules/modlee.recommender.image_recommender.html#modlee.recommender.image_recommender.ImageClassificationRecommender">ImageClassificationRecommender (class in modlee.recommender.image_recommender)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.ImageDataMetafeatures">ImageDataMetafeatures (class in modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageModelMetafeatures">ImageModelMetafeatures (class in modlee.model_metafeatures)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="_autosummary/%3C--%20add%20this%20line/modlee.init.html#modlee.init">init() (in module modlee)</a>
+      <li><a href="modules/modlee.recommender.image_recommender.html#modlee.recommender.image_recommender.ImageRecommender">ImageRecommender (class in modlee.recommender.image_recommender)</a>
 </li>
-      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.init_constant_tensors">init_constant_tensors() (modlee.converter.Converter method)</a>
+      <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ImageSegmentationModelMetafeatures">ImageSegmentationModelMetafeatures (class in modlee.model_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.model.image_model.html#modlee.model.image_model.ImageSegmentationModleeModel">ImageSegmentationModleeModel (class in modlee.model.image_model)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.index_nx">index_nx() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="_autosummary/%3C--%20add%20this%20line/modlee.init.html#modlee.init">init() (in module modlee)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.init_graph_tensors">init_graph_tensors() (modlee.converter.Converter method)</a>
 </li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.init_onnx_params">init_onnx_params() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.init_onnx_tensors">init_onnx_tensors() (modlee.converter.Converter method)</a>
+</li>
       <li><a href="modules/modlee.utils.html#modlee.utils.is_cacheable">is_cacheable() (in module modlee.utils)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.utils.html#modlee.utils.image_loaders.kwargs">kwargs (modlee.utils.image_loaders attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.utils.html#modlee.utils.last_run_path">last_run_path() (in module modlee.utils)</a>
+</li>
+      <li><a href="modules/modlee.dataframes.html#modlee.dataframes.DataFrameTransforms.list_cols2item">list_cols2item() (modlee.dataframes.DataFrameTransforms static method)</a>
+</li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogModelCheckpointCallback.log_and_clean_checkpoint">log_and_clean_checkpoint() (modlee.model.callbacks.LogModelCheckpointCallback method)</a>
+</li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogCodeTextCallback">LogCodeTextCallback (class in modlee.model.callbacks)</a>
+</li>
+      <li><a href="modules/modlee.client.html#modlee.client.ModleeClient.login">login() (modlee.client.ModleeClient method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogModalityTaskCallback">LogModalityTaskCallback (class in modlee.model.callbacks)</a>
+</li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogModelCheckpointCallback">LogModelCheckpointCallback (class in modlee.model.callbacks)</a>
+</li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogONNXCallback">LogONNXCallback (class in modlee.model.callbacks)</a>
+</li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogOutputCallback">LogOutputCallback (class in modlee.model.callbacks)</a>
+</li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogParamsCallback">LogParamsCallback (class in modlee.model.callbacks)</a>
+</li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogTransformsCallback">LogTransformsCallback (class in modlee.model.callbacks)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -441,13 +786,41 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/modlee.recommender.html#modlee.recommender.Recommender.model">model (modlee.recommender.Recommender property)</a>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_1">manipulate_x_1() (in module modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_2">manipulate_x_2() (in module modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_3">manipulate_x_3() (in module modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_4">manipulate_x_4() (in module modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.manipulate_x_5">manipulate_x_5() (in module modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.model">model (modlee.recommender.recommender.Recommender property)</a>
+</li>
+      <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.ModelMetafeatures">ModelMetafeatures (class in modlee.model_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.ModelMetafeaturesCallback">ModelMetafeaturesCallback (class in modlee.model.callbacks)</a>
 </li>
       <li>
     modlee
 
       <ul>
         <li><a href="_autosummary/modlee.html#module-modlee">module</a>, <a href="modules/modlee.html#module-modlee">[1]</a>
+</li>
+      </ul></li>
+      <li>
+    modlee.api_config
+
+      <ul>
+        <li><a href="modules/modlee.api_config.html#module-modlee.api_config">module</a>
+</li>
+      </ul></li>
+      <li>
+    modlee.client
+
+      <ul>
+        <li><a href="_autosummary/modlee.client.html#module-modlee.client">module</a>, <a href="modules/modlee.client.html#module-modlee.client">[1]</a>
 </li>
       </ul></li>
       <li>
@@ -465,31 +838,82 @@
 </li>
       </ul></li>
       <li>
-    modlee.exp_loss_logger
+    modlee.data_metafeatures
 
       <ul>
-        <li><a href="_autosummary/modlee.exp_loss_logger.html#module-modlee.exp_loss_logger">module</a>, <a href="modules/modlee.exp_loss_logger.html#module-modlee.exp_loss_logger">[1]</a>
+        <li><a href="modules/modlee.data_metafeatures.html#module-modlee.data_metafeatures">module</a>
 </li>
       </ul></li>
       <li>
-    modlee.loss_sweeper
+    modlee.dataframes
 
       <ul>
-        <li><a href="_autosummary/modlee.loss_sweeper.html#module-modlee.loss_sweeper">module</a>, <a href="modules/modlee.loss_sweeper.html#module-modlee.loss_sweeper">[1]</a>
+        <li><a href="modules/modlee.dataframes.html#module-modlee.dataframes">module</a>
 </li>
       </ul></li>
+      <li>
+    modlee.model
+
+      <ul>
+        <li><a href="_autosummary/modlee.model.html#module-modlee.model">module</a>, <a href="modules/modlee.model.html#module-modlee.model">[1]</a>
+</li>
+      </ul></li>
+      <li>
+    modlee.model.callbacks
+
+      <ul>
+        <li><a href="_autosummary/modlee.model.callbacks.html#module-modlee.model.callbacks">module</a>, <a href="modules/modlee.model.callbacks.html#module-modlee.model.callbacks">[1]</a>
+</li>
+      </ul></li>
+      <li>
+    modlee.model.image_model
+
+      <ul>
+        <li><a href="_autosummary/modlee.model.image_model.html#module-modlee.model.image_model">module</a>, <a href="modules/modlee.model.image_model.html#module-modlee.model.image_model">[1]</a>
+</li>
+      </ul></li>
+      <li>
+    modlee.model.model
+
+      <ul>
+        <li><a href="_autosummary/modlee.model.model.html#module-modlee.model.model">module</a>, <a href="modules/modlee.model.model.html#module-modlee.model.model">[1]</a>
+</li>
+      </ul></li>
+      <li>
+    modlee.model.recommended_model
+
+      <ul>
+        <li><a href="_autosummary/modlee.model.recommended_model.html#module-modlee.model.recommended_model">module</a>, <a href="modules/modlee.model.recommended_model.html#module-modlee.model.recommended_model">[1]</a>
+</li>
+      </ul></li>
+      <li>
+    modlee.model.tabular_model
+
+      <ul>
+        <li><a href="modules/modlee.model.tabular_model.html#module-modlee.model.tabular_model">module</a>
+</li>
+      </ul></li>
+      <li>
+    modlee.model.timeseries_model
+
+      <ul>
+        <li><a href="modules/modlee.model.timeseries_model.html#module-modlee.model.timeseries_model">module</a>
+</li>
+      </ul></li>
+      <li>
+    modlee.model_metafeatures
+
+      <ul>
+        <li><a href="modules/modlee.model_metafeatures.html#module-modlee.model_metafeatures">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     modlee.model_text_converter
 
       <ul>
         <li><a href="_autosummary/modlee.model_text_converter.html#module-modlee.model_text_converter">module</a>, <a href="modules/modlee.model_text_converter.html#module-modlee.model_text_converter">[1]</a>
-</li>
-      </ul></li>
-      <li>
-    modlee.modlee_image_model
-
-      <ul>
-        <li><a href="_autosummary/modlee.modlee_image_model.html#module-modlee.modlee_image_model">module</a>, <a href="modules/modlee.modlee_image_model.html#module-modlee.modlee_image_model">[1]</a>
 </li>
       </ul></li>
       <li>
@@ -499,8 +923,20 @@
         <li><a href="_autosummary/modlee.recommender.html#module-modlee.recommender">module</a>, <a href="modules/modlee.recommender.html#module-modlee.recommender">[1]</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    modlee.recommender.image_recommender
+
+      <ul>
+        <li><a href="_autosummary/modlee.recommender.image_recommender.html#module-modlee.recommender.image_recommender">module</a>, <a href="modules/modlee.recommender.image_recommender.html#module-modlee.recommender.image_recommender">[1]</a>
+</li>
+      </ul></li>
+      <li>
+    modlee.recommender.recommender
+
+      <ul>
+        <li><a href="_autosummary/modlee.recommender.recommender.html#module-modlee.recommender.recommender">module</a>, <a href="modules/modlee.recommender.recommender.html#module-modlee.recommender.recommender">[1]</a>
+</li>
+      </ul></li>
       <li>
     modlee.retriever
 
@@ -515,7 +951,15 @@
         <li><a href="_autosummary/modlee.utils.html#module-modlee.utils">module</a>, <a href="modules/modlee.utils.html#module-modlee.utils">[1]</a>
 </li>
       </ul></li>
-      <li><a href="modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ModleeImageModel">ModleeImageModel (class in modlee.modlee_image_model)</a>
+      <li><a href="modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig">ModleeAPIConfig (class in modlee.api_config)</a>
+</li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.ModleeCallback">ModleeCallback (class in modlee.model.callbacks)</a>
+</li>
+      <li><a href="modules/modlee.client.html#modlee.client.ModleeClient">ModleeClient (class in modlee.client)</a>
+</li>
+      <li><a href="modules/modlee.dataframes.html#modlee.dataframes.ModleeDataFrame">ModleeDataFrame (class in modlee.dataframes)</a>
+</li>
+      <li><a href="modules/modlee.model.model.html#modlee.model.model.ModleeModel">ModleeModel (class in modlee.model.model)</a>
 </li>
       <li>
     module
@@ -523,19 +967,41 @@
       <ul>
         <li><a href="_autosummary/modlee.html#module-modlee">modlee</a>, <a href="modules/modlee.html#module-modlee">[1]</a>
 </li>
+        <li><a href="modules/modlee.api_config.html#module-modlee.api_config">modlee.api_config</a>
+</li>
+        <li><a href="_autosummary/modlee.client.html#module-modlee.client">modlee.client</a>, <a href="modules/modlee.client.html#module-modlee.client">[1]</a>
+</li>
         <li><a href="_autosummary/modlee.config.html#module-modlee.config">modlee.config</a>, <a href="modules/modlee.config.html#module-modlee.config">[1]</a>
 </li>
         <li><a href="_autosummary/modlee.converter.html#module-modlee.converter">modlee.converter</a>, <a href="modules/modlee.converter.html#module-modlee.converter">[1]</a>
 </li>
-        <li><a href="_autosummary/modlee.exp_loss_logger.html#module-modlee.exp_loss_logger">modlee.exp_loss_logger</a>, <a href="modules/modlee.exp_loss_logger.html#module-modlee.exp_loss_logger">[1]</a>
+        <li><a href="modules/modlee.data_metafeatures.html#module-modlee.data_metafeatures">modlee.data_metafeatures</a>
 </li>
-        <li><a href="_autosummary/modlee.loss_sweeper.html#module-modlee.loss_sweeper">modlee.loss_sweeper</a>, <a href="modules/modlee.loss_sweeper.html#module-modlee.loss_sweeper">[1]</a>
+        <li><a href="modules/modlee.dataframes.html#module-modlee.dataframes">modlee.dataframes</a>
+</li>
+        <li><a href="_autosummary/modlee.model.html#module-modlee.model">modlee.model</a>, <a href="modules/modlee.model.html#module-modlee.model">[1]</a>
+</li>
+        <li><a href="_autosummary/modlee.model.callbacks.html#module-modlee.model.callbacks">modlee.model.callbacks</a>, <a href="modules/modlee.model.callbacks.html#module-modlee.model.callbacks">[1]</a>
+</li>
+        <li><a href="_autosummary/modlee.model.image_model.html#module-modlee.model.image_model">modlee.model.image_model</a>, <a href="modules/modlee.model.image_model.html#module-modlee.model.image_model">[1]</a>
+</li>
+        <li><a href="_autosummary/modlee.model.model.html#module-modlee.model.model">modlee.model.model</a>, <a href="modules/modlee.model.model.html#module-modlee.model.model">[1]</a>
+</li>
+        <li><a href="_autosummary/modlee.model.recommended_model.html#module-modlee.model.recommended_model">modlee.model.recommended_model</a>, <a href="modules/modlee.model.recommended_model.html#module-modlee.model.recommended_model">[1]</a>
+</li>
+        <li><a href="modules/modlee.model.tabular_model.html#module-modlee.model.tabular_model">modlee.model.tabular_model</a>
+</li>
+        <li><a href="modules/modlee.model.timeseries_model.html#module-modlee.model.timeseries_model">modlee.model.timeseries_model</a>
+</li>
+        <li><a href="modules/modlee.model_metafeatures.html#module-modlee.model_metafeatures">modlee.model_metafeatures</a>
 </li>
         <li><a href="_autosummary/modlee.model_text_converter.html#module-modlee.model_text_converter">modlee.model_text_converter</a>, <a href="modules/modlee.model_text_converter.html#module-modlee.model_text_converter">[1]</a>
 </li>
-        <li><a href="_autosummary/modlee.modlee_image_model.html#module-modlee.modlee_image_model">modlee.modlee_image_model</a>, <a href="modules/modlee.modlee_image_model.html#module-modlee.modlee_image_model">[1]</a>
-</li>
         <li><a href="_autosummary/modlee.recommender.html#module-modlee.recommender">modlee.recommender</a>, <a href="modules/modlee.recommender.html#module-modlee.recommender">[1]</a>
+</li>
+        <li><a href="_autosummary/modlee.recommender.image_recommender.html#module-modlee.recommender.image_recommender">modlee.recommender.image_recommender</a>, <a href="modules/modlee.recommender.image_recommender.html#module-modlee.recommender.image_recommender">[1]</a>
+</li>
+        <li><a href="_autosummary/modlee.recommender.recommender.html#module-modlee.recommender.recommender">modlee.recommender.recommender</a>, <a href="modules/modlee.recommender.recommender.html#module-modlee.recommender.recommender">[1]</a>
 </li>
         <li><a href="_autosummary/modlee.retriever.html#module-modlee.retriever">modlee.retriever</a>, <a href="modules/modlee.retriever.html#module-modlee.retriever">[1]</a>
 </li>
@@ -545,30 +1011,110 @@
   </ul></td>
 </tr></table>
 
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.dataframes.html#modlee.dataframes.DataFrameTransforms.normalize">normalize() (modlee.dataframes.DataFrameTransforms static method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/modlee.modlee_image_model.html#modlee.modlee_image_model.ImageCallback.on_validation_batch_end">on_validation_batch_end() (modlee.modlee_image_model.ImageCallback method)</a>
+      <li><a href="modules/modlee.dataframes.html#modlee.dataframes.DataFrameTransforms.obj2num">obj2num() (modlee.dataframes.DataFrameTransforms static method)</a>
+</li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogModelCheckpointCallback.on_fit_end">on_fit_end() (modlee.model.callbacks.LogModelCheckpointCallback method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.PushServerCallback.on_fit_end">(modlee.model.callbacks.PushServerCallback method)</a>
+</li>
+      </ul></li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogModelCheckpointCallback.on_train_epoch_end">on_train_epoch_end() (modlee.model.callbacks.LogModelCheckpointCallback method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.model.recommended_model.html#modlee.model.recommended_model.RecommendedModel.on_train_epoch_end">(modlee.model.recommended_model.RecommendedModel method)</a>
+</li>
+      </ul></li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.DataMetafeaturesCallback.on_train_start">on_train_start() (modlee.model.callbacks.DataMetafeaturesCallback method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogCodeTextCallback.on_train_start">(modlee.model.callbacks.LogCodeTextCallback method)</a>
+</li>
+        <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogModalityTaskCallback.on_train_start">(modlee.model.callbacks.LogModalityTaskCallback method)</a>
+</li>
+        <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogONNXCallback.on_train_start">(modlee.model.callbacks.LogONNXCallback method)</a>
+</li>
+        <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogParamsCallback.on_train_start">(modlee.model.callbacks.LogParamsCallback method)</a>
+</li>
+        <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogTransformsCallback.on_train_start">(modlee.model.callbacks.LogTransformsCallback method)</a>
+</li>
+        <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.ModelMetafeaturesCallback.on_train_start">(modlee.model.callbacks.ModelMetafeaturesCallback method)</a>
+</li>
+      </ul></li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx2onnx_gs">onnx2onnx_gs() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx2onnx_text">onnx2onnx_text() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx2torch">onnx2torch() (modlee.converter.Converter method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_file2onnx_graph">onnx_file2onnx_graph() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_file2torch">onnx_file2torch() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_file2torch_model">onnx_file2torch_model() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_graph2onnx_nx">onnx_graph2onnx_nx() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_graph2onnx_text">onnx_graph2onnx_text() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_graph2torch_model">onnx_graph2torch_model() (modlee.converter.Converter method)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_parameterless2onnx">onnx_parameterless2onnx() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_path2torch">onnx_path2torch() (modlee.converter.Converter method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_text2code">onnx_text2code() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_text2onnx">onnx_text2onnx() (modlee.converter.Converter method)</a>
 </li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_text2onnx_graph">onnx_text2onnx_graph() (modlee.converter.Converter method)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_text2torch">onnx_text2torch() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_text2torch_code">onnx_text2torch_code() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_text2torch_model">onnx_text2torch_model() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_text_file2onnx">onnx_text_file2onnx() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.onnx_uninit2torch">onnx_uninit2torch() (modlee.converter.Converter method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.pad_image_channels">pad_image_channels() (in module modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.client.html#modlee.client.ModleeClient.post">post() (modlee.client.ModleeClient method)</a>
+</li>
+      <li><a href="modules/modlee.client.html#modlee.client.ModleeClient.post_file">post_file() (modlee.client.ModleeClient method)</a>
+</li>
+      <li><a href="modules/modlee.client.html#modlee.client.ModleeClient.post_run">post_run() (modlee.client.ModleeClient method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.client.html#modlee.client.ModleeClient.post_run_as_json">post_run_as_json() (modlee.client.ModleeClient method)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TimeseriesDataMetafeatures.print_meta">print_meta() (modlee.data_metafeatures.TimeseriesDataMetafeatures method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.prune_onnx_nx">prune_onnx_nx() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.PushServerCallback">PushServerCallback (class in modlee.model.callbacks)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -588,13 +1134,25 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/modlee.recommender.html#modlee.recommender.RecommendedModel">RecommendedModel (class in modlee.recommender)</a>
+      <li><a href="modules/modlee.model.recommended_model.html#modlee.model.recommended_model.RecommendedModel">RecommendedModel (class in modlee.model.recommended_model)</a>
+</li>
+      <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender">Recommender (class in modlee.recommender.recommender)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.refactor_bool_layer">refactor_bool_layer() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.refactor_inf">refactor_inf() (modlee.converter.Converter method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/modlee.recommender.html#modlee.recommender.Recommender">Recommender (class in modlee.recommender)</a>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.refactor_leading_number">refactor_leading_number() (modlee.converter.Converter method)</a>
 </li>
-      <li><a href="modules/modlee.retriever.html#modlee.retriever.run_dir_exists">run_dir_exists() (in module modlee.retriever)</a>
+      <li><a href="modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.reload_modules">reload_modules() (modlee.api_config.ModleeAPIConfig method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.remove_identity">remove_identity() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.model.model.html#modlee.model.model.ModleeModel.run_path">run_path (modlee.model.model.ModleeModel property)</a>
+</li>
+      <li><a href="modules/modlee.retriever.html#modlee.retriever.run_path_exists">run_path_exists() (in module modlee.retriever)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -604,12 +1162,36 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/modlee.utils.html#modlee.utils.safe_mkdir">safe_mkdir() (in module modlee.utils)</a>
 </li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_dataloader">sample_dataloader() (in module modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_channels">sample_image_channels() (in module modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.sample_image_from_video">sample_image_from_video() (in module modlee.data_metafeatures)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.save_code">save_code() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.model_text_converter.html#modlee.model_text_converter.save_code_text_for_model">save_code_text_for_model() (in module modlee.model_text_converter)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.save_run">save_run() (in module modlee.utils)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.utils.html#modlee.utils.save_run_as_json">save_run_as_json() (in module modlee.utils)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.save_torch">save_torch() (modlee.converter.Converter method)</a>
 </li>
+      <li><a href="modules/modlee.dataframes.html#modlee.dataframes.DataFrameTransforms.scale">scale() (modlee.dataframes.DataFrameTransforms static method)</a>
+</li>
+      <li><a href="modules/modlee.api_config.html#modlee.api_config.ModleeAPIConfig.set_api_key">set_api_key() (modlee.api_config.ModleeAPIConfig method)</a>
+</li>
+      <li><a href="_autosummary/%3C--%20add%20this%20line/modlee.set_run_path.html#modlee.set_run_path">set_run_path() (in module modlee)</a>
+</li>
+      <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogCodeTextCallback.setup">setup() (modlee.model.callbacks.LogCodeTextCallback method)</a>
+
+      <ul>
+        <li><a href="modules/modlee.model.callbacks.html#modlee.model.callbacks.LogONNXCallback.setup">(modlee.model.callbacks.LogONNXCallback method)</a>
+</li>
+      </ul></li>
       <li><a href="_autosummary/%3C--%20add%20this%20line/modlee.suppress_stdout_stderr.html#modlee.suppress_stdout_stderr">suppress_stdout_stderr() (in module modlee)</a>
 </li>
   </ul></td>
@@ -618,21 +1200,77 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.utils.html#modlee.utils.tabular_loaders">tabular_loaders (class in modlee.utils)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.tabular_loaders.TabularDataset">tabular_loaders.TabularDataset (class in modlee.utils)</a>
+</li>
+      <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TabularClassificationModelMetafeatures">TabularClassificationModelMetafeatures (class in modlee.model_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.model.tabular_model.html#modlee.model.tabular_model.TabularClassificationModleeModel">TabularClassificationModleeModel (class in modlee.model.tabular_model)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TabularDataMetafeatures">TabularDataMetafeatures (class in modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TabularModelMetafeatures">TabularModelMetafeatures (class in modlee.model_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.tensor2init_code">tensor2init_code() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.text_loaders">text_loaders (class in modlee.utils)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.text_loaders.text_modules_lengths">text_modules_lengths (modlee.utils.text_loaders attribute)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TextDataMetafeatures">TextDataMetafeatures (class in modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.timeseries_loader">timeseries_loader (class in modlee.utils)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.timeseries_loaders">timeseries_loaders (class in modlee.utils)</a>
+</li>
+      <li><a href="modules/modlee.data_metafeatures.html#modlee.data_metafeatures.TimeseriesDataMetafeatures">TimeseriesDataMetafeatures (class in modlee.data_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.TimeseriesDataset">TimeseriesDataset (class in modlee.utils)</a>
+</li>
+      <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TimeseriesForecastingModelMetafeatures">TimeseriesForecastingModelMetafeatures (class in modlee.model_metafeatures)</a>
+</li>
+      <li><a href="modules/modlee.model.timeseries_model.html#modlee.model.timeseries_model.TimeseriesForecastingModleeModel">TimeseriesForecastingModleeModel (class in modlee.model.timeseries_model)</a>
+</li>
+      <li><a href="modules/modlee.model_metafeatures.html#modlee.model_metafeatures.TimeseriesModelMetafeatures">TimeseriesModelMetafeatures (class in modlee.model_metafeatures)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.utils.html#modlee.utils.TimeseriesDataset.to_dataloader">to_dataloader() (modlee.utils.TimeseriesDataset method)</a>
+</li>
+      <li><a href="modules/modlee.dataframes.html#modlee.dataframes.ModleeDataFrame.to_tsv">to_tsv() (modlee.dataframes.ModleeDataFrame method)</a>
+</li>
+      <li><a href="modules/modlee.dataframes.html#modlee.dataframes.ModleeDataFrame.to_txt">to_txt() (modlee.dataframes.ModleeDataFrame method)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch2code">torch2code() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch2onnx">torch2onnx() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch2onnx_text">torch2onnx_text() (modlee.converter.Converter method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch2torch">torch2torch() (modlee.converter.Converter method)</a>
 </li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch2torch_graph">torch2torch_graph() (modlee.converter.Converter method)</a>
 </li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_code2torch_model">torch_code2torch_model() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_file2torch_model">torch_file2torch_model() (modlee.converter.Converter method)</a>
+</li>
       <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_graph2code">torch_graph2code() (modlee.converter.Converter method)</a>
 </li>
-      <li><a href="modules/modlee.recommender.html#modlee.recommender.RecommendedModel.training_step">training_step() (modlee.recommender.RecommendedModel method)</a>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_model2onnx_graph">torch_model2onnx_graph() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_model2onnx_text">torch_model2onnx_text() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_model2torch_code">torch_model2torch_code() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.converter.html#modlee.converter.Converter.torch_model2torch_model">torch_model2torch_model() (modlee.converter.Converter method)</a>
+</li>
+      <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.train">train() (modlee.recommender.recommender.Recommender method)</a>
+</li>
+      <li><a href="modules/modlee.model.recommended_model.html#modlee.model.recommended_model.RecommendedModel.training_step">training_step() (modlee.model.recommended_model.RecommendedModel method)</a>
+</li>
+      <li><a href="modules/modlee.utils.html#modlee.utils.typewriter_print">typewriter_print() (in module modlee.utils)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -648,7 +1286,15 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/modlee.recommender.html#modlee.recommender.RecommendedModel.validation_step">validation_step() (modlee.recommender.RecommendedModel method)</a>
+      <li><a href="modules/modlee.model.recommended_model.html#modlee.model.recommended_model.RecommendedModel.validation_step">validation_step() (modlee.model.recommended_model.RecommendedModel method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/modlee.recommender.recommender.html#modlee.recommender.recommender.Recommender.write_file">write_file() (modlee.recommender.recommender.Recommender method)</a>
 </li>
   </ul></td>
 </tr></table>
