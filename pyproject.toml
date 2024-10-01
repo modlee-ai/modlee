@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "modleestaging"
-version = "0.0.8"
+name = "modlee"
+version = "0.0.3.post33"
 authors = [{ name = "modlee", email = "brad@modlee.ai" }]
 description = "modlee package"
 readme = "docs/README.md"
