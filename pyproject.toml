@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "modleestaging"
-version = "0.0.8"
+version = "0.0.11"
 authors = [{ name = "modlee", email = "brad@modlee.ai" }]
 description = "modlee package"
 readme = "docs/README.md"
