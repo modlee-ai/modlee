@@ -151,11 +151,11 @@ class ModleeModel(LightningModule):
             LogParamsCallback(),
             PushServerCallback(),
             LogTransformsCallback(),
-            LogModelCheckpointCallback(monitor="loss"),
+            # LogModelCheckpointCallback(monitor="loss"),
         ]
 
         # # If the validation step is defined, add
-        if self._check_step_defined("validation_step"):
-            callbacks.append(LogModelCheckpointCallback(monitor="val_loss"))
+        # if self._check_step_defined("validation_step"):
+        #     callbacks.append(LogModelCheckpointCallback(monitor="val_loss"))
 
         return callbacks

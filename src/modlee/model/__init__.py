@@ -4,6 +4,7 @@ from .tabular_model import *
 from .timeseries_model import *
 from .recommended_model import *
 from . import callbacks
+from . import trainer
 from modlee.utils import class_from_modality_task
 from functools import partial
 
