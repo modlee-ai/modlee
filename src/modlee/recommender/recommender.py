@@ -156,42 +156,42 @@ class Recommender(object):
         with open(file_path, "w") as _file:
             _file.write(file_contents)
 
-    def train(self, max_epochs=1, val_dataloaders=None):
-        """
-        Train the recommended model.
+    # def train(self, max_epochs=1, val_dataloaders=None):
+    #     """
+    #     Train the recommended model.
 
-        :param max_epochs: The maximum epochs to train for.
-        :param val_dataloaders: The validation dataloaders, optional.
-        """
+    #     :param max_epochs: The maximum epochs to train for.
+    #     :param val_dataloaders: The validation dataloaders, optional.
+    #     """
 
-        print("----------------------------------------------------------------")
-        print("Training your recommended modlee model:")
-        print("     - Running this model: {}".format("./model.py"))
-        print("     - On the dataloader previously analyzed by the recommender")
-        print("----------------------------------------------------------------")
+    #     print("----------------------------------------------------------------")
+    #     print("Training your recommended modlee model:")
+    #     print("     - Running this model: {}".format("./model.py"))
+    #     print("     - On the dataloader previously analyzed by the recommender")
+    #     print("----------------------------------------------------------------")
 
-        callbacks = self.model.configure_callbacks()
-        if val_dataloaders is not None:
-            callbacks.append(
-                pl.callbacks.EarlyStopping(
-                    monitor="val_loss", patience=10, verbose=True
-                )
-            )
-        with modlee.start_run() as run:
-            trainer = pl.Trainer(
-                max_epochs=max_epochs, callbacks=callbacks, enable_model_summary=False
-            )
-            trainer.fit(
-                model=self.model,
-                train_dataloaders=self.dataloader,
-                val_dataloaders=val_dataloaders,
-            )
-            self.run_artifact_uri = urlparse(run.info.artifact_uri).path
-            self.run_id = run.info.artifact_uri.split("/")[-2]
-            self.exp_id = run.info.artifact_uri.split("/")[-3]
-            self.run_folder = self.run_artifact_uri.split("///")[-1].split("artifacts")[
-                0
-            ]
+    #     callbacks = self.model.configure_callbacks()
+    #     if val_dataloaders is not None:
+    #         callbacks.append(
+    #             pl.callbacks.EarlyStopping(
+    #                 monitor="val_loss", patience=10, verbose=True
+    #             )
+    #         )
+    #     with modlee.start_run() as run:
+    #         trainer = pl.Trainer(
+    #             max_epochs=max_epochs, callbacks=callbacks, enable_model_summary=False
+    #         )
+    #         trainer.fit(
+    #             model=self.model,
+    #             train_dataloaders=self.dataloader,
+    #             val_dataloaders=val_dataloaders,
+    #         )
+    #         self.run_artifact_uri = urlparse(run.info.artifact_uri).path
+    #         self.run_id = run.info.artifact_uri.split("/")[-2]
+    #         self.exp_id = run.info.artifact_uri.split("/")[-3]
+    #         self.run_folder = self.run_artifact_uri.split("///")[-1].split("artifacts")[
+    #             0
+    #         ]
 
     def get_input_torch(self):
         """

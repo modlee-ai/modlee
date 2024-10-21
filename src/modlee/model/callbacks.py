@@ -37,6 +37,8 @@ from modlee.config import TMP_DIR, MLRUNS_DIR
 import mlflow
 import shutil
 
+import warnings
+
 base_lightning_module = LightningModule()
 base_lm_keys = list(LightningModule.__dict__.keys())
 
@@ -361,19 +363,22 @@ class DataMetafeaturesCallback(ModleeCallback):
         :param dataloader: The dataloader.
         """
         if self.DataMetafeatures:
-            logging.info(f"Logging data metafeatures with {self.DataMetafeatures}")
-            
-            # Pass the dataloader to the TimeseriesDataMetafeatures
-            data_mf = self.DataMetafeatures(dataloader=dataloader)  # Ensure dataloader is passed
-            
-            mlflow.log_dict(data_mf.stats_rep, "stats_rep")
-            data_mf_dict = {
-                **data_mf.properties,
-                **data_mf.mfe,
-            }
-            # attrs = data_mf_dict.keys()
-            # logging.info(f"Logged data metafeatures: {','.join(attrs)}")
-            mlflow.log_dict(_make_serializable(data_mf_dict), "data_metafeatures")
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", category=RuntimeWarning)
+
+                logging.info(f"Logging data metafeatures with {self.DataMetafeatures}")
+                
+                # Pass the dataloader to the TimeseriesDataMetafeatures
+                data_mf = self.DataMetafeatures(dataloader=dataloader)  # Ensure dataloader is passed
+                
+                mlflow.log_dict(data_mf.stats_rep, "stats_rep")
+                data_mf_dict = {
+                    **data_mf.properties,
+                    **data_mf.mfe,
+                }
+                # attrs = data_mf_dict.keys()
+                # logging.info(f"Logged data metafeatures: {','.join(attrs)}")
+                mlflow.log_dict(_make_serializable(data_mf_dict), "data_metafeatures")
         else:
             logging.warning("Cannot log data statistics, could not access from server")
 
@@ -623,3 +628,210 @@ class LogModalityTaskCallback(ModleeCallback):
         mlflow.log_text(pl_module.modality, "modality")
         mlflow.log_text(pl_module.task, "task")
         return super().on_train_start(trainer, pl_module)
+
+class LossLoggingCallback(pl.Callback):
+    def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
+        """
+        Log training loss at the end of each training batch and provide guidance if output is misconfigured.
+        """
+        # Ensure the output is a dictionary and contains 'loss'
+        if not isinstance(outputs, dict) or 'loss' not in outputs:
+            logging.error("'training_step' output must be a dictionary with a 'loss' key.")
+            logging.error("Example of correct 'training_step' return:\n")
+            logging.error(
+                """def training_step(self, batch, batch_idx):
+    x, y = batch
+    y_hat = self(x)
+    loss = self.criterion(y_hat, y)
+    return {'loss': loss}"""
+            )
+        else:
+            # Access the loss from the outputs of the training step
+            loss = outputs["loss"]
+            # Log the loss (using the trainer's logger)
+            trainer.logger.log_metrics({"loss": loss.item()}, step=trainer.global_step)
+
+    def on_validation_batch_end(self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx=0):
+        """
+        Log validation loss at the end of each validation batch and provide guidance if output is misconfigured.
+        """
+        # Ensure the output is a dictionary and contains 'val_loss'
+        if not isinstance(outputs, dict) or 'val_loss' not in outputs:
+            logging.error("'validation_step' output must be a dictionary with a 'val_loss' key.")
+            logging.error("Example of correct 'validation_step' return:\n")
+            logging.error(
+                """def validation_step(self, batch, batch_idx):
+    x, y = batch
+    y_hat = self(x)
+    val_loss = self.criterion(y_hat, y)
+    return {'val_loss': val_loss}"""
+            )
+        else:
+            # Access the validation loss from the outputs of the validation step
+            val_loss = outputs["val_loss"]
+            # Log the validation loss (using the trainer's logger)
+            trainer.logger.log_metrics({"val_loss": val_loss.item()}, step=trainer.global_step)
+
+
+class LRSchedulerCallback(Callback):
+    def __init__(self, patience=5, factor=0.1, min_lr=1e-6):
+        """
+        Custom callback for reducing the learning rate when a metric plateaus.
+
+        :param patience: Number of epochs with no improvement after which LR will be reduced.
+        :param factor: Factor by which the learning rate will be reduced.
+        :param min_lr: Minimum learning rate after which it cannot be reduced further.
+        """
+        self.patience = patience
+        self.factor = factor
+        self.min_lr = min_lr
+        self.wait = 0
+        self.best_loss = float('inf')
+    
+    def on_validation_epoch_end(self, trainer, pl_module):
+        """
+        This hook is called after the validation epoch ends. It checks whether the 
+        validation loss has improved and adjusts the learning rate if necessary.
+        """
+        # Get the current validation loss from the trainer's logged metrics
+        current_loss = trainer.callback_metrics.get("val_loss")
+        
+        # If validation loss is None, we cannot proceed
+        if current_loss is None:
+            return
+        
+        # If the loss improved, reset the wait counter
+        if current_loss < self.best_loss:
+            self.best_loss = current_loss
+            self.wait = 0
+        else:
+            self.wait += 1
+
+        # If the wait counter exceeds the patience, reduce the learning rate
+        if self.wait >= self.patience:
+            for optimizer in trainer.optimizers:
+                for param_group in optimizer.param_groups:
+                    new_lr = param_group['lr'] * self.factor
+                    if new_lr >= self.min_lr:
+                        print(f"Reducing learning rate to {new_lr}")
+                        param_group['lr'] = new_lr
+            self.wait = 0  # Reset the wait counter after changing the LR
+
+import os
+import copy
+import torch
+from lightning.pytorch.callbacks import Callback
+
+
+class CustomModelCheckpoint(Callback):
+    def __init__(self, monitor="loss", save_top_k=1, mode="min", verbose=True, dirpath=None, filename="best_model"):
+        """
+        Custom callback for saving the model checkpoint when the monitored metric improves.
+
+        :param monitor: Metric to monitor (e.g., "val_loss" for validation or "loss" for training).
+        :param save_top_k: Number of top models to save. Currently supports saving the best one.
+        :param mode: "min" for minimizing the metric, "max" for maximizing it.
+        :param verbose: If True, logs messages when the model is saved.
+        :param dirpath: Directory where to save the checkpoints.
+        :param filename: Filename for the checkpoint.
+        """
+        self.monitor = monitor
+        self.save_top_k = save_top_k
+        self.mode = mode
+        self.verbose = verbose
+        self.dirpath = dirpath or "./checkpoints"
+        self.filename = filename
+        self.best_score = None
+        self.best_model_weights = None
+        self.first_pass = True
+
+        if not os.path.exists(self.dirpath):
+            os.makedirs(self.dirpath)
+
+        # Set the comparison function based on mode
+        if mode == "min":
+            self.compare_fn = lambda current, best: current < best
+            self.best_score = float('inf')
+        elif mode == "max":
+            self.compare_fn = lambda current, best: current > best
+            self.best_score = -float('inf')
+        else:
+            raise ValueError("mode must be either 'min' or 'max'")
+
+    def _check_and_save_model(self, trainer, pl_module, epoch_type="validation"):
+        """
+        Common logic to check if the model has improved and save it. 
+        Handles both validation and training epochs.
+        
+        :param trainer: The PyTorch Lightning trainer object.
+        :param pl_module: The PyTorch Lightning module (the model).
+        :param epoch_type: Either "validation" or "training" to indicate which epoch type is being checked.
+        """
+        current_score = trainer.callback_metrics.get(self.monitor)
+        if self.first_pass == False:
+            # print(f"{epoch_type.capitalize()} Epoch - Monitoring {self.monitor}")
+            # print('best_score: ', self.best_score)
+            # print('current_score: ', current_score)
+
+            if current_score is None:
+                if self.verbose:
+                    print(f"Warning: '{self.monitor}' metric is not available for checkpointing.")
+                return
+        else:
+            #skip first pass, usually
+            self.first_pass = False
+            return
+        
+        if self.compare_fn(current_score, self.best_score):
+            self.best_score = current_score
+            self.best_model_weights = copy.deepcopy(pl_module.state_dict())
+
+            # Save the checkpoint to a file
+            checkpoint_path = os.path.join(self.dirpath, f"{self.filename}_{epoch_type}.ckpt")
+            torch.save(self.best_model_weights, checkpoint_path)
+
+            if self.verbose:
+                print(f"Model improved. Saving model to {checkpoint_path} with {self.monitor}: {self.best_score}")
+
+    def on_validation_epoch_end(self, trainer, pl_module):
+        """
+        This hook is called at the end of each validation epoch. Checks and saves the model if necessary.
+        """
+        # Only run the checkpointing logic if monitoring 'val_loss'
+        if "val" in self.monitor:
+            self._check_and_save_model(trainer, pl_module, epoch_type="validation")
+
+    def on_train_epoch_end(self, trainer, pl_module):
+        """
+        This hook is called at the end of each training epoch. Checks and saves the model if necessary.
+        """
+        # Only run the checkpointing logic if monitoring 'loss'
+        if "loss" in self.monitor and "val" not in self.monitor:
+            self._check_and_save_model(trainer, pl_module, epoch_type="training")
+
+    def on_train_end(self, trainer, pl_module):
+        """
+        This hook is called at the end of training. Ensures the best model is saved 
+        and reinitializes the model with the best weights if necessary.
+        """
+        if self.best_model_weights is not None:
+            # Check if the current model is the best model
+            current_state_dict = pl_module.state_dict()
+            is_best_model = all(torch.equal(current_state_dict[k], self.best_model_weights[k])
+                                for k in current_state_dict.keys())
+
+            if not is_best_model:
+                # Reinitialize the model with the best weights
+                pl_module.load_state_dict(self.best_model_weights)
+                if self.verbose:
+                    print("Reinitialized model with the best weights after training.")
+
+            # Save the best model one last time
+            final_path = os.path.join(self.dirpath, f"{self.filename}_final.ckpt")
+            torch.save(self.best_model_weights, final_path)
+
+            if self.verbose:
+                print(f"Training completed. Best model saved to {final_path} with {self.monitor}: {self.best_score}")
+        else:
+            if self.verbose:
+                print("No model improvement during training.")

@@ -40,20 +40,20 @@ class RecommendedModel(ModleeModel):
         Configure a default AdamW optimizer with learning rate decay.
         """
         optimizer = torch.optim.AdamW(self.parameters(), lr=0.001)
-        self.scheduler = lr_scheduler.ReduceLROnPlateau(
-            optimizer, factor=0.8, patience=5
-        )
+        # self.scheduler = lr_scheduler.ReduceLROnPlateau(
+        #     optimizer, factor=0.8, patience=5
+        # )
         return optimizer
 
-    def on_train_epoch_end(self) -> None:
-        """
-        Update the learning rate scheduler.
-        """
-        sch = self.scheduler
-        if isinstance(sch, torch.optim.lr_scheduler.ReduceLROnPlateau):
-            sch.step(self.trainer.callback_metrics["loss"])
-            self.log("scheduler_last_lr", sch._last_lr[0])
-        return super().on_train_epoch_end()
+    # def on_train_epoch_end(self) -> None:
+    #     """
+    #     Update the learning rate scheduler.
+    #     """
+    #     sch = self.scheduler
+    #     if isinstance(sch, torch.optim.lr_scheduler.ReduceLROnPlateau):
+    #         sch.step(self.trainer.callback_metrics["loss"])
+    #         self.log("scheduler_last_lr", sch._last_lr[0])
+    #     return super().on_train_epoch_end()
 
     def configure_callbacks(self):
         base_callbacks = super().configure_callbacks()

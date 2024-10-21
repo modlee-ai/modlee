@@ -21,9 +21,10 @@ examples/tmp
 *.data*
 .data*
 .scratch
-
+checkpoints/
 
 # Assets that get cached
+model.py
 ./model.py
 ./model.txt
 ./model_text.txt
