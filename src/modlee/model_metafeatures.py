@@ -192,6 +192,9 @@ class TabularModelMetafeatures(ModelMetafeatures):
 class TabularClassificationModelMetafeatures(TabularModelMetafeatures):
     pass
 
+class TabularRegressionModelMetafeatures(TabularModelMetafeatures):
+    pass
+
 class TimeseriesModelMetafeatures(ModelMetafeatures):
     pass
     

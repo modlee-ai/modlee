@@ -835,6 +835,7 @@ class TabularDataMetafeatures(DataMetafeatures):
                 for key, value in stats.items():
                     stats_rep[f'batch_element_{idx}_{key}'] = value
         return stats_rep
+    
 
     def calculate_statistical_summary(self, data):
         df = pd.DataFrame(data)
