@@ -734,21 +734,7 @@ class ImageDataMetafeatures(DataMetafeatures):
         # self.embedding = self.get_embedding()
         # self.features.update(self.embedding)
         self.features = self._make_serializable(self.features)
-        self.batch_elements = self.standardize_batch_elements()
         pass
-
-    def standardize_batch_elements(self):
-
-        standardized_batch_elements = []
-
-        for element in self.batch_elements:
-            if isinstance(element, torch.Tensor) and element.dim() == 3:
-                min_val = element.min()
-                max_val = element.max()
-                standardized_image = (element - min_val) / (max_val - min_val + 1e-8)  
-                standardized_batch_elements.append(standardized_image.clamp(0, 1)) 
-
-        return standardized_batch_elements
 
     def get_raw_batch_elements(self):
         """
@@ -832,30 +818,12 @@ class TextDataMetafeatures(DataMetafeatures):
 class TabularDataMetafeatures(DataMetafeatures):
     def __init__(self, dataloader, *args, **kwargs):
         super().__init__(dataloader, *args, **kwargs)
-        self.batch_elements = self.standardize_batch_elements() 
         self.stats_rep = self.get_features()
         # Ensure that self.features is flat
         self.features.update(self.stats_rep)
         # TODO - replace with actual embedding
         # self.embedding = self.stats_rep
         pass
-
-    def standardize_batch_elements(self):
-        standardized_elements = []
-
-        for element in self.batch_elements:
-            if isinstance(element, torch.Tensor):
-
-                if not element.is_floating_point():
-                    element = element.float()  
-
-                mean = element.mean(dim=0, keepdim=True)
-                std = element.std(dim=0, keepdim=True) + 1e-8  
-                
-                standardized = (element - mean) / std
-                standardized_elements.append(standardized)
-
-        return standardized_elements
 
     def get_features(self):
         stats_rep = {}

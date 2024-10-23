@@ -88,14 +88,6 @@ def test_tabular_regressor(load_data_func):
         val_dataloaders=test_dataloader
     )
 
-    # with modlee.start_run() as run:
-    #     trainer = pl.Trainer(max_epochs=1)
-    #     trainer.fit(
-    #         model=modlee_model,
-    #         train_dataloaders=train_dataloader,
-    #         val_dataloaders=test_dataloader
-    #     )
-
     last_run_path = modlee.last_run_path()
     artifacts_path = os.path.join(last_run_path, 'artifacts')
     check_artifacts(artifacts_path)
