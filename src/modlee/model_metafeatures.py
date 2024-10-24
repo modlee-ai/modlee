@@ -186,6 +186,9 @@ class ImageSegmentationModelMetafeatures(ImageModelMetafeatures):
             output = output["out"]
         return np.array(output.shape[1:])
 
+class ImageRegressionModelMetafeatures(ImageModelMetafeatures):
+    pass
+
 class TabularModelMetafeatures(ModelMetafeatures):
     pass
 

@@ -45,3 +45,22 @@ class ImageSegmentationModleeModel(ModleeModel):
             self,
             kwargs_cache=vars_cache, *args, **kwargs
         )
+
+class ImageRegressionModleeModel(ModleeModel):
+    """
+    Subclass of ModleeModel with tabular-regression-specific convenience wrappers
+    - Calculates data-specific data statistics
+    """
+
+    def __init__(self, *args, **kwargs):
+        """
+        ImageRegressionModleeModel constructor.
+
+        """
+        modality = 'image'
+        task = "regression"
+        vars_cache = {"modality":modality,"task": task}
+        ModleeModel.__init__(
+            self,
+            kwargs_cache=vars_cache, *args, **kwargs
+        )
