@@ -206,6 +206,7 @@ docs/build/html/_images/
 myenv/
 .gitignore.save
 *.txt
+tests/end2end_tests/test_image_regression_real_data_temp.py
 
 *modlee_interview_data/
 newenv/
