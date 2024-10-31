@@ -189,6 +189,9 @@ class ImageSegmentationModelMetafeatures(ImageModelMetafeatures):
 class ImageRegressionModelMetafeatures(ImageModelMetafeatures):
     pass
 
+class ImageImageToImageModelMetafeatures(ImageModelMetafeatures):
+    pass
+
 class TabularModelMetafeatures(ModelMetafeatures):
     pass
 
