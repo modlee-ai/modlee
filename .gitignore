@@ -201,6 +201,8 @@ cython_debug/
 
 src/modlee/housing.csv
 tests/tabular_tests.py
+tests/end2end_tests/test_image_to_image_real_data_ext.py
+tests/end2end_tests/image_regression_data/
 # Additional ignores
 docs/build/html/_images/
 myenv/
