@@ -823,6 +823,7 @@ class TabularDataMetafeatures(DataMetafeatures):
         self.features.update(self.stats_rep)
         # TODO - replace with actual embedding
         # self.embedding = self.stats_rep
+        self.features = self._make_serializable(self.features)
         pass
 
     def get_features(self):

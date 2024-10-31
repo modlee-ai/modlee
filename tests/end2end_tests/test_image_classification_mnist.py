@@ -11,7 +11,7 @@ import torchvision.transforms as transforms
 from torchvision.datasets import MNIST
 
 device = torch.device('mps')
-modlee.init(api_key=os.getenv("MODLEE_API_KEY"))
+modlee.init(api_key=os.getenv("MODLEE_API_KEY"), run_path= '/home/ubuntu/efs/modlee_pypi_testruns')
 
 
 class ModleeImageClassification(modlee.model.ImageClassificationModleeModel):

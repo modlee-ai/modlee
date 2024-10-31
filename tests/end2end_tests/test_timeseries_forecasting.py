@@ -8,7 +8,7 @@ import pytest
 from utils import check_artifacts
 
 device = torch.device('cpu')
-modlee.init(api_key=os.getenv("MODLEE_API_KEY"))
+modlee.init(api_key=os.getenv("MODLEE_API_KEY"), run_path= '/home/ubuntu/efs/modlee_pypi_testruns')
 
 def generate_dummy_time_series_data(num_samples=1000, seq_length=20, num_features=10, output_features=5):
     X = torch.randn(num_samples, seq_length, num_features)

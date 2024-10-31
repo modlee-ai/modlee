@@ -8,7 +8,7 @@ from torch import nn
 from utils import check_artifacts
 
 device = torch.device('cpu')
-modlee.init(api_key=os.getenv("MODLEE_API_KEY"))
+modlee.init(api_key=os.getenv("MODLEE_API_KEY"), run_path= '/home/ubuntu/efs/modlee_pypi_testruns')
 
 def generate_dummy_data(num_samples=100, num_classes=2, img_size=(3, 32, 32)):
     X = torch.randn(num_samples, *img_size, device=device, dtype=torch.float32)  
