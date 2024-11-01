@@ -185,6 +185,7 @@ def test_model_training(img_size, recommended_model, modlee_trainer, dataset):
     check_artifacts(artifacts_path)
 
 
+
 if __name__ == "__main__":
     test_model_training(img_size=(3, 32, 32), recommended_model=False, modlee_trainer=True, dataset="age")
 

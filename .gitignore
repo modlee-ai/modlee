@@ -201,8 +201,8 @@ cython_debug/
 
 src/modlee/housing.csv
 tests/tabular_tests.py
-tests/end2end_tests/test_image_to_image_real_data_ext.py
 tests/end2end_tests/image_regression_data/
+
 # Additional ignores
 docs/build/html/_images/
 myenv/
@@ -216,3 +216,11 @@ output.txt
 
 ./input_file*
 ./output_file*
+
+docs/build/doctrees/examples_table.doctree
+docs/build/doctrees/modules/modlee.model.trainer.doctree
+docs/build/html/_modules/modlee/recommender.html
+docs/build/html/examples_table.html
+docs/build/html/modules/modlee.model.trainer.html
+docs/source/examples_table.rst
+docs/source/modules/modlee.model.trainer.rst

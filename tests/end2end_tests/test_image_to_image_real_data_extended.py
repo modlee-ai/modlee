@@ -33,14 +33,13 @@ class NoisyImageDataset(torch.utils.data.Dataset):
             else:  
                 img = img[:self.img_size[0], :, :] 
 
-        img = transforms.Resize((self.img_size[1], self.img_size[2]))(img)  
+        img = transforms.Resize((self.img_size[1], self.img_size[2]))(img)
         noisy_img = add_noise(img, self.noise_level)
         return noisy_img, img  
 
 class ModleeDenoisingModel(modlee.model.ImageImageToImageModleeModel):
     def __init__(self, img_size=(1, 32, 32)):
         super().__init__()
-        self.img_size = img_size
         in_channels = img_size[0]  
         self.model = nn.Sequential(
             nn.Conv2d(in_channels, 16, kernel_size=3, stride=1, padding=1),
@@ -55,14 +54,101 @@ class ModleeDenoisingModel(modlee.model.ImageImageToImageModleeModel):
     def training_step(self, batch, batch_idx):
         x, y = batch
         y_pred = self.forward(x)
-        loss = self.loss_fn(y_pred, y)
-        return {'loss': loss}
+        return {'loss': self.loss_fn(y_pred, y)}
     
     def validation_step(self, val_batch, batch_idx):
         x, y_target = val_batch
         y_pred = self.forward(x)
-        val_loss = self.loss_fn(y_pred, y_target)
-        return {'val_loss': val_loss}
+        return {'val_loss': self.loss_fn(y_pred, y_target)}
+
+    def configure_optimizers(self):
+        return torch.optim.Adam(self.model.parameters(), lr=1e-3)
+
+class AutoencoderDenoisingModel(modlee.model.ImageImageToImageModleeModel):
+    def __init__(self, img_size=(1, 32, 32)):
+        super().__init__()
+        in_channels = img_size[0]
+        self.model = nn.Sequential(
+            nn.Conv2d(in_channels, 32, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(32, 64, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.ConvTranspose2d(64, 32, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.ConvTranspose2d(32, in_channels, kernel_size=3, padding=1)
+        )
+        self.loss_fn = nn.MSELoss()
+
+    def forward(self, x):
+        return self.model(x)
+    
+    def training_step(self, batch, batch_idx):
+        x, y = batch
+        y_pred = self.forward(x)
+        return {'loss': self.loss_fn(y_pred, y)}
+    
+    def validation_step(self, val_batch, batch_idx):
+        x, y_target = val_batch
+        y_pred = self.forward(x)
+        return {'val_loss': self.loss_fn(y_pred, y_target)}
+
+    def configure_optimizers(self):
+        return torch.optim.Adam(self.model.parameters(), lr=1e-3)
+
+class UNetDenoisingModel(modlee.model.ImageImageToImageModleeModel):
+    def __init__(self, img_size=(1, 32, 32)):
+        super().__init__()
+        in_channels = img_size[0]
+        self.model = nn.Sequential( 
+            nn.Conv2d(in_channels, 64, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.ConvTranspose2d(64, in_channels, kernel_size=2, stride=2),
+            nn.ReLU()
+        )
+        self.loss_fn = nn.MSELoss()
+
+    def forward(self, x):
+        return self.model(x) 
+    
+    def training_step(self, batch, batch_idx):
+        x, y = batch
+        y_pred = self.forward(x)
+        return {'loss': self.loss_fn(y_pred, y)}
+    
+    def validation_step(self, val_batch, batch_idx):
+        x, y_target = val_batch
+        y_pred = self.forward(x)
+        return {'val_loss': self.loss_fn(y_pred, y_target)}
+
+    def configure_optimizers(self):
+        return torch.optim.Adam(self.model.parameters(), lr=1e-3)
+
+class ResNetDenoisingModel(modlee.model.ImageImageToImageModleeModel):
+    def __init__(self, img_size=(1, 32, 32)):
+        super().__init__()
+        in_channels = img_size[0]
+        self.model = nn.Sequential(
+            nn.Conv2d(in_channels, 32, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(32, 32, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(32, in_channels, kernel_size=3, padding=1)
+        )
+        self.loss_fn = nn.MSELoss()
+
+    def forward(self, x):
+        return self.model(x)
+    
+    def training_step(self, batch, batch_idx):
+        x, y = batch
+        y_pred = self.forward(x)
+        return {'loss': self.loss_fn(y_pred, y)}
+    
+    def validation_step(self, val_batch, batch_idx):
+        x, y_target = val_batch
+        y_pred = self.forward(x)
+        return {'val_loss': self.loss_fn(y_pred, y_target)}
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.model.parameters(), lr=1e-3)
@@ -72,7 +158,6 @@ def load_dataset(dataset_name, img_size, noise_level):
         transforms.Resize((img_size[1], img_size[2])),
         transforms.ToTensor()
     ])
-
     if dataset_name == "CIFAR10":
         train_dataset = datasets.CIFAR10(root="data", train=True, download=True, transform=transform)
         test_dataset = datasets.CIFAR10(root="data", train=False, download=True, transform=transform)
@@ -90,20 +175,18 @@ def load_dataset(dataset_name, img_size, noise_level):
 
     return train_noisy_dataset, test_noisy_dataset
 
-recommended_model_list = [False]
-modlee_trainer_list = [True, False]
-img_datasets = ["CIFAR10", "MNIST", "FashionMNIST"]
+model_classes = [AutoencoderDenoisingModel, UNetDenoisingModel, ResNetDenoisingModel, ModleeDenoisingModel]
 
 @pytest.mark.parametrize("noise_level", [0.1])
 @pytest.mark.parametrize("img_size", [(1, 32, 32), (3, 28, 28), (6, 28, 28)])
-@pytest.mark.parametrize("recommended_model", recommended_model_list)
-@pytest.mark.parametrize("modlee_trainer", modlee_trainer_list)
-@pytest.mark.parametrize("dataset_name", img_datasets)
-def test_denoising_model_training(noise_level, img_size, recommended_model, modlee_trainer, dataset_name):
-    
+@pytest.mark.parametrize("recommended_model", [False])
+@pytest.mark.parametrize("modlee_trainer", [True, False])
+@pytest.mark.parametrize("dataset_name", ["CIFAR10", "MNIST", "FashionMNIST"])
+@pytest.mark.parametrize("model_class", model_classes)
+def test_denoising_model_training(noise_level, img_size, recommended_model, modlee_trainer, dataset_name, model_class):
     train_noisy_dataset, test_noisy_dataset = load_dataset(dataset_name, img_size, noise_level)
-    train_dataloader = DataLoader(train_noisy_dataset, batch_size=2, shuffle=True)
-    test_dataloader = DataLoader(test_noisy_dataset, batch_size=2, shuffle=False)
+    train_dataloader = DataLoader(train_noisy_dataset, batch_size=32, shuffle=True)
+    test_dataloader = DataLoader(test_noisy_dataset, batch_size=32, shuffle=False)
 
     if recommended_model:
         recommender = modlee.recommender.ModleeDenoisingModel()  
@@ -111,12 +194,12 @@ def test_denoising_model_training(noise_level, img_size, recommended_model, modl
         modlee_model = recommender.model
         print(f"\nRecommended model: \n{modlee_model}")
     else:
-        modlee_model = ModleeDenoisingModel(img_size=img_size).to(device)
+        denoising_model_instance = model_class(img_size=img_size).to(device)
 
     if modlee_trainer:
         trainer = modlee.model.trainer.AutoTrainer(max_epochs=1)
         trainer.fit(
-            model=modlee_model,
+            model=denoising_model_instance,
             train_dataloaders=train_dataloader,
             val_dataloaders=test_dataloader
         )
@@ -124,7 +207,7 @@ def test_denoising_model_training(noise_level, img_size, recommended_model, modl
         with modlee.start_run() as run:
             trainer = pl.Trainer(max_epochs=1)
             trainer.fit(
-                model=modlee_model,
+                model=denoising_model_instance,
                 train_dataloaders=train_dataloader,
                 val_dataloaders=test_dataloader
             )
@@ -133,6 +216,3 @@ def test_denoising_model_training(noise_level, img_size, recommended_model, modl
     artifacts_path = os.path.join(last_run_path, 'artifacts')
     check_artifacts(artifacts_path)
 
-
-if __name__ == "__main__":
-    test_denoising_model_training(noise_level=0.1, img_size=(1, 32, 32), modlee_trainer=True, dataset_name="CIFAR10")
