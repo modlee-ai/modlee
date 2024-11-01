@@ -133,6 +133,5 @@ def test_denoising_model_training(noise_level, img_size, recommended_model, modl
     artifacts_path = os.path.join(last_run_path, 'artifacts')
     check_artifacts(artifacts_path)
 
-
 if __name__ == "__main__":
     test_denoising_model_training(noise_level=0.1, img_size=(1, 32, 32), modlee_trainer=True, dataset_name="CIFAR10")

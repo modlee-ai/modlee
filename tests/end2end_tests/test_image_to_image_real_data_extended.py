@@ -216,3 +216,4 @@ def test_denoising_model_training(noise_level, img_size, recommended_model, modl
     artifacts_path = os.path.join(last_run_path, 'artifacts')
     check_artifacts(artifacts_path)
 
+

@@ -80,3 +80,4 @@ class ImageImageToImageModleeModel(ModleeModel):
         task = "image-to-image"
         vars_cache = {"modality": modality, "task": task}
         super().__init__(kwargs_cache=vars_cache, *args, **kwargs)
+        

@@ -211,3 +211,4 @@ class TimeseriesClassificationModelMetafeatures(TimeseriesModelMetafeatures):
 class TimeseriesRegressionModelMetafeatures(TimeseriesModelMetafeatures):
     pass
 from_modality_task = partial(class_from_modality_task, _class="Model_Metafeatures")
+

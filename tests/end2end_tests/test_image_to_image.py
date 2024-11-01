@@ -83,7 +83,6 @@ def test_image_to_image_model_training(num_samples, img_size, recommended_model,
                 val_dataloaders=test_dataloader
             )
 
-
     last_run_path = modlee.last_run_path()
     artifacts_path = os.path.join(last_run_path, 'artifacts')
     check_artifacts(artifacts_path)
