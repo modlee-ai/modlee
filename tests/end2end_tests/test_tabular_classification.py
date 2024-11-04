@@ -5,9 +5,9 @@ import lightning.pytorch as pl
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
 import pytest
-from utils import check_artifacts
+from utils import check_artifacts, get_device
 
-device = torch.device('cpu')
+device = get_device()
 #modlee.init(api_key=os.getenv("MODLEE_API_KEY"), run_path= '/home/ubuntu/efs/modlee_pypi_testruns')
 modlee.init(api_key='kF4dN7mP9qW2sT8v', run_path= '/home/ubuntu/efs/modlee_pypi_testruns')
 

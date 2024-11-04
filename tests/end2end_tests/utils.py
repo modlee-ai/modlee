@@ -2,6 +2,7 @@ import os
 import json
 import math
 import importlib
+import torch
 
 def check_artifacts(artifacts_path):
     """
@@ -69,6 +70,25 @@ def check_artifacts(artifacts_path):
     print('passed experiment artifact check')
 
 
-# # Example usage
-# artifacts_path = 'mlruns/0/778507a9a37d45ef9f1df6ac8a2e85f8/artifacts/'
-# check_artifacts(artifacts_path)
+def get_device():
+    """
+    Dynamically selects the best available device for training:
+    - Intel iGPU (xpu) if available with PyTorch oneAPI support (requires Intel® Extension for PyTorch*)
+    - Apple Silicon (mps) if available on Apple M1/M2 chips
+    - CUDA (cuda) if available on NVIDIA GPUs
+    - Defaults to CPU if none are available.
+    """
+    if torch.backends.mps.is_available() and torch.backends.mps.is_built():
+        device = torch.device("mps")
+        print("Using device: Apple Silicon (mps)")
+    elif torch.cuda.is_available():
+        device = torch.device("cuda")
+        print("Using device: NVIDIA GPU (cuda)")
+    elif hasattr(torch, "xpu") and torch.xpu.is_available():
+        device = torch.device("xpu")
+        print("Using device: Intel iGPU (xpu)")
+    else:
+        device = torch.device("cpu")
+        print("Using device: CPU")
+
+    return device

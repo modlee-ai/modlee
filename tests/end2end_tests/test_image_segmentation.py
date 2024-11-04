@@ -5,9 +5,9 @@ import lightning.pytorch as pl
 from torch.utils.data import DataLoader, TensorDataset
 from pytorch_lightning.loggers import TensorBoardLogger
 import pytest
-from utils import check_artifacts
+from utils import check_artifacts, get_device
 
-device = torch.device('cpu')
+device = get_device()
 modlee.init(api_key=os.getenv("MODLEE_API_KEY"), run_path= '/home/ubuntu/efs/modlee_pypi_testruns')
 
 def generate_dummy_segmentation_data(num_samples=100, img_size=(3, 32, 32), mask_size=(32, 32)):

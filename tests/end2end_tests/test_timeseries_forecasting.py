@@ -5,9 +5,9 @@ import lightning.pytorch as pl
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
 import pytest
-from utils import check_artifacts
+from utils import check_artifacts, get_device
 
-device = torch.device('cpu')
+device = get_device()
 modlee.init(api_key=os.getenv("MODLEE_API_KEY"), run_path= '/home/ubuntu/efs/modlee_pypi_testruns')
 
 def generate_dummy_time_series_data(num_samples=1000, seq_length=20, num_features=10, output_features=5):

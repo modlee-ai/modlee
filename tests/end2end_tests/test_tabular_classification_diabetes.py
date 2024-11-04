@@ -4,12 +4,12 @@ import modlee
 import lightning.pytorch as pl
 from torch.utils.data import DataLoader, random_split
 import pytest
-from utils import check_artifacts
+from utils import check_artifacts, get_device
 import numpy as np
 from sklearn.datasets import load_diabetes
 from sklearn.preprocessing import StandardScaler
 
-device = torch.device('cpu')
+device = get_device()
 modlee.init(api_key=os.getenv("MODLEE_API_KEY"), run_path= '/home/ubuntu/efs/modlee_pypi_testruns')
 
 class TabularDataset(torch.utils.data.Dataset):

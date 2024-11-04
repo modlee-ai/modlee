@@ -5,14 +5,14 @@ import pytest
 import lightning.pytorch as pl
 from torch.utils.data import DataLoader, TensorDataset
 from torch import nn
-from utils import check_artifacts
+from utils import check_artifacts, get_device
 
 import torchvision.transforms as transforms
 from torchvision.datasets import MNIST
 
-device = torch.device('mps')
-modlee.init(api_key=os.getenv("MODLEE_API_KEY"), run_path= '/home/ubuntu/efs/modlee_pypi_testruns')
+device = get_device()
 
+modlee.init(api_key=os.getenv("MODLEE_API_KEY"), run_path= '/home/ubuntu/efs/modlee_pypi_testruns')
 
 class ModleeImageClassification(modlee.model.ImageClassificationModleeModel):
     def __init__(self, num_classes=2, img_size=(3, 32, 32)):
@@ -79,7 +79,7 @@ modlee_trainer_list = [True,False]
 @pytest.mark.parametrize("img_size", img_size_list)
 @pytest.mark.parametrize("recommended_model", recommended_model_list)
 @pytest.mark.parametrize("modlee_trainer", modlee_trainer_list)
-def test_model_training(img_size,recommended_model,modlee_trainer):
+def test_image_classifer(img_size,recommended_model,modlee_trainer):
 
     transform = transforms.Compose([
         transforms.Resize((img_size[1], img_size[2])),
@@ -145,4 +145,4 @@ def test_model_training(img_size,recommended_model,modlee_trainer):
 
 if __name__ == "__main__":
 
-    test_model_training((3, 32, 32),True,True)
+    test_image_classifer((3, 32, 32),True,True)
