@@ -4,14 +4,13 @@ import modlee
 import lightning.pytorch as pl
 from torch.utils.data import DataLoader, random_split
 import pytest
-from utils import check_artifacts
+from utils import check_artifacts, get_device
 import numpy as np
 from sklearn.datasets import load_diabetes
 from sklearn.preprocessing import StandardScaler
 
-device = torch.device('cpu')
-modlee.init(api_key=os.getenv("MODLEE_API_KEY"))
-
+device = get_device()
+modlee.init(api_key=os.getenv("MODLEE_API_KEY"), run_path= '/home/ubuntu/efs/modlee_pypi_testruns')
 
 class TabularDataset(torch.utils.data.Dataset):
     def __init__(self, X, y):
@@ -24,25 +23,21 @@ class TabularDataset(torch.utils.data.Dataset):
     def __getitem__(self, idx):
         return self.X[idx], self.y[idx]
 
-def get_diabetes_dataloaders(batch_size=32, val_split=0.2, shuffle=True):
+def get_diabetes_dataloaders(batch_size=32, val_split=0.2, shuffle=True, num_classes=10):
     # Load the diabetes dataset from sklearn
     diabetes = load_diabetes()
     X = diabetes.data  # Features
-    y = diabetes.target  # Labels (for regression)
+    y = diabetes.target  # Continuous target (for regression)
 
-    # Determine the number of features and classes
-    num_features = X.shape[1]  # Number of features (columns in X)
-    
-    # Since this dataset is for regression, the number of classes could be considered 1 (continuous target).
-    # If you intend to convert it into a classification problem, you'd have to binarize or categorize y.
-    num_classes = len(np.unique(y))  # Unique values in y (though it's for regression, this will count distinct targets)
+    # Bin continuous target values into classes for classification
+    y_binned = np.digitize(y, np.linspace(y.min(), y.max(), num_classes)) - 1  # Convert to class indices
 
     # Initialize the scaler for feature scaling
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)  # Scale the features
 
     # Create a TabularDataset instance
-    dataset = TabularDataset(X_scaled, y)
+    dataset = TabularDataset(X_scaled, y_binned)
 
     # Split the dataset into training and validation sets
     dataset_size = len(dataset)
@@ -54,8 +49,7 @@ def get_diabetes_dataloaders(batch_size=32, val_split=0.2, shuffle=True):
     train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=shuffle)
     val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=shuffle)
 
-    return train_dataloader, val_dataloader, num_features, num_classes
-
+    return train_dataloader, val_dataloader, X.shape[1], num_classes  # Return num_features and num_classes
 
 class TabularClassifier(modlee.model.TabularClassificationModleeModel):
     def __init__(self, input_dim, num_classes=2):
@@ -87,24 +81,45 @@ class TabularClassifier(modlee.model.TabularClassificationModleeModel):
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=1e-3)
 
-def test_tabular_classifier():    
+#tab_size_list = [(3, 32, 32),(1, 64, 64)]
+recommended_model_list = [True,False]
+modlee_trainer_list = [True,False]
+
+@pytest.mark.parametrize("recommended_model", recommended_model_list)
+@pytest.mark.parametrize("modlee_trainer", modlee_trainer_list)
+def test_tabular_classification(recommended_model,modlee_trainer):
 
     train_dataloader, val_dataloader, num_features, num_classes = get_diabetes_dataloaders()
 
-    modlee_model = TabularClassifier(input_dim=num_features, num_classes=num_classes).to(device)
-
-    with modlee.start_run() as run:
-        trainer = pl.Trainer(max_epochs=1)
+    if recommended_model == True:
+        recommender = modlee.recommender.TabularClassificationRecommender(num_classes=num_classes)
+        recommender.fit(train_dataloader)
+        modlee_model = recommender.model.to(device)        
+        print(f"\nRecommended model: \n{modlee_model}")
+    else:
+        modlee_model = TabularClassifier(input_dim=num_features, num_classes=num_classes).to(device)    
+    # modlee_trainer = True
+    if modlee_trainer == True:
+        trainer = modlee.model.trainer.AutoTrainer(max_epochs=10)
         trainer.fit(
             model=modlee_model,
             train_dataloaders=train_dataloader,
             val_dataloaders=val_dataloader
         )
+    else:
+        with modlee.start_run() as run:
+            trainer = pl.Trainer(max_epochs=10)
+            trainer.fit(
+                model=modlee_model,
+                train_dataloaders=train_dataloader,
+                val_dataloaders=val_dataloader
+            )
+
 
     last_run_path = modlee.last_run_path()
     artifacts_path = os.path.join(last_run_path, 'artifacts')
     check_artifacts(artifacts_path)
 
-if __name__ == "__main__":
 
-    test_tabular_classifier()
+if __name__ == "__main__":
+    test_tabular_classification(recommended_model = True, modlee_trainer = True)
