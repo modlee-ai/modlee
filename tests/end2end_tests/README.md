@@ -17,7 +17,6 @@ python3 -m pytest tests/end2end_tests/test_timeseries_classification.py -k test
 python3 -m pytest tests/end2end_tests/test_timeseries_regression.py -k test
 python3 -m pytest tests/end2end_tests/test_image_to_image.py -k test
 python3 -m pytest tests/end2end_tests/test_image_to_image_real_data_extended.py -k test
-
 ```
 
 ### Real data

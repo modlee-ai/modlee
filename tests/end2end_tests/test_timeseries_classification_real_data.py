@@ -1,4 +1,3 @@
-
 import torch
 import os
 import modlee
@@ -66,6 +65,35 @@ class MultivariateTimeSeriesClassifier(modlee.model.TimeseriesClassificationModl
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=1e-3)
 
+class TransformerTimeSeriesClassifier(modlee.model.TimeseriesClassificationModleeModel):
+    def __init__(self, input_dim, seq_length, num_classes, num_heads=1, hidden_dim=64):
+        super().__init__()
+        self.encoder_layer = torch.nn.TransformerEncoderLayer(d_model=input_dim, nhead=num_heads)
+        self.transformer_encoder = torch.nn.TransformerEncoder(self.encoder_layer, num_layers=2)
+        self.fc = torch.nn.Linear(input_dim * seq_length, num_classes)
+        self.loss_fn = torch.nn.CrossEntropyLoss()
+
+    def forward(self, x):
+        x = self.transformer_encoder(x)
+        x = x.view(x.size(0), -1)
+        x = self.fc(x)
+        return x 
+
+    def training_step(self, batch):
+        x, y = batch
+        preds = self.forward(x)
+        loss = self.loss_fn(preds, y)
+        return loss
+
+    def validation_step(self, batch):
+        x, y = batch
+        preds = self.forward(x)
+        loss = self.loss_fn(preds, y)
+        return loss
+
+    def configure_optimizers(self):
+        return torch.optim.Adam(self.parameters(), lr=1e-3)
+
 recommended_model_list = [False]
 modlee_trainer_list = [True, False]
 
@@ -79,27 +107,27 @@ modlee_trainer_list = [True, False]
 ])
 @pytest.mark.parametrize("recommended_model", recommended_model_list)
 @pytest.mark.parametrize("modlee_trainer", modlee_trainer_list)
-def test_classifier(num_features, seq_length, num_classes, dataset_type, recommended_model, modlee_trainer):
+@pytest.mark.parametrize("model_type", ['transformer', 'multivariate'])
+def test_classifier(num_features, seq_length, num_classes, dataset_type, recommended_model, modlee_trainer, model_type):
     
     if dataset_type == 'ecg':
-        file_path = os.path.join(os.path.join(os.getcwd(), 'tests/end2end_tests/time_series_data'), 'ECG200_TRAIN.txt')
+        file_path = os.path.join(os.getcwd(), 'tests/end2end_tests/time_series_data', 'ECG200_TRAIN.txt')
         X_train, y_train = load_ecg200_from_txt(file_path)
-        file_path = os.path.join(os.path.join(os.getcwd(), 'tests/end2end_tests/time_series_data'), 'ECG200_TEST.txt')
+        file_path = os.path.join(os.getcwd(), 'tests/end2end_tests/time_series_data', 'ECG200_TEST.txt')
         X_test, y_test = load_ecg200_from_txt(file_path)
 
     elif dataset_type == 'beef':
-        file_path = os.path.join(os.path.join(os.getcwd(), 'tests/end2end_tests/time_series_data'), 'Beef_TRAIN.txt')
-        X_train, y_train = load_ecg200_from_txt(file_path)
-        file_path = os.path.join(os.path.join(os.getcwd(), 'tests/end2end_tests/time_series_data'), 'Beef_TEST.txt')
-        X_test, y_test = load_ecg200_from_txt(file_path)
+        file_path = os.path.join(os.getcwd(), 'tests/end2end_tests/time_series_data', 'Beef_TRAIN.txt')
+        X_train, y_train = load_beef_from_txt(file_path)
+        file_path = os.path.join(os.getcwd(), 'tests/end2end_tests/time_series_data', 'Beef_TEST.txt')
+        X_test, y_test = load_beef_from_txt(file_path)
 
     else:
-        file_path = os.path.join(os.path.join(os.getcwd(), 'tests/end2end_tests/time_series_data'), 'Car_TRAIN.txt')
-        X_train, y_train = load_ecg200_from_txt(file_path)
-        file_path = os.path.join(os.path.join(os.getcwd(), 'tests/end2end_tests/time_series_data'), 'Car_TEST.txt')
-        X_test, y_test = load_ecg200_from_txt(file_path)
+        file_path = os.path.join(os.getcwd(), 'tests/end2end_tests/time_series_data', 'Car_TRAIN.txt')
+        X_train, y_train = load_car_from_txt(file_path)
+        file_path = os.path.join(os.getcwd(), 'tests/end2end_tests/time_series_data', 'Car_TEST.txt')
+        X_test, y_test = load_car_from_txt(file_path)
 
-    
     train_dataset = TensorDataset(X_train, y_train)
     test_dataset = TensorDataset(X_test, y_test)
     train_dataloader = DataLoader(train_dataset, batch_size=8, shuffle=True)
@@ -111,7 +139,10 @@ def test_classifier(num_features, seq_length, num_classes, dataset_type, recomme
         modlee_model = recommender.model
         print(f"\nRecommended model: \n{modlee_model}")
     else:
-        modlee_model = MultivariateTimeSeriesClassifier(input_dim=num_features,seq_length=seq_length,num_classes=num_classes).to(device)
+        if model_type == 'multivariate':
+            modlee_model = MultivariateTimeSeriesClassifier(input_dim=num_features, seq_length=seq_length, num_classes=num_classes).to(device)
+        elif model_type == 'transformer':
+            modlee_model = TransformerTimeSeriesClassifier(input_dim=num_features, seq_length=seq_length, num_classes=num_classes).to(device)
 
     if modlee_trainer:
         trainer = modlee.model.trainer.AutoTrainer(max_epochs=1)

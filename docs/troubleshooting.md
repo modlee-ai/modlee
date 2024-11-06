@@ -160,5 +160,21 @@ Encountering problems with Modlee? This page provides solutions to the most comm
 
 ---
 
+## Model Limitations
+
+### Problem: Errors Using LSTMs
+
+**Issue**: Attempting to use LSTM layers or recurrent operations results in errors.
+
+**Explanation** : Currently, Modlee’s modlee.model.TimeseriesClassificationModleeModel does not support recurrent layers like LSTMs.
+
+**Solutions**:
+
+- **Use Non-Recurrent Models**: Instead, try using models designed to handle time series data without recurrence, such as convolutional neural networks (CNNs) and transformers. These architectures can capture sequential dependencies effectively without relying on LSTM layers.
+
+- **Consider Alternative Libraries**: If your project requires LSTM functionality, consider using an alternative library that supports recurrent layers specifically for time series tasks.
+
+---
+
 ## Still Need Help?
 If you continue to experience issues or need further assistance, please email us at [support@modlee.ai](support@modlee.ai) or join our [community forum](https://discord.com/invite/m8YDbWDvrF). You can also raise an issue on our [GitHub repository](https://github.com/modlee-ai/modlee/issues) for additional support.

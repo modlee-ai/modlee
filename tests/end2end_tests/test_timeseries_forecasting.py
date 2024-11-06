@@ -1,3 +1,4 @@
+
 import torch
 import os
 import modlee
@@ -18,26 +19,15 @@ def generate_dummy_time_series_data(num_samples=1000, seq_length=20, num_feature
 class MultivariateTimeSeriesForecaster(modlee.model.TimeseriesForecastingModleeModel):
     def __init__(self, input_dim, seq_length, output_dim, hidden_dim=64):
         super().__init__()
-        self.seq_length = seq_length
-        self.hidden_dim = hidden_dim
-
-        # Neural network layers
         self.fc1 = torch.nn.Linear(input_dim, hidden_dim)
         self.fc2 = torch.nn.Linear(hidden_dim, output_dim)
-
-        # Loss function (MSE for regression)
         self.loss_fn = torch.nn.MSELoss()
 
     def forward(self, x):
-        # x shape: (batch_size, seq_length, input_dim)
         batch_size, seq_length, input_dim = x.shape
-
-        # Process each time step independently through the feedforward network
-        x = x.view(-1, input_dim)  # Flatten time dimension with batch
+        x = x.view(-1, input_dim)
         x = torch.relu(self.fc1(x))
         x = self.fc2(x)
-
-        # Reshape back to (batch_size, seq_length, output_dim)
         x = x.view(batch_size, seq_length, -1)
         return x
 
@@ -56,16 +46,47 @@ class MultivariateTimeSeriesForecaster(modlee.model.TimeseriesForecastingModleeM
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=1e-3)
 
-# Modify the parameter combinations to include output features
+class TransformerTimeSeriesForecaster(modlee.model.TimeseriesForecastingModleeModel):
+    def __init__(self, input_dim, seq_length, output_dim, nhead=2, num_layers=2):
+        super().__init__()
+        self.seq_length = seq_length
+        self.transformer = torch.nn.Transformer(input_dim, nhead=nhead, num_encoder_layers=num_layers)
+        self.fc_out = torch.nn.Linear(input_dim, output_dim)
+        self.loss_fn = torch.nn.MSELoss()
+
+    def forward(self, x):
+        x = x.permute(1, 0, 2)  
+        x = self.transformer(x, x)
+        x = self.fc_out(x.permute(1, 0, 2)) 
+        return x
+
+    def training_step(self, batch):
+        x, y = batch
+        preds = self.forward(x)
+        loss = self.loss_fn(preds, y)
+        return loss
+
+    def validation_step(self, batch):
+        x, y = batch
+        preds = self.forward(x)
+        loss = self.loss_fn(preds, y)
+        return loss
+
+    def configure_optimizers(self):
+        return torch.optim.Adam(self.parameters(), lr=1e-3)
+
 parameter_combinations = [
-    (5, 3, 2),  # num_features, seq_length, output_features
+    (5, 3, 2),
     (10, 6, 5),
     (10, 30, 10),
     (100, 20, 50)
 ]
 
+model_classes = ['multivariate', 'transformer']
+
+@pytest.mark.parametrize("model_class", model_classes)
 @pytest.mark.parametrize("num_features, seq_length, output_features", parameter_combinations)
-def test_multivariate_time_series_forecaster(num_features, seq_length, output_features):
+def test_multivariate_time_series_forecaster(model_class, num_features, seq_length, output_features):
     X, y = generate_dummy_time_series_data(num_samples=1000, seq_length=seq_length, num_features=num_features, output_features=output_features)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -74,23 +95,16 @@ def test_multivariate_time_series_forecaster(num_features, seq_length, output_fe
 
     train_dataloader = DataLoader(train_dataset, batch_size=32, shuffle=True)
     test_dataloader = DataLoader(test_dataset, batch_size=32, shuffle=False)
-
-    # Debugging: Print the first batch of the train dataloader
-    for batch in train_dataloader:
-        print(f"Train batch X shape: {batch[0].shape}, y shape: {batch[1].shape}")
-        break
-
-    # Debugging: Print the first batch of the test dataloader
-    for batch in test_dataloader:
-        print(f"Test batch X shape: {batch[0].shape}, y shape: {batch[1].shape}")
-        break
-
-    lightning_model = MultivariateTimeSeriesForecaster(input_dim=num_features, seq_length=seq_length, output_dim=output_features, hidden_dim=64).to(device)
+    
+    if model_class == 'multivariate':
+        model = TransformerTimeSeriesForecaster(input_dim=num_features, seq_length=seq_length, output_dim=output_features, nhead=1).to(device)
+    else:
+        model = MultivariateTimeSeriesForecaster(input_dim=num_features, seq_length=seq_length, output_dim=output_features).to(device)
 
     with modlee.start_run() as run:
         trainer = pl.Trainer(max_epochs=1)
         trainer.fit(
-            model=lightning_model,
+            model=model,
             train_dataloaders=train_dataloader,
             val_dataloaders=test_dataloader
         )
@@ -100,4 +114,5 @@ def test_multivariate_time_series_forecaster(num_features, seq_length, output_fe
     check_artifacts(artifacts_path)
 
 if __name__ == "__main__":
-    test_multivariate_time_series_forecaster(5, 10, 3)
+    test_multivariate_time_series_forecaster(MultivariateTimeSeriesForecaster, 5, 10, 3)
+    test_multivariate_time_series_forecaster(TransformerTimeSeriesForecaster, 5, 10, 3)

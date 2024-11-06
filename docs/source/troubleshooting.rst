@@ -225,6 +225,33 @@ Problem: Kaggle Notebook, Run Out of GPU Compute
 
 --------------
 
+Model Limitations
+-----------------
+
+Problem: Errors Using LSTMs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Issue**: Attempting to use LSTM layers or recurrent operations results
+in errors.
+
+**Explanation** : Currently, Modlee’s
+modlee.model.TimeseriesClassificationModleeModel does not support
+recurrent layers like LSTMs.
+
+**Solutions**:
+
+-  **Use Non-Recurrent Models**: Instead, try using models designed to
+   handle time series data without recurrence, such as convolutional
+   neural networks (CNNs) and transformers. These architectures can
+   capture sequential dependencies effectively without relying on LSTM
+   layers.
+
+-  **Consider Alternative Libraries**: If your project requires LSTM
+   functionality, consider using an alternative library that supports
+   recurrent layers specifically for time series tasks.
+
+--------------
+
 Still Need Help?
 ----------------
 

@@ -31,8 +31,52 @@ class MultivariateTimeSeriesClassifier(modlee.model.TimeseriesClassificationModl
         x = x.view(batch_size, -1) 
         x = torch.relu(self.fc1(x))
         x = self.fc2(x)
-
         return x 
+
+    def training_step(self, batch):
+        x, y = batch
+        preds = self.forward(x)
+        loss = self.loss_fn(preds, y)
+        return loss
+
+    def validation_step(self, batch):
+        x, y = batch
+        preds = self.forward(x)
+        loss = self.loss_fn(preds, y)
+        return loss
+
+    def configure_optimizers(self):
+        return torch.optim.Adam(self.parameters(), lr=1e-3)
+
+class SimpleTransformerModel(modlee.model.TimeseriesClassificationModleeModel):
+    def __init__(self, input_dim, seq_length, num_classes, nhead=2, d_model=32):
+        super().__init__()
+        self.seq_length = seq_length
+        self.input_dim = input_dim
+        self.num_classes = num_classes
+        self.nhead = nhead
+
+        if input_dim != d_model:
+            self.input_proj = torch.nn.Linear(input_dim, d_model)
+        else:
+            self.input_proj = None
+        self.d_model = d_model
+
+        self.transformer_encoder = torch.nn.TransformerEncoder(
+            torch.nn.TransformerEncoderLayer(d_model=d_model, nhead=nhead),
+            num_layers=2
+        )
+        self.fc = torch.nn.Linear(seq_length * d_model, num_classes)
+        self.loss_fn = torch.nn.CrossEntropyLoss()
+
+    def forward(self, x):
+        if self.input_proj:
+            x = self.input_proj(x)
+        x = self.transformer_encoder(x.permute(1, 0, 2))  
+        x = x.permute(1, 0, 2).contiguous()  
+        x = x.view(x.size(0), -1) 
+        x = self.fc(x)
+        return x
 
     def training_step(self, batch):
         x, y = batch
@@ -57,11 +101,13 @@ parameter_combinations = [
 ]
 recommended_model_list = [False]
 modlee_trainer_list = [True, False]
+model_types = ['multivariate', 'transformer']  
 
 @pytest.mark.parametrize("num_features, seq_length, num_classes", parameter_combinations)
 @pytest.mark.parametrize("recommended_model", recommended_model_list)
 @pytest.mark.parametrize("modlee_trainer", modlee_trainer_list)
-def test_multivariate_time_series_classifier(num_features, seq_length, num_classes, recommended_model, modlee_trainer):
+@pytest.mark.parametrize("model_type", model_types)  
+def test_multivariate_time_series_classifier(num_features, seq_length, num_classes, recommended_model, modlee_trainer, model_type):
     X, y = generate_dummy_time_series_data(num_samples=1000, seq_length=seq_length, num_features=num_features, num_classes=num_classes)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -77,7 +123,10 @@ def test_multivariate_time_series_classifier(num_features, seq_length, num_class
         modlee_model = recommender.model
         print(f"\nRecommended model: \n{modlee_model}")
     else:
-        modlee_model = MultivariateTimeSeriesClassifier(input_dim=num_features, seq_length=seq_length, num_classes=num_classes).to(device)
+        if model_type == 'multivariate':
+            modlee_model = MultivariateTimeSeriesClassifier(input_dim=num_features, seq_length=seq_length, num_classes=num_classes).to(device)
+        else:
+            modlee_model = SimpleTransformerModel(input_dim=num_features, seq_length=seq_length, num_classes=num_classes).to(device)
 
     if modlee_trainer:
         trainer = modlee.model.trainer.AutoTrainer(max_epochs=1)
@@ -101,3 +150,4 @@ def test_multivariate_time_series_classifier(num_features, seq_length, num_class
 
 if __name__ == "__main__":
     test_multivariate_time_series_classifier(5, 20, 3, False, True)
+

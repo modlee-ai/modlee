@@ -1,4 +1,3 @@
-
 import torch
 import os
 import modlee
@@ -59,12 +58,12 @@ def load_power_consumption_data(file_path, seq_length):
 
     return X_seq, y_seq
 
+
 class MultivariateTimeSeriesRegressor(modlee.model.TimeseriesRegressionModleeModel):
     def __init__(self, input_dim, seq_length, hidden_dim=64):
         super().__init__()
         self.seq_length = seq_length
         self.hidden_dim = hidden_dim
-
         self.fc1 = torch.nn.Linear(input_dim * seq_length, hidden_dim)
         self.fc2 = torch.nn.Linear(hidden_dim, 1) 
 
@@ -73,7 +72,6 @@ class MultivariateTimeSeriesRegressor(modlee.model.TimeseriesRegressionModleeMod
         x = x.view(batch_size, -1)  
         x = torch.relu(self.fc1(x))
         x = self.fc2(x)
-
         return x 
 
     def training_step(self, batch):
@@ -91,6 +89,36 @@ class MultivariateTimeSeriesRegressor(modlee.model.TimeseriesRegressionModleeMod
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=1e-3)
 
+class TransformerTimeSeriesRegressor(modlee.model.TimeseriesRegressionModleeModel):
+    def __init__(self, input_dim, seq_length, num_heads=1, hidden_dim=64):
+        super().__init__()
+        self.encoder_layer = torch.nn.TransformerEncoderLayer(d_model=input_dim, nhead=num_heads)
+        self.transformer_encoder = torch.nn.TransformerEncoder(self.encoder_layer, num_layers=2)
+        self.fc = torch.nn.Linear(input_dim * seq_length, 1)
+        self.loss_fn = torch.nn.MSELoss()
+
+    def forward(self, x):
+        x = self.transformer_encoder(x)
+        x = x.view(x.size(0), -1)
+        x = self.fc(x)
+        return x 
+
+    def training_step(self, batch):
+        x, y = batch
+        preds = self.forward(x)
+        loss = self.loss_fn(preds, y)
+        return loss
+
+    def validation_step(self, batch):
+        x, y = batch
+        preds = self.forward(x)
+        loss = self.loss_fn(preds, y)
+        return loss
+
+    def configure_optimizers(self):
+        return torch.optim.Adam(self.parameters(), lr=1e-3)
+    
+model_list = [TransformerTimeSeriesRegressor, MultivariateTimeSeriesRegressor]
 recommended_model_list = [False]
 modlee_trainer_list = [True, False]
 
@@ -101,19 +129,19 @@ modlee_trainer_list = [True, False]
     (4, 20, 'stock'),
     (5, 3, 'power_consumption'),
     (5, 6, 'power_consumption'),
-    (5, 30, 'power_consumption'),
+    (5, 30, 'power_consumption'),  
     (5, 20, 'power_consumption'),
     (1, 3, 'shampoo'),  
     (1, 6, 'shampoo'),
     (1, 30, 'shampoo'),
     (1, 20, 'shampoo')
 ])
+@pytest.mark.parametrize("model_class", model_list)
 @pytest.mark.parametrize("recommended_model", recommended_model_list)
 @pytest.mark.parametrize("modlee_trainer", modlee_trainer_list)
-def test_time_series_regression(input_dim, seq_length, dataset_type, recommended_model, modlee_trainer):
+def test_time_series_regression(input_dim, seq_length, dataset_type, model_class, recommended_model, modlee_trainer):
     if dataset_type == 'stock':
         file_path = os.path.join(os.path.join(os.getcwd(), 'tests/end2end_tests/time_series_data'), 'A.csv')
-        print(file_path)
         X, y = load_stock_data(file_path, seq_length)
     elif dataset_type == 'power_consumption':
         file_path = os.path.join(os.path.join(os.getcwd(), 'tests/end2end_tests/time_series_data'), 'powerconsumption.csv')
@@ -134,10 +162,9 @@ def test_time_series_regression(input_dim, seq_length, dataset_type, recommended
     if recommended_model:
         recommender = modlee.recommender.MultivariateTimeSeriesRegressor()  # Placeholder for actual recommender
         recommender.fit(train_dataloader)
-        modlee_model = recommender.model
-        print(f"\nRecommended model: \n{modlee_model}")
+        model = recommender.model
     else:
-        model = MultivariateTimeSeriesRegressor(input_dim=input_dim, seq_length=seq_length).to(device)
+        model = model_class(input_dim=input_dim, seq_length=seq_length).to(device) 
     
     if modlee_trainer:
         trainer = modlee.model.trainer.AutoTrainer(max_epochs=1)

@@ -82,8 +82,6 @@ def load_dataset(dataset_name, img_size, noise_level):
     elif dataset_name == "FashionMNIST":
         train_dataset = datasets.FashionMNIST(root="data", train=True, download=True, transform=transform)
         test_dataset = datasets.FashionMNIST(root="data", train=False, download=True, transform=transform)
-    else:
-        raise ValueError("Unknown dataset")
 
     train_noisy_dataset = NoisyImageDataset(train_dataset, noise_level=noise_level, img_size=img_size)
     test_noisy_dataset = NoisyImageDataset(test_dataset, noise_level=noise_level, img_size=img_size)

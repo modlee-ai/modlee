@@ -43,7 +43,7 @@ modlee
 
 .. toctree::
    :maxdepth: 2
-   :caption: Roadmap 
+   :caption: Use Cases Roadmap 
    :hidden:
    :glob:
 
@@ -55,10 +55,11 @@ modlee
    :hidden:
    :glob:
 
-   notebooks/image_segmentation
-   notebooks/image_embeddings
    notebooks/recommend
    notebooks/document
+   notebooks/image_segmentation
+   notebooks/image_regression
+   notebooks/image_2_image
 
 .. toctree::
    :maxdepth: 2
@@ -67,8 +68,10 @@ modlee
    :glob:
 
    notebooks/tabular_classification_example
-   notebooks/audio_embeddings
+   notebooks/tabular_regression
    notebooks/text_embeddings
+   notebooks/audio_embeddings
+   notebooks/image_embeddings
 
 .. toctree::
    :maxdepth: 2
@@ -77,6 +80,8 @@ modlee
    :glob:
 
    notebooks/time_series_forecasting
+   notebooks/time_series_classification
+   notebooks/time_series_regression
 
 .. toctree::
    :maxdepth: 10
