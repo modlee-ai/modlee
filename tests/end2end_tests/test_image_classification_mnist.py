@@ -122,7 +122,7 @@ def test_image_classifer(img_size,recommended_model,modlee_trainer):
     
     # modlee_trainer = True
     if modlee_trainer == True:
-        trainer = modlee.model.trainer.AutoTrainer(max_epochs=10)
+        trainer = modlee.model.trainer.AutoTrainer(max_epochs=5)
         trainer.fit(
             model=modlee_model,
             train_dataloaders=train_dataloader,
