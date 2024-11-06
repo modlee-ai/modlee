@@ -186,6 +186,12 @@ class ImageSegmentationModelMetafeatures(ImageModelMetafeatures):
             output = output["out"]
         return np.array(output.shape[1:])
 
+class ImageRegressionModelMetafeatures(ImageModelMetafeatures):
+    pass
+
+class ImageImageToImageModelMetafeatures(ImageModelMetafeatures):
+    pass
+
 class TabularModelMetafeatures(ModelMetafeatures):
     pass
 
@@ -200,5 +206,9 @@ class TimeseriesModelMetafeatures(ModelMetafeatures):
     
 class TimeseriesForecastingModelMetafeatures(TimeseriesModelMetafeatures):
     pass
-    
+class TimeseriesClassificationModelMetafeatures(TimeseriesModelMetafeatures):
+    pass
+class TimeseriesRegressionModelMetafeatures(TimeseriesModelMetafeatures):
+    pass
 from_modality_task = partial(class_from_modality_task, _class="Model_Metafeatures")
+
