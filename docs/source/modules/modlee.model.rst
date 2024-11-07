@@ -13,6 +13,7 @@ Submodules
    modlee.model.recommended_model
    modlee.model.tabular_model
    modlee.model.timeseries_model
+   modlee.model.trainer
 
 Module contents
 ---------------

@@ -2,8 +2,8 @@
 
 .. |image1| image:: https://github.com/mansiagr4/gifs/raw/main/new_small_logo.svg
 
-Automate Experiment Documentation
-=================================
+Image Classification Experiment Documentation
+=============================================
 
 This example notebook uses the ``modlee`` package to document a machine
 learning experiment with a user-built model. We train a simple

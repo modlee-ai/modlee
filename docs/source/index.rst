@@ -42,19 +42,46 @@ modlee
    optimizing_ml_guide
 
 .. toctree::
-   :maxdepth: 4
-   :caption: Examples
+   :maxdepth: 2
+   :caption: Use Cases Roadmap 
    :hidden:
+   :glob:
+
+   examples_table.rst
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Image Examples
+   :hidden:
+   :glob:
 
    notebooks/recommend
-   notebooks/image_segmentation
    notebooks/document
+   notebooks/image_segmentation
+   notebooks/image_regression
+   notebooks/image_2_image
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Tabular Examples
+   :hidden:
+   :glob:
+
    notebooks/tabular_classification_example
-   notebooks/time_series_forecasting
-   notebooks/image_embeddings
+   notebooks/tabular_regression
    notebooks/text_embeddings
    notebooks/audio_embeddings
-   
+   notebooks/image_embeddings
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Time Series Examples
+   :hidden:
+   :glob:
+
+   notebooks/time_series_forecasting
+   notebooks/time_series_classification
+   notebooks/time_series_regression
 
 .. toctree::
    :maxdepth: 10

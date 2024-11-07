@@ -21,9 +21,10 @@ examples/tmp
 *.data*
 .data*
 .scratch
-
+checkpoints/
 
 # Assets that get cached
+model.py
 ./model.py
 ./model.txt
 ./model_text.txt
@@ -165,6 +166,7 @@ env.bak/
 myenv/
 myenv/
 venv.bak/
+envi/
 
 # Spyder project settings
 .spyderproject
@@ -199,6 +201,8 @@ cython_debug/
 
 src/modlee/housing.csv
 tests/tabular_tests.py
+tests/end2end_tests/image_regression_data/
+
 # Additional ignores
 docs/build/html/_images/
 myenv/
