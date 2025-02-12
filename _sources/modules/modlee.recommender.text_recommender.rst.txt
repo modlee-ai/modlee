@@ -1,0 +1,7 @@
+modlee.recommender.text\_recommender module
+===========================================
+
+.. automodule:: modlee.recommender.text_recommender
+   :members:
+   :undoc-members:
+   :show-inheritance:

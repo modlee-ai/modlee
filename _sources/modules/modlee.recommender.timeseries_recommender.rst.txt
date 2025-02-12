@@ -1,0 +1,7 @@
+modlee.recommender.timeseries\_recommender module
+=================================================
+
+.. automodule:: modlee.recommender.timeseries_recommender
+   :members:
+   :undoc-members:
+   :show-inheritance:
