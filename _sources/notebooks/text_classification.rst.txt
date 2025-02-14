@@ -1,0 +1,220 @@
+Text Classification
+===================
+
+This tutorial will walk you through building an end-to-end text
+classification pipeline using the ``Modlee`` package and
+``PyTorch Lightning``.
+
+We’ll use the ``Amazon Polarity`` dataset, which contains customer
+reviews labeled as positive or negative, to build a simple binary
+classification model.
+
+|Open in Kaggle|
+
+First, we will import the the necessary libraries and set up the
+environment.
+
+.. code:: python
+
+   import os
+   import torch
+   import modlee
+   import lightning.pytorch as pl
+   from torch.utils.data import DataLoader, TensorDataset
+   from sklearn.model_selection import train_test_split
+   from transformers import AutoTokenizer
+   from datasets import load_dataset
+   from torch.utils.data import Dataset
+
+Now, we will set up the ``modlee`` API key and initialize the ``modlee``
+package. You can access your ``modlee`` API key `from the
+dashboard <https://www.dashboard.modlee.ai/>`__.
+
+Replace ``replace-with-your-api-key`` with your API key.
+
+.. code:: python
+
+   modlee.init(api_key="replace-with-your-api-key")
+
+Tokenization transforms raw text into input IDs and attention masks. We
+define a helper function ``tokenize_texts`` to handle this process.
+
+.. code:: python
+
+
+   # Define a function to tokenize text data
+   def tokenize_texts(texts, tokenizer, max_length=20):
+       encodings = tokenizer(
+           texts,
+           truncation=True,  # Truncate if too long
+           padding="max_length",  # Pad if too short
+           max_length=max_length,
+           return_tensors="pt",  # Return PyTorch tensors
+           add_special_tokens=True,  # Include special tokens like [CLS], [SEP]
+       )
+       
+       input_ids = encodings['input_ids']
+       attention_mask = encodings['attention_mask']
+
+       return input_ids, attention_mask
+
+The ``load_real_data`` function loads the Amazon Polarity dataset, which
+contains customer reviews and their corresponding labels (positive or
+negative). We extract the text data and labels, limiting the dataset to
+100 samples for simplicity in this example.
+
+.. code:: python
+
+   # Load the Amazon Polarity dataset
+   def load_real_data(dataset_name="amazon_polarity"):
+       dataset = load_dataset("amazon_polarity", split='train[:80%]')
+       texts = dataset['content'] # Extract text data
+       targets = dataset['label'] # Extract labels
+
+       targets = [float(label) for label in targets] # Convert labels to float
+       return texts, targets
+       
+   # Load and preprocess the dataset
+   texts, targets = load_real_data(dataset_name="amazon_polarity")
+   texts, targets = texts[:100], targets[:100]  # Use only the first 100 samples for simplicity
+
+To evaluate the model, we split the data into training and testing
+subsets. The ``train_test_split`` function ensures that 80% of the data
+is used for training and 20% for testing.
+
+.. code:: python
+
+   # Tokenize the text data
+   tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+
+   # Tokenize texts
+   input_ids, attention_masks = tokenize_texts(texts, tokenizer)
+
+   # Split the data into training and testing sets
+   X_train_ids, X_test_ids, X_train_masks, X_test_masks, y_train, y_test = train_test_split(
+       input_ids, attention_masks, targets, test_size=0.2, random_state=42
+   )
+
+DataLoaders enable efficient processing by dividing the dataset into
+smaller batches for training. Here, we create separate DataLoaders for
+the training and testing datasets.
+
+.. code:: python
+
+
+   # Define a custom PyTorch Dataset
+   class TextDataset(Dataset):
+       def __init__(self, X, y):
+           self.X = X
+           self.y = y
+
+       def __len__(self):
+           return len(self.y)
+
+       def __getitem__(self, idx):
+           return self.X[idx], self.y[idx]
+
+   # Create training and testing datasets
+   train_dataset = TextDataset(torch.tensor(X_train_ids, dtype=torch.float),torch.tensor(y_train, dtype=torch.long) )
+   test_dataset = TextDataset(torch.tensor(X_test_ids, dtype=torch.float),torch.tensor(y_test, dtype=torch.long))
+
+   # Create DataLoaders for batch processing
+   train_dataloader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+   test_dataloader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+   train_dataloader.initial_tokenizer = tokenizer
+
+Let’s define our models. We offer two different approaches for selecting
+a model:
+
+**Option 1: Use a Recommended Modlee Model**
+
+If you’d like to start with a benchmark solution, Modlee provides
+pre-trained and optimized models for specific tasks. You can retrieve a
+recommended model as follows:
+
+.. code:: python
+
+   recommender = modlee.recommender.from_modality_task(
+       modality='text',
+       task='classification', 
+       num_classes = 2
+       )
+   recommender.fit(train_dataloader)
+   recommended_modlee_model = recommender.model
+
+**Option 2: Define Your Own Modlee Model**
+
+If you want to experiment with a custom architecture, you can define
+your own model. Below, we create a custom text classification model by
+inheriting from Modlee’s ``TextClassificationModleeModel``.
+
+.. code:: python
+
+   # Define a simple text classification model using Modlee
+   class ModleeTextClassificationModel(modlee.model.TextClassificationModleeModel):
+       def __init__(self, vocab_size, embed_dim=50, num_classes=2, tokenizer=None):
+           super().__init__()
+           self.embedding = torch.nn.Embedding(vocab_size, embed_dim, padding_idx=tokenizer.pad_token_id if tokenizer else None)
+           self.model = torch.nn.Sequential(
+               self.embedding,
+               torch.nn.Flatten(),
+               torch.nn.Linear(embed_dim * 20, 128),
+               torch.nn.ReLU(),
+               torch.nn.Linear(128, num_classes)
+           )
+           self.loss_fn = torch.nn.CrossEntropyLoss()
+
+       def forward(self, input_ids):
+           if isinstance(input_ids, list):  # Convert list to tensor if needed
+               input_ids = torch.cat(input_ids, dim=0)
+           embedded = self.embedding(input_ids.long())
+           for layer in list(self.model.children())[1:]:  # Pass through model layers
+               embedded = layer(embedded)
+           return embedded
+
+       def training_step(self, batch, batch_idx):
+           input_ids, labels = batch
+           preds = self.forward(input_ids)
+           return self.loss_fn(preds, labels)  # Compute loss
+
+       def validation_step(self, batch, batch_idx):
+           input_ids, labels = batch
+           preds = self.forward(input_ids)
+           return self.loss_fn(preds, labels)  # Compute validation loss
+
+       def configure_optimizers(self):
+           return torch.optim.Adam(self.parameters(), lr=1e-3)
+
+   # Initialize model
+   modlee_model = model(vocab_size=tokenizer.vocab_size, num_classes=2, tokenizer=tokenizer)
+
+We use ``PyTorch Lightning’s Trainer`` class to handle training. For
+this example, we’ll continue as if we created a custom model.
+
+.. code:: python
+
+
+   # Train the model using Modlee and PyTorch Lightning's Trainer
+   with modlee.start_run() as run:
+       trainer = pl.Trainer(max_epochs=1) # Train for one epoch
+       trainer.fit(
+           model=modlee_model,
+           train_dataloaders=train_dataloader,
+           val_dataloaders=test_dataloader
+       )
+
+After training, we inspect the artifacts saved by Modlee, including the
+model graph and various statistics. With Modlee, your training assets
+are automatically saved, preserving valuable insights for future
+reference and collaboration.
+
+.. code:: python
+
+   last_run_path = modlee.last_run_path()
+   print(f"Run path: {last_run_path}")
+   artifacts_path = os.path.join(last_run_path, 'artifacts')
+   artifacts = sorted(os.listdir(artifacts_path))
+   print(f"Saved artifacts: {artifacts}")
+
+.. |Open in Kaggle| image:: https://kaggle.com/static/images/open-in-kaggle.svg
+   :target: https://www.kaggle.com/code/modlee/text-classification

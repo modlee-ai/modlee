@@ -1,0 +1,212 @@
+Text2Text Example
+=================
+
+This tutorial provides a detailed walkthrough of building an end-to-end
+sequence-to-sequence pipeline using the ``Modlee`` package and
+``PyTorch Lightning``.
+
+We’ll use a synthetic dataset to create a simple transformer-based model
+capable of mapping input sentences to output sentences, simulating tasks
+like translation or summarization.
+
+|Open in Kaggle|
+
+First, we will import the the necessary libraries and set up the
+environment.
+
+.. code:: python
+
+   import os
+   import modlee
+   import random
+   import lightning.pytorch as pl
+   from torch.utils.data import DataLoader, TensorDataset
+   from sklearn.model_selection import train_test_split
+   import torch
+   import torch.nn as nn
+   import torch.optim as optim
+   from datasets import load_dataset
+   from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+
+Now, we will set up the ``modlee`` API key and initialize the ``modlee``
+package. You can access your ``modlee`` API key `from the
+dashboard <https://www.dashboard.modlee.ai/>`__.
+
+Replace ``replace-with-your-api-key`` with your API key.
+
+.. code:: python
+
+   modlee.init(api_key="replace-with-your-api-key")
+
+We generate synthetic sentence pairs to train the model.
+
+.. code:: python
+
+   # Generate synthetic input-output text pairs
+   def generate_synthetic_data(num_samples=100):
+       inputs = [f"Input sentence {i} {' '.join(random.choices(['random', 'words', 'to', 'add'], k=3))}" for i in range(num_samples)]
+       outputs = [f"Output sentence {i} {' '.join(random.choices(['generated', 'output', 'text'], k=3))}" for i in range(num_samples)]
+       return inputs, outputs
+      
+
+We create a vocabulary and convert the text into tokenized sequences.
+Padding ensures uniform sequence lengths.
+
+.. code:: python
+
+   inputs, outputs = generate_synthetic_data(num_samples=100)
+
+   # Create a vocabulary mapping words to indices
+   vocab = {word: idx for idx, word in enumerate(set(" ".join(inputs + outputs).split()))}
+
+   pad_token_id = 0  # Define padding token ID
+   max_length = 20  # Fixed sequence length
+
+   # Convert text to numerical token IDs with padding
+   input_ids = [
+       torch.tensor(
+           [vocab[word] for word in text.split()] + [pad_token_id] * (max_length - len(text.split())),
+           dtype=torch.float
+       )[:max_length] for text in inputs
+   ]
+
+   output_ids = [
+       torch.tensor(
+           [vocab[word] for word in text.split()] + [pad_token_id] * (max_length - len(text.split())),
+           dtype=torch.long
+       )[:max_length] for text in outputs
+   ]
+
+   # Split into training (80%) and validation (20%) sets
+   X_train, X_test, y_train, y_test = train_test_split(input_ids, output_ids, test_size=0.2)
+
+We define a ``Dataset`` class and wrap it in ``DataLoader`` for
+efficient batching.
+
+.. code:: python
+
+   class TextDataset(Dataset):
+       def __init__(self, X, y):
+           self.X = X
+           self.y = y
+
+       def __len__(self):
+           return len(self.y)
+
+       def __getitem__(self, idx):
+           return self.X[idx], self.y[idx]
+
+   # Create training and testing datasets
+   train_dataset = TextDataset(X_train, y_train)
+   test_dataset = TextDataset(X_test, y_test)
+
+   # Create DataLoaders for batch processing
+   train_dataloader = DataLoader(train_dataset, batch_size=1, shuffle=True)
+   test_dataloader = DataLoader(test_dataset, batch_size=1, shuffle=False)
+   train_dataloader.initial_tokenizer = tokenizer
+
+Next, we initialize our model. We offer two different approaches for
+selecting a model:
+
+**Option 1: Use a Recommended Modlee Model**
+
+If you’d like to start with a benchmark solution, Modlee provides
+pre-trained and optimized models for specific tasks. You can retrieve a
+recommended model as follows:
+
+.. code:: python
+
+   if recommended_model == True:
+       recommender = modlee.recommender.from_modality_task(
+           modality='text',
+           task='texttotext', 
+           vocab_size=len(vocab)
+           )
+
+       recommender.fit(train_dataloader)
+       recommended_modlee_model = recommender.model
+
+**Option 2: Define Your Own Modlee Model**
+
+We implement a simple text-to-text model using embedding layers and
+fully connected layers.
+
+.. code:: python
+
+   class SimpleTextToTextModel(modlee.model.TextTexttotextModleeModel):
+       def __init__(self, vocab_size, embed_dim=50, max_length=20):
+           super().__init__()
+           self.embedding = torch.nn.Embedding(vocab_size, embed_dim)
+           self.fc1 = torch.nn.Linear(embed_dim, 128)  # Modified to process per timestep
+           self.fc2 = torch.nn.Linear(128, 128)
+           self.fc3 = torch.nn.Linear(128, vocab_size)  # Predict per token
+           self.max_length = max_length
+           self.vocab_size = vocab_size
+
+       def forward(self, input_ids):
+           # Embed input tokens
+           input_ids = input_ids.long()
+           embedded = self.embedding(input_ids)  # Shape: (batch_size, max_length, embed_dim)
+
+           # Process each token independently
+           x = torch.nn.functional.relu(self.fc1(embedded))  # Shape: (batch_size, max_length, 128)
+           x = torch.nn.functional.relu(self.fc2(x))         # Shape: (batch_size, max_length, 128)
+           x = self.fc3(x)                                   # Shape: (batch_size, max_length, vocab_size)
+
+           return x  # Shape: (batch_size, max_length, vocab_size)
+
+       def training_step(self, batch, batch_idx):
+           input_ids, targets = batch
+           preds = self.forward(input_ids)  # Shape: (batch_size, max_length, vocab_size)
+           loss = torch.nn.CrossEntropyLoss(ignore_index=0)(  # Ignore padding token
+               preds.view(-1, self.vocab_size), 
+               targets.view(-1)
+           )
+           return loss
+
+       def validation_step(self, batch, batch_idx):
+           input_ids, targets = batch
+           preds = self.forward(input_ids)  # Shape: (batch_size, max_length, vocab_size)
+           loss = torch.nn.CrossEntropyLoss(ignore_index=0)(  # Ignore padding token
+               preds.view(-1, self.vocab_size), 
+               targets.view(-1)
+           )
+           return loss
+
+       def configure_optimizers(self):
+           return torch.optim.Adam(self.parameters(), lr=1e-3) 
+           
+   # Initialize the transformer model with the tokenizer's vocabulary size
+   model = SimpleTextToTextModel(vocab_size=len(vocab), max_length=max_length)
+
+We instantiate the model and use ``PyTorch Lightning’s Trainer`` class
+to handle training. The Trainer manages training loops, validation, and
+logging. For this example, we’ll continue as if we chose a recommended
+model.
+
+.. code:: python
+
+   # Use PyTorch Lightning's Trainer to handle training and validation
+   with modlee.start_run() as run:
+       trainer = pl.Trainer(max_epochs=1) # Train for one epoch
+       trainer.fit(
+           model=recommended_modlee_model,
+           train_dataloaders=train_dataloader,
+           val_dataloaders=test_dataloader
+       )
+
+After training, we inspect the artifacts saved by Modlee, including the
+model graph and various statistics. With Modlee, your training assets
+are automatically saved, preserving valuable insights for future
+reference and collaboration.
+
+.. code:: python
+
+   last_run_path = modlee.last_run_path()
+   print(f"Run path: {last_run_path}")
+   artifacts_path = os.path.join(last_run_path, 'artifacts')
+   artifacts = sorted(os.listdir(artifacts_path))
+   print(f"Saved artifacts: {artifacts}")
+
+.. |Open in Kaggle| image:: https://kaggle.com/static/images/open-in-kaggle.svg
+   :target: https://www.kaggle.com/code/modlee/text2text
